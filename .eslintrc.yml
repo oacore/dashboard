@@ -1,0 +1,13 @@
+extends:
+  - '@oacore/eslint-config-react'
+
+parser: babel-eslint
+env:
+  browser: true
+
+globals: {
+  CORE_RECOMMENDER_API_KEY: true,
+  GA_TRACKING_CODE: true,
+  BUILD_TARGET: true,
+  SENTRY_DSN: true,
+}
