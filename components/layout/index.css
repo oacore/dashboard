@@ -1,0 +1,39 @@
+.layout {
+  padding: 0 1rem 0 13rem;
+  background: #eee;
+  height: 100%;
+}
+
+.layout-main {
+  min-height: 100%;
+  margin: 0 -1rem;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 1px 2px #0003;
+}
+
+.layout-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12rem;
+  min-height: 100%;
+  padding: 1rem;
+}
+
+.layout-bar {
+  height: 3.5rem;
+  padding: 0 0.5rem;
+}
+
+.layout-bar.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.layout-bar.fixed ~ .layout-sidebar,
+.layout-bar.fixed ~ .layout-main {
+  padding-top: 4.5rem;
+}

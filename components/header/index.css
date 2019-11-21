@@ -1,0 +1,16 @@
+.header-area-user {
+  justify-content: flex-end;
+}
+
+.header-item.header-area-navigation {
+  padding: 0;
+  justify-content: center;
+  flex-basis: 60%;
+  align-self: stretch;
+  height: inherit;
+}
+
+.header-item.header-area-brand {
+  flex-grow: 0;
+  flex-basis: 11.5rem;
+}

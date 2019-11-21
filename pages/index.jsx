@@ -1,29 +1,16 @@
 import React from 'react'
-import Head from 'next/head'
+import './index.css'
 
 const Dashboard = () => {
   return (
     <>
-      <Head>
-        <title>CORE Dashboard</title>
-
-        {['64', '128', '256', '512'].map(size => (
-          <link
-            key={size}
-            rel="icon"
-            type="image/png"
-            sizes={`${size}x${size}`}
-            href={`/favicon/favicon-${size}px.png`}
-          />
-        ))}
-
-        <link
-          rel="icon"
-          sizes="any"
-          type="image/svg+xml"
-          href="/favicon/favicon.svg"
-        />
-      </Head>
+      <h1>CORE</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia
+        numquam aliquid, blanditiis praesentium doloribus molestiae sequi facere
+        quasi minima odio officia maxime accusantium iusto ducimus labore ut
+        nemo perferendis libero.
+      </p>
     </>
   )
 }
