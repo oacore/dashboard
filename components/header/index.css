@@ -8,9 +8,66 @@
   flex-basis: 60%;
   align-self: stretch;
   height: inherit;
+  width: 100%;
+  transition: transform 0.3s ease-in, border 0s ease-in 0.3s;
+  will-change: transform;
 }
 
 .header-item.header-area-brand {
   flex-grow: 0;
   flex-basis: 11.5rem;
+}
+
+.menu-toggle {
+  display: none;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.menu-toggle > span {
+  display: block;
+  width: 30px;
+  height: 4px;
+  margin-bottom: 5px;
+  background: #2a3840;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+
+@media only screen and (max-width: 800px) {
+  .header-item.header-area-brand,
+  .header-item.header-area-user {
+    flex-basis: 3.5rem;
+  }
+
+  .header-item.header-area-navigation {
+    flex-basis: auto;
+  }
+
+  .header-item.header-area-navigation:active,
+  .header-item.header-area-navigation:focus-within {
+    position: absolute;
+    left: 3.5rem;
+    transform: translateX(-3.5rem);
+    width: 100vw;
+    z-index: 9999;
+    border: none;
+  }
+
+  .header-item > .logo {
+    display: none;
+  }
+  .menu-toggle {
+    display: flex;
+  }
+
+  .header-area-navigation {
+    border-left: 1px solid #2a3840;
+    border-right: 1px solid #2a3840;
+  }
 }
