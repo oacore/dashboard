@@ -1,0 +1,21 @@
+.logo {
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: none;
+  color: #2a3840;
+  padding-top: 0.40625rem;
+  padding-bottom: 0.40625rem;
+  font-size: 1.25rem;
+}
+.logo:hover {
+  color: var(--primary);
+}
+
+.logo > img {
+  position: relative;
+  display: inline-block;
+  margin: -0.6em 0 0 0;
+  width: auto;
+  height: 1.5em;
+  vertical-align: middle;
+}
