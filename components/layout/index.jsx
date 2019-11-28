@@ -8,18 +8,25 @@ import Sidebar from '../sidebar'
 const Layout = ({ children }) => {
   const [isSidebarVisible, toggleSidebarVisibility] = useState(false)
 
-  const handleCLick = e => {
-    const { name, value } = e.target
+  const handleCLick = event => {
+    const { name, value } = event.target
     if (['sidebar.show', 'sidebar.close'].includes(`${name}.${value}`))
       toggleSidebarVisibility(!isSidebarVisible)
   }
 
-  // TODO: Ask Viktor how aria should be handled
-  /* eslint-disable */
+  // TODO: Solve this better somehow
+  // eslint-disable-next-line max-len
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <>
       <Head />
-      <div className="layout" onClick={handleCLick}>
+      <div
+        aria-haspopup="true"
+        aria-controls="toggle-sidebar"
+        aria-expanded={isSidebarVisible}
+        className="layout"
+        onClick={handleCLick}
+      >
         <Header className="layout-bar fixed" />
         <Sidebar
           className={classNames('layout-sidebar', {
@@ -30,7 +37,8 @@ const Layout = ({ children }) => {
       </div>
     </>
   )
-  /* eslint-enable */
+  // eslint-disable-next-line max-len
+  /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 }
 
 export default Layout

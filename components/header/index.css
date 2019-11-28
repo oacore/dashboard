@@ -9,8 +9,8 @@
   align-self: stretch;
   height: inherit;
   width: 100%;
-  transition: transform 0.3s ease-in, border 0s ease-in 0.3s;
-  will-change: transform;
+  /* TODO: animation */
+  transition: all 0.3s ease-in, border 0s ease-in 0.3s;
 }
 
 .header-item.header-area-brand {
@@ -28,7 +28,7 @@
   cursor: pointer;
 }
 
-.menu-toggle > span {
+.menu-toggle > .bar {
   display: block;
   width: 30px;
   height: 4px;
@@ -52,8 +52,7 @@
   .header-item.header-area-navigation:active,
   .header-item.header-area-navigation:focus-within {
     position: absolute;
-    left: 3.5rem;
-    transform: translateX(-3.5rem);
+    left: 0;
     width: 100vw;
     z-index: 9999;
     border: none;

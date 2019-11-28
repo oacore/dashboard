@@ -11,14 +11,15 @@ const Header = React.memo(({ className }) => {
       <AppHeader.Item className="header-area-brand">
         <Logo />
         <button
+          id="toggle-sidebar"
           type="button"
           name="sidebar"
           value="show"
           className="menu-toggle"
         >
-          <span />
-          <span />
-          <span />
+          <span className="bar" />
+          <span className="bar" />
+          <span className="bar" />
         </button>
       </AppHeader.Item>
       <AppHeader.Item className="header-area-navigation">
