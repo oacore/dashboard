@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
 import classNames from 'classnames'
+import React, { useState } from 'react'
+
 import Header from '../header'
-import Head from '../head'
-import './index.css'
+
 import Sidebar from '../sidebar'
+import Head from '../head'
+
+import './index.css'
 
 const Layout = ({ children }) => {
   const [isSidebarVisible, toggleSidebarVisibility] = useState(false)

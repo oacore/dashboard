@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Dashboard = () => {
+const Settings = () => {
   return (
     <>
-      <h1>CORE</h1>
+      <h1>Dashboard settings tab</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia
         numquam aliquid, blanditiis praesentium doloribus molestiae sequi facere
@@ -14,4 +14,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Settings

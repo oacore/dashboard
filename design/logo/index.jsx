@@ -1,4 +1,5 @@
 import React from 'react'
+
 import logoPath from './core-symbol.svg'
 import './index.css'
 
