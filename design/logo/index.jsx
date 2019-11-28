@@ -1,6 +1,6 @@
 import React from 'react'
 import logoPath from './core-symbol.svg'
-import './logo.css'
+import './index.css'
 
 const Logo = React.memo(() => (
   <a className="logo" href="/">

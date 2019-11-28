@@ -1,12 +1,11 @@
 .layout {
-  padding: 0 1rem 0 13rem;
+  padding: 0 1rem 0 var(--sidebar-width);
   background: #eee;
   height: 100%;
 }
 
 .layout-main {
   min-height: 100%;
-  margin: 0 -1rem;
   padding: 1rem;
   background: #fff;
   box-shadow: 0 1px 2px #0003;
@@ -19,6 +18,7 @@
   width: 12rem;
   min-height: 100%;
   padding: 1rem;
+  background: #E5E5E5;
 }
 
 .layout-bar {
@@ -33,7 +33,46 @@
   z-index: 1000;
 }
 
-.layout-bar.fixed ~ .layout-sidebar,
-.layout-bar.fixed ~ .layout-main {
+.layout-sidebar,
+.layout-main {
   padding-top: 4.5rem;
+}
+
+.layout-sidebar > .branding {
+  display: none;
+  background: #FAFAFA;
+  padding: 1rem;
+}
+
+@media only screen and (max-width: 800px) {
+  .layout-sidebar {
+    left: calc(var(--sidebar-width) * -1);
+    transition: left 200ms ease;
+    will-change: left;
+    z-index: 1001;
+    padding-top: 1rem;
+  }
+
+  .layout-sidebar.visible {
+    left: 0;
+  }
+
+  .layout {
+    padding: 0;
+  }
+
+  .layout-sidebar > .branding {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    justify-content: space-between;
+  }
+
+  .layout-sidebar > .branding + ul {
+    padding-top: 4rem;
+  }
 }
