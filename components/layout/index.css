@@ -1,7 +1,7 @@
 .layout {
-  padding: 0 1rem 0 var(--sidebar-width);
   background: #eee;
   height: 100%;
+  padding: 0 1rem 0 calc(var(--sidebar-width) + 1rem);
 }
 
 .layout-main {
@@ -9,13 +9,14 @@
   padding: 1rem;
   background: #fff;
   box-shadow: 0 1px 2px #0003;
+  margin: 0 -1rem;
 }
 
 .layout-sidebar {
   position: absolute;
   top: 0;
   left: 0;
-  width: 12rem;
+  width: var(--sidebar-width);
   min-height: 100%;
   padding: 1rem;
   background: #E5E5E5;
@@ -70,9 +71,5 @@
     right: 0;
     height: 3.5rem;
     justify-content: space-between;
-  }
-
-  .layout-sidebar > .branding + ul {
-    padding-top: 4rem;
   }
 }

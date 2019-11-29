@@ -2,6 +2,7 @@ import React from 'react'
 import NextApp from 'next/app'
 
 import Layout from '../components/layout'
+import './index.css'
 
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {

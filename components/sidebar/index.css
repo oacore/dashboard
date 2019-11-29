@@ -26,3 +26,43 @@
 .close:after {
   transform: rotate(-45deg);
 }
+
+ul.sidebar-navigation,
+ul.sidebar-navigation li > .route {
+  margin:0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
+ul.sidebar-navigation li > .route {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+ul.sidebar-navigation li > .route:hover {
+  color: var(--orange);
+}
+
+ul.sidebar-navigation li:not(:last-child) {
+  padding-bottom: 1rem;
+}
+
+ul.sidebar-navigation li .dashboard-icon {
+  padding-right: 0.5rem;
+  width: 30px;
+}
+
+ul.sidebar-navigation li:last-child {
+  margin-top: auto;
+}
+
+.sidebar-navigation {
+  position: absolute;
+  top: 4.5rem;
+  bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
