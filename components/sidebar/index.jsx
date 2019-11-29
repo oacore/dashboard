@@ -48,7 +48,7 @@ const Sidebar = React.memo(({ className }) => {
       </div>
       <ul className="sidebar-navigation">
         {routes.map(route => (
-          <li>
+          <li key={route.path}>
             <Link href={route.path}>
               <a className="route" href="/">
                 <Icon iconType={route.icon} />
