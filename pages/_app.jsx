@@ -19,7 +19,6 @@ class App extends NextApp {
 
     return (
       <Layout>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Component {...pageProps} />
       </Layout>
     )

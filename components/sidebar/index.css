@@ -9,9 +9,10 @@
   cursor: pointer;
 }
 .close:hover {
-  opacity: 0.3
+  opacity: 0.3;
 }
-.close:before, .close:after {
+.close:before,
+.close:after {
   position: absolute;
   left: 15px;
   content: ' ';
@@ -29,7 +30,7 @@
 
 ul.sidebar-navigation,
 ul.sidebar-navigation li > .route {
-  margin:0;
+  margin: 0;
   padding: 0;
   text-indent: 0;
   list-style-type: none;

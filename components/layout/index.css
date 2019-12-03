@@ -19,7 +19,7 @@
   width: var(--sidebar-width);
   min-height: 100%;
   padding: 1rem;
-  background: #E5E5E5;
+  background: #e5e5e5;
 }
 
 .layout-bar {
@@ -41,7 +41,7 @@
 
 .layout-sidebar > .branding {
   display: none;
-  background: #FAFAFA;
+  background: #fafafa;
   padding: 1rem;
 }
 
