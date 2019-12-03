@@ -1,15 +1,15 @@
 .layout {
-  background: #eee;
   height: 100%;
   padding: 0 1rem 0 calc(var(--sidebar-width) + 1rem);
+  background: #eee;
 }
 
 .layout-main {
   min-height: 100%;
   padding: 1rem;
+  margin: 0 -1rem;
   background: #fff;
   box-shadow: 0 1px 2px #0003;
-  margin: 0 -1rem;
 }
 
 .layout-sidebar {
@@ -41,17 +41,17 @@
 
 .layout-sidebar > .branding {
   display: none;
-  background: #fafafa;
   padding: 1rem;
+  background: #fafafa;
 }
 
 @media only screen and (max-width: 800px) {
   .layout-sidebar {
     left: calc(var(--sidebar-width) * -1);
-    transition: left 200ms ease;
-    will-change: left;
     z-index: 1001;
     padding-top: 1rem;
+    transition: left 200ms ease;
+    will-change: left;
   }
 
   .layout-sidebar.visible {
@@ -63,13 +63,13 @@
   }
 
   .layout-sidebar > .branding {
-    display: flex;
-    align-items: center;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
-    height: 3.5rem;
+    left: 0;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
+    height: 3.5rem;
   }
 }

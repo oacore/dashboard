@@ -1,32 +1,32 @@
 import React from 'react'
 
-import './index.css'
 import AppHeader from '../../design/header'
 import Avatar from '../../design/avatar'
 import SearchBar from '../searchbar'
 import Logo from '../../design/logo'
+import headerClassNames from './index.css'
 
 const Header = React.memo(({ className }) => {
   return (
     <AppHeader className={className}>
-      <AppHeader.Item className="header-area-brand">
-        <Logo />
+      <AppHeader.Item className={headerClassNames.headerAreaBrand}>
+        <Logo className={headerClassNames.headerItemLogo} />
         <button
           id="toggle-sidebar"
           type="button"
           name="sidebar"
           value="show"
-          className="menu-toggle"
+          className={headerClassNames.menuToggle}
         >
-          <span className="bar" />
-          <span className="bar" />
-          <span className="bar" />
+          <span className={headerClassNames.bar} />
+          <span className={headerClassNames.bar} />
+          <span className={headerClassNames.bar} />
         </button>
       </AppHeader.Item>
-      <AppHeader.Item className="header-area-navigation">
+      <AppHeader.Item className={headerClassNames.headerAreaNavigation}>
         <SearchBar />
       </AppHeader.Item>
-      <AppHeader.Item className="header-area-user">
+      <AppHeader.Item className={headerClassNames.headerAreaUser}>
         <Avatar />
       </AppHeader.Item>
     </AppHeader>

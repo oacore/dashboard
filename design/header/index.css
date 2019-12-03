@@ -1,6 +1,6 @@
 .header {
-  display: flex;
   position: relative;
+  display: flex;
   align-items: center;
   width: 100%;
   background: #fff;
@@ -9,8 +9,8 @@
 
 .header-item {
   display: flex;
-  height: 100%;
-  padding: 0.5rem 0;
   flex: 1 1 auto;
   align-self: center;
+  height: 100%;
+  padding: 0.5rem 0;
 }

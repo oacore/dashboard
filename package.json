@@ -1,6 +1,5 @@
 {
   "name": "@oacore/dashboard",
-  "version": "0.0.0",
   "description": "CORE Dashboard is a powerful tool for CORE data providers to manage their data in CORE",
   "main": "pages/index.js",
   "author": "CORE Team <dev@core.ac.uk>",
@@ -24,16 +23,25 @@
     "husky": "^3.1.0",
     "lint-staged": "^9.4.2",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "stylelint": "^12.0.0",
+    "stylelint-config-css-modules": "^2.1.0",
+    "stylelint-config-prettier": "^7.0.0",
+    "stylelint-config-twbs-bootstrap": "^1.0.0",
+    "stylelint-prettier": "^1.1.1"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
-    "@zeit/next-sass": "^1.0.1",
     "classnames": "^2.2.6",
     "core-js": "3.4.2",
+    "cosmiconfig": "^6.0.0",
+    "cssnano": "^4.1.10",
     "next": "^9.1.4",
     "next-images": "^1.2.0",
     "node-sass": "^4.13.0",
+    "postcss-extend": "^1.0.5",
+    "postcss-modules": "^1.4.1",
+    "postcss-preset-env": "^6.7.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-inlinesvg": "^1.2.0",
@@ -43,8 +51,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "lint:json": "prettier --ignore-path .gitignore --check '**/*.json'",
     "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
-    "lint:css": "prettier --ignore-path .gitignore --check '**/*.{json,scss,css}'",
+    "lint:css": "stylelint --ignore-path .gitignore '**/*.css'",
     "lint": "run-p lint:*"
   }
 }

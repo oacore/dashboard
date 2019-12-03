@@ -1,8 +1,9 @@
 import React from 'react'
-import './index.css'
+
+import avatarClassNames from './index.css'
 
 const Avatar = React.memo(() => (
-  <div className="avatar">
+  <div className={avatarClassNames.avatar}>
     <img src="/avatar.png" alt="User avatar" />
   </div>
 ))

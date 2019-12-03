@@ -1,13 +1,18 @@
 import React from 'react'
 import classNames from 'classnames'
-import './index.css'
+
+import headerClassNames from './index.css'
 
 const Header = React.memo(({ className, children }) => (
-  <header className={classNames('header', className)}>{children}</header>
+  <header className={classNames(headerClassNames.header, className)}>
+    {children}
+  </header>
 ))
 
 const HeaderItem = React.memo(({ className, children }) => (
-  <div className={classNames('header-item', className)}>{children}</div>
+  <div className={classNames(headerClassNames.headerItem, className)}>
+    {children}
+  </div>
 ))
 
 Header.Item = HeaderItem

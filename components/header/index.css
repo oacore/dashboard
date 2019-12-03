@@ -2,30 +2,31 @@
   justify-content: flex-end;
 }
 
-.header-item.header-area-navigation {
-  padding: 0;
-  justify-content: center;
+.header-area-navigation {
   flex-basis: 60%;
   align-self: stretch;
-  height: inherit;
+  justify-content: center;
   width: 100%;
+  height: inherit;
+  padding: 0;
+
   /* TODO: animation */
   transition: all 0.3s ease-in, border 0s ease-in 0.3s;
 }
 
-.header-item.header-area-brand {
-  flex-grow: 0;
+.header-area-brand {
   flex-basis: 11.5rem;
+  flex-grow: 0;
 }
 
 .menu-toggle {
   display: none;
-  height: 100%;
-  justify-content: center;
   flex-direction: column;
-  border: none;
-  background: none;
+  justify-content: center;
+  height: 100%;
   cursor: pointer;
+  background: none;
+  border: none;
 }
 
 .menu-toggle > .bar {
@@ -33,39 +34,36 @@
   width: 30px;
   height: 4px;
   margin-bottom: 5px;
+  pointer-events: none;
   background: #2a3840;
   border-radius: 3px;
-  pointer-events: none;
 }
 
 @media only screen and (max-width: 800px) {
-  .header-item.header-area-brand,
-  .header-item.header-area-user {
+  .header-area-brand,
+  .header-area-user {
     flex-basis: 3.5rem;
   }
 
-  .header-item.header-area-navigation {
+  .header-area-navigation {
     flex-basis: auto;
+    border-right: 1px solid #2a3840;
+    border-left: 1px solid #2a3840;
   }
 
-  .header-item.header-area-navigation:active,
-  .header-item.header-area-navigation:focus-within {
+  .header-area-navigation:active,
+  .header-area-navigation:focus-within {
     position: absolute;
     left: 0;
-    width: 100vw;
     z-index: 9999;
+    width: 100vw;
     border: none;
   }
 
-  .header-item > .logo {
+  .header-item-logo {
     display: none;
   }
   .menu-toggle {
     display: flex;
-  }
-
-  .header-area-navigation {
-    border-left: 1px solid #2a3840;
-    border-right: 1px solid #2a3840;
   }
 }

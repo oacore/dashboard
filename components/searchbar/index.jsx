@@ -1,10 +1,15 @@
 import React from 'react'
-import './index.css'
+
+import searchbarClassNames from './index.css'
 
 const SearchBar = () => {
   return (
-    <div className="searchbar">
-      <input type="text" className="searchbar-input" placeholder="Search.." />
+    <div className={searchbarClassNames.searchbar}>
+      <input
+        type="text"
+        className={searchbarClassNames.searchbarInput}
+        placeholder="Search.."
+      />
     </div>
   )
 }
