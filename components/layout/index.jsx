@@ -2,7 +2,6 @@ import classNames from 'classnames'
 import React, { useState } from 'react'
 
 import Header from '../header'
-
 import Sidebar from '../sidebar'
 import Head from '../head'
 
