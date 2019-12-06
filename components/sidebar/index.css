@@ -1,69 +1,69 @@
-.close {
-  width: 32px;
-  height: 32px;
-  opacity: 1;
-  justify-self: flex-end;
-  position: relative;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-.close:hover {
-  opacity: 0.3;
-}
-.close:before,
-.close:after {
-  position: absolute;
-  left: 15px;
-  content: ' ';
-  height: 33px;
-  width: 2px;
-  background-color: #2a3840;
-  top: 0;
-}
-.close:before {
-  transform: rotate(45deg);
-}
-.close:after {
-  transform: rotate(-45deg);
-}
-
-ul.sidebar-navigation,
-ul.sidebar-navigation li > .route {
-  margin: 0;
-  padding: 0;
-  text-indent: 0;
-  list-style-type: none;
-}
-
-ul.sidebar-navigation li > .route {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-}
-
-ul.sidebar-navigation li > .route:hover {
-  color: var(--orange);
-}
-
-ul.sidebar-navigation li:not(:last-child) {
-  padding-bottom: 1rem;
-}
-
-ul.sidebar-navigation li .dashboard-icon {
-  padding-right: 0.5rem;
-  width: 30px;
-}
-
-ul.sidebar-navigation li:last-child {
-  margin-top: auto;
-}
-
 .sidebar-navigation {
   position: absolute;
   top: 4.5rem;
   bottom: 1.5rem;
   display: flex;
   flex-direction: column;
+}
+
+.close {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  opacity: 1;
+  justify-self: flex-end;
+}
+.close:hover {
+  opacity: 0.3;
+}
+.close::before,
+.close::after {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  width: 2px;
+  height: 33px;
+  content: ' ';
+  background-color: #2a3840;
+}
+.close::before {
+  transform: rotate(45deg);
+}
+.close::after {
+  transform: rotate(-45deg);
+}
+
+.sidebar-navigation,
+.sidebar-navigation li > .route {
+  padding: 0;
+  margin: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
+.sidebar-navigation li > .route {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sidebar-navigation li > .route:hover {
+  color: var(--orange);
+}
+
+.sidebar-navigation li:not(:last-child) {
+  padding-bottom: 1rem;
+}
+
+.sidebar-navigation li .sidebar-icon {
+  width: 30px;
+  padding-right: 0.5rem;
+}
+
+.sidebar-navigation li:last-child {
+  margin-top: auto;
 }

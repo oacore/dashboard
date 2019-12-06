@@ -1,7 +1,8 @@
 import React from 'react'
 import SVG from 'react-inlinesvg'
+import classNames from 'classnames'
 
-import './Icon.css'
+import iconCLassNames from './index.css'
 import DataIcon from './assets/data.svg'
 import OverviewIcon from './assets/overview.svg'
 import PluginsIcon from './assets/plugins.svg'
@@ -21,7 +22,7 @@ const mapNameToModule = name => {
   return iconMap[name]
 }
 
-const Icon = React.memo(({ iconType, isActive = false }) => (
+const Icon = React.memo(({ className, iconType, isActive = false }) => (
   // `key` property has to be specified otherwise component
   // won't rerender when isActive changes
   // `react-inlinesvg` rerenders SVG component only
@@ -29,7 +30,13 @@ const Icon = React.memo(({ iconType, isActive = false }) => (
   <SVG
     key={`${iconType}.dashboard-icon.${isActive ? 'active' : ''}`}
     src={mapNameToModule(iconType)}
-    className={`dashboard-icon ${isActive ? 'active' : ''}`}
+    className={classNames(
+      iconCLassNames.dashboardIcon,
+      {
+        [iconType.active]: isActive,
+      },
+      className
+    )}
   />
 ))
 

@@ -4,8 +4,7 @@ import React, { useState } from 'react'
 import Header from '../header'
 import Sidebar from '../sidebar'
 import Head from '../head'
-
-import './index.css'
+import layoutClassNames from './index.css'
 
 const Layout = ({ children }) => {
   const [isSidebarVisible, toggleSidebarVisibility] = useState(false)
@@ -26,16 +25,21 @@ const Layout = ({ children }) => {
         aria-haspopup="true"
         aria-controls="toggle-sidebar"
         aria-expanded={isSidebarVisible}
-        className="layout"
+        className={layoutClassNames.layout}
         onClick={handleCLick}
       >
-        <Header className="layout-bar fixed" />
+        <Header
+          className={classNames(
+            layoutClassNames.layoutBar,
+            layoutClassNames.fixed
+          )}
+        />
         <Sidebar
-          className={classNames('layout-sidebar', {
-            visible: isSidebarVisible,
+          className={classNames(layoutClassNames.layoutSidebar, {
+            [layoutClassNames.visible]: isSidebarVisible,
           })}
         />
-        <main className="layout-main">{children}</main>
+        <main className={layoutClassNames.layoutMain}>{children}</main>
       </div>
     </>
   )

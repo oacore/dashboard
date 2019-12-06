@@ -1,5 +1,13 @@
 const withCss = require('@zeit/next-css')
-const withSass = require('@zeit/next-sass')
 const withImages = require('next-images')
 
-module.exports = withImages(withSass(withCss({})))
+const nextConfig = {
+  cssModules: true,
+  cssLoaderOptions: {
+    importLoaders: 1,
+    localIdentName: '[name]-[local]-[hash:base64:5]',
+    camelCase: true,
+  },
+}
+
+module.exports = withImages(withCss(nextConfig))

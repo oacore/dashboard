@@ -1,9 +1,10 @@
 import React from 'react'
-import './index.css'
 import Link from 'next/link'
 
 import Logo from '../../design/logo'
-import Icon from '../../design/icons/Icon'
+import Icon from '../../design/icons'
+import sidebarClassNames from './index.css'
+import layoutClassNames from '../layout/index.css'
 
 const routes = [
   {
@@ -36,22 +37,25 @@ const routes = [
 const Sidebar = React.memo(({ className }) => {
   return (
     <nav className={className}>
-      <div className="branding">
+      <div className={layoutClassNames.branding}>
         <Logo />
         <button
           type="button"
           aria-label="Close sidebar"
           name="sidebar"
           value="close"
-          className="close"
+          className={sidebarClassNames.close}
         />
       </div>
-      <ul className="sidebar-navigation">
+      <ul className={sidebarClassNames.sidebarNavigation}>
         {routes.map(route => (
           <li key={route.path}>
             <Link href={route.path}>
-              <a className="route" href="/">
-                <Icon iconType={route.icon} />
+              <a className={sidebarClassNames.route} href="/">
+                <Icon
+                  className={sidebarClassNames.sidebarIcon}
+                  iconType={route.icon}
+                />
                 {route.title}
               </a>
             </Link>
