@@ -1,15 +1,15 @@
 .layout {
   height: 100%;
   padding: 0 1rem 0 calc(var(--sidebar-width) + 1rem);
-  background: #eee;
+  background: var(--gray-100);
 }
 
 .layout-main {
   min-height: 100%;
   padding: 1rem;
   margin: 0 -1rem;
-  background: #fff;
-  box-shadow: 0 1px 2px #0003;
+  background: var(--gray-200);
+  box-shadow: 0 1px 2px var(--gray-700);
 }
 
 .layout-sidebar {
@@ -19,7 +19,7 @@
   width: var(--sidebar-width);
   min-height: 100%;
   padding: 1rem;
-  background: #e5e5e5;
+  background: var(--gray-300);
 }
 
 .layout-bar {
@@ -42,7 +42,7 @@
 .layout-sidebar > .branding {
   display: none;
   padding: 1rem;
-  background: #fafafa;
+  background: var(--gray-100);
 }
 
 @media only screen and (max-width: 800px) {
