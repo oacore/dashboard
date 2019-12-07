@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { withGlobalStore } from '../../stores'
+import { withGlobalStore } from '../../store'
 import pluginClassNames from './index.css'
 
 const Plugin = ({ name, abstract, description, store }) => {

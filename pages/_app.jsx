@@ -2,7 +2,7 @@ import React from 'react'
 import NextApp from 'next/app'
 
 import Layout from '../components/layout'
-import { initializeData, GlobalProvider } from '../stores'
+import { initializeData, GlobalProvider } from '../store'
 
 import '@oacore/design/lib/index.css'
 import './index.css'
