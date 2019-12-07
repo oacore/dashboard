@@ -7,7 +7,7 @@ useStaticRendering(isServer)
 const GlobalContext = createContext({})
 
 export const initializeData = (initialData = {}) => {
-  return Object.preventExtensions({
+  return {
     plugins: {
       discovery: {
         enabled: true,
@@ -23,11 +23,11 @@ export const initializeData = (initialData = {}) => {
       },
     },
     ...initialData,
-  })
+  }
 }
 
 export const withGlobalStore = Component => {
-  return (props) => (
+  return props => (
     <GlobalContext.Consumer>
       {value => {
         const ObservableComponent = observer(Component)
