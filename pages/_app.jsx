@@ -2,6 +2,8 @@ import React from 'react'
 import NextApp from 'next/app'
 
 import Layout from '../components/layout'
+
+import '@oacore/design/lib/index.css'
 import './index.css'
 
 class App extends NextApp {
