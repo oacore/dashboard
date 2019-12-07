@@ -8,16 +8,26 @@ const GlobalContext = createContext({})
 
 export const initializeData = (initialData = {}) => {
   return Object.preventExtensions({
-    text: '',
-    user: {
-      id: null,
+    plugins: {
+      discovery: {
+        enabled: true,
+      },
+      recommender: {
+        enabled: false,
+      },
+      analytics: {
+        enabled: true,
+      },
+      reader: {
+        enabled: false,
+      },
     },
     ...initialData,
   })
 }
 
 export const withGlobalStore = Component => {
-  return ({ props }) => (
+  return (props) => (
     <GlobalContext.Consumer>
       {value => {
         const ObservableComponent = observer(Component)

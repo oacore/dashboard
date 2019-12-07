@@ -8,7 +8,7 @@ const SearchBar = () => {
       <input
         type="text"
         className={searchbarClassNames.searchbarInput}
-        placeholder="Search.."
+        placeholder="Search..."
       />
     </div>
   )
