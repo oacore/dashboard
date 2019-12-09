@@ -59,8 +59,9 @@
   padding-bottom: 1rem;
 }
 
-.sidebar-navigation li .sidebar-icon {
-  width: 30px;
+.sidebar-navigation li svg {
+  width: 2rem;
+  height: 2rem;
   padding-right: 0.5rem;
 }
 

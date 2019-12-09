@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
+import { Icon } from '@oacore/design'
 
 import Logo from '../../design/logo'
-import Icon from '../../design/icons'
 import sidebarClassNames from './index.css'
 import layoutClassNames from '../layout/index.css'
 
@@ -53,8 +53,8 @@ const Sidebar = React.memo(({ className }) => {
             <Link href={route.path}>
               <a className={sidebarClassNames.route} href="/">
                 <Icon
-                  className={sidebarClassNames.sidebarIcon}
-                  iconType={route.icon}
+                  alt={`${route.title} icon`}
+                  src={`/design/icons.svg#${route.icon}`}
                 />
                 {route.title}
               </a>
