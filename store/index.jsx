@@ -31,7 +31,7 @@ export const withGlobalStore = Component => {
     <GlobalContext.Consumer>
       {value => {
         const ObservableComponent = observer(Component)
-        return <ObservableComponent {...props} store={value} />
+        return <ObservableComponent store={value} {...props} />
       }}
     </GlobalContext.Consumer>
   )
