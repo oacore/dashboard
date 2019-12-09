@@ -45,7 +45,7 @@
   background: var(--gray-100);
 }
 
-@media only screen and (max-width: 800px) {
+@media (--small-viewport) {
   .layout-sidebar {
     left: calc(var(--sidebar-width) * -1);
     z-index: 1001;
