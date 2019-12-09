@@ -60,13 +60,13 @@ const nextConfig = {
 
     config.module.rules.push({
       test: /\.css$/,
-      exclude: /@oacore\/design\/lib/,
+      exclude: /\/design\/lib/,
       use: [hotCss, cssLoader, postcssLoader].filter(Boolean),
     })
 
     config.module.rules.push({
       test: /\.css$/,
-      include: /@oacore\/design\/lib/,
+      include: /\/design\/lib/,
 
       use: [
         hotCss,
