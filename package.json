@@ -31,6 +31,7 @@
     "stylelint-prettier": "^1.1.1"
   },
   "dependencies": {
+    "@oacore/api": "^1.0.3",
     "@oacore/design": "0.0.2",
     "classnames": "^2.2.6",
     "core-js": "3.4.2",
