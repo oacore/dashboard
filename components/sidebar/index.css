@@ -52,7 +52,7 @@
 }
 
 .sidebar-navigation li > .route:hover {
-  color: var(--orange);
+  color: var(--primary-dark);
 }
 
 .sidebar-navigation li:not(:last-child) {
