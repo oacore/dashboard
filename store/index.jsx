@@ -8,20 +8,7 @@ const GlobalContext = createContext({})
 
 export const initializeData = (initialData = {}) => {
   return {
-    plugins: {
-      discovery: {
-        enabled: true,
-      },
-      recommender: {
-        enabled: false,
-      },
-      analytics: {
-        enabled: true,
-      },
-      reader: {
-        enabled: false,
-      },
-    },
+    plugins: null,
     ...initialData,
   }
 }

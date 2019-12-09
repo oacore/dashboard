@@ -1,4 +1,5 @@
 import React from 'react'
+import API from '@oacore/api'
 
 import Plugin from '../components/plugin'
 import pluginsClassNames from './plugins.css'
@@ -20,23 +21,31 @@ const integrations = [
   },
 ]
 
-const Plugins = () => {
-  return (
-    <>
-      <h1>Plugins</h1>
-      <p>Integrate our powerful services into your website.</p>
-      <div className={pluginsClassNames.plugins}>
-        {integrations.map(i => (
-          <Plugin
-            key={i.name}
-            name={i.name}
-            abstract={i.abstract}
-            description={i.description}
-          />
-        ))}
-      </div>
-    </>
-  )
+class Plugins extends React.Component {
+  static async getInitialProps({ initialStoreData }) {
+    const { statusCode, ...plugins } = await API.getIntegrations(140)
+    initialStoreData.plugins = plugins
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  render() {
+    return (
+      <>
+        <h1>Plugins</h1>
+        <p>Integrate our powerful services into your website.</p>
+        <div className={pluginsClassNames.plugins}>
+          {integrations.map(i => (
+            <Plugin
+              key={i.name}
+              name={i.name}
+              abstract={i.abstract}
+              description={i.description}
+            />
+          ))}
+        </div>
+      </>
+    )
+  }
 }
 
 export default Plugins
