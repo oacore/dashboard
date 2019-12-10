@@ -45,7 +45,6 @@
     "next": "^9.1.4",
     "next-images": "^1.2.0",
     "node-sass": "^4.13.0",
-    "normalize.css": "^8.0.1",
     "postcss-custom-media": "^7.0.8",
     "postcss-extend": "^1.0.5",
     "postcss-modules": "^1.4.1",
