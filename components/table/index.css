@@ -1,0 +1,10 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border-bottom: 1px solid var(--gray-500);
+}
