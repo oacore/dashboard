@@ -1,0 +1,14 @@
+.data-tab {
+  width: 100%;
+}
+
+.data-oai {
+  padding: 0.1rem;
+  color: var(--white);
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+.data-tab tr {
+  cursor: pointer;
+}
