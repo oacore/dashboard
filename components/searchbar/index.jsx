@@ -7,7 +7,7 @@ const SearchBar = () => {
     <div className={searchbarClassNames.searchbar}>
       <input
         type="text"
-        className={searchbarClassNames.searchbarInput}
+        value="Open Research Online - The Open University"
         placeholder="Search..."
       />
     </div>

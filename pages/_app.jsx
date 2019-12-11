@@ -9,12 +9,14 @@ import './index.css'
 
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
-    let pageProps = {}
     const initialStoreData = initializeData()
+    let pageProps = {}
 
     // Provide the store to getInitialProps of pages
-    if (Component.getInitialProps)
-      pageProps = await Component.getInitialProps({ ...ctx })
+    if (Component.getInitialProps) {
+      pageProps =
+        (await Component.getInitialProps({ ...ctx, initialStoreData })) || {}
+    }
 
     return {
       pageProps,
