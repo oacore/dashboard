@@ -1,8 +1,6 @@
 import React from 'react'
 import { AppBarItem } from '@oacore/design'
 
-// import searchbarClassNames from './index.css'
-
 const SearchBar = passProps => (
   <AppBarItem {...passProps}>
     <input

@@ -37,7 +37,7 @@ const TablePage = React.memo(
       <TableBody
         id={`section-${pageNumber}`}
         ref={componentRef}
-        pageNumber={pageNumber}
+        pagenumber={pageNumber}
       >
         {data.map(row => {
           return (
@@ -64,7 +64,11 @@ const TablePage = React.memo(
                 </TableCell>
               )}
               {Object.entries(row).map(([cellId, cellValue]) => {
-                return <TableCell>{cellRenderer(cellId, cellValue)}</TableCell>
+                return (
+                  <TableCell key={`${pageNumber}-${cellId}`}>
+                    {cellRenderer(cellId, cellValue)}
+                  </TableCell>
+                )
               })}
             </TableRow>
           )

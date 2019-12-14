@@ -10,9 +10,9 @@ const LoadingRow = React.memo(({ pageNumber, observe, unObserve }) => {
   }, [])
 
   return (
-    <TableBody ref={componentRef} pagenumber={pageNumber}>
+    <TableBody ref={useRef} pagenumber={pageNumber}>
       <TableRow>
-        <TableCell colspan={1000}>IsLoading</TableCell>
+        <TableCell colSpan={1000}>IsLoading</TableCell>
       </TableRow>
     </TableBody>
   )

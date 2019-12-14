@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField, Label } from '@oacore/design'
+import { Label } from '@oacore/design'
 
 import Table from '../components/table'
 import { range } from '../utils/helpers'
@@ -35,15 +35,9 @@ const columnRenderers = {
 const Data = () => {
   return (
     <div className={dataClassNames.dataTab}>
-      <TextField
-        id="search"
-        type="search"
-        name="search"
-        label="Search"
-        placeholder="Any identifier, title, author..."
-      />
       <Table
         selectable
+        searchable
         columns={columns}
         fetchData={fetchData}
         columnRenderers={columnRenderers}
