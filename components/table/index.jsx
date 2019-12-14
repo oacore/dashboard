@@ -1,4 +1,5 @@
 import React from 'react'
+import { Table, TableHead, TableRow, TableCell } from '@oacore/design'
 
 import TablePage from './TablePage'
 import LoadingRow from './LoadingRow'
@@ -6,7 +7,7 @@ import { range } from '../../utils/helpers'
 
 import './index.css'
 
-class Table extends React.Component {
+class InfiniteTable extends React.Component {
   state = {
     page: 0,
   }
@@ -42,14 +43,14 @@ class Table extends React.Component {
     const { page } = this.state
 
     return (
-      <table>
-        <thead>
-          <tr>
+      <Table>
+        <TableHead>
+          <TableRow>
             {columns.map(column => (
-              <th>{column}</th>
+              <TableCell>{column}</TableCell>
             ))}
-          </tr>
-        </thead>
+          </TableRow>
+        </TableHead>
 
         {range(page + 1).map(i => (
           <TablePage
@@ -66,9 +67,9 @@ class Table extends React.Component {
           observe={this.observe}
           unObserve={this.unObserve}
         />
-      </table>
+      </Table>
     )
   }
 }
 
-export default Table
+export default InfiniteTable

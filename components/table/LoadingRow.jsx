@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { TableBody, TableRow } from '@oacore/design'
 
 const LoadingRow = React.memo(({ pageNumber, observe, unObserve }) => {
   const componentRef = useRef(null)
@@ -9,9 +10,9 @@ const LoadingRow = React.memo(({ pageNumber, observe, unObserve }) => {
   }, [])
 
   return (
-    <tbody ref={componentRef} pagenumber={pageNumber}>
-      <tr>IsLoading</tr>
-    </tbody>
+    <TableBody ref={componentRef} pagenumber={pageNumber}>
+      <TableRow>IsLoading</TableRow>
+    </TableBody>
   )
 })
 

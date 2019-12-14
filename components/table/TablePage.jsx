@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { TableBody, TableRow, TableCell } from '@oacore/design'
 
 const TablePage = React.memo(({ pageNumber, fetchData }) => {
   const componentRef = useRef(null)
@@ -16,21 +17,21 @@ const TablePage = React.memo(({ pageNumber, fetchData }) => {
   }, [])
 
   return (
-    <tbody
+    <TableBody
       id={`section-${pageNumber}`}
       ref={componentRef}
       pageNumber={pageNumber}
     >
       {data.map(row => {
         return (
-          <tr key={row.id}>
+          <TableRow key={row.id}>
             {Object.values(row).map(cell => {
-              return <td>{cell}</td>
+              return <TableCell>{cell}</TableCell>
             })}
-          </tr>
+          </TableRow>
         )
       })}
-    </tbody>
+    </TableBody>
   )
 })
 
