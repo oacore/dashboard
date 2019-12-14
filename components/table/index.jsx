@@ -4,12 +4,12 @@ import { Table, TableHead, TableRow, TableCell } from '@oacore/design'
 import TablePage from './TablePage'
 import LoadingRow from './LoadingRow'
 import { range } from '../../utils/helpers'
-
-import './index.css'
+import tableClassNames from './index.css'
 
 class InfiniteTable extends React.Component {
   state = {
     page: 0,
+    areSelectedAll: false,
   }
 
   componentWillUnmount() {
@@ -38,14 +38,28 @@ class InfiniteTable extends React.Component {
     this.observer.unobserve(c)
   }
 
+  toggleSelectAll = () => {
+    this.setState(s => ({ areSelectedAll: !s.areSelectedAll }))
+  }
+
   render() {
-    const { columns, fetchData, columnRenderers } = this.props
-    const { page } = this.state
+    const { columns, fetchData, columnRenderers, selectable } = this.props
+    const { page, areSelectedAll } = this.state
 
     return (
       <Table>
         <TableHead>
           <TableRow>
+            {selectable && (
+              <TableCell className={tableClassNames.tableSelect}>
+                <input
+                  type="checkbox"
+                  id="table-select-all"
+                  onChange={this.toggleSelectAll}
+                  checked={areSelectedAll}
+                />
+              </TableCell>
+            )}
             {columns.map(column => (
               <TableCell>{column}</TableCell>
             ))}
@@ -60,6 +74,9 @@ class InfiniteTable extends React.Component {
             fetchData={fetchData}
             unObserve={this.unObserve}
             columnRenderers={columnRenderers}
+            selectable={selectable}
+            areSelectedAll={areSelectedAll}
+            toggleSelectAll={this.toggleSelectAll}
           />
         ))}
 

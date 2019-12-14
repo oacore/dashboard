@@ -12,14 +12,7 @@ const sleep = () => {
   })
 }
 
-const columns = [
-  'select',
-  'oai',
-  'title',
-  'authors',
-  'last update',
-  'Visibility',
-]
+const columns = ['oai', 'title', 'authors', 'last update', 'Visibility']
 
 const fetchData = async () => {
   // We'll even set a delay to simulate a server here
@@ -50,6 +43,7 @@ const Data = () => {
         placeholder="Any identifier, title, author..."
       />
       <Table
+        selectable
         columns={columns}
         fetchData={fetchData}
         columnRenderers={columnRenderers}

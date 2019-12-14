@@ -1,44 +1,77 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { TableBody, TableRow, TableCell } from '@oacore/design'
 
-const TablePage = React.memo(({ pageNumber, fetchData, columnRenderers }) => {
-  const componentRef = useRef(null)
-  const [data, setData] = React.useState([])
+import tableClassNames from './index.css'
 
-  const cellRenderer = (cellId, cellValue) => {
-    if (columnRenderers[cellId]) return columnRenderers[cellId](cellValue)
+const TablePage = React.memo(
+  ({
+    pageNumber,
+    fetchData,
+    columnRenderers,
+    selectable,
+    areSelectedAll,
+    toggleSelectAll,
+  }) => {
+    const [rowsInfo, setRowsInfo] = useState({})
+    const componentRef = useRef(null)
+    const [data, setData] = React.useState([])
 
-    return cellValue
-  }
+    const cellRenderer = (cellId, cellValue) => {
+      if (columnRenderers[cellId]) return columnRenderers[cellId](cellValue)
 
-  useEffect(() => {
-    const loadData = async () => {
-      if (!data.length) {
-        const rows = await fetchData()
-        setData(rows)
-      }
+      return cellValue
     }
 
-    loadData()
-  }, [])
+    useEffect(() => {
+      const loadData = async () => {
+        if (!data.length) {
+          const rows = await fetchData()
+          setData(rows)
+        }
+      }
 
-  return (
-    <TableBody
-      id={`section-${pageNumber}`}
-      ref={componentRef}
-      pageNumber={pageNumber}
-    >
-      {data.map(row => {
-        return (
-          <TableRow key={row.id}>
-            {Object.entries(row).map(([cellId, cellValue]) => {
-              return <TableCell>{cellRenderer(cellId, cellValue)}</TableCell>
-            })}
-          </TableRow>
-        )
-      })}
-    </TableBody>
-  )
-})
+      loadData()
+    }, [])
+
+    return (
+      <TableBody
+        id={`section-${pageNumber}`}
+        ref={componentRef}
+        pageNumber={pageNumber}
+      >
+        {data.map(row => {
+          return (
+            <TableRow key={row.oai}>
+              {selectable && (
+                <TableCell className={tableClassNames.tableSelect}>
+                  <input
+                    type="checkbox"
+                    checked={areSelectedAll || rowsInfo[row.oai]}
+                    onChange={() => {
+                      if (areSelectedAll) {
+                        setRowsInfo({
+                          [row.oai]: true,
+                        })
+                        toggleSelectAll()
+                      } else {
+                        setRowsInfo({
+                          ...rowsInfo,
+                          [row.oai]: !rowsInfo[row.oai],
+                        })
+                      }
+                    }}
+                  />
+                </TableCell>
+              )}
+              {Object.entries(row).map(([cellId, cellValue]) => {
+                return <TableCell>{cellRenderer(cellId, cellValue)}</TableCell>
+              })}
+            </TableRow>
+          )
+        })}
+      </TableBody>
+    )
+  }
+)
 
 export default TablePage
