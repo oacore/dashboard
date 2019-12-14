@@ -39,7 +39,7 @@ class InfiniteTable extends React.Component {
   }
 
   render() {
-    const { columns, fetchData } = this.props
+    const { columns, fetchData, columnRenderers } = this.props
     const { page } = this.state
 
     return (
@@ -59,6 +59,7 @@ class InfiniteTable extends React.Component {
             pageNumber={i}
             fetchData={fetchData}
             unObserve={this.unObserve}
+            columnRenderers={columnRenderers}
           />
         ))}
 

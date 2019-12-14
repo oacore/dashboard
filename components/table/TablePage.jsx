@@ -1,9 +1,15 @@
 import React, { useEffect, useRef } from 'react'
 import { TableBody, TableRow, TableCell } from '@oacore/design'
 
-const TablePage = React.memo(({ pageNumber, fetchData }) => {
+const TablePage = React.memo(({ pageNumber, fetchData, columnRenderers }) => {
   const componentRef = useRef(null)
   const [data, setData] = React.useState([])
+
+  const cellRenderer = (cellId, cellValue) => {
+    if (columnRenderers[cellId]) return columnRenderers[cellId](cellValue)
+
+    return cellValue
+  }
 
   useEffect(() => {
     const loadData = async () => {
@@ -25,8 +31,8 @@ const TablePage = React.memo(({ pageNumber, fetchData }) => {
       {data.map(row => {
         return (
           <TableRow key={row.id}>
-            {Object.values(row).map(cell => {
-              return <TableCell>{cell}</TableCell>
+            {Object.entries(row).map(([cellId, cellValue]) => {
+              return <TableCell>{cellRenderer(cellId, cellValue)}</TableCell>
             })}
           </TableRow>
         )
