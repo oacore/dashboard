@@ -7,7 +7,7 @@ const TablePage = React.memo(
   ({
     pageNumber,
     fetchData,
-    columnRenderers,
+    columns,
     selectable,
     areSelectedAll,
     toggleSelectAll,
@@ -17,7 +17,8 @@ const TablePage = React.memo(
     const [data, setData] = React.useState([])
 
     const cellRenderer = (cellId, cellValue) => {
-      if (columnRenderers[cellId]) return columnRenderers[cellId](cellValue)
+      const column = columns.find(v => v.id === cellId)
+      if (column && column.render) return column.render(cellValue)
 
       return cellValue
     }

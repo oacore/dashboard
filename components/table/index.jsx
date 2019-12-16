@@ -57,7 +57,7 @@ class InfiniteTable extends React.Component {
   }
 
   render() {
-    const { columns, columnRenderers, selectable, searchable } = this.props
+    const { columns, selectable, searchable } = this.props
     const { page, areSelectedAll, searchTerm } = this.state
 
     return (
@@ -101,7 +101,7 @@ class InfiniteTable extends React.Component {
               pageNumber={i}
               fetchData={this.fetchData}
               unObserve={this.unObserve}
-              columnRenderers={columnRenderers}
+              columns={columns}
               selectable={selectable}
               areSelectedAll={areSelectedAll}
               toggleSelectAll={this.toggleSelectAll}

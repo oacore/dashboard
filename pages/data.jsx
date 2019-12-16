@@ -17,6 +17,7 @@ const columns = [
     id: 'oai',
     display: 'OAI',
     sortable: true,
+    render: v => <Label color="primary">{v}</Label>,
   },
   {
     id: 'title',
@@ -54,20 +55,10 @@ const fetchData = async () => {
   }))
 }
 
-const columnRenderers = {
-  oai: v => <Label color="primary">{v}</Label>,
-}
-
 const Data = () => {
   return (
     <div className={dataClassNames.dataTab}>
-      <Table
-        selectable
-        searchable
-        columns={columns}
-        fetchData={fetchData}
-        columnRenderers={columnRenderers}
-      />
+      <Table selectable searchable columns={columns} fetchData={fetchData} />
     </div>
   )
 }
