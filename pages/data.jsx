@@ -1,5 +1,6 @@
 import React from 'react'
 import { Label } from '@oacore/design'
+import classNames from 'classnames'
 
 import Table from '../components/table'
 import { range } from '../utils/helpers'
@@ -12,34 +13,58 @@ const sleep = () => {
   })
 }
 
-const columns = [
-  {
-    id: 'oai',
-    display: 'OAI',
-    sortable: true,
-    render: v => <Label color="primary">{v}</Label>,
-  },
-  {
-    id: 'title',
-    display: 'Title',
-    sortable: true,
-  },
-  {
-    id: 'authors',
-    display: 'Authors',
-    sortable: false,
-  },
-  {
-    id: 'last update',
-    display: 'Last Update',
-    sortable: true,
-  },
-  {
-    id: 'visibility',
-    display: 'Visibility',
-    sortable: false,
-  },
-]
+const tableConfig = {
+  columns: [
+    {
+      id: 'oai',
+      display: 'OAI',
+      sortable: true,
+      expandedSize: 2,
+      render: (v, isExpanded) => (
+        <Label
+          color="primary"
+          className={classNames(dataClassNames.labelSmall, {
+            [dataClassNames.labelExpanded]: isExpanded,
+          })}
+        >
+          {v}
+        </Label>
+      ),
+    },
+    {
+      id: 'title',
+      display: 'Title',
+      sortable: true,
+      expandedSize: null,
+    },
+    {
+      id: 'authors',
+      display: 'Authors',
+      sortable: false,
+      expandedSize: null,
+    },
+    {
+      id: 'last update',
+      display: 'Last Update',
+      sortable: true,
+      expandedSize: 1,
+    },
+    {
+      id: 'visibility',
+      display: 'Visibility',
+      sortable: false,
+      expandedSize: 2,
+    },
+  ],
+  expandedRowRenderer: () => (
+    <div>
+      CORE welcomes the objectives of Plan S to advance openness in all research
+      subject fields as described in its ten principles. Plan S, which was
+      initiated by a coalition of 11 European research funders aims to further
+      the adoption of open access to European funded research.
+    </div>
+  ),
+}
 
 const fetchData = async () => {
   // We'll even set a delay to simulate a server here
@@ -58,7 +83,7 @@ const fetchData = async () => {
 const Data = () => {
   return (
     <div className={dataClassNames.dataTab}>
-      <Table selectable searchable columns={columns} fetchData={fetchData} />
+      <Table selectable searchable config={tableConfig} fetchData={fetchData} />
     </div>
   )
 }

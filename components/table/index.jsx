@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TextField,
-} from '@oacore/design'
+import { Table, TextField } from '@oacore/design'
 
 import TablePage from './TablePage'
 import LoadingRow from './LoadingRow'
@@ -57,7 +51,7 @@ class InfiniteTable extends React.Component {
   }
 
   render() {
-    const { columns, selectable, searchable } = this.props
+    const { config, selectable, searchable } = this.props
     const { page, areSelectedAll, searchTerm } = this.state
 
     return (
@@ -76,23 +70,23 @@ class InfiniteTable extends React.Component {
           />
         )}
         <Table>
-          <TableHead>
-            <TableRow>
+          <Table.Head>
+            <Table.Row>
               {selectable && (
-                <TableCell className={tableClassNames.tableSelect}>
+                <Table.Cell className={tableClassNames.tableSelect}>
                   <input
                     type="checkbox"
                     id="table-select-all"
                     onChange={this.toggleSelectAll}
                     checked={areSelectedAll}
                   />
-                </TableCell>
+                </Table.Cell>
               )}
-              {columns.map(column => (
-                <TableCell key={column.id}>{column.display}</TableCell>
+              {config.columns.map(column => (
+                <Table.Cell key={column.id}>{column.display}</Table.Cell>
               ))}
-            </TableRow>
-          </TableHead>
+            </Table.Row>
+          </Table.Head>
 
           {range(page + 1).map(i => (
             <TablePage
@@ -101,10 +95,9 @@ class InfiniteTable extends React.Component {
               pageNumber={i}
               fetchData={this.fetchData}
               unObserve={this.unObserve}
-              columns={columns}
+              config={config}
               selectable={selectable}
               areSelectedAll={areSelectedAll}
-              toggleSelectAll={this.toggleSelectAll}
             />
           ))}
 
