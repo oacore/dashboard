@@ -1,35 +1,35 @@
 import React from 'react'
+import { AppBar } from '@oacore/design'
 
-import AppHeader from '../../design/header'
 import Avatar from '../../design/avatar'
-import SearchBar from '../searchbar'
 import Logo from '../../design/logo'
-import headerClassNames from './index.css'
+import SearchBar from '../searchbar'
+import AppBarToggle from './toggle'
+import styles from './index.css'
 
-const Header = React.memo(({ className }) => {
+const Header = React.memo(passProps => {
   return (
-    <AppHeader className={className}>
-      <AppHeader.Item className={headerClassNames.headerAreaBrand}>
-        <Logo className={headerClassNames.headerItemLogo} />
-        <button
-          id="toggle-sidebar"
-          type="button"
-          name="sidebar"
-          value="show"
-          className={headerClassNames.menuToggle}
-        >
-          <span className={headerClassNames.bar} />
-          <span className={headerClassNames.bar} />
-          <span className={headerClassNames.bar} />
-        </button>
-      </AppHeader.Item>
-      <AppHeader.Item className={headerClassNames.headerAreaNavigation}>
-        <SearchBar />
-      </AppHeader.Item>
-      <AppHeader.Item className={headerClassNames.headerAreaUser}>
+    <AppBar className={styles.container} fixed {...passProps}>
+      <AppBarToggle
+        className={styles.toggle}
+        type="button"
+        name="sidebar"
+        value="toggle"
+        aria-haspopup="true"
+        aria-controls="toggle-sidebar"
+        aria-expanded={false}
+      />
+
+      <AppBar.Brand className={styles.brandArea} href="/">
+        <Logo />
+      </AppBar.Brand>
+
+      <SearchBar className={styles.navigationArea} />
+
+      <AppBar.Item className={styles.userArea}>
         <Avatar />
-      </AppHeader.Item>
-    </AppHeader>
+      </AppBar.Item>
+    </AppBar>
   )
 })
 

@@ -1,75 +1,60 @@
-.layout {
+:root {
+  --sidebar-width: 12rem;
+  --app-bar-skip: 3.5rem;
+}
+
+@custom-media --screen-desktop (min-width: 728px);
+
+.container {
   height: 100%;
-  padding: 0 1rem 0 calc(var(--sidebar-width) + 1rem);
-  background: var(--gray-100);
-}
-
-.layout-main {
-  min-height: 100%;
-  padding: 1rem;
-  margin: 0 -1rem;
   background: var(--gray-200);
-  box-shadow: 0 1px 2px var(--gray-700);
 }
 
-.layout-sidebar {
+.main {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: var(--component-padding, 1rem);
+  padding-top: calc(var(--app-bar-skip) + var(--component-padding, 1rem));
+  background: var(--white);
+
+  /* TODO: Should go to @oacore/design */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+
+  @media (--screen-desktop) {
+    margin-left: var(--sidebar-width);
+  }
+}
+
+.sidebar {
   position: absolute;
-  top: 0;
   left: 0;
+  z-index: 1030;
   width: var(--sidebar-width);
   min-height: 100%;
-  padding: 1rem;
-  background: var(--gray-300);
+  padding: var(--component-padding, 1rem);
+  padding-top: calc(var(--app-bar-skip) + var(--component-padding, 1rem));
+  transition: transform 200ms ease;
+
+  &:not(.visible) {
+    box-shadow: none;
+    transform: translateX(-100%);
+  }
+
+  @media (--screen-desktop) {
+    /* TODO: Fix specificity */
+
+    /* stylelint-disable-next-line declaration-no-important */
+    z-index: initial !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    transform: none !important;
+  }
 }
 
-.layout-bar {
-  height: 4rem;
-  padding: 0 0.5rem;
-}
-
-.layout-bar.fixed {
+.app-bar {
+  /* TODO: Should go to @oacore/design */
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
-}
-
-.layout-sidebar,
-.layout-main {
-  padding-top: 4.5rem;
-}
-
-.layout-sidebar > .branding {
-  display: none;
-  padding: 1rem;
-  background: var(--gray-100);
-}
-
-@media (--small-viewport) {
-  .layout-sidebar {
-    left: calc(var(--sidebar-width) * -1);
-    z-index: 1001;
-    padding-top: 1rem;
-    transition: left 200ms ease;
-    will-change: left;
-  }
-
-  .layout-sidebar.visible {
-    left: 0;
-  }
-
-  .layout {
-    padding: 0;
-  }
-
-  .layout-sidebar > .branding {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 4rem;
-  }
 }

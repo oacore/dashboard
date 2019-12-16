@@ -1,69 +1,46 @@
-.header-area-user {
-  justify-content: flex-end;
+/* Should be centralised */
+@custom-media --screen-desktop (min-width: 728px);
+
+.brand-area {
+  /* TODO: Fix specificity */
+  /* stylelint-disable-next-line declaration-no-important */
+  display: none !important;
+
+  @media (--screen-desktop) {
+    /* TODO: Fix specificity */
+    /* stylelint-disable-next-line declaration-no-important */
+    display: block !important;
+    width: var(--sidebar-width);
+  }
 }
 
-.header-area-navigation {
-  flex-basis: 60%;
-  align-self: stretch;
-  justify-content: center;
-  width: 100%;
-  height: inherit;
-  padding: 0;
+.navigation-area {
+  --app-bar-padding-y: calc(var(--component-padding-y, 1rem) / 2);
+  --form-control-padding-y: 0.75rem;
 
   /* TODO: animation */
   transition: all 0.3s ease-in, border 0s ease-in 0.3s;
+
+  @media (--screen-desktop) {
+    flex: 2 2 60%;
+  }
 }
 
-.header-area-brand {
-  flex-basis: 11.5rem;
-  flex-grow: 0;
+/* This will work until the user avatar become clickable */
+.user-area {
+  --app-bar-padding-y: calc(var(--component-padding-y, 1rem) / 2);
+  --avatar-size: 2.5rem;
+
+  @media (--screen-desktop) {
+    flex: 1 1 30%;
+    text-align: right;
+  }
 }
 
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  cursor: pointer;
-  background: none;
-  border: none;
-}
-
-.menu-toggle > .bar {
-  display: block;
-  width: 30px;
-  height: 4px;
-  margin-bottom: 5px;
-  pointer-events: none;
-  background: var(--gray-900);
-  border-radius: 3px;
-}
-
-@media (--small-viewport) {
-  .header-area-brand,
-  .header-area-user {
-    flex-basis: 3.5rem;
-  }
-
-  .header-area-navigation {
-    flex-basis: auto;
-    border-right: 1px solid var(--gray-500);
-    border-left: 1px solid var(--gray-500);
-  }
-
-  .header-area-navigation:active,
-  .header-area-navigation:focus-within {
-    position: absolute;
-    left: 0;
-    z-index: 9999;
-    width: 100vw;
-    border: none;
-  }
-
-  .header-item-logo {
-    display: none;
-  }
-  .menu-toggle {
-    display: flex;
+.toggle {
+  @media (--screen-desktop) {
+    /* TODO: Fix specificity */
+    /* stylelint-disable-next-line declaration-no-important */
+    display: none !important;
   }
 }

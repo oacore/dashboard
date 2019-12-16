@@ -1,10 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
-import { Icon } from '@oacore/design'
+import { AppBar, Icon } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
 import Logo from '../../design/logo'
-import sidebarClassNames from './index.css'
-import layoutClassNames from '../layout/index.css'
+import styles from './index.css'
 
 const routes = [
   {
@@ -34,24 +34,23 @@ const routes = [
   },
 ]
 
-const Sidebar = React.memo(({ className }) => {
+const Sidebar = React.memo(({ className, tag: Tag = 'nav' }) => {
   return (
-    <nav className={className}>
-      <div className={layoutClassNames.branding}>
-        <Logo />
-        <button
-          type="button"
-          aria-label="Close sidebar"
-          name="sidebar"
-          value="close"
-          className={sidebarClassNames.close}
-        />
-      </div>
-      <ul className={sidebarClassNames.sidebarNavigation}>
+    <Tag className={classNames.use(styles.container).join(className)}>
+      <AppBar className={styles.header}>
+        <AppBar.Brand className={styles.brand} href="/">
+          <Logo />
+        </AppBar.Brand>
+        <AppBar.Item type="button" name="sidebar" value="close" tag="button">
+          <span className={styles.close} aria-label="Close sidebar" />
+        </AppBar.Item>
+      </AppBar>
+
+      <ul className={styles.sidebarNavigation}>
         {routes.map(route => (
           <li key={route.path}>
             <Link href={route.path}>
-              <a className={sidebarClassNames.route} href="/">
+              <a className={styles.route} href="/">
                 <Icon
                   alt={`${route.title} icon`}
                   src={`/design/icons.svg#${route.icon}`}
@@ -62,7 +61,7 @@ const Sidebar = React.memo(({ className }) => {
           </li>
         ))}
       </ul>
-    </nav>
+    </Tag>
   )
 })
 

@@ -1,50 +1,49 @@
-import classNames from 'classnames'
 import React, { useState } from 'react'
+import { classNames } from '@oacore/design/lib/utils'
 
+import Head from '../head'
 import Header from '../header'
 import Sidebar from '../sidebar'
-import Head from '../head'
-import layoutClassNames from './index.css'
+import styles from './index.css'
 
-const Layout = ({ children }) => {
+const sidebarActions = ['toggle', 'open', 'close']
+const mapSidebarActionToState = (actionName, state) =>
+  ({
+    toggle: !state,
+    open: true,
+    close: false,
+  }[actionName])
+
+const Layout = ({ children, className, tag: Tag = 'div', ...restProps }) => {
   const [isSidebarVisible, toggleSidebarVisibility] = useState(false)
 
-  const handleCLick = event => {
-    const { name, value } = event.target
-    if (['sidebar.show', 'sidebar.close'].includes(`${name}.${value}`))
-      toggleSidebarVisibility(!isSidebarVisible)
+  const handleSidebarToggle = event => {
+    const issuer = event.target.closest('[value]')
+    if (!issuer) return
+
+    const { name, value } = issuer
+    if (name === 'sidebar' && sidebarActions.includes(value))
+      toggleSidebarVisibility(mapSidebarActionToState(value, isSidebarVisible))
   }
 
-  // TODO: Solve this better somehow
-  // eslint-disable-next-line max-len
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <>
       <Head />
-      <div
-        aria-haspopup="true"
-        aria-controls="toggle-sidebar"
-        aria-expanded={isSidebarVisible}
-        className={layoutClassNames.layout}
-        onClick={handleCLick}
+      <Tag
+        className={classNames.use(styles.container, className)}
+        onClick={handleSidebarToggle}
+        {...restProps}
       >
-        <Header
-          className={classNames(
-            layoutClassNames.layoutBar,
-            layoutClassNames.fixed
-          )}
-        />
+        <Header />
         <Sidebar
-          className={classNames(layoutClassNames.layoutSidebar, {
-            [layoutClassNames.visible]: isSidebarVisible,
-          })}
+          className={classNames
+            .use('sidebar', { visible: isSidebarVisible })
+            .from(styles)}
         />
-        <main className={layoutClassNames.layoutMain}>{children}</main>
-      </div>
+        <main className={styles.main}>{children}</main>
+      </Tag>
     </>
   )
-  // eslint-disable-next-line max-len
-  /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 }
 
 export default Layout

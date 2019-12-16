@@ -5,7 +5,6 @@ import Layout from '../components/layout'
 import { initializeData, GlobalProvider } from '../store'
 
 import '@oacore/design/lib/index.css'
-import './index.css'
 
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
