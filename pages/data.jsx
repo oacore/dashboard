@@ -12,7 +12,33 @@ const sleep = () => {
   })
 }
 
-const columns = ['oai', 'title', 'authors', 'last update', 'Visibility']
+const columns = [
+  {
+    id: 'oai',
+    display: 'OAI',
+    sortable: true,
+  },
+  {
+    id: 'title',
+    display: 'Title',
+    sortable: true,
+  },
+  {
+    id: 'authors',
+    display: 'Authors',
+    sortable: false,
+  },
+  {
+    id: 'last update',
+    display: 'Last Update',
+    sortable: true,
+  },
+  {
+    id: 'visibility',
+    display: 'Visibility',
+    sortable: false,
+  },
+]
 
 const fetchData = async () => {
   // We'll even set a delay to simulate a server here

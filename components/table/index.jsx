@@ -89,7 +89,7 @@ class InfiniteTable extends React.Component {
                 </TableCell>
               )}
               {columns.map(column => (
-                <TableCell key={column}>{column}</TableCell>
+                <TableCell key={column.id}>{column.display}</TableCell>
               ))}
             </TableRow>
           </TableHead>
