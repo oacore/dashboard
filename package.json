@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@oacore/api": "^1.0.3",
-    "@oacore/design": "0.0.3",
+    "@oacore/design": "0.0.5",
     "classnames": "^2.2.6",
     "core-js": "3.4.2",
     "cosmiconfig": "^6.0.0",
