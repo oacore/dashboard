@@ -1,11 +1,17 @@
 import React from 'react'
+import { classNames } from '@oacore/design/lib/utils'
 
-import avatarClassNames from './index.css'
+import styles from './index.css'
 
-const Avatar = React.memo(() => (
-  <div className={avatarClassNames.avatar}>
-    <img src="/avatar.png" alt="User avatar" />
-  </div>
-))
+const Avatar = React.memo(
+  ({ className, src = '/avatar.png', alt = 'User', ...restProps }) => (
+    <img
+      className={classNames.use(styles.avatar, className)}
+      src={src}
+      alt={alt}
+      {...restProps}
+    />
+  )
+)
 
 export default Avatar
