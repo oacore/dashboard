@@ -61,6 +61,6 @@
     "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
     "lint:css": "stylelint --ignore-path .gitignore '**/*.css'",
     "lint": "run-p lint:*",
-    "postinstall": "cp -r ./node_modules/@oacore/design/lib/assets ./public/design"
+    "postinstall": "cp -r \"$(npm explore @oacore/design -- pwd)/lib/assets\" ./public/design"
   }
 }
