@@ -1,18 +1,8 @@
 .logo {
-  padding-top: 0.40625rem;
-  padding-bottom: 0.40625rem;
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1.5;
-  color: #2a3840;
-  text-decoration: none;
-}
-.logo:hover {
-  color: var(--primary);
+  position: relative;
 }
 
-.logo > img {
-  position: relative;
+.logo img {
   display: inline-block;
   width: auto;
   height: 1.5em;
