@@ -12,6 +12,7 @@ module.exports = api => {
     '@babel/react',
   ]
   const plugins = [
+    '@babel/plugin-proposal-export-default-from',
     [
       '@babel/plugin-proposal-decorators',
       {
