@@ -1,0 +1,89 @@
+:root {
+  --icon-published: url('./published.svg');
+  --icon-unpublished: url('./unpublished.svg');
+  --toggle-icon-size: 2rem;
+  --toggle-active-color: #5a9216;
+  --white: #fff;
+  --toggle-switch-border-radius: 2px;
+}
+.toggle {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.toggle-checkbox {
+  position: absolute;
+  visibility: hidden;
+}
+
+.toggle-checkbox:checked + .toggle-switch {
+  background: linear-gradient(
+    90deg,
+    var(--toggle-active-color) 0 calc(100% - var(--toggle-icon-size)),
+    var(--gray-100) calc(100% - var(--toggle-icon-size)) 100%
+  );
+  &::after {
+    color: var(--gray-500);
+  }
+
+  &::before {
+    color: var(--gray-100);
+  }
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  min-width: calc(var(--toggle-icon-size) * 2);
+  height: var(--toggle-icon-size);
+  line-height: var(--toggle-icon-size);
+  vertical-align: middle;
+  background: linear-gradient(
+    90deg,
+    var(--gray-100) 0 var(--toggle-icon-size),
+    var(--toggle-active-color) var(--toggle-icon-size) 100%
+  );
+  border-radius: var(--toggle-switch-border-radius);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-switch > span {
+  display: inline-block;
+  color: var(--gray-100);
+  opacity: 0;
+}
+
+.expanded + .toggle-switch > span {
+  padding-left: 0.25rem;
+  white-space: nowrap;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+
+.expanded:checked + .toggle-switch > span {
+  padding-right: 0.25rem;
+  padding-left: 0;
+}
+
+.toggle-switch::after,
+.toggle-switch::before {
+  display: inline-block;
+  min-width: var(--toggle-icon-size);
+  height: 100%;
+  content: '';
+  background: currentColor;
+  transform: translateY(calc(var(--toggle-switch-border-radius) * (-1)));
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.toggle-switch::before {
+  color: var(--gray-500);
+  mask-image: var(--icon-published);
+}
+
+.toggle-switch::after {
+  color: var(--gray-100);
+  mask-image: var(--icon-unpublished);
+}
