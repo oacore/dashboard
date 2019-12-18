@@ -1,3 +1,5 @@
+@custom-media --screen-desktop (min-width: 728px);
+
 .container {
   color: var(--gray-700);
 }
