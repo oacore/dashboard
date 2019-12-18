@@ -1,0 +1,20 @@
+.data-tab {
+  width: 100%;
+}
+
+.data-tab tr {
+  cursor: pointer;
+}
+
+.label-small {
+  max-width: 5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 1.5s;
+}
+
+.label-expanded {
+  max-width: 100%;
+  overflow: initial;
+  transition: max-width 1.5s;
+}
