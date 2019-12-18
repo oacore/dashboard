@@ -1,0 +1,97 @@
+:root {
+  --side-bar-width: 12rem;
+  --app-bar-skip: 3.5rem;
+}
+
+@custom-media --screen-at-least-desktop (min-width: 728px);
+@custom-media --screen-until-desktop (max-width: 727px);
+
+/* TODO: Workaround, must go to other place */
+html,
+body,
+:global(#__next) {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  padding-top: var(--app-bar-skip);
+  overflow-y: auto;
+  background: var(--gray-200);
+
+  @media (--screen-at-least-desktop) {
+    padding-left: var(--side-bar-width);
+  }
+}
+
+.app-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1020;
+}
+
+.app-bar-toggle {
+  height: 3.5rem;
+
+  @media (--screen-at-least-desktop) {
+    display: none;
+  }
+}
+
+.app-bar-brand {
+  width: var(--side-bar-width);
+
+  @media (--screen-until-desktop) {
+    display: none;
+  }
+}
+
+.side-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--side-bar-width);
+  height: 100%;
+  padding: var(--component-padding, 1rem);
+  padding-top: calc(var(--app-bar-skip) + var(--component-padding, 1rem));
+
+  @media (--screen-until-desktop) {
+    z-index: 1050;
+    width: calc(100% - 3.5rem);
+    background: var(--white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    transition: transform 200ms ease;
+
+    &:not(.open) {
+      box-shadow: none;
+      transform: translateX(-100%);
+    }
+  }
+}
+
+.side-bar-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid var(--gray-300);
+  box-shadow: none;
+
+  @media (--screen-at-least-desktop) {
+    display: none;
+  }
+}
+
+.side-bar-header-brand {
+  flex-grow: 1;
+}
+
+.main {
+  position: relative;
+  min-height: 100%;
+  padding: var(--component-padding, 1rem);
+  background: var(--white);
+
+  /* TODO: Should go to @oacore/design */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}

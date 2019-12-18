@@ -1,10 +1,11 @@
 import React from 'react'
 import NextApp from 'next/app'
 
-import Layout from '../components/layout'
-import { initializeData, GlobalProvider } from '../store'
-
 import '@oacore/design/lib/index.css'
+
+import Application from '../components/application'
+import { Main } from '../components/layout'
+import { initializeData, GlobalProvider } from '../store'
 
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
@@ -28,9 +29,11 @@ class App extends NextApp {
 
     return (
       <GlobalProvider initialData={initialStoreData}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Application>
+          <Main>
+            <Component {...pageProps} />
+          </Main>
+        </Application>
       </GlobalProvider>
     )
   }

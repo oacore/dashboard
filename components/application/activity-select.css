@@ -1,0 +1,32 @@
+.sidebar-navigation,
+.sidebar-navigation li > .route {
+  padding: 0;
+  margin: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
+.sidebar-navigation li > .route {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sidebar-navigation li > .route:hover {
+  color: var(--primary-dark);
+}
+
+.sidebar-navigation li:not(:last-child) {
+  padding-bottom: 1rem;
+}
+
+.sidebar-navigation li svg {
+  width: 2rem;
+  height: 2rem;
+  padding-right: 0.5rem;
+}
+
+.sidebar-navigation li:last-child {
+  margin-top: auto;
+}
