@@ -7,6 +7,7 @@
 
 .container {
   height: 100%;
+
   /* TODO: Handle this better */
   min-height: 100vh;
   background: var(--gray-200);
