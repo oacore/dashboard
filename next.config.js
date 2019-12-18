@@ -74,6 +74,9 @@ const nextConfig = {
         postcssLoader,
       ].filter(Boolean),
     })
+
+    config.resolve.alias.design = path.join(__dirname, 'design')
+
     return config
   },
 }
