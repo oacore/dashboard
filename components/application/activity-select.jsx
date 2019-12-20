@@ -17,6 +17,11 @@ const routes = [
     title: 'Data',
   },
   {
+    path: '/deposit-dates',
+    icon: 'data',
+    title: 'Deposit Dates',
+  },
+  {
     path: '/statistics',
     icon: 'statistics',
     title: 'Statistics',
