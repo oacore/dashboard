@@ -1,0 +1,45 @@
+:root {
+  --drawer-list-padding-y: calc(var(--component-padding-y, 1rem) / 2);
+  --drawer-list-padding-x: calc(var(--component-padding-x, 1rem) / 2);
+  --drawer-item-padding-y: calc(var(--component-padding-y, 1rem) / 2);
+  --drawer-item-padding-x: calc(var(--component-padding-x, 1rem) / 2);
+  --drawer-item-spacing: calc(var(--component-padding-x, 1rem) / 2);
+}
+
+.list {
+  padding: var(--drawer-list-padding-y) var(--drawer-list-padding-x);
+  margin: 0;
+  line-height: 1;
+  list-style: none;
+
+  & > li {
+    display: block;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.item {
+  display: block;
+  padding: var(--drawer-item-padding-y) var(--drawer-item-padding-x);
+  margin: var(--drawer-item-spacing) 0;
+  color: var(--gray-800);
+  border-radius: var(--component-corner-radius, 2px);
+
+  &:link,
+  &:visited {
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:focus {
+    color: inherit;
+    background: #0000000a;
+  }
+
+  &:active,
+  &.active {
+    color: var(--white);
+    background: var(--primary);
+  }
+}
