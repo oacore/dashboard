@@ -51,7 +51,7 @@ class InfiniteTable extends React.Component {
   }
 
   render() {
-    const { config, selectable, searchable } = this.props
+    const { config, selectable, searchable, expandable } = this.props
     const { page, areSelectedAll, searchTerm } = this.state
 
     return (
@@ -98,6 +98,7 @@ class InfiniteTable extends React.Component {
               config={config}
               selectable={selectable}
               areSelectedAll={areSelectedAll}
+              expandable={expandable}
             />
           ))}
 

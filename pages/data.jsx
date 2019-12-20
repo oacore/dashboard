@@ -85,7 +85,13 @@ const fetchData = async () => {
 const Data = () => {
   return (
     <div className={dataClassNames.dataTab}>
-      <Table selectable searchable config={tableConfig} fetchData={fetchData} />
+      <Table
+        config={tableConfig}
+        fetchData={fetchData}
+        selectable
+        searchable
+        expandable
+      />
     </div>
   )
 }

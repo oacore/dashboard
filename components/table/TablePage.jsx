@@ -28,7 +28,7 @@ const reducer = (state, action) => {
 }
 
 const TablePage = React.memo(
-  ({ pageNumber, fetchData, config, selectable, areSelectedAll }) => {
+  ({ pageNumber, fetchData, config, selectable, areSelectedAll, expandable }) => {
     const [rowsInfo, dispatch] = useReducer(reducer, {})
     const componentRef = useRef(null)
     const [data, setData] = React.useState([])
@@ -67,7 +67,9 @@ const TablePage = React.memo(
           return (
             <React.Fragment key={row.oai}>
               <TableRow key={row.oai} {...props} />
-              <TableRowExpanded key={`${row.oai}-expanded`} {...props} />
+              {expandable && (
+                <TableRowExpanded key={`${row.oai}-expanded`} {...props} />
+              )}
             </React.Fragment>
           )
         })}
