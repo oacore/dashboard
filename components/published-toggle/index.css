@@ -3,7 +3,6 @@
   --icon-unpublished: url('./unpublished.svg');
   --toggle-icon-size: 2rem;
   --toggle-active-color: #5a9216;
-  --white: #fff;
   --toggle-switch-border-radius: 2px;
 }
 .toggle {
