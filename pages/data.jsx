@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import Table from '../components/table'
 import { range } from '../utils/helpers'
 import dataClassNames from './data.css'
+import PublishedToggle from '../components/published-toggle'
 
 const sleep = () => {
   return new Promise(resolve => {
@@ -54,6 +55,7 @@ const tableConfig = {
       display: 'Visibility',
       sortable: false,
       expandedSize: 2,
+      render: (v, isExpanded) => <PublishedToggle isExpanded={isExpanded} />,
     },
   ],
   expandedRowRenderer: () => (
