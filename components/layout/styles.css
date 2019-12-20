@@ -6,13 +6,6 @@
 @custom-media --screen-at-least-desktop (min-width: 728px);
 @custom-media --screen-until-desktop (max-width: 727px);
 
-/* TODO: Workaround, must go to other place */
-html,
-body,
-:global(#__next) {
-  height: 100%;
-}
-
 .container {
   height: 100%;
   padding-top: var(--app-bar-skip);

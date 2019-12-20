@@ -23,13 +23,12 @@ const Head = () => (
     />
     <style>
       {`
-          html,
-          body,
-          #__next {
-            margin: 0;
-            height: 100%;
-          }
-        `}
+        html,
+        body,
+        #__next {
+          height: 100%;
+        }
+      `}
     </style>
   </NextHead>
 )
