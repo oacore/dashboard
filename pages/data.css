@@ -1,11 +1,3 @@
-.data-tab {
-  width: 100%;
-}
-
-.data-tab tr {
-  cursor: pointer;
-}
-
 .label-small {
   max-width: 5rem;
   overflow: hidden;

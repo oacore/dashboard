@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import Table from '../components/table'
 import { range } from '../utils/helpers'
 import dataClassNames from './data.css'
+import styles from './deposit-dates.css'
 
 const sleep = () => {
   return new Promise(resolve => {
@@ -64,8 +65,14 @@ const fetchData = async () => {
 
 const DepositDates = () => {
   return (
-    <div className={dataClassNames.dataTab}>
-      <Table selectable config={tableConfig} fetchData={fetchData} />
+    <div>
+      <Table
+        className={styles.table}
+        title="Browse deposit dates"
+        selectable
+        config={tableConfig}
+        fetchData={fetchData}
+      />
     </div>
   )
 }

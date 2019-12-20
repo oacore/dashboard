@@ -51,11 +51,19 @@ class InfiniteTable extends React.Component {
   }
 
   render() {
-    const { config, selectable, searchable, expandable } = this.props
+    const {
+      config,
+      selectable,
+      searchable,
+      expandable,
+      title,
+      className,
+    } = this.props
     const { page, areSelectedAll, searchTerm } = this.state
 
     return (
       <>
+        {title && <h2>{title}</h2>}
         {searchable && (
           <TextField
             id="search"
@@ -69,7 +77,7 @@ class InfiniteTable extends React.Component {
             value={searchTerm}
           />
         )}
-        <Table>
+        <Table className={className}>
           <Table.Head>
             <Table.Row>
               {selectable && (

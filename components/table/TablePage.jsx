@@ -28,7 +28,14 @@ const reducer = (state, action) => {
 }
 
 const TablePage = React.memo(
-  ({ pageNumber, fetchData, config, selectable, areSelectedAll, expandable }) => {
+  ({
+    pageNumber,
+    fetchData,
+    config,
+    selectable,
+    areSelectedAll,
+    expandable,
+  }) => {
     const [rowsInfo, dispatch] = useReducer(reducer, {})
     const componentRef = useRef(null)
     const [data, setData] = React.useState([])
@@ -54,6 +61,7 @@ const TablePage = React.memo(
       content: row,
       config,
       isExpanded: rowsInfo[row.oai] && rowsInfo[row.oai].expanded,
+      expandable,
     })
 
     return (

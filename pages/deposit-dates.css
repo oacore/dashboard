@@ -1,0 +1,3 @@
+.table thead > :first-child {
+  border-top-width: 2px;
+}
