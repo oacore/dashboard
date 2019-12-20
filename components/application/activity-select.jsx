@@ -1,9 +1,9 @@
 import React from 'react'
-import Link from 'next/link' // TODO: Should be avoided
 import { Icon } from '@oacore/design'
-import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './activity-select.css'
+
+import { Drawer } from 'design'
 
 const routes = [
   {
@@ -33,22 +33,19 @@ const routes = [
   },
 ]
 
-const ActivitySelect = React.memo(({ className }) => (
-  <ul className={classNames.use(styles.sidebarNavigation).join(className)}>
+const ActivitySelect = passProps => (
+  <Drawer.List {...passProps}>
     {routes.map(route => (
-      <li key={route.path}>
-        <Link href={route.path}>
-          <a className={styles.route} href="/">
-            <Icon
-              alt={`${route.title} icon`}
-              src={`/design/icons.svg#${route.icon}`}
-            />
-            {route.title}
-          </a>
-        </Link>
-      </li>
+      <Drawer.Item key={route.path} href={route.path}>
+        <Icon
+          className={styles.itemIcon}
+          alt={`${route.title} icon`}
+          src={`/design/icons.svg#${route.icon}`}
+        />
+        {route.title}
+      </Drawer.Item>
     ))}
-  </ul>
-))
+  </Drawer.List>
+)
 
 export default ActivitySelect

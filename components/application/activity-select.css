@@ -1,32 +1,21 @@
-.sidebar-navigation,
-.sidebar-navigation li > .route {
-  padding: 0;
-  margin: 0;
-  text-indent: 0;
-  list-style-type: none;
+/* Should be deleted after fix in Icon component */
+.item-icon {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  vertical-align: middle;
+  fill: currentColor;
 }
 
-.sidebar-navigation li > .route {
-  display: flex;
-  align-items: center;
-  color: inherit;
-  text-decoration: none;
-}
+/* stylelint-disable-next-line no-duplicate-selectors */
+.item-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: -0.1rem;
+  margin-right: 0.9rem;
 
-.sidebar-navigation li > .route:hover {
-  color: var(--primary-dark);
-}
+  /* Should be the following after fixing actual SVGs */
 
-.sidebar-navigation li:not(:last-child) {
-  padding-bottom: 1rem;
-}
-
-.sidebar-navigation li svg {
-  width: 2rem;
-  height: 2rem;
-  padding-right: 0.5rem;
-}
-
-.sidebar-navigation li:last-child {
-  margin-top: auto;
+  /* margin: calc(calc(var(--icon-size) - 1em) / 2);
+  margin-right: calc(1rem - calc(calc(var(--icon-size) - 1em) / 2)); */
 }
