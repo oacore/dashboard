@@ -5,6 +5,8 @@ import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
 
+import { classNameHelpers } from 'design'
+
 const Application = ({ children, ...restProps }) => (
   <>
     <Head />
@@ -13,8 +15,8 @@ const Application = ({ children, ...restProps }) => (
         <RepositorySelect />
       </AppBar>
 
-      <SideBar>
-        <h2>Navigate your data</h2>
+      <SideBar tag="nav">
+        <h2 className={classNameHelpers.srOnly}>Navigate your data</h2>
         <ActivitySelect />
       </SideBar>
 
