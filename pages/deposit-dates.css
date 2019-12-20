@@ -1,28 +1,41 @@
+/* TODO: Custom media from layout.css doesn't work */
+@custom-media --screen-until-desktop (max-width: 727px);
+
 .table thead > :first-child {
   border-top-width: 2px;
 }
 
-.container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: 2rem;
-  grid-row-gap: 4rem;
-  grid-template-rows: auto;
-  grid-template-areas:
-    'c c c e'
-    'd d d d'
-    'b b b b';
+.row {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 2rem;
+
+  @media (--screen-until-desktop) {
+    flex-wrap: wrap;
+  }
 }
 
 .compliance-level {
-  grid-area: c;
+  flex: 2 2 auto;
+  width: 100%;
+  margin-right: 2rem;
+
+  @media (--screen-until-desktop) {
+    margin-right: 0;
+    margin-bottom: 2rem;
+  }
 }
+
 .export {
-  grid-area: e;
+  flex: 1 1 1fr;
+  width: 100%;
+  min-width: 9rem;
 }
+
 .deposit-time-lag {
-  grid-area: d;
+  margin-bottom: 2rem;
 }
+
 .browse-table {
-  grid-area: b;
+
 }

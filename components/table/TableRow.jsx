@@ -20,7 +20,6 @@ const TableRow = ({
 
   const cellRenderer = (config, cellValue) => {
     if (config.render) return config.render(cellValue, isExpanded)
-
     return cellValue
   }
   const rowProp = {
@@ -41,7 +40,8 @@ const TableRow = ({
         const colConfig = columnConfig(cellId)
         const colSpan = isExpanded ? colConfig.expandedSize : 1
 
-        if (colSpan === null) return null
+        if (colSpan === null || Object.entries(colConfig).length === 0)
+          return null
         return (
           <Table.Cell key={cellId} colSpan={colSpan}>
             {cellRenderer(colConfig, cellValue)}
