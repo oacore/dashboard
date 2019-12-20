@@ -46,8 +46,7 @@
   left: 0;
   width: var(--side-bar-width);
   height: 100%;
-  padding: var(--component-padding, 1rem);
-  padding-top: calc(var(--app-bar-skip) + var(--component-padding, 1rem));
+  padding-top: var(--app-bar-skip);
 
   @media (--screen-until-desktop) {
     z-index: 1050;
@@ -64,9 +63,7 @@
 }
 
 .side-bar-header {
-  position: absolute;
-  top: 0;
-  left: 0;
+  margin-top: calc(-1 * var(--app-bar-skip));
   border-bottom: 1px solid var(--gray-300);
   box-shadow: none;
 
@@ -82,7 +79,7 @@
 .main {
   position: relative;
   min-height: 100%;
-  padding: var(--component-padding, 1rem);
+  padding: var(--component-padding-y, 1rem) var(--component-padding-x, 1rem);
   background: var(--white);
 
   /* TODO: Should go to @oacore/design */
