@@ -1,11 +1,13 @@
 import React from 'react'
-import { Label } from '@oacore/design'
+import { Label, Button } from '@oacore/design'
 import classNames from 'classnames'
 
 import Table from '../components/table'
 import { range } from '../utils/helpers'
 import dataClassNames from './data.css'
 import styles from './deposit-dates.css'
+
+import { Card } from 'design'
 
 const sleep = () => {
   return new Promise(resolve => {
@@ -65,15 +67,34 @@ const fetchData = async () => {
 
 const DepositDates = () => {
   return (
-    <div>
-      <Table
-        className={styles.table}
-        title="Browse deposit dates"
-        selectable
-        config={tableConfig}
-        fetchData={fetchData}
-      />
-    </div>
+    <>
+      <h1>Deposit compliance</h1>
+      <div className={styles.container}>
+        <Card className={styles.complianceLevel}>
+          <h2>Compliance level</h2>
+        </Card>
+        <Card className={styles.export}>
+          <h2>Export</h2>
+          <p>
+            We have deposit dates for <b>182, 719</b> out of 183,219 works
+            within your repository
+          </p>
+          <Button variant="contained">Download</Button>
+        </Card>
+        <Card className={styles.depositTimeLag}>
+          <h2>Deposit Time Lag</h2>
+        </Card>
+        <Card className={styles.browseTable}>
+          <Table
+            className={styles.table}
+            title="Browse deposit dates"
+            selectable
+            config={tableConfig}
+            fetchData={fetchData}
+          />
+        </Card>
+      </div>
+    </>
   )
 }
 

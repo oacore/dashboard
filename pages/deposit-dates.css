@@ -1,3 +1,28 @@
 .table thead > :first-child {
   border-top-width: 2px;
 }
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 2rem;
+  grid-row-gap: 4rem;
+  grid-template-rows: auto;
+  grid-template-areas:
+    'c c c e'
+    'd d d d'
+    'b b b b';
+}
+
+.compliance-level {
+  grid-area: c;
+}
+.export {
+  grid-area: e;
+}
+.deposit-time-lag {
+  grid-area: d;
+}
+.browse-table {
+  grid-area: b;
+}
