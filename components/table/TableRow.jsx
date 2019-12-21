@@ -14,9 +14,7 @@ const TableRow = ({
   selectable,
   expandable,
 }) => {
-  const columnConfig = cellId => {
-    return columns.find(v => v.id === cellId) || {}
-  }
+  const columnConfig = cellId => columns.find(v => v.id === cellId) || {}
 
   const cellRenderer = (config, cellValue) => {
     if (config.render) return config.render(cellValue, isExpanded)

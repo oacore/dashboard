@@ -172,21 +172,19 @@ const Select = ({
   )
 }
 
-const SelectOption = ({ id, children, value, selected, ...restProps }) => {
-  return (
-    <li
-      id={id}
-      role="option"
-      aria-selected={selected}
-      className={classNames({
-        [styles.optionSelected]: selected,
-      })}
-    >
-      <button type="button" value={value} tabIndex="-1" {...restProps}>
-        {children}
-      </button>
-    </li>
-  )
-}
+const SelectOption = ({ id, children, value, selected, ...restProps }) => (
+  <li
+    id={id}
+    role="option"
+    aria-selected={selected}
+    className={classNames({
+      [styles.optionSelected]: selected,
+    })}
+  >
+    <button type="button" value={value} tabIndex="-1" {...restProps}>
+      {children}
+    </button>
+  </li>
+)
 
 export default Select

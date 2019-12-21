@@ -6,27 +6,23 @@ useStaticRendering(isServer)
 
 const GlobalContext = createContext({})
 
-export const initializeData = (initialData = {}) => {
-  return {
-    repository: {
-      id: 1,
-      name: 'Open Research Online',
-    },
-    plugins: null,
-    ...initialData,
-  }
-}
+export const initializeData = (initialData = {}) => ({
+  repository: {
+    id: 1,
+    name: 'Open Research Online',
+  },
+  plugins: null,
+  ...initialData,
+})
 
-export const withGlobalStore = Component => {
-  return props => (
-    <GlobalContext.Consumer>
-      {value => {
-        const ObservableComponent = observer(Component)
-        return <ObservableComponent store={value} {...props} />
-      }}
-    </GlobalContext.Consumer>
-  )
-}
+export const withGlobalStore = Component => props => (
+  <GlobalContext.Consumer>
+    {value => {
+      const ObservableComponent = observer(Component)
+      return <ObservableComponent store={value} {...props} />
+    }}
+  </GlobalContext.Consumer>
+)
 
 export const GlobalProvider = ({ children, initialData }) => {
   const store = useLocalStore(() => initializeData(initialData))

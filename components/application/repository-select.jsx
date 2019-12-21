@@ -14,19 +14,17 @@ const fetchSuggestions = async term => {
   return r.json()
 }
 
-const RepositorySelect = ({ store }) => {
-  return (
-    <AppBar.Item className={styles.container}>
-      <Select
-        className={styles.repositorySelect}
-        options={fetchSuggestions}
-        value={store.repository.name}
-        onSelectionChange={v => {
-          store.repository = v
-        }}
-      />
-    </AppBar.Item>
-  )
-}
+const RepositorySelect = ({ store }) => (
+  <AppBar.Item className={styles.container}>
+    <Select
+      className={styles.repositorySelect}
+      options={fetchSuggestions}
+      value={store.repository.name}
+      onSelectionChange={v => {
+        store.repository = v
+      }}
+    />
+  </AppBar.Item>
+)
 
 export default withGlobalStore(RepositorySelect)

@@ -5,12 +5,11 @@ import Table from '../components/table'
 import { range } from '../utils/helpers'
 import PublishedToggle from '../components/published-toggle'
 
-const sleep = () => {
-  return new Promise(resolve => {
+const sleep = () =>
+  new Promise(resolve => {
     // wait 3s before calling fn(par)
     setTimeout(() => resolve(), 3000)
   })
-}
 
 const tableConfig = {
   columns: [
@@ -77,18 +76,16 @@ const fetchData = async () => {
   }))
 }
 
-const Data = () => {
-  return (
-    <div>
-      <Table
-        config={tableConfig}
-        fetchData={fetchData}
-        selectable
-        searchable
-        expandable
-      />
-    </div>
-  )
-}
+const Data = () => (
+  <div>
+    <Table
+      config={tableConfig}
+      fetchData={fetchData}
+      selectable
+      searchable
+      expandable
+    />
+  </div>
+)
 
 export default Data
