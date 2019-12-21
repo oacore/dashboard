@@ -57,7 +57,7 @@ class InfiniteTable extends React.Component {
       searchable,
       expandable,
       title,
-      className,
+      ...restProps
     } = this.props
     const { page, areSelectedAll, searchTerm } = this.state
 
@@ -77,7 +77,7 @@ class InfiniteTable extends React.Component {
             value={searchTerm}
           />
         )}
-        <Table className={className}>
+        <Table {...restProps}>
           <Table.Head>
             <Table.Row>
               {selectable && (
