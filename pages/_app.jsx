@@ -4,7 +4,6 @@ import NextApp from 'next/app'
 import '@oacore/design/lib/index.css'
 
 import Application from '../components/application'
-import { Main } from '../components/layout'
 import { initializeData, GlobalProvider } from '../store'
 
 class App extends NextApp {
@@ -30,9 +29,7 @@ class App extends NextApp {
     return (
       <GlobalProvider initialData={initialStoreData}>
         <Application>
-          <Main>
-            <Component {...pageProps} />
-          </Main>
+          <Component {...pageProps} />
         </Application>
       </GlobalProvider>
     )
