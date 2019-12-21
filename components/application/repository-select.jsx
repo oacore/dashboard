@@ -1,20 +1,34 @@
-import React from 'react'
-import { AppBarItem } from '@oacore/design'
-import { classNames } from '@oacore/design/lib/utils'
+import React, { useState } from 'react'
+import { AppBar } from '@oacore/design'
 
 import styles from './repository-select.css'
 
-const RepositorySelect = ({ className, ...restProps }) => (
-  <AppBarItem
-    className={classNames.use(styles.container).join(className)}
-    {...restProps}
-  >
-    <input
-      type="text"
-      value="Open Research Online - The Open University"
-      placeholder="Search..."
-    />
-  </AppBarItem>
-)
+import { Select } from 'design'
+
+// TODO: Move to @oacore/api
+const fetchSuggestions = async term => {
+  const r = await fetch(
+    `https://api.core.ac.uk/internal/organisations?q=${term}`
+  )
+  return r.json()
+}
+
+const RepositorySelect = () => {
+  const [repository, changeRepository] = useState({
+    id: 1,
+    name: 'Open Research Online',
+  })
+
+  return (
+    <AppBar.Item className={styles.container}>
+      <Select
+        className={styles.repositorySelect}
+        options={fetchSuggestions}
+        value={repository.name}
+        onSelectionChange={v => changeRepository(v)}
+      />
+    </AppBar.Item>
+  )
+}
 
 export default RepositorySelect
