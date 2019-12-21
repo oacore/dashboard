@@ -37,5 +37,13 @@
 }
 
 .browse-table {
+  overflow: auto;
 
+  & > table {
+    min-width: 80rem;
+  }
+}
+
+.label-column {
+  min-width: 5rem;
 }

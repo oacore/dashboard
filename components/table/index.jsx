@@ -91,7 +91,9 @@ class InfiniteTable extends React.Component {
                 </Table.Cell>
               )}
               {config.columns.map(column => (
-                <Table.Cell key={column.id}>{column.display}</Table.Cell>
+                <Table.Cell key={column.id} className={column.className}>
+                  {column.display}
+                </Table.Cell>
               ))}
             </Table.Row>
           </Table.Head>

@@ -24,6 +24,7 @@ const tableConfig = {
       display: 'OAI',
       sortable: true,
       expandedSize: 2,
+      className: styles.labelColumn,
       render: v => <Label color="primary">{v.short}</Label>,
     },
     {
