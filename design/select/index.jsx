@@ -13,7 +13,6 @@ const generateId = () =>
 const KEYS = {
   ESC: 27,
   ENTER: 13,
-  LEFT: 37,
   UP: 38,
   RIGHT: 39,
   DOWN: 40,
@@ -29,6 +28,7 @@ const Select = ({
   id = generateId(),
 }) => {
   const inputRef = useRef(null)
+  const selectMenuRef = useRef(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [showSuggestions, toggleShowSuggestions] = useState(false)
   const [activeSuggestion, setActiveSuggestion] = useState({})
@@ -36,7 +36,11 @@ const Select = ({
   const [suggestions, setSuggestions] = useState([])
 
   const handleKeyDown = event => {
-    let pos = suggestions.findIndex(s => s.id === activeSuggestion.id) || 0
+    let pos =
+      suggestions.findIndex(s => s.id === activeSuggestion.id) ||
+      suggestions.length
+    let direction = 1
+    let suggestion = {}
 
     switch (event.which) {
       case KEYS.ESC:
@@ -59,31 +63,25 @@ const Select = ({
         break
 
       case KEYS.UP:
-        event.preventDefault()
-        event.stopPropagation()
-        if (suggestions.length === 0) return
-
-        if (activeSuggestion.id === undefined) {
-          setActiveSuggestion(suggestions[0])
-          return
-        }
-
-        pos = pos <= 1 ? 0 : pos - 1
-        setActiveSuggestion(suggestions[pos])
-        break
-
       case KEYS.DOWN:
         event.preventDefault()
         event.stopPropagation()
         if (suggestions.length === 0) return
 
         if (activeSuggestion.id === undefined) {
-          setActiveSuggestion(suggestions[0])
-          return
+          // eslint-disable-next-line prefer-destructuring
+          suggestion = suggestions[0]
+          setActiveSuggestion(suggestion)
+        } else {
+          direction = event.which - KEYS.DOWN + 1 // either -1 or 1
+          pos = (pos + direction) % suggestions.length
+          suggestion = suggestions[pos]
+          setActiveSuggestion(suggestion)
         }
 
-        pos = pos >= suggestions.length ? suggestions.length : pos + 1
-        setActiveSuggestion(suggestions[pos])
+        selectMenuRef.current
+          .querySelector(`#suggestion-result-${id}-${suggestion.id}`)
+          .scrollIntoView(false)
         break
       default:
     }
@@ -149,6 +147,7 @@ const Select = ({
           [styles.show]: showSuggestions && suggestions.length,
         })}
         role="listbox"
+        ref={selectMenuRef}
       >
         {loading && <li>Loading</li>}
         {!loading &&
