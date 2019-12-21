@@ -9,17 +9,17 @@ const reducer = (state, action) => {
     case 'toggle_select_row':
       return {
         ...state,
-        [action.oai]: {
-          selected: !(state[action.oai] && state[action.oai].selected),
-          expanded: state[action.oai] && state[action.oai].expanded,
+        [action.id]: {
+          selected: !(state[action.id] && state[action.id].selected),
+          expanded: state[action.id] && state[action.id].expanded,
         },
       }
     case 'toggle_expand_row':
       return {
         ...state,
-        [action.oai]: {
-          selected: state[action.oai] && state[action.oai].selected,
-          expanded: !(state[action.oai] && state[action.oai].expanded),
+        [action.id]: {
+          selected: state[action.id] && state[action.id].selected,
+          expanded: !(state[action.id] && state[action.id].expanded),
         },
       }
     default:
@@ -28,7 +28,14 @@ const reducer = (state, action) => {
 }
 
 const TablePage = React.memo(
-  ({ pageNumber, fetchData, config, selectable, areSelectedAll }) => {
+  ({
+    pageNumber,
+    fetchData,
+    config,
+    selectable,
+    areSelectedAll,
+    expandable,
+  }) => {
     const [rowsInfo, dispatch] = useReducer(reducer, {})
     const componentRef = useRef(null)
     const [data, setData] = React.useState([])
@@ -45,15 +52,16 @@ const TablePage = React.memo(
     }, [])
 
     const rowPops = row => ({
-      id: row.oai,
-      handleClick: () => dispatch({ type: 'toggle_expand_row', oai: row.oai }),
-      handleSelect: () => dispatch({ type: 'toggle_select_row', oai: row.oai }),
+      id: row.id,
+      handleClick: () => dispatch({ type: 'toggle_expand_row', id: row.id }),
+      handleSelect: () => dispatch({ type: 'toggle_select_row', id: row.id }),
       selectable,
       isSelected:
-        areSelectedAll || (rowsInfo[row.oai] && rowsInfo[row.oai].selected),
+        areSelectedAll || (rowsInfo[row.id] && rowsInfo[row.id].selected),
       content: row,
       config,
-      isExpanded: rowsInfo[row.oai] && rowsInfo[row.oai].expanded,
+      isExpanded: rowsInfo[row.id] && rowsInfo[row.id].expanded,
+      expandable,
     })
 
     return (
@@ -65,9 +73,11 @@ const TablePage = React.memo(
         {data.map(row => {
           const props = rowPops(row)
           return (
-            <React.Fragment key={row.oai}>
-              <TableRow key={row.oai} {...props} />
-              <TableRowExpanded key={`${row.oai}-expanded`} {...props} />
+            <React.Fragment key={row.id}>
+              <TableRow key={row.id} {...props} />
+              {expandable && (
+                <TableRowExpanded key={`${row.id}-expanded`} {...props} />
+              )}
             </React.Fragment>
           )
         })}

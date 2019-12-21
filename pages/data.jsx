@@ -1,10 +1,8 @@
 import React from 'react'
 import { Label } from '@oacore/design'
-import classNames from 'classnames'
 
 import Table from '../components/table'
 import { range } from '../utils/helpers'
-import dataClassNames from './data.css'
 import PublishedToggle from '../components/published-toggle'
 
 const sleep = () => {
@@ -22,14 +20,7 @@ const tableConfig = {
       sortable: true,
       expandedSize: 2,
       render: (v, isExpanded) => (
-        <Label
-          color="primary"
-          className={classNames(dataClassNames.labelSmall, {
-            [dataClassNames.labelExpanded]: isExpanded,
-          })}
-        >
-          {v}
-        </Label>
+        <Label color="primary">{isExpanded ? v.long : v.short}</Label>
       ),
     },
     {
@@ -72,7 +63,11 @@ const fetchData = async () => {
   // We'll even set a delay to simulate a server here
   await sleep()
   return range(100).map(() => ({
-    oai: Math.random(),
+    id: Math.random(),
+    oai: {
+      short: 'oai',
+      long: Math.random(),
+    },
     title:
       'Zero and low carbon buildings: A drive for change' +
       ' in working practices and the use of computer modelling',
@@ -84,8 +79,14 @@ const fetchData = async () => {
 
 const Data = () => {
   return (
-    <div className={dataClassNames.dataTab}>
-      <Table selectable searchable config={tableConfig} fetchData={fetchData} />
+    <div>
+      <Table
+        config={tableConfig}
+        fetchData={fetchData}
+        selectable
+        searchable
+        expandable
+      />
     </div>
   )
 }

@@ -12,6 +12,7 @@ const TableRow = ({
   handleClick,
   handleSelect,
   selectable,
+  expandable,
 }) => {
   const columnConfig = cellId => {
     return columns.find(v => v.id === cellId) || {}
@@ -19,17 +20,17 @@ const TableRow = ({
 
   const cellRenderer = (config, cellValue) => {
     if (config.render) return config.render(cellValue, isExpanded)
-
     return cellValue
+  }
+  const rowProp = {
+    onClick: expandable ? handleClick : undefined,
+    className: tableClassNames.mainRow,
+    'aria-expanded': expandable ? isExpanded : undefined,
+    'aria-controls': expandable ? `${id}-expanded` : undefined,
   }
 
   return (
-    <Table.Row
-      onClick={handleClick}
-      className={tableClassNames.mainRow}
-      aria-expanded={isExpanded}
-      aria-controls={`${id}-expanded`}
-    >
+    <Table.Row {...rowProp}>
       {selectable && (
         <Table.Cell className={tableClassNames.tableSelect}>
           <input type="checkbox" checked={isSelected} onChange={handleSelect} />
@@ -39,7 +40,8 @@ const TableRow = ({
         const colConfig = columnConfig(cellId)
         const colSpan = isExpanded ? colConfig.expandedSize : 1
 
-        if (colSpan === null) return null
+        if (colSpan === null || Object.entries(colConfig).length === 0)
+          return null
         return (
           <Table.Cell key={cellId} colSpan={colSpan}>
             {cellRenderer(colConfig, cellValue)}

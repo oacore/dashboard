@@ -1,0 +1,49 @@
+/* TODO: Custom media from layout.css doesn't work */
+@custom-media --screen-until-desktop (max-width: 727px);
+
+.table thead > :first-child {
+  border-top-width: 2px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 2rem;
+
+  @media (--screen-until-desktop) {
+    flex-wrap: wrap;
+  }
+}
+
+.compliance-level {
+  flex: 2 2 auto;
+  width: 100%;
+  margin-right: 2rem;
+
+  @media (--screen-until-desktop) {
+    margin-right: 0;
+    margin-bottom: 2rem;
+  }
+}
+
+.export {
+  flex: 1 1 1fr;
+  width: 100%;
+  min-width: 9rem;
+}
+
+.deposit-time-lag {
+  margin-bottom: 2rem;
+}
+
+.browse-table {
+  overflow: auto;
+
+  & > table {
+    min-width: 80rem;
+  }
+}
+
+.label-column {
+  min-width: 5rem;
+}
