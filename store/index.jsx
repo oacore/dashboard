@@ -8,6 +8,10 @@ const GlobalContext = createContext({})
 
 export const initializeData = (initialData = {}) => {
   return {
+    repository: {
+      id: 1,
+      name: 'Open Research Online',
+    },
     plugins: null,
     ...initialData,
   }

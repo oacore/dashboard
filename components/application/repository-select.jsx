@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { AppBar } from '@oacore/design'
 
 import styles from './repository-select.css'
+import { withGlobalStore } from '../../store'
 
 import { Select } from 'design'
 
@@ -13,22 +14,19 @@ const fetchSuggestions = async term => {
   return r.json()
 }
 
-const RepositorySelect = () => {
-  const [repository, changeRepository] = useState({
-    id: 1,
-    name: 'Open Research Online',
-  })
-
+const RepositorySelect = ({ store }) => {
   return (
     <AppBar.Item className={styles.container}>
       <Select
         className={styles.repositorySelect}
         options={fetchSuggestions}
-        value={repository.name}
-        onSelectionChange={v => changeRepository(v)}
+        value={store.repository.name}
+        onSelectionChange={v => {
+          store.repository = v
+        }}
       />
     </AppBar.Item>
   )
 }
 
-export default RepositorySelect
+export default withGlobalStore(RepositorySelect)
