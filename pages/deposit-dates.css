@@ -1,46 +1,47 @@
-/* TODO: Custom media from layout.css doesn't work */
-@custom-media --screen-until-desktop (max-width: 727px);
+%item {
+  flex: 3 3 90%;
+  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  padding-right: 0;
+  padding-left: 0;
+
+  & > * {
+    @extend %item;
+  }
+}
 
 .table thead > :first-child {
   border-top-width: 2px;
 }
 
-.row {
-  display: flex;
-  flex-wrap: nowrap;
-  margin-bottom: 2rem;
-
-  @media (--screen-until-desktop) {
-    flex-wrap: wrap;
-  }
-}
-
 .compliance-level {
-  flex: 2 2 auto;
+  flex: 2 2 60%;
   width: 100%;
-  margin-right: 2rem;
-
-  @media (--screen-until-desktop) {
-    margin-right: 0;
-    margin-bottom: 2rem;
-  }
 }
 
 .export {
-  flex: 1 1 1fr;
+  flex: 1 1 30%;
   width: 100%;
-  min-width: 9rem;
 }
 
 .deposit-time-lag {
-  margin-bottom: 2rem;
+  flex: 3 3 90%;
 }
 
 .browse-table {
-  overflow: auto;
+  flex: 3 3 90%;
+  overflow-x: auto;
 
   & > table {
     min-width: 80rem;
+    margin-right: calc(-1 * var(--card-padding-x));
+    margin-left: calc(-1 * var(--card-padding-x));
   }
 }
 

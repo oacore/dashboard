@@ -1,6 +1,7 @@
 import React from 'react'
 import { Label, Button } from '@oacore/design'
 
+import { Main } from '../components/layout'
 import Table from '../components/table'
 import { range } from '../utils/helpers'
 
@@ -62,37 +63,45 @@ const fetchData = async () => {
   }))
 }
 
-const DepositDates = () => {
-  return (
-    <>
-      <h1>Deposit compliance</h1>
-      <div className={styles.row}>
-        <Card className={styles.complianceLevel}>
-          <h2>Compliance level</h2>
-        </Card>
-        <Card className={styles.export}>
-          <h2>Export</h2>
-          <p>
-            We have deposit dates for <b>182, 719</b> out of 183,219 works
-            within your repository
-          </p>
-          <Button variant="contained">Download</Button>
-        </Card>
-      </div>
-      <Card className={styles.depositTimeLag}>
-        <h2>Deposit Time Lag</h2>
-      </Card>
-      <Card className={styles.browseTable}>
-        <Table
-          className={styles.table}
-          title="Browse deposit dates"
-          selectable
-          config={tableConfig}
-          fetchData={fetchData}
-        />
-      </Card>
-    </>
-  )
-}
+const DepositDates = () => (
+  <Main className={styles.container}>
+    <h1>Deposit compliance</h1>
+
+    <Card className={styles.complianceLevel} tag="section">
+      <h2>Compliance level</h2>
+      <p>
+        Your deposit compliance is <strong>90%</strong>.
+      </p>
+      <p>
+        Deposit compliance level is a percentage of works that has been
+        deposited at least in first 90 days after publishing.
+      </p>
+    </Card>
+
+    <Card className={styles.export} tag="section">
+      <h2>Export</h2>
+      <p>
+        We have deposit dates for <b>182, 719</b> out of 183,219 works within
+        your repository
+      </p>
+      <Button variant="contained">Download</Button>
+    </Card>
+
+    <Card className={styles.depositTimeLag} tag="section">
+      <h2>Deposit Time Lag</h2>
+      <p>The chart diplays work distribution per deposit time lag in days.</p>
+    </Card>
+
+    <Card className={styles.browseTable} tag="section">
+      <Table
+        className={styles.table}
+        title="Browse deposit dates"
+        selectable
+        config={tableConfig}
+        fetchData={fetchData}
+      />
+    </Card>
+  </Main>
+)
 
 export default DepositDates
