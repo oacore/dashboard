@@ -1,8 +1,9 @@
 import React from 'react'
 import API from '@oacore/api'
 
-import Plugin from '../components/plugin'
 import pluginsClassNames from './plugins.css'
+
+import Plugin from 'components/plugin'
 
 const integrations = [
   {

@@ -1,10 +1,9 @@
 import React from 'react'
 import { Label, Button } from '@oacore/design'
 
-import { Main } from '../components/layout'
-import Table from '../components/table'
-import { range } from '../utils/helpers'
-
+import { Main } from 'components/layout'
+import Table from 'components/table'
+import { range } from 'utils/helpers'
 import { Card } from 'design'
 
 // TODO: Remove once cards are in @oacore/design
