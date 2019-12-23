@@ -5,6 +5,8 @@ import Router from 'next/router'
 import '@oacore/design/lib/index.css'
 
 import Application from '../components/application'
+import Route from '../components/application/route'
+import NextRoute from '../components/application/next-route'
 import { initializeData, GlobalProvider } from '../store'
 
 const handleNavigation = event => {
@@ -15,8 +17,9 @@ const handleNavigation = event => {
   if (url.host !== window.location.host) return
 
   event.preventDefault()
-  const href = `${url.pathname}${url.search}`
-  Router.push(href)
+  const args = Route.parse(url.pathname)
+  const route = new NextRoute(...args)
+  Router.push(route.href, route.as)
 }
 
 class App extends NextApp {

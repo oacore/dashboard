@@ -1,9 +1,9 @@
 import React from 'react'
 import { Label } from '@oacore/design'
 
-import Table from '../components/table'
-import { range } from '../utils/helpers'
-import PublishedToggle from '../components/published-toggle'
+import Table from 'components/table'
+import PublishedToggle from 'components/published-toggle'
+import { range } from 'utils/helpers'
 
 const sleep = () => {
   return new Promise(resolve => {

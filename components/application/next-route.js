@@ -5,11 +5,6 @@ import Route from './route'
  * properties according to the `next/router` specification.
  */
 class NextRoute extends Route {
-  // TODO: Remove after proper directory tree adjustment
-  toString() {
-    return `/${this.activity}`
-  }
-
   get href() {
     const args = [
       this.dataProvider && '[data-provider-id]',
