@@ -3,6 +3,8 @@ const path = require('path')
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const withImages = require('next-images')
 
+const camelCaseLoader = path.join(__dirname, 'webpack/camelcase-loader.js')
+
 const nextConfig = {
   webpack(config, options) {
     const { dev, isServer } = options
@@ -75,7 +77,30 @@ const nextConfig = {
       ].filter(Boolean),
     })
 
-    config.resolve.alias.design = path.join(__dirname, 'design')
+    config.module.rules.push(
+      {
+        test: /\.ya?ml$/,
+        use: [
+          'json-loader',
+          camelCaseLoader,
+          {
+            loader: 'yaml-import-loader',
+            options: {
+              output: 'json',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.md$/,
+        loader: ['json-loader', camelCaseLoader, 'yaml-frontmatter-loader'],
+      }
+    )
+
+    Object.assign(config.resolve.alias, {
+      '@oacore/texts/dashboard': path.join(__dirname, 'texts'),
+      design: path.join(__dirname, 'design'),
+    })
 
     return config
   },
