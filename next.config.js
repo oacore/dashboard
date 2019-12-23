@@ -100,6 +100,8 @@ const nextConfig = {
     Object.assign(config.resolve.alias, {
       '@oacore/texts/dashboard': path.join(__dirname, 'texts'),
       design: path.join(__dirname, 'design'),
+      components: path.join(__dirname, 'components'),
+      utils: path.join(__dirname, 'utils'),
     })
 
     return config
