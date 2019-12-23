@@ -42,6 +42,13 @@
     display: block;
   }
 
+  & li,
+  & button {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
   &:not(:hover) .option-selected {
     /* TODO: This color should be specified globally */
     background: rgba(0, 0, 0, 0.06667);
