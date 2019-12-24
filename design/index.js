@@ -1,3 +1,5 @@
+export * from '@oacore/design/lib'
+
 export AppBarToggle from './app-bar/toggle'
 export Avatar from './avatar'
 export Card from './card'
