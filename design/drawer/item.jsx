@@ -3,8 +3,19 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.css'
 
-const FlatItem = ({ children, className, tag: Tag = 'a', ...restProps }) => (
-  <Tag className={classNames.use(styles.item).join(className)} {...restProps}>
+const FlatItem = ({
+  children,
+  className,
+  active,
+  tag: Tag = 'a',
+  ...restProps
+}) => (
+  <Tag
+    className={classNames
+      .use(styles.item, active && styles.active)
+      .join(className)}
+    {...restProps}
+  >
     {children}
   </Tag>
 )
