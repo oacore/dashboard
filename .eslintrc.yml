@@ -6,6 +6,10 @@ env:
   browser: true
 
 settings:
+  import/ignore:
+    # Ignores blind export of everything from node_modules as well as it's done
+    # by default
+    - design/index.js$
   import/resolver:
     node:
       paths: ['.']
