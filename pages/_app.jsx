@@ -9,19 +9,6 @@ import Route from '../components/application/route'
 import NextRoute from '../components/application/next-route'
 import { initializeData, GlobalProvider } from '../store'
 
-const handleNavigation = event => {
-  const link = event.target.closest('[href]')
-  if (link == null) return
-
-  const url = new URL(link.href)
-  if (url.host !== window.location.host) return
-
-  event.preventDefault()
-  const args = Route.parse(url.pathname)
-  const route = new NextRoute(...args)
-  Router.push(route.href, route.as)
-}
-
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
     const initialStoreData = initializeData()
@@ -39,12 +26,39 @@ class App extends NextApp {
     }
   }
 
+  state = {
+    dataProvider: 1,
+    activity: undefined,
+  }
+
+  handleNavigation = event => {
+    const link = event.target.closest('[href]')
+    if (link == null) return
+
+    const url = new URL(link.href)
+    if (url.host !== window.location.host) return
+
+    event.preventDefault()
+    const [dataProvider, activity] = Route.parse(url.pathname)
+    const route = new NextRoute(
+      dataProvider || this.state.dataProvider,
+      activity
+    )
+    Router.push(route.href, route.as)
+    this.setState({ dataProvider, activity })
+  }
+
   render() {
     const { Component, pageProps, initialStoreData } = this.props
+    const { dataProvider, activity } = this.state
 
     return (
       <GlobalProvider initialData={initialStoreData}>
-        <Application onClick={handleNavigation}>
+        <Application
+          dataProvider={dataProvider}
+          activity={activity}
+          onClick={this.handleNavigation}
+        >
           <Component {...pageProps} />
         </Application>
       </GlobalProvider>
