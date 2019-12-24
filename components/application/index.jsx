@@ -2,14 +2,11 @@ import React from 'react'
 
 import { Container, AppBar, SideBar } from '../layout'
 import RepositorySelect from './repository-select'
-import Navigation, { captions as navigationCaptions } from './navigation'
+import ActivitySelect from './activity-select'
 import Head from './head'
-// TODO: Use generic route after proper directory tree adjustment
-import Route from './next-route'
 
 import { classNameHelpers } from 'design'
 
-const dataProvider = 1
 const activities = [
   'overview',
   'data',
@@ -19,23 +16,23 @@ const activities = [
   'settings',
 ]
 
-const Application = ({ children, ...restProps }) => (
+const Application = ({ children, dataProvider, activity, ...restProps }) => (
   <>
     <Head />
     <Container {...restProps}>
       <AppBar>
-        <RepositorySelect />
+        <RepositorySelect value={dataProvider} />
       </AppBar>
 
       <SideBar tag="nav">
         <h2 className={classNameHelpers.srOnly}>Navigate your data</h2>
-        <Navigation>
-          {activities.map(value => (
-            <Navigation.Item href={new Route(dataProvider, value)}>
-              {navigationCaptions[value]}
-            </Navigation.Item>
-          ))}
-        </Navigation>
+        {dataProvider && (
+          <ActivitySelect value={activity}>
+            {activities.map(value => (
+              <ActivitySelect.Option value={value} />
+            ))}
+          </ActivitySelect>
+        )}
       </SideBar>
 
       {children}
