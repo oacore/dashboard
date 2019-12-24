@@ -101,6 +101,7 @@ const nextConfig = {
       '@oacore/texts/dashboard': path.join(__dirname, 'texts'),
       design: path.join(__dirname, 'design'),
       components: path.join(__dirname, 'components'),
+      texts: path.join(__dirname, 'texts'),
       utils: path.join(__dirname, 'utils'),
     })
 
