@@ -7,17 +7,28 @@ import Head from './head'
 
 import { classNameHelpers } from 'design'
 
-const Application = ({ children, ...restProps }) => (
+const activities = ['overview', 'content', 'deposit-dates']
+
+const Application = ({ children, dataProvider, activity, ...restProps }) => (
   <>
     <Head />
     <Container {...restProps}>
       <AppBar>
-        <RepositorySelect />
+        <RepositorySelect value={dataProvider} />
       </AppBar>
 
       <SideBar tag="nav">
         <h2 className={classNameHelpers.srOnly}>Navigate your data</h2>
-        <ActivitySelect />
+        {dataProvider && (
+          <ActivitySelect value={activity}>
+            {activities.map(value => (
+              <ActivitySelect.Option
+                value={value}
+                selected={value === activity}
+              />
+            ))}
+          </ActivitySelect>
+        )}
       </SideBar>
 
       <Main>{children}</Main>
