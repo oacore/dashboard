@@ -7,8 +7,6 @@ env:
 
 settings:
   import/resolver:
-    alias:
-      - ['@oacore/texts/dashboard', './texts']
     node:
       paths: ['.']
       extensions: ['.js', '.jsx']
