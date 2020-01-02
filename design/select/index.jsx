@@ -13,6 +13,7 @@ const generateId = () =>
 const KEYS = {
   ESC: 27,
   ENTER: 13,
+  LEFT: 37,
   UP: 38,
   RIGHT: 39,
   DOWN: 40,
@@ -46,11 +47,6 @@ const Select = ({
       case KEYS.ESC:
         inputRef.current.blur()
         toggleShowSuggestions(false)
-        break
-
-      case KEYS.RIGHT:
-        inputRef.current.blur()
-        onSelectionChange(activeSuggestion)
         break
 
       case KEYS.ENTER:
