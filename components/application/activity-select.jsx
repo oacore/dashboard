@@ -7,32 +7,32 @@ import { Drawer } from 'design'
 
 const routes = [
   {
-    path: '/',
+    activity: 'overview',
     icon: 'overview',
     title: 'Overview',
   },
   {
-    path: '/data',
+    activity: 'data',
     icon: 'data',
     title: 'Data',
   },
   {
-    path: '/deposit-dates',
+    activity: 'deposit-dates',
     icon: 'data',
     title: 'Deposit Dates',
   },
   {
-    path: '/statistics',
+    activity: 'statistics',
     icon: 'statistics',
     title: 'Statistics',
   },
   {
-    path: '/plugins',
+    activity: 'plugins',
     icon: 'plugins',
     title: 'Plugins',
   },
   {
-    path: '/settings',
+    activity: 'settings',
     icon: 'settings',
     title: 'Settings',
   },
@@ -40,14 +40,14 @@ const routes = [
 
 const ActivitySelect = passProps => (
   <Drawer.List {...passProps}>
-    {routes.map(route => (
-      <Drawer.Item key={route.path} href={route.path}>
+    {routes.map(({ title, icon, activity }) => (
+      <Drawer.Item key={activity} href={activity}>
         <Icon
           className={styles.itemIcon}
-          alt={`${route.title} icon`}
-          src={`/design/icons.svg#${route.icon}`}
+          alt={`${title} icon`}
+          src={`/design/icons.svg#${icon}`}
         />
-        {route.title}
+        {title}
       </Drawer.Item>
     ))}
   </Drawer.List>
