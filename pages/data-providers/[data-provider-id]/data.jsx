@@ -4,6 +4,7 @@ import { Label } from '@oacore/design'
 import Table from 'components/table'
 import PublishedToggle from 'components/published-toggle'
 import { range } from 'utils/helpers'
+import { Card } from 'design'
 
 const sleep = () =>
   new Promise(resolve => {
@@ -77,7 +78,7 @@ const fetchData = async () => {
 }
 
 const Data = () => (
-  <div>
+  <Card tag="main">
     <Table
       config={tableConfig}
       fetchData={fetchData}
@@ -85,7 +86,7 @@ const Data = () => (
       searchable
       expandable
     />
-  </div>
+  </Card>
 )
 
 export default Data

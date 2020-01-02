@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { Card } from 'design'
+
 const Settings = () => (
-  <>
+  <Card tag="main">
     <h1>Dashboard settings tab</h1>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia numquam
@@ -9,7 +11,7 @@ const Settings = () => (
       minima odio officia maxime accusantium iusto ducimus labore ut nemo
       perferendis libero.
     </p>
-  </>
+  </Card>
 )
 
 export default Settings

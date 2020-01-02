@@ -4,6 +4,7 @@ import API from '@oacore/api'
 import pluginsClassNames from './plugins.css'
 
 import Plugin from 'components/plugin'
+import { Card } from 'design'
 
 const integrations = [
   {
@@ -31,7 +32,7 @@ class Plugins extends React.Component {
   // eslint-disable-next-line class-methods-use-this
   render() {
     return (
-      <>
+      <Card tag="main">
         <h1>Plugins</h1>
         <p>Integrate our powerful services into your website.</p>
         <div className={pluginsClassNames.plugins}>
@@ -44,7 +45,7 @@ class Plugins extends React.Component {
             />
           ))}
         </div>
-      </>
+      </Card>
     )
   }
 }
