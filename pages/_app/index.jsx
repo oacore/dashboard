@@ -4,8 +4,10 @@ import Router from 'next/router'
 
 import '@oacore/design/lib/index.css'
 
-import Application from '../components/application'
-import { initializeData, GlobalProvider } from '../store'
+import Route from './route'
+import { initializeData, GlobalProvider } from '../../store'
+
+import Application from 'components/application'
 
 const handleNavigation = event => {
   const link = event.target.closest('[href]')
@@ -15,8 +17,8 @@ const handleNavigation = event => {
   if (url.host !== window.location.host) return
 
   event.preventDefault()
-  const href = `${url.pathname}${url.search}`
-  Router.push(href)
+  const route = new Route(url.pathname)
+  Router.push(route.href, route.as)
 }
 
 class App extends NextApp {
