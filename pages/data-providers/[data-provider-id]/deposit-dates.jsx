@@ -1,7 +1,6 @@
 import React from 'react'
 import { Label, Button } from '@oacore/design'
 
-import { Main } from 'components/layout'
 import Table from 'components/table'
 import { range } from 'utils/helpers'
 import { Card } from 'design'
@@ -61,8 +60,13 @@ const fetchData = async () => {
   }))
 }
 
-const DepositDates = () => (
-  <Main className={styles.container}>
+/**
+ * TODO: This is an example of bad design. We have to know structure
+ *       of Layout.Main and explicitly pass props.
+ *       We should get rid out of it!
+ */
+const DepositDates = ({ className, tag: Tag = 'main', ...restProps }) => (
+  <Tag className={[styles.container, className].join(' ')} {...restProps}>
     <h1>Deposit compliance</h1>
 
     <Card className={styles.complianceLevel} tag="section">
@@ -99,7 +103,7 @@ const DepositDates = () => (
         fetchData={fetchData}
       />
     </Card>
-  </Main>
+  </Tag>
 )
 
 export default DepositDates

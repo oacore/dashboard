@@ -2,8 +2,8 @@ import React from 'react'
 
 import { Card } from 'design'
 
-const Settings = () => (
-  <Card tag="main">
+const Settings = props => (
+  <Card {...props}>
     <h1>Dashboard settings tab</h1>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia numquam

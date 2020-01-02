@@ -2,8 +2,8 @@ import React from 'react'
 
 import { Card } from 'design'
 
-const Dashboard = () => (
-  <Card tag="main">
+const Dashboard = props => (
+  <Card {...props}>
     <h1>CORE</h1>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia numquam

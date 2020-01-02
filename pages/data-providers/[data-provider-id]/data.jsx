@@ -77,8 +77,8 @@ const fetchData = async () => {
   }))
 }
 
-const Data = () => (
-  <Card tag="main">
+const Data = props => (
+  <Card {...props}>
     <Table
       config={tableConfig}
       fetchData={fetchData}
