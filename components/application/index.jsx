@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, AppBar, SideBar } from '../layout'
+import { Container, AppBar, SideBar, Main } from '../layout'
 import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
@@ -20,7 +20,7 @@ const Application = ({ children, ...restProps }) => (
         <ActivitySelect />
       </SideBar>
 
-      {children}
+      <Main>{children}</Main>
     </Container>
   </>
 )
