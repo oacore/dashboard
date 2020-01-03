@@ -1,6 +1,6 @@
 import React from 'react'
 import NextApp from 'next/app'
-import Router from 'next/router'
+import { withRouter } from 'next/router'
 
 import '@oacore/design/lib/index.css'
 
@@ -8,18 +8,6 @@ import Route from './route'
 import { initializeData, GlobalProvider } from '../../store'
 
 import Application from 'components/application'
-
-const handleNavigation = event => {
-  const link = event.target.closest('[href]')
-  if (link == null) return
-
-  const url = new URL(link.href)
-  if (url.host !== window.location.host) return
-
-  event.preventDefault()
-  const route = new Route(url.pathname)
-  Router.push(route.href, route.as)
-}
 
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
@@ -38,12 +26,30 @@ class App extends NextApp {
     }
   }
 
+  handleNavigation = event => {
+    const link = event.target.closest('[href]')
+    if (link == null) return
+
+    const url = new URL(link.href)
+    if (url.host !== window.location.host) return
+
+    event.preventDefault()
+    const route = new Route(url.pathname)
+    this.props.router.push(route.href, route.as)
+  }
+
   render() {
-    const { Component, pageProps, initialStoreData } = this.props
+    const { Component, pageProps, initialStoreData, router } = this.props
+
+    const { dataProvider, activity } = new Route(router.asPath)
 
     return (
       <GlobalProvider initialData={initialStoreData}>
-        <Application onClick={handleNavigation}>
+        <Application
+          dataProvider={dataProvider}
+          activity={activity}
+          onClick={this.handleNavigation}
+        >
           <Component {...pageProps} />
         </Application>
       </GlobalProvider>
@@ -51,4 +57,4 @@ class App extends NextApp {
   }
 }
 
-export default App
+export default withRouter(App)
