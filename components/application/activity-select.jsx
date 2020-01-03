@@ -4,22 +4,24 @@ import { Icon } from '@oacore/design'
 import styles from './activity-select.css'
 
 import { Drawer } from 'design'
+import { navigation } from 'texts'
 
+const { items: captions } = navigation
 const routes = [
   {
     activity: 'overview',
     icon: 'overview',
-    title: 'Overview',
+    title: captions.overview,
   },
   {
     activity: 'content',
     icon: 'data',
-    title: 'Content',
+    title: captions.content,
   },
   {
     activity: 'deposit-dates',
     icon: 'data',
-    title: 'Deposit dates',
+    title: captions.depositDates,
   },
 ]
 
