@@ -14,9 +14,14 @@ class Route {
   }
 
   toString() {
-    return [`/data-providers/${this.dataProvider}`, this.activity]
-      .filter(notEmpty => notEmpty)
-      .join('/')
+    const partials = [
+      // only when data provider is set
+      this.dataProvider && `data-providers/${this.dataProvider}`,
+      // it's not possible to have activity without data provider
+      this.dataProvider && this.activity,
+    ].filter(notEmpty => notEmpty)
+
+    return `/${partials.join('/')}` // with leading slash
   }
 }
 
