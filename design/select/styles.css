@@ -1,0 +1,56 @@
+:root {
+  --select-background: var(--gray-50);
+}
+
+/* TODO: Better name, it's a div shown on top of input when not hovered */
+.input-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding: var(--form-control-padding-x) var(--form-control-padding-y);
+  pointer-events: none;
+  cursor: pointer;
+  background: var(--select-background);
+}
+
+.input:focus + .input-container {
+  display: none;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-menu {
+  position: absolute;
+  right: 0;
+  left: 0;
+  display: none;
+  max-height: 20rem;
+  padding: 0;
+  margin-top: 0;
+  overflow: auto;
+  list-style-type: none;
+  background: var(--select-background);
+  border: 1px solid #999;
+  border-top: none;
+
+  &.show {
+    display: block;
+  }
+
+  & li,
+  & button {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  &:not(:hover) .option-selected {
+    /* TODO: This color should be specified globally */
+    background: rgba(0, 0, 0, 0.06667);
+  }
+}

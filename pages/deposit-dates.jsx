@@ -11,12 +11,11 @@ import { Card } from 'design'
 // eslint-disable-next-line
 import styles from './deposit-dates.css'
 
-const sleep = () => {
-  return new Promise(resolve => {
+const sleep = () =>
+  new Promise(resolve => {
     // wait 3s before calling fn(par)
     setTimeout(() => resolve(), 3000)
   })
-}
 
 const tableConfig = {
   columns: [
