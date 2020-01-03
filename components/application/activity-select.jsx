@@ -12,29 +12,14 @@ const routes = [
     title: 'Overview',
   },
   {
-    activity: 'data',
+    activity: 'content',
     icon: 'data',
-    title: 'Data',
+    title: 'Content',
   },
   {
     activity: 'deposit-dates',
     icon: 'data',
-    title: 'Deposit Dates',
-  },
-  {
-    activity: 'statistics',
-    icon: 'statistics',
-    title: 'Statistics',
-  },
-  {
-    activity: 'plugins',
-    icon: 'plugins',
-    title: 'Plugins',
-  },
-  {
-    activity: 'settings',
-    icon: 'settings',
-    title: 'Settings',
+    title: 'Deposit dates',
   },
 ]
 
