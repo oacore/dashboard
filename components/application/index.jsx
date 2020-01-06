@@ -11,9 +11,11 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
   <>
     <Head />
     <Container {...restProps}>
-      <AppBar>
-        <RepositorySelect value={dataProvider} />
-      </AppBar>
+      {dataProvider && (
+        <AppBar>
+          <RepositorySelect value={dataProvider} />
+        </AppBar>
+      )}
 
       <SideBar tag="nav">
         <h2 className="sr-only">Navigate your data</h2>

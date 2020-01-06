@@ -6,6 +6,7 @@ import Statistics from './statistics'
 import User from './user'
 import Works from './works'
 import Route from '../pages/_app/route'
+import DataProviders from './dataProviders'
 
 const isServer = typeof window === 'undefined'
 
@@ -35,6 +36,7 @@ class RootStore {
 
     this.works = new Works(this)
     this.user = new User(this)
+    this.dataProviders = new DataProviders(this)
     this.depositDates = new DepositDates(this)
     this.statistics = new Statistics(this)
 
