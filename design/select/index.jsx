@@ -103,7 +103,7 @@ const Select = ({
       </div>
       <input
         ref={inputRef}
-        id={`repository-select-${id}`}
+        id={`select-${id}`}
         className={styles.input}
         type="text"
         placeholder="Search..."

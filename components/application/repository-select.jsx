@@ -17,6 +17,7 @@ const fetchSuggestions = async term => {
 const RepositorySelect = ({ store }) => (
   <AppBar.Item className={styles.container}>
     <Select
+      id="repository"
       className={styles.repositorySelect}
       options={fetchSuggestions}
       value={store.repository.name}

@@ -8,7 +8,7 @@ import tableClassNames from './index.css'
 
 const getNextOrder = order => {
   if (order === 'asc') return 'desc'
-  if (order === 'desc') return ''
+  if (order === 'desc') return 'asc'
   return 'asc'
 }
 
@@ -69,7 +69,6 @@ class InfiniteTable extends React.Component {
 
   toggleOrder = id => {
     const { columnOrder } = this.state
-
     if (columnOrder[id] === undefined) return
 
     this.setState({
@@ -93,6 +92,7 @@ class InfiniteTable extends React.Component {
       searchable,
       expandable,
       title,
+      fetchData,
       ...restProps
     } = this.props
     const { page, areSelectedAll, searchTerm, columnOrder } = this.state
@@ -131,7 +131,10 @@ class InfiniteTable extends React.Component {
                   key={column.id}
                   className={column.className}
                   order={columnOrder[column.id]}
-                  onClick={() => this.toggleOrder(column.id)}
+                  onClick={event => {
+                    event.preventDefault()
+                    this.toggleOrder(column.id)
+                  }}
                 >
                   {column.display}
                 </Table.HeadCell>

@@ -21,6 +21,7 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
           <ActivitySelect value={activity}>
             {activities.map(value => (
               <ActivitySelect.Option
+                key={value}
                 value={value}
                 selected={value === activity}
               />
