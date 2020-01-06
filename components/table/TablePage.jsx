@@ -35,6 +35,7 @@ const TablePage = React.memo(
     selectable,
     areSelectedAll,
     expandable,
+    columnOrder,
   }) => {
     const [rowsInfo, dispatch] = useReducer(reducer, {})
     const componentRef = useRef(null)
@@ -42,14 +43,12 @@ const TablePage = React.memo(
 
     useEffect(() => {
       const loadData = async () => {
-        if (!data.length) {
-          const rows = await fetchData()
-          setData(rows)
-        }
+        const rows = await fetchData()
+        setData(rows)
       }
 
       loadData()
-    }, [])
+    }, [columnOrder])
 
     const rowPops = row => ({
       id: row.id,

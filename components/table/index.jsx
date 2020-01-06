@@ -6,11 +6,28 @@ import LoadingRow from './LoadingRow'
 import { range } from '../../utils/helpers'
 import tableClassNames from './index.css'
 
+const getNextOrder = order => {
+  if (order === 'asc') return 'desc'
+  if (order === 'desc') return ''
+  return 'asc'
+}
+
 class InfiniteTable extends React.Component {
   state = {
     page: 0,
     areSelectedAll: false,
     searchTerm: '',
+    columnOrder: {},
+  }
+
+  componentDidMount() {
+    const { config } = this.props
+    this.setState({
+      columnOrder: config.columns.reduce((acc, curr) => {
+        acc[curr.id] = curr.order !== undefined ? curr.order : null
+        return acc
+      }, {}),
+    })
   }
 
   componentWillUnmount() {
@@ -18,10 +35,10 @@ class InfiniteTable extends React.Component {
   }
 
   fetchData = () => {
-    const { searchTerm } = this.state
+    const { searchTerm, columnOrder } = this.state
     const { fetchData } = this.props
 
-    return fetchData(searchTerm)
+    return fetchData(searchTerm, columnOrder)
   }
 
   observe = c => {
@@ -50,6 +67,25 @@ class InfiniteTable extends React.Component {
     this.setState(s => ({ areSelectedAll: !s.areSelectedAll }))
   }
 
+  toggleOrder = id => {
+    const { columnOrder } = this.state
+
+    if (columnOrder[id] === undefined) return
+
+    this.setState({
+      columnOrder: Object.entries(columnOrder).reduce(
+        (acc, [currId, currOrder]) => {
+          if (currId === id) acc[currId] = getNextOrder(currOrder)
+          else if (currOrder === null) acc[currId] = null
+          else acc[currId] = ''
+
+          return acc
+        },
+        {}
+      ),
+    })
+  }
+
   render() {
     const {
       config,
@@ -59,7 +95,7 @@ class InfiniteTable extends React.Component {
       title,
       ...restProps
     } = this.props
-    const { page, areSelectedAll, searchTerm } = this.state
+    const { page, areSelectedAll, searchTerm, columnOrder } = this.state
 
     return (
       <>
@@ -91,9 +127,14 @@ class InfiniteTable extends React.Component {
                 </Table.Cell>
               )}
               {config.columns.map(column => (
-                <Table.Cell key={column.id} className={column.className}>
+                <Table.HeadCell
+                  key={column.id}
+                  className={column.className}
+                  order={columnOrder[column.id]}
+                  onClick={() => this.toggleOrder(column.id)}
+                >
                   {column.display}
-                </Table.Cell>
+                </Table.HeadCell>
               ))}
             </Table.Row>
           </Table.Head>
@@ -109,6 +150,7 @@ class InfiniteTable extends React.Component {
               selectable={selectable}
               areSelectedAll={areSelectedAll}
               expandable={expandable}
+              columnOrder={columnOrder}
             />
           ))}
 
