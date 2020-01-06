@@ -1,19 +1,25 @@
 import React, { createContext, useContext } from 'react'
 import { useStaticRendering, useLocalStore, observer } from 'mobx-react'
 
+import initStoreData from './store'
+
 const isServer = typeof window === 'undefined'
+const GlobalContext = createContext({})
+let globalStore = null
+
 useStaticRendering(isServer)
 
-const GlobalContext = createContext({})
+export const initStore = () => {
+  // on the server-side a new instance is created for each page request
+  // as we don't wan't to mix between users/requests, etc.
+  if (isServer) return initStoreData
+  if (!globalStore) {
+    globalStore = initStoreData
+    return globalStore
+  }
 
-export const initializeData = (initialData = {}) => ({
-  repository: {
-    id: 1,
-    name: 'Open Research Online',
-  },
-  plugins: null,
-  ...initialData,
-})
+  return globalStore
+}
 
 export const withGlobalStore = Component => {
   const ObservableComponent = observer(Component)
@@ -23,8 +29,8 @@ export const withGlobalStore = Component => {
   }
 }
 
-export const GlobalProvider = ({ children, initialData }) => {
-  const store = useLocalStore(() => initializeData(initialData))
+export const GlobalProvider = ({ children, store: storeData }) => {
+  const store = useLocalStore(() => initStore(storeData))
   return (
     <GlobalContext.Provider value={store}>{children}</GlobalContext.Provider>
   )
