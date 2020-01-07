@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useContext } from 'react'
 import { useStaticRendering, useLocalStore, observer } from 'mobx-react'
 
 const isServer = typeof window === 'undefined'
@@ -15,14 +15,13 @@ export const initializeData = (initialData = {}) => ({
   ...initialData,
 })
 
-export const withGlobalStore = Component => props => (
-  <GlobalContext.Consumer>
-    {value => {
-      const ObservableComponent = observer(Component)
-      return <ObservableComponent store={value} {...props} />
-    }}
-  </GlobalContext.Consumer>
-)
+export const withGlobalStore = Component => {
+  const ObservableComponent = observer(Component)
+  return props => {
+    const context = useContext(GlobalContext)
+    return <ObservableComponent store={context} {...props} />
+  }
+}
 
 export const GlobalProvider = ({ children, initialData }) => {
   const store = useLocalStore(() => initializeData(initialData))
