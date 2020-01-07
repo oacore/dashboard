@@ -24,6 +24,7 @@ const Select = ({
   value,
   options,
   className,
+  onSuggestionsToggle = () => {},
   tag: Tag = 'div',
   id = generateId(),
 }) => {
@@ -34,6 +35,10 @@ const Select = ({
   const [activeSuggestion, setActiveSuggestion] = useState({})
   const [loading, setLoading] = useState(false)
   const [suggestions, setSuggestions] = useState([])
+
+  useEffect(() => {
+    onSuggestionsToggle(showSuggestions)
+  }, [showSuggestions])
 
   const handleKeyDown = event => {
     let pos =

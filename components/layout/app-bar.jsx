@@ -1,16 +1,24 @@
 import React, { useContext } from 'react'
 import { AppBar } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
 import LayoutContext from './context'
 import styles from './styles.css'
+import RepositorySelect from '../application/repository-select'
 
 import { AppBarToggle, Logo } from 'design'
 
-const DashboardAppBar = ({ children, className, ...restProps }) => {
+const DashboardAppBar = ({ dataProvider, className, ...restProps }) => {
   const [state, dispatch] = useContext(LayoutContext)
 
   return (
-    <AppBar className={styles.appBar} fixed {...restProps}>
+    <AppBar
+      className={classNames
+        .use('appBar', state.repositorySelectOpen && 'appBarOpen')
+        .from(styles)}
+      fixed
+      {...restProps}
+    >
       <AppBarToggle
         className={styles.appBarToggle}
         type="button"
@@ -24,7 +32,12 @@ const DashboardAppBar = ({ children, className, ...restProps }) => {
         <Logo />
       </AppBar.Brand>
 
-      {children}
+      <RepositorySelect
+        value={dataProvider}
+        onSuggestionsToggle={value =>
+          dispatch({ type: 'toggle_repository_select', value })
+        }
+      />
     </AppBar>
   )
 }

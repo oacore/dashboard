@@ -41,6 +41,11 @@
   }
 }
 
+.app-bar-open ~ nav,
+.app-bar-open ~ main {
+  filter: blur(4px);
+}
+
 .side-bar {
   position: fixed;
   top: 0;

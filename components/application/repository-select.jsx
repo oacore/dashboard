@@ -14,7 +14,7 @@ const fetchSuggestions = async term => {
   return r.json()
 }
 
-const RepositorySelect = ({ store }) => (
+const RepositorySelect = ({ store, onSuggestionsToggle }) => (
   <AppBar.Item className={styles.container}>
     <Select
       id="repository"
@@ -24,6 +24,7 @@ const RepositorySelect = ({ store }) => (
       onSelectionChange={v => {
         store.repository = v
       }}
+      onSuggestionsToggle={v => onSuggestionsToggle(v)}
     />
   </AppBar.Item>
 )

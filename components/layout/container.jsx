@@ -8,6 +8,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'toggle_sidebar':
       return { ...state, sidebarOpen: !state.sidebarOpen }
+    case 'toggle_repository_select':
+      return { ...state, repositorySelectOpen: action.value }
     default:
       throw new Error()
   }
@@ -16,6 +18,7 @@ const reducer = (state, action) => {
 const Container = ({ children, className, tag: Tag = 'div', ...restProps }) => {
   const [state, dispatch] = useReducer(reducer, {
     sidebarOpen: false,
+    repositorySelectOpen: false,
     sidebarId: 'sidebar',
   })
 

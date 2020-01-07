@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Container, AppBar, SideBar, Main } from '../layout'
-import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
 
@@ -11,9 +10,7 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
   <>
     <Head />
     <Container {...restProps}>
-      <AppBar>
-        <RepositorySelect value={dataProvider} />
-      </AppBar>
+      <AppBar dataProvider={dataProvider} />
 
       <SideBar tag="nav">
         <h2 className="sr-only">Navigate your data</h2>
