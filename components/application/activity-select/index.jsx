@@ -29,7 +29,12 @@ const ActivitySelectOption = ({ children, value, selected }) => (
   <Drawer.Item className={styles[value]} href={toUrl(value)} active={selected}>
     {children || (
       <>
-        <Icon className={styles.itemIcon} src={toIcon(value)} alt aria-hidden />
+        <Icon
+          className={styles.itemIcon}
+          src={toIcon(value)}
+          alt=""
+          aria-hidden
+        />
         {navigation.items[value]}
       </>
     )}

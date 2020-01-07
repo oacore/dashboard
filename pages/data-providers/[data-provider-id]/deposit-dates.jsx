@@ -28,17 +28,17 @@ const tableConfig = {
     {
       id: 'title',
       display: 'Title',
-      sortable: true,
+      order: 'asc',
     },
     {
       id: 'authors',
       display: 'Authors',
-      sortable: false,
+      order: '',
     },
     {
       id: 'deposit-at',
       display: 'Deposit At',
-      sortable: true,
+      order: '',
     },
   ],
 }

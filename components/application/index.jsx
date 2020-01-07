@@ -5,8 +5,6 @@ import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
 
-import { classNameHelpers } from 'design'
-
 const activities = ['overview', 'content', 'deposit-dates']
 
 const Application = ({ children, dataProvider, activity, ...restProps }) => (
@@ -18,11 +16,12 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
       </AppBar>
 
       <SideBar tag="nav">
-        <h2 className={classNameHelpers.srOnly}>Navigate your data</h2>
+        <h2 className="sr-only">Navigate your data</h2>
         {dataProvider && (
           <ActivitySelect value={activity}>
             {activities.map(value => (
               <ActivitySelect.Option
+                key={value}
                 value={value}
                 selected={value === activity}
               />

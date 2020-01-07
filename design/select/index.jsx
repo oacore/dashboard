@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import classNames from 'classnames'
 
-import classNameHelpers from '../class-name-helpers.css'
 import styles from './styles.css'
 
 // TODO: Taken from @oacore/design
@@ -95,7 +94,7 @@ const Select = ({
 
   return (
     <Tag className={classNames(styles.selectWrapper, className)}>
-      <div className={classNameHelpers.srOnly} aria-live="assertive">
+      <div className="sr-only" aria-live="assertive">
         {showSuggestions &&
         suggestions.length &&
         document.activeElement === inputRef.current
@@ -104,7 +103,7 @@ const Select = ({
       </div>
       <input
         ref={inputRef}
-        id={`repository-select-${id}`}
+        id={`select-${id}`}
         className={styles.input}
         type="text"
         placeholder="Search..."
