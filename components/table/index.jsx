@@ -121,7 +121,7 @@ class InfiniteTable extends React.Component {
             label="Search"
             placeholder="Any identifier, title, author..."
             onChange={event =>
-              this.setState({ searchTerm: event.target.value })
+              this.setState({ searchTerm: event.target.value, page: 0 })
             }
             value={searchTerm}
           />
@@ -158,7 +158,7 @@ class InfiniteTable extends React.Component {
           {!isEmpty &&
             range(page + 1).map(i => (
               <TablePage
-                key={i}
+                key={`${i}-${searchTerm}`}
                 observe={this.observe}
                 pageNumber={i}
                 fetchData={this.fetchData}

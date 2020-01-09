@@ -33,6 +33,7 @@ class Works {
       {
         from: pageNumber * PAGE_SIZE,
         size: PAGE_SIZE,
+        q: searchTerm,
       }
     )
     const page = new Page(data)
