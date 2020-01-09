@@ -22,6 +22,7 @@ class InfiniteTable extends React.Component {
     isLastPageLoaded: false,
     isEmpty: false,
     isFirstPageLoaded: false,
+    dataRequestCount: 0,
   }
 
   componentDidMount() {
@@ -42,7 +43,15 @@ class InfiniteTable extends React.Component {
     const { searchTerm, columnOrder } = this.state
     const { fetchData } = this.props
 
-    if (pageNumber === 0) this.setState({ isFirstPageLoaded: false })
+    if (pageNumber === 0) {
+      this.setState({
+        isFirstPageLoaded: false,
+      })
+    }
+
+    this.setState(state => ({
+      dataRequestCount: state.dataRequestCount + 1,
+    }))
 
     const newState = {}
 
@@ -51,7 +60,11 @@ class InfiniteTable extends React.Component {
     if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
     if (pageNumber === 0) newState.isFirstPageLoaded = true
 
-    this.setState(newState)
+    this.setState(state => ({
+      ...newState,
+      dataRequestCount: state.dataRequestCount - 1,
+    }))
+
     return data
   }
 
@@ -64,8 +77,6 @@ class InfiniteTable extends React.Component {
             entries[0].target.getAttribute('pagenumber'),
             10
           )
-          console.log('loading new page')
-          console.log({ newPage })
           this.setState({ page: newPage })
         },
         { threshold: 0, rootMargin: '100px' }
@@ -76,7 +87,6 @@ class InfiniteTable extends React.Component {
   }
 
   unObserve = c => {
-    console.log({ c })
     this.observer.unobserve(c)
   }
 
@@ -120,6 +130,7 @@ class InfiniteTable extends React.Component {
       isLastPageLoaded,
       isEmpty,
       isFirstPageLoaded,
+      dataRequestCount,
     } = this.state
 
     return (
@@ -186,7 +197,7 @@ class InfiniteTable extends React.Component {
               />
             ))}
 
-          {!isLastPageLoaded && isFirstPageLoaded && (
+          {!isLastPageLoaded && isFirstPageLoaded && dataRequestCount === 0 && (
             <LoadMoreRow
               pageNumber={page + 1}
               observe={this.observe}
@@ -195,6 +206,14 @@ class InfiniteTable extends React.Component {
             />
           )}
           {isEmpty && <NoDataFoundRow />}
+
+          {dataRequestCount !== 0 && (
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell colSpan={1000}>Loading data</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          )}
         </Table>
       </>
     )
