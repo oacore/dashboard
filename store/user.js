@@ -10,6 +10,10 @@ class User {
   email = null
 
   retrieveUser = async () => {}
+
+  constructor(rootStore) {
+    this.rootStore = rootStore
+  }
 }
 
 export default User

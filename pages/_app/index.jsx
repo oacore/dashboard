@@ -19,7 +19,6 @@ class App extends NextApp {
 
     return {
       pageProps,
-      store,
     }
   }
 
@@ -36,9 +35,11 @@ class App extends NextApp {
   }
 
   render() {
-    const { Component, pageProps, store, router } = this.props
+    const { Component, pageProps, router } = this.props
 
     const { dataProvider, activity } = new Route(router.asPath)
+
+    const store = initStore()
 
     // needs to be done here because getInitialProps can be called before
     // handleNavigation (router.push) is done
