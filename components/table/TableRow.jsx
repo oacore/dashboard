@@ -41,7 +41,11 @@ const TableRow = ({
         if (colSpan === null || Object.entries(colConfig).length === 0)
           return null
         return (
-          <Table.Cell key={cellId} colSpan={colSpan}>
+          <Table.Cell
+            key={cellId}
+            colSpan={colSpan}
+            className={colConfig.className}
+          >
             {cellRenderer(colConfig, cellValue)}
           </Table.Cell>
         )
