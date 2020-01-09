@@ -2,7 +2,7 @@ import React from 'react'
 import { Table, TextField } from '@oacore/design'
 
 import TablePage from './TablePage'
-import LoadingRow from './LoadingRow'
+import LoadMoreRow from './LoadMoreRow'
 import { range } from '../../utils/helpers'
 import tableClassNames from './index.css'
 import NoDataFoundRow from './NoDataFoundRow'
@@ -21,6 +21,7 @@ class InfiniteTable extends React.Component {
     columnOrder: {},
     isLastPageLoaded: false,
     isEmpty: false,
+    isFirstPageLoaded: false,
   }
 
   componentDidMount() {
@@ -41,9 +42,16 @@ class InfiniteTable extends React.Component {
     const { searchTerm, columnOrder } = this.state
     const { fetchData } = this.props
 
+    if (pageNumber === 0) this.setState({ isFirstPageLoaded: false })
+
+    const newState = {}
+
     const data = await fetchData(pageNumber, searchTerm, columnOrder)
-    if (data.length === 0) this.setState({ isLastPageLoaded: true })
-    if (data.length === 0 && pageNumber === 0) this.setState({ isEmpty: true })
+    if (data.length === 0) newState.isLastPageLoaded = true
+    if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
+    if (pageNumber === 0) newState.isFirstPageLoaded = true
+
+    this.setState(newState)
     return data
   }
 
@@ -56,6 +64,8 @@ class InfiniteTable extends React.Component {
             entries[0].target.getAttribute('pagenumber'),
             10
           )
+          console.log('loading new page')
+          console.log({ newPage })
           this.setState({ page: newPage })
         },
         { threshold: 0, rootMargin: '100px' }
@@ -66,6 +76,7 @@ class InfiniteTable extends React.Component {
   }
 
   unObserve = c => {
+    console.log({ c })
     this.observer.unobserve(c)
   }
 
@@ -108,6 +119,7 @@ class InfiniteTable extends React.Component {
       columnOrder,
       isLastPageLoaded,
       isEmpty,
+      isFirstPageLoaded,
     } = this.state
 
     return (
@@ -121,7 +133,10 @@ class InfiniteTable extends React.Component {
             label="Search"
             placeholder="Any identifier, title, author..."
             onChange={event =>
-              this.setState({ searchTerm: event.target.value, page: 0 })
+              this.setState({
+                searchTerm: event.target.value,
+                page: 0,
+              })
             }
             value={searchTerm}
           />
@@ -171,12 +186,12 @@ class InfiniteTable extends React.Component {
               />
             ))}
 
-          {!isLastPageLoaded && (
-            <LoadingRow
+          {!isLastPageLoaded && isFirstPageLoaded && (
+            <LoadMoreRow
               pageNumber={page + 1}
               observe={this.observe}
               unObserve={this.unObserve}
-              handleManualLod={() => this.setState({ page: page + 1 })}
+              handleManualLoad={() => this.setState({ page: page + 1 })}
             />
           )}
           {isEmpty && <NoDataFoundRow />}

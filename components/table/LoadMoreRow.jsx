@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Table } from '@oacore/design'
 
-const LoadingRow = React.memo(
+const LoadMoreRow = React.memo(
   ({ pageNumber, observe, unObserve, handleManualLoad }) => {
     const componentRef = useRef(null)
 
@@ -24,4 +24,4 @@ const LoadingRow = React.memo(
   }
 )
 
-export default LoadingRow
+export default LoadMoreRow
