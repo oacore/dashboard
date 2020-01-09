@@ -161,6 +161,7 @@ class InfiniteTable extends React.Component {
             pageNumber={page + 1}
             observe={this.observe}
             unObserve={this.unObserve}
+            handleManualLoad={() => this.setState({ page: page + 1 })}
           />
         </Table>
       </>
