@@ -18,6 +18,7 @@ class InfiniteTable extends React.Component {
     areSelectedAll: false,
     searchTerm: '',
     columnOrder: {},
+    isLastPageLoaded: false,
   }
 
   componentDidMount() {
@@ -34,11 +35,13 @@ class InfiniteTable extends React.Component {
     if (this.observer) this.observer.disconnect()
   }
 
-  fetchData = pageNumber => {
+  fetchData = async pageNumber => {
     const { searchTerm, columnOrder } = this.state
     const { fetchData } = this.props
 
-    return fetchData(pageNumber, searchTerm, columnOrder)
+    const data = await fetchData(pageNumber, searchTerm, columnOrder)
+    if (data.length === 0) this.setState({ isLastPageLoaded: true })
+    return data
   }
 
   observe = c => {
@@ -95,7 +98,13 @@ class InfiniteTable extends React.Component {
       fetchData,
       ...restProps
     } = this.props
-    const { page, areSelectedAll, searchTerm, columnOrder } = this.state
+    const {
+      page,
+      areSelectedAll,
+      searchTerm,
+      columnOrder,
+      isLastPageLoaded,
+    } = this.state
 
     return (
       <>
@@ -157,12 +166,14 @@ class InfiniteTable extends React.Component {
             />
           ))}
 
-          <LoadingRow
-            pageNumber={page + 1}
-            observe={this.observe}
-            unObserve={this.unObserve}
-            handleManualLoad={() => this.setState({ page: page + 1 })}
-          />
+          {!isLastPageLoaded && (
+            <LoadingRow
+              pageNumber={page + 1}
+              observe={this.observe}
+              unObserve={this.unObserve}
+              handleManualLoad={() => this.setState({ page: page + 1 })}
+            />
+          )}
         </Table>
       </>
     )
