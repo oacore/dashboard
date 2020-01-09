@@ -5,6 +5,7 @@ import TablePage from './TablePage'
 import LoadingRow from './LoadingRow'
 import { range } from '../../utils/helpers'
 import tableClassNames from './index.css'
+import NoDataFoundRow from './NoDataFoundRow'
 
 const getNextOrder = order => {
   if (order === 'asc') return 'desc'
@@ -19,6 +20,7 @@ class InfiniteTable extends React.Component {
     searchTerm: '',
     columnOrder: {},
     isLastPageLoaded: false,
+    isEmpty: false,
   }
 
   componentDidMount() {
@@ -41,6 +43,7 @@ class InfiniteTable extends React.Component {
 
     const data = await fetchData(pageNumber, searchTerm, columnOrder)
     if (data.length === 0) this.setState({ isLastPageLoaded: true })
+    if (data.length === 0 && pageNumber === 0) this.setState({ isEmpty: true })
     return data
   }
 
@@ -104,6 +107,7 @@ class InfiniteTable extends React.Component {
       searchTerm,
       columnOrder,
       isLastPageLoaded,
+      isEmpty,
     } = this.state
 
     return (
@@ -151,29 +155,31 @@ class InfiniteTable extends React.Component {
             </Table.Row>
           </Table.Head>
 
-          {range(page + 1).map(i => (
-            <TablePage
-              key={i}
-              observe={this.observe}
-              pageNumber={i}
-              fetchData={this.fetchData}
-              unObserve={this.unObserve}
-              config={config}
-              selectable={selectable}
-              areSelectedAll={areSelectedAll}
-              expandable={expandable}
-              columnOrder={columnOrder}
-            />
-          ))}
+          {!isEmpty &&
+            range(page + 1).map(i => (
+              <TablePage
+                key={i}
+                observe={this.observe}
+                pageNumber={i}
+                fetchData={this.fetchData}
+                unObserve={this.unObserve}
+                config={config}
+                selectable={selectable}
+                areSelectedAll={areSelectedAll}
+                expandable={expandable}
+                columnOrder={columnOrder}
+              />
+            ))}
 
           {!isLastPageLoaded && (
             <LoadingRow
               pageNumber={page + 1}
               observe={this.observe}
               unObserve={this.unObserve}
-              handleManualLoad={() => this.setState({ page: page + 1 })}
+              handleManualLod={() => this.setState({ page: page + 1 })}
             />
           )}
+          {isEmpty && <NoDataFoundRow />}
         </Table>
       </>
     )
