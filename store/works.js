@@ -1,3 +1,5 @@
+// TODO: Create directory /store/works and place classes separately
+// eslint-disable-next-line max-classes-per-file
 import apiRequest from '@oacore/api/dist/request/request'
 
 const PAGE_SIZE = 100
@@ -21,7 +23,7 @@ class Works {
   }
 
   retrieveWorks = async (pageNumber, searchTerm) => {
-    const key = `${pageNumber}-${searchTerm}`
+    const key = `${this.rootStore.dataProvider}-${pageNumber}-${searchTerm}`
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
     if (this.pages.has(key)) return this.pages.get(key)

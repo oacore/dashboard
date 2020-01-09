@@ -22,7 +22,7 @@ class App extends NextApp {
     }
   }
 
-  handleNavigation = async event => {
+  handleNavigation = event => {
     const link = event.target.closest('[href]')
     if (link == null) return
 
@@ -31,7 +31,7 @@ class App extends NextApp {
 
     event.preventDefault()
     const route = new Route(url.pathname)
-    await this.props.router.push(route.href, route.as)
+    this.props.router.push(route.href, route.as)
   }
 
   render() {

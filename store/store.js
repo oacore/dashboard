@@ -1,7 +1,9 @@
-import { observable } from 'mobx'
+import { observable, action } from 'mobx'
+import Router from 'next/router'
 
 import User from './user'
 import Works from './works'
+import Route from '../pages/_app/route'
 
 class RootStore {
   @observable dataProvider = null
@@ -22,6 +24,13 @@ class RootStore {
   constructor() {
     this.works = new Works(this)
     this.user = new User(this)
+  }
+
+  @action changeDataProvider = dataProvider => {
+    const route = new Route(window.location.pathname)
+    route.dataProvider = dataProvider
+    Router.push(route.href, route.as)
+    this.dataProvider = dataProvider
   }
 }
 
