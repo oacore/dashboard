@@ -34,11 +34,11 @@ class InfiniteTable extends React.Component {
     if (this.observer) this.observer.disconnect()
   }
 
-  fetchData = () => {
+  fetchData = pageNumber => {
     const { searchTerm, columnOrder } = this.state
     const { fetchData } = this.props
 
-    return fetchData(searchTerm, columnOrder)
+    return fetchData(pageNumber, searchTerm, columnOrder)
   }
 
   observe = c => {
