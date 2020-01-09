@@ -1,0 +1,25 @@
+.content-table th,
+.content-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content-table {
+  min-width: 80rem;
+  margin-right: calc(-1 * var(--card-padding-x));
+  margin-left: calc(-1 * var(--card-padding-x));
+}
+
+.label-column {
+  min-width: 5rem;
+
+  & > mark {
+    text-align: center;
+  }
+}
+
+.title-column,
+.authors-column {
+  max-width: 50rem;
+}

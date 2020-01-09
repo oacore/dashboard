@@ -1,16 +1,12 @@
 import React from 'react'
 import { Label } from '@oacore/design'
 
+import { withGlobalStore } from '../../../store'
+import styles from './content.css'
+
 import Table from 'components/table'
 import PublishedToggle from 'components/published-toggle'
-import { range } from 'utils/helpers'
 import { Card } from 'design'
-
-const sleep = () =>
-  new Promise(resolve => {
-    // wait 3s before calling fn(par)
-    setTimeout(() => resolve(), 3000)
-  })
 
 const tableConfig = {
   columns: [
@@ -19,8 +15,9 @@ const tableConfig = {
       display: 'OAI',
       sortable: true,
       expandedSize: 2,
+      className: styles.labelColumn,
       render: (v, isExpanded) => (
-        <Label color="primary">{isExpanded ? v.long : v.short}</Label>
+        <Label color="primary">{isExpanded ? v : v.split(':').pop()}</Label>
       ),
     },
     {
@@ -28,15 +25,17 @@ const tableConfig = {
       display: 'Title',
       sortable: true,
       expandedSize: null,
+      className: styles.authorsColumn,
     },
     {
-      id: 'authors',
+      id: 'author',
       display: 'Authors',
       sortable: false,
       expandedSize: null,
+      className: styles.authorsColumn,
     },
     {
-      id: 'last update',
+      id: 'last-update',
       display: 'Last Update',
       sortable: true,
       expandedSize: 1,
@@ -59,34 +58,36 @@ const tableConfig = {
   ),
 }
 
-const fetchData = async () => {
-  // We'll even set a delay to simulate a server here
-  await sleep()
-  return range(100).map(() => ({
-    id: Math.random(),
-    oai: {
-      short: 'oai',
-      long: Math.random(),
-    },
-    title:
-      'Zero and low carbon buildings: A drive for change' +
-      ' in working practices and the use of computer modelling',
-    authors: 'Robina Hetherington, Robin Laney, Stephen Peake',
-    lastUpdate: '12 days ago',
-    visibility: 'visibility',
-  }))
+const Data = ({ store, ...restProps }) => {
+  const fetchData = async (pageNumber, searchTerm, columnOrder) => {
+    const page = await store.works.retrieveWorks(
+      pageNumber,
+      searchTerm,
+      columnOrder
+    )
+
+    return page.data.map(v => ({
+      id: v.id,
+      oai: v.identifier.oai,
+      title: v.title,
+      author: v.author.map(a => a.name).join(' '),
+      'last-update': '12 days ago',
+      visibility: true,
+    }))
+  }
+
+  return (
+    <Card {...restProps}>
+      <Table
+        config={tableConfig}
+        fetchData={fetchData}
+        className={styles.contentTable}
+        selectable
+        searchable
+        expandable
+      />
+    </Card>
+  )
 }
 
-const Data = props => (
-  <Card {...props}>
-    <Table
-      config={tableConfig}
-      fetchData={fetchData}
-      selectable
-      searchable
-      expandable
-    />
-  </Card>
-)
-
-export default Data
+export default withGlobalStore(Data)
