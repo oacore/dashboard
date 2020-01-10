@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx'
+import { observable, action, autorun } from 'mobx'
 import Router from 'next/router'
 
 import User from './user'
@@ -24,14 +24,21 @@ class RootStore {
   constructor() {
     this.works = new Works(this)
     this.user = new User(this)
+
+    // Register reactions
+    this.onDataProviderChange()
   }
 
   @action changeDataProvider = dataProvider => {
-    const route = new Route(window.location.pathname)
-    route.dataProvider = dataProvider
-    Router.push(route.href, route.as)
     this.dataProvider = dataProvider
   }
+
+  onDataProviderChange = () =>
+    autorun(() => {
+      const route = new Route(window.location.pathname)
+      route.dataProvider = this.dataProvider
+      Router.push(route.href, route.as)
+    })
 }
 
 export default RootStore
