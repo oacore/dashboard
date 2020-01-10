@@ -30,10 +30,7 @@ class RootStore {
 
   @observable depositDates = null
 
-  constructor(dataProvider, activity) {
-    this.dataProvider = dataProvider
-    this.activity = activity
-
+  constructor() {
     this.works = new Works(this)
     this.user = new User(this)
     this.dataProviders = new DataProviders(this)
@@ -51,10 +48,16 @@ class RootStore {
   onDataProviderChange = () =>
     autorun(() => {
       if (isServer) return
-      const route = new Route(window.location.pathname)
-      route.dataProvider = this.dataProvider
-      this.statistics.onDataProviderChange(this.dataProvider)
-      Router.push(route.href, route.as)
+
+      // if user has no access to dataProvider redirect them
+      const route = new Route(Router.asPath)
+      if (
+        route.dataProvider &&
+        parseInt(route.dataProvider, 10) !== this.user.organisationId
+      ) {
+        this.changeDataProvider(this.user.organisationId)
+        Router.push('/')
+      }
     })
 }
 

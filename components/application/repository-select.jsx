@@ -17,6 +17,7 @@ const RepositorySelect = ({ store }) => (
         store.repository = v
         store.changeDataProvider(v.id)
       }}
+      disabled={store.user.isAdmin}
     />
   </AppBar.Item>
 )

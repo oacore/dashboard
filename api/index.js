@@ -1,41 +1,45 @@
-import https from 'https'
-
-import axios from 'axios'
+import Router from 'next/router'
 
 import { NetworkError } from './errors'
 
 const CORE_API = 'https://api.core.ac.uk/internal'
 const CORE_API_DEV = 'https://api.dev.core.ac.uk/internal'
 
-const networkClient = axios.create({
-  httpsAgent: new https.Agent({
-    rejectUnauthorized: process.env.NODE_ENV === 'production',
-  }),
-})
-
 const apiRequest = async (
   url,
   method = 'GET',
   params = {},
-  headers = {},
+  customHeaders = {},
   dev = false
 ) => {
   try {
-    return await networkClient.request({
-      url: `${dev ? CORE_API_DEV : CORE_API}${url}`,
+    let finalURL = `${dev ? CORE_API_DEV : CORE_API}${url}`
+    if (url.startsWith('http')) finalURL = url
+    const headers = {
+      'Content-Type': 'application/json',
+      ...customHeaders,
+    }
+    const response = await fetch(finalURL, {
       method,
       params,
-      headers: {
-        'Content-Type': 'application/json',
-        ...headers,
-      },
+      credentials: 'include',
+      headers,
     })
+
+    if (response.status === 401) Router.push('/login.html')
+    if (response.status >= 400 && response.status < 599)
+      throw new NetworkError(`Request failed on ${response.status}`, response)
+
+    if (headers['Content-Type'] === 'application/json')
+      return await response.json()
+    return await response.blob()
   } catch (e) {
     const { response, message } = e
+    const { text } = await response.text()
     let networkError
     if (response) {
       networkError = new NetworkError(
-        `Request for ${method} ${url} failed. Response: ${response.status}, ${response.data}`
+        `Request for ${method} ${url} failed. Response: ${response.status}, ${text}`
       )
     } else if (message === 'Network Error') {
       networkError = new NetworkError(

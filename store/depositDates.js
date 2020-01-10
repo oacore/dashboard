@@ -120,7 +120,7 @@ class DepositDates {
       this.depositDatesCount = r.headers['collection-length']
     } catch (e) {
       if (e.statusCode === 404) this.isExportDisabled = true
-      else throw e
+      // else throw e
     }
   }
 

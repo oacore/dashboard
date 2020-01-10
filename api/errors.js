@@ -1,2 +1,8 @@
-// eslint-disable-next-line import/prefer-default-export
-export class NetworkError extends Error {}
+export class NetworkError extends Error {
+  constructor(message, response) {
+    super(message)
+    this.response = response
+  }
+}
+
+export default NetworkError
