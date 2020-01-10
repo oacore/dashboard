@@ -1,41 +1,49 @@
-import https from 'https'
-
-import axios from 'axios'
-
 import { NetworkError } from './errors'
 
 const CORE_API = 'https://api.core.ac.uk/internal'
 const CORE_API_DEV = 'https://api.dev.core.ac.uk/internal'
 
-const networkClient = axios.create({
-  httpsAgent: new https.Agent({
-    rejectUnauthorized: process.env.NODE_ENV === 'production',
-  }),
-})
-
 const apiRequest = async (
   url,
   method = 'GET',
   params = {},
-  headers = {},
+  customHeaders = {},
   dev = false
 ) => {
   try {
-    return await networkClient.request({
-      url: `${dev ? CORE_API_DEV : CORE_API}${url}`,
+    const requestUrl = /^\w+:\/\//.test(url)
+      ? url
+      : `${dev ? CORE_API_DEV : CORE_API}${url}`
+    const requestHeaders = {
+      Accept: 'application/json',
+      ...customHeaders,
+    }
+    const response = await fetch(requestUrl, {
       method,
       params,
-      headers: {
-        'Content-Type': 'application/json',
-        ...headers,
-      },
+      credentials: 'include',
+      headers: requestHeaders,
     })
-  } catch (e) {
-    const { response, message } = e
+
+    const { headers } = response
+    const type = headers.get('Content-Type')
+    const result = { type, headers }
+
+    if (response.status >= 400)
+      throw new NetworkError(`Request failed on ${response.status}`, response)
+
+    result.data = await (/application\/([\w.-]\+)?json/g.test(type)
+      ? response.json()
+      : response.blob())
+
+    return result
+  } catch (error) {
+    const { response, message } = error
+    const { text } = await response.text()
     let networkError
     if (response) {
       networkError = new NetworkError(
-        `Request for ${method} ${url} failed. Response: ${response.status}, ${response.data}`
+        `Request for ${method} ${url} failed. Response: ${response.status}, ${text}`
       )
     } else if (message === 'Network Error') {
       networkError = new NetworkError(
@@ -46,7 +54,7 @@ const apiRequest = async (
         `Request ${method} ${url} failed. The original error was: ${message}`
       )
     }
-    networkError.statusCode = (response && response.status) || 500
+    networkError.status = (response && response.status) || null
     throw networkError
   }
 }
