@@ -7,7 +7,7 @@
 
 .content-table {
   width: 100%;
-  min-width: 80rem;
+  min-width: 90rem;
   margin-right: calc(-1 * var(--card-padding-x));
   margin-left: calc(-1 * var(--card-padding-x));
   table-layout: fixed;
@@ -19,6 +19,7 @@
 
   & > mark {
     text-align: center;
+    text-overflow: clip;
   }
 }
 
@@ -34,4 +35,10 @@
 
 .visibility-column {
   width: 15%;
+}
+
+.doi-label {
+  margin-left: 1rem;
+  color: var(--gray-700);
+  background: var(--gray-100);
 }

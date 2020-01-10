@@ -16,8 +16,13 @@ const tableConfig = {
       sortable: true,
       expandedSize: 2,
       className: styles.labelColumn,
-      render: (v, isExpanded) => (
-        <Label color="primary">{isExpanded ? v : v.split(':').pop()}</Label>
+      render: ({ oai, doi }, isExpanded) => (
+        <>
+          <Label color="primary">
+            {isExpanded ? oai : oai.split(':').pop()}
+          </Label>
+          {isExpanded && <Label className={styles.doiLabel}>{doi}</Label>}
+        </>
       ),
     },
     {
@@ -74,7 +79,7 @@ const Data = ({ store, ...restProps }) => {
 
     return page.data.map(v => ({
       id: v.id,
-      oai: v.identifier.oai,
+      oai: v.identifier,
       title: v.title,
       author: v.author.map(a => a.name).join(' '),
       'last-update': '12 days ago',
