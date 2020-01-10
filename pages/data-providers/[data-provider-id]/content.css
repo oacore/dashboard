@@ -6,12 +6,15 @@
 }
 
 .content-table {
+  width: 100%;
   min-width: 80rem;
   margin-right: calc(-1 * var(--card-padding-x));
   margin-left: calc(-1 * var(--card-padding-x));
+  table-layout: fixed;
 }
 
 .label-column {
+  width: 10%;
   min-width: 5rem;
 
   & > mark {
@@ -21,5 +24,14 @@
 
 .title-column,
 .authors-column {
+  width: 30%;
   max-width: 50rem;
+}
+
+.last-update-column {
+  width: 15%;
+}
+
+.visibility-column {
+  width: 15%;
 }

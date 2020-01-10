@@ -8,18 +8,22 @@ const TableRowExpanded = ({
   id,
   isExpanded,
   selectable,
-  config: { expandedRowRenderer },
+  config: { expandedRow },
   ...props
 }) => (
   <Table.Row
     id={`${id}-expanded`}
-    className={classNames(tableClassNames.additionalRow, {
-      [tableClassNames.closed]: !isExpanded,
-    })}
+    className={classNames(
+      tableClassNames.additionalRow,
+      expandedRow.className,
+      {
+        [tableClassNames.closed]: !isExpanded,
+      }
+    )}
     aria-hidden={!isExpanded}
   >
     {selectable && <Table.Cell />}
-    <Table.Cell colSpan={1000}>{expandedRowRenderer(props)}</Table.Cell>
+    <Table.Cell colSpan={1000}>{expandedRow.render(props)}</Table.Cell>
   </Table.Row>
 )
 

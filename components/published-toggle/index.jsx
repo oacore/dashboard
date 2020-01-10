@@ -3,8 +3,8 @@ import classNames from 'classnames'
 
 import styles from './index.css'
 
-const PublishedToggle = ({ isExpanded }) => {
-  const [isChecked, toggleChecked] = useState(true)
+const PublishedToggle = ({ defaultVisibility, isExpanded }) => {
+  const [isChecked, toggleChecked] = useState(defaultVisibility)
   let toggletext = ''
   if (isExpanded) {
     if (isChecked) toggletext = 'Published'

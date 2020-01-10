@@ -25,7 +25,7 @@ const tableConfig = {
       display: 'Title',
       sortable: true,
       expandedSize: null,
-      className: styles.authorsColumn,
+      className: styles.titleColumn,
     },
     {
       id: 'author',
@@ -39,23 +39,29 @@ const tableConfig = {
       display: 'Last Update',
       sortable: true,
       expandedSize: 1,
+      className: styles.lastUpdateColumn,
     },
     {
       id: 'visibility',
       display: 'Visibility',
       sortable: false,
       expandedSize: 2,
-      render: (v, isExpanded) => <PublishedToggle isExpanded={isExpanded} />,
+      className: styles.visibilityColumn,
+      render: (v, isExpanded) => (
+        <PublishedToggle defaultVisibility={v} isExpanded={isExpanded} />
+      ),
     },
   ],
-  expandedRowRenderer: ({ content: { title, author } }) => (
-    <div>
-      <p>
-        <b>{title}</b>
-      </p>
-      <p>{author}</p>
-    </div>
-  ),
+  expandedRow: {
+    render: ({ content: { title, author } }) => (
+      <div>
+        <p>
+          <b>{title}</b>
+        </p>
+        <p>{author}</p>
+      </div>
+    ),
+  },
 }
 
 const Data = ({ store, ...restProps }) => {
@@ -72,7 +78,7 @@ const Data = ({ store, ...restProps }) => {
       title: v.title,
       author: v.author.map(a => a.name).join(' '),
       'last-update': '12 days ago',
-      visibility: true,
+      visibility: !v.disabled,
     }))
   }
 
