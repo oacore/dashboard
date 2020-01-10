@@ -79,6 +79,7 @@ const Data = ({ store, ...restProps }) => {
   return (
     <Card {...restProps}>
       <Table
+        key={store.dataProvider}
         config={tableConfig}
         fetchData={fetchData}
         className={styles.contentTable}

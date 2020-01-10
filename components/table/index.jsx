@@ -72,6 +72,7 @@ class InfiniteTable extends React.Component {
     if (!this.observer) {
       this.observer = new IntersectionObserver(
         entries => {
+          if (!entries[0].isIntersecting) return
           // Only one element is observed for now.
           const newPage = parseInt(
             entries[0].target.getAttribute('pagenumber'),
@@ -79,7 +80,7 @@ class InfiniteTable extends React.Component {
           )
           this.setState({ page: newPage })
         },
-        { threshold: 0, rootMargin: '100px' }
+        { threshold: 1, rootMargin: '100px' }
       )
     }
     if (!c) return
@@ -197,14 +198,17 @@ class InfiniteTable extends React.Component {
               />
             ))}
 
-          {!isLastPageLoaded && isFirstPageLoaded && dataRequestCount === 0 && (
-            <LoadMoreRow
-              pageNumber={page + 1}
-              observe={this.observe}
-              unObserve={this.unObserve}
-              handleManualLoad={() => this.setState({ page: page + 1 })}
-            />
-          )}
+          {!isEmpty &&
+            !isLastPageLoaded &&
+            isFirstPageLoaded &&
+            dataRequestCount === 0 && (
+              <LoadMoreRow
+                pageNumber={page + 1}
+                observe={this.observe}
+                unObserve={this.unObserve}
+                handleManualLoad={() => this.setState({ page: page + 1 })}
+              />
+            )}
           {isEmpty && <NoDataFoundRow />}
 
           {dataRequestCount !== 0 && (
