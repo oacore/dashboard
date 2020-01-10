@@ -5,6 +5,8 @@ import User from './user'
 import Works from './works'
 import Route from '../pages/_app/route'
 
+const isServer = typeof window === 'undefined'
+
 class RootStore {
   @observable dataProvider = null
 
@@ -35,6 +37,7 @@ class RootStore {
 
   onDataProviderChange = () =>
     autorun(() => {
+      if (isServer) return
       const route = new Route(window.location.pathname)
       route.dataProvider = this.dataProvider
       Router.push(route.href, route.as)
