@@ -39,9 +39,7 @@
     "yaml-import-loader": "^1.3.6"
   },
   "dependencies": {
-    "@oacore/api": "^1.0.5",
     "@oacore/design": "0.0.6",
-    "axios": "^0.19.1",
     "classnames": "^2.2.6",
     "core-js": "3.4.2",
     "cosmiconfig": "^6.0.0",
