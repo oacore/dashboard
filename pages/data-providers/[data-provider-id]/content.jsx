@@ -48,12 +48,12 @@ const tableConfig = {
       render: (v, isExpanded) => <PublishedToggle isExpanded={isExpanded} />,
     },
   ],
-  expandedRowRenderer: () => (
+  expandedRowRenderer: ({ content: { title, author } }) => (
     <div>
-      CORE welcomes the objectives of Plan S to advance openness in all research
-      subject fields as described in its ten principles. Plan S, which was
-      initiated by a coalition of 11 European research funders aims to further
-      the adoption of open access to European funded research.
+      <p>
+        <b>{title}</b>
+      </p>
+      <p>{author}</p>
     </div>
   ),
 }
