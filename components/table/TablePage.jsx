@@ -43,14 +43,14 @@ const TablePage = React.memo(
 
     useEffect(() => {
       const loadData = async () => {
-        const rows = await fetchData()
+        const rows = await fetchData(pageNumber)
         setData(rows)
       }
 
       loadData()
     }, [columnOrder])
 
-    const rowPops = row => ({
+    const rowProps = row => ({
       id: row.id,
       handleClick: () => dispatch({ type: 'toggle_expand_row', id: row.id }),
       handleSelect: () => dispatch({ type: 'toggle_select_row', id: row.id }),
@@ -70,7 +70,7 @@ const TablePage = React.memo(
         pagenumber={pageNumber}
       >
         {data.map(row => {
-          const props = rowPops(row)
+          const props = rowProps(row)
           return (
             <React.Fragment key={row.id}>
               <TableRow key={row.id} {...props} />

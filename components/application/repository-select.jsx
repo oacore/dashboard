@@ -23,6 +23,7 @@ const RepositorySelect = ({ store }) => (
       value={store.repository.name}
       onSelectionChange={v => {
         store.repository = v
+        store.changeDataProvider(v.id)
       }}
     />
   </AppBar.Item>

@@ -24,9 +24,9 @@ const integrations = [
 ]
 
 class Plugins extends React.Component {
-  static async getInitialProps({ initialStoreData }) {
+  static async getInitialProps({ store }) {
     const { statusCode, ...plugins } = await API.getIntegrations(140)
-    initialStoreData.plugins = plugins
+    store.plugins = plugins
   }
 
   // eslint-disable-next-line class-methods-use-this

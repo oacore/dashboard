@@ -19,6 +19,13 @@
   border-top-width: 2px;
 }
 
+.table th,
+.table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .compliance-level {
   flex: 2 2 60%;
   width: 100%;
@@ -47,4 +54,14 @@
 
 .label-column {
   min-width: 5rem;
+  max-width: 15rem;
+
+  & > mark {
+    text-align: center;
+  }
+}
+
+.title-column,
+.authors-column {
+  max-width: 50rem;
 }

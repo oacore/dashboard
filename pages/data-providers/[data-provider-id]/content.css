@@ -1,0 +1,44 @@
+.content-table th,
+.content-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content-table {
+  width: 100%;
+  min-width: 90rem;
+  margin-right: calc(-1 * var(--card-padding-x));
+  margin-left: calc(-1 * var(--card-padding-x));
+  table-layout: fixed;
+}
+
+.label-column {
+  width: 10%;
+  min-width: 5rem;
+
+  & > mark {
+    text-align: center;
+    text-overflow: clip;
+  }
+}
+
+.title-column,
+.authors-column {
+  width: 30%;
+  max-width: 50rem;
+}
+
+.last-update-column {
+  width: 15%;
+}
+
+.visibility-column {
+  width: 15%;
+}
+
+.doi-label {
+  margin-left: 1rem;
+  color: var(--gray-700);
+  background: var(--gray-100);
+}

@@ -2,9 +2,10 @@ import React from 'react'
 import { Table, TextField } from '@oacore/design'
 
 import TablePage from './TablePage'
-import LoadingRow from './LoadingRow'
+import LoadMoreRow from './LoadMoreRow'
 import { range } from '../../utils/helpers'
 import tableClassNames from './index.css'
+import NoDataFoundRow from './NoDataFoundRow'
 
 const getNextOrder = order => {
   if (order === 'asc') return 'desc'
@@ -18,6 +19,10 @@ class InfiniteTable extends React.Component {
     areSelectedAll: false,
     searchTerm: '',
     columnOrder: {},
+    isLastPageLoaded: false,
+    isEmpty: false,
+    isFirstPageLoaded: false,
+    dataRequestCount: 0,
   }
 
   componentDidMount() {
@@ -34,17 +39,40 @@ class InfiniteTable extends React.Component {
     if (this.observer) this.observer.disconnect()
   }
 
-  fetchData = () => {
+  fetchData = async pageNumber => {
     const { searchTerm, columnOrder } = this.state
     const { fetchData } = this.props
 
-    return fetchData(searchTerm, columnOrder)
+    if (pageNumber === 0) {
+      this.setState({
+        isFirstPageLoaded: false,
+      })
+    }
+
+    this.setState(state => ({
+      dataRequestCount: state.dataRequestCount + 1,
+    }))
+
+    const newState = {}
+
+    const data = await fetchData(pageNumber, searchTerm, columnOrder)
+    if (data.length === 0) newState.isLastPageLoaded = true
+    if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
+    if (pageNumber === 0) newState.isFirstPageLoaded = true
+
+    this.setState(state => ({
+      ...newState,
+      dataRequestCount: state.dataRequestCount - 1,
+    }))
+
+    return data
   }
 
   observe = c => {
     if (!this.observer) {
       this.observer = new IntersectionObserver(
         entries => {
+          if (!entries[0].isIntersecting) return
           // Only one element is observed for now.
           const newPage = parseInt(
             entries[0].target.getAttribute('pagenumber'),
@@ -52,7 +80,7 @@ class InfiniteTable extends React.Component {
           )
           this.setState({ page: newPage })
         },
-        { threshold: 0, rootMargin: '100px' }
+        { threshold: 1, rootMargin: '100px' }
       )
     }
     if (!c) return
@@ -95,7 +123,16 @@ class InfiniteTable extends React.Component {
       fetchData,
       ...restProps
     } = this.props
-    const { page, areSelectedAll, searchTerm, columnOrder } = this.state
+    const {
+      page,
+      areSelectedAll,
+      searchTerm,
+      columnOrder,
+      isLastPageLoaded,
+      isEmpty,
+      isFirstPageLoaded,
+      dataRequestCount,
+    } = this.state
 
     return (
       <>
@@ -108,7 +145,10 @@ class InfiniteTable extends React.Component {
             label="Search"
             placeholder="Any identifier, title, author..."
             onChange={event =>
-              this.setState({ searchTerm: event.target.value })
+              this.setState({
+                searchTerm: event.target.value,
+                page: 0,
+              })
             }
             value={searchTerm}
           />
@@ -142,26 +182,42 @@ class InfiniteTable extends React.Component {
             </Table.Row>
           </Table.Head>
 
-          {range(page + 1).map(i => (
-            <TablePage
-              key={i}
-              observe={this.observe}
-              pageNumber={i}
-              fetchData={this.fetchData}
-              unObserve={this.unObserve}
-              config={config}
-              selectable={selectable}
-              areSelectedAll={areSelectedAll}
-              expandable={expandable}
-              columnOrder={columnOrder}
-            />
-          ))}
+          {!isEmpty &&
+            range(page + 1).map(i => (
+              <TablePage
+                key={`${i}-${searchTerm}`}
+                observe={this.observe}
+                pageNumber={i}
+                fetchData={this.fetchData}
+                unObserve={this.unObserve}
+                config={config}
+                selectable={selectable}
+                areSelectedAll={areSelectedAll}
+                expandable={expandable}
+                columnOrder={columnOrder}
+              />
+            ))}
 
-          <LoadingRow
-            pageNumber={page + 1}
-            observe={this.observe}
-            unObserve={this.unObserve}
-          />
+          {!isEmpty &&
+            !isLastPageLoaded &&
+            isFirstPageLoaded &&
+            dataRequestCount === 0 && (
+              <LoadMoreRow
+                pageNumber={page + 1}
+                observe={this.observe}
+                unObserve={this.unObserve}
+                handleManualLoad={() => this.setState({ page: page + 1 })}
+              />
+            )}
+          {isEmpty && <NoDataFoundRow />}
+
+          {dataRequestCount !== 0 && (
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell colSpan={1000}>Loading data</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          )}
         </Table>
       </>
     )

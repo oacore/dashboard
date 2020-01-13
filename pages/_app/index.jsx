@@ -5,24 +5,20 @@ import { withRouter } from 'next/router'
 import '@oacore/design/lib/index.css'
 
 import Route from './route'
-import { initializeData, GlobalProvider } from '../../store'
+import { initStore, GlobalProvider } from '../../store'
 
 import Application from 'components/application'
 
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
-    const initialStoreData = initializeData()
+    const store = initStore()
     let pageProps = {}
-
     // Provide the store to getInitialProps of pages
-    if (Component.getInitialProps) {
-      pageProps =
-        (await Component.getInitialProps({ ...ctx, initialStoreData })) || {}
-    }
+    if (Component.getInitialProps)
+      pageProps = (await Component.getInitialProps({ ...ctx, store })) || {}
 
     return {
       pageProps,
-      initialStoreData,
     }
   }
 
@@ -39,15 +35,22 @@ class App extends NextApp {
   }
 
   render() {
-    const { Component, pageProps, initialStoreData, router } = this.props
+    const { Component, pageProps, router } = this.props
 
     const { dataProvider, activity } = new Route(router.asPath)
 
+    const store = initStore()
+
+    // needs to be done here because getInitialProps can be called before
+    // handleNavigation (router.push) is done
+    store.dataProvider = dataProvider
+    store.activity = activity
+
     return (
-      <GlobalProvider initialData={initialStoreData}>
+      <GlobalProvider store={store}>
         <Application
-          dataProvider={dataProvider}
-          activity={activity}
+          dataProvider={store.dataProvider}
+          activity={store.activity}
           onClick={this.handleNavigation}
         >
           <Component {...pageProps} />

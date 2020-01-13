@@ -1,16 +1,12 @@
 import React from 'react'
 import { Label } from '@oacore/design'
 
+import { withGlobalStore } from '../../../store'
+import styles from './content.css'
+
 import Table from 'components/table'
 import PublishedToggle from 'components/published-toggle'
-import { range } from 'utils/helpers'
 import { Card } from 'design'
-
-const sleep = () =>
-  new Promise(resolve => {
-    // wait 3s before calling fn(par)
-    setTimeout(() => resolve(), 3000)
-  })
 
 const tableConfig = {
   columns: [
@@ -19,8 +15,14 @@ const tableConfig = {
       display: 'OAI',
       sortable: true,
       expandedSize: 2,
-      render: (v, isExpanded) => (
-        <Label color="primary">{isExpanded ? v.long : v.short}</Label>
+      className: styles.labelColumn,
+      render: ({ oai, doi }, isExpanded) => (
+        <>
+          <Label color="primary">
+            {isExpanded ? oai : oai.split(':').pop()}
+          </Label>
+          {isExpanded && <Label className={styles.doiLabel}>{doi}</Label>}
+        </>
       ),
     },
     {
@@ -28,65 +30,76 @@ const tableConfig = {
       display: 'Title',
       sortable: true,
       expandedSize: null,
+      className: styles.titleColumn,
     },
     {
-      id: 'authors',
+      id: 'author',
       display: 'Authors',
       sortable: false,
       expandedSize: null,
+      className: styles.authorsColumn,
     },
     {
-      id: 'last update',
+      id: 'last-update',
       display: 'Last Update',
       sortable: true,
       expandedSize: 1,
+      className: styles.lastUpdateColumn,
     },
     {
       id: 'visibility',
       display: 'Visibility',
       sortable: false,
       expandedSize: 2,
-      render: (v, isExpanded) => <PublishedToggle isExpanded={isExpanded} />,
+      className: styles.visibilityColumn,
+      render: (v, isExpanded) => (
+        <PublishedToggle defaultVisibility={v} isExpanded={isExpanded} />
+      ),
     },
   ],
-  expandedRowRenderer: () => (
-    <div>
-      CORE welcomes the objectives of Plan S to advance openness in all research
-      subject fields as described in its ten principles. Plan S, which was
-      initiated by a coalition of 11 European research funders aims to further
-      the adoption of open access to European funded research.
-    </div>
-  ),
+  expandedRow: {
+    render: ({ content: { title, author } }) => (
+      <div>
+        <p>
+          <b>{title}</b>
+        </p>
+        <p>{author}</p>
+      </div>
+    ),
+  },
 }
 
-const fetchData = async () => {
-  // We'll even set a delay to simulate a server here
-  await sleep()
-  return range(100).map(() => ({
-    id: Math.random(),
-    oai: {
-      short: 'oai',
-      long: Math.random(),
-    },
-    title:
-      'Zero and low carbon buildings: A drive for change' +
-      ' in working practices and the use of computer modelling',
-    authors: 'Robina Hetherington, Robin Laney, Stephen Peake',
-    lastUpdate: '12 days ago',
-    visibility: 'visibility',
-  }))
+const Data = ({ store, ...restProps }) => {
+  const fetchData = async (pageNumber, searchTerm, columnOrder) => {
+    const page = await store.works.retrieveWorks(
+      pageNumber,
+      searchTerm,
+      columnOrder
+    )
+
+    return page.data.map(v => ({
+      id: v.id,
+      oai: v.identifier,
+      title: v.title,
+      author: v.author.map(a => a.name).join(' '),
+      'last-update': '12 days ago',
+      visibility: !v.disabled,
+    }))
+  }
+
+  return (
+    <Card {...restProps}>
+      <Table
+        key={store.dataProvider}
+        config={tableConfig}
+        fetchData={fetchData}
+        className={styles.contentTable}
+        selectable
+        searchable
+        expandable
+      />
+    </Card>
+  )
 }
 
-const Data = props => (
-  <Card {...props}>
-    <Table
-      config={tableConfig}
-      fetchData={fetchData}
-      selectable
-      searchable
-      expandable
-    />
-  </Card>
-)
-
-export default Data
+export default withGlobalStore(Data)
