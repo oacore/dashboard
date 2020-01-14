@@ -1,0 +1,36 @@
+.alert {
+  --card-padding-x: 0;
+  --card-padding-y: 0;
+  border: 1px solid currentColor;
+
+  & > * {
+    --card-padding-x: 1rem;
+    --card-padding-y: 1rem;
+  }
+
+  & svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: -0.1rem;
+    margin-right: 0.9rem;
+  }
+}
+
+.alert-danger {
+  color: var(--danger);
+}
+
+.alert-info {
+  /* Move this color to @oacore/design */
+  color: #5a9216;
+}
+
+.alert-header {
+  font-weight: bolder;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.alert-content {
+  background: var(--gray-100);
+}
