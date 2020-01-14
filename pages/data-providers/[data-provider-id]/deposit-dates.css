@@ -15,10 +15,6 @@
   }
 }
 
-.table thead > :first-child {
-  border-top-width: 2px;
-}
-
 .table th,
 .table td {
   overflow: hidden;

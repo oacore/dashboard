@@ -107,6 +107,7 @@ const DepositDates = ({
           title="Browse deposit dates"
           config={tableConfig}
           fetchData={fetchData}
+          searchable
         />
       </Card>
     </Tag>
