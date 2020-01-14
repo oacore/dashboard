@@ -58,7 +58,16 @@
   }
 </style>
 
-<form action="https://api.core.ac.uk/login" method="post">
+<script>
+  function login(e) {
+    e.target.action = 'https://api.core.ac.uk/login_check?continue=' + encodeURI(
+      window.location.protocol + '//' + window.location.host
+    );
+  }
+</script>
+
+
+<form action="https://api.core.ac.uk/login_check" onsubmit="login.apply(this, arguments);" method="post">
   <h1>Login</h1>
 
   <label for="email"><b>Email</b></label>
@@ -67,8 +76,7 @@
   <label for="password"><b>Password</b></label>
   <input id="password" type="password" placeholder="Enter Password" name="password" required>
 
+  <input type="hidden" name="remember_me" value="on">
+
   <button type="submit">Login</button>
-  <label>
-    <input type="checkbox" checked="checked" name="remember"> Remember me
-  </label>
 </form>
