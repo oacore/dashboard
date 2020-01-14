@@ -105,7 +105,6 @@ const DepositDates = ({
           key={store.dataProvider}
           className={styles.table}
           title="Browse deposit dates"
-          selectable
           config={tableConfig}
           fetchData={fetchData}
         />

@@ -94,7 +94,6 @@ const Data = ({ store, ...restProps }) => {
         config={tableConfig}
         fetchData={fetchData}
         className={styles.contentTable}
-        selectable
         searchable
         expandable
       />
