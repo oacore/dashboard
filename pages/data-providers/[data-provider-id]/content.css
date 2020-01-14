@@ -42,3 +42,7 @@
   color: var(--gray-700);
   background: var(--gray-100);
 }
+
+.fulltext-card {
+  border: 1px solid var(--danger)
+}

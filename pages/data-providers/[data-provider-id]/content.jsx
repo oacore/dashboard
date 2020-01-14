@@ -1,12 +1,13 @@
 import React from 'react'
 import { Label } from '@oacore/design'
+import Icon from '@oacore/design/lib/components/icon'
 
 import { withGlobalStore } from '../../../store'
 import styles from './content.css'
 
 import Table from 'components/table'
 import PublishedToggle from 'components/published-toggle'
-import { Card } from 'design'
+import { Alert, Card } from 'design'
 
 const tableConfig = {
   columns: [
@@ -64,6 +65,19 @@ const tableConfig = {
           <b>{title}</b>
         </p>
         <p>{author}</p>
+        <Alert variant="danger">
+          <Alert.Header>
+            <Icon src="/design/icons.svg#download" aria-hidden />
+            Fulltext not available
+          </Alert.Header>
+          <Alert.Content>
+            <b>Document is encrypted</b>
+            <br />
+            <span>
+              A PDF file was found but had digital restrictions on the file.
+            </span>
+          </Alert.Content>
+        </Alert>
       </div>
     ),
   },
