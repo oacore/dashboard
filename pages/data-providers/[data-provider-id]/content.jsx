@@ -2,6 +2,7 @@ import React from 'react'
 import { Label } from '@oacore/design'
 import Icon from '@oacore/design/lib/components/icon'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 import { withGlobalStore } from '../../../store'
 import styles from './content.css'
@@ -9,6 +10,8 @@ import styles from './content.css'
 import Table from 'components/table'
 import PublishedToggle from 'components/published-toggle'
 import { Alert, Card } from 'design'
+
+dayjs.extend(relativeTime)
 
 const tableConfig = {
   columns: [
@@ -47,7 +50,7 @@ const tableConfig = {
       sortable: true,
       expandedSize: 1,
       className: styles.lastUpdateColumn,
-      render: v => v.format('DD/MM/YYYY'),
+      render: v => v.fromNow(),
     },
     {
       id: 'visibility',
