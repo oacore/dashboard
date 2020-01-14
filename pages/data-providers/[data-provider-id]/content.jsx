@@ -15,7 +15,7 @@ const tableConfig = {
       id: 'oai',
       display: 'OAI',
       sortable: true,
-      expandedSize: 2,
+      expandedSize: 3,
       className: styles.labelColumn,
       render: ({ oai, doi }, isExpanded) => (
         <>
@@ -51,7 +51,7 @@ const tableConfig = {
       id: 'visibility',
       display: 'Visibility',
       sortable: false,
-      expandedSize: 2,
+      expandedSize: 1,
       className: styles.visibilityColumn,
       render: (v, isExpanded) => (
         <PublishedToggle defaultVisibility={v} isExpanded={isExpanded} />
@@ -59,27 +59,40 @@ const tableConfig = {
     },
   ],
   expandedRow: {
-    render: ({ content: { title, author } }) => (
-      <div>
-        <p>
-          <b>{title}</b>
-        </p>
-        <p>{author}</p>
-        <Alert variant="danger">
-          <Alert.Header>
-            <Icon src="/design/icons.svg#download" aria-hidden />
-            Fulltext not available
-          </Alert.Header>
-          <Alert.Content>
-            <b>Document is encrypted</b>
-            <br />
-            <span>
-              A PDF file was found but had digital restrictions on the file.
-            </span>
-          </Alert.Content>
-        </Alert>
-      </div>
-    ),
+    render: ({ content: { title, author, link } }) => {
+      const isFulltext = Boolean(link.find(v => v.type === 'download'))
+      return (
+        <div>
+          <p>
+            <b>{title}</b>
+          </p>
+          <p>{author}</p>
+          {!isFulltext && (
+            <Alert variant="danger">
+              <Alert.Header>
+                <Icon src="/design/icons.svg#download" aria-hidden />
+                Fulltext not available
+              </Alert.Header>
+              <Alert.Content>
+                <b>Document is encrypted</b>
+                <br />
+                <span>
+                  A PDF file was found but had digital restrictions on the file.
+                </span>
+              </Alert.Content>
+            </Alert>
+          )}
+          {isFulltext && (
+            <Alert variant="info">
+              <Alert.Header>
+                <Icon src="/design/icons.svg#download" aria-hidden />
+                Fulltext available
+              </Alert.Header>
+            </Alert>
+          )}
+        </div>
+      )
+    },
   },
 }
 
@@ -98,6 +111,7 @@ const Data = ({ store, ...restProps }) => {
       author: v.author.map(a => a.name).join(' '),
       'last-update': '12 days ago',
       visibility: !v.disabled,
+      link: v.link || [],
     }))
   }
 

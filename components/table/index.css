@@ -11,7 +11,7 @@
 
 .additional-row,
 .additional-row * {
-  max-height: 200px;
+  max-height: 500px;
   border-top: 0;
   transition: max-height 0.2s ease-in, padding-top 0.2s ease-in,
     padding-bottom 0.2s ease-in;
