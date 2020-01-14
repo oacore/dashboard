@@ -64,7 +64,9 @@ const tableConfig = {
     },
   ],
   expandedRow: {
-    render: ({ content: { title, author, link } }) => {
+    render: ({
+      content: { title, author, link, 'last-update': lastUpdate },
+    }) => {
       const isFulltext = Boolean(link.find(v => v.type === 'download'))
       return (
         <div>
@@ -95,6 +97,7 @@ const tableConfig = {
               </Alert.Header>
             </Alert>
           )}
+          <span>{lastUpdate.format('DD/MM/YYYY')}</span>
         </div>
       )
     },
