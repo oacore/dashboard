@@ -61,7 +61,7 @@
 <script>
   function login(e) {
     e.target.action = 'https://api.core.ac.uk/login_check?continue=' + encodeURI(
-      window.location.protocol + '//'+window.location.host
+      window.location.protocol + '//' + window.location.host
     );
   }
 </script>
@@ -76,8 +76,7 @@
   <label for="password"><b>Password</b></label>
   <input id="password" type="password" placeholder="Enter Password" name="password" required>
 
+  <input style="display: none;" type="checkbox" checked="checked" name="remember_me">
+
   <button type="submit">Login</button>
-  <label>
-    <input type="checkbox" checked="checked" name="remember"> Remember me
-  </label>
 </form>
