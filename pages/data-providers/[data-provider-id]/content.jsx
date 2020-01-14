@@ -1,6 +1,7 @@
 import React from 'react'
 import { Label } from '@oacore/design'
 import Icon from '@oacore/design/lib/components/icon'
+import dayjs from 'dayjs'
 
 import { withGlobalStore } from '../../../store'
 import styles from './content.css'
@@ -46,6 +47,7 @@ const tableConfig = {
       sortable: true,
       expandedSize: 1,
       className: styles.lastUpdateColumn,
+      render: v => v.format('DD/MM/YYYY'),
     },
     {
       id: 'visibility',
@@ -109,7 +111,7 @@ const Data = ({ store, ...restProps }) => {
       oai: v.identifier,
       title: v.title,
       author: v.author.map(a => a.name).join(' '),
-      'last-update': '12 days ago',
+      'last-update': dayjs(v.lastUpdate),
       visibility: !v.disabled,
       link: v.link || [],
     }))
