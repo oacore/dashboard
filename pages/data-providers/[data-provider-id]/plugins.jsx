@@ -1,53 +1,39 @@
 import React from 'react'
-import API from '@oacore/api'
+import { Button } from '@oacore/design'
 
 import pluginsClassNames from './plugins.css'
 
-import Plugin from 'components/plugin'
 import { Card } from 'design'
 
-const integrations = [
-  {
-    name: 'Discovery',
-    abstract:
-      'Enrich your full text amount by dynamic adding missing bits from CORE',
-    description:
-      'Increase your website discoverability by cross-linking similar papers with help of our powerful recommender system',
-  },
-  {
-    name: 'Recommender',
-    abstract:
-      'Increase your website discoverability by cross-linking similar papers',
-    description:
-      'Increase your website discoverability by cross-linking similar papers with help of our powerful recommender system',
-  },
-]
+const Plugins = () => (
+  <main className={pluginsClassNames.container}>
+    <h1>Plugins</h1>
 
-class Plugins extends React.Component {
-  static async getInitialProps({ store }) {
-    const { statusCode, ...plugins } = await API.getIntegrations(140)
-    store.plugins = plugins
-  }
+    <Card tag="section">
+      <h2>Discovery</h2>
+      <p>
+        Enrich your full text amount by dynamic adding missing bits from CORE
+      </p>
+      <p>
+        Increase your website discoverability by cross-linking similar papers
+        help of our powerful recommender system
+      </p>
 
-  // eslint-disable-next-line class-methods-use-this
-  render() {
-    return (
-      <Card tag="main">
-        <h1>Plugins</h1>
-        <p>Integrate our powerful services into your website.</p>
-        <div className={pluginsClassNames.plugins}>
-          {integrations.map(i => (
-            <Plugin
-              key={i.name}
-              name={i.name}
-              abstract={i.abstract}
-              description={i.description}
-            />
-          ))}
-        </div>
-      </Card>
-    )
-  }
-}
+      <Button variant="contained">View</Button>
+    </Card>
+
+    <Card tag="section">
+      <h2>Recommender</h2>
+      <p>
+        Increase your website discoverability by cross-linking similar papers
+      </p>
+      <p>
+        Increase your website discoverability by cross-linking similar papers
+        with help of our powerful recommender system
+      </p>
+      <Button variant="contained">View</Button>
+    </Card>
+  </main>
+)
 
 export default Plugins
