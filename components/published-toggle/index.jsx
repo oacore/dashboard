@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import styles from './index.css'
 
-const PublishedToggle = ({ defaultVisibility, isExpanded }) => {
+const PublishedToggle = ({ className, defaultVisibility, isExpanded }) => {
   const [isChecked, toggleChecked] = useState(defaultVisibility)
   let toggletext = ''
   if (isExpanded) {
@@ -29,7 +29,7 @@ const PublishedToggle = ({ defaultVisibility, isExpanded }) => {
         }}
         checked={isChecked}
       />
-      <div className={styles.toggleSwitch}>
+      <div className={classNames(styles.toggleSwitch, className)}>
         <span>{toggletext}</span>
       </div>
     </label>
