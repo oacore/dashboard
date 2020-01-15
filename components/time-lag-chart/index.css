@@ -1,0 +1,11 @@
+.lag-bar {
+  fill: var(--gray-500);
+}
+
+.compliant {
+  fill: var(--success-dark);
+}
+
+.reference-line {
+  stroke: var(--gray-800);
+}

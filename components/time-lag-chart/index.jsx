@@ -8,8 +8,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
+import { classNames } from '@oacore/design/lib/utils'
 
 import data from './data'
+import styles from './index.css'
 
 const formatter = value => {
   switch (value) {
@@ -49,12 +51,20 @@ const TimeLagChart = React.memo(() => (
         tickFormatter={formatter}
       />
       <Tooltip />
-      <ReferenceLine y={0} stroke="#424242" />
+      <ReferenceLine y={0} className={styles.referenceLine} />
       <Bar dataKey="worksCount">
-        {data.map(entry => {
-          const color = entry.depositTimeLag <= 90 ? '#5A9216' : '#9E9E9E'
-          return <Cell key={entry.depositTimeLag} fill={color} />
-        })}
+        {data.map(entry => (
+          <Cell
+            className={classNames
+              .use({
+                'lag-bar': true,
+                compliant: entry.depositTimeLag <= 90,
+              })
+              .from(styles)
+              .toString()}
+            key={entry.depositTimeLag}
+          />
+        ))}
       </Bar>
     </BarChart>
   </ResponsiveContainer>
