@@ -39,6 +39,7 @@ const tableConfig = {
       id: 'deposit-at',
       display: 'Deposit At',
       order: '',
+      className: styles.depositDateColumn,
     },
   ],
 }

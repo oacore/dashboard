@@ -1,20 +1,20 @@
-.content-table th,
-.content-table td {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .content-table {
-  width: 100%;
+  width: calc(100% + 2 * var(--card-padding-x));
   min-width: 40rem;
   margin-right: calc(-1 * var(--card-padding-x));
   margin-left: calc(-1 * var(--card-padding-x));
   table-layout: fixed;
+
+  & th,
+  & td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .label-column {
-  width: 10%;
+  width: 15%;
   min-width: 5rem;
 
   & > mark {
@@ -23,10 +23,13 @@
   }
 }
 
-.title-column,
+.title-column {
+  width: 35%;
+  max-width: 5rem;
+}
+
 .authors-column {
-  width: 30%;
-  max-width: 20rem;
+  width: 25%;
 }
 
 .last-update-column {
@@ -34,11 +37,16 @@
 }
 
 .visibility-column {
-  width: 15%;
+  width: 10%;
 }
 
 .doi-label {
   margin-left: 1rem;
   color: var(--gray-700);
   background: var(--gray-100);
+}
+
+.visibility-switch {
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
 }
