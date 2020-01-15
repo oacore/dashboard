@@ -169,7 +169,6 @@ class InfiniteTable extends React.Component {
               {config.columns.map(column => (
                 <Table.HeadCell
                   key={column.id}
-                  className={column.className}
                   order={columnOrder[column.id]}
                   onClick={event => {
                     event.preventDefault()
@@ -181,6 +180,10 @@ class InfiniteTable extends React.Component {
               ))}
             </Table.Row>
           </Table.Head>
+
+          {config.columns.map(column => (
+            <col key={column.id} className={column.className} />
+          ))}
 
           {!isEmpty &&
             range(page + 1).map(i => (
