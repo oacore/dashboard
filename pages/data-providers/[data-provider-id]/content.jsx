@@ -59,7 +59,11 @@ const tableConfig = {
       expandedSize: 1,
       className: styles.visibilityColumn,
       render: (v, isExpanded) => (
-        <PublishedToggle defaultVisibility={v} isExpanded={isExpanded} />
+        <PublishedToggle
+          className={styles.visibilitySwitch}
+          defaultVisibility={v}
+          isExpanded={isExpanded}
+        />
       ),
     },
   ],
