@@ -33,6 +33,8 @@
     "stylelint-config-prettier": "^7.0.0",
     "stylelint-config-twbs-bootstrap": "^1.1.0",
     "stylelint-prettier": "^1.1.1",
+    "svgo": "^1.3.2",
+    "svgstore-cli": "^1.3.1",
     "yaml-frontmatter-loader": "^0.1.0",
     "yaml-import-loader": "^1.3.6"
   },
@@ -64,6 +66,8 @@
   },
   "scripts": {
     "dev": "next dev",
+    "build:icons": "svgstore public/icons/* | svgo -i - -o public/icons.svg --disable=removeUselessDefs,cleanupIDs",
+    "prebuild": "run-p build:icons",
     "build": "next build",
     "start": "next start",
     "lint:json": "prettier --ignore-path .gitignore --check '**/*.json'",
