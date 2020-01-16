@@ -2,8 +2,6 @@ import React from 'react'
 import NextApp from 'next/app'
 import { withRouter } from 'next/router'
 
-import '@oacore/design/lib/index.css'
-
 import Route from './route'
 import { initStore, GlobalProvider } from '../../store'
 
