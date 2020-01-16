@@ -154,6 +154,12 @@ class InfiniteTable extends React.Component {
           />
         )}
         <Table {...restProps}>
+          <colgroup>
+            {config.columns.map(column => (
+              <col key={column.id} className={column.className} />
+            ))}
+          </colgroup>
+
           <Table.Head>
             <Table.Row>
               {selectable && (
@@ -180,10 +186,6 @@ class InfiniteTable extends React.Component {
               ))}
             </Table.Row>
           </Table.Head>
-
-          {config.columns.map(column => (
-            <col key={column.id} className={column.className} />
-          ))}
 
           {!isEmpty &&
             range(page + 1).map(i => (
