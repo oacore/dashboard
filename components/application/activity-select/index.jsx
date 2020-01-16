@@ -7,11 +7,11 @@ import { navigation } from 'texts'
 
 const toUrl = value => (value === 'index' ? '.' : `./${value}`)
 const toIcon = value =>
-  `/design/icons.svg#${
+  `/icons.svg#${
     {
-      overview: 'overview',
-      content: 'data',
-      'deposit-dates': 'data',
+      overview: 'dashboard',
+      content: 'document',
+      'deposit-dates': 'calendar-check',
     }[value]
   }`
 
