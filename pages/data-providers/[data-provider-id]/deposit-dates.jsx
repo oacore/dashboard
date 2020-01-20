@@ -95,7 +95,13 @@ const DepositDates = ({
           We have deposit dates for <b>182, 719</b> out of 183,219 works within
           your repository
         </p>
-        <Button variant="contained">Download</Button>
+        <Button
+          variant="contained"
+          onClick={() => store.depositDates.exportCsv()}
+          disabled={store.depositDates.isExportInProgress}
+        >
+          Download
+        </Button>
       </Card>
 
       <Card className={styles.depositTimeLag} tag="section">

@@ -1,4 +1,5 @@
-import { computed } from 'mobx'
+import download from 'downloadjs'
+import { action, computed, observable } from 'mobx'
 
 import Page from './helpers/page'
 import getOrder from './helpers/order'
@@ -10,6 +11,8 @@ const PAGE_SIZE = 100
 
 class DepositDates {
   pages = new Map([])
+
+  @observable isExportInProgress = false
 
   timeLagData = timeLagData
 
@@ -55,6 +58,7 @@ class DepositDates {
         `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
         'GET',
         params,
+        {},
         true
       )
     } catch (e) {
@@ -65,6 +69,27 @@ class DepositDates {
     const page = new Page(data)
     this.pages.set(key, page)
     return page
+  }
+
+  @action
+  exportCsv = async () => {
+    this.isExportInProgress = true
+    try {
+      const data = await apiRequest(
+        `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
+        'GET',
+        {
+          accept: 'text/csv',
+        },
+        {
+          'Content-Type': 'text/csv',
+        },
+        true
+      )
+      await download(data[0], 'deposit-dates.csv', 'text/csv')
+    } finally {
+      this.isExportInProgress = false
+    }
   }
 }
 

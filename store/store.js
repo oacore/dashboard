@@ -24,6 +24,8 @@ class RootStore {
 
   @observable user = null
 
+  @observable depositDates = null
+
   constructor() {
     this.works = new Works(this)
     this.user = new User(this)
