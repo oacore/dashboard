@@ -1,3 +1,5 @@
+import https from 'https'
+
 import axios from 'axios'
 
 import { NetworkError } from './errors'
@@ -5,9 +7,15 @@ import { NetworkError } from './errors'
 const CORE_API = 'https://api.core.ac.uk/internal'
 const CORE_API_DEV = 'https://api.dev.core.ac.uk/internal'
 
-const apiRequest = async (url, method = 'GET', params = {}, dev = true) => {
+const networkClient = axios.create({
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: process.env.NODE_ENV === 'production',
+  }),
+})
+
+const apiRequest = async (url, method = 'GET', params = {}, dev = false) => {
   try {
-    const response = await axios({
+    const response = await networkClient.request({
       url: `${dev ? CORE_API_DEV : CORE_API}${url}`,
       method,
       params,
