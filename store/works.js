@@ -1,19 +1,8 @@
-// TODO: Create directory /store/works and place classes separately
-// eslint-disable-next-line max-classes-per-file
 import apiRequest from '@oacore/api/dist/request/request'
 
+import Page from './helpers/page'
+
 const PAGE_SIZE = 100
-
-class Page {
-  retrievedAt = null
-
-  data = []
-
-  constructor(data) {
-    this.data = data
-    this.retrievedAt = Date.now()
-  }
-}
 
 class Works {
   pages = new Map([])
