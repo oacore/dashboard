@@ -1,5 +1,3 @@
-import '@oacore/design/lib/index.css'
-
 export * from '@oacore/design/lib'
 
 export AppBarToggle from './app-bar/toggle'

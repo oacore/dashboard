@@ -4,6 +4,8 @@ import { withRouter } from 'next/router'
 
 import Route from './route'
 
+import '@oacore/design/lib/index.css'
+
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 
