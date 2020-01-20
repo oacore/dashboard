@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
-import { withGlobalStore } from '../../store'
 import pluginClassNames from './index.css'
+
+import { withGlobalStore } from 'store'
 
 const Plugin = ({ name, abstract, description, store }) => {
   const [isOpen, toggleOpen] = useState(false)

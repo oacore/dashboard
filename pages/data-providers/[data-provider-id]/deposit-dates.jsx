@@ -1,8 +1,8 @@
 import React from 'react'
 import { Label, Button } from '@oacore/design'
+import dayjs from 'dayjs'
 
-import { withGlobalStore } from '../../../store'
-
+import { withGlobalStore } from 'store'
 import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
 import { Card } from 'design'
@@ -40,6 +40,7 @@ const tableConfig = {
       display: 'Deposit At',
       order: '',
       className: styles.depositDateColumn,
+      render: v => v.format('DD/MM/YYYY'),
     },
   ],
 }
@@ -56,7 +57,7 @@ const DepositDates = ({
   ...restProps
 }) => {
   const fetchData = async (pageNumber, searchTerm, columnOrder) => {
-    const page = await store.works.retrieveWorks(
+    const page = await store.depositDates.retrieveDepositDates(
       pageNumber,
       searchTerm,
       columnOrder
@@ -64,10 +65,10 @@ const DepositDates = ({
 
     return page.data.map(v => ({
       id: v.id,
-      oai: v.identifier.oai,
+      oai: v.oai,
       title: v.title,
-      author: v.author.map(a => a.name).join(' '),
-      'deposit-at': '12 days ago',
+      author: v.author && v.author.map(a => a.name).join(' '),
+      'deposit-at': dayjs(v.publicReleaseDate),
     }))
   }
 

@@ -2,8 +2,8 @@ import React from 'react'
 import { AppBar } from '@oacore/design'
 
 import styles from './repository-select.css'
-import { withGlobalStore } from '../../store'
 
+import { withGlobalStore } from 'store'
 import { Select } from 'design'
 
 // TODO: Move to @oacore/api

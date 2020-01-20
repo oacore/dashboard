@@ -37,6 +37,15 @@ const nextConfig = {
         test: new RegExp(`\\.css$`),
         chunks: 'all',
         enforce: true,
+        priority: 10,
+      }
+
+      config.optimization.splitChunks.cacheGroups.vendors = {
+        test: /[\\/]node_modules[\\/]/,
+        name: 'vendors',
+        chunks: 'all',
+        enforce: true,
+        priority: 20,
       }
     }
 
@@ -69,7 +78,6 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.css$/,
       include: /\/design\/lib/,
-
       use: [
         hotCss,
         { ...cssLoader, options: { ...cssLoader.options, modules: false } },
@@ -103,6 +111,8 @@ const nextConfig = {
       components: path.join(__dirname, 'components'),
       texts: path.join(__dirname, 'texts'),
       utils: path.join(__dirname, 'utils'),
+      store: path.join(__dirname, 'store'),
+      api: path.join(__dirname, 'api'),
     })
 
     return config

@@ -4,9 +4,9 @@ import Icon from '@oacore/design/lib/components/icon'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
-import { withGlobalStore } from '../../../store'
 import styles from './content.css'
 
+import { withGlobalStore } from 'store'
 import Table from 'components/table'
 import PublishedToggle from 'components/published-toggle'
 import { Alert, Card } from 'design'
