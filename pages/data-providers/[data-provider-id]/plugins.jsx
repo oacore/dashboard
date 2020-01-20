@@ -1,53 +1,25 @@
 import React from 'react'
-import API from '@oacore/api'
+import Markdown from 'react-markdown'
 
 import pluginsClassNames from './plugins.css'
 
-import Plugin from 'components/plugin'
-import { Card } from 'design'
+import { Card, Button } from 'design'
+import { plugins } from 'texts'
 
-const integrations = [
-  {
-    name: 'Discovery',
-    abstract:
-      'Enrich your full text amount by dynamic adding missing bits from CORE',
-    description:
-      'Increase your website discoverability by cross-linking similar papers with help of our powerful recommender system',
-  },
-  {
-    name: 'Recommender',
-    abstract:
-      'Increase your website discoverability by cross-linking similar papers',
-    description:
-      'Increase your website discoverability by cross-linking similar papers with help of our powerful recommender system',
-  },
-]
+const Plugins = () => (
+  <main className={pluginsClassNames.container}>
+    <h1>Plugins</h1>
 
-class Plugins extends React.Component {
-  static async getInitialProps({ store }) {
-    const { statusCode, ...plugins } = await API.getIntegrations(140)
-    store.plugins = plugins
-  }
+    <Card tag="section">
+      <Markdown>{plugins.discovery.description}</Markdown>
+      <Button variant="contained">View</Button>
+    </Card>
 
-  // eslint-disable-next-line class-methods-use-this
-  render() {
-    return (
-      <Card tag="main">
-        <h1>Plugins</h1>
-        <p>Integrate our powerful services into your website.</p>
-        <div className={pluginsClassNames.plugins}>
-          {integrations.map(i => (
-            <Plugin
-              key={i.name}
-              name={i.name}
-              abstract={i.abstract}
-              description={i.description}
-            />
-          ))}
-        </div>
-      </Card>
-    )
-  }
-}
+    <Card tag="section">
+      <Markdown>{plugins.recommender.description}</Markdown>
+      <Button variant="contained">View</Button>
+    </Card>
+  </main>
+)
 
 export default Plugins

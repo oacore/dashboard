@@ -1,4 +1,7 @@
-.plugins {
-  display: flex;
-  flex-direction: column;
+.container {
+  padding: var(--component-padding-y, 1rem) var(--component-padding-x, 1rem);
+
+  & > * {
+    margin-bottom: var(--component-spacer-y, 1.5rem);
+  }
 }
