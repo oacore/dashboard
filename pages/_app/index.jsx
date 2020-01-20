@@ -3,8 +3,8 @@ import NextApp from 'next/app'
 import { withRouter } from 'next/router'
 
 import Route from './route'
-import { initStore, GlobalProvider } from '../../store'
 
+import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 
 class App extends NextApp {

@@ -103,6 +103,8 @@ const nextConfig = {
       components: path.join(__dirname, 'components'),
       texts: path.join(__dirname, 'texts'),
       utils: path.join(__dirname, 'utils'),
+      store: path.join(__dirname, 'store'),
+      api: path.join(__dirname, 'api'),
     })
 
     return config

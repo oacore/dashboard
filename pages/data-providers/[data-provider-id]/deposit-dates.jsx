@@ -1,8 +1,7 @@
 import React from 'react'
 import { Label, Button } from '@oacore/design'
 
-import { withGlobalStore } from '../../../store'
-
+import { withGlobalStore } from 'store'
 import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
 import { Card } from 'design'
