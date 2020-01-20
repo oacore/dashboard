@@ -4,6 +4,7 @@ import { Label, Button } from '@oacore/design'
 import { withGlobalStore } from '../../../store'
 
 import Table from 'components/table'
+import TimeLagChart from 'components/time-lag-chart'
 import { Card } from 'design'
 
 // TODO: Remove once cards are in @oacore/design
@@ -38,6 +39,7 @@ const tableConfig = {
       id: 'deposit-at',
       display: 'Deposit At',
       order: '',
+      className: styles.depositDateColumn,
     },
   ],
 }
@@ -98,6 +100,7 @@ const DepositDates = ({
         <p>
           The chart displays work distribution per deposit time lag in days.
         </p>
+        <TimeLagChart />
       </Card>
 
       <Card className={styles.browseTable} tag="section">
@@ -105,9 +108,9 @@ const DepositDates = ({
           key={store.dataProvider}
           className={styles.table}
           title="Browse deposit dates"
-          selectable
           config={tableConfig}
           fetchData={fetchData}
+          searchable
         />
       </Card>
     </Tag>

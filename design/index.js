@@ -1,3 +1,5 @@
+import '@oacore/design/lib/index.css'
+
 export * from '@oacore/design/lib'
 
 export AppBarToggle from './app-bar/toggle'
@@ -7,3 +9,4 @@ export CloseIcon from './close-icon'
 export Drawer from './drawer'
 export Logo from './logo'
 export Select from './select'
+export Alert from './alert'
