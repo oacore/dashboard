@@ -9,7 +9,10 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
+import { nest } from 'd3-collection'
+import { sum, mean } from 'd3-array'
 
+import CustomTooltip from './tooltip'
 import styles from './index.css'
 
 const formatter = value => {
@@ -40,6 +43,7 @@ const formatter = value => {
 }
 
 const ticks = [-365, -31, -7, 0, 7, 31, 90, 365]
+const aggregationSize = 14
 const TimeLagChart = React.memo(({ data }) => {
   const normalizedData = []
   for (
@@ -58,29 +62,38 @@ const TimeLagChart = React.memo(({ data }) => {
     }
   }
 
+  const aggregatedData = nest()
+    .key(d => Math.floor(d.depositTimeLag / aggregationSize))
+    .rollup(v => ({
+      total: sum(v, d => d.worksCount),
+      avg: mean(v, d => d.worksCount),
+    }))
+    .entries(normalizedData)
+
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart margin={{ bottom: -5 }} data={normalizedData}>
+      <BarChart margin={{ bottom: -5 }} data={aggregatedData}>
         <XAxis
-          type="numeric"
-          dataKey="depositTimeLag"
+          dataKey="key"
           tickLine={false}
           ticks={ticks}
           tickFormatter={formatter}
         />
-        <Tooltip />
+        <Tooltip
+          content={<CustomTooltip aggregationSize={aggregationSize} />}
+        />
         <ReferenceLine y={0} className={styles.referenceLine} />
-        <Bar dataKey="worksCount">
-          {normalizedData.map(entry => (
+        <Bar dataKey="value.total">
+          {aggregatedData.map(entry => (
             <Cell
               className={classNames
                 .use({
                   'lag-bar': true,
-                  compliant: entry.depositTimeLag <= 90,
+                  compliant: parseInt(entry.key, 10) * aggregationSize < 90,
                 })
                 .from(styles)
                 .toString()}
-              key={entry.depositTimeLag}
+              key={entry.key}
             />
           ))}
         </Bar>

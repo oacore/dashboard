@@ -47,6 +47,8 @@
     "cosmiconfig": "^6.0.0",
     "css-loader": "^3.2.1",
     "cssnano": "^4.1.10",
+    "d3-array": "^2.4.0",
+    "d3-collection": "^1.0.7",
     "dayjs": "^1.8.19",
     "extract-css-chunks-webpack-plugin": "^4.7.1",
     "mobx": "^5.15.0",
