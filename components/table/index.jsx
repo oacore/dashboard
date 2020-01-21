@@ -215,7 +215,7 @@ class InfiniteTable extends React.Component {
                 handleManualLoad={() => this.setState({ page: page + 1 })}
               />
             )}
-          {isEmpty && <NoDataFoundRow />}
+          {isEmpty && dataRequestCount === 0 && <NoDataFoundRow />}
 
           {dataRequestCount !== 0 && (
             <Table.Body>
