@@ -1,0 +1,39 @@
+:root {
+  --numeral-value-sm-size: 2em;
+  --numeral-value-md-size: 3em;
+  --numeral-value-lg-size: 4em;
+  --numeral-value-size: var(--numeral-value-md-size);
+}
+
+.container {
+  /* For the future */
+}
+
+.caption {
+  display: block;
+}
+
+.appendix {
+  font-size: calc(0.75 * var(--numeral-value-size, 2em));
+  font-weight: var(--numeral-value-weight, 300);
+  line-height: 1;
+  vertical-align: baseline;
+}
+
+.value {
+  font-size: var(--numeral-value-size, 2em);
+  font-weight: var(--numeral-value-weight, 300);
+  line-height: 1;
+}
+
+.diff {
+  vertical-align: top;
+}
+
+.small {
+  --numeral-value-size: var(--numeral-value-sm-size);
+}
+
+.large {
+  --numeral-value-size: var(--numeral-value-lg-size);
+}
