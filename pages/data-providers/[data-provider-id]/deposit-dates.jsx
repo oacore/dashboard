@@ -15,6 +15,7 @@ const tableConfig = {
   columns: [
     {
       id: 'oai',
+      order: '',
       display: 'OAI',
       sortable: true,
       expandedSize: 2,
@@ -26,7 +27,7 @@ const tableConfig = {
     {
       id: 'title',
       display: 'Title',
-      order: 'asc',
+      order: '',
       className: styles.titleColumn,
     },
     {
@@ -36,9 +37,9 @@ const tableConfig = {
       className: styles.authorsColumn,
     },
     {
-      id: 'deposit-at',
+      id: 'publicReleaseDate',
       display: 'Deposit At',
-      order: '',
+      order: 'desc',
       className: styles.depositDateColumn,
       render: v => v.format('DD/MM/YYYY'),
     },
@@ -68,7 +69,7 @@ const DepositDates = ({
       oai: v.oai,
       title: v.title,
       author: v.author && v.author.map(a => a.name).join(' '),
-      'deposit-at': dayjs(v.publicReleaseDate),
+      publicReleaseDate: dayjs(v.publicReleaseDate),
     }))
   }
 
