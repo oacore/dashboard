@@ -1,4 +1,5 @@
 import Page from './helpers/page'
+import getOrder from './helpers/order'
 
 import apiRequest from 'api'
 
@@ -11,19 +12,24 @@ class DepositDates {
     this.rootStore = rootStore
   }
 
-  retrieveDepositDates = async (pageNumber, searchTerm) => {
-    const key = `${this.rootStore.dataProvider}-${pageNumber}-${searchTerm}`
+  retrieveDepositDates = async (pageNumber, searchTerm, columnOrder) => {
+    const order = getOrder(columnOrder)
+    const key = `${this.rootStore.dataProvider}-${pageNumber}-${searchTerm}-${order}`
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
     if (this.pages.has(key)) return this.pages.get(key)
+
+    const params = {
+      from: pageNumber * PAGE_SIZE,
+      size: PAGE_SIZE,
+      q: searchTerm,
+    }
+
+    if (order) params.orderBy = order
     const [data] = await apiRequest(
       `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
       'GET',
-      {
-        from: pageNumber * PAGE_SIZE,
-        size: PAGE_SIZE,
-        q: searchTerm,
-      },
+      params,
       true
     )
     const page = new Page(data)
