@@ -1,5 +1,8 @@
+import { computed } from 'mobx'
+
 import Page from './helpers/page'
 import getOrder from './helpers/order'
+import timeLagData from './data'
 
 import apiRequest from 'api'
 
@@ -8,8 +11,27 @@ const PAGE_SIZE = 100
 class DepositDates {
   pages = new Map([])
 
+  timeLagData = timeLagData
+
   constructor(rootStore) {
     this.rootStore = rootStore
+  }
+
+  @computed
+  get complianceLevel() {
+    const [total, compliant] = this.timeLagData.reduce(
+      (acc, curr) => {
+        acc[0] += curr.worksCount
+
+        if (curr.depositTimeLag <= 90) acc[1] += curr.worksCount
+        return acc
+      },
+      [0, 0]
+    )
+
+    if (total === 0) return 0
+    const level = (compliant / total) * 100
+    return Math.round(level * 100) / 100
   }
 
   retrieveDepositDates = async (pageNumber, searchTerm, columnOrder) => {

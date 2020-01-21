@@ -80,7 +80,8 @@ const DepositDates = ({
       <Card className={styles.complianceLevel} tag="section">
         <h2>Compliance level</h2>
         <p>
-          Your deposit compliance is <strong>90%</strong>.
+          Your deposit compliance is{' '}
+          <strong>{store.depositDates.complianceLevel}%</strong>.
         </p>
         <p>
           Deposit compliance level is a percentage of works that has been
@@ -102,7 +103,7 @@ const DepositDates = ({
         <p>
           The chart displays work distribution per deposit time lag in days.
         </p>
-        <TimeLagChart />
+        <TimeLagChart data={store.depositDates.timeLagData} />
       </Card>
 
       <Card className={styles.browseTable} tag="section">
