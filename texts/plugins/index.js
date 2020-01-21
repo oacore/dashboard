@@ -1,13 +1,17 @@
+import Template from '../template'
+import overview from './overview.yml'
 import discoverySource from './discovery.md'
 import recommenderSource from './recommender.md'
 
 const discovery = {
-  description: discoverySource.body,
+  ...discoverySource.attributes,
+  description: new Template(discoverySource.body),
 }
 
 const recommender = {
-  description: recommenderSource.body,
+  ...recommenderSource.attributes,
+  description: new Template(recommenderSource.body),
 }
 
-export default { discovery, recommender }
-export { discovery, recommender }
+export default { overview, discovery, recommender }
+export { overview, discovery, recommender }

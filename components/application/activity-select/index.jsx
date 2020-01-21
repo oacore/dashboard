@@ -12,6 +12,7 @@ const toIcon = value =>
       'overview': 'dashboard',
       'content': 'document',
       'deposit-dates': 'calendar-check',
+      'plugins': 'puzzle',
     }[value]
   }`
 
