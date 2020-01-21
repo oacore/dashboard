@@ -45,10 +45,12 @@ const formatter = value => {
 const ticks = [-365, -31, -7, 0, 7, 31, 90, 365]
 const aggregationSize = 14
 const TimeLagChart = React.memo(({ data }) => {
+  const rawIntervalSize =
+    data[data.length - 1].depositTimeLag - data[0].depositTimeLag
   const normalizedData = []
   for (
     let i = 0;
-    i < data[data.length - 1].depositTimeLag - data[0].depositTimeLag;
+    i < rawIntervalSize + (rawIntervalSize % aggregationSize);
     i++
   ) {
     const lagIndex = i + data[0].depositTimeLag
