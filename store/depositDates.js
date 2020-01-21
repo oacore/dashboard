@@ -17,6 +17,23 @@ class DepositDates {
     this.rootStore = rootStore
   }
 
+  @computed
+  get complianceLevel() {
+    const [total, compliant] = this.timeLagData.reduce(
+      (acc, curr) => {
+        acc[0] += curr.worksCount
+
+        if (curr.depositTimeLag <= 90) acc[1] += curr.worksCount
+        return acc
+      },
+      [0, 0]
+    )
+
+    if (total === 0) return 0
+    const level = (compliant / total) * 100
+    return Math.round(level * 100) / 100
+  }
+
   retrieveDepositDates = async (pageNumber, searchTerm, columnOrder) => {
     const order = getOrder(columnOrder)
     const key = `${this.rootStore.dataProvider}-${pageNumber}-${searchTerm}-${order}`
