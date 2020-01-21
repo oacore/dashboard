@@ -1,5 +1,8 @@
+import { computed } from 'mobx'
+
 import Page from './helpers/page'
 import getOrder from './helpers/order'
+import timeLagData from './data'
 
 import apiRequest from 'api'
 
@@ -7,6 +10,8 @@ const PAGE_SIZE = 100
 
 class DepositDates {
   pages = new Map([])
+
+  timeLagData = timeLagData
 
   constructor(rootStore) {
     this.rootStore = rootStore

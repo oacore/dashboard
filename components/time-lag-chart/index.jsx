@@ -10,7 +10,6 @@ import {
 } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
 
-import data from './data'
 import styles from './index.css'
 
 const formatter = value => {
@@ -41,7 +40,7 @@ const formatter = value => {
 }
 
 const ticks = [-365, -31, -7, 0, 7, 31, 90, 365]
-const TimeLagChart = React.memo(() => (
+const TimeLagChart = React.memo(({ data }) => (
   <ResponsiveContainer width="100%" height={300}>
     <BarChart margin={{ bottom: -5 }} data={data}>
       <XAxis
