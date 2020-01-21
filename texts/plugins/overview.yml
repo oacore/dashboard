@@ -1,0 +1,10 @@
+discovery:
+  title: Discovery
+  description: |
+    Increase your website discoverability by cross-linking similar pages
+  action: How to install
+recommender:
+  title: Recommender
+  description: |
+    Enrich your full text coverage dynamically adding missing bits from CORE
+  action: How to install
