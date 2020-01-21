@@ -15,35 +15,38 @@ import { sum, mean } from 'd3-array'
 import CustomTooltip from './tooltip'
 import styles from './index.css'
 
-const formatter = value => {
-  switch (value) {
-    case -365:
-      return '-1y'
-    case -31:
-      return '-1m'
-    case -7:
-      return '-1w'
-    case 0:
-      return '0'
-    case 7:
-      return '1w'
-    case 31:
-      return '1m'
-    case 90:
-      return '90d'
-    case 365:
-      return '1y'
-    case 365 * 2:
-      return '2y'
-    case 365 * 3:
-      return '3y'
-    default:
-      return `${value}`
-  }
+const customTicks = {
+  [-365 * 3]: '-3y',
+  [-365 * 2]: '-2y',
+  [-365]: '-1y',
+  [-31]: '-1m',
+  [-7]: '-1w',
+  0: '0',
+  7: '1w',
+  31: '1m',
+  90: '90d',
+  365: '1y',
+  [365 * 2]: '2y',
+  [365 * 3]: '3y',
+}
+const aggregationSize = 14
+
+const isInInterval = (group, day) =>
+  day >= group * aggregationSize &&
+  day <= group * aggregationSize + aggregationSize - 1
+
+const isTick = group =>
+  Object.keys(customTicks).some(day => isInInterval(group, parseInt(day, 10)))
+
+const formatter = g => {
+  const group = parseInt(g, 10)
+  const el = Object.entries(customTicks).find(e =>
+    isInInterval(group, parseInt(e[0], 10))
+  )
+  if (el) return el[1]
+  return ''
 }
 
-const ticks = [-365, -31, -7, 0, 7, 31, 90, 365]
-const aggregationSize = 14
 const TimeLagChart = React.memo(({ data }) => {
   const rawIntervalSize =
     data[data.length - 1].depositTimeLag - data[0].depositTimeLag
@@ -71,6 +74,10 @@ const TimeLagChart = React.memo(({ data }) => {
       avg: mean(v, d => d.worksCount),
     }))
     .entries(normalizedData)
+
+  const ticks = aggregatedData
+    .filter(e => isTick(parseInt(e.key, 10)))
+    .map(e => e.key)
 
   return (
     <ResponsiveContainer width="100%" height={300}>
