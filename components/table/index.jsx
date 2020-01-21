@@ -148,6 +148,7 @@ class InfiniteTable extends React.Component {
               this.setState({
                 searchTerm: event.target.value,
                 page: 0,
+                isEmpty: false,
               })
             }
             value={searchTerm}

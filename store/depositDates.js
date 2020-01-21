@@ -22,16 +22,24 @@ class DepositDates {
     const params = {
       from: pageNumber * PAGE_SIZE,
       size: PAGE_SIZE,
-      q: searchTerm,
     }
 
     if (order) params.orderBy = order
-    const [data] = await apiRequest(
-      `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
-      'GET',
-      params,
-      true
-    )
+    if (searchTerm) params.q = searchTerm
+
+    let data
+    try {
+      ;[data] = await apiRequest(
+        `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
+        'GET',
+        params,
+        true
+      )
+    } catch (e) {
+      if (e.statusCode === 404) data = []
+      else throw e
+    }
+
     const page = new Page(data)
     this.pages.set(key, page)
     return page
