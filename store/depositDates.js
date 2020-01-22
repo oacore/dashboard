@@ -1,4 +1,5 @@
-import { computed } from 'mobx'
+import download from 'downloadjs'
+import { action, autorun, computed, observable } from 'mobx'
 
 import Page from './helpers/page'
 import getOrder from './helpers/order'
@@ -8,13 +9,24 @@ import apiRequest from 'api'
 
 const PAGE_SIZE = 100
 
+const isServer = typeof window === 'undefined'
+
 class DepositDates {
   pages = new Map([])
+
+  @observable isExportInProgress = false
+
+  @observable isExportDisabled = false
+
+  @observable depositDatesCount = 0
 
   timeLagData = timeLagData
 
   constructor(rootStore) {
     this.rootStore = rootStore
+
+    // Register reactions
+    this.onDataProviderChange()
   }
 
   @computed
@@ -51,12 +63,14 @@ class DepositDates {
 
     let data
     try {
-      ;[data] = await apiRequest(
+      const r = await apiRequest(
         `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
         'GET',
         params,
+        {},
         true
       )
+      data = r.data
     } catch (e) {
       if (e.statusCode === 404) data = []
       else throw e
@@ -66,6 +80,55 @@ class DepositDates {
     this.pages.set(key, page)
     return page
   }
+
+  @action
+  exportCsv = async () => {
+    this.isExportInProgress = true
+    try {
+      const { data } = await apiRequest(
+        `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
+        'GET',
+        {
+          accept: 'text/csv',
+        },
+        {
+          'Content-Type': 'text/csv',
+        },
+        true
+      )
+      await download(data[0], 'deposit-dates.csv', 'text/csv')
+    } finally {
+      this.isExportInProgress = true
+    }
+  }
+
+  @action
+  loadDepositDatesCount = async () => {
+    try {
+      this.isExportDisabled = false
+      const r = await apiRequest(
+        `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
+        'HEAD',
+        {
+          accept: 'text/csv',
+        },
+        {
+          'Content-Type': 'text/csv',
+        },
+        true
+      )
+      this.depositDatesCount = r.headers['collection-length']
+    } catch (e) {
+      if (e.statusCode === 404) this.isExportDisabled = true
+      else throw e
+    }
+  }
+
+  onDataProviderChange = () =>
+    autorun(() => {
+      if (isServer) return
+      this.loadDepositDatesCount()
+    })
 }
 
 export default DepositDates

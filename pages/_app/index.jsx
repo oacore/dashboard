@@ -11,15 +11,22 @@ import Application from 'components/application'
 
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
-    const store = initStore()
     let pageProps = {}
     // Provide the store to getInitialProps of pages
     if (Component.getInitialProps)
-      pageProps = (await Component.getInitialProps({ ...ctx, store })) || {}
+      pageProps = (await Component.getInitialProps({ ...ctx })) || {}
 
     return {
       pageProps,
     }
+  }
+
+  store = null
+
+  componentDidMount() {
+    const { router } = this.props
+    const { dataProvider, activity } = new Route(router.asPath)
+    this.store = initStore({ dataProvider, activity })
   }
 
   handleNavigation = event => {
@@ -36,21 +43,20 @@ class App extends NextApp {
 
   render() {
     const { Component, pageProps, router } = this.props
+    const { store } = this
+
+    if (store === null) return null
 
     const { dataProvider, activity } = new Route(router.asPath)
 
-    const store = initStore()
-
-    // needs to be done here because getInitialProps can be called before
-    // handleNavigation (router.push) is done
     store.dataProvider = dataProvider
     store.activity = activity
 
     return (
       <GlobalProvider store={store}>
         <Application
-          dataProvider={store.dataProvider}
-          activity={store.activity}
+          dataProvider={dataProvider}
+          activity={activity}
           onClick={this.handleNavigation}
         >
           <Component {...pageProps} />

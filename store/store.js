@@ -24,7 +24,12 @@ class RootStore {
 
   @observable user = null
 
-  constructor() {
+  @observable depositDates = null
+
+  constructor(dataProvider, activity) {
+    this.dataProvider = dataProvider
+    this.activity = activity
+
     this.works = new Works(this)
     this.user = new User(this)
     this.depositDates = new DepositDates(this)

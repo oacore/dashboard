@@ -13,18 +13,23 @@ const networkClient = axios.create({
   }),
 })
 
-const apiRequest = async (url, method = 'GET', params = {}, dev = false) => {
+const apiRequest = async (
+  url,
+  method = 'GET',
+  params = {},
+  headers = {},
+  dev = false
+) => {
   try {
-    const response = await networkClient.request({
+    return await networkClient.request({
       url: `${dev ? CORE_API_DEV : CORE_API}${url}`,
       method,
       params,
       headers: {
         'Content-Type': 'application/json',
+        ...headers,
       },
     })
-
-    return [response.data, response.status]
   } catch (e) {
     const { response, message } = e
     let networkError

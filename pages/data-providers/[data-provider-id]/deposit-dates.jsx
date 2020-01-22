@@ -92,10 +92,19 @@ const DepositDates = ({
       <Card className={styles.export} tag="section">
         <h2>Export</h2>
         <p>
-          We have deposit dates for <b>182, 719</b> out of 183,219 works within
-          your repository
+          Download <b>{store.depositDates.depositDatesCount || ''}</b> deposit
+          dates for your repository as CSV.
         </p>
-        <Button variant="contained">Download</Button>
+        <Button
+          variant="contained"
+          onClick={() => store.depositDates.exportCsv()}
+          disabled={
+            store.depositDates.isExportInProgress ||
+            store.depositDates.isExportDisabled
+          }
+        >
+          Download
+        </Button>
       </Card>
 
       <Card className={styles.depositTimeLag} tag="section">
