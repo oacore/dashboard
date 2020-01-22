@@ -9,13 +9,13 @@ let globalStore = null
 
 useStaticRendering(isServer)
 
-export const initStore = () => {
+export const initStore = ({ dataProvider, activity }) => {
   // on the server-side a new instance is created for each page request
   // as we don't wan't to mix between users/requests, etc.
-  if (isServer) return new RootStore()
+  if (isServer) return new RootStore(dataProvider, activity)
 
   if (!globalStore) {
-    globalStore = new RootStore()
+    globalStore = new RootStore(dataProvider, activity)
     return globalStore
   }
 

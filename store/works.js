@@ -19,17 +19,17 @@ class Works {
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
     if (this.pages.has(key)) return this.pages.get(key)
-
     const params = {
       from: pageNumber * PAGE_SIZE,
       size: PAGE_SIZE,
     }
     if (order) params.orderBy = order
     if (searchTerm) params.q = searchTerm
-    const [data] = await apiRequest(
+    const { data } = await apiRequest(
       `/data-providers/${this.rootStore.dataProvider}/works`,
       'GET',
       params,
+      {},
       true
     )
     const page = new Page(data)

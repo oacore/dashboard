@@ -1,5 +1,5 @@
 import download from 'downloadjs'
-import { action, computed, observable } from 'mobx'
+import { action, autorun, computed, observable } from 'mobx'
 
 import Page from './helpers/page'
 import getOrder from './helpers/order'
@@ -9,15 +9,22 @@ import apiRequest from 'api'
 
 const PAGE_SIZE = 100
 
+const isServer = typeof window === 'undefined'
+
 class DepositDates {
   pages = new Map([])
 
   @observable isExportInProgress = false
 
+  @observable depositDatesCount = 0
+
   timeLagData = timeLagData
 
   constructor(rootStore) {
     this.rootStore = rootStore
+
+    // Register reactions
+    this.onDataProviderChange()
   }
 
   @computed
@@ -54,13 +61,14 @@ class DepositDates {
 
     let data
     try {
-      ;[data] = await apiRequest(
+      const r = await apiRequest(
         `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
         'GET',
         params,
         {},
         true
       )
+      data = r.data
     } catch (e) {
       if (e.statusCode === 404) data = []
       else throw e
@@ -75,7 +83,7 @@ class DepositDates {
   exportCsv = async () => {
     this.isExportInProgress = true
     try {
-      const data = await apiRequest(
+      const { data } = await apiRequest(
         `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
         'GET',
         {
@@ -91,6 +99,28 @@ class DepositDates {
       this.isExportInProgress = false
     }
   }
+
+  @action
+  loadDepositDatesCount = async () => {
+    const r = await apiRequest(
+      `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
+      'HEAD',
+      {
+        accept: 'text/csv',
+      },
+      {
+        'Content-Type': 'text/csv',
+      },
+      true
+    )
+    this.depositDatesCount = r.headers['collection-length']
+  }
+
+  onDataProviderChange = () =>
+    autorun(() => {
+      if (isServer) return
+      this.loadDepositDatesCount()
+    })
 }
 
 export default DepositDates
