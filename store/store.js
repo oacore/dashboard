@@ -2,6 +2,7 @@ import { observable, action, autorun } from 'mobx'
 import Router from 'next/router'
 
 import DepositDates from './depositDates'
+import Statistics from './statistics'
 import User from './user'
 import Works from './works'
 import Route from '../pages/_app/route'
@@ -18,6 +19,8 @@ class RootStore {
     name: 'Open Research Online',
   }
 
+  @observable statistics = null
+
   @observable plugins = null
 
   @observable works = null
@@ -33,6 +36,7 @@ class RootStore {
     this.works = new Works(this)
     this.user = new User(this)
     this.depositDates = new DepositDates(this)
+    this.statistics = new Statistics(this)
 
     // Register reactions
     this.onDataProviderChange()
@@ -47,6 +51,7 @@ class RootStore {
       if (isServer) return
       const route = new Route(window.location.pathname)
       route.dataProvider = this.dataProvider
+      this.statistics.onDataProviderChange(this.dataProvider)
       Router.push(route.href, route.as)
     })
 }
