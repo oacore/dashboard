@@ -98,7 +98,10 @@ const DepositDates = ({
         <Button
           variant="contained"
           onClick={() => store.depositDates.exportCsv()}
-          disabled={store.depositDates.isExportInProgress}
+          disabled={
+            store.depositDates.isExportInProgress ||
+            store.depositDates.isExportDisabled
+          }
         >
           Download
         </Button>

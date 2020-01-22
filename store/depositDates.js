@@ -16,6 +16,8 @@ class DepositDates {
 
   @observable isExportInProgress = false
 
+  @observable isExportDisabled = false
+
   @observable depositDatesCount = 0
 
   timeLagData = timeLagData
@@ -96,24 +98,30 @@ class DepositDates {
       )
       await download(data[0], 'deposit-dates.csv', 'text/csv')
     } finally {
-      this.isExportInProgress = false
+      this.isExportInProgress = true
     }
   }
 
   @action
   loadDepositDatesCount = async () => {
-    const r = await apiRequest(
-      `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
-      'HEAD',
-      {
-        accept: 'text/csv',
-      },
-      {
-        'Content-Type': 'text/csv',
-      },
-      true
-    )
-    this.depositDatesCount = r.headers['collection-length']
+    try {
+      this.isExportDisabled = false
+      const r = await apiRequest(
+        `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
+        'HEAD',
+        {
+          accept: 'text/csv',
+        },
+        {
+          'Content-Type': 'text/csv',
+        },
+        true
+      )
+      this.depositDatesCount = r.headers['collection-length']
+    } catch (e) {
+      if (e.statusCode === 404) this.isExportDisabled = true
+      else throw e
+    }
   }
 
   onDataProviderChange = () =>
