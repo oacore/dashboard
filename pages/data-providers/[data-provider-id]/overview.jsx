@@ -2,6 +2,7 @@ import React from 'react'
 import { ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
 
+import { withGlobalStore } from 'store'
 import { Button, Card, Overlay, Numeral } from 'design'
 
 // TODO: Remove once cards are in @oacore/design
@@ -16,12 +17,6 @@ const Num = ({ value, append, caption, diff, ...restProps }) => (
     <Numeral.Caption>{caption}</Numeral.Caption>
   </Numeral>
 )
-
-const dataProviderStatistics = {
-  metaDataCount: 5714,
-  fullTextCount: 2114,
-  depositCompliance: 18.4,
-}
 
 const RadialChart = ({ value, caption }) => (
   <div className={styles.chartContainer}>
@@ -118,13 +113,13 @@ const DashboardView = ({
   </main>
 )
 
-const Dashboard = ({ ...restProps }) => (
+const Dashboard = ({ store, ...restProps }) => (
   <DashboardView
-    metaDataCount={dataProviderStatistics.metaDataCount}
-    fullTextCount={dataProviderStatistics.fullTextCount}
-    depositCompliance={dataProviderStatistics.depositCompliance}
+    metaDataCount={store.statistics.metaDataCount}
+    fullTextCount={store.statistics.fullTextCount}
+    depositCompliance={store.depositDates.complianceLevel}
     {...restProps}
   />
 )
 
-export default Dashboard
+export default withGlobalStore(Dashboard)
