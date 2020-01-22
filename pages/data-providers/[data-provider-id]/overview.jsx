@@ -63,7 +63,7 @@ const PlaceholderCard = ({ title, value, description }) => (
 )
 
 const DataStatisticsCard = ({
-  metaDataCount,
+  metadataCount,
   fullTextCount,
   className,
   ...restProps
@@ -71,7 +71,7 @@ const DataStatisticsCard = ({
   <Card className={classNames.use(styles.dataCard, className)} {...restProps}>
     <h2>Content at glance</h2>
     <Num value={fullTextCount} caption="full texts" />
-    <Num value={metaDataCount} caption="meta-data records" size="small" />
+    <Num value={metadataCount} caption="meta-data records" size="small" />
     <Button variant="contained" href="content" tag="a">
       Browse
     </Button>
@@ -90,7 +90,7 @@ const DepositingCard = ({ title = 'Depositing', description, value }) => (
 )
 
 const DashboardView = ({
-  metaDataCount,
+  metadataCount,
   fullTextCount,
   depositCompliance,
   className,
@@ -103,7 +103,7 @@ const DashboardView = ({
     <h1 className="sr-only">Overview</h1>
 
     <DataStatisticsCard
-      metaDataCount={metaDataCount}
+      metadataCount={metadataCount}
       fullTextCount={fullTextCount}
     />
     <DepositingCard value={depositCompliance} />
@@ -115,7 +115,7 @@ const DashboardView = ({
 
 const Dashboard = ({ store, ...restProps }) => (
   <DashboardView
-    metaDataCount={store.statistics.metaDataCount}
+    metadataCount={store.statistics.metadataCount}
     fullTextCount={store.statistics.fullTextCount}
     depositCompliance={store.depositDates.complianceLevel}
     {...restProps}
