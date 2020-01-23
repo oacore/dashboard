@@ -18,7 +18,6 @@ const tableConfig = {
     {
       id: 'oai',
       display: 'OAI',
-      sortable: true,
       expandedSize: 3,
       className: styles.labelColumn,
       render: ({ oai, doi }, isExpanded) => (
@@ -33,14 +32,12 @@ const tableConfig = {
     {
       id: 'title',
       display: 'Title',
-      sortable: true,
       expandedSize: null,
       className: styles.titleColumn,
     },
     {
       id: 'authors',
       display: 'Authors',
-      sortable: false,
       expandedSize: null,
       className: styles.authorsColumn,
     },
@@ -48,7 +45,6 @@ const tableConfig = {
       id: 'lastUpdate',
       display: 'Last Update',
       order: 'desc',
-      sortable: true,
       expandedSize: 1,
       className: styles.lastUpdateColumn,
       render: v => v.fromNow(),
@@ -56,7 +52,7 @@ const tableConfig = {
     {
       id: 'visibility',
       display: 'Visibility',
-      sortable: false,
+      order: '',
       expandedSize: 1,
       className: styles.visibilityColumn,
       render: (v, isExpanded) => (
