@@ -1,12 +1,14 @@
 import React from 'react'
 
-const Tooltip = ({ label, aggregationSize }) => {
+const Tooltip = ({ active, payload, label, aggregationSize }) => {
   const index = parseInt(label, 10) * aggregationSize
+  if (!active) return null
+
   return (
     <div>
-      <b>Deposit time lag</b>
-      <br />
-      {index}/{index + aggregationSize - 1}
+      {Math.abs(payload[0].value)} works deposited in <br />
+      {Math.abs(index)} - {Math.abs(index + aggregationSize - 1)} days{' '}
+      {index < 0 ? 'before' : 'after'} publication
     </div>
   )
 }

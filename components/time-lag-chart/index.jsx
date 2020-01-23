@@ -31,17 +31,19 @@ const customTicks = {
 }
 const aggregationSize = 14
 
-const isInInterval = (group, day) =>
-  day >= group * aggregationSize &&
-  day <= group * aggregationSize + aggregationSize - 1
+const isInInterval = (groupIndex, dayIndex, groupSize = aggregationSize) =>
+  dayIndex >= groupIndex * groupSize &&
+  dayIndex <= groupIndex * groupSize + groupSize - 1
 
-const isTick = group =>
-  Object.keys(customTicks).some(day => isInInterval(group, parseInt(day, 10)))
+const isTick = groupIndex =>
+  Object.keys(customTicks).some(day =>
+    isInInterval(groupIndex, parseInt(day, 10))
+  )
 
 const formatter = g => {
-  const group = parseInt(g, 10)
+  const groupIndex = parseInt(g, 10)
   const el = Object.entries(customTicks).find(e =>
-    isInInterval(group, parseInt(e[0], 10))
+    isInInterval(groupIndex, parseInt(e[0], 10))
   )
   if (el) return el[1]
   return ''
