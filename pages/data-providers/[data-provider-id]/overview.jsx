@@ -4,6 +4,8 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import { withGlobalStore } from 'store'
 import { Button, Card, Overlay, Numeral } from 'design'
+import TimeLagChart from 'components/time-lag-chart'
+import { depositing } from 'texts/overview'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
@@ -83,21 +85,31 @@ const DataStatisticsCard = ({
   </Card>
 )
 
-const DepositingCard = ({ title = 'Depositing', description, value }) => (
-  <Card>
-    <h2>{title}</h2>
-    <RadialChart value={value} caption="papers" />
-    <p>{description}</p>
-    <Button variant="contained" href="deposit-dates" tag="a">
-      Browse
-    </Button>
-  </Card>
-)
+const DepositingCard = ({ chartData, complianceLevel }) => {
+  const { title, description, action } = depositing
+  return (
+    <Card>
+      <h2>{title}</h2>
+      <TimeLagChart data={chartData} height={200} />
+      {description && (
+        <p>
+          {description.render({
+            amount: `${(100 - complianceLevel).toFixed(2)}%`,
+          })}
+        </p>
+      )}
+      <Button variant="contained" href="deposit-dates" tag="a">
+        {action}
+      </Button>
+    </Card>
+  )
+}
 
 const DashboardView = ({
   metadataCount,
   fullTextCount,
-  depositCompliance,
+  timeLagData,
+  complianceLevel,
   className,
   ...restProps
 }) => (
@@ -111,7 +123,7 @@ const DashboardView = ({
       metadataCount={metadataCount}
       fullTextCount={fullTextCount}
     />
-    <DepositingCard value={depositCompliance} />
+    <DepositingCard chartData={timeLagData} complianceLevel={complianceLevel} />
 
     <PlaceholderCard title="DOIs" value={14.2} />
     <PlaceholderCard title="ORCiDs" value={5.8} />
@@ -122,7 +134,10 @@ const Dashboard = ({ store, ...restProps }) => (
   <DashboardView
     metadataCount={store.statistics.metadataCount}
     fullTextCount={store.statistics.fullTextCount}
-    depositCompliance={store.depositDates.complianceLevel}
+    timeLagData={store.depositDates.timeLagData.filter(
+      item => item.depositTimeLag >= -45 && item.depositTimeLag <= 135
+    )}
+    complianceLevel={store.depositDates.complianceLevel}
     {...restProps}
   />
 )
