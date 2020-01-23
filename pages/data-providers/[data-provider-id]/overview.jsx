@@ -9,9 +9,14 @@ import { Button, Card, Overlay, Numeral } from 'design'
 // eslint-disable-next-line
 import styles from './overview.css'
 
+const formatNumber = (n, { locale = 'en-GB' } = {}) =>
+  n > 1000
+    ? `${(Math.floor(n / 10) / 100).toLocaleString(locale)}\xa0K`
+    : n.toLocaleString(locale)
+
 const Num = ({ value, append, caption, diff, ...restProps }) => (
   <Numeral tag="p" {...restProps}>
-    <Numeral.Value>{value}</Numeral.Value>
+    <Numeral.Value>{formatNumber(value)}</Numeral.Value>
     {append && <Numeral.Appendix>&nbsp;{append}</Numeral.Appendix>}{' '}
     {diff && <Numeral.Diff>{diff}</Numeral.Diff>}{' '}
     <Numeral.Caption>{caption}</Numeral.Caption>
