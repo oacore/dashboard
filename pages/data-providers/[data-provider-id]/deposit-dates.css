@@ -61,18 +61,18 @@
 }
 
 .title-column {
-  width: 40%;
+  width: 35%;
 
   /* TODO: allow width: auto; min-width does not work */
   min-width: 15rem;
 }
 
 .authors-column {
-  width: 30%;
+  width: 25%;
   min-width: 10rem;
 }
 
 .deposit-date-column {
-  width: 20%;
+  width: 15%;
   min-width: 12rem;
 }

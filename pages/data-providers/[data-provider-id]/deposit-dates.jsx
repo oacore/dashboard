@@ -37,6 +37,12 @@ const tableConfig = {
       className: styles.authorsColumn,
     },
     {
+      id: 'publicationDate',
+      display: 'Publication Date',
+      className: styles.depositDateColumn,
+      render: v => v.format('DD/MM/YYYY'),
+    },
+    {
       id: 'publicReleaseDate',
       display: 'Deposit At',
       order: 'desc',
@@ -69,6 +75,7 @@ const DepositDates = ({
       oai: v.oai,
       title: v.title,
       author: v.author && v.author.map(a => a.name).join(' '),
+      publicationDate: dayjs(v.publicationDate),
       publicReleaseDate: dayjs(v.publicReleaseDate),
     }))
   }

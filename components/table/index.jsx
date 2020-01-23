@@ -178,6 +178,7 @@ class InfiniteTable extends React.Component {
                   key={column.id}
                   order={columnOrder[column.id]}
                   onClick={event => {
+                    if (columnOrder[column.id] === null) return
                     event.preventDefault()
                     this.toggleOrder(column.id)
                   }}
