@@ -7,11 +7,10 @@ const Index = ({ store }) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (!store.user.organisationId) return
     const pathname = '/data-providers/[data-provider-id]'
-    const asPath = `/data-providers/${store.user.organisationId}`
+    const asPath = `/data-providers/${store.user.firstRepositoryId}`
     router.replace(pathname, asPath)
-  }, [store.user.organisationId])
+  }, [])
 
   return null
 }

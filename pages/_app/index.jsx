@@ -27,9 +27,8 @@ class App extends NextApp {
   }
 
   redirectToLogin = () => {
-    const { router } = this.props
     const pathname = '/login.html'
-    router.replace(pathname, pathname)
+    window.location.replace(pathname)
   }
 
   async componentDidMount() {

@@ -11,13 +11,13 @@ const RepositorySelect = ({ store }) => (
     <Select
       id="repository"
       className={styles.repositorySelect}
-      options={store.dataProviders.retrieveDataProviders}
-      value={store.dataProviders.selectedProvider.name}
+      options={() => store.user.repositories}
+      value={store.user.selectedRepository.name}
       onSelectionChange={v => {
         store.repository = v
         store.changeDataProvider(v.id)
       }}
-      disabled={store.user.isAdmin}
+      disabled={store.user.repositories.length <= 1}
     />
   </AppBar.Item>
 )

@@ -11,12 +11,9 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
   <>
     <Head />
     <Container {...restProps}>
-      {dataProvider && (
-        <AppBar>
-          <RepositorySelect value={dataProvider} />
-        </AppBar>
-      )}
-
+      <AppBar>
+        {dataProvider && <RepositorySelect value={dataProvider} />}
+      </AppBar>
       <SideBar tag="nav">
         <h2 className="sr-only">Navigate your data</h2>
         {dataProvider && (
@@ -31,7 +28,6 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
           </ActivitySelect>
         )}
       </SideBar>
-
       <Main>{children}</Main>
     </Container>
   </>

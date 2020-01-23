@@ -1,5 +1,3 @@
-import Router from 'next/router'
-
 import { NetworkError } from './errors'
 
 const CORE_API = 'https://api.core.ac.uk/internal'
@@ -26,13 +24,21 @@ const apiRequest = async (
       headers,
     })
 
-    if (response.status === 401) Router.push('/login.html')
-    if (response.status >= 400 && response.status < 599)
+    if (response.status === 401) window.location.replace('/login.html')
+    if (response.status >= 400)
       throw new NetworkError(`Request failed on ${response.status}`, response)
 
-    if (headers['Content-Type'] === 'application/json')
-      return await response.json()
-    return await response.blob()
+    if (headers['Content-Type'] === 'application/json') {
+      return {
+        headers: response.headers,
+        data: await response.json(),
+      }
+    }
+
+    return {
+      headers: response.headers,
+      data: await response.blob(),
+    }
   } catch (e) {
     const { response, message } = e
     const { text } = await response.text()
@@ -50,7 +56,7 @@ const apiRequest = async (
         `Request ${method} ${url} failed. The original error was: ${message}`
       )
     }
-    networkError.statusCode = (response && response.status) || 500
+    networkError.status = (response && response.status) || 500
     throw networkError
   }
 }

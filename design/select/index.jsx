@@ -95,7 +95,7 @@ const Select = ({
 
   return (
     <Tag className={classNames(styles.selectWrapper, className)}>
-      {disabled && (
+      {!disabled && (
         <>
           <div className="sr-only" aria-live="assertive">
             {showSuggestions &&
@@ -142,7 +142,7 @@ const Select = ({
         </>
       )}
       <div className={classNames(styles.inputContainer)}>{value}</div>
-      {disabled && (
+      {!disabled && (
         <ul
           id={`suggestion-results-${id}`}
           className={classNames(styles.selectMenu, {

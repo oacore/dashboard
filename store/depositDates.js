@@ -72,7 +72,7 @@ class DepositDates {
       )
       data = r.data
     } catch (e) {
-      if (e.statusCode === 404) data = []
+      if (e.status === 404) data = []
       else throw e
     }
 
@@ -98,7 +98,7 @@ class DepositDates {
       )
       await download(data[0], 'deposit-dates.csv', 'text/csv')
     } finally {
-      this.isExportInProgress = true
+      this.isExportInProgress = false
     }
   }
 
@@ -119,14 +119,15 @@ class DepositDates {
       )
       this.depositDatesCount = r.headers['collection-length']
     } catch (e) {
-      if (e.statusCode === 404) this.isExportDisabled = true
-      // else throw e
+      if (e.status === 404) this.isExportDisabled = true
+      else throw e
     }
   }
 
   onDataProviderChange = () =>
     autorun(() => {
       if (isServer) return
+      if (!this.rootStore.dataProvider) return
       this.loadDepositDatesCount()
     })
 }
