@@ -9,64 +9,108 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
+import { nest } from 'd3-collection'
+import { sum, mean } from 'd3-array'
 
+import CustomTooltip from './tooltip'
 import styles from './index.css'
 
-const formatter = value => {
-  switch (value) {
-    case -365:
-      return '-1y'
-    case -31:
-      return '-1m'
-    case -7:
-      return '-1w'
-    case 0:
-      return '0'
-    case 7:
-      return '1w'
-    case 31:
-      return '1m'
-    case 90:
-      return '90d'
-    case 365:
-      return '1y'
-    case 365 * 2:
-      return '2y'
-    case 365 * 3:
-      return '3y'
-    default:
-      return `${value}`
-  }
+const customTicks = {
+  [-365 * 3]: '-3y',
+  [-365 * 2]: '-2y',
+  [-365]: '-1y',
+  [-31]: '-1m',
+  [-7]: '-1w',
+  0: '0',
+  7: '1w',
+  31: '1m',
+  90: '90d',
+  365: '1y',
+  [365 * 2]: '2y',
+  [365 * 3]: '3y',
+}
+const aggregationSize = 14
+
+const isInInterval = (groupIndex, dayIndex, groupSize = aggregationSize) =>
+  dayIndex >= groupIndex * groupSize &&
+  dayIndex <= groupIndex * groupSize + groupSize - 1
+
+const isTick = groupIndex =>
+  Object.keys(customTicks).some(day =>
+    isInInterval(groupIndex, parseInt(day, 10))
+  )
+
+const formatter = g => {
+  const groupIndex = parseInt(g, 10)
+  const el = Object.entries(customTicks).find(e =>
+    isInInterval(groupIndex, parseInt(e[0], 10))
+  )
+  if (el) return el[1]
+  return ''
 }
 
-const ticks = [-365, -31, -7, 0, 7, 31, 90, 365]
-const TimeLagChart = React.memo(({ data }) => (
-  <ResponsiveContainer width="100%" height={300}>
-    <BarChart margin={{ bottom: -5 }} data={data}>
-      <XAxis
-        dataKey="depositTimeLag"
-        tickLine={false}
-        ticks={ticks}
-        tickFormatter={formatter}
-      />
-      <Tooltip />
-      <ReferenceLine y={0} className={styles.referenceLine} />
-      <Bar dataKey="worksCount">
-        {data.map(entry => (
-          <Cell
-            className={classNames
-              .use({
-                'lag-bar': true,
-                compliant: entry.depositTimeLag <= 90,
-              })
-              .from(styles)
-              .toString()}
-            key={entry.depositTimeLag}
-          />
-        ))}
-      </Bar>
-    </BarChart>
-  </ResponsiveContainer>
-))
+const TimeLagChart = React.memo(({ data }) => {
+  const rawIntervalSize =
+    data[data.length - 1].depositTimeLag - data[0].depositTimeLag
+  const normalizedData = []
+  for (
+    let i = 0;
+    i < rawIntervalSize + (rawIntervalSize % aggregationSize);
+    i++
+  ) {
+    const lagIndex = i + data[0].depositTimeLag
+    const el = data.find(e => e.depositTimeLag === lagIndex)
+    if (el) normalizedData.push(el)
+    else {
+      normalizedData.push({
+        depositTimeLag: lagIndex,
+        worksCount: 0,
+      })
+    }
+  }
+
+  const aggregatedData = nest()
+    .key(d => Math.floor(d.depositTimeLag / aggregationSize))
+    .rollup(v => ({
+      total: sum(v, d => d.worksCount),
+      avg: mean(v, d => d.worksCount),
+    }))
+    .entries(normalizedData)
+
+  const ticks = aggregatedData
+    .filter(e => isTick(parseInt(e.key, 10)))
+    .map(e => e.key)
+
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart margin={{ bottom: -5 }} data={aggregatedData}>
+        <XAxis
+          dataKey="key"
+          tickLine={false}
+          ticks={ticks}
+          tickFormatter={formatter}
+        />
+        <Tooltip
+          content={<CustomTooltip aggregationSize={aggregationSize} />}
+        />
+        <ReferenceLine y={0} className={styles.referenceLine} />
+        <Bar dataKey="value.total">
+          {aggregatedData.map(entry => (
+            <Cell
+              className={classNames
+                .use({
+                  'lag-bar': true,
+                  compliant: parseInt(entry.key, 10) * aggregationSize < 90,
+                })
+                .from(styles)
+                .toString()}
+              key={entry.key}
+            />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  )
+})
 
 export default TimeLagChart
