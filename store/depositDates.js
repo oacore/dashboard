@@ -112,9 +112,7 @@ class DepositDates {
         {
           accept: 'text/csv',
         },
-        {
-          'Content-Type': 'text/csv',
-        },
+        {},
         true
       )
       this.depositDatesCount = r.headers['collection-length']
