@@ -14,7 +14,6 @@ const apiRequest = async (
     let finalURL = `${dev ? CORE_API_DEV : CORE_API}${url}`
     if (url.startsWith('http')) finalURL = url
     const headers = {
-      'Content-Type': 'application/json',
       ...customHeaders,
     }
     const response = await fetch(finalURL, {
