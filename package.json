@@ -52,6 +52,7 @@
     "extract-css-chunks-webpack-plugin": "^4.7.1",
     "mobx": "^5.15.0",
     "mobx-react": "^6.1.4",
+    "mustache": "^4.0.0",
     "next": "^9.1.4",
     "next-images": "^1.2.0",
     "node-sass": "^4.13.0",
