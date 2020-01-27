@@ -1,18 +1,26 @@
+import { action, observable, extendObservable } from 'mobx'
+
+import apiRequest from 'api'
+
 class User {
-  id = null
+  @observable dataProviders = []
 
-  name = null
+  owns(dataProviderId) {
+    return this.dataProviders.some(({ id }) => dataProviderId === id)
+  }
 
-  givenName = null
+  @action
+  async init() {
+    await this.retrieveUser()
+  }
 
-  familyName = null
+  @action
+  async retrieveUser() {
+    const { data } = await apiRequest('/user', 'GET', {}, {}, true)
+    const { dataProviders, ...userDetails } = data
 
-  email = null
-
-  retrieveUser = async () => {}
-
-  constructor(rootStore) {
-    this.rootStore = rootStore
+    extendObservable(this, userDetails)
+    this.dataProviders = dataProviders
   }
 }
 
