@@ -24,6 +24,7 @@ const Select = ({
   value,
   options,
   className,
+  disabled = false,
   tag: Tag = 'div',
   id = generateId(),
 }) => {
@@ -94,74 +95,81 @@ const Select = ({
 
   return (
     <Tag className={classNames(styles.selectWrapper, className)}>
-      <div className="sr-only" aria-live="assertive">
-        {showSuggestions &&
-        suggestions.length &&
-        document.activeElement === inputRef.current
-          ? `${suggestions.length} suggestions found, to navigate use up and down arrows`
-          : ''}
-      </div>
-      <input
-        ref={inputRef}
-        id={`select-${id}`}
-        className={styles.input}
-        type="text"
-        placeholder="Search..."
-        autoComplete="off"
-        role="combobox"
-        aria-label="Select repository"
-        aria-expanded={showSuggestions && suggestions.length}
-        aria-owns="suggestion-results"
-        aria-autocomplete="both"
-        aria-controls={`suggestion-results-${id}`}
-        aria-activedescendant={
-          showSuggestions && activeSuggestion
-            ? `suggestion-result-${id}-${activeSuggestion.id}`
-            : undefined
-        }
-        value={searchTerm}
-        onFocus={() => {
-          setSearchTerm('')
-          toggleShowSuggestions(true)
-        }}
-        onBlur={event => {
-          const { relatedTarget: el } = event
-          setActiveSuggestion({})
-          // https://github.com/facebook/react/issues/4210
-          if (!(el && el.dataset.selectId === id)) toggleShowSuggestions(false)
-        }}
-        onChange={event => {
-          setSearchTerm(event.target.value)
-        }}
-        onKeyDown={handleKeyDown}
-      />
-      <div className={classNames(styles.inputContainer)}>{value}</div>
-      <ul
-        id={`suggestion-results-${id}`}
-        className={classNames(styles.selectMenu, {
-          [styles.show]: showSuggestions && suggestions.length,
-        })}
-        role="listbox"
-        ref={selectMenuRef}
-      >
-        {loading && <li>Loading</li>}
-        {!loading &&
-          suggestions.map(s => (
-            <SelectOption
-              id={`suggestion-result-${id}-${s.id}`}
-              key={s.id}
-              value={s.id}
-              data-select-id={id}
-              onClick={() => {
-                onSelectionChange(s)
+      {!disabled && (
+        <>
+          <div className="sr-only" aria-live="assertive">
+            {showSuggestions &&
+            suggestions.length &&
+            document.activeElement === inputRef.current
+              ? `${suggestions.length} suggestions found, to navigate use up and down arrows`
+              : ''}
+          </div>
+          <input
+            ref={inputRef}
+            id={`select-${id}`}
+            className={styles.input}
+            type="text"
+            placeholder="Search..."
+            autoComplete="off"
+            role="combobox"
+            aria-label="Select repository"
+            aria-expanded={showSuggestions && suggestions.length}
+            aria-owns="suggestion-results"
+            aria-autocomplete="both"
+            aria-controls={`suggestion-results-${id}`}
+            aria-activedescendant={
+              showSuggestions && activeSuggestion
+                ? `suggestion-result-${id}-${activeSuggestion.id}`
+                : undefined
+            }
+            value={searchTerm}
+            onFocus={() => {
+              setSearchTerm('')
+              toggleShowSuggestions(true)
+            }}
+            onBlur={event => {
+              const { relatedTarget: el } = event
+              setActiveSuggestion({})
+              // https://github.com/facebook/react/issues/4210
+              if (!(el && el.dataset.selectId === id))
                 toggleShowSuggestions(false)
-              }}
-              selected={s.id === activeSuggestion.id}
-            >
-              {s.name}
-            </SelectOption>
-          ))}
-      </ul>
+            }}
+            onChange={event => {
+              setSearchTerm(event.target.value)
+            }}
+            onKeyDown={handleKeyDown}
+          />
+        </>
+      )}
+      <div className={classNames(styles.inputContainer)}>{value}</div>
+      {!disabled && (
+        <ul
+          id={`suggestion-results-${id}`}
+          className={classNames(styles.selectMenu, {
+            [styles.show]: showSuggestions && suggestions.length,
+          })}
+          role="listbox"
+          ref={selectMenuRef}
+        >
+          {loading && <li>Loading</li>}
+          {!loading &&
+            suggestions.map(s => (
+              <SelectOption
+                id={`suggestion-result-${id}-${s.id}`}
+                key={s.id}
+                value={s.id}
+                data-select-id={id}
+                onClick={() => {
+                  onSelectionChange(s.id)
+                  toggleShowSuggestions(false)
+                }}
+                selected={s.id === activeSuggestion.id}
+              >
+                {s.name}
+              </SelectOption>
+            ))}
+        </ul>
+      )}
     </Tag>
   )
 }
