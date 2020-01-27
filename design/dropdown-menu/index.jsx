@@ -1,26 +1,40 @@
-import React, { useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './index.css'
 
-const DropDownItem = React.memo(({ children }) => <li>{children}</li>)
+import { generateId, KEYS } from 'utils/helpers'
 
-const DropdownToggle = React.memo(
-  ({
-    isMenuVisible,
-    toggleVisibility,
-    className,
-    children,
-    tag: Tag = 'div',
-    ...restProps
-  }) => (
+const DropDownItem = React.memo(({ isActive, children, ...restProps }) => (
+  <li
+    className={classNames.use(isActive && styles.menuItemActive)}
+    role="menuitem"
+    tabIndex="-1"
+    {...restProps}
+  >
+    {children}
+  </li>
+))
+
+const DropdownToggle = React.forwardRef(
+  (
+    {
+      isMenuVisible,
+      toggleVisibility,
+      className,
+      children,
+      tag: Tag = 'div',
+      ...restProps
+    },
+    ref
+  ) => (
     <Tag
+      ref={ref}
       className={classNames.use(styles.menuToggle, className)}
       tabindex="0"
       role="button"
       aria-expanded={isMenuVisible}
-      onBlur={() => toggleVisibility(false)}
-      onFocus={() => toggleVisibility(true)}
+      aria-haspopup="true"
       {...restProps}
     >
       {children}
@@ -28,29 +42,65 @@ const DropdownToggle = React.memo(
   )
 )
 
-const DropDownMenu = React.memo(
-  ({ isVisible, children, className, tag: Tag = 'ul', ...restProps }) => (
-    <Tag
-      role="listbox"
-      className={classNames
-        .use(
-          {
-            menu: true,
-            show: isVisible,
-          },
-          className
-        )
-        .from(styles)}
-      {...restProps}
-    >
-      {children}
-    </Tag>
-  )
+const DropDownMenu = React.forwardRef(
+  (
+    {
+      activeMenuItem,
+      setTotalMenuItems,
+      isVisible,
+      children,
+      className,
+      tag: Tag = 'ul',
+      ...restProps
+    },
+    ref
+  ) => {
+    const childrenArray = React.Children.map(children, child => child)
+    if (childrenArray.some(e => e.type !== DropDownItem))
+      throw Error('Dropdown menu expects only children of type. DropDownItem')
+
+    useEffect(() => setTotalMenuItems(childrenArray.length), [
+      childrenArray.length,
+    ])
+
+    return (
+      <Tag
+        ref={ref}
+        role="menu"
+        className={classNames
+          .use(
+            {
+              menu: true,
+              show: isVisible,
+            },
+            className
+          )
+          .from(styles)}
+        {...restProps}
+      >
+        {childrenArray.map((e, index) =>
+          React.cloneElement(e, {
+            isActive: index === activeMenuItem,
+          })
+        )}
+      </Tag>
+    )
+  }
 )
 
 const Dropdown = React.memo(
-  ({ className, children, isRelative = true, tag: Tag = 'div' }) => {
+  ({
+    className,
+    children,
+    isRelative = true,
+    tag: Tag = 'div',
+    id = generateId(),
+  }) => {
+    const toggleRef = useRef(null)
+    const menuRef = useRef(null)
     const [isMenuVisible, toggleVisibility] = useState(false)
+    const [activeMenuItem, setActiveMenuItem] = useState(0)
+    const [totalMenuItems, setTotalMenuItems] = useState(0)
     const childrenArray = React.Children.map(children, child => child)
     const toggle = childrenArray.find(e => e.type === DropdownToggle)
     const menu = childrenArray.find(e => e.type === DropDownMenu)
@@ -65,8 +115,37 @@ const Dropdown = React.memo(
     if (menu === undefined)
       throw Error('Dropdown Components expects Dropdown.Menu as a children.')
 
+    useEffect(() => {
+      if (menuRef.current) menuRef.current.childNodes[activeMenuItem].focus()
+    }, [menuRef])
+
+    const handleKeyDown = event => {
+      let direction = 1
+      let pos = activeMenuItem || totalMenuItems
+      switch (event.which) {
+        case KEYS.ESC:
+          toggleRef.current.blur()
+          toggleVisibility(false)
+          break
+
+        case KEYS.UP:
+        case KEYS.DOWN:
+          event.preventDefault()
+          event.stopPropagation()
+          if (totalMenuItems === 0) return
+
+          direction = event.which - KEYS.DOWN + 1 // either -1 or 1
+          pos = (pos + direction) % totalMenuItems
+          setActiveMenuItem(pos)
+          menuRef.current.childNodes[pos].focus()
+          break
+        default:
+      }
+    }
+
     return (
       <Tag
+        id={`dropdown-menu-${id}`}
         className={classNames
           .use(
             {
@@ -75,10 +154,23 @@ const Dropdown = React.memo(
             className
           )
           .from(styles)}
+        onKeyDown={handleKeyDown}
+        onBlur={() => toggleVisibility(false)}
+        onFocus={() => toggleVisibility(true)}
       >
-        {React.cloneElement(toggle, { isMenuVisible, toggleVisibility })}
-        {isMenuVisible &&
-          React.cloneElement(menu, { isVisible: isMenuVisible })}
+        {React.cloneElement(toggle, {
+          ref: toggleRef,
+          isMenuVisible,
+          toggleVisibility,
+          'aria-controls': `dropdown-menu-list-${id}`,
+        })}
+        {React.cloneElement(menu, {
+          activeMenuItem,
+          setTotalMenuItems,
+          ref: menuRef,
+          isVisible: isMenuVisible,
+          id: `dropdown-menu-list-${id}`,
+        })}
       </Tag>
     )
   }

@@ -20,6 +20,10 @@
   }
 }
 
+.menu-item-active {
+  background: var(--gray-100);
+}
+
 .menu-toggle {
   cursor: pointer;
 }
