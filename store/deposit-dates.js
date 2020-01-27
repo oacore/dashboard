@@ -1,5 +1,5 @@
 import download from 'downloadjs'
-import { action, autorun, computed, observable } from 'mobx'
+import { action, computed, observable } from 'mobx'
 
 import Page from './helpers/page'
 import getOrder from './helpers/order'
@@ -8,8 +8,6 @@ import timeLagData from './data'
 import apiRequest from 'api'
 
 const PAGE_SIZE = 100
-
-const isServer = typeof window === 'undefined'
 
 class DepositDates {
   pages = new Map([])
@@ -22,11 +20,9 @@ class DepositDates {
 
   timeLagData = timeLagData
 
-  constructor(rootStore) {
-    this.rootStore = rootStore
-
-    // Register reactions
-    this.onDataProviderChange()
+  constructor(baseUrl) {
+    this.datesUrl = `${baseUrl}/public-release-dates`
+    this.statisticsUrl = `${baseUrl}/statistis/public-release-dates`
   }
 
   @computed
@@ -46,9 +42,9 @@ class DepositDates {
     return Math.round(level * 100) / 100
   }
 
-  retrieveDepositDates = async (pageNumber, searchTerm, columnOrder) => {
+  async retrieveDepositDates(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
-    const key = `${this.rootStore.dataProvider}-${pageNumber}-${searchTerm}-${order}`
+    const key = `${pageNumber}-${searchTerm}-${order}`
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
     if (this.pages.has(key)) return this.pages.get(key)
@@ -63,16 +59,10 @@ class DepositDates {
 
     let data
     try {
-      const r = await apiRequest(
-        `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
-        'GET',
-        params,
-        {},
-        true
-      )
-      data = r.data
+      const response = await apiRequest(this.datesUrl, 'GET', params, {}, true)
+      data = response.data
     } catch (e) {
-      if (e.statusCode === 404) data = []
+      if (e.status === 404) data = []
       else throw e
     }
 
@@ -86,19 +76,15 @@ class DepositDates {
     this.isExportInProgress = true
     try {
       const { data } = await apiRequest(
-        `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
+        this.datesUrl,
         'GET',
-        {
-          accept: 'text/csv',
-        },
-        {
-          'Content-Type': 'text/csv',
-        },
+        { accept: 'text/csv' },
+        { Accept: 'text/csv' },
         true
       )
       await download(data[0], 'deposit-dates.csv', 'text/csv')
     } finally {
-      this.isExportInProgress = true
+      this.isExportInProgress = false
     }
   }
 
@@ -106,29 +92,13 @@ class DepositDates {
   loadDepositDatesCount = async () => {
     try {
       this.isExportDisabled = false
-      const r = await apiRequest(
-        `/data-providers/${this.rootStore.dataProvider}/public-release-dates`,
-        'HEAD',
-        {
-          accept: 'text/csv',
-        },
-        {
-          'Content-Type': 'text/csv',
-        },
-        true
-      )
-      this.depositDatesCount = r.headers['collection-length']
+      const { headers } = await apiRequest(this.datesUrl, 'HEAD', {}, {}, true)
+      this.depositDatesCount = headers.get('Collection-Length')
     } catch (e) {
-      if (e.statusCode === 404) this.isExportDisabled = true
+      if (e.status === 404) this.isExportDisabled = true
       else throw e
     }
   }
-
-  onDataProviderChange = () =>
-    autorun(() => {
-      if (isServer) return
-      this.loadDepositDatesCount()
-    })
 }
 
 export default DepositDates

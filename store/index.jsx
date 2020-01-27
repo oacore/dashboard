@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react'
 import { useStaticRendering, observer } from 'mobx-react'
 
-import RootStore from './store'
+import RootStore from './root'
 
 const isServer = typeof window === 'undefined'
 const GlobalContext = createContext({})
@@ -9,13 +9,13 @@ let globalStore = null
 
 useStaticRendering(isServer)
 
-export const initStore = ({ dataProvider, activity }) => {
+export const initStore = () => {
   // on the server-side a new instance is created for each page request
   // as we don't wan't to mix between users/requests, etc.
-  if (isServer) return new RootStore(dataProvider, activity)
+  if (isServer) return new RootStore()
 
   if (!globalStore) {
-    globalStore = new RootStore(dataProvider, activity)
+    globalStore = new RootStore()
     return globalStore
   }
 

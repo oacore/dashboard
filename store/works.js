@@ -8,14 +8,14 @@ const PAGE_SIZE = 100
 class Works {
   pages = new Map([])
 
-  constructor(rootStore) {
-    this.rootStore = rootStore
+  constructor(baseUrl) {
+    this.worksUrl = `${baseUrl}/works`
   }
 
-  retrieveWorks = async (pageNumber, searchTerm, columnOrder) => {
+  async retrieveWorks(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
 
-    const key = `${this.rootStore.dataProvider}-${pageNumber}-${searchTerm}-${order}`
+    const key = `${pageNumber}-${searchTerm}-${order}`
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
     if (this.pages.has(key)) return this.pages.get(key)
@@ -25,13 +25,7 @@ class Works {
     }
     if (order) params.orderBy = order
     if (searchTerm) params.q = searchTerm
-    const { data } = await apiRequest(
-      `/data-providers/${this.rootStore.dataProvider}/works`,
-      'GET',
-      params,
-      {},
-      true
-    )
+    const { data } = await apiRequest(this.worksUrl, 'GET', params, {}, true)
     const page = new Page(data)
     this.pages.set(key, page)
     return page
