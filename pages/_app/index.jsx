@@ -1,6 +1,7 @@
 import React from 'react'
 import NextApp from 'next/app'
 import { withRouter } from 'next/router'
+import { autorun } from 'mobx'
 
 import Route from './route'
 
@@ -10,6 +11,10 @@ import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 
 class App extends NextApp {
+  state = {
+    isAuthorized: false,
+  }
+
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
     // Provide the store to getInitialProps of pages
@@ -21,12 +26,40 @@ class App extends NextApp {
     }
   }
 
-  store = null
+  redirectToLogin = () => {
+    window.location.replace('/login.html')
+  }
 
-  componentDidMount() {
+  reflectStoreToRoute() {
+    const { store } = this
     const { router } = this.props
-    const { dataProvider, activity } = new Route(router.asPath)
-    this.store = initStore({ dataProvider, activity })
+
+    if (store == null) return
+
+    const route = new Route({
+      dataProvider: store.dataProvider?.id,
+      activity: store.activity?.path,
+    })
+
+    // TODO: This probably should be under condition
+    router.push(route.href, route.as)
+  }
+
+  async componentDidMount() {
+    const store = initStore()
+
+    // Assumes store object is always the same
+    this.store = store
+    this.disposeRouter = autorun(this.reflectStoreToRoute.bind(this))
+
+    try {
+      const { dataProvider, activity } = new Route(window.location.pathname)
+      await store.init(dataProvider, activity)
+      this.setState({ isAuthorized: true })
+    } catch (unauthorizedError) {
+      // TODO: Do some check before redirect
+      this.redirectToLogin()
+    }
   }
 
   handleNavigation = event => {
@@ -38,25 +71,34 @@ class App extends NextApp {
 
     event.preventDefault()
     const route = new Route(url.pathname)
-    this.props.router.push(route.href, route.as)
+    this.store.changeDataProvider(route.dataProvider)
+    this.store.changeActivity(route.activity)
   }
 
-  render() {
-    const { Component, pageProps, router } = this.props
-    const { store } = this
+  static getDerivedStateFromProps(props, state) {
+    const { router } = props
+    const { store } = state
 
-    if (store === null) return null
-
+    if (!store) return null
     const { dataProvider, activity } = new Route(router.asPath)
 
     store.dataProvider = dataProvider
     store.activity = activity
+    return null
+  }
+
+  render() {
+    const { store } = this
+    const { isAuthorized } = this.state
+    const { Component, pageProps } = this.props
+
+    if (store == null || !isAuthorized) return null
 
     return (
       <GlobalProvider store={store}>
         <Application
-          dataProvider={dataProvider}
-          activity={activity}
+          dataProvider={store.dataProvider}
+          activity={store.activity.path}
           onClick={this.handleNavigation}
         >
           <Component {...pageProps} />
