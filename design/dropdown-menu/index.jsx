@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './index.css'
+import styles from './styles.module.css'
 
 import { generateId, KEYS } from 'utils/helpers'
 
@@ -20,7 +20,7 @@ const DropDownItem = React.memo(
       tabIndex="-1"
     >
       <Tag
-        onMouseDown={e => {
+        onMouseDown={(e) => {
           // prevent to lose focus and rerendering element
           // https://github.com/facebook/react/issues/4210
           e.preventDefault()
@@ -78,8 +78,8 @@ const DropDownMenu = React.memo(
       },
       ref
     ) => {
-      const childrenArray = React.Children.map(children, child => child)
-      if (childrenArray.some(e => e.type !== DropDownItem))
+      const childrenArray = React.Children.map(children, (child) => child)
+      if (childrenArray.some((e) => e.type !== DropDownItem))
         throw Error('Dropdown menu expects only children of type. DropDownItem')
 
       useEffect(() => setTotalMenuItems(childrenArray.length), [
@@ -126,9 +126,9 @@ const Dropdown = React.memo(
     const [isMenuVisible, toggleVisibility] = useState(false)
     const [activeMenuItem, setActiveMenuItem] = useState(0)
     const [totalMenuItems, setTotalMenuItems] = useState(0)
-    const childrenArray = React.Children.map(children, child => child)
-    const toggle = childrenArray.find(e => e.type === DropdownToggle)
-    const menu = childrenArray.find(e => e.type === DropDownMenu)
+    const childrenArray = React.Children.map(children, (child) => child)
+    const toggle = childrenArray.find((e) => e.type === DropdownToggle)
+    const menu = childrenArray.find((e) => e.type === DropDownMenu)
     if (childrenArray.length !== 2) {
       throw Error(
         'Dropdown component expects exact 2 children. Dropdown.Toggle & Dropdown.Menu.'
@@ -144,7 +144,7 @@ const Dropdown = React.memo(
       if (menuRef.current) menuRef.current.childNodes[activeMenuItem].focus()
     }, [menuRef])
 
-    const handleKeyDown = event => {
+    const handleKeyDown = (event) => {
       let direction = 1
       let pos = activeMenuItem || totalMenuItems
 
@@ -189,7 +189,7 @@ const Dropdown = React.memo(
         onFocus={() => toggleVisibility(true)}
       >
         {React.cloneElement(toggle, {
-          ref: toggleRef,
+          'ref': toggleRef,
           isMenuVisible,
           toggleVisibility,
           'aria-controls': `dropdown-menu-list-${id}`,

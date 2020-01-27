@@ -13,10 +13,7 @@ export const formatNumber = (number, { locale = 'en-GB', ...options } = {}) =>
   new Intl.NumberFormat(locale, options).format(number)
 
 // TODO: Taken from @oacore/design
-export const generateId = () =>
-  Math.random()
-    .toString(36)
-    .substr(2, 9)
+export const generateId = () => Math.random().toString(36).substr(2, 9)
 
 export const KEYS = {
   ESC: 27,
