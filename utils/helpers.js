@@ -12,7 +12,24 @@ export const valueOrDefault = (value, defaultValue) =>
 export const formatNumber = (number, { locale = 'en-GB', ...options } = {}) =>
   new Intl.NumberFormat(locale, options).format(number)
 
+// TODO: Taken from @oacore/design
+export const generateId = () =>
+  Math.random()
+    .toString(36)
+    .substr(2, 9)
+
+export const KEYS = {
+  ESC: 27,
+  ENTER: 13,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
+}
+
 export default {
+  KEYS,
+  generateId,
   range,
   valueOrDefault,
   formatNumber,

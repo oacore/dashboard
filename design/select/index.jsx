@@ -4,18 +4,8 @@ import { classNames } from '@oacore/design/lib/utils'
 import styles from './styles.module.css'
 
 import { TextField, Button } from 'design'
+import { generateId, KEYS } from 'utils/helpers'
 
-// TODO: Taken from @oacore/design
-const generateId = () => Math.random().toString(36).substr(2, 9)
-
-const KEYS = {
-  ESC: 27,
-  ENTER: 13,
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40,
-}
 
 // TODO: Consider converting it to class component
 const Select = ({
