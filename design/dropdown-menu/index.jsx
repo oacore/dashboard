@@ -5,16 +5,37 @@ import styles from './index.css'
 
 import { generateId, KEYS } from 'utils/helpers'
 
-const DropDownItem = React.memo(({ isActive, children, ...restProps }) => (
-  <li
-    className={classNames.use(isActive && styles.menuItemActive)}
-    role="menuitem"
-    tabIndex="-1"
-    {...restProps}
-  >
-    {children}
-  </li>
-))
+const DropDownItem = React.memo(
+  ({
+    toggleVisibility,
+    isActive,
+    children,
+    onSelection,
+    tag: Tag = 'button',
+    ...passProps
+  }) => (
+    <li
+      className={classNames.use(isActive && styles.menuItemActive)}
+      role="menuitem"
+      tabIndex="-1"
+    >
+      <Tag
+        onMouseDown={e => {
+          // prevent to lose focus and rerendering element
+          // https://github.com/facebook/react/issues/4210
+          e.preventDefault()
+        }}
+        onClick={() => {
+          onSelection()
+          toggleVisibility(false)
+        }}
+        {...passProps}
+      >
+        {children}
+      </Tag>
+    </li>
+  )
+)
 
 const DropdownToggle = React.forwardRef(
   (
@@ -42,50 +63,54 @@ const DropdownToggle = React.forwardRef(
   )
 )
 
-const DropDownMenu = React.forwardRef(
-  (
-    {
-      activeMenuItem,
-      setTotalMenuItems,
-      isVisible,
-      children,
-      className,
-      tag: Tag = 'ul',
-      ...restProps
-    },
-    ref
-  ) => {
-    const childrenArray = React.Children.map(children, child => child)
-    if (childrenArray.some(e => e.type !== DropDownItem))
-      throw Error('Dropdown menu expects only children of type. DropDownItem')
+const DropDownMenu = React.memo(
+  React.forwardRef(
+    (
+      {
+        activeMenuItem,
+        setTotalMenuItems,
+        isVisible,
+        toggleVisibility,
+        children,
+        className,
+        tag: Tag = 'ul',
+        ...restProps
+      },
+      ref
+    ) => {
+      const childrenArray = React.Children.map(children, child => child)
+      if (childrenArray.some(e => e.type !== DropDownItem))
+        throw Error('Dropdown menu expects only children of type. DropDownItem')
 
-    useEffect(() => setTotalMenuItems(childrenArray.length), [
-      childrenArray.length,
-    ])
+      useEffect(() => setTotalMenuItems(childrenArray.length), [
+        childrenArray.length,
+      ])
 
-    return (
-      <Tag
-        ref={ref}
-        role="menu"
-        className={classNames
-          .use(
-            {
-              menu: true,
-              show: isVisible,
-            },
-            className
-          )
-          .from(styles)}
-        {...restProps}
-      >
-        {childrenArray.map((e, index) =>
-          React.cloneElement(e, {
-            isActive: index === activeMenuItem,
-          })
-        )}
-      </Tag>
-    )
-  }
+      return (
+        <Tag
+          ref={ref}
+          role="menu"
+          className={classNames
+            .use(
+              {
+                menu: true,
+                show: isVisible,
+              },
+              className
+            )
+            .from(styles)}
+          {...restProps}
+        >
+          {childrenArray.map((e, index) =>
+            React.cloneElement(e, {
+              isActive: index === activeMenuItem,
+              toggleVisibility,
+            })
+          )}
+        </Tag>
+      )
+    }
+  )
 )
 
 const Dropdown = React.memo(
@@ -122,7 +147,12 @@ const Dropdown = React.memo(
     const handleKeyDown = event => {
       let direction = 1
       let pos = activeMenuItem || totalMenuItems
+
       switch (event.which) {
+        case KEYS.ENTER:
+          menuRef.current.childNodes[activeMenuItem].childNodes[0].click()
+          break
+
         case KEYS.ESC:
           toggleRef.current.blur()
           toggleVisibility(false)
@@ -167,6 +197,7 @@ const Dropdown = React.memo(
         {React.cloneElement(menu, {
           activeMenuItem,
           setTotalMenuItems,
+          toggleVisibility,
           ref: menuRef,
           isVisible: isMenuVisible,
           id: `dropdown-menu-list-${id}`,
