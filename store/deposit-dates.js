@@ -70,7 +70,10 @@ class DepositDates {
       else throw e
     }
 
-    const page = new Page(data)
+    const page = new Page(data, {
+      searchTerm,
+      order,
+    })
     this.pages.set(key, page)
     return page
   }

@@ -26,7 +26,10 @@ class Works {
     if (order) params.orderBy = order
     if (searchTerm) params.q = searchTerm
     const { data } = await apiRequest(this.worksUrl, 'GET', params, {}, true)
-    const page = new Page(data)
+    const page = new Page(data, {
+      searchTerm,
+      order,
+    })
     this.pages.set(key, page)
     return page
   }
