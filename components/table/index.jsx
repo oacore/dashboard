@@ -6,6 +6,7 @@ import LoadMoreRow from './LoadMoreRow'
 import { range } from '../../utils/helpers'
 import tableClassNames from './index.css'
 import NoDataFoundRow from './NoDataFoundRow'
+import debounce from '../../utils/debounce'
 
 const getNextOrder = order => {
   if (order === 'asc') return 'desc'
@@ -23,6 +24,7 @@ class InfiniteTable extends React.Component {
     isEmpty: false,
     isFirstPageLoaded: false,
     dataRequestCount: 0,
+    isSearchChanging: false,
   }
 
   componentDidMount() {
@@ -38,6 +40,8 @@ class InfiniteTable extends React.Component {
   componentWillUnmount() {
     if (this.observer) this.observer.disconnect()
   }
+
+  onSearchEnded = debounce(() => this.setState({ isSearchChanging: false }))
 
   fetchData = async pageNumber => {
     const { searchTerm, columnOrder } = this.state
@@ -138,6 +142,7 @@ class InfiniteTable extends React.Component {
       isEmpty,
       isFirstPageLoaded,
       dataRequestCount,
+      isSearchChanging,
     } = this.state
 
     return (
@@ -150,13 +155,15 @@ class InfiniteTable extends React.Component {
             name="search"
             label="Search"
             placeholder="Any identifier, title, author..."
-            onChange={event =>
+            onChange={event => {
               this.setState({
                 searchTerm: event.target.value,
                 page: 0,
                 isEmpty: false,
+                isSearchChanging: true,
               })
-            }
+              this.onSearchEnded()
+            }}
             value={searchTerm}
           />
         )}
@@ -196,6 +203,7 @@ class InfiniteTable extends React.Component {
           </Table.Head>
 
           {!isEmpty &&
+            !isSearchChanging &&
             range(page + 1).map(i => (
               <TablePage
                 key={`${i}-${searchTerm}`}
