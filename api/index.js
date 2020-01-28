@@ -6,21 +6,23 @@ const CORE_API_DEV = 'https://api.dev.core.ac.uk/internal'
 const apiRequest = async (
   url,
   method = 'GET',
-  params = {},
+  queryParams = {},
   customHeaders = {},
   dev = false
 ) => {
   try {
-    const requestUrl = /^\w+:\/\//.test(url)
-      ? url
-      : `${dev ? CORE_API_DEV : CORE_API}${url}`
+    const requestUrl = new URL(
+      /^\w+:\/\//.test(url) ? url : `${dev ? CORE_API_DEV : CORE_API}${url}`
+    )
     const requestHeaders = {
       Accept: 'application/json',
       ...customHeaders,
     }
+
+    requestUrl.search = new URLSearchParams(queryParams).toString()
+
     const response = await fetch(requestUrl, {
       method,
-      params,
       credentials: 'include',
       headers: requestHeaders,
     })
@@ -31,6 +33,8 @@ const apiRequest = async (
 
     if (response.status >= 400)
       throw new NetworkError(`Request failed on ${response.status}`, response)
+
+    if (method.toUpperCase() === 'HEAD') return result
 
     result.data = await (/application\/([\w.-]\+)?json/g.test(type)
       ? response.json()
