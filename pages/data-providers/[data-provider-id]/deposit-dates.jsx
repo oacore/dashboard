@@ -35,12 +35,14 @@ const tableConfig = {
       id: 'author',
       display: 'Authors',
       order: '',
+      getter: v => v.author && v.author.map(a => a.name).join(' '),
       className: styles.authorsColumn,
     },
     {
       id: 'publicationDate',
       display: 'Publication Date',
       className: styles.depositDateColumn,
+      getter: v => dayjs(v.publicationDate),
       render: v => v.format('DD/MM/YYYY'),
     },
     {
@@ -48,6 +50,7 @@ const tableConfig = {
       display: 'Deposit At',
       order: 'desc',
       className: styles.depositDateColumn,
+      getter: v => dayjs(v.publicReleaseDate),
       render: v => v.format('DD/MM/YYYY'),
     },
   ],

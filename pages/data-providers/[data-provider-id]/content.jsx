@@ -20,6 +20,7 @@ const tableConfig = {
       display: 'OAI',
       expandedSize: 3,
       className: styles.labelColumn,
+      getter: v => v.identifier,
       render: ({ oai, doi }, isExpanded) => (
         <>
           <Label color="primary">
@@ -40,6 +41,7 @@ const tableConfig = {
       display: 'Authors',
       expandedSize: null,
       className: styles.authorsColumn,
+      getter: v => v.author.map(a => a.name).join(' '),
     },
     {
       id: 'lastUpdate',
@@ -47,6 +49,7 @@ const tableConfig = {
       order: 'desc',
       expandedSize: 1,
       className: styles.lastUpdateColumn,
+      getter: v => dayjs(v.lastUpdate),
       render: v => v.fromNow(),
     },
     {
@@ -55,6 +58,7 @@ const tableConfig = {
       order: '',
       expandedSize: 1,
       className: styles.visibilityColumn,
+      getter: v => !v.disabled,
       render: (v, isExpanded) => (
         <PublishedToggle
           className={styles.visibilitySwitch}
@@ -72,7 +76,7 @@ const tableConfig = {
           <p>
             <b>{title}</b>
           </p>
-          <p>{author}</p>
+          <p>{author.map(a => a.name).join(' ')}</p>
           {!isFulltext && (
             <Alert variant="danger">
               <Alert.Header>
@@ -102,37 +106,17 @@ const tableConfig = {
   },
 }
 
-const Data = ({ store, ...restProps }) => {
-  const fetchData = async (pageNumber, searchTerm, columnOrder) => {
-    const page = await store.works.retrieveWorks(
-      pageNumber,
-      searchTerm,
-      columnOrder
-    )
-
-    return page.data.map(v => ({
-      id: v.id,
-      oai: v.identifier,
-      title: v.title,
-      authors: v.author.map(a => a.name).join(' '),
-      lastUpdate: dayjs(v.lastUpdate),
-      visibility: !v.disabled,
-      link: v.link || [],
-    }))
-  }
-
-  return (
-    <Card {...restProps}>
-      <Table
-        key={store.dataProvider}
-        config={tableConfig}
-        fetchData={fetchData}
-        className={styles.contentTable}
-        searchable
-        expandable
-      />
-    </Card>
-  )
-}
+const Data = ({ store, ...restProps }) => (
+  <Card {...restProps}>
+    <Table
+      key={store.dataProvider}
+      config={tableConfig}
+      fetchData={(...args) => store.works.retrieveWorks(...args)}
+      className={styles.contentTable}
+      searchable
+      expandable
+    />
+  </Card>
+)
 
 export default withGlobalStore(Data)

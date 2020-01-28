@@ -14,10 +14,8 @@ const TableRow = ({
   selectable,
   expandable,
 }) => {
-  const columnConfig = cellId => columns.find(v => v.id === cellId) || {}
-
-  const cellRenderer = (config, cellValue) => {
-    if (config.render) return config.render(cellValue, isExpanded)
+  const cellRenderer = (colConfig, cellValue) => {
+    if (colConfig.render) return colConfig.render(cellValue, isExpanded)
     return cellValue
   }
   const rowProp = {
@@ -34,14 +32,14 @@ const TableRow = ({
           <input type="checkbox" checked={isSelected} onChange={handleSelect} />
         </Table.Cell>
       )}
-      {Object.entries(content).map(([cellId, cellValue]) => {
-        const colConfig = columnConfig(cellId)
+      {columns.map(colConfig => {
+        const cellValue = colConfig.getter
+          ? colConfig.getter(content)
+          : content[colConfig.id]
         const colSpan = isExpanded ? colConfig.expandedSize : 1
 
-        if (colSpan === null || Object.entries(colConfig).length === 0)
-          return null
         return (
-          <Table.Cell key={cellId} colSpan={colSpan}>
+          <Table.Cell key={colConfig.id} colSpan={colSpan}>
             {cellRenderer(colConfig, cellValue)}
           </Table.Cell>
         )
