@@ -53,18 +53,25 @@ class InfiniteTable extends React.Component {
       dataRequestCount: state.dataRequestCount + 1,
     }))
     const newState = {}
-    const page = await fetchData(pageNumber, searchTerm, columnOrder)
-    const { data } = page
-    if (data.length === 0) newState.isLastPageLoaded = true
-    if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
-    if (pageNumber === 0) newState.isFirstPageLoaded = true
 
-    this.setState(state => ({
-      ...newState,
-      dataRequestCount: state.dataRequestCount - 1,
-    }))
+    return fetchData(pageNumber, searchTerm, columnOrder).then(page => {
+      const { data } = page
+      // eslint-disable-next-line no-shadow
+      const { searchTerm } = this.state
 
-    return data
+      if (searchTerm === page.options.searchTerm) {
+        if (data.length === 0) newState.isLastPageLoaded = true
+        if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
+        if (pageNumber === 0) newState.isFirstPageLoaded = true
+      }
+
+      this.setState(state => ({
+        ...newState,
+        dataRequestCount: state.dataRequestCount - 1,
+      }))
+
+      return data
+    })
   }
 
   observe = c => {

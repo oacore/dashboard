@@ -17,7 +17,6 @@ class Works {
     const key = `${pageNumber}-${searchTerm}-${order}`
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
-
     if (this.pages.has(key)) return this.pages.get(key)
     const params = {
       from: pageNumber * PAGE_SIZE,
