@@ -1,7 +1,6 @@
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, auto));
-  grid-auto-rows: auto;
+  grid-template-rows: 1fr;
   grid-gap: 1.5rem 2rem;
   grid-auto-flow: dense;
   align-items: start;
@@ -10,14 +9,16 @@
 
   & > * {
     position: relative;
-    flex-basis: 30%;
-    flex-grow: 1;
   }
-}
 
-.data-card {
-  flex-basis: 60%;
-  flex-flow: 2;
+  /* TODO: Values are experimental and should be changed */
+  @media (min-width: 840px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .chart-container {
