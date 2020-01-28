@@ -49,7 +49,7 @@ const formatter = g => {
   return ''
 }
 
-const TimeLagChart = React.memo(({ data }) => {
+const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
   const rawIntervalSize =
     data[data.length - 1].depositTimeLag - data[0].depositTimeLag
   const normalizedData = []
@@ -82,7 +82,7 @@ const TimeLagChart = React.memo(({ data }) => {
     .map(e => e.key)
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width={width} height={height}>
       <BarChart margin={{ bottom: -5 }} data={aggregatedData}>
         <XAxis
           dataKey="key"
