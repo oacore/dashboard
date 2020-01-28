@@ -18,7 +18,9 @@ const formatNumber = (n, { locale = 'en-GB' } = {}) =>
 
 const Num = ({ value, append, caption, diff, ...restProps }) => (
   <Numeral tag="p" {...restProps}>
-    <Numeral.Value>{formatNumber(value)}</Numeral.Value>
+    <Numeral.Value>
+      {typeof value == 'number' ? formatNumber(value) : value}
+    </Numeral.Value>
     {append && <Numeral.Appendix>&nbsp;{append}</Numeral.Appendix>}{' '}
     {diff && <Numeral.Diff>{diff}</Numeral.Diff>}{' '}
     <Numeral.Caption>{caption}</Numeral.Caption>
@@ -69,6 +71,13 @@ const PlaceholderCard = ({ title, value, description }) => (
   </Card>
 )
 
+const Loading = ({ children = 'Loading...', tag: Tag = 'p', ...restProps }) => (
+  <Tag {...restProps}>{children}</Tag>
+)
+
+const valueOrDefault = (value, defaultValue) =>
+  value == null ? defaultValue : value
+
 const DataStatisticsCard = ({
   metadataCount,
   fullTextCount,
@@ -77,8 +86,15 @@ const DataStatisticsCard = ({
 }) => (
   <Card className={classNames.use(styles.dataCard, className)} {...restProps}>
     <h2>Content at glance</h2>
-    <Num value={fullTextCount} caption="full texts" />
-    <Num value={metadataCount} caption="meta-data records" size="small" />
+    <Num
+      value={valueOrDefault(fullTextCount, 'Loading...')}
+      caption="full texts"
+    />
+    <Num
+      value={valueOrDefault(metadataCount, 'Loading...')}
+      caption="meta-data records"
+      size="small"
+    />
     <Button variant="contained" href="content" tag="a">
       Browse
     </Button>
@@ -87,20 +103,28 @@ const DataStatisticsCard = ({
 
 const DepositingCard = ({ chartData, complianceLevel }) => {
   const { title, description, action } = depositing
+  const loading = chartData == null && complianceLevel == null
+  const content =
+    !loading && chartData && chartData.length > 0 ? (
+      <>
+        <TimeLagChart data={chartData} height={200} />
+        <p>
+          {description.complianceLevel.render({
+            amount: `${(100 - complianceLevel).toFixed(1)}%`,
+          })}
+        </p>
+        <Button variant="contained" href="deposit-dates" tag="a" disabled>
+          {action}
+        </Button>
+      </>
+    ) : (
+      <p>{description.missingData}</p>
+    )
+
   return (
     <Card>
       <h2>{title}</h2>
-      <TimeLagChart data={chartData} height={200} />
-      {description && (
-        <p>
-          {description.render({
-            amount: `${(100 - complianceLevel).toFixed(2)}%`,
-          })}
-        </p>
-      )}
-      <Button variant="contained" href="deposit-dates" tag="a">
-        {action}
-      </Button>
+      {loading ? <Loading /> : content}
     </Card>
   )
 }
@@ -109,6 +133,7 @@ const DashboardView = ({
   metadataCount,
   fullTextCount,
   timeLagData,
+  isTimeLagDataLoading,
   complianceLevel,
   className,
   ...restProps
@@ -123,7 +148,10 @@ const DashboardView = ({
       metadataCount={metadataCount}
       fullTextCount={fullTextCount}
     />
-    <DepositingCard chartData={timeLagData} complianceLevel={complianceLevel} />
+    <DepositingCard
+      chartData={isTimeLagDataLoading ? null : timeLagData}
+      complianceLevel={isTimeLagDataLoading ? null : complianceLevel}
+    />
 
     <PlaceholderCard title="DOIs" value={14.2} />
     <PlaceholderCard title="ORCiDs" value={5.8} />
@@ -137,6 +165,7 @@ const Dashboard = ({ store, ...restProps }) => (
     timeLagData={store.depositDates.timeLagData.filter(
       item => item.depositTimeLag >= -45 && item.depositTimeLag <= 135
     )}
+    isTimeLagDataLoading={store.depositDates.isRetrieveDepositDatesInProgress}
     complianceLevel={store.depositDates.complianceLevel}
     {...restProps}
   />

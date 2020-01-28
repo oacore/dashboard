@@ -1,3 +1,10 @@
 title: Depositing performance
-description: You have about {{amount}} non-compliant works.
+
+description:
+  # Displays when we have no deposit dates collected
+  missing-data: We are collecting data. It should appear anytime soon.
+
+  # Displays when we have deposit compliance calculated
+  compliance-level: You have about {{amount}} non-compliant works.
+
 action: Details

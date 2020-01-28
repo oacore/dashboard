@@ -3,7 +3,6 @@ import { action, computed, observable } from 'mobx'
 
 import Page from './helpers/page'
 import getOrder from './helpers/order'
-import timeLagData from './data'
 
 import apiRequest from 'api'
 
@@ -18,11 +17,15 @@ class DepositDates {
 
   @observable depositDatesCount = 0
 
-  timeLagData = timeLagData
+  @observable isRetrieveDepositDatesInProgress = false
+
+  @observable timeLagData = []
 
   constructor(baseUrl) {
     this.datesUrl = `${baseUrl}/public-release-dates`
-    this.statisticsUrl = `${baseUrl}/statistis/public-release-dates`
+    this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
+
+    this.retrieveDepositTimeLag()
   }
 
   @computed
@@ -69,6 +72,25 @@ class DepositDates {
     const page = new Page(data)
     this.pages.set(key, page)
     return page
+  }
+
+  @action
+  async retrieveDepositTimeLag() {
+    this.isRetrieveDepositDatesInProgress = true
+    try {
+      const response = await apiRequest(
+        this.depositTimeLagUrl,
+        'GET',
+        {},
+        {},
+        true
+      )
+      this.timeLagData = response.data
+    } catch (e) {
+      if (e.status !== 404) throw e
+    } finally {
+      this.isRetrieveDepositDatesInProgress = false
+    }
   }
 
   @action

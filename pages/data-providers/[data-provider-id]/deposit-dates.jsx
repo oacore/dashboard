@@ -119,7 +119,12 @@ const DepositDates = ({
         <p>
           The chart displays work distribution per deposit time lag in days.
         </p>
-        <TimeLagChart data={store.depositDates.timeLagData} />
+        {store.depositDates.timeLagData.length > 0 && (
+          <TimeLagChart data={store.depositDates.timeLagData} />
+        )}
+        {!store.depositDates.timeLagData.length &&
+          !store.depositDates.isRetrieveDepositDatesInProgress &&
+          'No data found.'}
       </Card>
 
       <Card className={styles.browseTable} tag="section">
