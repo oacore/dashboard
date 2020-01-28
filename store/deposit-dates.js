@@ -82,7 +82,7 @@ class DepositDates {
         { Accept: 'text/csv' },
         true
       )
-      await download(data[0], 'deposit-dates.csv', 'text/csv')
+      await download(data, 'deposit-dates.csv', 'text/csv')
     } finally {
       this.isExportInProgress = false
     }
