@@ -40,8 +40,7 @@ class InfiniteTable extends React.Component {
 
   onSearchEnded = debounce(() => this.setState({ isSearchChanging: false }))
 
-  fetchData = pageNumber => {
-    const { searchTerm, columnOrder } = this.state
+  fetchData = (pageNumber, columnOrder, searchTerm) => {
     const { fetchData } = this.props
 
     if (pageNumber === 0) {
@@ -214,7 +213,7 @@ class InfiniteTable extends React.Component {
             !isSearchChanging &&
             range(page + 1).map(i => (
               <TablePage
-                key={`${i}-${searchTerm}`}
+                key={i}
                 observe={this.observe}
                 pageNumber={i}
                 fetchData={this.fetchData}
@@ -224,6 +223,7 @@ class InfiniteTable extends React.Component {
                 areSelectedAll={areSelectedAll}
                 expandable={expandable}
                 columnOrder={columnOrder}
+                searchTerm={searchTerm}
               />
             ))}
 

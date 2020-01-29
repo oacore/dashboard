@@ -38,6 +38,7 @@ const TablePage = React.memo(
     areSelectedAll,
     expandable,
     columnOrder,
+    searchTerm,
   }) => {
     const [rowsInfo, dispatch] = useReducer(reducer, {})
     const componentRef = useRef(null)
@@ -53,7 +54,11 @@ const TablePage = React.memo(
     useEffect(() => {
       const loadData = async () => {
         if (fetchData.current) fetchData.current.cancel()
-        const newFetchDataPromise = fetchData(pageNumber)
+        const newFetchDataPromise = fetchData(
+          pageNumber,
+          columnOrder,
+          searchTerm
+        )
         fetchDataPromise.current = makeCancelable(newFetchDataPromise.promise, {
           cancel: newFetchDataPromise.cancel,
         })
@@ -70,7 +75,7 @@ const TablePage = React.memo(
       }
       loadData()
       return () => fetchDataPromise.current && fetchDataPromise.current.cancel()
-    }, [columnOrder])
+    }, [columnOrder, searchTerm])
 
     const rowProps = row => ({
       id: row.id,
