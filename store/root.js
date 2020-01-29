@@ -15,9 +15,9 @@ class Root {
   @observable activity = null
 
   @observable statistics = {
-    metadataCount: 0,
-    fullTextCount: 0,
-    doiCount: 0,
+    metadataCount: null,
+    fullTextCount: null,
+    doiCount: null,
   }
 
   @observable works = null
