@@ -36,7 +36,10 @@ const PublishedToggle = ({
           .from(styles)}
         type="checkbox"
         onChange={event => {
-          if (disabled) return
+          if (disabled) {
+            event.preventDefault()
+            return
+          }
           toggleChecked(event.target.checked)
         }}
         checked={disabled ? defaultVisibility : isChecked}
