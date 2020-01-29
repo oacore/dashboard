@@ -4,6 +4,8 @@ import { Table } from '@oacore/design'
 import TableRow from './TableRow'
 import TableRowExpanded from './TableRowExpanded'
 
+import { makeCancelable } from 'utils/promise'
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'toggle_select_row':
@@ -51,7 +53,10 @@ const TablePage = React.memo(
     useEffect(() => {
       const loadData = async () => {
         if (fetchData.current) fetchData.current.cancel()
-        fetchDataPromise.current = fetchData(pageNumber)
+        const newFetchDataPromise = fetchData(pageNumber)
+        fetchDataPromise.current = makeCancelable(newFetchDataPromise.promise, {
+          cancel: newFetchDataPromise.cancel,
+        })
         try {
           const rows = await fetchDataPromise.current.promise
           setData(rows)
