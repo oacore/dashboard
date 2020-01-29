@@ -12,26 +12,42 @@ class Works {
     this.worksUrl = `${baseUrl}/works`
   }
 
-  async retrieveWorks(pageNumber, searchTerm, columnOrder) {
+  retrieveWorks(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
     const key = `${pageNumber}-${searchTerm}-${order}`
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
-    if (this.pages.has(key)) return this.pages.get(key)
+    if (this.pages.has(key)) {
+      return {
+        promise: Promise.resolve(this.pages.get(key)),
+        cancel: () => {},
+      }
+    }
+
     const params = {
       from: pageNumber * PAGE_SIZE,
       size: PAGE_SIZE,
     }
     if (order) params.orderBy = order
     if (searchTerm) params.q = searchTerm
-    const { data } = await apiRequest(this.worksUrl, 'GET', params, {}, true)
-      .promise
-    const page = new Page(data, {
-      searchTerm,
-      order,
-    })
-    this.pages.set(key, page)
-    return page
+    const request = apiRequest(this.worksUrl, 'GET', params, {}, true)
+    const dataPromise = new Promise((resolve, reject) =>
+      request.promise.then(
+        ({ data }) => {
+          const page = new Page(data, {
+            searchTerm,
+            order,
+          })
+          this.pages.set(key, page)
+          resolve(page)
+        },
+        reason => reject(reason)
+      )
+    )
+    return {
+      promise: dataPromise,
+      cancel: request.cancel,
+    }
   }
 }
 

@@ -46,12 +46,17 @@ class DepositDates {
     return Math.round(level * 100) / 100
   }
 
-  async retrieveDepositDates(pageNumber, searchTerm, columnOrder) {
+  retrieveDepositDates(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
     const key = `${pageNumber}-${searchTerm}-${order}`
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
-    if (this.pages.has(key)) return this.pages.get(key)
+    if (this.pages.has(key)) {
+      return {
+        promise: Promise.resolve(this.pages.get(key)),
+        cancel: () => {},
+      }
+    }
 
     const params = {
       from: pageNumber * PAGE_SIZE,
@@ -61,22 +66,33 @@ class DepositDates {
     if (order) params.orderBy = order
     if (searchTerm) params.q = searchTerm
 
-    let data
-    try {
-      const response = await apiRequest(this.datesUrl, 'GET', params, {}, true)
-        .promise
-      data = response.data
-    } catch (e) {
-      if (e.status === 404) data = []
-      else throw e
+    const request = apiRequest(this.datesUrl, 'GET', params, {}, true)
+    const dataPromise = new Promise((resolve, reject) =>
+      request.promise.then(
+        ({ data }) => {
+          const page = new Page(data, {
+            searchTerm,
+            order,
+          })
+          this.pages.set(key, page)
+          resolve(page)
+        },
+        reason => {
+          if (reason.status === 404) {
+            const page = new Page([], {
+              searchTerm,
+              order,
+            })
+            this.pages.set(key, page)
+            resolve(page)
+          } else reject(reason)
+        }
+      )
+    )
+    return {
+      promise: dataPromise,
+      cancel: request.cancel,
     }
-
-    const page = new Page(data, {
-      searchTerm,
-      order,
-    })
-    this.pages.set(key, page)
-    return page
   }
 
   @action

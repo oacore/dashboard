@@ -39,15 +39,32 @@ const TablePage = React.memo(
   }) => {
     const [rowsInfo, dispatch] = useReducer(reducer, {})
     const componentRef = useRef(null)
+    const fetchDataPromise = useRef(null)
     const [data, setData] = React.useState([])
+
+    // cancel pending request on componentDidUnmount
+    useEffect(
+      () => () => fetchDataPromise.current && fetchDataPromise.current.cancel(),
+      []
+    )
 
     useEffect(() => {
       const loadData = async () => {
-        const rows = await fetchData(pageNumber)
-        setData(rows)
+        if (fetchData.current) fetchData.current.cancel()
+        fetchDataPromise.current = fetchData(pageNumber)
+        try {
+          const rows = await fetchDataPromise.current.promise
+          setData(rows)
+        } catch (error) {
+          // silently ignores abort error
+          const { status } = error
+          if (status !== null) throw error
+        } finally {
+          fetchDataPromise.current = null
+        }
       }
-
       loadData()
+      return () => fetchDataPromise.current && fetchDataPromise.current.cancel()
     }, [columnOrder])
 
     const rowProps = row => ({

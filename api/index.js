@@ -57,9 +57,10 @@ const apiRequest = (
     })
     .catch(async error => {
       const { response, message } = error
-      const { text } = await response.text()
+
       let networkError
       if (response) {
+        const text = await response.text()
         networkError = new NetworkError(
           `Request for ${method} ${url} failed. Response: ${response.status}, ${text}`
         )

@@ -43,7 +43,7 @@ class InfiniteTable extends React.Component {
 
   onSearchEnded = debounce(() => this.setState({ isSearchChanging: false }))
 
-  fetchData = async pageNumber => {
+  fetchData = pageNumber => {
     const { searchTerm, columnOrder } = this.state
     const { fetchData } = this.props
 
@@ -56,26 +56,37 @@ class InfiniteTable extends React.Component {
     this.setState(state => ({
       dataRequestCount: state.dataRequestCount + 1,
     }))
-    const newState = {}
 
-    return fetchData(pageNumber, searchTerm, columnOrder).then(page => {
-      const { data } = page
-      // eslint-disable-next-line no-shadow
-      const { searchTerm } = this.state
+    const fetchDataRequest = fetchData(pageNumber, searchTerm, columnOrder)
 
-      if (searchTerm === page.options.searchTerm) {
-        if (data.length === 0) newState.isLastPageLoaded = true
-        if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
-        if (pageNumber === 0) newState.isFirstPageLoaded = true
-      }
+    return {
+      promise: fetchDataRequest.promise.then(
+        page => {
+          const newState = {}
+          const { data } = page
+          const { searchTerm: searchTermNew } = this.state
 
-      this.setState(state => ({
-        ...newState,
-        dataRequestCount: state.dataRequestCount - 1,
-      }))
+          if (searchTermNew === page.options.searchTerm) {
+            if (data.length === 0) newState.isLastPageLoaded = true
+            if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
+            if (pageNumber === 0) newState.isFirstPageLoaded = true
+          }
 
-      return data
-    })
+          this.setState(state => ({
+            ...newState,
+            dataRequestCount: state.dataRequestCount - 1,
+          }))
+          return data
+        },
+        reason => {
+          this.setState(state => ({
+            dataRequestCount: state.dataRequestCount - 1,
+          }))
+          throw reason
+        }
+      ),
+      cancel: fetchDataRequest.cancel,
+    }
   }
 
   observe = c => {
