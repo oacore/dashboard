@@ -84,7 +84,10 @@ const DataStatisticsCard = ({
   className,
   ...restProps
 }) => (
-  <Card className={classNames.use(styles.dataCard, className)} {...restProps}>
+  <Card
+    className={classNames.use(styles.statisticsCard, className)}
+    {...restProps}
+  >
     <h2>Content at glance</h2>
     <Num
       value={valueOrDefault(fullTextCount, 'Loading...')}

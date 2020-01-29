@@ -3,7 +3,6 @@
   grid-template-rows: 1fr;
   grid-gap: 1.5rem 2rem;
   grid-auto-flow: dense;
-  align-items: start;
   justify-content: stretch;
   padding: var(--component-padding-y, 1rem) var(--component-padding-x, 1rem);
 
@@ -19,6 +18,10 @@
   @media (min-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+.statistics-card {
+  align-self: start;
 }
 
 .chart-container {
