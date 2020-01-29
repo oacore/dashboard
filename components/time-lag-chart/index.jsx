@@ -16,19 +16,17 @@ import CustomTooltip from './tooltip'
 import styles from './index.css'
 
 const customTicks = {
-  [-365 * 3]: '-3y',
-  [-365 * 2]: '-2y',
-  [-365]: '-1y',
-  [-31]: '-1m',
-  [-7]: '-1w',
-  0: '0',
-  7: '1w',
-  31: '1m',
-  90: '90d',
-  365: '1y',
-  [365 * 2]: '2y',
-  [365 * 3]: '3y',
+  ...Object.fromEntries(
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].flatMap(i => [
+      [-i * 365, `${-i}y`],
+      [i * 365, `${i}y`],
+    ])
+  ),
+  '7': '1w',
+  '31': '1m',
+  '90': '90d',
 }
+
 const aggregationSize = 14
 
 const isInInterval = (groupIndex, dayIndex, groupSize = aggregationSize) =>
