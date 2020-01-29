@@ -5,11 +5,13 @@
   --toggle-active-color: #5a9216;
   --toggle-switch-border-radius: 2px;
 }
+
 .toggle {
   position: relative;
   display: inline-block;
   cursor: pointer;
 }
+
 .toggle-checkbox {
   position: absolute;
   visibility: hidden;
@@ -85,4 +87,9 @@
 .toggle-switch::after {
   color: var(--gray-100);
   mask-image: var(--icon-unpublished);
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
