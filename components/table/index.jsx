@@ -15,26 +15,23 @@ const getNextOrder = order => {
 }
 
 class InfiniteTable extends React.Component {
-  state = {
-    page: 0,
-    areSelectedAll: false,
-    searchTerm: '',
-    columnOrder: {},
-    isLastPageLoaded: false,
-    isEmpty: false,
-    isFirstPageLoaded: false,
-    dataRequestCount: 0,
-    isSearchChanging: false,
-  }
-
-  componentDidMount() {
-    const { config } = this.props
-    this.setState({
-      columnOrder: config.columns.reduce((acc, curr) => {
+  constructor(props) {
+    super(props)
+    // eslint-disable-next-line react/state-in-constructor
+    this.state = {
+      page: 0,
+      areSelectedAll: false,
+      searchTerm: '',
+      isLastPageLoaded: false,
+      isEmpty: false,
+      isFirstPageLoaded: false,
+      dataRequestCount: 0,
+      isSearchChanging: false,
+      columnOrder: props.config.columns.reduce((acc, curr) => {
         acc[curr.id] = curr.order !== undefined ? curr.order : null
         return acc
       }, {}),
-    })
+    }
   }
 
   componentWillUnmount() {
