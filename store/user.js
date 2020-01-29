@@ -16,7 +16,7 @@ class User {
 
   @action
   async retrieveUser() {
-    const { data } = await apiRequest('/user', 'GET', {}, {}, true)
+    const { data } = await apiRequest('/user', 'GET', {}, {}, true).promise
     const { dataProviders, ...userDetails } = data
 
     extendObservable(this, userDetails)

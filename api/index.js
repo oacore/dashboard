@@ -3,13 +3,16 @@ import { NetworkError } from './errors'
 const CORE_API = 'https://api.core.ac.uk/internal'
 const CORE_API_DEV = 'https://api.dev.core.ac.uk/internal'
 
-const apiRequest = async (
+const apiRequest = (
   url,
   method = 'GET',
   queryParams = {},
   customHeaders = {},
   dev = false
 ) => {
+  const controller = new AbortController()
+  const { signal } = controller
+
   const requestUrl = new URL(
     /^\w+:\/\//.test(url) ? url : `${dev ? CORE_API_DEV : CORE_API}${url}`
   )
@@ -24,6 +27,7 @@ const apiRequest = async (
     method,
     credentials: 'include',
     headers: requestHeaders,
+    signal,
   })
     .then(response => {
       const { headers } = response
@@ -72,7 +76,10 @@ const apiRequest = async (
       throw networkError
     })
 
-  return fetchPromise
+  return {
+    promise: fetchPromise,
+    cancel: () => controller.abort(),
+  }
 }
 
 export default apiRequest
