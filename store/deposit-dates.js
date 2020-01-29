@@ -26,6 +26,7 @@ class DepositDates {
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
 
     this.retrieveDepositTimeLag()
+    this.loadDepositDatesCount()
   }
 
   @computed
@@ -115,7 +116,8 @@ class DepositDates {
     try {
       this.isExportDisabled = false
       const { headers } = await apiRequest(this.datesUrl, 'HEAD', {}, {}, true)
-      this.depositDatesCount = headers.get('Collection-Length')
+      const length = headers.get('Collection-Length')
+      this.depositDatesCount = Number.parseInt(length, 10) || null
     } catch (e) {
       if (e.status === 404) this.isExportDisabled = true
       else throw e
