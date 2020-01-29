@@ -1,11 +1,12 @@
 import React from 'react'
-import { Label, Button } from '@oacore/design'
+import Markdown from 'react-markdown'
 import dayjs from 'dayjs'
 
 import { withGlobalStore } from 'store'
 import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
-import { Card } from 'design'
+import { Button, Card, Label } from 'design'
+import * as texts from 'texts/depositing'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
@@ -85,22 +86,20 @@ const DepositDates = ({
       <h1>Deposit compliance</h1>
 
       <Card className={styles.complianceLevel} tag="section">
-        <h2>Compliance level</h2>
-        <p>
-          Your deposit compliance is{' '}
-          <strong>{store.depositDates.complianceLevel}%</strong>.
-        </p>
-        <p>
-          Deposit compliance level is a percentage of works that has been
-          deposited at least in first 90 days after publishing.
-        </p>
+        <h2>{texts.compliance.title}</h2>
+        <Markdown>
+          {texts.compliance.body.render({
+            amount: (100 - store.depositDates.complianceLevel).toFixed(1),
+          })}
+        </Markdown>
       </Card>
 
       <Card className={styles.export} tag="section">
-        <h2>Export</h2>
+        <h2>{texts.exporting.title}</h2>
         <p>
-          Download <b>{store.depositDates.depositDatesCount || ''}</b> deposit
-          dates for your repository as CSV.
+          {texts.exporting.description.render({
+            count: store.depositDates.depositDatesCount || '',
+          })}
         </p>
         <Button
           variant="contained"
@@ -110,21 +109,18 @@ const DepositDates = ({
             store.depositDates.isExportDisabled
           }
         >
-          Download
+          {texts.exporting.download}
         </Button>
       </Card>
 
       <Card className={styles.depositTimeLag} tag="section">
-        <h2>Deposit Time Lag</h2>
-        <p>
-          The chart displays work distribution per deposit time lag in days.
-        </p>
+        <h2>{texts.chart.title}</h2>
         {store.depositDates.timeLagData.length > 0 && (
           <TimeLagChart data={store.depositDates.timeLagData} />
         )}
         {!store.depositDates.timeLagData.length &&
           !store.depositDates.isRetrieveDepositDatesInProgress &&
-          'No data found.'}
+          texts.chart.noData}
       </Card>
 
       <Card className={styles.browseTable} tag="section">
