@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
-import classNames from 'classnames'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './index.css'
 
-const PublishedToggle = ({ className, defaultVisibility, isExpanded }) => {
+const PublishedToggle = ({
+  className,
+  defaultVisibility,
+  isExpanded,
+  disabled,
+}) => {
   const [isChecked, toggleChecked] = useState(defaultVisibility)
   let toggletext = ''
   if (isExpanded) {
@@ -14,22 +19,29 @@ const PublishedToggle = ({ className, defaultVisibility, isExpanded }) => {
   return (
     // eslint-disable-next-line jsx-a11y/label-has-associated-control
     <label
-      className={styles.toggle}
+      className={classNames
+        .use(styles.toggle, {
+          disabled,
+        })
+        .from(styles)}
       onClick={event => {
         event.stopPropagation()
       }}
     >
       <input
-        className={classNames(styles.toggleCheckbox, {
-          [styles.expanded]: isExpanded,
-        })}
+        className={classNames
+          .use('toggle-checkbox', {
+            expanded: isExpanded,
+          })
+          .from(styles)}
         type="checkbox"
         onChange={event => {
+          if (disabled) return
           toggleChecked(event.target.checked)
         }}
-        checked={isChecked}
+        checked={disabled ? defaultVisibility : isChecked}
       />
-      <div className={classNames(styles.toggleSwitch, className)}>
+      <div className={classNames.use('toggle-switch', className).from(styles)}>
         <span>{toggletext}</span>
       </div>
     </label>
