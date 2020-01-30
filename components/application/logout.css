@@ -1,0 +1,10 @@
+@custom-media --screen-until-desktop (max-width: 727px);
+
+.name {
+  &::after {
+    content: ' | ';
+  }
+  @media (--screen-until-desktop) {
+    display: none;
+  }
+}

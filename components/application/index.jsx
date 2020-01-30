@@ -4,6 +4,7 @@ import { Container, AppBar, SideBar, Main } from '../layout'
 import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
+import Logout from './logout'
 
 const activities = ['overview', 'content', 'deposit-dates']
 
@@ -13,6 +14,7 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
     <Container {...restProps}>
       <AppBar>
         {dataProvider && <RepositorySelect value={dataProvider} />}
+        <Logout />
       </AppBar>
       <SideBar tag="nav">
         <h2 className="sr-only">Navigate your data</h2>

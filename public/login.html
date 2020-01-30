@@ -60,8 +60,8 @@
 
 <script>
   function login(e) {
-    e.target.action = 'https://api.dev.core.ac.uk/login_check?continue=' + encodeURI(
-      window.location.protocol + '//' + window.location.host
+    e.target.action = 'https://api.dev.core.ac.uk/login_check?continue=' + encodeURIComponent(
+      window.location.origin
     );
   }
 </script>
