@@ -8,6 +8,8 @@ import tableClassNames from './index.css'
 import NoDataFoundRow from './NoDataFoundRow'
 import debounce from '../../utils/debounce'
 
+import withErrorBoundary from 'utils/withErrorBoundary'
+
 const getNextOrder = order => {
   if (order === 'asc') return 'desc'
   if (order === 'desc') return 'asc'
@@ -253,4 +255,4 @@ class InfiniteTable extends React.Component {
   }
 }
 
-export default InfiniteTable
+export default withErrorBoundary(InfiniteTable, 'table')
