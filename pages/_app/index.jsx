@@ -9,6 +9,15 @@ import '@oacore/design/lib/index.css'
 
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
+import { Sentry } from 'utils/sentry'
+
+process.on('unhandledRejection', err => {
+  Sentry.captureException(err)
+})
+
+process.on('uncaughtException', err => {
+  Sentry.captureException(err)
+})
 
 class App extends NextApp {
   state = {
@@ -56,10 +65,30 @@ class App extends NextApp {
       const { dataProvider, activity } = new Route(window.location.pathname)
       await store.init(dataProvider, activity)
       this.setState({ isAuthorized: true })
+
+      Sentry.configureScope(scope => {
+        scope.setUser({
+          id: store.user.id,
+          email: store.user.email,
+        })
+      })
     } catch (unauthorizedError) {
       // TODO: Do some check before redirect
       this.redirectToLogin()
     }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope(scope => {
+      Object.keys(errorInfo).forEach(key => {
+        scope.setExtra(key, errorInfo[key])
+        scope.setExtra('ssr', false)
+      })
+      scope.setExtra('dataProvider', this.store.dataProvider)
+      scope.setExtra('activity', this.store.activity)
+
+      Sentry.captureException(error)
+    })
   }
 
   handleNavigation = event => {
