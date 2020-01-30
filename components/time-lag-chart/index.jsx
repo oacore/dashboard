@@ -53,6 +53,7 @@ const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
   useEffect(() => {
     const rawIntervalSize =
       data[data.length - 1].depositTimeLag - data[0].depositTimeLag
+    const dataMap = new Map(data.map(e => [e.depositTimeLag, e.worksCount]))
     const normalizedData = []
 
     for (
@@ -61,9 +62,12 @@ const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
       i++
     ) {
       const lagIndex = i + data[0].depositTimeLag
-      const el = data.find(e => e.depositTimeLag === lagIndex)
-      if (el) normalizedData.push(el)
-      else {
+      if (dataMap.has(lagIndex)) {
+        normalizedData.push({
+          depositTimeLag: lagIndex,
+          worksCount: dataMap.get(lagIndex),
+        })
+      } else {
         normalizedData.push({
           depositTimeLag: lagIndex,
           worksCount: 0,
