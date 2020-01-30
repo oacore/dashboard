@@ -100,8 +100,9 @@ class App extends NextApp {
 
     event.preventDefault()
     const route = new Route(url.pathname)
-    this.store.changeDataProvider(route.dataProvider)
-    this.store.changeActivity(route.activity)
+    if (route.dataProvider != null)
+      this.store.changeDataProvider(route.dataProvider)
+    this.store.changeActivity(route.activity || 'overview')
   }
 
   static getDerivedStateFromProps(props, state) {
