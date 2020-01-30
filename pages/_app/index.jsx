@@ -65,6 +65,13 @@ class App extends NextApp {
       const { dataProvider, activity } = new Route(window.location.pathname)
       await store.init(dataProvider, activity)
       this.setState({ isAuthorized: true })
+
+      Sentry.configureScope(scope => {
+        scope.setUser({
+          id: store.user.id,
+          email: store.user.email,
+        })
+      })
     } catch (unauthorizedError) {
       // TODO: Do some check before redirect
       this.redirectToLogin()
