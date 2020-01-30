@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import {
   Cell,
   Bar,
@@ -48,36 +48,47 @@ const formatter = g => {
 }
 
 const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
-  const rawIntervalSize =
-    data[data.length - 1].depositTimeLag - data[0].depositTimeLag
-  const normalizedData = []
-  for (
-    let i = 0;
-    i < rawIntervalSize + (rawIntervalSize % aggregationSize);
-    i++
-  ) {
-    const lagIndex = i + data[0].depositTimeLag
-    const el = data.find(e => e.depositTimeLag === lagIndex)
-    if (el) normalizedData.push(el)
-    else {
-      normalizedData.push({
-        depositTimeLag: lagIndex,
-        worksCount: 0,
-      })
+  const [aggregatedData, setAggregatedData] = useState([])
+
+  useEffect(() => {
+    const rawIntervalSize =
+      data[data.length - 1].depositTimeLag - data[0].depositTimeLag
+    const normalizedData = []
+
+    for (
+      let i = 0;
+      i < rawIntervalSize + (rawIntervalSize % aggregationSize);
+      i++
+    ) {
+      const lagIndex = i + data[0].depositTimeLag
+      const el = data.find(e => e.depositTimeLag === lagIndex)
+      if (el) normalizedData.push(el)
+      else {
+        normalizedData.push({
+          depositTimeLag: lagIndex,
+          worksCount: 0,
+        })
+      }
     }
-  }
 
-  const aggregatedData = nest()
-    .key(d => Math.floor(d.depositTimeLag / aggregationSize))
-    .rollup(v => ({
-      total: sum(v, d => d.worksCount),
-      avg: mean(v, d => d.worksCount),
-    }))
-    .entries(normalizedData)
+    const aggregation = nest()
+      .key(d => Math.floor(d.depositTimeLag / aggregationSize))
+      .rollup(v => ({
+        total: sum(v, d => d.worksCount),
+        avg: mean(v, d => d.worksCount),
+      }))
+      .entries(normalizedData)
 
-  const ticks = aggregatedData
-    .filter(e => isTick(parseInt(e.key, 10)))
-    .map(e => e.key)
+    setAggregatedData(aggregation)
+  }, [data])
+
+  const ticks = useMemo(
+    () =>
+      aggregatedData.filter(e => isTick(parseInt(e.key, 10))).map(e => e.key),
+    [aggregatedData]
+  )
+
+  if (aggregatedData.length === 0) return null
 
   return (
     <ResponsiveContainer width={width} height={height}>
