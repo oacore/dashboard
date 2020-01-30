@@ -9,6 +9,15 @@ import '@oacore/design/lib/index.css'
 
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
+import { Sentry } from 'utils/sentry'
+
+process.on('unhandledRejection', err => {
+  Sentry.captureException(err)
+})
+
+process.on('uncaughtException', err => {
+  Sentry.captureException(err)
+})
 
 class App extends NextApp {
   state = {
@@ -60,6 +69,18 @@ class App extends NextApp {
       // TODO: Do some check before redirect
       this.redirectToLogin()
     }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope(scope => {
+      Object.keys(errorInfo).forEach(key => {
+        scope.setExtra(key, errorInfo[key])
+        scope.setExtra('ssr', false)
+      })
+
+      Sentry.captureException(error)
+    })
   }
 
   handleNavigation = event => {
