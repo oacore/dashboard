@@ -78,13 +78,14 @@ class App extends NextApp {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   componentDidCatch(error, errorInfo) {
     Sentry.withScope(scope => {
       Object.keys(errorInfo).forEach(key => {
         scope.setExtra(key, errorInfo[key])
         scope.setExtra('ssr', false)
       })
+      scope.setExtra('dataProvider', this.store.dataProvider)
+      scope.setExtra('activity', this.store.activity)
 
       Sentry.captureException(error)
     })
