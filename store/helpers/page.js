@@ -3,9 +3,10 @@ class Page {
 
   data = []
 
-  constructor(data) {
+  constructor(data, options) {
     this.data = data
     this.retrievedAt = Date.now()
+    this.options = options
   }
 }
 

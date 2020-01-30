@@ -4,6 +4,8 @@ import { Table } from '@oacore/design'
 import TableRow from './TableRow'
 import TableRowExpanded from './TableRowExpanded'
 
+import { makeCancelable } from 'utils/promise'
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'toggle_select_row':
@@ -36,19 +38,44 @@ const TablePage = React.memo(
     areSelectedAll,
     expandable,
     columnOrder,
+    searchTerm,
   }) => {
     const [rowsInfo, dispatch] = useReducer(reducer, {})
     const componentRef = useRef(null)
+    const fetchDataPromise = useRef(null)
     const [data, setData] = React.useState([])
+
+    // cancel pending request on componentDidUnmount
+    useEffect(
+      () => () => fetchDataPromise.current && fetchDataPromise.current.cancel(),
+      []
+    )
 
     useEffect(() => {
       const loadData = async () => {
-        const rows = await fetchData(pageNumber)
-        setData(rows)
+        if (fetchData.current) fetchData.current.cancel()
+        const newFetchDataPromise = fetchData(
+          pageNumber,
+          columnOrder,
+          searchTerm
+        )
+        fetchDataPromise.current = makeCancelable(newFetchDataPromise.promise, {
+          cancel: newFetchDataPromise.cancel,
+        })
+        try {
+          const rows = await fetchDataPromise.current.promise
+          setData(rows)
+        } catch (error) {
+          // silently ignores abort error
+          const { status } = error
+          if (status !== null) throw error
+        } finally {
+          fetchDataPromise.current = null
+        }
       }
-
       loadData()
-    }, [columnOrder])
+      return () => fetchDataPromise.current && fetchDataPromise.current.cancel()
+    }, [columnOrder, searchTerm])
 
     const rowProps = row => ({
       id: row.id,

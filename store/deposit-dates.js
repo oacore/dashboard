@@ -46,12 +46,17 @@ class DepositDates {
     return Math.round(level * 100) / 100
   }
 
-  async retrieveDepositDates(pageNumber, searchTerm, columnOrder) {
+  retrieveDepositDates(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
     const key = `${pageNumber}-${searchTerm}-${order}`
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
-    if (this.pages.has(key)) return this.pages.get(key)
+    if (this.pages.has(key)) {
+      return {
+        promise: Promise.resolve(this.pages.get(key)),
+        cancel: () => {},
+      }
+    }
 
     const params = {
       from: pageNumber * PAGE_SIZE,
@@ -61,32 +66,47 @@ class DepositDates {
     if (order) params.orderBy = order
     if (searchTerm) params.q = searchTerm
 
-    let data
-    try {
-      const response = await apiRequest(this.datesUrl, 'GET', params, {}, true)
-      data = response.data
-    } catch (e) {
-      if (e.status === 404) data = []
-      else throw e
+    const request = apiRequest(this.datesUrl, 'GET', params, {}, true)
+    const dataPromise = new Promise((resolve, reject) =>
+      request.promise.then(
+        ({ data }) => {
+          const page = new Page(data, {
+            searchTerm,
+            order,
+          })
+          this.pages.set(key, page)
+          resolve(page)
+        },
+        reason => {
+          if (reason.status === 404) {
+            const page = new Page([], {
+              searchTerm,
+              order,
+            })
+            this.pages.set(key, page)
+            resolve(page)
+          } else reject(reason)
+        }
+      )
+    )
+    return {
+      promise: dataPromise,
+      cancel: request.cancel,
     }
-
-    const page = new Page(data)
-    this.pages.set(key, page)
-    return page
   }
 
   @action
   async retrieveDepositTimeLag() {
     this.isRetrieveDepositDatesInProgress = true
     try {
-      const response = await apiRequest(
+      const { data } = await apiRequest(
         this.depositTimeLagUrl,
         'GET',
         {},
         {},
         true
-      )
-      this.timeLagData = response.data
+      ).promise
+      this.timeLagData = data
     } catch (e) {
       if (e.status !== 404) throw e
     } finally {
@@ -104,7 +124,7 @@ class DepositDates {
         { accept: 'text/csv' },
         { Accept: 'text/csv' },
         true
-      )
+      ).promise
       await download(data, 'deposit-dates.csv', 'text/csv')
     } finally {
       this.isExportInProgress = false
@@ -116,6 +136,7 @@ class DepositDates {
     try {
       this.isExportDisabled = false
       const { headers } = await apiRequest(this.datesUrl, 'HEAD', {}, {}, true)
+        .promise
       const length = headers.get('Collection-Length')
       this.depositDatesCount = Number.parseInt(length, 10) || null
     } catch (e) {

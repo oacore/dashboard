@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import Markdown from 'react-markdown'
 import dayjs from 'dayjs'
 
@@ -35,12 +35,14 @@ const tableConfig = {
       id: 'author',
       display: 'Authors',
       order: '',
+      getter: v => v.author && v.author.map(a => a.name).join(' '),
       className: styles.authorsColumn,
     },
     {
       id: 'publicationDate',
       display: 'Publication Date',
       className: styles.depositDateColumn,
+      getter: v => dayjs(v.publicationDate),
       render: v => v.format('DD/MM/YYYY'),
     },
     {
@@ -48,6 +50,7 @@ const tableConfig = {
       display: 'Deposit At',
       order: 'desc',
       className: styles.depositDateColumn,
+      getter: v => dayjs(v.publicReleaseDate),
       render: v => v.format('DD/MM/YYYY'),
     },
   ],
@@ -64,23 +67,10 @@ const DepositDates = ({
   tag: Tag = 'main',
   ...restProps
 }) => {
-  const fetchData = async (pageNumber, searchTerm, columnOrder) => {
-    const page = await store.depositDates.retrieveDepositDates(
-      pageNumber,
-      searchTerm,
-      columnOrder
-    )
-
-    return page.data.map(v => ({
-      id: v.id,
-      oai: v.oai,
-      title: v.title,
-      author: v.author && v.author.map(a => a.name).join(' '),
-      publicationDate: dayjs(v.publicationDate),
-      publicReleaseDate: dayjs(v.publicReleaseDate),
-    }))
-  }
-
+  const fetchData = useCallback(
+    (...args) => store.depositDates.retrieveDepositDates(...args),
+    []
+  )
   return (
     <Tag className={[styles.container, className].join(' ')} {...restProps}>
       <h1>Deposit compliance</h1>
