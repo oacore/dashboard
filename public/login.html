@@ -56,20 +56,24 @@
   button:hover {
     background-color: #914200;
   }
-</style>
 
-<script>
-  function login(e) {
-    e.target.action = 'https://api.dev.core.ac.uk/login_check?continue=' + encodeURIComponent(
-      window.location.origin
-    );
+  .message {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #FFF;
+    background: #c62828;
+    border: 1px solid #8e0000;
   }
-</script>
+
+  .message:empty {
+    display: none;
+  }
+</style>
 
 
 <form action="https://api.dev.core.ac.uk/login_check" onsubmit="login.apply(this, arguments);" method="post">
   <h1>Login</h1>
-
+  <div id="error-message" class="message"></div>
   <label for="email"><b>Email</b></label>
   <input id="email" type="email" placeholder="Enter email" name="email" required>
 
@@ -80,3 +84,17 @@
 
   <button type="submit">Login</button>
 </form>
+
+<script>
+  function login(e) {
+    e.target.action = 'https://api.dev.core.ac.uk/login_check?continue=' + encodeURIComponent(
+      window.location.origin
+    );
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('reason')) {
+    const message = document.getElementById('error-message')
+    message.innerHTML='The username or password you entered is incorrect.';
+  }
+</script>
