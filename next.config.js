@@ -3,6 +3,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const withImages = require('next-images')
+const withSourceMaps = require('@zeit/next-source-maps')
 
 const camelCaseLoader = path.join(__dirname, 'webpack/camelcase-loader.js')
 
@@ -103,6 +104,11 @@ const nextConfig = {
       {
         test: /\.md$/,
         loader: ['json-loader', camelCaseLoader, 'yaml-frontmatter-loader'],
+      },
+      {
+        test: /\.js$/,
+        use: ['source-map-loader'],
+        enforce: 'pre',
       }
     )
 
@@ -114,7 +120,7 @@ const nextConfig = {
       utils: path.join(__dirname, 'utils'),
       store: path.join(__dirname, 'store'),
       api: path.join(__dirname, 'api'),
-      '@sentry/node': !config.isServer ? '@sentry/node' : '@sentry/browser',
+      '@sentry/node': config.isServer ? '@sentry/node' : '@sentry/browser',
     })
 
     config.plugins.push(
@@ -127,4 +133,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withImages(nextConfig)
+module.exports = withSourceMaps(withImages(nextConfig))
