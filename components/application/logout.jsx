@@ -10,8 +10,7 @@ const LOGOUT_URL = `https://api.dev.core.ac.uk/logout?continue=${encodeURICompon
 )}`
 
 const Logout = ({ store }) => {
-  const name =
-    `${store.user.givenName} ${store.user.familyName}` || store.user.email
+  const name = store.user.email
 
   return (
     <AppBar.Item className={styles.container}>
