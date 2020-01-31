@@ -88,16 +88,17 @@ const DataStatisticsCard = ({
     className={classNames.use(styles.statisticsCard, className)}
     {...restProps}
   >
-    <h2>Content at glance</h2>
+    <h2>Content at a glance</h2>
     <Num
       value={valueOrDefault(fullTextCount, 'Loading...')}
       caption="full texts"
     />
     <Num
       value={valueOrDefault(metadataCount, 'Loading...')}
-      caption="meta-data records"
+      caption="metadata records"
       size="small"
     />
+    <p>These numbers show only the outputs we managed to harvest.</p>
     <Button variant="contained" href="content" tag="a">
       Browse
     </Button>
@@ -113,7 +114,7 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
         <TimeLagChart data={chartData} height={200} />
         <p>
           {description.complianceLevel.render({
-            amount: `${(100 - complianceLevel).toFixed(1)}%`,
+            amount: (100 - complianceLevel).toFixed(1),
           })}
         </p>
         <Button variant="contained" href="deposit-dates" tag="a" disabled>

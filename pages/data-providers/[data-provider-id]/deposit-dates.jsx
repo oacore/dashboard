@@ -40,14 +40,14 @@ const tableConfig = {
     },
     {
       id: 'publicationDate',
-      display: 'Publication Date',
+      display: 'Publication date',
       className: styles.depositDateColumn,
       getter: v => dayjs(v.publicationDate),
       render: v => v.format('DD/MM/YYYY'),
     },
     {
       id: 'publicReleaseDate',
-      display: 'Deposit At',
+      display: 'Deposit date',
       order: 'desc',
       className: styles.depositDateColumn,
       getter: v => dayjs(v.publicReleaseDate),
