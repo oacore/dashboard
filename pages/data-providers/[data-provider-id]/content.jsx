@@ -20,6 +20,7 @@ const tableConfig = {
       display: 'OAI',
       expandedSize: 3,
       className: styles.labelColumn,
+      order: '',
       getter: v => v.identifier,
       render: ({ oai, doi }, isExpanded) => (
         <>
@@ -41,6 +42,7 @@ const tableConfig = {
       display: 'Authors',
       expandedSize: null,
       className: styles.authorsColumn,
+      order: '',
       getter: v => v.author.map(a => a.name).join(' '),
     },
     {
