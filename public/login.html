@@ -87,7 +87,9 @@
 
 <script>
   function login(e) {
-    e.target.action = 'https://api.dev.core.ac.uk/login_check?continue=' + encodeURIComponent(
+    let apiURL = window.location.hostname.endsWith('core.ac.uk') ? 'https://api.core.ac.uk' : 'https://api.dev.core.ac.uk'
+    if(sessionStorage.getItem('profile')) apiURL = JSON.parse(sessionStorage.getItem('profile')).apiURL
+    e.target.action = apiURL + '/login_check?continue=' + encodeURIComponent(
       window.location.origin
     );
   }
