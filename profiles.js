@@ -10,4 +10,4 @@ const profiles = {
   },
 }
 
-export default profiles
+module.exports = profiles

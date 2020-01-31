@@ -17,3 +17,4 @@ settings:
 
 globals:
   SENTRY_DSN: true
+  PROFILE_DATA: true

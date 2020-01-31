@@ -1,26 +1,19 @@
 import { NetworkError } from './errors'
 
-const CORE_API = 'https://api.core.ac.uk/internal'
-const CORE_API_DEV = 'https://api.dev.core.ac.uk/internal'
-
 const apiRequest = (
   url,
   method = 'GET',
   queryParams = {},
-  customHeaders = {},
-  dev = false
+  customHeaders = {}
 ) => {
   const controller = new AbortController()
   const { signal } = controller
 
-  const requestUrl = new URL(
-    /^\w+:\/\//.test(url) ? url : `${dev ? CORE_API_DEV : CORE_API}${url}`
-  )
+  const requestUrl = new URL(url)
   const requestHeaders = {
     Accept: 'application/json',
     ...customHeaders,
   }
-
   requestUrl.search = new URLSearchParams(queryParams).toString()
 
   const fetchPromise = fetch(requestUrl, {

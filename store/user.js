@@ -9,6 +9,12 @@ class User {
     return this.dataProviders.some(({ id }) => dataProviderId === id)
   }
 
+  baseUrl = ''
+
+  constructor(baseUrl) {
+    this.baseUrl = baseUrl
+  }
+
   searchDataProviders(searchTerm) {
     return this.dataProviders.filter(
       e => e.name.toLowerCase().search(searchTerm.toLowerCase()) !== -1
@@ -22,7 +28,13 @@ class User {
 
   @action
   async retrieveUser() {
-    const { data } = await apiRequest('/user', 'GET', {}, {}, true).promise
+    const { data } = await apiRequest(
+      `${this.baseUrl}/user`,
+      'GET',
+      {},
+      {},
+      true
+    ).promise
     const { dataProviders, ...userDetails } = data
 
     extendObservable(this, userDetails)

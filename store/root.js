@@ -8,8 +8,6 @@ import Works from './works'
 import apiRequest from 'api'
 
 class Root {
-  @observable user = new User()
-
   @observable dataProvider = null
 
   @observable activity = null
@@ -24,9 +22,22 @@ class Root {
 
   @observable depositDates = null
 
+  @observable profile = PROFILE_DATA
+
+  @observable user = null
+
+  @computed
+  get baseUrl() {
+    return `${this.profile.apiURL}/internal`
+  }
+
   @computed
   get dataProviders() {
     return this.user.dataProviders
+  }
+
+  constructor() {
+    this.user = new User(this.baseUrl)
   }
 
   @action async init(dataProviderId, activityPath) {
@@ -66,7 +77,7 @@ class Root {
 
     this.retrieveStatistics()
 
-    const url = `/data-providers/${this.dataProvider.id}`
+    const url = `${this.baseUrl}/data-providers/${this.dataProvider.id}`
     this.works = new Works(url)
     this.depositDates = new DepositDates(url)
   }
@@ -79,7 +90,7 @@ class Root {
 
   @action
   async retrieveStatistics() {
-    const url = `/data-providers/${this.dataProvider.id}/statistics`
+    const url = `${this.baseUrl}/data-providers/${this.dataProvider.id}/statistics`
     const { data } = await apiRequest(url, 'GET', {}, {}, true).promise
     Object.assign(this.statistics, data)
   }

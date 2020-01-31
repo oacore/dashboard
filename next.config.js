@@ -6,6 +6,8 @@ const withImages = require('next-images')
 const withSourceMaps = require('@zeit/next-source-maps')
 const dotenv = require('dotenv')
 
+const profiles = require('./profiles')
+
 dotenv.config()
 
 const camelCaseLoader = path.join(__dirname, 'webpack/camelcase-loader.js')
@@ -129,6 +131,9 @@ const nextConfig = {
     config.plugins.push(
       new webpack.DefinePlugin({
         SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
+        PROFILE_DATA: JSON.stringify(
+          dev ? profiles.staging : profiles.production
+        ),
       })
     )
 
