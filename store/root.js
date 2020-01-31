@@ -4,8 +4,10 @@ import activities from './activities'
 import User from './user'
 import DepositDates from './deposit-dates'
 import Works from './works'
+import profiles from '../profiles'
 
 import apiRequest from 'api'
+import SessionStorageWrapper from 'utils/sessionStorageWrapper'
 
 class Root {
   @observable dataProvider = null
@@ -22,9 +24,10 @@ class Root {
 
   @observable depositDates = null
 
-  @observable profile = PROFILE_DATA
-
   @observable user = null
+
+  @observable profile =
+    SessionStorageWrapper.getValue('profile', true) || PROFILE_DATA
 
   @computed
   get baseUrl() {
@@ -74,12 +77,7 @@ class Root {
 
     this.dataProvider = dataProvider
     this.changeActivity('overview')
-
-    this.retrieveStatistics()
-
-    const url = `${this.baseUrl}/data-providers/${this.dataProvider.id}`
-    this.works = new Works(url)
-    this.depositDates = new DepositDates(url)
+    this.reloadStore()
   }
 
   @action changeActivity(url) {
@@ -93,6 +91,30 @@ class Root {
     const url = `${this.baseUrl}/data-providers/${this.dataProvider.id}/statistics`
     const { data } = await apiRequest(url, 'GET', {}, {}, true).promise
     Object.assign(this.statistics, data)
+  }
+
+  @action
+  reloadStore() {
+    this.retrieveStatistics()
+
+    const url = `${this.baseUrl}/data-providers/${this.dataProvider.id}`
+
+    this.works = new Works(url)
+    this.depositDates = new DepositDates(url)
+  }
+
+  @action
+  async changeProfile(profile) {
+    const LOGOUT_URL = `${
+      this.profile.apiURL
+    }/logout?continue=${encodeURIComponent(
+      typeof window !== 'undefined'
+        ? `${window.location.origin}/login.html`
+        : ''
+    )}`
+
+    SessionStorageWrapper.setValue('profile', JSON.stringify(profiles[profile]))
+    window.location.replace(LOGOUT_URL)
   }
 }
 
