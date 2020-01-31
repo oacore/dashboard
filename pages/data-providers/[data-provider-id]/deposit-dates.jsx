@@ -42,7 +42,8 @@ const tableConfig = {
       id: 'publicationDate',
       display: 'Publication date',
       className: styles.depositDateColumn,
-      getter: v => dayjs(v.publicationDate),
+      getter: v =>
+        dayjs(v.repositoryPublicationDate || v.crossrefPublicationDate),
       render: v => v.format('DD/MM/YYYY'),
     },
     {
