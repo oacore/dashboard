@@ -59,8 +59,8 @@ class DepositDates {
     }
 
     const params = {
-      from: pageNumber * PAGE_SIZE,
-      size: PAGE_SIZE,
+      next_item: pageNumber * PAGE_SIZE,
+      step_item: PAGE_SIZE,
     }
 
     if (order) params.orderBy = order
@@ -73,6 +73,7 @@ class DepositDates {
           const page = new Page(data, {
             searchTerm,
             order,
+            maxSize: PAGE_SIZE,
           })
           this.pages.set(key, page)
           resolve(page)
@@ -82,6 +83,7 @@ class DepositDates {
             const page = new Page([], {
               searchTerm,
               order,
+              maxSize: PAGE_SIZE,
             })
             this.pages.set(key, page)
             resolve(page)
