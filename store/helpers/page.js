@@ -7,6 +7,11 @@ class Page {
     this.data = data
     this.retrievedAt = Date.now()
     this.options = options
+    this.maxSize = options.maxSize
+  }
+
+  get isLast() {
+    return this.data.length < this.maxSize
   }
 }
 

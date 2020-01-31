@@ -6,8 +6,8 @@ import LoadMoreRow from './LoadMoreRow'
 import { range } from '../../utils/helpers'
 import tableClassNames from './index.css'
 import NoDataFoundRow from './NoDataFoundRow'
-import debounce from '../../utils/debounce'
 
+import debounce from 'utils/debounce'
 import withErrorBoundary from 'utils/withErrorBoundary'
 
 const getNextOrder = order => {
@@ -65,7 +65,7 @@ class InfiniteTable extends React.Component {
           const { searchTerm: searchTermNew } = this.state
 
           if (searchTermNew === page.options.searchTerm) {
-            if (data.length === 0) newState.isLastPageLoaded = true
+            if (page.isLast) newState.isLastPageLoaded = true
             if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
             if (pageNumber === 0) newState.isFirstPageLoaded = true
           }

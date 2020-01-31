@@ -37,6 +37,7 @@ class Works {
           const page = new Page(data, {
             searchTerm,
             order,
+            maxSize: PAGE_SIZE,
           })
           this.pages.set(key, page)
           resolve(page)
