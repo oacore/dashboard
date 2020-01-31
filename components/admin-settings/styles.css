@@ -1,0 +1,86 @@
+.slideout {
+  position: fixed;
+  bottom: 3rem;
+  left: 0;
+  background: var(--gray-100);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  transition-duration: 0.3s;
+
+  &:hover {
+    left: 13.5rem;
+    background: unset;
+    box-shadow: unset;
+  }
+
+  &:hover .slideout-inner {
+    left: 0;
+  }
+}
+
+.slideout-icon {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.slideout-inner {
+  position: fixed;
+  bottom: 3rem;
+  left: -15rem;
+  min-width: 15rem;
+  padding: 0.5rem;
+  background: var(--gray-100);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  transition-duration: 0.3s;
+}
+
+.radio-container {
+  position: relative;
+  display: block;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+
+  & input {
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+  }
+
+  & :hover input ~ .check-box {
+    background-color: var(--gray-500);
+  }
+}
+.check-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  background-color: var(--gray-300);
+  border-radius: 50%;
+}
+
+.radio-container input:checked ~ .check-box {
+  background-color: var(--success);
+}
+
+.check-box::after {
+  position: absolute;
+  display: none;
+  content: '';
+}
+
+.radio-container input:checked ~ .check-box::after {
+  display: block;
+}
+
+.radio-container .check-box::after {
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  background: var(--white);
+  border-radius: 50%;
+}

@@ -5,6 +5,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import LayoutContext from './context'
 import styles from './styles.css'
 
+import { withGlobalStore } from 'store'
 import { Logo, CloseIcon } from 'design'
 
 const SideBar = ({
@@ -12,6 +13,7 @@ const SideBar = ({
   className,
   tag: Tag = 'nav',
   id, // prevent passing ID to element attributes
+  store,
   ...restProps
 }) => {
   const [state, dispatch] = useContext(LayoutContext)
@@ -41,4 +43,4 @@ const SideBar = ({
   )
 }
 
-export default SideBar
+export default withGlobalStore(SideBar)

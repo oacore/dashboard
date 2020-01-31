@@ -5,6 +5,7 @@ import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
 import Logout from './logout'
+import AdminSettings from '../admin-settings'
 
 const activities = ['overview', 'content', 'deposit-dates']
 
@@ -32,6 +33,7 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
       </SideBar>
       <Main>{children}</Main>
     </Container>
+    <AdminSettings />
   </>
 )
 
