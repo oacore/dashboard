@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import classNames from 'classnames'
 
 import styles from './styles.css'
@@ -29,12 +29,25 @@ const Select = ({
   id = generateId(),
 }) => {
   const inputRef = useRef(null)
+  const [clickedElement, setClickedElement] = useState(null)
   const selectMenuRef = useRef(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [showSuggestions, toggleShowSuggestions] = useState(false)
   const [activeSuggestion, setActiveSuggestion] = useState({})
   const [loading, setLoading] = useState(false)
   const [suggestions, setSuggestions] = useState([])
+
+  const handleMouseUp = useCallback(event => {
+    if (inputRef.current && inputRef.current.contains(event.target)) return
+    setClickedElement(null)
+    toggleShowSuggestions(false)
+    setActiveSuggestion({})
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('mouseup', handleMouseUp)
+    return () => window.removeEventListener('mouseup', handleMouseUp)
+  }, [])
 
   const handleKeyDown = event => {
     let pos =
@@ -129,9 +142,10 @@ const Select = ({
             }}
             onBlur={event => {
               const { relatedTarget: el } = event
-              setActiveSuggestion({})
-              // https://github.com/facebook/react/issues/4210
-              if (!(el && el.dataset.selectId === id))
+              if (
+                clickedElement === null &&
+                !(el && el.dataset.selectId === id)
+              )
                 toggleShowSuggestions(false)
             }}
             onChange={event => {
@@ -159,9 +173,20 @@ const Select = ({
                 key={s.id}
                 value={s.id}
                 data-select-id={id}
-                onClick={() => {
-                  onSelectionChange(s.id)
-                  toggleShowSuggestions(false)
+                onMouseDown={() => {
+                  // Firefox and Safari have relatedTarget null.
+                  // Therefore we cannot use onClick event
+                  // since it's not getting fired
+                  // because onBlur input listener cause rerender.
+                  setClickedElement(s.id)
+                }}
+                onMouseUp={event => {
+                  if (clickedElement === s.id) {
+                    onSelectionChange(s.id)
+                    toggleShowSuggestions(false)
+                  }
+                  setClickedElement(null)
+                  event.stopPropagation()
                 }}
                 selected={s.id === activeSuggestion.id}
               >
