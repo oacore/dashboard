@@ -28,13 +28,8 @@ class User {
 
   @action
   async retrieveUser() {
-    const { data } = await apiRequest(
-      `${this.baseUrl}/user`,
-      'GET',
-      {},
-      {},
-      true
-    ).promise
+    const { data } = await apiRequest(`${this.baseUrl}/user`, 'GET', {}, {})
+      .promise
     const { dataProviders, ...userDetails } = data
 
     extendObservable(this, userDetails)

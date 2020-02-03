@@ -132,7 +132,9 @@ const nextConfig = {
       new webpack.DefinePlugin({
         SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
         PROFILE_DATA: JSON.stringify(
-          dev || process.env.BUILD_TARGET === "now" ? profiles.staging : profiles.production
+          dev || process.env.BUILD_TARGET === 'now'
+            ? profiles.staging
+            : profiles.production
         ),
       })
     )

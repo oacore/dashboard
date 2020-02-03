@@ -89,7 +89,7 @@ class Root {
   @action
   async retrieveStatistics() {
     const url = `${this.baseUrl}/data-providers/${this.dataProvider.id}/statistics`
-    const { data } = await apiRequest(url, 'GET', {}, {}, true).promise
+    const { data } = await apiRequest(url, 'GET', {}, {}).promise
     Object.assign(this.statistics, data)
   }
 

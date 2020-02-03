@@ -66,7 +66,7 @@ class DepositDates {
     if (order) params.orderBy = order
     if (searchTerm) params.q = searchTerm
 
-    const request = apiRequest(this.datesUrl, 'GET', params, {}, true)
+    const request = apiRequest(this.datesUrl, 'GET', params, {})
     const dataPromise = new Promise((resolve, reject) =>
       request.promise.then(
         ({ data }) => {
@@ -101,13 +101,8 @@ class DepositDates {
   async retrieveDepositTimeLag() {
     this.isRetrieveDepositDatesInProgress = true
     try {
-      const { data } = await apiRequest(
-        this.depositTimeLagUrl,
-        'GET',
-        {},
-        {},
-        true
-      ).promise
+      const { data } = await apiRequest(this.depositTimeLagUrl, 'GET', {}, {})
+        .promise
       this.timeLagData = data
     } catch (e) {
       if (e.status !== 404) throw e
@@ -124,8 +119,7 @@ class DepositDates {
         this.datesUrl,
         'GET',
         { accept: 'text/csv' },
-        { Accept: 'text/csv' },
-        true
+        { Accept: 'text/csv' }
       ).promise
       await download(data, 'deposit-dates.csv', 'text/csv')
     } finally {
@@ -137,7 +131,7 @@ class DepositDates {
   loadDepositDatesCount = async () => {
     try {
       this.isExportDisabled = false
-      const { headers } = await apiRequest(this.datesUrl, 'HEAD', {}, {}, true)
+      const { headers } = await apiRequest(this.datesUrl, 'HEAD', {}, {})
         .promise
       const length = headers.get('Collection-Length')
       this.depositDatesCount = Number.parseInt(length, 10) || null

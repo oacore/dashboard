@@ -30,7 +30,7 @@ class Works {
     }
     if (order) params.orderBy = order
     if (searchTerm) params.q = searchTerm
-    const request = apiRequest(this.worksUrl, 'GET', params, {}, true)
+    const request = apiRequest(this.worksUrl, 'GET', params, {})
     const dataPromise = new Promise((resolve, reject) =>
       request.promise.then(
         ({ data }) => {
