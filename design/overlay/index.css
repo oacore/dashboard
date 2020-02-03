@@ -7,17 +7,33 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  backdrop-filter: saturate(0) blur(var(--overlay-blur, 2px));
-}
-
-.light {
-  background-color: rgba(255, 255, 255, 0.5);
-}
-
-.dark {
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .blur {
   --overlay-blur: 1rem;
+}
+
+.light {
+  background-color: var(--gray-300);
+}
+
+.dark {
+  background-color: var(--gray-800);
+}
+
+@supports (
+  (-webkit-backdrop-filter: saturate(0) blur(var(--overlay-blur, 2px))) or
+    (backdrop-filter: saturate(0) blur(var(--overlay-blur, 2px)))
+) {
+  .overlay {
+    backdrop-filter: saturate(0) blur(var(--overlay-blur, 2px));
+  }
+
+  .light {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .dark {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 }
