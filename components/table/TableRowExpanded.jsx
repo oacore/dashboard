@@ -15,6 +15,7 @@ const TableRowExpanded = ({
     id={`${id}-expanded`}
     className={classNames(
       tableClassNames.additionalRow,
+      tableClassNames.detailRow,
       expandedRow.className,
       {
         [tableClassNames.closed]: !isExpanded,
