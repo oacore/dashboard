@@ -161,12 +161,27 @@ const DashboardView = ({
   </main>
 )
 
+const filterChartData = (data, complianceLevel = 0.75) => {
+  const dataLimit = 365 * 4
+  const complianceLimit = 90
+
+  const leftLimit =
+    complianceLimit + Math.floor(dataLimit * complianceLevel) * -1
+  const rightLimit = leftLimit + dataLimit
+
+  return data.filter(
+    item =>
+      item.depositTimeLag >= leftLimit && item.depositTimeLag <= rightLimit
+  )
+}
+
 const Dashboard = ({ store, ...restProps }) => (
   <DashboardView
     metadataCount={store.statistics.metadataCount}
     fullTextCount={store.statistics.fullTextCount}
-    timeLagData={store.depositDates.timeLagData.filter(
-      item => item.depositTimeLag >= -45 && item.depositTimeLag <= 135
+    timeLagData={filterChartData(
+      store.depositDates.timeLagData,
+      store.depositDates.complianceLevel / 100
     )}
     isTimeLagDataLoading={store.depositDates.isRetrieveDepositDatesInProgress}
     complianceLevel={store.depositDates.complianceLevel}
