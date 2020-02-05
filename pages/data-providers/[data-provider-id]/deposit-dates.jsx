@@ -77,11 +77,15 @@ const DepositDates = ({
 
       <Card className={styles.complianceLevel} tag="section">
         <h2>{texts.compliance.title}</h2>
-        <Markdown>
-          {texts.compliance.body.render({
-            amount: (100 - store.depositDates.complianceLevel).toFixed(1),
-          })}
-        </Markdown>
+        {store.depositDates.complianceLevel ? (
+          <Markdown>
+            {texts.compliance.body.render({
+              amount: (100 - store.depositDates.complianceLevel).toFixed(1),
+            })}
+          </Markdown>
+        ) : (
+          <p>{texts.noData.body}</p>
+        )}
       </Card>
 
       <Card className={styles.export} tag="section">
