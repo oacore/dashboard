@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
-import Markdown from 'react-markdown'
 import dayjs from 'dayjs'
 
 import { withGlobalStore } from 'store'
+import Markdown from 'components/markdown'
 import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
 import { Button, Card, Label } from 'design'

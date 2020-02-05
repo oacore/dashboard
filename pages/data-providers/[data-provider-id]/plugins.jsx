@@ -1,8 +1,8 @@
 import React from 'react'
-import Markdown from 'react-markdown'
 
 import pluginsClassNames from './plugins.css'
 
+import Markdown from 'components/markdown'
 import { Card, Button } from 'design'
 import { plugins } from 'texts'
 
