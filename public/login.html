@@ -71,7 +71,7 @@
 </style>
 
 
-<form action="https://api.dev.core.ac.uk/login_check" onsubmit="login.apply(this, arguments);" method="post">
+<form action="https://api.core.ac.uk/login_check" onsubmit="login.apply(this, arguments);" method="post">
   <h1>Login</h1>
   <div id="error-message" class="message"></div>
   <label for="email"><b>Email</b></label>
@@ -87,7 +87,7 @@
 
 <script>
   function login(e) {
-    e.target.action = 'https://api.dev.core.ac.uk/login_check?continue=' + encodeURIComponent(
+    e.target.action = 'https://api.core.ac.uk/login_check?continue=' + encodeURIComponent(
       window.location.origin
     );
   }

@@ -1,7 +1,15 @@
 import { NetworkError } from './errors'
 
 const CORE_API = 'https://api.core.ac.uk/internal'
-const CORE_API_DEV = 'https://api.dev.core.ac.uk/internal'
+
+/**
+ * Forces using production API URL and ignore `dev` parameter
+ * in the function below.
+ */
+const CORE_API_DEV =
+  process.env.NODE_ENV !== 'production'
+    ? 'https://api.dev.core.ac.uk/internal'
+    : CORE_API
 
 const apiRequest = (
   url,
