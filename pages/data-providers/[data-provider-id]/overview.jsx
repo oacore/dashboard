@@ -88,7 +88,7 @@ const DataStatisticsCard = ({
     className={classNames.use(styles.statisticsCard, className)}
     {...restProps}
   >
-    <h2>Content at a glance</h2>
+    <h2>Harvested data</h2>
     <Num
       value={valueOrDefault(fullTextCount, 'Loading...')}
       caption="full texts"
@@ -98,7 +98,6 @@ const DataStatisticsCard = ({
       caption="metadata records"
       size="small"
     />
-    <p>These numbers show only the outputs we managed to harvest.</p>
     <Button variant="contained" href="content" tag="a">
       Browse
     </Button>
