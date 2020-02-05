@@ -30,3 +30,10 @@
 .main-row {
   border-bottom: 0;
 }
+
+.detail-row {
+  & > th,
+  & > td {
+    white-space: normal;
+  }
+}
