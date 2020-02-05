@@ -73,33 +73,29 @@ const tableConfig = {
   ],
   expandedRow: {
     render: ({ content: { title, author, link } }) => {
-      const isFulltext = Boolean(link.find(v => v.type === 'download'))
+      const fullText = link.find(v => v.type === 'download')
       return (
         <div>
           <p>
             <b>{title}</b>
           </p>
           <p>{author.map(a => a.name).join(' ')}</p>
-          {!isFulltext && (
+          {fullText != null ? (
+            // We want to pass referrer tag to our website
+            // eslint-disable-next-line react/jsx-no-target-blank
+            <a href={fullText.url} target="_blank" rel="noopener">
+              <Alert variant="info">
+                <Alert.Header>
+                  <Icon src="/design/icons.svg#download" aria-hidden />
+                  Fulltext available
+                </Alert.Header>
+              </Alert>
+            </a>
+          ) : (
             <Alert variant="danger">
               <Alert.Header>
                 <Icon src="/design/icons.svg#download" aria-hidden />
                 Fulltext not available
-              </Alert.Header>
-              <Alert.Content>
-                <b>Document is encrypted</b>
-                <br />
-                <span>
-                  A PDF file was found but had digital restrictions on the file.
-                </span>
-              </Alert.Content>
-            </Alert>
-          )}
-          {isFulltext && (
-            <Alert variant="info">
-              <Alert.Header>
-                <Icon src="/design/icons.svg#download" aria-hidden />
-                Fulltext available
               </Alert.Header>
             </Alert>
           )}
