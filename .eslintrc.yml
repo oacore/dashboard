@@ -17,3 +17,4 @@ settings:
 
 globals:
   SENTRY_DSN: true
+  GA_TRACKING_CODE: true

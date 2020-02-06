@@ -7,6 +7,7 @@ import Route from './route'
 
 import '@oacore/design/lib/index.css'
 
+import logPageView from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 import { Sentry } from 'utils/sentry'
@@ -18,6 +19,10 @@ process.on('unhandledRejection', err => {
 process.on('uncaughtException', err => {
   Sentry.captureException(err)
 })
+
+const handleRouteChange = url => {
+  logPageView(url)
+}
 
 class App extends NextApp {
   state = {
@@ -56,6 +61,8 @@ class App extends NextApp {
 
   async componentDidMount() {
     const store = initStore()
+    const { router } = this.props
+    router.events.on('routeChangeComplete', handleRouteChange)
 
     // Assumes store object is always the same
     this.store = store
@@ -76,6 +83,11 @@ class App extends NextApp {
       // TODO: Do some check before redirect
       this.redirectToLogin()
     }
+  }
+
+  componentWillUnmount() {
+    const { router } = this.props
+    router.events.off('routeChangeComplete', handleRouteChange)
   }
 
   componentDidCatch(error, errorInfo) {
