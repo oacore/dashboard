@@ -129,6 +129,7 @@ const nextConfig = {
     config.plugins.push(
       new webpack.DefinePlugin({
         SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
+        GA_TRACKING_CODE: JSON.stringify(process.env.GA_TRACKING_CODE),
       })
     )
 
