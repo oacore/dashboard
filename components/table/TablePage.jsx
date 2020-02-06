@@ -84,7 +84,7 @@ const TablePage = React.memo(
       selectable,
       isSelected:
         areSelectedAll || (rowsInfo[row.id] && rowsInfo[row.id].selected),
-      content: row,
+      content: { ...row, pageNumber },
       config,
       isExpanded: rowsInfo[row.id] && rowsInfo[row.id].expanded,
       expandable,

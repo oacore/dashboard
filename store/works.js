@@ -3,7 +3,7 @@ import getOrder from './helpers/order'
 
 import apiRequest from 'api'
 
-const PAGE_SIZE = 100
+const PAGE_SIZE = 30
 
 class Works {
   pages = new Map([])
