@@ -41,6 +41,7 @@ const tableConfig = {
     {
       id: 'publicationDate',
       display: 'Publication date',
+      order: 'desc',
       className: styles.depositDateColumn,
       getter: v => dayjs(v.publicationDate),
       render: v => v.format('DD/MM/YYYY'),
@@ -48,7 +49,6 @@ const tableConfig = {
     {
       id: 'publicReleaseDate',
       display: 'Deposit date',
-      order: 'desc',
       className: styles.depositDateColumn,
       getter: v => dayjs(v.publicReleaseDate),
       render: v => v.format('DD/MM/YYYY'),
