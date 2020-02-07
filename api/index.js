@@ -1,29 +1,16 @@
 import { NetworkError } from './errors'
-
-const CORE_API = 'https://api.core.ac.uk/internal'
-
-/**
- * Forces using production API URL and ignore `dev` parameter
- * in the function below.
- */
-const CORE_API_DEV =
-  process.env.NODE_ENV !== 'production'
-    ? 'https://api.dev.core.ac.uk/internal'
-    : CORE_API
+import { API_URL } from '../config'
 
 const apiRequest = (
   url,
   method = 'GET',
   queryParams = {},
-  customHeaders = {},
-  dev = false
+  customHeaders = {}
 ) => {
   const controller = new AbortController()
   const { signal } = controller
 
-  const requestUrl = new URL(
-    /^\w+:\/\//.test(url) ? url : `${dev ? CORE_API_DEV : CORE_API}${url}`
-  )
+  const requestUrl = new URL(/^\w+:\/\//.test(url) ? url : `${API_URL}${url}`)
   const requestHeaders = {
     Accept: 'application/json',
     ...customHeaders,
