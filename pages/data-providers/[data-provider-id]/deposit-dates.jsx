@@ -110,11 +110,15 @@ const DepositDates = ({
       <Card className={styles.depositTimeLag} tag="section">
         <h2>{texts.chart.title}</h2>
         {store.depositDates.timeLagData.length > 0 && (
-          <TimeLagChart data={store.depositDates.timeLagData} />
+          <>
+            <TimeLagChart data={store.depositDates.timeLagData} />
+            <Markdown>{texts.chart.body}</Markdown>
+          </>
         )}
         {!store.depositDates.timeLagData.length &&
-          !store.depositDates.isRetrieveDepositDatesInProgress &&
-          texts.chart.noData}
+          !store.depositDates.isRetrieveDepositDatesInProgress && (
+            <p>{texts.noData.body}</p>
+          )}
       </Card>
 
       <Card className={styles.browseTable} tag="section">

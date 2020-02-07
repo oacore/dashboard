@@ -1,5 +1,5 @@
 import overview from './overview.yml'
-import chart from './chart.yml'
+import sourceChart from './chart.md'
 import complianceNotice from './compliance-notice.md'
 import noDataNotice from './no-data.md'
 import exporting from './export.yml'
@@ -20,6 +20,11 @@ const compliance = {
 const noData = {
   ...noDataNotice.attributes,
   body: noDataNotice.body,
+}
+
+const chart = {
+  ...sourceChart.attributes,
+  body: sourceChart.body,
 }
 
 export default { overview, chart, compliance, exporting, noData }
