@@ -15,8 +15,7 @@ Write down this identifier, you will use it shortly.
     ```
     Installation finished
     ```
-6.  Once installed, click on the CORE Recommender _Configure_ button:
-    ```Press Configure button`
+6.  Once installed, click on the CORE Recommender _Configure_ button: `Press Configure button`
 7.  Then click on the "Edit config file" button: `Edit config file`
 8.  In the window that opens, replace the _recommenderID_ with `{{ key }}`
 9.  Save the changes in the file pressing _Save changes_
