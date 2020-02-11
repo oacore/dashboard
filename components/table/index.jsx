@@ -229,10 +229,8 @@ class InfiniteTable extends React.Component {
             range(3).map(i => (
               <TablePage
                 key={i + page}
-                observe={this.observe}
                 pageNumber={i + page}
                 fetchData={this.fetchData}
-                unObserve={this.unObserve}
                 config={config}
                 selectable={selectable}
                 areSelectedAll={areSelectedAll}
@@ -241,7 +239,6 @@ class InfiniteTable extends React.Component {
                 searchTerm={searchTerm}
               />
             ))}
-
           {!isEmpty &&
             !isLastPageLoaded &&
             isFirstPageLoaded &&
