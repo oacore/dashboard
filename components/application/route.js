@@ -30,7 +30,8 @@ Route.parse = routeString => {
   const s = routeString.charAt() === '/' ? routeString.slice(1) : routeString
 
   // Skip '/data-providers/' part
-  const [, dataProvider, activity] = s.split('/')
+  const [, dataProvider, ...activityPartials] = s.split('/')
+  const activity = activityPartials.join('/')
 
   return { dataProvider, activity }
 }
