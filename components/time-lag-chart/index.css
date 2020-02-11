@@ -9,3 +9,10 @@
 .reference-line {
   stroke: var(--gray-800);
 }
+
+.tooltip {
+  padding: 0.5rem;
+  background-color: var(--white);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
