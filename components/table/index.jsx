@@ -212,19 +212,6 @@ class InfiniteTable extends React.Component {
           </Table.Head>
 
           {!isEmpty &&
-            !isLastPageLoaded &&
-            isFirstPageLoaded &&
-            dataRequestCount === 0 &&
-            page > 0 && (
-              <LoadMoreRow
-                pageNumber={page - 1}
-                observe={this.observe}
-                unObserve={this.unObserve}
-                handleManualLoad={() => this.setState({ page: page - 1 })}
-              />
-            )}
-
-          {!isEmpty &&
             !isSearchChanging &&
             range(3).map(i => (
               <TablePage
