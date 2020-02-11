@@ -30,9 +30,9 @@ Route.parse = routeString => {
   const s = routeString.charAt() === '/' ? routeString.slice(1) : routeString
 
   // Skip '/data-providers/' part
-  const [, dataProvider, activity] = s.split('/')
+  const [, dataProvider, ...activity] = s.split('/')
 
-  return { dataProvider, activity }
+  return { dataProvider, activity: activity.join('/') }
 }
 
 export default Route
