@@ -15,6 +15,14 @@ const config = [
     id: 'plugins',
     path: 'plugins',
   },
+  {
+    id: 'plugins/discovery',
+    path: 'plugins/discovery',
+  },
+  {
+    id: 'plugins/recommender',
+    path: 'plugins/recommender',
+  },
 ]
 
 const configMap = new Map(config.map(item => [item.id, item]))

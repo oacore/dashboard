@@ -6,7 +6,7 @@ import ActivitySelect from './activity-select'
 import Head from './head'
 import Logout from './logout'
 
-const activities = ['overview', 'content', 'deposit-dates']
+const activities = ['overview', 'content', 'deposit-dates', 'plugins']
 
 const Application = ({ children, dataProvider, activity, ...restProps }) => (
   <>

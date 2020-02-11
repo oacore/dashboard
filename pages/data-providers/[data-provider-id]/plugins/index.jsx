@@ -9,11 +9,11 @@ const Plugins = () => (
     <h1>Plugins</h1>
 
     <Card tag="section">
-      <a href="./discovery">Discovery</a>
+      <a href="./plugins/discovery">Discovery</a>
     </Card>
 
     <Card tag="section">
-      <a href="./recommender">Recommender</a>
+      <a href="./plugins/recommender">Recommender</a>
     </Card>
   </main>
 )
