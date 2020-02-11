@@ -1,14 +1,15 @@
+import Template from '../template'
 import discoverySource from './discovery.md'
 import recommenderSource from './recommender.md'
 
 const discovery = {
   ...discoverySource.attributes,
-  description: discoverySource.body,
+  description: new Template(discoverySource.body),
 }
 
 const recommender = {
   ...recommenderSource.attributes,
-  description: recommenderSource.body,
+  description: new Template(recommenderSource.body),
 }
 
 export default { discovery, recommender }
