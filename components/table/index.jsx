@@ -1,12 +1,12 @@
 import React from 'react'
-import { Table, TextField } from '@oacore/design'
 
-import TablePage from './TablePage'
 import LoadMoreRow from './LoadMoreRow'
-import { range } from '../../utils/helpers'
 import tableClassNames from './index.css'
 import NoDataFoundRow from './NoDataFoundRow'
+import TableRow from './TableRow'
+import TableRowExpanded from './TableRowExpanded'
 
+import { Table, TextField } from 'design'
 import debounce from 'utils/debounce'
 import withErrorBoundary from 'utils/withErrorBoundary'
 
@@ -21,6 +21,7 @@ class InfiniteTable extends React.Component {
     super(props)
     // eslint-disable-next-line react/state-in-constructor
     this.state = {
+      data: [],
       page: 0,
       areSelectedAll: false,
       searchTerm: '',
@@ -36,14 +37,9 @@ class InfiniteTable extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    if (this.observer) this.observer.disconnect()
-  }
-
-  onSearchEnded = debounce(() => this.setState({ isSearchChanging: false }))
-
-  fetchData = (pageNumber, columnOrder, searchTerm) => {
+  async componentDidMount() {
     const { fetchData } = this.props
+    const { pageNumber, searchTerm, columnOrder } = this.state
 
     if (pageNumber === 0) {
       this.setState({
@@ -55,37 +51,33 @@ class InfiniteTable extends React.Component {
       dataRequestCount: state.dataRequestCount + 1,
     }))
 
-    const fetchDataRequest = fetchData(pageNumber, searchTerm, columnOrder)
+    try {
+      const page = await fetchData(pageNumber, searchTerm, columnOrder).promise
+      const { data } = page
+      const newState = { data }
 
-    return {
-      promise: fetchDataRequest.promise.then(
-        page => {
-          const newState = {}
-          const { data } = page
-          const { searchTerm: searchTermNew } = this.state
+      if (page.isLast) newState.isLastPageLoaded = true
+      if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
+      if (pageNumber === 0) newState.isFirstPageLoaded = true
 
-          if (searchTermNew === page.options.searchTerm) {
-            if (page.isLast) newState.isLastPageLoaded = true
-            if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
-            if (pageNumber === 0) newState.isFirstPageLoaded = true
-          }
-
-          this.setState(state => ({
-            ...newState,
-            dataRequestCount: state.dataRequestCount - 1,
-          }))
-          return data
-        },
-        reason => {
-          this.setState(state => ({
-            dataRequestCount: state.dataRequestCount - 1,
-          }))
-          throw reason
-        }
-      ),
-      cancel: fetchDataRequest.cancel,
+      this.setState(state => ({
+        ...newState,
+        dataRequestCount: state.dataRequestCount - 1,
+      }))
+      return data
+    } catch (error) {
+      this.setState(state => ({
+        dataRequestCount: state.dataRequestCount - 1,
+      }))
+      throw error
     }
   }
+
+  componentWillUnmount() {
+    if (this.observer) this.observer.disconnect()
+  }
+
+  onSearchEnded = debounce(() => this.setState({ isSearchChanging: false }))
 
   observe = c => {
     if (!this.observer) {
@@ -143,6 +135,7 @@ class InfiniteTable extends React.Component {
       ...restProps
     } = this.props
     const {
+      data,
       page,
       areSelectedAll,
       searchTerm,
@@ -213,19 +206,29 @@ class InfiniteTable extends React.Component {
 
           {!isEmpty &&
             !isSearchChanging &&
-            range(3).map(i => (
-              <TablePage
-                key={i + page}
-                pageNumber={i + page}
-                fetchData={this.fetchData}
-                config={config}
-                selectable={selectable}
-                areSelectedAll={areSelectedAll}
-                expandable={expandable}
-                columnOrder={columnOrder}
-                searchTerm={searchTerm}
-              />
-            ))}
+            data.map(row => {
+              const props = {
+                id: row.id,
+                handleClick: () => {},
+                handleSelect: () => {},
+                selectable,
+                isSelected: false, // TODO
+                content: { ...row },
+                config,
+                isExpanded: false, // TODO
+                expandable,
+              }
+
+              return (
+                <React.Fragment key={row.id}>
+                  <TableRow key={row.id} {...props} />
+                  {expandable && (
+                    <TableRowExpanded key={`${row.id}-expanded`} {...props} />
+                  )}
+                </React.Fragment>
+              )
+            })}
+
           {!isEmpty &&
             !isLastPageLoaded &&
             isFirstPageLoaded &&
@@ -240,11 +243,9 @@ class InfiniteTable extends React.Component {
           {isEmpty && dataRequestCount === 0 && <NoDataFoundRow />}
 
           {dataRequestCount !== 0 && (
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell colSpan={1000}>Loading data</Table.Cell>
-              </Table.Row>
-            </Table.Body>
+            <Table.Row>
+              <Table.Cell colSpan={1000}>Loading data</Table.Cell>
+            </Table.Row>
           )}
         </Table>
       </>
