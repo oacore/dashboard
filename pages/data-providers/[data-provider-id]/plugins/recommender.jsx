@@ -2,17 +2,20 @@ import React from 'react'
 
 import pluginsClassNames from './plugins.css'
 
+import { withGlobalStore } from 'store'
 import { Card } from 'design'
 import Markdown from 'components/markdown'
 import { plugins } from 'texts'
 
-const key = 'XXXXX'
-
-const Plugins = () => (
+const Plugins = ({ store }) => (
   <Card className={pluginsClassNames.container}>
     <h1>{plugins.recommender.title}</h1>
-    <Markdown>{plugins.recommender.description.render({ key })}</Markdown>
+    <Markdown>
+      {plugins.recommender.description.render({
+        key: store.integrations.recommender?.key,
+      })}
+    </Markdown>
   </Card>
 )
 
-export default Plugins
+export default withGlobalStore(Plugins)

@@ -20,6 +20,12 @@ class Root {
     doiCount: null,
   }
 
+  @observable integrations = {
+    key: null,
+  }
+
+  // @observable integrations = {}
+
   @observable works = null
 
   @observable depositDates = null
@@ -65,6 +71,7 @@ class Root {
     this.changeActivity('overview')
 
     this.retrieveStatistics()
+    this.retrieveAPI()
 
     const url = `/data-providers/${this.dataProvider.id}`
     this.works = new Works(url)
@@ -82,6 +89,13 @@ class Root {
     const url = `/data-providers/${this.dataProvider.id}/statistics`
     const { data } = await apiRequest(url, 'GET', {}, {}, true).promise
     Object.assign(this.statistics, data)
+  }
+
+  @action
+  async retrieveAPI() {
+    const url = `/data-providers/${this.dataProvider.id}/integrations`
+    const { data } = await apiRequest(url, 'GET', {}, {}, true).promise
+    Object.assign(this.integrations, data)
   }
 }
 
