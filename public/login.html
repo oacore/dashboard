@@ -3,75 +3,14 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' *.core.ac.uk;">
 
 <title>Login into CORE Dashboard</title>
 
-<link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
-<link href="https://unpkg.com/sanitize.css/forms.css" rel="stylesheet" />
-<link href="https://unpkg.com/sanitize.css/typography.css" rel="stylesheet" />
+<link href="/sanitize.css" rel="stylesheet" />
+<link href="/login.css" rel="stylesheet" />
 
-<style>
-  html, body {
-    height: 100%;
-  }
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  h1 {
-    margin: 0 0 1rem;
-  }
-
-  form {
-    max-width: 28rem;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid #f1f1f1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  }
-
-  [type='email'],
-  [type='password'] {
-    box-sizing: border-box;
-    display: inline-block;
-    width: 100%;
-    padding: .5rem 1rem;
-    margin: .5rem 0;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-  }
-
-  button {
-    width: 100%;
-    padding: .75rem 1rem;
-    margin: .5rem 0;
-    color: #fff;
-    cursor: pointer;
-    background-color: #b75400;
-    border: none;
-    border-radius: 2px;
-  }
-
-  button:hover {
-    background-color: #914200;
-  }
-
-  .message {
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    color: #FFF;
-    background: #c62828;
-    border: 1px solid #8e0000;
-  }
-
-  .message:empty {
-    display: none;
-  }
-</style>
-
-
-<form action="https://api.core.ac.uk/login_check" onsubmit="login.apply(this, arguments);" method="post">
+<form id="login-form" action="https://api.core.ac.uk/login_check" method="post">
   <h1>Login</h1>
   <div id="error-message" class="message"></div>
   <label for="email"><b>Email</b></label>
@@ -85,16 +24,4 @@
   <button type="submit">Login</button>
 </form>
 
-<script>
-  function login(e) {
-    e.target.action = 'https://api.core.ac.uk/login_check?continue=' + encodeURIComponent(
-      window.location.origin
-    );
-  }
-
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('reason')) {
-    const message = document.getElementById('error-message')
-    message.innerHTML='The username or password you entered is incorrect.';
-  }
-</script>
+<script src="/login.js" ></script>
