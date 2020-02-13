@@ -23,6 +23,7 @@
     var(--toggle-active-color) 0 calc(100% - var(--toggle-icon-size)),
     var(--gray-100) calc(100% - var(--toggle-icon-size)) 100%
   );
+
   &::after {
     color: var(--gray-500);
   }
