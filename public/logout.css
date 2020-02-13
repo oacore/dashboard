@@ -1,0 +1,38 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+h1 {
+  margin: 0 0 1rem;
+}
+
+.logout {
+  max-width: 28rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #f1f1f1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.logout-btn {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #b75400;
+  border: none;
+  border-radius: 2px;
+}
+
+.logout-btn:hover {
+  background-color: #914200;
+}
