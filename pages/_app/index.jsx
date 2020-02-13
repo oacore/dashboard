@@ -36,8 +36,8 @@ class App extends NextApp {
     if (Component.getInitialProps)
       pageProps = (await Component.getInitialProps({ ...ctx })) || {}
 
-    // ad header only on server-side
-    if (ctx.res) {
+    // add the header only on server-side
+    if (ctx?.res != null) {
       ctx.res.setHeader(
         'Content-Security-Policy',
         [
@@ -48,7 +48,7 @@ class App extends NextApp {
           `script-src 'self' *.google-analytics.com ${
             process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
           }`,
-          // TODO: It's not a big deal but we should ge rid of
+          // TODO: It's not a big deal but we should get rid of
           //  all inline styles if possible as it is not recommended
           "style-src 'self' 'unsafe-inline'",
           // google analytics may transport info via image

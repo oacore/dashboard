@@ -4,11 +4,13 @@ function login(e) {
   )}`
 }
 
-const urlParams = new URLSearchParams(window.location.search)
-if (urlParams.has('reason')) {
-  const message = document.getElementById('error-message')
-  message.innerHTML = 'The username or password you entered is incorrect.'
-}
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search)
+  if (urlParams.has('reason')) {
+    const message = document.getElementById('error-message')
+    message.innerHTML = 'The username or password you entered is incorrect.'
+  }
 
-const form = document.getElementById('login-form')
-form.addEventListener('submit', login)
+  const form = document.getElementById('login-form')
+  form.addEventListener('submit', login)
+})
