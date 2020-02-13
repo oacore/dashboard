@@ -36,6 +36,29 @@ class App extends NextApp {
     if (Component.getInitialProps)
       pageProps = (await Component.getInitialProps({ ...ctx })) || {}
 
+    // ad header only on server-side
+    if (ctx.res) {
+      ctx.res.setHeader(
+        'Content-Security-Policy',
+        [
+          // consider everything from these two domains as a safe
+          "default-src 'self' *.core.ac.uk",
+          // in development there are attached inline scripts
+          // (probably from hot reload or some Next.JS magic)
+          `script-src 'self' *.google-analytics.com ${
+            process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
+          }`,
+          // TODO: It's not a big deal but we should ge rid of
+          //  all inline styles if possible as it is not recommended
+          "style-src 'self' 'unsafe-inline'",
+          // google analytics may transport info via image
+          // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
+          "img-src 'self' data: *.core.ac.uk *.google-analytics.com",
+          "connect-src 'self' *.core.ac.uk sentry.io *.google-analytics.com",
+        ].join(';')
+      )
+    }
+
     return {
       pageProps,
     }
