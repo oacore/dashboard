@@ -12,8 +12,6 @@ const PAGE_SIZE = 100
 class DepositDates {
   #requests = new Map([])
 
-  pages = new Map([])
-
   @observable isExportInProgress = false
 
   @observable isExportDisabled = false
@@ -62,15 +60,6 @@ class DepositDates {
 
     this.cancelAllPendingRequests()
 
-    // TODO: Invalidate cache after some time
-    //       Move to @oacore/api
-    if (this.pages.has(key)) {
-      return {
-        promise: Promise.resolve(this.pages.get(key)),
-        cancel: () => {},
-      }
-    }
-
     const params = {
       next_item: pageNumber * PAGE_SIZE,
       step_item: PAGE_SIZE,
@@ -88,7 +77,6 @@ class DepositDates {
             order,
             maxSize: PAGE_SIZE,
           })
-          this.pages.set(key, page)
           resolve(page)
         },
         reason => {
@@ -98,7 +86,6 @@ class DepositDates {
               order,
               maxSize: PAGE_SIZE,
             })
-            this.pages.set(key, page)
             resolve(page)
           } else reject(reason)
         }
