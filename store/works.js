@@ -1,5 +1,6 @@
 import Page from './helpers/page'
 import getOrder from './helpers/order'
+import { makeCancelable } from '../utils/promise'
 
 import apiRequest from 'api'
 
@@ -8,13 +9,25 @@ const PAGE_SIZE = 100
 class Works {
   pages = new Map([])
 
+  #requests = new Map([])
+
   constructor(baseUrl) {
     this.worksUrl = `${baseUrl}/works`
   }
 
-  retrieveWorks(pageNumber, searchTerm, columnOrder) {
+  cancelAllPendingRequests() {
+    this.#requests.forEach((promise, key) => {
+      promise.cancelIfNotFulFilled()
+      this.#requests.delete(key)
+    })
+  }
+
+  async retrieveWorks(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
     const key = `${pageNumber}-${searchTerm}-${order}`
+
+    this.cancelAllPendingRequests()
+
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
     if (this.pages.has(key)) {
@@ -45,10 +58,13 @@ class Works {
         reason => reject(reason)
       )
     )
-    return {
-      promise: dataPromise,
+
+    const requestPromise = makeCancelable(dataPromise, {
       cancel: request.cancel,
-    }
+    })
+
+    this.#requests.set(key, requestPromise)
+    return requestPromise.promise
   }
 }
 

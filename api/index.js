@@ -1,6 +1,8 @@
 import { NetworkError } from './errors'
 import { API_URL } from '../config'
 
+import { makeCancelable } from 'utils/promise'
+
 const apiRequest = (
   url,
   method = 'GET',
@@ -72,10 +74,9 @@ const apiRequest = (
       throw networkError
     })
 
-  return {
-    promise: fetchPromise,
+  return makeCancelable(fetchPromise, {
     cancel: () => controller.abort(),
-  }
+  })
 }
 
 export default apiRequest

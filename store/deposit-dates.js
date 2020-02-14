@@ -4,11 +4,14 @@ import { action, computed, observable } from 'mobx'
 import Page from './helpers/page'
 import getOrder from './helpers/order'
 
+import { makeCancelable } from 'utils/promise'
 import apiRequest from 'api'
 
 const PAGE_SIZE = 100
 
 class DepositDates {
+  #requests = new Map([])
+
   pages = new Map([])
 
   @observable isExportInProgress = false
@@ -27,6 +30,13 @@ class DepositDates {
 
     this.retrieveDepositTimeLag()
     this.loadDepositDatesCount()
+  }
+
+  cancelAllPendingRequests() {
+    this.#requests.forEach((promise, key) => {
+      promise.cancelIfNotFulFilled()
+      this.#requests.delete(key)
+    })
   }
 
   @computed
@@ -49,6 +59,9 @@ class DepositDates {
   retrieveDepositDates(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
     const key = `${pageNumber}-${searchTerm}-${order}`
+
+    this.cancelAllPendingRequests()
+
     // TODO: Invalidate cache after some time
     //       Move to @oacore/api
     if (this.pages.has(key)) {
@@ -91,10 +104,13 @@ class DepositDates {
         }
       )
     )
-    return {
-      promise: dataPromise,
+
+    const requestPromise = makeCancelable(dataPromise, {
       cancel: request.cancel,
-    }
+    })
+
+    this.#requests.set(key, requestPromise)
+    return requestPromise.promise
   }
 
   @action

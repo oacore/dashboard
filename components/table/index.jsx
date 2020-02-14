@@ -160,7 +160,8 @@ class InfiniteTable extends React.PureComponent {
         isFirstPageLoaded: false,
       }))
 
-      const page = await fetchData(0, searchTerm, columnOrder).promise
+      const page = await fetchData(0, searchTerm, columnOrder)
+
       // TODO: This is just temporary fix for preventing duplicate rows
       //  in table. API should not send them at all.
       const newData = page.data.map(e => ({
