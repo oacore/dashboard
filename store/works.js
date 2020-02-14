@@ -1,30 +1,20 @@
 import Page from './helpers/page'
 import getOrder from './helpers/order'
-import { makeCancelable } from '../utils/promise'
+import { CancelablePromise } from '../utils/promise'
+import invalidatePreviousRequests from './helpers/invalidatePreviousRequests'
 
 import apiRequest from 'api'
 
 const PAGE_SIZE = 100
 
 class Works {
-  #requests = new Map([])
-
   constructor(baseUrl) {
     this.worksUrl = `${baseUrl}/works`
   }
 
-  cancelAllPendingRequests() {
-    this.#requests.forEach((promise, key) => {
-      promise.cancelIfNotFulFilled()
-      this.#requests.delete(key)
-    })
-  }
-
-  async retrieveWorks(pageNumber, searchTerm, columnOrder) {
+  @invalidatePreviousRequests
+  retrieveWorks(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
-    const key = `${pageNumber}-${searchTerm}-${order}`
-
-    this.cancelAllPendingRequests()
 
     const params = {
       from: pageNumber * PAGE_SIZE,
@@ -46,13 +36,9 @@ class Works {
         reason => reject(reason)
       )
     )
-
-    const requestPromise = makeCancelable(dataPromise, {
+    return new CancelablePromise(dataPromise, {
       cancel: request.cancel,
     })
-
-    this.#requests.set(key, requestPromise)
-    return requestPromise.promise
   }
 }
 

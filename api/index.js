@@ -1,7 +1,7 @@
 import { NetworkError } from './errors'
 import { API_URL } from '../config'
 
-import { makeCancelable } from 'utils/promise'
+import { CancelablePromise } from 'utils/promise'
 
 const apiRequest = (
   url,
@@ -74,7 +74,7 @@ const apiRequest = (
       throw networkError
     })
 
-  return makeCancelable(fetchPromise, {
+  return new CancelablePromise(fetchPromise, {
     cancel: () => controller.abort(),
   })
 }

@@ -3,15 +3,14 @@ import { action, computed, observable } from 'mobx'
 
 import Page from './helpers/page'
 import getOrder from './helpers/order'
+import invalidatePreviousRequests from './helpers/invalidatePreviousRequests'
 
-import { makeCancelable } from 'utils/promise'
+import { CancelablePromise } from 'utils/promise'
 import apiRequest from 'api'
 
 const PAGE_SIZE = 100
 
 class DepositDates {
-  #requests = new Map([])
-
   @observable isExportInProgress = false
 
   @observable isExportDisabled = false
@@ -28,13 +27,6 @@ class DepositDates {
 
     this.retrieveDepositTimeLag()
     this.loadDepositDatesCount()
-  }
-
-  cancelAllPendingRequests() {
-    this.#requests.forEach((promise, key) => {
-      promise.cancelIfNotFulFilled()
-      this.#requests.delete(key)
-    })
   }
 
   @computed
@@ -54,12 +46,9 @@ class DepositDates {
     return Math.round(level * 100) / 100
   }
 
+  @invalidatePreviousRequests
   retrieveDepositDates(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
-    const key = `${pageNumber}-${searchTerm}-${order}`
-
-    this.cancelAllPendingRequests()
-
     const params = {
       next_item: pageNumber * PAGE_SIZE,
       step_item: PAGE_SIZE,
@@ -92,12 +81,9 @@ class DepositDates {
       )
     )
 
-    const requestPromise = makeCancelable(dataPromise, {
+    return new CancelablePromise(dataPromise, {
       cancel: request.cancel,
     })
-
-    this.#requests.set(key, requestPromise)
-    return requestPromise.promise
   }
 
   @action
