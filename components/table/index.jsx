@@ -21,6 +21,8 @@ const WINDOW_SIZE = 100
 const WINDOW_STEP = 10
 
 class InfiniteTable extends React.PureComponent {
+  tableRowClickTimeout = null
+
   constructor(props) {
     super(props)
     this.tableRef = React.createRef()
@@ -109,25 +111,34 @@ class InfiniteTable extends React.PureComponent {
   }
 
   handleRowClick = event => {
-    const { expandable } = this.props
-    if (!expandable) return
+    if (event.detail === 1) {
+      const clickedRow = event.target.closest('tr')
+      this.tableRowClickTimeout = setTimeout(() => {
+        const { expandable } = this.props
+        if (!expandable) return
 
-    // ignore copy event
-    const selection = window.getSelection().toString()
-    if (selection.length) return
+        // ignore copy event
+        const selection = window.getSelection().toString()
+        if (selection.length) return
 
-    const clickedRow = event.target.closest('tr')
-    if (clickedRow.dataset.isClickable) {
-      const rowId = clickedRow.dataset.id
-      this.setState(s => ({
-        rowsState: {
-          ...s.rowsState,
-          [rowId]: {
-            expanded: !(s.rowsState[rowId] && s.rowsState[rowId].expanded),
-          },
-        },
-      }))
+        if (clickedRow.dataset.isClickable) {
+          const rowId = clickedRow.dataset.id
+          this.setState(s => ({
+            rowsState: {
+              ...s.rowsState,
+              [rowId]: {
+                expanded: !(s.rowsState[rowId] && s.rowsState[rowId].expanded),
+              },
+            },
+          }))
+        }
+      }, 200)
     }
+  }
+
+  handleDoubleRowClick = () => {
+    // Don't expand row on double click. Let user to copy value
+    clearTimeout(this.tableRowClickTimeout)
   }
 
   async fetchData({ prev = false, next = false, force = false } = {}) {
@@ -293,7 +304,10 @@ class InfiniteTable extends React.PureComponent {
               ))}
             </Table.Row>
           </Table.Head>
-          <Table.Body onClick={this.handleRowClick}>
+          <Table.Body
+            onClick={this.handleRowClick}
+            onDoubleClick={this.handleDoubleRowClick}
+          >
             {!isFirstPageLoaded && data === null && (
               <Table.Row>
                 <Table.Cell colSpan={1000}>Loading data</Table.Cell>
