@@ -112,6 +112,10 @@ class InfiniteTable extends React.PureComponent {
     const { expandable } = this.props
     if (!expandable) return
 
+    // ignore copy event
+    const selection = window.getSelection().toString()
+    if (selection.length) return
+
     const clickedRow = event.target.closest('tr')
     if (clickedRow.dataset.isClickable) {
       const rowId = clickedRow.dataset.id
