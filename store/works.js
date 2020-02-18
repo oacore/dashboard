@@ -1,28 +1,20 @@
 import Page from './helpers/page'
 import getOrder from './helpers/order'
+import { CancelablePromise } from '../utils/promise'
+import invalidatePreviousRequests from './helpers/invalidatePreviousRequests'
 
 import apiRequest from 'api'
 
-const PAGE_SIZE = 30
+const PAGE_SIZE = 100
 
 class Works {
-  pages = new Map([])
-
   constructor(baseUrl) {
     this.worksUrl = `${baseUrl}/works`
   }
 
+  @invalidatePreviousRequests
   retrieveWorks(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
-    const key = `${pageNumber}-${searchTerm}-${order}`
-    // TODO: Invalidate cache after some time
-    //       Move to @oacore/api
-    if (this.pages.has(key)) {
-      return {
-        promise: Promise.resolve(this.pages.get(key)),
-        cancel: () => {},
-      }
-    }
 
     const params = {
       from: pageNumber * PAGE_SIZE,
@@ -39,16 +31,14 @@ class Works {
             order,
             maxSize: PAGE_SIZE,
           })
-          this.pages.set(key, page)
           resolve(page)
         },
         reason => reject(reason)
       )
     )
-    return {
-      promise: dataPromise,
+    return new CancelablePromise(dataPromise, {
       cancel: request.cancel,
-    }
+    })
   }
 }
 

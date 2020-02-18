@@ -1,21 +1,26 @@
-export const makeCancelable = (promise, options) => {
-  let canceled = false
-
-  const wrappedPromise = new Promise((resolve, reject) =>
+export function CancelablePromise(promise, options) {
+  this.isCanceled = false
+  this.isFulfilled = false
+  this.promise = new Promise((resolve, reject) =>
     promise.then(
-      result => canceled || resolve(result),
-      error => canceled || reject(error)
+      result => {
+        if (this.isFulfilled) return
+        this.isFulfilled = true
+        resolve(result)
+      },
+      error => this.isCanceled || reject(error)
     )
   )
-
-  return {
-    promise: wrappedPromise,
-    cancel: () => {
-      if (options.cancel && !canceled) options.cancel()
-      canceled = true
-    },
-    isCanceled: () => canceled,
+  this.cancel = () => {
+    if (options.cancel && !this.isCanceled) options.cancel()
+    this.isCanceled = true
+  }
+  this.cancelIfNotFulFilled = () => {
+    if (options.cancel && !this.isCanceled && !this.isFulfilled) {
+      this.isCanceled = true
+      options.cancel()
+    }
   }
 }
 
-export default makeCancelable
+export default CancelablePromise

@@ -3,14 +3,14 @@ import { action, computed, observable } from 'mobx'
 
 import Page from './helpers/page'
 import getOrder from './helpers/order'
+import invalidatePreviousRequests from './helpers/invalidatePreviousRequests'
 
+import { CancelablePromise } from 'utils/promise'
 import apiRequest from 'api'
 
-const PAGE_SIZE = 30
+const PAGE_SIZE = 100
 
 class DepositDates {
-  pages = new Map([])
-
   @observable isExportInProgress = false
 
   @observable isExportDisabled = false
@@ -46,18 +46,9 @@ class DepositDates {
     return Math.round(level * 100) / 100
   }
 
+  @invalidatePreviousRequests
   retrieveDepositDates(pageNumber, searchTerm, columnOrder) {
     const order = getOrder(columnOrder)
-    const key = `${pageNumber}-${searchTerm}-${order}`
-    // TODO: Invalidate cache after some time
-    //       Move to @oacore/api
-    if (this.pages.has(key)) {
-      return {
-        promise: Promise.resolve(this.pages.get(key)),
-        cancel: () => {},
-      }
-    }
-
     const params = {
       next_item: pageNumber * PAGE_SIZE,
       step_item: PAGE_SIZE,
@@ -75,7 +66,6 @@ class DepositDates {
             order,
             maxSize: PAGE_SIZE,
           })
-          this.pages.set(key, page)
           resolve(page)
         },
         reason => {
@@ -85,16 +75,15 @@ class DepositDates {
               order,
               maxSize: PAGE_SIZE,
             })
-            this.pages.set(key, page)
             resolve(page)
           } else reject(reason)
         }
       )
     )
-    return {
-      promise: dataPromise,
+
+    return new CancelablePromise(dataPromise, {
       cancel: request.cancel,
-    }
+    })
   }
 
   @action

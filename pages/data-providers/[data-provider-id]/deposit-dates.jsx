@@ -124,7 +124,6 @@ const DepositDates = ({
       <Card className={styles.browseTable} tag="section">
         <Table
           key={store.dataProvider}
-          className={styles.table}
           title="Browse deposit dates"
           config={tableConfig}
           fetchData={fetchData}

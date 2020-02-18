@@ -1,12 +1,12 @@
 import React from 'react'
-import { Table, TextField } from '@oacore/design'
 
-import TablePage from './TablePage'
 import LoadMoreRow from './LoadMoreRow'
-import { range } from '../../utils/helpers'
 import tableClassNames from './index.css'
 import NoDataFoundRow from './NoDataFoundRow'
+import TableRow from './TableRow'
+import TableRowExpanded from './TableRowExpanded'
 
+import { Table, TextField } from 'design'
 import debounce from 'utils/debounce'
 import withErrorBoundary from 'utils/withErrorBoundary'
 
@@ -16,99 +16,71 @@ const getNextOrder = order => {
   return 'asc'
 }
 
-class InfiniteTable extends React.Component {
+// maximum number of rows shown in table at a time
+const WINDOW_SIZE = 100
+const WINDOW_STEP = 10
+
+class InfiniteTable extends React.PureComponent {
   constructor(props) {
     super(props)
+    this.tableRef = React.createRef()
+
     // eslint-disable-next-line react/state-in-constructor
     this.state = {
+      data: null,
       page: 0,
+      showPrevLoad: false,
+      showNextLoad: false,
+      sliceWindow: [0, WINDOW_SIZE - 1],
       areSelectedAll: false,
       searchTerm: '',
-      isLastPageLoaded: false,
-      isEmpty: false,
       isFirstPageLoaded: false,
+      isLastPageLoaded: false,
       dataRequestCount: 0,
-      isSearchChanging: false,
       columnOrder: props.config.columns.reduce((acc, curr) => {
         acc[curr.id] = curr.order !== undefined ? curr.order : null
         return acc
       }, {}),
+      rowsState: {},
     }
   }
 
-  componentWillUnmount() {
-    if (this.observer) this.observer.disconnect()
+  async componentDidMount() {
+    await this.fetchData()
   }
 
-  onSearchEnded = debounce(() => this.setState({ isSearchChanging: false }))
+  componentDidUpdate(prevProps, prevState) {
+    const { expandable } = this.props
+    const { sliceWindow: prevSliceWindow } = prevState
+    const { sliceWindow } = this.state
+    if (sliceWindow !== prevSliceWindow) {
+      if (sliceWindow[0] !== 0) {
+        const rows = this.tableRef.current
+          .getElementsByTagName('tbody')[0]
+          .getElementsByTagName('tr')
 
-  fetchData = (pageNumber, columnOrder, searchTerm) => {
-    const { fetchData } = this.props
+        const lastVisibleRow =
+          prevSliceWindow[0] < sliceWindow[0]
+            ? rows[rows.length - WINDOW_STEP * (expandable ? 2 : 1) - 1]
+            : rows[WINDOW_STEP * (expandable ? 2 : 1) - 1]
+        lastVisibleRow.scrollIntoView({
+          block: prevSliceWindow[0] < sliceWindow[0] ? 'end' : 'start',
+          behavior: 'auto',
+        })
+      }
 
-    if (pageNumber === 0) {
-      this.setState({
-        isFirstPageLoaded: false,
-      })
-    }
-
-    this.setState(state => ({
-      dataRequestCount: state.dataRequestCount + 1,
-    }))
-
-    const fetchDataRequest = fetchData(pageNumber, searchTerm, columnOrder)
-
-    return {
-      promise: fetchDataRequest.promise.then(
-        page => {
-          const newState = {}
-          const { data } = page
-          const { searchTerm: searchTermNew } = this.state
-
-          if (searchTermNew === page.options.searchTerm) {
-            if (page.isLast) newState.isLastPageLoaded = true
-            if (data.length === 0 && pageNumber === 0) newState.isEmpty = true
-            if (pageNumber === 0) newState.isFirstPageLoaded = true
-          }
-
-          this.setState(state => ({
-            ...newState,
-            dataRequestCount: state.dataRequestCount - 1,
-          }))
-          return data
-        },
-        reason => {
-          this.setState(state => ({
-            dataRequestCount: state.dataRequestCount - 1,
-          }))
-          throw reason
-        }
-      ),
-      cancel: fetchDataRequest.cancel,
-    }
-  }
-
-  observe = c => {
-    if (!this.observer) {
-      this.observer = new IntersectionObserver(
-        entries => {
-          if (!entries[0].isIntersecting) return
-          // Only one element is observed for now.
-          const newPage = parseInt(
-            entries[0].target.getAttribute('pagenumber'),
-            10
-          )
-          this.setState({ page: newPage })
-        },
-        { threshold: 1, rootMargin: '100px' }
+      setTimeout(
+        () =>
+          this.setState(s => ({
+            showPrevLoad: s.dataRequestCount === 0 && s.sliceWindow[0] !== 0,
+            showNextLoad: s.dataRequestCount === 0 && !s.isLastPageLoaded,
+          })),
+        100
       )
     }
-    if (!c) return
-    this.observer.observe(c)
   }
 
-  unObserve = c => {
-    this.observer.unobserve(c)
-  }
+  onSearchEnded = debounce(() => this.fetchData({ force: true }))
 
   toggleSelectAll = () => {
     this.setState(s => ({ areSelectedAll: !s.areSelectedAll }))
@@ -118,18 +90,123 @@ class InfiniteTable extends React.Component {
     const { columnOrder } = this.state
     if (columnOrder[id] === undefined) return
 
-    this.setState({
-      columnOrder: Object.entries(columnOrder).reduce(
-        (acc, [currId, currOrder]) => {
-          if (currId === id) acc[currId] = getNextOrder(currOrder)
-          else if (currOrder === null) acc[currId] = null
-          else acc[currId] = ''
+    this.setState(
+      {
+        page: 0,
+        columnOrder: Object.entries(columnOrder).reduce(
+          (acc, [currId, currOrder]) => {
+            if (currId === id) acc[currId] = getNextOrder(currOrder)
+            else if (currOrder === null) acc[currId] = null
+            else acc[currId] = ''
 
-          return acc
+            return acc
+          },
+          {}
+        ),
+      },
+      () => this.fetchData({ force: true })
+    )
+  }
+
+  handleRowClick = event => {
+    const { expandable } = this.props
+    if (!expandable) return
+
+    const clickedRow = event.target.closest('tr')
+    if (clickedRow.dataset.isClickable) {
+      const rowId = clickedRow.dataset.id
+      this.setState(s => ({
+        rowsState: {
+          ...s.rowsState,
+          [rowId]: {
+            expanded: !(s.rowsState[rowId] && s.rowsState[rowId].expanded),
+          },
         },
-        {}
-      ),
+      }))
+    }
+  }
+
+  async fetchData({ prev = false, next = false, force = false } = {}) {
+    const { fetchData } = this.props
+    const {
+      page: pageNumber,
+      searchTerm,
+      columnOrder,
+      sliceWindow,
+    } = this.state
+    const { data } = this.state
+    let lowerBound = sliceWindow[0]
+    let upperBound
+
+    if (prev) {
+      lowerBound = Math.max(lowerBound - WINDOW_STEP, 0)
+      upperBound = lowerBound + WINDOW_SIZE
+    } else if (next) {
+      lowerBound += WINDOW_STEP
+      upperBound = lowerBound + WINDOW_SIZE
+    } else {
+      lowerBound = 0
+      upperBound = WINDOW_SIZE
+    }
+
+    this.setState({
+      showPrevLoad: false,
+      showNextLoad: false,
     })
+    // first page load
+    if (data === null || force) {
+      this.setState(s => ({
+        dataRequestCount: s.dataRequestCount + 1,
+        isFirstPageLoaded: false,
+      }))
+
+      const page = await fetchData(0, searchTerm, columnOrder).promise
+
+      // TODO: This is just temporary fix for preventing duplicate rows
+      //  in table. API should not send them at all.
+      const newData = page.data.map(e => ({
+        ...e,
+        id: `${pageNumber}-${e.id}`,
+      }))
+      this.setState(s => ({
+        page: 0,
+        isFirstPageLoaded: true,
+        isLastPageLoaded: page.isLast,
+        dataRequestCount: s.dataRequestCount - 1,
+        rowsState: {},
+        data: newData,
+        showNextLoad: !page.isLast,
+        sliceWindow,
+      }))
+    }
+
+    // not enough data, need to fetch next page
+    else if (data.length < upperBound) {
+      this.setState(s => ({
+        dataRequestCount: s.dataRequestCount + 1,
+      }))
+      const page = await fetchData(pageNumber + 1, searchTerm, columnOrder)
+        .promise
+      // TODO: This is just temporary fix for preventing duplicate rows
+      //  in table. API should not send them at all.
+      const newData = page.data.map(e => ({
+        ...e,
+        id: `${pageNumber + 1}-${e.id}`,
+      }))
+
+      this.setState(s => ({
+        page: s.page + 1,
+        dataRequestCount: s.dataRequestCount - 1,
+        data: [...s.data, ...newData],
+        sliceWindow: [lowerBound, upperBound],
+      }))
+    }
+    // data loaded just rerender
+    else {
+      this.setState({
+        sliceWindow: [lowerBound, upperBound],
+      })
+    }
   }
 
   render() {
@@ -143,15 +220,17 @@ class InfiniteTable extends React.Component {
       ...restProps
     } = this.props
     const {
-      page,
+      sliceWindow,
+      data,
       areSelectedAll,
       searchTerm,
       columnOrder,
-      isLastPageLoaded,
-      isEmpty,
-      isFirstPageLoaded,
       dataRequestCount,
-      isSearchChanging,
+      showPrevLoad,
+      showNextLoad,
+      isFirstPageLoaded,
+      isLastPageLoaded,
+      rowsState,
     } = this.state
 
     return (
@@ -168,15 +247,15 @@ class InfiniteTable extends React.Component {
               this.setState({
                 searchTerm: event.target.value,
                 page: 0,
-                isEmpty: false,
-                isSearchChanging: true,
+                data: null,
+                sliceWindow: [0, WINDOW_SIZE - 1],
               })
               this.onSearchEnded()
             }}
             value={searchTerm}
           />
         )}
-        <Table {...restProps}>
+        <Table ref={this.tableRef} {...restProps}>
           <colgroup>
             {config.columns.map(column => (
               <col key={column.id} className={column.className} />
@@ -210,58 +289,54 @@ class InfiniteTable extends React.Component {
               ))}
             </Table.Row>
           </Table.Head>
-
-          {!isEmpty &&
-            !isLastPageLoaded &&
-            isFirstPageLoaded &&
-            dataRequestCount === 0 &&
-            page > 0 && (
-              <LoadMoreRow
-                pageNumber={page - 1}
-                observe={this.observe}
-                unObserve={this.unObserve}
-                handleManualLoad={() => this.setState({ page: page - 1 })}
-              />
-            )}
-
-          {!isEmpty &&
-            !isSearchChanging &&
-            range(3).map(i => (
-              <TablePage
-                key={i + page}
-                observe={this.observe}
-                pageNumber={i + page}
-                fetchData={this.fetchData}
-                unObserve={this.unObserve}
-                config={config}
-                selectable={selectable}
-                areSelectedAll={areSelectedAll}
-                expandable={expandable}
-                columnOrder={columnOrder}
-                searchTerm={searchTerm}
-              />
-            ))}
-
-          {!isEmpty &&
-            !isLastPageLoaded &&
-            isFirstPageLoaded &&
-            dataRequestCount === 0 && (
-              <LoadMoreRow
-                pageNumber={page + 1}
-                observe={this.observe}
-                unObserve={this.unObserve}
-                handleManualLoad={() => this.setState({ page: page + 2 })}
-              />
-            )}
-          {isEmpty && dataRequestCount === 0 && <NoDataFoundRow />}
-
-          {dataRequestCount !== 0 && (
-            <Table.Body>
+          <Table.Body onClick={this.handleRowClick}>
+            {!isFirstPageLoaded && data === null && (
               <Table.Row>
                 <Table.Cell colSpan={1000}>Loading data</Table.Cell>
               </Table.Row>
-            </Table.Body>
-          )}
+            )}
+            {sliceWindow[0] !== 0 && (
+              <LoadMoreRow
+                isPrev
+                observe={showPrevLoad}
+                isLoading={Boolean(dataRequestCount)}
+                onVisible={() => this.fetchData({ prev: true })}
+                offset={sliceWindow[0]}
+              />
+            )}
+
+            {data !== null &&
+              data.slice(...sliceWindow).map((row, index) => {
+                const props = {
+                  id: row.id,
+                  index: index + sliceWindow[0],
+                  selectable,
+                  isSelected: false, // TODO
+                  content: row,
+                  config,
+                  isExpanded: rowsState[row.id]?.expanded,
+                  expandable,
+                }
+
+                return (
+                  <React.Fragment key={row.id}>
+                    <TableRow {...props} />
+                    {expandable && <TableRowExpanded {...props} />}
+                  </React.Fragment>
+                )
+              })}
+
+            {isFirstPageLoaded && !isLastPageLoaded && (
+              <LoadMoreRow
+                isNext
+                observe={showNextLoad}
+                isLoading={Boolean(dataRequestCount)}
+                onVisible={() => this.fetchData({ next: true })}
+                offset={sliceWindow[0]}
+              />
+            )}
+            {data && data.length === 0 && <NoDataFoundRow />}
+          </Table.Body>
         </Table>
       </>
     )
