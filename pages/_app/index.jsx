@@ -37,7 +37,7 @@ class App extends NextApp {
       pageProps = (await Component.getInitialProps({ ...ctx })) || {}
 
     // add the header only on server-side
-    if (ctx?.res != null) {
+    if (ctx?.res != null && process.env.NODE_ENV === 'production') {
       ctx.res.setHeader(
         'Content-Security-Policy',
         [
