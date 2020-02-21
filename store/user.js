@@ -2,6 +2,11 @@ import { action, observable, extendObservable } from 'mobx'
 
 import apiRequest from 'api'
 
+const API_USER_ENDPOINT =
+  process.env.NODE_ENV === 'production'
+    ? '/user'
+    : `/users/${process.env.CORE_TEST_USER_ID ?? 30}`
+
 class User {
   @observable dataProviders = []
 
@@ -22,7 +27,8 @@ class User {
 
   @action
   async retrieveUser() {
-    const { data } = await apiRequest('/user', 'GET', {}, {}, true).promise
+    const { data } = await apiRequest(API_USER_ENDPOINT, 'GET', {}, {}, true)
+      .promise
     const { dataProviders, ...userDetails } = data
 
     extendObservable(this, userDetails)
