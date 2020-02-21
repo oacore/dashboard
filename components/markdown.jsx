@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactMarkdown from 'react-markdown/with-html'
+import SlugPlugin from 'remark-slug'
+import HeadingIdPlugin from 'remark-heading-id'
 
 const MarkdownLink = ({ href, title, children }) => {
   const props = {
@@ -25,6 +27,8 @@ const markdownConfig = {
     link: MarkdownLink,
     linkReference: MarkdownLink,
   },
+
+  plugins: [[SlugPlugin], [HeadingIdPlugin]],
 }
 
 const Markdown = ({ children, tag, ...markdownProps }) => (
