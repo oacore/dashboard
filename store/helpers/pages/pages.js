@@ -1,8 +1,8 @@
-import { LinkedList } from '../linkedList'
 import getOrder from '../order'
 import Page from './page'
 import invalidatePreviousRequests from '../invalidatePreviousRequests'
 
+import { LinkedList } from 'utils/linkedList'
 import apiRequest from 'api'
 import { CancelablePromise } from 'utils/promise'
 
