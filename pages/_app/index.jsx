@@ -37,12 +37,12 @@ class App extends NextApp {
       pageProps = (await Component.getInitialProps({ ...ctx })) || {}
 
     // add the header only on server-side
-    if (ctx?.res != null && process.env.NODE_ENV === 'production') {
+    if (ctx?.res != null) {
       ctx.res.setHeader(
         'Content-Security-Policy',
         [
           // consider everything from these two domains as a safe
-          "default-src 'self' *.core.ac.uk",
+          "default-src 'self' *.core.ac.uk core.ac.uk",
           // in development there are attached inline scripts
           // (probably from hot reload or some Next.JS magic)
           `script-src 'self' *.google-analytics.com ${
@@ -53,8 +53,8 @@ class App extends NextApp {
           "style-src 'self' 'unsafe-inline'",
           // google analytics may transport info via image
           // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-          "img-src 'self' data: *.core.ac.uk *.google-analytics.com",
-          "connect-src 'self' *.core.ac.uk sentry.io *.google-analytics.com",
+          "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
+          "connect-src 'self' *.core.ac.uk core.ac.uk sentry.io *.google-analytics.com",
         ].join(';')
       )
     }
