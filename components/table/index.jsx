@@ -60,7 +60,10 @@ class InfiniteTable extends React.PureComponent {
     const { expandable } = this.props
     const { sliceWindow: prevSliceWindow } = prevState
     const { sliceWindow } = this.state
-    if (sliceWindow !== prevSliceWindow) {
+    if (
+      sliceWindow[0] !== prevSliceWindow[0] &&
+      sliceWindow[1] !== prevSliceWindow[1]
+    ) {
       if (sliceWindow[0] !== 0) {
         const rows = this.tableRef.current
           .getElementsByTagName('tbody')[0]
@@ -74,16 +77,16 @@ class InfiniteTable extends React.PureComponent {
           block: prevSliceWindow[0] < sliceWindow[0] ? 'end' : 'start',
           behavior: 'auto',
         })
-      }
 
-      setTimeout(
-        () =>
-          this.setState(s => ({
-            showPrevLoad: !s.isLoading && s.sliceWindow[0] !== 0,
-            showNextLoad: !s.isLoading && !s.isLastPageLoaded,
-          })),
-        100
-      )
+        setTimeout(
+          () =>
+            this.setState(s => ({
+              showPrevLoad: !s.isLoading && s.sliceWindow[0] !== 0,
+              showNextLoad: !s.isLoading && !s.isLastPageLoaded,
+            })),
+          100
+        )
+      }
     }
   }
 
@@ -151,7 +154,7 @@ class InfiniteTable extends React.PureComponent {
 
   async fetchData({ prev = false, next = false, force = false } = {}) {
     const { pages } = this
-    const { searchTerm, columnOrder, sliceWindow } = this.state
+    const { searchTerm, columnOrder, sliceWindow, showNextLoad } = this.state
     let lowerBound = sliceWindow[0]
     let upperBound
 
@@ -192,6 +195,7 @@ class InfiniteTable extends React.PureComponent {
       isFirstPageLoaded: pages.isFirstPageLoaded,
       isLastPageLoaded: pages.isLastPageLoaded,
       isLoading: false,
+      showNextLoad: force ? true : showNextLoad,
     })
   }
 
@@ -232,6 +236,8 @@ class InfiniteTable extends React.PureComponent {
               this.setState({
                 searchTerm: event.target.value,
                 data: null,
+                showPrevLoad: false,
+                showNextLoad: false,
               })
               this.onSearchEnded()
             }}
