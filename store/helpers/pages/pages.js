@@ -73,7 +73,20 @@ export default class Pages {
           this.isLastPageLoaded = page.isLast
           resolve()
         },
-        reason => reject(reason)
+        reason => {
+          if (reason.status === 404) {
+            const page = new Page([], {
+              searchTerm: this.#searchTerm,
+              order,
+              maxSize: PAGE_SIZE,
+            })
+            if (this.#pageNumber === 0) this.isFirstPageLoaded = true
+            this.#pageNumber += 1
+            this.#pages.add(page)
+            this.isLastPageLoaded = page.isLast
+            resolve()
+          } else reject(reason)
+        }
       )
     )
 
