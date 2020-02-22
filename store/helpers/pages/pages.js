@@ -1,6 +1,6 @@
 import { LinkedList } from '../linkedList'
 import getOrder from '../order'
-import Page from '../page'
+import Page from './page'
 import invalidatePreviousRequests from '../invalidatePreviousRequests'
 
 import apiRequest from 'api'
