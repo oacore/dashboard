@@ -5,11 +5,6 @@ export default class LinkedList {
     this.head = null
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  next() {
-    throw new Error('next method has to be implemented')
-  }
-
   add(data) {
     const node = new LinkedListNode(data)
 
