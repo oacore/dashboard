@@ -4,9 +4,6 @@ const webpack = require('webpack')
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const withImages = require('next-images')
 const withSourceMaps = require('@zeit/next-source-maps')
-const dotenv = require('dotenv')
-
-dotenv.config()
 
 const camelCaseLoader = path.join(__dirname, 'webpack/camelcase-loader.js')
 
