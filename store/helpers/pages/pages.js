@@ -53,7 +53,7 @@ class Pages {
     }
     if (order) params.orderBy = order
     if (this.#searchTerm) params.q = this.#searchTerm
-    const request = apiRequest(this.url, 'GET', params, {}, true)
+    const request = apiRequest(this.url, 'GET', params, {})
     const dataPromise = new Promise((resolve, reject) =>
       request.promise.then(
         ({ data }) => {
