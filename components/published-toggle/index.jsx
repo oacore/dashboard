@@ -17,14 +17,10 @@ const PublishedToggle = ({
     else toggletext = 'UnPublished'
   }
 
-  const handleChange = useCallback(event => {
-    if (disabled) {
-      event.preventDefault()
-      return
-    }
+  const handleChange = useCallback(async event => {
     const isVisible = event.target.checked
+    await onVisibilityChanged(isVisible)
     toggleChecked(isVisible)
-    onVisibilityChanged(isVisible)
   }, [])
 
   return (
@@ -48,6 +44,7 @@ const PublishedToggle = ({
         type="checkbox"
         onChange={handleChange}
         checked={disabled ? defaultVisibility : isChecked}
+        disabled={disabled}
       />
       <div className={classNames.use('toggle-switch', className).from(styles)}>
         <span>{toggletext}</span>

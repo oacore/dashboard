@@ -22,7 +22,7 @@ const tableConfig = {
       sortable: true,
       expandedSize: 2,
       className: styles.labelColumn,
-      render: (v, isExpanded) => (
+      render: (v, { isExpanded }) => (
         <Label color="primary">{isExpanded ? v : v.split(':').pop()}</Label>
       ),
     },

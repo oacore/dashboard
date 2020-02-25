@@ -22,7 +22,7 @@ const getTableConfig = store => ({
       className: styles.labelColumn,
       order: '',
       getter: v => v.identifier,
-      render: ({ oai, doi }, isExpanded) => (
+      render: ({ oai, doi }, { isExpanded }) => (
         <>
           <Label color="primary">
             {isExpanded ? oai : oai.split(':').pop()}
@@ -61,12 +61,14 @@ const getTableConfig = store => ({
       expandedSize: 1,
       className: styles.visibilityColumn,
       getter: v => !v.disabled,
-      render: (v, isExpanded) => (
+      render: (v, { id, isExpanded }) => (
         <PublishedToggle
           className={styles.visibilitySwitch}
           defaultVisibility={v}
           isExpanded={isExpanded}
-          onVisibilityChanged={isVisible => {}}
+          onVisibilityChanged={isVisible =>
+            store.works.changeVisibility(id, isVisible)
+          }
         />
       ),
     },

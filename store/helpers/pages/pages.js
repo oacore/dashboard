@@ -60,7 +60,7 @@ class Pages {
           const page = new Page(
             data.map(e => ({
               ...e,
-              id: `${this.#pageNumber + 1}-${e.id}`,
+              id: `${this.#pageNumber}-${e.id}`,
               originalId: e.id,
             })),
             {
@@ -95,6 +95,10 @@ class Pages {
     return new CancelablePromise(dataPromise, {
       cancel: request.cancel,
     })
+  }
+
+  getPageByNumber(pageNumber) {
+    return this.#pages.get(pageNumber)
   }
 }
 
