@@ -1,6 +1,5 @@
 import React from 'react'
 import dayjs from 'dayjs'
-import Icon from '@oacore/design/lib/components/icon'
 
 import { withGlobalStore } from 'store'
 import Markdown from 'components/markdown'
@@ -8,6 +7,7 @@ import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
 import { Alert, Button, Card, Label } from 'design'
 import * as texts from 'texts/depositing'
+import DocumentLink from 'components/document-link'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
@@ -65,20 +65,10 @@ const tableConfig = {
         <p>
           <b>{title}</b>
         </p>
-        <p>{authors.map(a => a.name).join(' ')}</p>
-        <a
-          href={`https://core.ac.uk/display/${originalId}`}
-          /* eslint-disable-next-line react/jsx-no-target-blank */
-          target="_blank"
-          rel="noopener"
-        >
-          <Alert variant="info">
-            <Alert.Header>
-              <Icon src="/design/icons.svg#download" aria-hidden />
-              Show in CORE
-            </Alert.Header>
-          </Alert>
-        </a>
+        <p>{authors?.map(a => a.name).join(' ')}</p>
+        <DocumentLink href={`https://core.ac.uk/display/${originalId}`}>
+          Open metadata page
+        </DocumentLink>
       </div>
     ),
   },

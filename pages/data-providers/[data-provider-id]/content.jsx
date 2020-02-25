@@ -1,6 +1,5 @@
 import React from 'react'
 import { Label } from '@oacore/design'
-import Icon from '@oacore/design/lib/components/icon'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
@@ -9,7 +8,8 @@ import styles from './content.css'
 import { withGlobalStore } from 'store'
 import Table from 'components/table'
 import PublishedToggle from 'components/published-toggle'
-import { Alert, Card } from 'design'
+import { Card } from 'design'
+import DocumentLink from 'components/document-link'
 
 dayjs.extend(relativeTime)
 
@@ -82,24 +82,10 @@ const tableConfig = {
             <b>{title}</b>
           </p>
           <p>{author.map(a => a.name).join(' ')}</p>
-          {fullText || displayPage ? (
-            // We want to pass referrer tag to our website
-            // eslint-disable-next-line react/jsx-no-target-blank
-            <a href={fullText?.url || displayPage?.url} target="_blank" rel="noopener">
-              <Alert variant="info">
-                <Alert.Header>
-                  <Icon src="/design/icons.svg#download" aria-hidden />
-                  {fullText ? 'Fulltext available' : 'Show in CORE'}
-                </Alert.Header>
-              </Alert>
-            </a>
+          {fullText ? (
+            <DocumentLink href={fullText.url}>Open full text</DocumentLink>
           ) : (
-            <Alert variant="danger">
-              <Alert.Header>
-                <Icon src="/design/icons.svg#download" aria-hidden />
-                Fulltext not available
-              </Alert.Header>
-            </Alert>
+            <DocumentLink href={displayPage.url}>Open metadata</DocumentLink>
           )}
         </div>
       )
