@@ -30,7 +30,6 @@ class InfiniteTable extends React.PureComponent {
     // eslint-disable-next-line react/state-in-constructor
     this.state = {
       data: null,
-      page: 0,
       showPrevLoad: false,
       showNextLoad: false,
       sliceWindow: [0, WINDOW_SIZE - 1],
@@ -38,24 +37,33 @@ class InfiniteTable extends React.PureComponent {
       searchTerm: '',
       isFirstPageLoaded: false,
       isLastPageLoaded: false,
-      dataRequestCount: 0,
+      isLoading: false,
       columnOrder: props.config.columns.reduce((acc, curr) => {
         acc[curr.id] = curr.order !== undefined ? curr.order : null
         return acc
       }, {}),
       rowsState: {},
     }
+
+    props.pages.columnOrder = props.config.columns.reduce((acc, curr) => {
+      acc[curr.id] = curr.order !== undefined ? curr.order : null
+      return acc
+    }, {})
+    this.pages = props.pages
   }
 
-  async componentDidMount() {
-    await this.fetchData()
+  componentDidMount() {
+    this.fetchData({ force: true })
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { expandable } = this.props
     const { sliceWindow: prevSliceWindow } = prevState
     const { sliceWindow } = this.state
-    if (sliceWindow !== prevSliceWindow) {
+    if (
+      sliceWindow[0] !== prevSliceWindow[0] &&
+      sliceWindow[1] !== prevSliceWindow[1]
+    ) {
       if (sliceWindow[0] !== 0) {
         const rows = this.tableRef.current
           .getElementsByTagName('tbody')[0]
@@ -69,16 +77,16 @@ class InfiniteTable extends React.PureComponent {
           block: prevSliceWindow[0] < sliceWindow[0] ? 'end' : 'start',
           behavior: 'auto',
         })
-      }
 
-      setTimeout(
-        () =>
-          this.setState(s => ({
-            showPrevLoad: s.dataRequestCount === 0 && s.sliceWindow[0] !== 0,
-            showNextLoad: s.dataRequestCount === 0 && !s.isLastPageLoaded,
-          })),
-        100
-      )
+        setTimeout(
+          () =>
+            this.setState(s => ({
+              showPrevLoad: !s.isLoading && s.sliceWindow[0] !== 0,
+              showNextLoad: !s.isLoading && !s.isLastPageLoaded,
+            })),
+          100
+        )
+      }
     }
   }
 
@@ -94,7 +102,6 @@ class InfiniteTable extends React.PureComponent {
 
     this.setState(
       {
-        page: 0,
         columnOrder: Object.entries(columnOrder).reduce(
           (acc, [currId, currOrder]) => {
             if (currId === id) acc[currId] = getNextOrder(currOrder)
@@ -141,15 +148,13 @@ class InfiniteTable extends React.PureComponent {
     clearTimeout(this.tableRowClickTimeout)
   }
 
+  loadPrevPage = () => this.fetchData({ prev: true })
+
+  loadNextPage = () => this.fetchData({ next: true })
+
   async fetchData({ prev = false, next = false, force = false } = {}) {
-    const { fetchData } = this.props
-    const {
-      page: pageNumber,
-      searchTerm,
-      columnOrder,
-      sliceWindow,
-    } = this.state
-    const { data } = this.state
+    const { pages } = this
+    const { searchTerm, columnOrder, sliceWindow, showNextLoad } = this.state
     let lowerBound = sliceWindow[0]
     let upperBound
 
@@ -164,64 +169,34 @@ class InfiniteTable extends React.PureComponent {
       upperBound = WINDOW_SIZE
     }
 
-    this.setState({
+    const newState = {
       showPrevLoad: false,
       showNextLoad: false,
-    })
-    // first page load
-    if (data === null || force) {
-      this.setState(s => ({
-        dataRequestCount: s.dataRequestCount + 1,
-        isFirstPageLoaded: false,
-      }))
-
-      const page = await fetchData(0, searchTerm, columnOrder).promise
-
-      // TODO: This is just temporary fix for preventing duplicate rows
-      //  in table. API should not send them at all.
-      const newData = page.data.map(e => ({
-        ...e,
-        id: `${pageNumber}-${e.id}`,
-      }))
-      this.setState(s => ({
-        page: 0,
-        isFirstPageLoaded: true,
-        isLastPageLoaded: page.isLast,
-        dataRequestCount: s.dataRequestCount - 1,
-        rowsState: {},
-        data: newData,
-        showNextLoad: !page.isLast,
-        sliceWindow,
-      }))
+      isLoading: true,
     }
 
-    // not enough data, need to fetch next page
-    else if (data.length < upperBound) {
-      this.setState(s => ({
-        dataRequestCount: s.dataRequestCount + 1,
-      }))
-      const page = await fetchData(pageNumber + 1, searchTerm, columnOrder)
-        .promise
-      // TODO: This is just temporary fix for preventing duplicate rows
-      //  in table. API should not send them at all.
-      const newData = page.data.map(e => ({
-        ...e,
-        id: `${pageNumber + 1}-${e.id}`,
-      }))
-
-      this.setState(s => ({
-        page: s.page + 1,
-        dataRequestCount: s.dataRequestCount - 1,
-        data: [...s.data, ...newData],
-        sliceWindow: [lowerBound, upperBound],
-      }))
-    }
-    // data loaded just rerender
-    else {
-      this.setState({
-        sliceWindow: [lowerBound, upperBound],
+    if (force) {
+      pages.reset({
+        columnOrder,
+        searchTerm,
       })
+
+      newState.isFirstPageLoaded = false
+      newState.isLastPageLoaded = false
     }
+
+    this.setState(newState)
+
+    const data = await pages.slice(lowerBound, upperBound)
+
+    this.setState({
+      sliceWindow: [lowerBound, upperBound],
+      data,
+      isFirstPageLoaded: pages.isFirstPageLoaded,
+      isLastPageLoaded: pages.isLastPageLoaded,
+      isLoading: false,
+      showNextLoad: force ? true : showNextLoad,
+    })
   }
 
   render() {
@@ -240,7 +215,6 @@ class InfiniteTable extends React.PureComponent {
       areSelectedAll,
       searchTerm,
       columnOrder,
-      dataRequestCount,
       showPrevLoad,
       showNextLoad,
       isFirstPageLoaded,
@@ -261,9 +235,9 @@ class InfiniteTable extends React.PureComponent {
             onChange={event => {
               this.setState({
                 searchTerm: event.target.value,
-                page: 0,
                 data: null,
-                sliceWindow: [0, WINDOW_SIZE - 1],
+                showPrevLoad: false,
+                showNextLoad: false,
               })
               this.onSearchEnded()
             }}
@@ -315,16 +289,13 @@ class InfiniteTable extends React.PureComponent {
             )}
             {sliceWindow[0] !== 0 && (
               <LoadMoreRow
-                isPrev
                 observe={showPrevLoad}
-                isLoading={Boolean(dataRequestCount)}
-                onVisible={() => this.fetchData({ prev: true })}
-                offset={sliceWindow[0]}
+                onVisible={this.loadPrevPage}
               />
             )}
 
             {data !== null &&
-              data.slice(...sliceWindow).map((row, index) => {
+              data.map((row, index) => {
                 const props = {
                   id: row.id,
                   index: index + sliceWindow[0],
@@ -346,11 +317,8 @@ class InfiniteTable extends React.PureComponent {
 
             {isFirstPageLoaded && !isLastPageLoaded && (
               <LoadMoreRow
-                isNext
                 observe={showNextLoad}
-                isLoading={Boolean(dataRequestCount)}
-                onVisible={() => this.fetchData({ next: true })}
-                offset={sliceWindow[0]}
+                onVisible={this.loadNextPage}
               />
             )}
             {data && data.length === 0 && <NoDataFoundRow />}

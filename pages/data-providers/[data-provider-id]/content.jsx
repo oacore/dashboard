@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Label } from '@oacore/design'
 import Icon from '@oacore/design/lib/components/icon'
 import dayjs from 'dayjs'
@@ -105,23 +105,17 @@ const tableConfig = {
   },
 }
 
-const Data = ({ store, ...restProps }) => {
-  const fetchData = useCallback(
-    (...args) => store.works.retrieveWorks(...args),
-    []
-  )
-  return (
-    <Card {...restProps}>
-      <Table
-        key={store.dataProvider}
-        config={tableConfig}
-        fetchData={fetchData}
-        className={styles.contentTable}
-        searchable
-        expandable
-      />
-    </Card>
-  )
-}
+const Data = ({ store, ...restProps }) => (
+  <Card {...restProps}>
+    <Table
+      key={store.dataProvider}
+      config={tableConfig}
+      className={styles.contentTable}
+      pages={store.works}
+      searchable
+      expandable
+    />
+  </Card>
+)
 
 export default withGlobalStore(Data)

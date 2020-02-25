@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import dayjs from 'dayjs'
 
 import { withGlobalStore } from 'store'
@@ -66,72 +66,66 @@ const DepositDates = ({
   store,
   tag: Tag = 'main',
   ...restProps
-}) => {
-  const fetchData = useCallback(
-    (...args) => store.depositDates.retrieveDepositDates(...args),
-    []
-  )
-  return (
-    <Tag className={[styles.container, className].join(' ')} {...restProps}>
-      <h1>Deposit compliance</h1>
+}) => (
+  <Tag className={[styles.container, className].join(' ')} {...restProps}>
+    <h1>Deposit compliance</h1>
 
-      <Card className={styles.complianceLevel} tag="section">
-        <h2>{texts.compliance.title}</h2>
-        {store.depositDates.complianceLevel ? (
-          <Markdown>
-            {texts.compliance.body.render({
-              amount: (100 - store.depositDates.complianceLevel).toFixed(1),
-            })}
-          </Markdown>
-        ) : (
+    <Card className={styles.complianceLevel} tag="section">
+      <h2>{texts.compliance.title}</h2>
+      {store.depositDates.complianceLevel ? (
+        <Markdown>
+          {texts.compliance.body.render({
+            amount: (100 - store.depositDates.complianceLevel).toFixed(1),
+          })}
+        </Markdown>
+      ) : (
+        <p>{texts.noData.body}</p>
+      )}
+    </Card>
+
+    <Card className={styles.export} tag="section">
+      <h2>{texts.exporting.title}</h2>
+      <p>
+        {texts.exporting.description.render({
+          count: store.depositDates.depositDatesCount || '',
+        })}
+      </p>
+      <Button
+        variant="contained"
+        onClick={() => store.depositDates.exportCsv()}
+        disabled={
+          store.depositDates.isExportInProgress ||
+          store.depositDates.isExportDisabled
+        }
+      >
+        {texts.exporting.download}
+      </Button>
+    </Card>
+
+    <Card className={styles.depositTimeLag} tag="section">
+      <h2>{texts.chart.title}</h2>
+      {store.depositDates.timeLagData.length > 0 && (
+        <>
+          <TimeLagChart data={store.depositDates.timeLagData} />
+          <Markdown>{texts.chart.body}</Markdown>
+        </>
+      )}
+      {!store.depositDates.timeLagData.length &&
+        !store.depositDates.isRetrieveDepositDatesInProgress && (
           <p>{texts.noData.body}</p>
         )}
-      </Card>
+    </Card>
 
-      <Card className={styles.export} tag="section">
-        <h2>{texts.exporting.title}</h2>
-        <p>
-          {texts.exporting.description.render({
-            count: store.depositDates.depositDatesCount || '',
-          })}
-        </p>
-        <Button
-          variant="contained"
-          onClick={() => store.depositDates.exportCsv()}
-          disabled={
-            store.depositDates.isExportInProgress ||
-            store.depositDates.isExportDisabled
-          }
-        >
-          {texts.exporting.download}
-        </Button>
-      </Card>
-
-      <Card className={styles.depositTimeLag} tag="section">
-        <h2>{texts.chart.title}</h2>
-        {store.depositDates.timeLagData.length > 0 && (
-          <>
-            <TimeLagChart data={store.depositDates.timeLagData} />
-            <Markdown>{texts.chart.body}</Markdown>
-          </>
-        )}
-        {!store.depositDates.timeLagData.length &&
-          !store.depositDates.isRetrieveDepositDatesInProgress && (
-            <p>{texts.noData.body}</p>
-          )}
-      </Card>
-
-      <Card className={styles.browseTable} tag="section">
-        <Table
-          key={store.dataProvider}
-          title="Browse deposit dates"
-          config={tableConfig}
-          fetchData={fetchData}
-          searchable
-        />
-      </Card>
-    </Tag>
-  )
-}
+    <Card className={styles.browseTable} tag="section">
+      <Table
+        key={store.dataProvider}
+        title="Browse deposit dates"
+        config={tableConfig}
+        pages={store.depositDates.publicReleaseDates}
+        searchable
+      />
+    </Card>
+  </Tag>
+)
 
 export default withGlobalStore(DepositDates)

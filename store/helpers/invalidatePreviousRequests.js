@@ -4,7 +4,7 @@ export default function(target, propertyKey, descriptor) {
   const requests = []
   const originalMethod = descriptor.value
 
-  descriptor.value = function(...arg) {
+  descriptor.value = function decorator(...arg) {
     while (requests.length) {
       const promise = requests.pop()
       promise.cancelIfNotFulFilled()

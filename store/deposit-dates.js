@@ -1,14 +1,9 @@
 import download from 'downloadjs'
 import { action, computed, observable } from 'mobx'
 
-import Page from './helpers/page'
-import getOrder from './helpers/order'
-import invalidatePreviousRequests from './helpers/invalidatePreviousRequests'
+import { Pages } from './helpers/pages'
 
-import { CancelablePromise } from 'utils/promise'
 import apiRequest from 'api'
-
-const PAGE_SIZE = 100
 
 class DepositDates {
   @observable isExportInProgress = false
@@ -21,8 +16,12 @@ class DepositDates {
 
   @observable timeLagData = []
 
+  @observable publicReleaseDates = null
+
   constructor(baseUrl) {
-    this.datesUrl = `${baseUrl}/public-release-dates`
+    const datesUrl = `${baseUrl}/public-release-dates`
+    this.publicReleaseDates = new Pages(`${baseUrl}/public-release-dates`)
+    this.datesUrl = datesUrl
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
 
     this.retrieveDepositTimeLag()
@@ -44,46 +43,6 @@ class DepositDates {
     if (total === 0) return 0
     const level = (compliant / total) * 100
     return Math.round(level * 100) / 100
-  }
-
-  @invalidatePreviousRequests
-  retrieveDepositDates(pageNumber, searchTerm, columnOrder) {
-    const order = getOrder(columnOrder)
-    const params = {
-      next_item: pageNumber * PAGE_SIZE,
-      step_item: PAGE_SIZE,
-    }
-
-    if (order) params.orderBy = order
-    if (searchTerm) params.q = searchTerm
-
-    const request = apiRequest(this.datesUrl, 'GET', params, {}, true)
-    const dataPromise = new Promise((resolve, reject) =>
-      request.promise.then(
-        ({ data }) => {
-          const page = new Page(data, {
-            searchTerm,
-            order,
-            maxSize: PAGE_SIZE,
-          })
-          resolve(page)
-        },
-        reason => {
-          if (reason.status === 404) {
-            const page = new Page([], {
-              searchTerm,
-              order,
-              maxSize: PAGE_SIZE,
-            })
-            resolve(page)
-          } else reject(reason)
-        }
-      )
-    )
-
-    return new CancelablePromise(dataPromise, {
-      cancel: request.cancel,
-    })
   }
 
   @action
