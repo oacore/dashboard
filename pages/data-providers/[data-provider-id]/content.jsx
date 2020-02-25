@@ -74,20 +74,22 @@ const tableConfig = {
   expandedRow: {
     render: ({ content: { title, author, link } }) => {
       const fullText = link.find(v => v.type === 'download')
+      const displayPage = link.find(v => v.type === 'display')
+
       return (
         <div>
           <p>
             <b>{title}</b>
           </p>
           <p>{author.map(a => a.name).join(' ')}</p>
-          {fullText != null ? (
+          {fullText || displayPage ? (
             // We want to pass referrer tag to our website
             // eslint-disable-next-line react/jsx-no-target-blank
-            <a href={fullText.url} target="_blank" rel="noopener">
+            <a href={fullText?.url || displayPage?.url} target="_blank" rel="noopener">
               <Alert variant="info">
                 <Alert.Header>
                   <Icon src="/design/icons.svg#download" aria-hidden />
-                  Fulltext available
+                  {fullText ? 'Fulltext available' : 'Show in CORE'}
                 </Alert.Header>
               </Alert>
             </a>
