@@ -60,6 +60,7 @@ class Pages {
             data.map(e => ({
               ...e,
               id: `${this.#pageNumber + 1}-${e.id}`,
+              originalId: e.id,
             })),
             {
               searchTerm: this.#searchTerm,

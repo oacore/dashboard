@@ -207,6 +207,7 @@ class InfiniteTable extends React.PureComponent {
       expandable,
       title,
       fetchData,
+      pages,
       ...restProps
     } = this.props
     const {
