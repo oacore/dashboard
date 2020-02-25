@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Label } from '@oacore/design'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -13,7 +13,7 @@ import DocumentLink from 'components/document-link'
 
 dayjs.extend(relativeTime)
 
-const tableConfig = {
+const getTableConfig = store => ({
   columns: [
     {
       id: 'oai',
@@ -91,19 +91,22 @@ const tableConfig = {
       )
     },
   },
-}
+})
 
-const Data = ({ store, ...restProps }) => (
-  <Card {...restProps}>
-    <Table
-      key={store.dataProvider}
-      config={tableConfig}
-      className={styles.contentTable}
-      pages={store.works}
-      searchable
-      expandable
-    />
-  </Card>
-)
+const Data = ({ store, ...restProps }) => {
+  const tableConfig = useMemo(() => getTableConfig(store), [])
+  return (
+    <Card {...restProps}>
+      <Table
+        key={store.dataProvider}
+        config={tableConfig}
+        className={styles.contentTable}
+        pages={store.works}
+        searchable
+        expandable
+      />
+    </Card>
+  )
+}
 
 export default withGlobalStore(Data)
