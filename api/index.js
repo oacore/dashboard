@@ -7,25 +7,39 @@ const apiRequest = (
   url,
   method = 'GET',
   queryParams = {},
-  customHeaders = {}
+  customHeaders = {},
+  data
 ) => {
-  const controller = new AbortController()
-  const { signal } = controller
-
+  // Initialise URL
   const requestUrl = new URL(/^\w+:\/\//.test(url) ? url : `${API_URL}${url}`)
-  const requestHeaders = {
-    Accept: 'application/json',
-    ...customHeaders,
-  }
-
   requestUrl.search = new URLSearchParams(queryParams).toString()
 
-  const fetchPromise = fetch(requestUrl, {
+  // Initialise options
+  const requestOptions = {
     method,
     credentials: 'include',
-    headers: requestHeaders,
-    signal,
-  })
+    headers: {
+      Accept: 'application/json',
+    },
+  }
+
+  // Process body
+  if (method.toUpperCase() !== 'GET') {
+    if (typeof data == 'object') {
+      requestOptions.body = JSON.stringify(data)
+      requestOptions.headers['Content-Type'] = 'application/json'
+    } else requestOptions.body = data
+  }
+
+  // Process custom headers
+  Object.assign(requestOptions.headers, customHeaders)
+
+  // Make abortable
+  const controller = new AbortController()
+  const { signal } = controller
+  requestOptions.signal = signal
+
+  const fetchPromise = fetch(requestUrl, requestOptions)
     .then(response => {
       const { headers } = response
       const type = headers.get('Content-Type')
