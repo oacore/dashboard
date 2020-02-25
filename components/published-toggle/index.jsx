@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './index.css'
 
 const PublishedToggle = ({
   className,
+  onVisibilityChanged,
   defaultVisibility,
   isExpanded,
   disabled,
@@ -15,6 +16,16 @@ const PublishedToggle = ({
     if (isChecked) toggletext = 'Published'
     else toggletext = 'UnPublished'
   }
+
+  const handleChange = useCallback(event => {
+    if (disabled) {
+      event.preventDefault()
+      return
+    }
+    const isVisible = event.target.checked
+    toggleChecked(isVisible)
+    onVisibilityChanged(isVisible)
+  }, [])
 
   return (
     // eslint-disable-next-line jsx-a11y/label-has-associated-control
@@ -35,13 +46,7 @@ const PublishedToggle = ({
           })
           .from(styles)}
         type="checkbox"
-        onChange={event => {
-          if (disabled) {
-            event.preventDefault()
-            return
-          }
-          toggleChecked(event.target.checked)
-        }}
+        onChange={handleChange}
         checked={disabled ? defaultVisibility : isChecked}
       />
       <div className={classNames.use('toggle-switch', className).from(styles)}>

@@ -66,7 +66,7 @@ const tableConfig = {
           className={styles.visibilitySwitch}
           defaultVisibility={v}
           isExpanded={isExpanded}
-          disabled
+          onVisibilityChanged={isVisible => {}}
         />
       ),
     },
