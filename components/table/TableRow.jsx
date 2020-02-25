@@ -45,6 +45,7 @@ const TableRow = React.memo(
             : content[colConfig.id]
           const colSpan = isExpanded ? colConfig.expandedSize : 1
 
+          if (isExpanded && colConfig.expandedSize === null) return null
           return (
             <Table.Cell key={colConfig.id} colSpan={colSpan}>
               {cellRenderer(colConfig, cellValue)}

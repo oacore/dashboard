@@ -18,7 +18,7 @@ const tableConfig = {
     {
       id: 'oai',
       display: 'OAI',
-      expandedSize: 3,
+      expandedSize: 2,
       className: styles.labelColumn,
       order: '',
       getter: v => v.identifier,
