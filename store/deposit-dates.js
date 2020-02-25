@@ -1,7 +1,7 @@
 import download from 'downloadjs'
 import { action, computed, observable } from 'mobx'
 
-import Pages from './helpers/pages/pages'
+import { Pages } from './helpers/pages'
 
 import apiRequest from 'api'
 

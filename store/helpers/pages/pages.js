@@ -8,7 +8,7 @@ import { CancelablePromise } from 'utils/promise'
 
 const PAGE_SIZE = 100
 
-export default class Pages {
+class Pages {
   #pages = new LinkedList()
 
   #searchTerm = ''
@@ -95,3 +95,5 @@ export default class Pages {
     })
   }
 }
+
+export default Pages
