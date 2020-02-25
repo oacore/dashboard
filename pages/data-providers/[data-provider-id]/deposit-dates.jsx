@@ -5,7 +5,7 @@ import { withGlobalStore } from 'store'
 import Markdown from 'components/markdown'
 import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
-import { Alert, Button, Card, Label } from 'design'
+import { Button, Card, Label } from 'design'
 import * as texts from 'texts/depositing'
 import DocumentLink from 'components/document-link'
 
