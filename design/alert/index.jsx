@@ -8,7 +8,7 @@ const Alert = React.memo(({ children, variant }) => (
   <Card
     className={classNames
       .use({
-        alert: true,
+        'alert': true,
         'alert-danger': variant === 'danger',
         'alert-info': variant === 'info',
       })

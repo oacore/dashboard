@@ -114,12 +114,12 @@ const nextConfig = {
 
     Object.assign(config.resolve.alias, {
       '@oacore/texts/dashboard': path.join(__dirname, 'texts'),
-      design: path.join(__dirname, 'design'),
-      components: path.join(__dirname, 'components'),
-      texts: path.join(__dirname, 'texts'),
-      utils: path.join(__dirname, 'utils'),
-      store: path.join(__dirname, 'store'),
-      api: path.join(__dirname, 'api'),
+      'design': path.join(__dirname, 'design'),
+      'components': path.join(__dirname, 'components'),
+      'texts': path.join(__dirname, 'texts'),
+      'utils': path.join(__dirname, 'utils'),
+      'store': path.join(__dirname, 'store'),
+      'api': path.join(__dirname, 'api'),
       '@sentry/node': config.isServer ? '@sentry/node' : '@sentry/browser',
     })
 

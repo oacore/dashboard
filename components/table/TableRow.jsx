@@ -23,7 +23,7 @@ const TableRow = React.memo(
     const rowProp = {
       'data-id': id,
       'data-is-clickable': true,
-      className: tableClassNames.mainRow,
+      'className': tableClassNames.mainRow,
       'aria-expanded': expandable ? isExpanded : undefined,
       'aria-controls': expandable ? `${id}-expanded` : undefined,
     }

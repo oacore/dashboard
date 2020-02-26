@@ -9,8 +9,8 @@ const toUrl = value => (value === 'index' ? '.' : `./${value}`)
 const toIcon = value =>
   `/icons.svg#${
     {
-      overview: 'dashboard',
-      content: 'document',
+      'overview': 'dashboard',
+      'content': 'document',
       'deposit-dates': 'calendar-check',
     }[value]
   }`

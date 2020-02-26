@@ -22,9 +22,9 @@ const customTicks = {
       [i * 365, `${i}y`],
     ])
   ),
-  '7': '1w',
-  '31': '1m',
-  '90': '90d',
+  7: '1w',
+  31: '1m',
+  90: '90d',
 }
 
 const aggregationSize = 14
@@ -113,7 +113,7 @@ const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
               className={classNames
                 .use({
                   'lag-bar': true,
-                  compliant: parseInt(entry.key, 10) * aggregationSize < 90,
+                  'compliant': parseInt(entry.key, 10) * aggregationSize < 90,
                 })
                 .from(styles)
                 .toString()}
