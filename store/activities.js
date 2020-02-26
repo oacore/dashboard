@@ -29,6 +29,11 @@ const config = [
       },
     ],
   },
+  {
+    id: 'settings',
+    path: 'settings',
+    icon: 'settings',
+  },
 ]
 
 const configMap = new Map(config.map(item => [item.id, item]))

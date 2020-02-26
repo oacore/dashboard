@@ -1,0 +1,7 @@
+.container {
+  padding: 1rem;
+}
+
+.section {
+  margin-bottom: calc(1.5 * var(--component-padding-y, 1rem));
+}
