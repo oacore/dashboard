@@ -19,3 +19,17 @@
   /* margin: calc(calc(var(--icon-size) - 1em) / 2);
   margin-right: calc(1rem - calc(calc(var(--icon-size) - 1em) / 2)); */
 }
+
+.list {
+  --drawer-item-spacing: 0.25rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+
+  & .settings {
+    margin-top: auto;
+    justify-self: flex-end;
+  }
+}

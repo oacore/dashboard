@@ -89,6 +89,7 @@ class Root extends Store {
     }
   }
 
+  // TODO: Should be renamed to switchDataProvider
   @action changeDataProvider(dataProviderStr) {
     const dataProviderId = Number.parseInt(dataProviderStr, 10)
 
@@ -136,6 +137,29 @@ class Root extends Store {
     data.forEach(plugin => {
       this.plugins[plugin.type] = plugin
     })
+  }
+
+  @action
+  async updateDataProvider(patch) {
+    try {
+      // TODO: Should be this.dataProvider.url
+      const url = `/data-providers/${this.dataProvider.id}`
+      const { data } = await apiRequest(url, {
+        method: 'PATCH',
+        body: patch,
+      })
+      Object.assign(this.dataProvider, data)
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action
+  async updateOrganization(patch) {
+    const { name: institution } = patch
+    this.updateDataProvider({ institution })
+
+    // TODO: Should be a method without cross-call to another method
   }
 }
 
