@@ -7,6 +7,7 @@ import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
 import { Button, Card, Label } from 'design'
 import * as texts from 'texts/depositing'
+import DocumentLink from 'components/document-link'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
@@ -29,19 +30,22 @@ const tableConfig = {
       id: 'title',
       display: 'Title',
       order: '',
+      expandedSize: null,
       className: styles.titleColumn,
     },
     {
-      id: 'author',
+      id: 'authors',
       display: 'Authors',
       order: '',
-      getter: v => v.author && v.author.map(a => a.name).join(' '),
+      expandedSize: null,
+      getter: v => v.authors && v.authors.map(a => a.name).join(' '),
       className: styles.authorsColumn,
     },
     {
       id: 'publicationDate',
       display: 'Publication date',
       className: styles.depositDateColumn,
+      expandedSize: 1,
       getter: v => dayjs(v.publicationDate),
       render: v => v.format('DD/MM/YYYY'),
     },
@@ -50,10 +54,24 @@ const tableConfig = {
       display: 'Deposit date',
       order: 'desc',
       className: styles.depositDateColumn,
+      expandedSize: 1,
       getter: v => dayjs(v.publicReleaseDate),
       render: v => v.format('DD/MM/YYYY'),
     },
   ],
+  expandedRow: {
+    render: ({ content: { originalId, authors, title } }) => (
+      <div>
+        <p>
+          <b>{title}</b>
+        </p>
+        <p>{authors?.map(a => a.name).join(' ')}</p>
+        <DocumentLink href={`https://core.ac.uk/display/${originalId}`}>
+          Open metadata page
+        </DocumentLink>
+      </div>
+    ),
+  },
 }
 
 /**
@@ -123,6 +141,7 @@ const DepositDates = ({
         config={tableConfig}
         pages={store.depositDates.publicReleaseDates}
         searchable
+        expandable
       />
     </Card>
   </Tag>
