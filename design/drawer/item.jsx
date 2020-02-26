@@ -20,8 +20,8 @@ const FlatItem = ({
   </Tag>
 )
 
-const TreeItem = ({ children, ...passProps }) => (
-  <li>
+const TreeItem = ({ children, className, ...passProps }) => (
+  <li className={className}>
     <FlatItem {...passProps}>{children}</FlatItem>
   </li>
 )
