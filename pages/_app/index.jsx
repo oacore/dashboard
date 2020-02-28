@@ -13,6 +13,8 @@ import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 import { Sentry } from 'utils/sentry'
 
+import './index.css'
+
 process.on('unhandledRejection', err => {
   Sentry.captureException(err)
 })
@@ -48,9 +50,9 @@ class App extends NextApp {
           `script-src 'self' *.google-analytics.com ${
             process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
           }`,
-          // TODO: It's not a big deal but we should get rid of
-          //  all inline styles if possible as it is not recommended
-          "style-src 'self' 'unsafe-inline'",
+          `style-src 'self' ${
+            process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
+          }`,
           // google analytics may transport info via image
           // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
           "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
