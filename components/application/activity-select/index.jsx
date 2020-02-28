@@ -7,7 +7,7 @@ import { navigation } from 'texts'
 
 const toUrl = value => (value === 'index' ? '.' : `./${value}`)
 const toIcon = value =>
-  `/icons.svg#${
+  `/design/icons.svg#${
     {
       'overview': 'dashboard',
       'content': 'document',
