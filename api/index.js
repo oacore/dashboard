@@ -24,7 +24,7 @@ const apiRequest = (
   }
 
   // Process body
-  if (method.toUpperCase() !== 'GET') {
+  if (!['GET', 'HEAD'].includes(method.toUpperCase())) {
     if (typeof data == 'object') {
       requestOptions.body = JSON.stringify(data)
       requestOptions.headers['Content-Type'] = 'application/json'
