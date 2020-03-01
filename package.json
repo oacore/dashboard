@@ -15,7 +15,7 @@
     "@babel/preset-react": "^7.8.3",
     "@oacore/eslint-config-react": "^1.0.4",
     "@oacore/prettier-config": "^1.0.4",
-    "babel-eslint": "^10.0.3",
+    "babel-eslint": "^10.1.0",
     "eslint": "^6.7.1",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
