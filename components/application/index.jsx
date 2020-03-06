@@ -19,12 +19,12 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
       <SideBar tag="nav">
         <h2 className="sr-only">Navigate your data</h2>
         {dataProvider && (
-          <ActivitySelect value={activity}>
+          <ActivitySelect>
             {activities.map(({ id, path }) => (
               <ActivitySelect.Option
                 key={id}
                 value={id}
-                selected={id === activity}
+                selected={path === activity.split('/')[0]}
                 path={path}
               />
             ))}
