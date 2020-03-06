@@ -22,9 +22,10 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
           <ActivitySelect>
             {activities.map(({ id, path }) => (
               <ActivitySelect.Option
+                dataProvider={dataProvider.id}
                 key={id}
                 value={id}
-                selected={path === activity.split('/')[0]}
+                selected={id === activity.split('/')[0]}
                 path={path}
               />
             ))}

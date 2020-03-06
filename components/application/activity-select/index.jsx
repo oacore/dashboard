@@ -6,13 +6,24 @@ import { Icon, Drawer } from 'design'
 import { navigation } from 'texts'
 import activities from 'store/activities'
 
-const toUrl = value => (value === 'index' ? '.' : `./${value}`)
+const toUrl = (value, dataProvider) =>
+  value === 'index' ? `./` : `/data-providers/${dataProvider}/${value}`
 const toIcon = value => `/design/icons.svg#${activities.get(value).icon}`
 
 const ActivitySelect = ({ children }) => <Drawer.List>{children}</Drawer.List>
 
-const ActivitySelectOption = ({ children, value, selected, path }) => (
-  <Drawer.Item className={styles[value]} href={toUrl(path)} active={selected}>
+const ActivitySelectOption = ({
+  children,
+  value,
+  selected,
+  path,
+  dataProvider,
+}) => (
+  <Drawer.Item
+    className={styles[value]}
+    href={toUrl(path, dataProvider)}
+    active={selected}
+  >
     {children || (
       <>
         <Icon
