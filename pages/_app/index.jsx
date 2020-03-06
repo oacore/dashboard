@@ -78,8 +78,6 @@ class App extends NextApp {
     const { store } = this
     const { router } = this.props
 
-    if (store == null) return
-
     const route = new Route({
       dataProvider: store.dataProvider?.id,
       activity: store.activity?.path,
