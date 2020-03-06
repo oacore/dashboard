@@ -23,13 +23,16 @@ process.on('uncaughtException', err => {
   Sentry.captureException(err)
 })
 
-const handleRouteChange = url => {
-  logPageView(url)
-}
-
 class App extends NextApp {
   state = {
     isAuthorized: false,
+  }
+
+  handleRouteChange(url) {
+    logPageView(url)
+    const { dataProvider, activity } = new Route(url)
+    this.store.changeDataProvider(dataProvider)
+    this.store.changeActivity(activity)
   }
 
   static async getInitialProps({ Component, ctx }) {
@@ -83,14 +86,13 @@ class App extends NextApp {
       activity: store.activity?.path,
     })
 
-    // TODO: This probably should be under condition
-    router.push(route.href, route.as)
+    if (route.as !== window.location.pathname) router.push(route.href, route.as)
   }
 
   async componentDidMount() {
     const store = initStore()
     const { router } = this.props
-    router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on('routeChangeComplete', this.handleRouteChange.bind(this))
 
     // Assumes store object is always the same
     this.store = store
@@ -115,7 +117,7 @@ class App extends NextApp {
 
   componentWillUnmount() {
     const { router } = this.props
-    router.events.off('routeChangeComplete', handleRouteChange)
+    router.events.off('routeChangeComplete', this.handleRouteChange)
   }
 
   componentDidCatch(error, errorInfo) {
