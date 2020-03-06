@@ -6,7 +6,7 @@ import ActivitySelect from './activity-select'
 import Head from './head'
 import Logout from './logout'
 
-const activities = ['overview', 'content', 'deposit-dates', 'plugins']
+import activities from 'store/activities'
 
 const Application = ({ children, dataProvider, activity, ...restProps }) => (
   <>
@@ -20,11 +20,12 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
         <h2 className="sr-only">Navigate your data</h2>
         {dataProvider && (
           <ActivitySelect value={activity}>
-            {activities.map(value => (
+            {activities.map(({ id, path }) => (
               <ActivitySelect.Option
-                key={value}
-                value={value}
-                selected={value === activity}
+                key={id}
+                value={id}
+                selected={id === activity}
+                path={path}
               />
             ))}
           </ActivitySelect>

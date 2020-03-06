@@ -4,17 +4,10 @@ import styles from './styles.css'
 
 import { Icon, Drawer } from 'design'
 import { navigation } from 'texts'
+import activities from 'store/activities'
 
 const toUrl = value => (value === 'index' ? '.' : `./${value}`)
-const toIcon = value =>
-  `/design/icons.svg#${
-    {
-      'overview': 'dashboard',
-      'content': 'document',
-      'deposit-dates': 'calendar-check',
-      'plugins': 'puzzle',
-    }[value]
-  }`
+const toIcon = value => `/design/icons.svg#${activities.get(value).icon}`
 
 const ActivitySelect = ({ children, value }) => (
   <Drawer.List>
@@ -26,8 +19,8 @@ const ActivitySelect = ({ children, value }) => (
   </Drawer.List>
 )
 
-const ActivitySelectOption = ({ children, value, selected }) => (
-  <Drawer.Item className={styles[value]} href={toUrl(value)} active={selected}>
+const ActivitySelectOption = ({ children, value, selected, path }) => (
+  <Drawer.Item className={styles[value]} href={toUrl(path)} active={selected}>
     {children || (
       <>
         <Icon

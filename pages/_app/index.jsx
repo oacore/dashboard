@@ -170,7 +170,7 @@ class App extends NextApp {
       <GlobalProvider store={store}>
         <Application
           dataProvider={store.dataProvider}
-          activity={store.activity.path}
+          activity={store.activity.id}
           onClick={this.handleNavigation}
         >
           <Component {...pageProps} />
