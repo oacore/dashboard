@@ -57,7 +57,9 @@ class App extends NextApp {
           // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
           "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
           `connect-src 'self' *.core.ac.uk core.ac.uk sentry.io *.google-analytics.com ${
-            process.env.NODE_ENV !== 'production' ? 'localhost:*' : ''
+            process.env.NODE_ENV !== 'production'
+              ? 'localhost:* 127.0.0.1:*'
+              : ''
           }`,
         ].join(';')
       )
