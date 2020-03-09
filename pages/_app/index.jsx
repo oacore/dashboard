@@ -3,7 +3,7 @@ import NextApp from 'next/app'
 import { withRouter } from 'next/router'
 import { autorun } from 'mobx'
 
-import { LOGIN_URL } from '../../config'
+import { getLoginPage } from '../../config'
 import Route from './route'
 
 import '@oacore/design/lib/index.css'
@@ -77,7 +77,7 @@ class App extends NextApp {
   }
 
   redirectToLogin = () => {
-    window.location.replace(LOGIN_URL)
+    window.location.replace(getLoginPage())
   }
 
   reflectStoreToRoute() {

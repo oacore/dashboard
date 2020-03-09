@@ -1,5 +1,5 @@
 import { NetworkError } from './errors'
-import { API_URL } from '../config'
+import { API_URL, getLoginPage } from '../config'
 
 import { CancelablePromise } from 'utils/promise'
 
@@ -45,8 +45,11 @@ const apiRequest = (
       const type = headers.get('Content-Type')
       const result = { type, headers }
 
-      if (response.status >= 400)
+      if (response.status >= 400) {
+        if (response.status === 401) window.location.replace(getLoginPage(true))
+
         throw new NetworkError(`Request failed on ${response.status}`, response)
+      }
 
       if (method.toUpperCase() === 'HEAD') return result
 
