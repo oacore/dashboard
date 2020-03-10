@@ -15,8 +15,8 @@ const config = [
     icon: 'calendar-check',
   },
   {
-    id: 'dois',
-    path: 'dois',
+    id: 'doi',
+    path: 'doi',
     icon: 'barcode',
   },
   {

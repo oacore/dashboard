@@ -5,7 +5,7 @@ items:
   data: Data
   content: Content
   deposit-dates: Deposit compliance
-  dois: DOIs
+  doi: DOI
   plugins: Plugins
   statistics: Statistics
   settings: Settings

@@ -5,6 +5,7 @@ import Store from './store'
 import User from './user'
 import DepositDates from './deposit-dates'
 import Works from './works'
+import DOI from './doi'
 
 import apiRequest from 'api'
 
@@ -96,6 +97,7 @@ class Root extends Store {
     const url = `/data-providers/${this.dataProvider.id}`
     this.works = new Works(url, this.options)
     this.depositDates = new DepositDates(url, this.options)
+    this.doi = new DOI(url, this.options)
   }
 
   @action changeActivity(url) {

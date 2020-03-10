@@ -153,7 +153,7 @@ const DashboardView = ({
       complianceLevel={isTimeLagDataLoading ? null : complianceLevel}
     />
 
-    <PlaceholderCard title="DOIs" value={14.2} />
+    <PlaceholderCard title="Doi" value={14.2} />
     <PlaceholderCard title="ORCiDs" value={5.8} />
   </main>
 )
