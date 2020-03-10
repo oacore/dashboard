@@ -31,8 +31,11 @@ class App extends NextApp {
   handleRouteChange(url) {
     logPageView(url)
     const { dataProvider, activity } = new Route(url)
-    this.store.changeDataProvider(dataProvider)
-    this.store.changeActivity(activity)
+
+    if (dataProvider) {
+      this.store.changeDataProvider(dataProvider)
+      this.store.changeActivity(activity)
+    }
   }
 
   static async getInitialProps({ Component, ctx }) {
