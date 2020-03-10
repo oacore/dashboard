@@ -1,5 +1,5 @@
 import { NetworkError } from './errors'
-import { API_URL, getLoginPage } from '../config'
+import { API_URL } from '../config'
 
 import { CancelablePromise } from 'utils/promise'
 
@@ -46,9 +46,11 @@ const apiRequest = (
       const result = { type, headers }
 
       if (response.status >= 400) {
-        if (response.status === 401) window.location.replace(getLoginPage(true))
-
-        throw new NetworkError(`Request failed on ${response.status}`, response)
+        const Error = NetworkError.getErrorFromStatusCode(response.status)
+        throw new Error(
+          `Request for ${method} ${url} failed on ${response.status}`,
+          response
+        )
       }
 
       if (method.toUpperCase() === 'HEAD') return result
@@ -71,24 +73,12 @@ const apiRequest = (
     })
     .catch(async error => {
       const { response, message } = error
+      if (error instanceof NetworkError) throw error
 
-      let networkError
-      if (response) {
-        const text = await response.text()
-        networkError = new NetworkError(
-          `Request for ${method} ${url} failed. Response: ${response.status}, ${text}`
-        )
-      } else if (message === 'Network Error') {
-        networkError = new NetworkError(
-          `Request ${method} ${url} failed. You are probably in offline mode.`
-        )
-      } else {
-        networkError = new NetworkError(
-          `Request ${method} ${url} failed. The original error was: ${message}`
-        )
-      }
-      networkError.status = (response && response.status) || null
-      throw networkError
+      // user is probably offline or CORS failed
+      throw new NetworkError(
+        `Request for ${method} ${url} failed. Response: ${response.status}, ${message}`
+      )
     })
 
   return new CancelablePromise(fetchPromise, {
