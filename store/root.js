@@ -5,6 +5,7 @@ import Store from './store'
 import User from './user'
 import DepositDates from './deposit-dates'
 import Works from './works'
+import DOI from './doi'
 import { logTiming } from '../utils/analytics'
 
 import apiRequest from 'api'
@@ -41,7 +42,6 @@ class Root extends Store {
   @observable statistics = {
     metadataCount: null,
     fullTextCount: null,
-    doiCount: null,
   }
 
   @observable plugins = {
@@ -110,8 +110,10 @@ class Root extends Store {
     this.retrieveStatistics()
     this.retrievePluginConfig()
 
-    this.works = new Works(this.baseUrl, this.options)
-    this.depositDates = new DepositDates(this.baseUrl, this.options)
+    const url = `/data-providers/${this.dataProvider.id}`
+    this.works = new Works(url, this.options)
+    this.depositDates = new DepositDates(url, this.options)
+    this.doi = new DOI(url, this.options)
   }
 
   @action changeActivity(url) {

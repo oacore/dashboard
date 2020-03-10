@@ -1,51 +1,21 @@
 import React from 'react'
-import { ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
 
 import { withGlobalStore } from 'store'
 import { Button, Card, Overlay } from 'design'
 import NumericValue from 'components/numeric-value'
 import TimeLagChart from 'components/time-lag-chart'
-import { depositing } from 'texts/overview'
+import * as texts from 'texts/overview'
+import PerformanceChart from 'components/performance-chart'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
 import styles from './overview.css'
 
-const RadialChart = ({ value, caption }) => (
-  <div className={styles.chartContainer}>
-    <ResponsiveContainer width="100%" height={320 - 64}>
-      <RadialBarChart
-        innerRadius="95%"
-        data={[
-          {
-            value,
-            fill: 'var(--primary)',
-          },
-          {
-            value: 100,
-            fill: '#fff',
-          },
-        ]}
-        startAngle={225}
-        endAngle={-45}
-      >
-        <RadialBar minAngle={15} background clockWise dataKey="value" />
-      </RadialBarChart>
-    </ResponsiveContainer>
-    <NumericValue
-      className={styles.chartLabel}
-      value={value}
-      append="%"
-      caption={caption}
-    />
-  </div>
-)
-
 const PlaceholderCard = ({ title, value, description }) => (
   <Card>
     <h2>{title}</h2>
-    <RadialChart value={value} caption={title} />
+    <PerformanceChart value={value} caption={title} />
     <p>{description}</p>
     <Button variant="contained" disabled>
       Browse
@@ -87,7 +57,7 @@ const DataStatisticsCard = ({
 )
 
 const DepositingCard = ({ chartData, complianceLevel }) => {
-  const { title, description, action } = depositing
+  const { title, description, action } = texts.depositing
   const loading = chartData == null && complianceLevel == null
   const content =
     !loading && chartData && chartData.length > 0 ? (
@@ -114,9 +84,44 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
   )
 }
 
+const formatPercent = (number, precision = 2) => `${number.toFixed(precision)}`
+
+const useDefault = (value, substitute = null) =>
+  value == null ||
+  value === Infinity ||
+  value === -Infinity ||
+  Number.isNaN(value)
+    ? substitute
+    : value
+
+const DOICard = ({ doiCount, outputsCount, enrichmentSize }) => {
+  const { title, numberCaption, action } = texts.doi
+  return (
+    <Card>
+      <h2>{title}</h2>
+      <PerformanceChart
+        value={useDefault((doiCount / outputsCount) * 100, '🔁')}
+        increase={useDefault((enrichmentSize / doiCount) * 100)}
+        caption={numberCaption}
+      />
+      {enrichmentSize > 0 && (
+        <p>
+          We can enrich you DOI coverage by{' '}
+          {formatPercent((enrichmentSize / doiCount) * 100)}%.
+        </p>
+      )}
+      <Button variant="contained" href="doi" tag="a">
+        {action}
+      </Button>
+    </Card>
+  )
+}
+
 const DashboardView = ({
   metadataCount,
   fullTextCount,
+  doiCount,
+  doiEnricmentSize,
   timeLagData,
   isTimeLagDataLoading,
   complianceLevel,
@@ -128,7 +133,6 @@ const DashboardView = ({
     {...restProps}
   >
     <h1 className="sr-only">Overview</h1>
-
     <DataStatisticsCard
       metadataCount={metadataCount}
       fullTextCount={fullTextCount}
@@ -137,8 +141,11 @@ const DashboardView = ({
       chartData={isTimeLagDataLoading ? null : timeLagData}
       complianceLevel={isTimeLagDataLoading ? null : complianceLevel}
     />
-
-    <PlaceholderCard title="DOIs" value={14.2} />
+    <DOICard
+      outputsCount={metadataCount}
+      doiCount={doiCount}
+      enrichmentSize={doiEnricmentSize}
+    />
     <PlaceholderCard title="ORCiDs" value={5.8} />
   </main>
 )
@@ -167,6 +174,8 @@ const Dashboard = ({ store, ...restProps }) => (
     )}
     isTimeLagDataLoading={store.depositDates.isRetrieveDepositDatesInProgress}
     complianceLevel={store.depositDates.complianceLevel}
+    doiCount={store.doi.originCount}
+    doiEnricmentSize={store.doi.enrichmentSize}
     {...restProps}
   />
 )
