@@ -15,6 +15,11 @@ const config = [
     icon: 'calendar-check',
   },
   {
+    id: 'dois',
+    path: 'dois',
+    icon: 'barcode',
+  },
+  {
     id: 'plugins',
     path: 'plugins',
     icon: 'puzzle',
