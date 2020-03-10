@@ -4,6 +4,7 @@ import { action, computed, observable } from 'mobx'
 import { Pages } from './helpers/pages'
 
 import apiRequest from 'api'
+import { NotFoundError } from 'api/errors'
 
 class DepositDates {
   @observable isExportInProgress = false
@@ -57,8 +58,8 @@ class DepositDates {
         true
       ).promise
       this.timeLagData = data
-    } catch (e) {
-      if (e.status !== 404) throw e
+    } catch (error) {
+      if (!(error instanceof NotFoundError)) throw error
     } finally {
       this.isRetrieveDepositDatesInProgress = false
     }
@@ -89,9 +90,9 @@ class DepositDates {
         .promise
       const length = headers.get('Collection-Length')
       this.depositDatesCount = Number.parseInt(length, 10) || null
-    } catch (e) {
-      if (e.status === 404) this.isExportDisabled = true
-      else throw e
+    } catch (error) {
+      if (error instanceof NotFoundError) this.isExportDisabled = true
+      else throw error
     }
   }
 }

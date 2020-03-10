@@ -2,8 +2,9 @@ import getOrder from '../order'
 import Page from './page'
 import invalidatePreviousRequests from '../invalidatePreviousRequests'
 
-import { LinkedList } from 'utils/linkedList'
 import apiRequest from 'api'
+import { NotFoundError } from 'api/errors'
+import { LinkedList } from 'utils/linkedList'
 import { CancelablePromise } from 'utils/promise'
 
 const PAGE_SIZE = 100
@@ -75,7 +76,7 @@ class Pages {
           resolve()
         },
         reason => {
-          if (reason.status === 404) {
+          if (reason instanceof NotFoundError) {
             const page = new Page([], {
               searchTerm: this.#searchTerm,
               order,

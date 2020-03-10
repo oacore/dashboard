@@ -3,11 +3,12 @@ import NextApp from 'next/app'
 import { withRouter } from 'next/router'
 import { autorun } from 'mobx'
 
-import { getLoginPage } from '../../config'
-import Route from './route'
-
 import '@oacore/design/lib/index.css'
 
+import Route from './route'
+import { getLoginPage } from '../../config'
+
+import { UnauthorizedError } from 'api/errors'
 import logPageView from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
@@ -76,8 +77,16 @@ class App extends NextApp {
     }
   }
 
-  redirectToLogin = () => {
-    window.location.replace(getLoginPage())
+  redirectToLogin = (path = false) => {
+    window.location.replace(getLoginPage(path))
+  }
+
+  handlePromiseRejection = event => {
+    if (event.reason instanceof UnauthorizedError) {
+      this.redirectToLogin(true)
+      // Don't report to console
+      event.preventDefault()
+    }
   }
 
   reflectStoreToRoute() {
@@ -96,6 +105,7 @@ class App extends NextApp {
     const store = initStore()
     const { router } = this.props
     router.events.on('routeChangeComplete', this.handleRouteChange.bind(this))
+    window.addEventListener('unhandledrejection', this.handlePromiseRejection)
 
     // Assumes store object is always the same
     this.store = store
@@ -121,6 +131,10 @@ class App extends NextApp {
   componentWillUnmount() {
     const { router } = this.props
     router.events.off('routeChangeComplete', this.handleRouteChange)
+    window.removeEventListener(
+      'unhandledrejection',
+      this.handlePromiseRejection
+    )
   }
 
   componentDidCatch(error, errorInfo) {
@@ -134,6 +148,9 @@ class App extends NextApp {
 
       Sentry.captureException(error)
     })
+
+    if (error instanceof UnauthorizedError)
+      window.location.replace(getLoginPage(true))
   }
 
   handleNavigation = event => {
