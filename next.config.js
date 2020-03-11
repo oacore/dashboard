@@ -120,6 +120,7 @@ const nextConfig = {
       'utils': path.join(__dirname, 'utils'),
       'store': path.join(__dirname, 'store'),
       'api': path.join(__dirname, 'api'),
+      'config': path.join(__dirname, 'config.js'),
       '@sentry/node': config.isServer ? '@sentry/node' : '@sentry/browser',
     })
 

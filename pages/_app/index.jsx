@@ -6,8 +6,8 @@ import { autorun } from 'mobx'
 import '@oacore/design/lib/index.css'
 
 import Route from './route'
-import { getLoginPage } from '../../config'
 
+import { getLoginPage } from 'config'
 import { UnauthorizedError } from 'api/errors'
 import logPageView from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
@@ -77,13 +77,13 @@ class App extends NextApp {
     }
   }
 
-  redirectToLogin = (path = false) => {
+  redirectToLogin = path => {
     window.location.replace(getLoginPage(path))
   }
 
   handlePromiseRejection = event => {
     if (event.reason instanceof UnauthorizedError) {
-      this.redirectToLogin(true)
+      this.redirectToLogin(window.location.href)
       // Don't report to console
       event.preventDefault()
     }
@@ -150,7 +150,7 @@ class App extends NextApp {
     })
 
     if (error instanceof UnauthorizedError)
-      window.location.replace(getLoginPage(true))
+      window.location.replace(getLoginPage(window.location.href))
   }
 
   handleNavigation = event => {

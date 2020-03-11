@@ -3,10 +3,8 @@ export const API_URL =
     ? 'https://api.core.ac.uk/internal'
     : 'https://api.dev.core.ac.uk/internal'
 
-export const getLoginPage = (fullPath = false) =>
+export const getLoginPage = (path = window.location.origin) =>
   new URL(
-    `/test/login?continue=${
-      fullPath ? window.location.href : window.location.origin
-    }`,
+    `/test/login?continue=${encodeURIComponent(path)}`,
     process.env.NODE_ENV === 'production' ? undefined : API_URL
   ).toString()
