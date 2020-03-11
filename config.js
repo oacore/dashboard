@@ -3,9 +3,6 @@ export const API_URL =
     ? 'https://api.core.ac.uk/internal'
     : 'https://api.dev.core.ac.uk/internal'
 
-export const LOGIN_URL =
-  process.env.NODE_ENV === 'production' ? '/login.html' : '/test/login'
-
 export const getLoginPage = (fullPath = false) =>
   new URL(
     `/test/login?continue=${
