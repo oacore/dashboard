@@ -23,13 +23,19 @@ process.on('uncaughtException', err => {
   Sentry.captureException(err)
 })
 
-const handleRouteChange = url => {
-  logPageView(url)
-}
-
 class App extends NextApp {
   state = {
     isAuthorized: false,
+  }
+
+  handleRouteChange(url) {
+    logPageView(url)
+    const { dataProvider, activity } = new Route(url)
+
+    if (dataProvider) {
+      this.store.changeDataProvider(dataProvider)
+      this.store.changeActivity(activity)
+    }
   }
 
   static async getInitialProps({ Component, ctx }) {
@@ -57,7 +63,9 @@ class App extends NextApp {
           // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
           "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
           `connect-src 'self' *.core.ac.uk core.ac.uk sentry.io *.google-analytics.com ${
-            process.env.NODE_ENV !== 'production' ? 'localhost:*' : ''
+            process.env.NODE_ENV !== 'production'
+              ? 'localhost:* 127.0.0.1:*'
+              : ''
           }`,
         ].join(';')
       )
@@ -76,21 +84,18 @@ class App extends NextApp {
     const { store } = this
     const { router } = this.props
 
-    if (store == null) return
-
     const route = new Route({
       dataProvider: store.dataProvider?.id,
       activity: store.activity?.path,
     })
 
-    // TODO: This probably should be under condition
-    router.push(route.href, route.as)
+    if (route.as !== window.location.pathname) router.push(route.href, route.as)
   }
 
   async componentDidMount() {
     const store = initStore()
     const { router } = this.props
-    router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on('routeChangeComplete', this.handleRouteChange.bind(this))
 
     // Assumes store object is always the same
     this.store = store
@@ -115,7 +120,7 @@ class App extends NextApp {
 
   componentWillUnmount() {
     const { router } = this.props
-    router.events.off('routeChangeComplete', handleRouteChange)
+    router.events.off('routeChangeComplete', this.handleRouteChange)
   }
 
   componentDidCatch(error, errorInfo) {
@@ -168,7 +173,7 @@ class App extends NextApp {
       <GlobalProvider store={store}>
         <Application
           dataProvider={store.dataProvider}
-          activity={store.activity.path}
+          activity={store.activity.id}
           onClick={this.handleNavigation}
         >
           <Component {...pageProps} />

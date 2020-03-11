@@ -4,30 +4,26 @@ import styles from './styles.css'
 
 import { Icon, Drawer } from 'design'
 import { navigation } from 'texts'
+import activities from 'store/activities'
 
-const toUrl = value => (value === 'index' ? '.' : `./${value}`)
-const toIcon = value =>
-  `/design/icons.svg#${
-    {
-      'overview': 'dashboard',
-      'content': 'document',
-      'deposit-dates': 'calendar-check',
-      'plugins': 'puzzle',
-    }[value]
-  }`
+const toUrl = (value, dataProvider) =>
+  value === 'index' ? `./` : `/data-providers/${dataProvider}/${value}`
+const toIcon = value => `/design/icons.svg#${activities.get(value).icon}`
 
-const ActivitySelect = ({ children, value }) => (
-  <Drawer.List>
-    {React.Children.map(children, element =>
-      React.cloneElement(element, {
-        selected: element.props.value === value,
-      })
-    )}
-  </Drawer.List>
-)
+const ActivitySelect = ({ children }) => <Drawer.List>{children}</Drawer.List>
 
-const ActivitySelectOption = ({ children, value, selected }) => (
-  <Drawer.Item className={styles[value]} href={toUrl(value)} active={selected}>
+const ActivitySelectOption = ({
+  children,
+  value,
+  selected,
+  path,
+  dataProvider,
+}) => (
+  <Drawer.Item
+    className={styles[value]}
+    href={toUrl(path, dataProvider)}
+    active={selected}
+  >
     {children || (
       <>
         <Icon

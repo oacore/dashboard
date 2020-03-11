@@ -80,6 +80,8 @@ class Root {
   @action changeActivity(url) {
     const activity =
       activities.find(({ path }) => url === path) || activities.get('overview')
+
+    if (this.activity?.path === url) return
     this.activity = activity
   }
 
