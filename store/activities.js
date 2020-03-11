@@ -29,10 +29,12 @@ const config = [
       },
     ],
   },
-].flatMap(x => [x, ...(x.children || [])])
+]
 
 const configMap = new Map(config.map(item => [item.id, item]))
 
 config.get = (...args) => configMap.get(...args)
+config.find = (...args) =>
+  config.flatMap(x => [x, ...(x.children || [])]).find(...args)
 
 export default config
