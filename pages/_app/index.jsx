@@ -6,6 +6,7 @@ import { autorun } from 'mobx'
 import '@oacore/design/lib/index.css'
 
 import Route from './route'
+import styles from './index.css'
 
 import { getLoginPage } from 'config'
 import { UnauthorizedError } from 'api/errors'
@@ -13,8 +14,6 @@ import logPageView from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 import { Sentry } from 'utils/sentry'
-
-import './index.css'
 
 process.on('unhandledRejection', err => {
   Sentry.captureException(err)
@@ -184,7 +183,15 @@ class App extends NextApp {
     const { isAuthorized } = this.state
     const { Component, pageProps } = this.props
 
-    if (store == null || !isAuthorized) return null
+    if (store == null || !isAuthorized) {
+      return (
+        <iframe
+          title="Login Form"
+          src="/login.html?loading"
+          className={styles.loginIframe}
+        />
+      )
+    }
 
     return (
       <GlobalProvider store={store}>
