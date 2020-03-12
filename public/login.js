@@ -5,6 +5,11 @@ function login(e) {
   window.dispatchEvent(new Event('login-in-processing'))
 }
 
+function addLoadingAnimation() {
+  const form = document.getElementById('login-form')
+  form.classList.add('loading')
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search)
   if (urlParams.has('reason')) {
@@ -12,15 +17,10 @@ window.addEventListener('DOMContentLoaded', () => {
     message.innerHTML = 'The username or password you entered is incorrect.'
   }
 
+  if (urlParams.has('loading')) addLoadingAnimation()
+
   const form = document.getElementById('login-form')
   form.addEventListener('submit', login)
 })
 
-window.addEventListener(
-  'login-in-processing',
-  () => {
-    const form = document.getElementById('login-form')
-    form.classList.add('loading')
-  },
-  false
-)
+window.addEventListener('login-in-processing', addLoadingAnimation, false)

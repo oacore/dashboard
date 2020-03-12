@@ -28,11 +28,6 @@ class App extends NextApp {
     isAuthorized: false,
   }
 
-  constructor(props) {
-    super(props)
-    this.loginIframe = React.createRef()
-  }
-
   handleRouteChange(url) {
     logPageView(url)
     const { dataProvider, activity } = new Route(url)
@@ -192,14 +187,8 @@ class App extends NextApp {
       return (
         <iframe
           title="Login Form"
-          ref={this.loginIframe}
-          src="/login.html"
+          src="/login.html?loading"
           className={styles.loginIframe}
-          onLoad={() => {
-            this.loginIframe.current.contentWindow.dispatchEvent(
-              new Event('login-in-processing')
-            )
-          }}
         />
       )
     }
