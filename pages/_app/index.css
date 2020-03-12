@@ -3,3 +3,8 @@ body,
 :global(#__next) {
   height: 100%;
 }
+
+.login-iframe {
+  width: 100%;
+  height: 100%;
+}
