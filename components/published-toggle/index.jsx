@@ -19,8 +19,13 @@ const PublishedToggle = ({
 
   const handleChange = useCallback(async event => {
     const isVisible = event.target.checked
-    await onVisibilityChanged(isVisible)
-    toggleChecked(isVisible)
+    try {
+      toggleChecked(isVisible)
+      await onVisibilityChanged(isVisible)
+    } catch (error) {
+      toggleChecked(!isVisible)
+      throw error
+    }
   }, [])
 
   return (
