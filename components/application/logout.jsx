@@ -6,7 +6,7 @@ import styles from './logout.css'
 import { withGlobalStore } from 'store'
 
 const LOGOUT_URL = `https://api.dev.core.ac.uk/logout?continue=${encodeURIComponent(
-  typeof window !== 'undefined' ? `${window.location.origin}/logout.html` : ''
+  typeof window !== 'undefined' ? `${window.location.origin}/?logout` : ''
 )}`
 
 const Logout = ({ store }) => {

@@ -38,6 +38,11 @@ window.addEventListener('DOMContentLoaded', () => {
     message.innerHTML = 'The username or password you entered is incorrect.'
   }
 
+  if (urlParams.has('logout')) {
+    const message = document.getElementById('info-message')
+    message.innerHTML = 'You have been successfully logged out. Log in again.'
+  }
+
   if (urlParams.has('loading')) addLoadingAnimation()
 
   const form = document.getElementById('login-form')

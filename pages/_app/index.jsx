@@ -196,14 +196,21 @@ class App extends NextApp {
     return null
   }
 
-  Login = () => (
-    <iframe
-      ref={this.loginIframeRef}
-      title="Login Form"
-      src="/login.html?loading"
-      className={styles.loginIframe}
-    />
-  )
+  Login = () => {
+    if (typeof window === 'undefined') return null
+
+    const param =
+      window.location.search.indexOf('logout') >= 0 ? 'logout' : 'loading'
+
+    return (
+      <iframe
+        ref={this.loginIframeRef}
+        title="Login Form"
+        src={`/login.html?${param}`}
+        className={styles.loginIframe}
+      />
+    )
+  }
 
   render() {
     const { store } = this

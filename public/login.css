@@ -55,6 +55,11 @@ button:hover {
   border: 1px solid #8e0000;
 }
 
+.message-info {
+  background: #8bc34a;
+  border: 1px solid #5a9216;
+}
+
 .message:empty {
   display: none;
 }
