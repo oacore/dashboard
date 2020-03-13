@@ -26,6 +26,7 @@ process.on('uncaughtException', err => {
 class App extends NextApp {
   state = {
     isAuthorized: false,
+    loginInProcess: false,
   }
 
   loginIframeRef = React.createRef()
@@ -109,10 +110,10 @@ class App extends NextApp {
 
   async fetchUser() {
     try {
+      this.setState({ loginInProcess: true })
       const { dataProvider, activity } = new Route(window.location.pathname)
       await this.store.init(dataProvider, activity)
       this.setState({ isAuthorized: true })
-
       Sentry.configureScope(scope => {
         scope.setUser({
           id: this.store.user.id,
@@ -123,10 +124,13 @@ class App extends NextApp {
       // TODO: Do some check before redirect
       this.setState({ isAuthorized: false })
     } finally {
+      this.setState({
+        loginInProcess: false,
+      })
       if (this.loginIframeRef.current) {
         this.loginIframeRef.current.contentWindow.postMessage(
           'login-finished',
-          '*'
+          window.location.origin
         )
       }
     }
@@ -208,6 +212,15 @@ class App extends NextApp {
         title="Login Form"
         src={`/login.html?${param}`}
         className={styles.loginIframe}
+        onLoad={() => {
+          const { isAuthorized, loginInProcess } = this.state
+          if (!isAuthorized && !loginInProcess) {
+            this.loginIframeRef.current.contentWindow.postMessage(
+              'login-finished',
+              window.location.origin
+            )
+          }
+        }}
       />
     )
   }
