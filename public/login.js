@@ -1,13 +1,34 @@
-function login(e) {
-  e.target.action = `https://api.core.ac.uk/login_check?continue=${encodeURIComponent(
-    window.location.origin
-  )}`
-  window.dispatchEvent(new Event('login-in-processing'))
+function login(event) {
+  event.preventDefault()
+  window.dispatchEvent(new Event('login-processing'))
+  const formData = new FormData(event.target)
+  const data = new URLSearchParams(formData)
+  fetch('https://api.dev.core.ac.uk/login_check', {
+    method: 'POST',
+    body: data,
+    credentials: 'include',
+  }).finally(() => {
+    if (window.location !== window.parent.location) {
+      // The page is in an iframe
+      window.parent.postMessage('login-processing', window.location.origin)
+    } else window.location = '/'
+  })
+
+  return false
 }
 
 function addLoadingAnimation() {
   const form = document.getElementById('login-form')
   form.classList.add('loading')
+}
+
+function removeLoadingAnimation() {
+  const form = document.getElementById('login-form')
+  form.classList.remove('loading')
+}
+
+function handlePostMessage(event) {
+  if (event.data === 'login-finished') removeLoadingAnimation()
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -23,4 +44,6 @@ window.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', login)
 })
 
-window.addEventListener('login-in-processing', addLoadingAnimation, false)
+window.addEventListener('login-processing', addLoadingAnimation)
+window.addEventListener('login-finished', removeLoadingAnimation)
+window.addEventListener('message', handlePostMessage)

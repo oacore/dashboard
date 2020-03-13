@@ -32,7 +32,7 @@ const Application = ({ children, dataProvider, activity, ...restProps }) => (
           </ActivitySelect>
         )}
       </SideBar>
-      <Main>{children}</Main>
+      {children && <Main>{children}</Main>}
     </Container>
   </>
 )
