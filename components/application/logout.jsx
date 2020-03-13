@@ -10,6 +10,7 @@ const LOGOUT_URL = `https://api.dev.core.ac.uk/logout?continue=${encodeURICompon
 )}`
 
 const Logout = ({ store }) => {
+  if (!store.user) return null
   const name = store.user.email
 
   return (

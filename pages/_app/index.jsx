@@ -28,7 +28,9 @@ class App extends NextApp {
     isAuthorized: false,
   }
 
-  handleRouteChange(url) {
+  loginIframeRef = React.createRef()
+
+  handleRouteChange = url => {
     logPageView(url)
     const { dataProvider, activity } = new Route(url)
 
@@ -88,7 +90,12 @@ class App extends NextApp {
     }
   }
 
-  reflectStoreToRoute() {
+  handlePostMessage = async event => {
+    if (event.data === 'login-processing' && !this.state.isAuthorized)
+      await this.fetchUser()
+  }
+
+  reflectStoreToRoute = () => {
     const { store } = this
     const { router } = this.props
 
@@ -100,31 +107,42 @@ class App extends NextApp {
     if (route.as !== window.location.pathname) router.push(route.href, route.as)
   }
 
-  async componentDidMount() {
-    const store = initStore()
-    const { router } = this.props
-    router.events.on('routeChangeComplete', this.handleRouteChange.bind(this))
-    window.addEventListener('unhandledrejection', this.handlePromiseRejection)
-
-    // Assumes store object is always the same
-    this.store = store
-    this.disposeRouter = autorun(this.reflectStoreToRoute.bind(this))
-
+  async fetchUser() {
     try {
       const { dataProvider, activity } = new Route(window.location.pathname)
-      await store.init(dataProvider, activity)
+      await this.store.init(dataProvider, activity)
       this.setState({ isAuthorized: true })
 
       Sentry.configureScope(scope => {
         scope.setUser({
-          id: store.user.id,
-          email: store.user.email,
+          id: this.store.user.id,
+          email: this.store.user.email,
         })
       })
     } catch (unauthorizedError) {
       // TODO: Do some check before redirect
-      this.redirectToLogin()
+      this.setState({ isAuthorized: false })
+    } finally {
+      if (this.loginIframeRef.current) {
+        this.loginIframeRef.current.contentWindow.postMessage(
+          'login-finished',
+          '*'
+        )
+      }
     }
+  }
+
+  async componentDidMount() {
+    const store = initStore()
+    const { router } = this.props
+    router.events.on('routeChangeComplete', this.handleRouteChange)
+    window.addEventListener('unhandledrejection', this.handlePromiseRejection)
+    window.addEventListener('message', this.handlePostMessage)
+
+    // Assumes store object is always the same
+    this.store = store
+    autorun(this.reflectStoreToRoute)
+    await this.fetchUser()
   }
 
   componentWillUnmount() {
@@ -178,18 +196,31 @@ class App extends NextApp {
     return null
   }
 
+  Login = () => (
+    <iframe
+      ref={this.loginIframeRef}
+      title="Login Form"
+      src="/login.html?loading"
+      className={styles.loginIframe}
+    />
+  )
+
   render() {
     const { store } = this
     const { isAuthorized } = this.state
     const { Component, pageProps } = this.props
+    const { Login } = this
 
     if (store == null || !isAuthorized) {
       return (
-        <iframe
-          title="Login Form"
-          src="/login.html?loading"
-          className={styles.loginIframe}
-        />
+        <>
+          <Application
+            dataProvider={undefined}
+            activity="overview"
+            onClick={this.handleNavigation}
+          />
+          <Login />
+        </>
       )
     }
 
