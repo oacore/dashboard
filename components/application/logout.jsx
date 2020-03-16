@@ -1,11 +1,15 @@
 import React from 'react'
 import { AppBar } from '@oacore/design'
 
+import { API_URL } from '../../config'
 import styles from './logout.css'
 
 import { withGlobalStore } from 'store'
 
-const LOGOUT_URL = `https://api.dev.core.ac.uk/logout?continue=${encodeURIComponent(
+const LOGOUT_URL = `${API_URL.replace(
+  '/internal',
+  ''
+)}/logout?continue=${encodeURIComponent(
   typeof window !== 'undefined' ? `${window.location.origin}/?logout` : ''
 )}`
 
