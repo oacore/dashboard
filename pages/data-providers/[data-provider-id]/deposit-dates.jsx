@@ -1,5 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs'
+import { classNames } from '@oacore/design/lib/utils'
 
 import { withGlobalStore } from 'store'
 import Markdown from 'components/markdown'
@@ -109,14 +110,25 @@ const DepositDates = ({
           count: store.depositDates.depositDatesCount || '',
         })}
       </p>
-      <Button
-        variant="contained"
-        href={`${API_URL}${store.depositDates.datesUrl}?accept=text/csv`}
-        tag="a"
-        download
+      <span
+        className={classNames.use({
+          [styles.exportButtonDisabled]: store.depositDates.isExportDisabled,
+        })}
       >
-        {texts.exporting.download}
-      </Button>
+        <Button
+          variant="contained"
+          href={`${API_URL}${store.depositDates.datesUrl}?accept=text/csv`}
+          tag="a"
+          download
+          className={classNames
+            .use({
+              disabled: store.depositDates.isExportDisabled,
+            })
+            .toString()}
+        >
+          {texts.exporting.download}
+        </Button>
+      </span>
     </Card>
 
     <Card className={styles.depositTimeLag} tag="section">
