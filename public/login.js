@@ -33,14 +33,22 @@ function handlePostMessage(event) {
 
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search)
-  if (urlParams.has('reason')) {
-    const message = document.getElementById('error-message')
-    message.innerHTML = 'The username or password you entered is incorrect.'
-  }
+  const reason = urlParams.get('reason')
+  if (reason) {
+    const message = document.getElementById('message')
 
-  if (urlParams.has('logout')) {
-    const message = document.getElementById('info-message')
-    message.innerHTML = 'You have been successfully logged out. Log in again.'
+    switch (reason) {
+      case 'wrong_credentials':
+        message.innerHTML = 'The username or password you entered is incorrect.'
+        message.classList.add('message-error')
+        break
+      case 'logout':
+        message.innerHTML =
+          'You have been successfully logged out. Log in again.'
+        message.classList.add('message-info')
+        break
+      default:
+    }
   }
 
   if (urlParams.has('loading')) addLoadingAnimation()
