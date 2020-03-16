@@ -110,11 +110,11 @@ const DepositDates = ({
       </p>
       <Button
         variant="contained"
-        onClick={() => store.depositDates.exportCsv()}
-        disabled={
-          store.depositDates.isExportInProgress ||
-          store.depositDates.isExportDisabled
+        href={
+          !store.depositDates.isExportDisabled && store.depositDates.datesUrl
         }
+        download={!store.depositDates.isExportDisabled}
+        disabled={store.depositDates.isExportDisabled}
       >
         {texts.exporting.download}
       </Button>

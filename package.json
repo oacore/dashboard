@@ -51,7 +51,6 @@
     "d3-array": "^2.4.0",
     "d3-collection": "^1.0.7",
     "dayjs": "^1.8.21",
-    "downloadjs": "^1.4.7",
     "extract-css-chunks-webpack-plugin": "^4.7.4",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",

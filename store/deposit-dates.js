@@ -1,14 +1,12 @@
-import download from 'downloadjs'
 import { action, computed, observable } from 'mobx'
 
 import { Pages } from './helpers/pages'
 
+import { API_URL } from 'config'
 import apiRequest from 'api'
 import { NotFoundError } from 'api/errors'
 
 class DepositDates {
-  @observable isExportInProgress = false
-
   @observable isExportDisabled = false
 
   @observable depositDatesCount = 0
@@ -22,7 +20,7 @@ class DepositDates {
   constructor(baseUrl) {
     const datesUrl = `${baseUrl}/public-release-dates`
     this.publicReleaseDates = new Pages(`${baseUrl}/public-release-dates`)
-    this.datesUrl = datesUrl
+    this.datesUrl = `${API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
 
     this.retrieveDepositTimeLag()
@@ -56,21 +54,6 @@ class DepositDates {
       if (!(error instanceof NotFoundError)) throw error
     } finally {
       this.isRetrieveDepositDatesInProgress = false
-    }
-  }
-
-  @action
-  exportCsv = async () => {
-    this.isExportInProgress = true
-    try {
-      const { data } = await apiRequest(this.datesUrl, {
-        method: 'GET',
-        searchParams: { accept: 'text/csv' },
-        headers: { Accept: 'text/csv' },
-      })
-      await download(data, 'deposit-dates.csv', 'text/csv')
-    } finally {
-      this.isExportInProgress = false
     }
   }
 
