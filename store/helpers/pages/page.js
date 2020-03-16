@@ -11,7 +11,7 @@ class Page {
   }
 
   get isLast() {
-    return this.data.length < this.maxSize
+    return this.data.length === 0
   }
 }
 
