@@ -1,4 +1,3 @@
-import download from 'downloadjs'
 import { action, computed, observable } from 'mobx'
 
 import { Pages } from './helpers/pages'
@@ -7,8 +6,6 @@ import apiRequest from 'api'
 import { NotFoundError } from 'api/errors'
 
 class DepositDates {
-  @observable isExportInProgress = false
-
   @observable isExportDisabled = false
 
   @observable depositDatesCount = 0
@@ -56,21 +53,6 @@ class DepositDates {
       if (!(error instanceof NotFoundError)) throw error
     } finally {
       this.isRetrieveDepositDatesInProgress = false
-    }
-  }
-
-  @action
-  exportCsv = async () => {
-    this.isExportInProgress = true
-    try {
-      const { data } = await apiRequest(this.datesUrl, {
-        method: 'GET',
-        searchParams: { accept: 'text/csv' },
-        headers: { Accept: 'text/csv' },
-      })
-      await download(data, 'deposit-dates.csv', 'text/csv')
-    } finally {
-      this.isExportInProgress = false
     }
   }
 
