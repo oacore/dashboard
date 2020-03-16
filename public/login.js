@@ -3,7 +3,7 @@ function login(event) {
   window.dispatchEvent(new Event('login-processing'))
   const formData = new FormData(event.target)
   const data = new URLSearchParams(formData)
-  fetch('https://api.dev.core.ac.uk/login_check', {
+  fetch('https://api.core.ac.uk/login_check', {
     method: 'POST',
     body: data,
     credentials: 'include',
