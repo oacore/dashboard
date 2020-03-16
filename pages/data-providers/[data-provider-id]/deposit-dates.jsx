@@ -8,6 +8,7 @@ import TimeLagChart from 'components/time-lag-chart'
 import { Button, Card, Label } from 'design'
 import * as texts from 'texts/depositing'
 import DocumentLink from 'components/document-link'
+import { API_URL } from 'config'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
@@ -110,11 +111,9 @@ const DepositDates = ({
       </p>
       <Button
         variant="contained"
-        onClick={() => store.depositDates.exportCsv()}
-        disabled={
-          store.depositDates.isExportInProgress ||
-          store.depositDates.isExportDisabled
-        }
+        href={`${API_URL}${store.depositDates.datesUrl}?accept=text/csv`}
+        tag="a"
+        download
       >
         {texts.exporting.download}
       </Button>
