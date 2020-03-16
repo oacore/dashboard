@@ -48,7 +48,7 @@ class Pages {
     const order = getOrder(this.#columnOrder)
 
     const params = {
-      from: this.#pageNumber * PAGE_SIZE,
+      from: this.#pages.length,
       size: PAGE_SIZE,
     }
     if (order) params.orderBy = order
