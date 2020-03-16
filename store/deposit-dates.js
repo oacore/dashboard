@@ -2,6 +2,7 @@ import { action, computed, observable } from 'mobx'
 
 import { Pages } from './helpers/pages'
 
+import { API_URL } from 'config'
 import apiRequest from 'api'
 import { NotFoundError } from 'api/errors'
 
@@ -19,7 +20,7 @@ class DepositDates {
   constructor(baseUrl) {
     const datesUrl = `${baseUrl}/public-release-dates`
     this.publicReleaseDates = new Pages(`${baseUrl}/public-release-dates`)
-    this.datesUrl = datesUrl
+    this.datesUrl = `${API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
 
     this.retrieveDepositTimeLag()
