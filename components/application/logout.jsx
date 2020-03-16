@@ -10,7 +10,9 @@ const LOGOUT_URL = `${API_URL.replace(
   '/internal',
   ''
 )}/logout?continue=${encodeURIComponent(
-  typeof window !== 'undefined' ? `${window.location.origin}/?logout` : ''
+  typeof window !== 'undefined'
+    ? `${window.location.origin}/?reason=logout`
+    : ''
 )}`
 
 const Logout = ({ store }) => {

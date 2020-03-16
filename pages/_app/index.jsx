@@ -202,7 +202,7 @@ class App extends NextApp {
 
   Login = () => {
     const { router } = this.props
-    const param = 'logout' in router.query ? 'logout' : 'loading'
+    const param = router.query.reason === 'logout' ? 'reason=logout' : 'loading'
 
     return (
       <iframe
