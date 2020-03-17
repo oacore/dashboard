@@ -12,13 +12,11 @@ class Works extends Pages {
   @action
   async changeVisibility(rowId, isVisible) {
     const [pageNumber, workId] = rowId.split('-', 2)
-    await apiRequest(
-      `/works/${workId}`, // TODO: consider moving this endpoint to /data-providers/works/
-      'PATCH',
-      {},
-      {},
-      { disabled: !isVisible }
-    ).promise
+    // TODO: consider moving this endpoint to /data-providers/works/
+    await apiRequest(`/works/${workId}`, {
+      method: 'PATCH',
+      body: { disabled: !isVisible },
+    })
 
     const page = this.getPageByNumber(parseInt(pageNumber, 10))
     const row = page.data.find(r => r.originalId === workId)

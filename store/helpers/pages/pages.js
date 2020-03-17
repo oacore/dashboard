@@ -5,7 +5,6 @@ import invalidatePreviousRequests from '../invalidatePreviousRequests'
 import apiRequest from 'api'
 import { NotFoundError } from 'api/errors'
 import { LinkedList } from 'utils/linkedList'
-import { CancelablePromise } from 'utils/promise'
 
 const PAGE_SIZE = 100
 
@@ -29,7 +28,7 @@ class Pages {
   async slice(from, to) {
     while (this.#pages.length < to && !this.isLastPageLoaded)
       // eslint-disable-next-line no-await-in-loop
-      await this.load().promise
+      await this.load()
 
     return this.#pages.data.slice(from, to)
   }
@@ -44,7 +43,7 @@ class Pages {
   }
 
   @invalidatePreviousRequests
-  load() {
+  load(signal) {
     const order = getOrder(this.#columnOrder)
 
     const params = {
@@ -53,9 +52,10 @@ class Pages {
     }
     if (order) params.orderBy = order
     if (this.#searchTerm) params.q = this.#searchTerm
-    const request = apiRequest(this.url, 'GET', params, {})
-    const dataPromise = new Promise((resolve, reject) =>
-      request.promise.then(
+
+    const request = apiRequest(this.url, { searchParams: params, signal })
+    return new Promise((resolve, reject) =>
+      request.then(
         ({ data }) => {
           const page = new Page(
             data.map(e => ({
@@ -73,7 +73,7 @@ class Pages {
           this.#pageNumber += 1
           this.#pages.add(page)
           this.isLastPageLoaded = page.isLast
-          resolve()
+          resolve(page)
         },
         reason => {
           if (reason instanceof NotFoundError) {
@@ -91,10 +91,6 @@ class Pages {
         }
       )
     )
-
-    return new CancelablePromise(dataPromise, {
-      cancel: request.cancel,
-    })
   }
 
   getPageByNumber(pageNumber) {

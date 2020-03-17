@@ -88,14 +88,14 @@ class Root {
   @action
   async retrieveStatistics() {
     const url = `/data-providers/${this.dataProvider.id}/statistics`
-    const { data } = await apiRequest(url, 'GET', {}, {}).promise
+    const { data } = await apiRequest(url)
     Object.assign(this.statistics, data)
   }
 
   @action
   async retrievePluginConfig() {
     const url = `/data-providers/${this.dataProvider.id}/plugins`
-    const { data } = await apiRequest(url, 'GET', {}, {}).promise
+    const { data } = await apiRequest(url)
 
     data.forEach(plugin => {
       this.plugins[plugin.type] = plugin
