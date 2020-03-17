@@ -6,6 +6,7 @@ import '@oacore/design/lib/index.css'
 import './global.css'
 
 import { UnauthorizedError } from 'api/errors'
+import { AuthorizationError } from 'store/errors'
 import { logPageView } from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
@@ -68,7 +69,10 @@ class App extends NextApp {
   }
 
   handlePromiseRejection = (event) => {
-    if (event.reason instanceof UnauthorizedError) {
+    if (
+      event.reason instanceof AuthorizationError ||
+      event.reason instanceof UnauthorizedError
+    ) {
       this.setState({ isAuthorized: false })
       this.redirectToLogin(window.location.href)
       // Don't report to console
@@ -105,7 +109,7 @@ class App extends NextApp {
         this.setState({ isAuthorized: true })
       })
       .catch((error) => {
-        if (error instanceof UnauthorizedError) {
+        if (error instanceof AuthorizationError) {
           this.setState({ isAuthorized: false })
           this.redirectToLogin()
         } else throw error
@@ -133,7 +137,10 @@ class App extends NextApp {
       Sentry.captureException(error)
     })
 
-    if (error instanceof UnauthorizedError) {
+    if (
+      error instanceof AuthorizationError ||
+      error instanceof UnauthorizedError
+    ) {
       this.setState({ isAuthorized: false })
       this.redirectToLogin()
     }

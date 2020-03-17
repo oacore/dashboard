@@ -8,10 +8,15 @@ import DOI from './doi'
 import Issues from './issues'
 import { logTiming } from '../utils/analytics'
 import Organisation from './organisation'
+import { AccessError, AuthorizationError } from './errors'
 
 import apiRequest from 'api'
 
 class Root extends Store {
+  options = {
+    allowAnonymousAccess: false,
+  }
+
   constructor() {
     const request = async (url, options) => {
       this.requestsInProgress += 1
@@ -34,7 +39,7 @@ class Root extends Store {
     super(null, { request })
   }
 
-  @observable user = new User('/user', this.options)
+  @observable user = null
 
   @observable organisation = null
 
@@ -65,7 +70,7 @@ class Root extends Store {
 
   @computed
   get dataProviders() {
-    return this.user.dataProviders
+    return this.user?.dataProviders
   }
 
   @computed
@@ -75,11 +80,18 @@ class Root extends Store {
   }
 
   @action async init(dataProviderId) {
-    await this.user.init()
-    this.changeDataProvider(dataProviderId)
+    try {
+      this.user = new User()
+      await this.user.retrieve()
+    } catch (unauthorizedError) {
+      if (!this.options.allowAnonymousAccess)
+        throw new AuthorizationError('Anonymous users are not allowed')
+    }
 
     const organisationUrl = `/organisations/${this.user.organisationId}`
     this.organisation = new Organisation(organisationUrl, this.options)
+
+    this.changeDataProvider(dataProviderId)
   }
 
   @action changeDataProvider(id) {
@@ -103,7 +115,7 @@ class Root extends Store {
     if (dataProvider == null) {
       const userStr = `User#${this.user.id}`
       const dpStr = `DataProvider#${id}`
-      throw new Error(`${userStr} does not have access to the ${dpStr}`)
+      throw new AccessError(`${userStr} does not have access to the ${dpStr}`)
     }
 
     this.dataProvider = dataProvider
