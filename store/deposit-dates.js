@@ -50,8 +50,7 @@ class DepositDates {
   async retrieveDepositTimeLag() {
     this.isRetrieveDepositDatesInProgress = true
     try {
-      const { data } = await apiRequest(this.depositTimeLagUrl, 'GET', {}, {})
-        .promise
+      const { data } = await apiRequest(this.depositTimeLagUrl)
       this.timeLagData = data
     } catch (error) {
       if (!(error instanceof NotFoundError)) throw error
@@ -64,12 +63,11 @@ class DepositDates {
   exportCsv = async () => {
     this.isExportInProgress = true
     try {
-      const { data } = await apiRequest(
-        this.datesUrl,
-        'GET',
-        { accept: 'text/csv' },
-        { Accept: 'text/csv' }
-      ).promise
+      const { data } = await apiRequest(this.datesUrl, {
+        method: 'GET',
+        searchParams: { accept: 'text/csv' },
+        headers: { Accept: 'text/csv' },
+      })
       await download(data, 'deposit-dates.csv', 'text/csv')
     } finally {
       this.isExportInProgress = false
@@ -80,8 +78,7 @@ class DepositDates {
   loadDepositDatesCount = async () => {
     try {
       this.isExportDisabled = false
-      const { headers } = await apiRequest(this.datesUrl, 'HEAD', {}, {})
-        .promise
+      const { headers } = await apiRequest(this.datesUrl, { mehtod: 'HEAD' })
       const length = headers.get('Collection-Length')
       this.depositDatesCount = Number.parseInt(length, 10) || null
     } catch (error) {

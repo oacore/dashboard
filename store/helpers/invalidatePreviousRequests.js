@@ -1,20 +1,13 @@
-import { CancelablePromise } from 'utils/promise'
+export default function invalidate(target, propertyKey, descriptor) {
+  const { value: originalMethod } = descriptor
+  let controller
 
-export default function(target, propertyKey, descriptor) {
-  const requests = []
-  const originalMethod = descriptor.value
+  descriptor.value = function decorator(...args) {
+    if (controller) controller.abort()
+    controller =
+      typeof AbortController != 'undefined' ? new AbortController() : null
 
-  descriptor.value = function decorator(...arg) {
-    while (requests.length) {
-      const promise = requests.pop()
-      promise.cancelIfNotFulFilled()
-    }
-    const promise = originalMethod.apply(this, arg)
-    if (!(promise instanceof CancelablePromise))
-      throw new Error('invalidatePreviousRequests expected CancelablePromise')
-
-    requests.push(promise)
-    return promise
+    return originalMethod.call(this, ...args, controller?.signal)
   }
 
   return descriptor
