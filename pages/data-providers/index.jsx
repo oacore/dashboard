@@ -20,7 +20,7 @@ const AccessError = () => (
 // It's not a real list. It's a redirect at the moment
 const DataProviders = ({ store }) => {
   const { dataProviders } = store
-  const id = dataProviders && dataProviders[0].id
+  const id = dataProviders?.length && dataProviders[0].id
 
   useRedirect(id && '[data-provider-id]', `${id}`)
 
