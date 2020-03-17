@@ -8,10 +8,15 @@ import Works from './works'
 import DOI from './doi'
 import { logTiming } from '../utils/analytics'
 import Organisation from './organisation'
+import { AccessError, AuthorizationError } from './errors'
 
 import apiRequest from 'api'
 
 class Root extends Store {
+  options = {
+    allowAnonymousAccess: process.env.NODE_ENV !== 'production',
+  }
+
   constructor() {
     const request = async (url, options) => {
       this.requestsInProgress += 1
@@ -34,7 +39,7 @@ class Root extends Store {
     super(null, { request })
   }
 
-  @observable user = new User('/user', this.options)
+  @observable user = null
 
   @observable organisation = null
 
@@ -75,11 +80,20 @@ class Root extends Store {
   }
 
   @action async init(dataProviderId, activityPath) {
-    await this.user.init()
+    try {
+      this.user = new User()
+      await this.user.retrieve()
+    } catch (unauthorisedError) {
+      if (!this.options.allowAnonymousAccess)
+        throw new AuthorizationError('Anonymous users are not allowed')
+    }
+
     try {
       this.switchDataProvider(dataProviderId)
       this.changeActivity(activityPath)
     } catch (accessError) {
+      if (this.user.dataProviders.length === 0) throw accessError
+
       const fallbackId = this.user.dataProviders[0].id
       if (process.env.NODE_ENV !== 'production') {
         // eslint-disable-next-line no-console
@@ -96,16 +110,19 @@ class Root extends Store {
     )
   }
 
-  @action switchDataProvider(dataProviderStr) {
-    const dataProviderId = Number.parseInt(dataProviderStr, 10)
-    if (this.dataProvider && this.dataProvider.id === dataProviderId) return
-    const dataProvider = this.user.dataProviders.find(
-      ({ id }) => dataProviderId === id
-    )
+  @action switchDataProvider(dataProviderId) {
+    // We compare string ID to number ID
+    // since we do not know exactly what the type it comes from the API
+    // eslint-disable-next-line eqeqeq
+    const hasTargetId = ({ id }) => dataProviderId == id
 
+    // Probably a repeated request. No need to change
+    if (this.dataProvider != null && hasTargetId(this.dataProvider)) return
+
+    const dataProvider = this.dataProviders.find(hasTargetId)
     if (dataProvider == null) {
-      throw new Error(
-        `User ${this.user.id} does not have access to DataProvider ${dataProviderId}.`
+      throw new AccessError(
+        `${this.user} does not have access to DataProvider#${dataProviderId}.`
       )
     }
 
