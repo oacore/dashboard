@@ -13,47 +13,14 @@ import DocumentLink from 'components/document-link'
 // eslint-disable-next-line
 import styles from './deposit-dates.css'
 
-const tableConfig = {
-  columns: [
-    {
-      id: 'oai',
-      order: '',
-      display: 'OAI',
-      sortable: true,
-      className: styles.labelColumn,
-      render: (v, { isExpanded }) => (
-        <Label color="primary">{isExpanded ? v : v.split(':').pop()}</Label>
-      ),
-    },
-    {
-      id: 'title',
-      display: 'Title',
-      order: '',
-      className: styles.titleColumn,
-    },
-    {
-      id: 'authors',
-      display: 'Authors',
-      order: '',
-      getter: v => v.authors && v.authors.map(a => a.name).join(' '),
-      className: styles.authorsColumn,
-    },
-    {
-      id: 'publicationDate',
-      display: 'Publication date',
-      className: styles.depositDateColumn,
-      getter: v => dayjs(v.publicationDate),
-      render: v => v.format('DD/MM/YYYY'),
-    },
-    {
-      id: 'publicReleaseDate',
-      display: 'Deposit date',
-      order: 'desc',
-      className: styles.depositDateColumn,
-      getter: v => dayjs(v.publicReleaseDate),
-      render: v => v.format('DD/MM/YYYY'),
-    },
-  ],
+class OAIColumn extends Table.Column {
+  render() {
+    const {
+      context: { oai },
+    } = this.props
+
+    return <Label color="primary">{oai.split(':').pop()}</Label>
+  }
 }
 
 const SidebarContent = ({ context: { oai, originalId, authors, title } }) => (
@@ -140,10 +107,39 @@ const DepositDates = ({
       <Table
         key={store.dataProvider}
         title="Browse deposit dates"
-        config={tableConfig}
         pages={store.depositDates.publicReleaseDates}
         searchable
       >
+        <OAIColumn
+          id="oai"
+          display="OAI"
+          order=""
+          className={styles.labelColumn}
+        />
+        <Table.Column
+          id="title"
+          display="Title"
+          className={styles.titleColumn}
+        />
+        <Table.Column
+          id="authors"
+          display="Authors"
+          className={styles.authorsColumn}
+          getter={v => v.authors && v.authors.map(a => a.name).join(' ')}
+        />
+        <Table.Column
+          id="publicationDate"
+          display="Publication date"
+          className={styles.depositDateColumn}
+          getter={v => dayjs(v.publicationDate).format('DD/MM/YYYY')}
+        />
+        <Table.Column
+          id="publicReleaseDate"
+          display="Deposit date"
+          order="desc"
+          className={styles.depositDateColumn}
+          getter={v => dayjs(v.publicReleaseDate).format('DD/MM/YYYY')}
+        />
         <Table.Sidebar>
           <SidebarContent />
         </Table.Sidebar>
