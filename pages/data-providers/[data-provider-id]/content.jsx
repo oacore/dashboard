@@ -18,7 +18,6 @@ const getTableConfig = store => ({
     {
       id: 'oai',
       display: 'OAI',
-      expandedSize: 2,
       className: styles.labelColumn,
       order: '',
       getter: v => v.identifier,
@@ -34,13 +33,11 @@ const getTableConfig = store => ({
     {
       id: 'title',
       display: 'Title',
-      expandedSize: null,
       className: styles.titleColumn,
     },
     {
       id: 'authors',
       display: 'Authors',
-      expandedSize: null,
       className: styles.authorsColumn,
       order: '',
       getter: v => v.author.map(a => a.name).join(' '),
@@ -49,7 +46,6 @@ const getTableConfig = store => ({
       id: 'lastUpdate',
       display: 'Last Update',
       order: 'desc',
-      expandedSize: 1,
       className: styles.lastUpdateColumn,
       getter: v => dayjs(v.lastUpdate),
       render: v => v.fromNow(),
@@ -58,7 +54,6 @@ const getTableConfig = store => ({
       id: 'visibility',
       display: 'Visibility',
       order: '',
-      expandedSize: 1,
       className: styles.visibilityColumn,
       getter: v => !v.disabled,
       render: (v, { id, isExpanded }) => (
@@ -73,27 +68,37 @@ const getTableConfig = store => ({
       ),
     },
   ],
-  expandedRow: {
-    render: ({ content: { title, author, link } }) => {
-      const fullText = link.find(v => v.type === 'download')
-      const displayPage = link.find(v => v.type === 'display')
-
-      return (
-        <div>
-          <p>
-            <b>{title}</b>
-          </p>
-          <p>{author.map(a => a.name).join(' ')}</p>
-          {fullText ? (
-            <DocumentLink href={fullText.url}>Open full text</DocumentLink>
-          ) : (
-            <DocumentLink href={displayPage.url}>Open metadata</DocumentLink>
-          )}
-        </div>
-      )
-    },
-  },
 })
+
+const SidebarContent = ({
+  context: {
+    identifier: { oai },
+    title,
+    author,
+    link,
+  },
+}) => {
+  const fullText = link.find(v => v.type === 'download')
+  const displayPage = link.find(v => v.type === 'display')
+  return (
+    <>
+      <Table.Sidebar.Header className={styles.header}>
+        {oai}
+      </Table.Sidebar.Header>
+      <div className={styles.content}>
+        <p>
+          <b>{title}</b>
+        </p>
+        <p>{author.map(a => a.name).join(' ')}</p>
+        {fullText ? (
+          <DocumentLink href={fullText.url}>Open full text</DocumentLink>
+        ) : (
+          <DocumentLink href={displayPage.url}>Open metadata</DocumentLink>
+        )}
+      </div>
+    </>
+  )
+}
 
 const Data = ({ store, ...restProps }) => {
   const tableConfig = useMemo(() => getTableConfig(store), [])
@@ -105,8 +110,11 @@ const Data = ({ store, ...restProps }) => {
         className={styles.contentTable}
         pages={store.works}
         searchable
-        expandable
-      />
+      >
+        <Table.Sidebar>
+          <SidebarContent />
+        </Table.Sidebar>
+      </Table>
     </Card>
   )
 }

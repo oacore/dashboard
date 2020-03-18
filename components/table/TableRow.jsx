@@ -39,11 +39,9 @@ const TableRow = React.memo(props => {
         const cellValue = colConfig.getter
           ? colConfig.getter(content)
           : content[colConfig.id]
-        const colSpan = isExpanded ? colConfig.expandedSize : 1
 
-        if (isExpanded && colConfig.expandedSize === null) return null
         return (
-          <Table.Cell key={colConfig.id} colSpan={colSpan}>
+          <Table.Cell key={colConfig.id}>
             {cellRenderer(colConfig, cellValue)}
           </Table.Cell>
         )
