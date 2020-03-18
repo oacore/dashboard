@@ -19,7 +19,6 @@ const getNextOrder = order => {
 
 // maximum number of rows shown in table at a time
 const WINDOW_SIZE = 100
-const WINDOW_STEP = 10
 
 class InfiniteTable extends React.PureComponent {
   tableRowClickTimeout = null
@@ -35,14 +34,12 @@ class InfiniteTable extends React.PureComponent {
     this.state = {
       lastExpandedRow: null,
       data: null,
-      showPrevLoad: false,
       showNextLoad: false,
-      sliceWindow: [0, WINDOW_SIZE - 1],
+      size: WINDOW_SIZE - 1,
       areSelectedAll: false,
       searchTerm: '',
       isFirstPageLoaded: false,
       isLastPageLoaded: false,
-      isLoading: false,
       columnOrder: props.config.columns.reduce((acc, curr) => {
         acc[curr.id] = curr.order !== undefined ? curr.order : null
         return acc
@@ -67,39 +64,6 @@ class InfiniteTable extends React.PureComponent {
       'sidebar-close',
       this.closeSidebar
     )
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { sliceWindow: prevSliceWindow } = prevState
-    const { sliceWindow } = this.state
-    if (
-      sliceWindow[0] !== prevSliceWindow[0] &&
-      sliceWindow[1] !== prevSliceWindow[1]
-    ) {
-      if (sliceWindow[0] !== 0) {
-        const rows = this.tableRef.current
-          .getElementsByTagName('tbody')[0]
-          .getElementsByTagName('tr')
-
-        const lastVisibleRow =
-          prevSliceWindow[0] < sliceWindow[0]
-            ? rows[rows.length - WINDOW_STEP - 1]
-            : rows[WINDOW_STEP - 1]
-        lastVisibleRow.scrollIntoView({
-          block: prevSliceWindow[0] < sliceWindow[0] ? 'end' : 'start',
-          behavior: 'auto',
-        })
-
-        setTimeout(
-          () =>
-            this.setState(s => ({
-              showPrevLoad: !s.isLoading && s.sliceWindow[0] !== 0,
-              showNextLoad: !s.isLoading && !s.isLastPageLoaded,
-            })),
-          100
-        )
-      }
-    }
   }
 
   componentWillUnmount() {
@@ -175,31 +139,18 @@ class InfiniteTable extends React.PureComponent {
     clearTimeout(this.tableRowClickTimeout)
   }
 
-  loadPrevPage = () => this.fetchData({ prev: true })
-
   loadNextPage = () => this.fetchData({ next: true })
 
-  async fetchData({ prev = false, next = false, force = false } = {}) {
+  async fetchData({ next = false, force = false } = {}) {
     const { pages } = this
-    const { searchTerm, columnOrder, sliceWindow, showNextLoad } = this.state
-    let lowerBound = sliceWindow[0]
-    let upperBound
+    const { searchTerm, columnOrder, showNextLoad, size } = this.state
+    let newSize = size
 
-    if (prev) {
-      lowerBound = Math.max(lowerBound - WINDOW_STEP, 0)
-      upperBound = lowerBound + WINDOW_SIZE
-    } else if (next) {
-      lowerBound += WINDOW_STEP
-      upperBound = lowerBound + WINDOW_SIZE
-    } else {
-      lowerBound = 0
-      upperBound = WINDOW_SIZE
-    }
+    if (next) newSize += 10
+    else newSize = WINDOW_SIZE
 
     const newState = {
-      showPrevLoad: false,
       showNextLoad: false,
-      isLoading: true,
     }
 
     if (force) {
@@ -214,14 +165,13 @@ class InfiniteTable extends React.PureComponent {
 
     this.setState(newState)
 
-    const data = await pages.slice(lowerBound, upperBound)
+    const data = await pages.slice(0, size)
 
     this.setState({
-      sliceWindow: [lowerBound, upperBound],
       data,
+      size: newSize,
       isFirstPageLoaded: pages.isFirstPageLoaded,
       isLastPageLoaded: pages.isLastPageLoaded,
-      isLoading: false,
       showNextLoad: force ? true : showNextLoad,
     })
   }
@@ -237,12 +187,10 @@ class InfiniteTable extends React.PureComponent {
       ...restProps
     } = this.props
     const {
-      sliceWindow,
       data,
       areSelectedAll,
       searchTerm,
       columnOrder,
-      showPrevLoad,
       showNextLoad,
       isFirstPageLoaded,
       isLastPageLoaded,
@@ -273,7 +221,6 @@ class InfiniteTable extends React.PureComponent {
                 this.setState({
                   searchTerm: event.target.value,
                   data: null,
-                  showPrevLoad: false,
                   showNextLoad: false,
                 })
                 this.onSearchEnded()
@@ -324,18 +271,12 @@ class InfiniteTable extends React.PureComponent {
                   <Table.Cell colSpan={1000}>Loading data</Table.Cell>
                 </Table.Row>
               )}
-              {sliceWindow[0] !== 0 && (
-                <LoadMoreRow
-                  observe={showPrevLoad}
-                  onVisible={this.loadPrevPage}
-                />
-              )}
 
               {data !== null &&
                 data.map((row, index) => {
                   const props = {
                     id: row.id,
-                    index: index + sliceWindow[0],
+                    index,
                     selectable,
                     isSelected: false, // TODO
                     content: row,
