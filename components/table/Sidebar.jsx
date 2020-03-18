@@ -12,7 +12,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const { isOpen, children, ...passProps } = this.props
+    const { children, ...passProps } = this.props
     return (
       <div className={tableClassNames.sidebar}>
         {children && React.cloneElement(children, passProps)}

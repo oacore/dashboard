@@ -1,14 +1,15 @@
 import React from 'react'
 import { Table } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
 import tableClassNames from './index.css'
 
 const TableRow = React.memo(props => {
-  const { id, index, columns, context } = props
+  const { id, index, columns, context, isClickable } = props
   const rowProps = {
     'data-id': id,
-    'data-is-clickable': true,
-    'className': tableClassNames.mainRow,
+    'data-is-clickable': isClickable,
+    'className': classNames.use([isClickable && tableClassNames.clickable]),
   }
 
   return (
