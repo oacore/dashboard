@@ -136,7 +136,7 @@ class InfiniteTable extends React.PureComponent {
 
         const rowId = clickedRow.dataset.id
         this.setState(s => ({
-          expandedRowId: s.expandedRowId === rowId ? null : rowId,
+          expandedRowId: rowId,
           lastExpandedRow: s.data?.find(e => e.id === rowId),
         }))
       }, 200)
@@ -207,13 +207,12 @@ class InfiniteTable extends React.PureComponent {
       lastExpandedRow,
     } = this.state
     const { sidebar, columns } = this
-    const expandedRow = data?.find(e => e.id === expandedRowId)
     return (
       <div
         ref={this.containerRef}
         className={classNames.use({
           [tableClassNames.container]: true,
-          [tableClassNames.open]: Boolean(expandedRow),
+          [tableClassNames.open]: Boolean(expandedRowId),
         })}
       >
         <div className={tableClassNames.table}>
@@ -287,6 +286,7 @@ class InfiniteTable extends React.PureComponent {
                     index,
                     context: row,
                     columns,
+                    isClickable: Boolean(this.sidebar),
                   }
 
                   return <TableRow key={row.id} {...props} />

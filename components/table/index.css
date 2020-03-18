@@ -15,10 +15,6 @@
   height: 3rem;
 }
 
-.main-row {
-  border-bottom: 0;
-}
-
 .detail-row {
   & > th,
   & > td {
@@ -67,4 +63,8 @@
       margin-right: var(--table-sidebar-width);
     }
   }
+}
+
+.clickable {
+  cursor: pointer;
 }
