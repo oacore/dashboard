@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+// eslint-disable-next-line max-classes-per-file
+import React from 'react'
 import { Label } from '@oacore/design'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -13,62 +14,37 @@ import DocumentLink from 'components/document-link'
 
 dayjs.extend(relativeTime)
 
-const getTableConfig = store => ({
-  columns: [
-    {
-      id: 'oai',
-      display: 'OAI',
-      className: styles.labelColumn,
-      order: '',
-      getter: v => v.identifier,
-      render: ({ oai, doi }, { isExpanded }) => (
-        <>
-          <Label color="primary">
-            {isExpanded ? oai : oai.split(':').pop()}
-          </Label>
-          {isExpanded && <Label className={styles.doiLabel}>{doi}</Label>}
-        </>
-      ),
-    },
-    {
-      id: 'title',
-      display: 'Title',
-      className: styles.titleColumn,
-    },
-    {
-      id: 'authors',
-      display: 'Authors',
-      className: styles.authorsColumn,
-      order: '',
-      getter: v => v.author.map(a => a.name).join(' '),
-    },
-    {
-      id: 'lastUpdate',
-      display: 'Last Update',
-      order: 'desc',
-      className: styles.lastUpdateColumn,
-      getter: v => dayjs(v.lastUpdate),
-      render: v => v.fromNow(),
-    },
-    {
-      id: 'visibility',
-      display: 'Visibility',
-      order: '',
-      className: styles.visibilityColumn,
-      getter: v => !v.disabled,
-      render: (v, { id, isExpanded }) => (
-        <PublishedToggle
-          className={styles.visibilitySwitch}
-          defaultVisibility={v}
-          isExpanded={isExpanded}
-          onVisibilityChanged={isVisible =>
-            store.works.changeVisibility(id, isVisible)
-          }
-        />
-      ),
-    },
-  ],
-})
+class OAIColumn extends Table.Column {
+  render() {
+    const {
+      context: {
+        identifier: { oai },
+      },
+    } = this.props
+
+    return <Label color="primary">{oai.split(':').pop()}</Label>
+  }
+}
+
+// TODO: Move this into sidebar
+class VisibilityColumn extends Table.Column {
+  render() {
+    const {
+      store,
+      context: { id, disabled },
+    } = this.props
+
+    return (
+      <PublishedToggle
+        className={styles.visibilitySwitch}
+        defaultVisibility={!disabled}
+        onVisibilityChanged={isVisible =>
+          store.works.changeVisibility(id, isVisible)
+        }
+      />
+    )
+  }
+}
 
 const SidebarContent = ({
   context: {
@@ -100,23 +76,46 @@ const SidebarContent = ({
   )
 }
 
-const Data = ({ store, ...restProps }) => {
-  const tableConfig = useMemo(() => getTableConfig(store), [])
-  return (
-    <Card {...restProps}>
-      <Table
-        key={store.dataProvider}
-        config={tableConfig}
-        className={styles.contentTable}
-        pages={store.works}
-        searchable
-      >
-        <Table.Sidebar>
-          <SidebarContent />
-        </Table.Sidebar>
-      </Table>
-    </Card>
-  )
-}
+const Data = ({ store, ...restProps }) => (
+  <Card {...restProps}>
+    <Table
+      key={store.dataProvider}
+      className={styles.contentTable}
+      pages={store.works}
+      searchable
+    >
+      <OAIColumn
+        id="oai"
+        display="OAI"
+        order=""
+        className={styles.labelColumn}
+      />
+      <Table.Column id="title" display="Title" className={styles.titleColumn} />
+      <Table.Column
+        id="authors"
+        display="Authors"
+        className={styles.authorsColumn}
+        getter={v => v.author.map(a => a.name).join(' ')}
+      />
+      <Table.Column
+        id="lastUpdate"
+        display="Last Update"
+        order="desc"
+        className={styles.lastUpdateColumn}
+        getter={v => dayjs(v.lastUpdate).fromNow()}
+      />
+      <VisibilityColumn
+        id="visibility"
+        display="Visibility"
+        order=""
+        className={styles.visibilityColumn}
+        store={store}
+      />
+      <Table.Sidebar>
+        <SidebarContent />
+      </Table.Sidebar>
+    </Table>
+  </Card>
+)
 
 export default withGlobalStore(Data)

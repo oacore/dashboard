@@ -6,6 +6,7 @@ import tableClassNames from './index.css'
 import NoDataFoundRow from './NoDataFoundRow'
 import TableRow from './TableRow'
 import Sidebar from './Sidebar'
+import Column from './Column'
 
 import { Table, TextField } from 'design'
 import debounce from 'utils/debounce'
@@ -25,10 +26,14 @@ class InfiniteTable extends React.PureComponent {
 
   sidebar = null
 
+  columns = []
+
   constructor(props) {
     super(props)
     this.tableRef = React.createRef()
     this.containerRef = React.createRef()
+
+    const { sidebar, columnOrder, columns } = this.getConfig()
 
     // eslint-disable-next-line react/state-in-constructor
     this.state = {
@@ -40,22 +45,12 @@ class InfiniteTable extends React.PureComponent {
       searchTerm: '',
       isFirstPageLoaded: false,
       isLastPageLoaded: false,
-      columnOrder: props.config.columns.reduce((acc, curr) => {
-        acc[curr.id] = curr.order !== undefined ? curr.order : null
-        return acc
-      }, {}),
-      rowsState: {},
+      columnOrder,
       expandedRowId: null,
     }
 
-    props.pages.columnOrder = props.config.columns.reduce((acc, curr) => {
-      acc[curr.id] = curr.order !== undefined ? curr.order : null
-      return acc
-    }, {})
-    this.pages = props.pages
-
-    const { sidebar } = this.getConfig()
     this.sidebar = sidebar
+    this.columns = columns
   }
 
   componentDidMount() {
@@ -76,11 +71,25 @@ class InfiniteTable extends React.PureComponent {
   onSearchEnded = debounce(() => this.fetchData({ force: true }))
 
   getConfig() {
-    // TODO: create columns API too
     const { children } = this.props
     const childrenArray = React.Children.toArray(children)
+
+    // TODO: Maybe there is a better way for distinguish Column children
+    const columns = childrenArray.filter(
+      item =>
+        item.type === Column ||
+        Object.prototype.isPrototypeOf.call(Column, item.type)
+    )
+    const columnOrder = columns.reduce((acc, curr) => {
+      acc[curr.props.id] =
+        curr.props.order !== undefined ? curr.props.order : null
+      return acc
+    }, {})
+
     return {
       sidebar: childrenArray.find(item => item.type === Sidebar),
+      columnOrder,
+      columns,
     }
   }
 
@@ -142,7 +151,7 @@ class InfiniteTable extends React.PureComponent {
   loadNextPage = () => this.fetchData({ next: true })
 
   async fetchData({ next = false, force = false } = {}) {
-    const { pages } = this
+    const { pages } = this.props
     const { searchTerm, columnOrder, showNextLoad, size } = this.state
     let newSize = size
 
@@ -194,11 +203,10 @@ class InfiniteTable extends React.PureComponent {
       showNextLoad,
       isFirstPageLoaded,
       isLastPageLoaded,
-      rowsState,
       expandedRowId,
       lastExpandedRow,
     } = this.state
-    const { sidebar } = this
+    const { sidebar, columns } = this
     const expandedRow = data?.find(e => e.id === expandedRowId)
     return (
       <div
@@ -230,8 +238,8 @@ class InfiniteTable extends React.PureComponent {
           )}
           <Table ref={this.tableRef} {...restProps}>
             <colgroup>
-              {config.columns.map(column => (
-                <col key={column.id} className={column.className} />
+              {columns.map(column => (
+                <col key={column.props.id} className={column.props.className} />
               ))}
             </colgroup>
 
@@ -247,17 +255,17 @@ class InfiniteTable extends React.PureComponent {
                     />
                   </Table.Cell>
                 )}
-                {config.columns.map(column => (
+                {columns.map(column => (
                   <Table.HeadCell
                     key={column.id}
-                    order={columnOrder[column.id]}
+                    order={columnOrder[column.props.id]}
                     onClick={event => {
-                      if (columnOrder[column.id] === null) return
+                      if (columnOrder[column.props.id] === null) return
                       event.preventDefault()
-                      this.toggleOrder(column.id)
+                      this.toggleOrder(column.props.id)
                     }}
                   >
-                    {column.display}
+                    {column.props.display}
                   </Table.HeadCell>
                 ))}
               </Table.Row>
@@ -277,18 +285,11 @@ class InfiniteTable extends React.PureComponent {
                   const props = {
                     id: row.id,
                     index,
-                    selectable,
-                    isSelected: false, // TODO
-                    content: row,
-                    config,
-                    isExpanded: rowsState[row.id]?.expanded,
+                    context: row,
+                    columns,
                   }
 
-                  return (
-                    <React.Fragment key={row.id}>
-                      <TableRow {...props} />
-                    </React.Fragment>
-                  )
+                  return <TableRow key={row.id} {...props} />
                 })}
 
               {isFirstPageLoaded && !isLastPageLoaded && (
@@ -312,5 +313,6 @@ class InfiniteTable extends React.PureComponent {
 }
 
 InfiniteTable.Sidebar = Sidebar
+InfiniteTable.Column = Column
 
 export default withErrorBoundary(InfiniteTable, 'table')
