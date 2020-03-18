@@ -20,7 +20,6 @@ const tableConfig = {
       order: '',
       display: 'OAI',
       sortable: true,
-      expandedSize: 2,
       className: styles.labelColumn,
       render: (v, { isExpanded }) => (
         <Label color="primary">{isExpanded ? v : v.split(':').pop()}</Label>
@@ -30,14 +29,12 @@ const tableConfig = {
       id: 'title',
       display: 'Title',
       order: '',
-      expandedSize: null,
       className: styles.titleColumn,
     },
     {
       id: 'authors',
       display: 'Authors',
       order: '',
-      expandedSize: null,
       getter: v => v.authors && v.authors.map(a => a.name).join(' '),
       className: styles.authorsColumn,
     },
@@ -45,7 +42,6 @@ const tableConfig = {
       id: 'publicationDate',
       display: 'Publication date',
       className: styles.depositDateColumn,
-      expandedSize: 1,
       getter: v => dayjs(v.publicationDate),
       render: v => v.format('DD/MM/YYYY'),
     },
@@ -54,25 +50,26 @@ const tableConfig = {
       display: 'Deposit date',
       order: 'desc',
       className: styles.depositDateColumn,
-      expandedSize: 1,
       getter: v => dayjs(v.publicReleaseDate),
       render: v => v.format('DD/MM/YYYY'),
     },
   ],
-  expandedRow: {
-    render: ({ content: { originalId, authors, title } }) => (
-      <div>
-        <p>
-          <b>{title}</b>
-        </p>
-        <p>{authors?.map(a => a.name).join(' ')}</p>
-        <DocumentLink href={`https://core.ac.uk/display/${originalId}`}>
-          Open metadata page
-        </DocumentLink>
-      </div>
-    ),
-  },
 }
+
+const SidebarContent = ({ context: { oai, originalId, authors, title } }) => (
+  <>
+    <Table.Sidebar.Header className={styles.header}>{oai}</Table.Sidebar.Header>
+    <div className={styles.content}>
+      <p>
+        <b>{title}</b>
+      </p>
+      <p>{authors?.map(a => a.name).join(' ')}</p>
+      <DocumentLink href={`https://core.ac.uk/display/${originalId}`}>
+        Open metadata page
+      </DocumentLink>
+    </div>
+  </>
+)
 
 const ExportButton = ({ children, href, disabled, ...restProps }) => {
   const props = disabled ? { disabled } : { href, download: true, tag: 'a' }
@@ -146,8 +143,11 @@ const DepositDates = ({
         config={tableConfig}
         pages={store.depositDates.publicReleaseDates}
         searchable
-        expandable
-      />
+      >
+        <Table.Sidebar>
+          <SidebarContent />
+        </Table.Sidebar>
+      </Table>
     </Card>
   </Tag>
 )

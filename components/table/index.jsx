@@ -1,10 +1,11 @@
 import React from 'react'
+import { classNames } from '@oacore/design/lib/utils'
 
 import LoadMoreRow from './LoadMoreRow'
 import tableClassNames from './index.css'
 import NoDataFoundRow from './NoDataFoundRow'
 import TableRow from './TableRow'
-import TableRowExpanded from './TableRowExpanded'
+import Sidebar from './Sidebar'
 
 import { Table, TextField } from 'design'
 import debounce from 'utils/debounce'
@@ -23,12 +24,16 @@ const WINDOW_STEP = 10
 class InfiniteTable extends React.PureComponent {
   tableRowClickTimeout = null
 
+  sidebar = null
+
   constructor(props) {
     super(props)
     this.tableRef = React.createRef()
+    this.containerRef = React.createRef()
 
     // eslint-disable-next-line react/state-in-constructor
     this.state = {
+      lastExpandedRow: null,
       data: null,
       showPrevLoad: false,
       showNextLoad: false,
@@ -43,6 +48,7 @@ class InfiniteTable extends React.PureComponent {
         return acc
       }, {}),
       rowsState: {},
+      expandedRowId: null,
     }
 
     props.pages.columnOrder = props.config.columns.reduce((acc, curr) => {
@@ -50,14 +56,20 @@ class InfiniteTable extends React.PureComponent {
       return acc
     }, {})
     this.pages = props.pages
+
+    const { sidebar } = this.getConfig()
+    this.sidebar = sidebar
   }
 
   componentDidMount() {
     this.fetchData({ force: true })
+    this.containerRef.current.addEventListener(
+      'sidebar-close',
+      this.closeSidebar
+    )
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { expandable } = this.props
     const { sliceWindow: prevSliceWindow } = prevState
     const { sliceWindow } = this.state
     if (
@@ -71,8 +83,8 @@ class InfiniteTable extends React.PureComponent {
 
         const lastVisibleRow =
           prevSliceWindow[0] < sliceWindow[0]
-            ? rows[rows.length - WINDOW_STEP * (expandable ? 2 : 1) - 1]
-            : rows[WINDOW_STEP * (expandable ? 2 : 1) - 1]
+            ? rows[rows.length - WINDOW_STEP - 1]
+            : rows[WINDOW_STEP - 1]
         lastVisibleRow.scrollIntoView({
           block: prevSliceWindow[0] < sliceWindow[0] ? 'end' : 'start',
           behavior: 'auto',
@@ -90,7 +102,29 @@ class InfiniteTable extends React.PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    this.containerRef.current.removeEventListener(
+      'sidebar-close',
+      this.closeSidebar
+    )
+  }
+
   onSearchEnded = debounce(() => this.fetchData({ force: true }))
+
+  getConfig() {
+    // TODO: create columns API too
+    const { children } = this.props
+    const childrenArray = React.Children.toArray(children)
+    return {
+      sidebar: childrenArray.find(item => item.type === Sidebar),
+    }
+  }
+
+  closeSidebar = () => {
+    this.setState({
+      expandedRowId: null,
+    })
+  }
 
   toggleSelectAll = () => {
     this.setState(s => ({ areSelectedAll: !s.areSelectedAll }))
@@ -121,24 +155,17 @@ class InfiniteTable extends React.PureComponent {
     if (event.detail === 1) {
       const clickedRow = event.target.closest('tr')
       this.tableRowClickTimeout = setTimeout(() => {
-        const { expandable } = this.props
-        if (!expandable) return
+        if (!this.sidebar) return
 
         // ignore copy event
         const selection = window.getSelection().toString()
         if (selection.length) return
 
-        if (clickedRow.dataset.isClickable) {
-          const rowId = clickedRow.dataset.id
-          this.setState(s => ({
-            rowsState: {
-              ...s.rowsState,
-              [rowId]: {
-                expanded: !(s.rowsState[rowId] && s.rowsState[rowId].expanded),
-              },
-            },
-          }))
-        }
+        const rowId = clickedRow.dataset.id
+        this.setState(s => ({
+          expandedRowId: s.expandedRowId === rowId ? null : rowId,
+          lastExpandedRow: s.data?.find(e => e.id === rowId),
+        }))
       }, 200)
     }
   }
@@ -204,7 +231,6 @@ class InfiniteTable extends React.PureComponent {
       config,
       selectable,
       searchable,
-      expandable,
       title,
       fetchData,
       pages,
@@ -221,113 +247,129 @@ class InfiniteTable extends React.PureComponent {
       isFirstPageLoaded,
       isLastPageLoaded,
       rowsState,
+      expandedRowId,
+      lastExpandedRow,
     } = this.state
-
+    const { sidebar } = this
+    const expandedRow = data?.find(e => e.id === expandedRowId)
     return (
-      <>
-        {title && <h2>{title}</h2>}
-        {searchable && (
-          <TextField
-            id="search"
-            type="search"
-            name="search"
-            label="Search"
-            placeholder="Any identifier, title, author..."
-            onChange={event => {
-              this.setState({
-                searchTerm: event.target.value,
-                data: null,
-                showPrevLoad: false,
-                showNextLoad: false,
-              })
-              this.onSearchEnded()
-            }}
-            value={searchTerm}
-          />
-        )}
-        <Table ref={this.tableRef} {...restProps}>
-          <colgroup>
-            {config.columns.map(column => (
-              <col key={column.id} className={column.className} />
-            ))}
-          </colgroup>
-
-          <Table.Head>
-            <Table.Row>
-              {selectable && (
-                <Table.Cell className={tableClassNames.tableSelect}>
-                  <input
-                    type="checkbox"
-                    id="table-select-all"
-                    onChange={this.toggleSelectAll}
-                    checked={areSelectedAll}
-                  />
-                </Table.Cell>
-              )}
+      <div
+        ref={this.containerRef}
+        className={classNames.use({
+          [tableClassNames.container]: true,
+          [tableClassNames.open]: Boolean(expandedRow),
+        })}
+      >
+        <div className={tableClassNames.table}>
+          {title && <h2>{title}</h2>}
+          {searchable && (
+            <TextField
+              id="search"
+              type="search"
+              name="search"
+              label="Search"
+              placeholder="Any identifier, title, author..."
+              onChange={event => {
+                this.setState({
+                  searchTerm: event.target.value,
+                  data: null,
+                  showPrevLoad: false,
+                  showNextLoad: false,
+                })
+                this.onSearchEnded()
+              }}
+              value={searchTerm}
+            />
+          )}
+          <Table ref={this.tableRef} {...restProps}>
+            <colgroup>
               {config.columns.map(column => (
-                <Table.HeadCell
-                  key={column.id}
-                  order={columnOrder[column.id]}
-                  onClick={event => {
-                    if (columnOrder[column.id] === null) return
-                    event.preventDefault()
-                    this.toggleOrder(column.id)
-                  }}
-                >
-                  {column.display}
-                </Table.HeadCell>
+                <col key={column.id} className={column.className} />
               ))}
-            </Table.Row>
-          </Table.Head>
-          <Table.Body
-            onClick={this.handleRowClick}
-            onDoubleClick={this.handleDoubleRowClick}
-          >
-            {!isFirstPageLoaded && data === null && (
+            </colgroup>
+
+            <Table.Head>
               <Table.Row>
-                <Table.Cell colSpan={1000}>Loading data</Table.Cell>
+                {selectable && (
+                  <Table.Cell className={tableClassNames.tableSelect}>
+                    <input
+                      type="checkbox"
+                      id="table-select-all"
+                      onChange={this.toggleSelectAll}
+                      checked={areSelectedAll}
+                    />
+                  </Table.Cell>
+                )}
+                {config.columns.map(column => (
+                  <Table.HeadCell
+                    key={column.id}
+                    order={columnOrder[column.id]}
+                    onClick={event => {
+                      if (columnOrder[column.id] === null) return
+                      event.preventDefault()
+                      this.toggleOrder(column.id)
+                    }}
+                  >
+                    {column.display}
+                  </Table.HeadCell>
+                ))}
               </Table.Row>
-            )}
-            {sliceWindow[0] !== 0 && (
-              <LoadMoreRow
-                observe={showPrevLoad}
-                onVisible={this.loadPrevPage}
-              />
-            )}
+            </Table.Head>
+            <Table.Body
+              onClick={this.handleRowClick}
+              onDoubleClick={this.handleDoubleRowClick}
+            >
+              {!isFirstPageLoaded && data === null && (
+                <Table.Row>
+                  <Table.Cell colSpan={1000}>Loading data</Table.Cell>
+                </Table.Row>
+              )}
+              {sliceWindow[0] !== 0 && (
+                <LoadMoreRow
+                  observe={showPrevLoad}
+                  onVisible={this.loadPrevPage}
+                />
+              )}
 
-            {data !== null &&
-              data.map((row, index) => {
-                const props = {
-                  id: row.id,
-                  index: index + sliceWindow[0],
-                  selectable,
-                  isSelected: false, // TODO
-                  content: row,
-                  config,
-                  isExpanded: rowsState[row.id]?.expanded,
-                  expandable,
-                }
+              {data !== null &&
+                data.map((row, index) => {
+                  const props = {
+                    id: row.id,
+                    index: index + sliceWindow[0],
+                    selectable,
+                    isSelected: false, // TODO
+                    content: row,
+                    config,
+                    isExpanded: rowsState[row.id]?.expanded,
+                  }
 
-                return (
-                  <React.Fragment key={row.id}>
-                    <TableRow {...props} />
-                    {expandable && <TableRowExpanded {...props} />}
-                  </React.Fragment>
-                )
-              })}
+                  return (
+                    <React.Fragment key={row.id}>
+                      <TableRow {...props} />
+                    </React.Fragment>
+                  )
+                })}
 
-            {isFirstPageLoaded && !isLastPageLoaded && (
-              <LoadMoreRow
-                observe={showNextLoad}
-                onVisible={this.loadNextPage}
-              />
-            )}
-            {data && data.length === 0 && <NoDataFoundRow />}
-          </Table.Body>
-        </Table>
-      </>
+              {isFirstPageLoaded && !isLastPageLoaded && (
+                <LoadMoreRow
+                  observe={showNextLoad}
+                  onVisible={this.loadNextPage}
+                />
+              )}
+              {data && data.length === 0 && <NoDataFoundRow />}
+            </Table.Body>
+          </Table>
+        </div>
+        {sidebar &&
+          React.cloneElement(sidebar, {
+            context: lastExpandedRow,
+            children: lastExpandedRow ? sidebar.props.children : null,
+          })}
+      </div>
     )
   }
 }
+
+InfiniteTable.Sidebar = Sidebar
 
 export default withErrorBoundary(InfiniteTable, 'table')

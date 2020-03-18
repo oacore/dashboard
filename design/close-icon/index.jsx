@@ -3,11 +3,14 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './index.css'
 
-const CloseIcon = ({ className, tag: Tag = 'span', ...restProps }) => (
-  <Tag
-    className={classNames.use(styles.close).join(className)}
-    {...restProps}
-  />
+const CloseIcon = React.forwardRef(
+  ({ className, tag: Tag = 'span', ...restProps }, ref) => (
+    <Tag
+      ref={ref}
+      className={classNames.use(styles.close).join(className)}
+      {...restProps}
+    />
+  )
 )
 
 export default CloseIcon
