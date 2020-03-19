@@ -1,5 +1,6 @@
 import { NetworkError } from './errors'
-import { API_URL } from '../config'
+
+const { API_URL } = process.env
 
 const prepareUrl = (pathname, base = API_URL) => {
   const url = /^\w+:\/\//.test(pathname) ? pathname : `${base}${pathname}`

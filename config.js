@@ -1,18 +1,30 @@
-export const API_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://api.core.ac.uk/internal'
-    : 'https://api.dev.core.ac.uk/internal'
+const NODE_ENV = process.env.NODE_ENV || 'development'
 
-export const getLoginPage = (path = window.location.origin) => {
-  if (process.env.NODE_ENV === 'production') {
-    return new URL(
-      `/login.html?continue=${encodeURIComponent(path)}`,
-      window.location.origin
-    ).toString()
-  }
-
-  return new URL(
-    `/test/login?continue=${encodeURIComponent(path)}`,
-    API_URL
-  ).toString()
+const local = {
+  API_URL: 'http://127.0.0.1:8000/internal',
+  IDP_URL: 'http://127.0.0.1:8000',
 }
+
+const development = {
+  API_URL: 'https://api.dev.core.ac.uk/internal',
+  IDP_URL: 'https://api.dev.core.ac.uk',
+}
+
+const production = {
+  API_URL: 'https://api.core.ac.uk/internal',
+  IDP_URL: 'https://api.core.ac.uk',
+}
+
+const validate = config =>
+  ['API_URL', 'IDP_URL'].forEach(param => {
+    if (config[param] == null) throw new Error(`${param} is not configured.`)
+  })
+
+const env = { local, development, production }
+const config = {
+  ...env.production,
+  ...env[NODE_ENV],
+}
+
+validate(config)
+module.exports = config

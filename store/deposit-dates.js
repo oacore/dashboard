@@ -2,9 +2,10 @@ import { action, computed, observable } from 'mobx'
 
 import { Pages } from './helpers/pages'
 
-import { API_URL } from 'config'
 import apiRequest from 'api'
 import { NotFoundError } from 'api/errors'
+
+const { API_URL } = process.env
 
 class DepositDates {
   @observable isExportDisabled = false

@@ -7,7 +7,11 @@ const withSourceMaps = require('@zeit/next-source-maps')
 
 const camelCaseLoader = path.join(__dirname, 'webpack/camelcase-loader.js')
 
+const envConfig = require('./config')
+
 const nextConfig = {
+  env: envConfig,
+
   webpack(config, options) {
     const { dev, isServer } = options
 
