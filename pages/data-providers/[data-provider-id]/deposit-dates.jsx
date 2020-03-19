@@ -23,20 +23,26 @@ class OAIColumn extends Table.Column {
   }
 }
 
-const SidebarContent = ({ context: { oai, originalId, authors, title } }) => (
-  <>
-    <Table.Sidebar.Header className={styles.header}>{oai}</Table.Sidebar.Header>
-    <div className={styles.content}>
-      <p>
-        <b>{title}</b>
-      </p>
-      <p>{authors?.map(a => a.name).join(' ')}</p>
-      <DocumentLink href={`https://core.ac.uk/display/${originalId}`}>
-        Open metadata page
-      </DocumentLink>
-    </div>
-  </>
-)
+const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
+  const { Header, Body, Footer } = Table.Sidebar
+
+  return (
+    <>
+      <Header className={styles.header}>{oai}</Header>
+      <Body>
+        <p>
+          <b>{title}</b>
+        </p>
+        <p>{authors?.map(a => a.name).join(' ')}</p>
+      </Body>
+      <Footer>
+        <DocumentLink href={`https://core.ac.uk/display/${originalId}`}>
+          Open
+        </DocumentLink>
+      </Footer>
+    </>
+  )
+}
 
 const ExportButton = ({ children, href, disabled, ...restProps }) => {
   const props = disabled ? { disabled } : { href, download: true, tag: 'a' }
