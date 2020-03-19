@@ -1,28 +1,30 @@
 import React from 'react'
 import { AppBar } from '@oacore/design'
 
-import { API_URL } from '../../config'
 import styles from './logout.css'
 
 import { withGlobalStore } from 'store'
 
-const LOGOUT_URL = `${API_URL.replace(
-  '/internal',
-  ''
-)}/logout?continue=${encodeURIComponent(
-  typeof window !== 'undefined'
-    ? `${window.location.origin}/?reason=logout`
-    : ''
-)}`
+const { IDP_URL } = process.env
+
+const getLogoutUrl = pathname => {
+  const url = new URL('./logout', IDP_URL)
+  if (pathname != null) url.searchParams.set('continue', pathname)
+  return url
+}
 
 const Logout = ({ store }) => {
   if (!store.user) return null
   const name = store.user.email
+  const redirectUrl =
+    typeof window != 'undefined'
+      ? `${window.location.origin}?reson=logout`
+      : null
 
   return (
     <AppBar.Item className={styles.container}>
       <span className={styles.name}>{name}</span>{' '}
-      <a href={LOGOUT_URL}>Logout</a>
+      <a href={getLogoutUrl(redirectUrl)}>Logout</a>
     </AppBar.Item>
   )
 }

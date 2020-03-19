@@ -8,12 +8,13 @@ import '@oacore/design/lib/index.css'
 import Route from './route'
 import styles from './index.css'
 
-import { API_URL, getLoginPage } from 'config'
 import { UnauthorizedError } from 'api/errors'
 import logPageView from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 import { Sentry } from 'utils/sentry'
+
+const { IDP_URL } = process.env
 
 process.on('unhandledRejection', err => {
   Sentry.captureException(err)
@@ -79,8 +80,10 @@ class App extends NextApp {
     }
   }
 
-  redirectToLogin = path => {
-    window.location.replace(getLoginPage(path))
+  redirectToLogin = pathname => {
+    const url = new URL(window.location.origin)
+    url.searchParams.set('continue', pathname)
+    window.location.replace(url)
   }
 
   handlePromiseRejection = event => {
@@ -171,7 +174,7 @@ class App extends NextApp {
     })
 
     if (error instanceof UnauthorizedError)
-      window.location.replace(getLoginPage(window.location.href))
+      this.redirectToLogin(window.location.href)
   }
 
   handleNavigation = event => {
@@ -205,7 +208,7 @@ class App extends NextApp {
 
     const searchParams = {
       reason: router.query.reason === 'logout' ? 'logout' : '',
-      identity_provider_url: API_URL.replace('internal', ''),
+      identity_provider_url: IDP_URL,
     }
 
     if (router.query.reason !== 'logout') searchParams.loading = true

@@ -75,6 +75,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev-api": "NODE_ENV=local next dev",
     "build:icons": "svgstore public/icons/* | svgo -i - -o public/icons.svg --disable=removeUselessDefs,cleanupIDs",
     "prebuild": "run-p build:icons",
     "build": "next build",
