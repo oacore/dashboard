@@ -33,7 +33,6 @@ const SidebarContent = ({
     title,
     author,
     link,
-    disabled,
   },
 }) => {
   const { Header, Body, Footer } = Table.Sidebar
@@ -54,7 +53,7 @@ const SidebarContent = ({
         ) : (
           <DocumentLink href={displayPage.url}>Open</DocumentLink>
         )}
-        <TakeDown onClick={() => store.works.changeVisibility(id, !disabled)} />
+        <TakeDown onClick={() => store.works.changeVisibility(id)} />
       </Footer>
     </>
   )

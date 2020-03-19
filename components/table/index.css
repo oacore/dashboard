@@ -68,3 +68,7 @@
 .clickable {
   cursor: pointer;
 }
+
+.disable {
+  color: var(--gray-400);
+}

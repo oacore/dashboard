@@ -10,9 +10,8 @@ class Works extends Pages {
   }
 
   @action
-  async changeVisibility(rowId, isVisible) {
+  async changeVisibility(rowId) {
     const [pageNumber, workId] = rowId.split('-', 2)
-    // TODO: consider moving this endpoint to /data-providers/works/
     await apiRequest(`/works/${workId}`, {
       method: 'PATCH',
       body: { disabled: !isVisible },
@@ -20,7 +19,7 @@ class Works extends Pages {
 
     const page = this.getPageByNumber(parseInt(pageNumber, 10))
     const row = page.data.find(r => r.originalId === workId)
-    row.visibility = isVisible
+    row.disabled = !row.disabled
   }
 }
 
