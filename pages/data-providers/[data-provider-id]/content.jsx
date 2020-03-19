@@ -6,6 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 
 import styles from './content.css'
 
+import TakeDown from 'components/takedown'
 import { withGlobalStore } from 'store'
 import Table from 'components/table'
 import PublishedToggle from 'components/published-toggle'
@@ -47,31 +48,36 @@ class VisibilityColumn extends Table.Column {
 }
 
 const SidebarContent = ({
+  store,
   context: {
+    id,
     identifier: { oai },
     title,
     author,
     link,
+    disabled,
   },
 }) => {
+  const { Header, Body, Footer } = Table.Sidebar
   const fullText = link.find(v => v.type === 'download')
   const displayPage = link.find(v => v.type === 'display')
   return (
     <>
-      <Table.Sidebar.Header className={styles.header}>
-        {oai}
-      </Table.Sidebar.Header>
-      <div className={styles.content}>
+      <Header className={styles.header}>{oai}</Header>
+      <Body>
         <p>
           <b>{title}</b>
         </p>
         <p>{author.map(a => a.name).join(' ')}</p>
+      </Body>
+      <Footer>
         {fullText ? (
           <DocumentLink href={fullText.url}>Open</DocumentLink>
         ) : (
           <DocumentLink href={displayPage.url}>Open</DocumentLink>
         )}
-      </div>
+        <TakeDown onClick={() => store.works.changeVisibility(id, !disabled)} />
+      </Footer>
     </>
   )
 }
@@ -112,7 +118,7 @@ const Data = ({ store, ...restProps }) => (
         store={store}
       />
       <Table.Sidebar>
-        <SidebarContent />
+        <SidebarContent store={store} />
       </Table.Sidebar>
     </Table>
   </Card>
