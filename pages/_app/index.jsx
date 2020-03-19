@@ -8,7 +8,7 @@ import '@oacore/design/lib/index.css'
 import Route from './route'
 import styles from './index.css'
 
-import { getLoginPage } from 'config'
+import { API_URL, getLoginPage } from 'config'
 import { UnauthorizedError } from 'api/errors'
 import logPageView from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
@@ -202,13 +202,19 @@ class App extends NextApp {
 
   Login = () => {
     const { router } = this.props
-    const param = router.query.reason === 'logout' ? 'reason=logout' : 'loading'
 
+    const search = new URLSearchParams({
+      reason: router.query.reason === 'logout' ? 'logout' : '',
+      loading: router.query.reason !== 'logout',
+      identity_provider_url: API_URL.replace('internal', ''),
+    }).toString()
+
+    const url = `/login.html?${search}`
     return (
       <iframe
         ref={this.loginIframeRef}
         title="Login Form"
-        src={`/login.html?${param}`}
+        src={url}
         className={styles.loginIframe}
         onLoad={() => {
           const { isAuthorized, loginInProcess } = this.state
