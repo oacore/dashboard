@@ -1,3 +1,5 @@
+import { observable } from 'mobx'
+
 import getOrder from '../order'
 import Page from './page'
 import invalidatePreviousRequests from '../invalidatePreviousRequests'
@@ -58,11 +60,13 @@ class Pages {
       request.then(
         ({ data }) => {
           const page = new Page(
-            data.map(e => ({
-              ...e,
-              id: `${this.#pageNumber}-${e.id}`,
-              originalId: e.id,
-            })),
+            observable(
+              data.map(e => ({
+                ...e,
+                id: `${this.#pageNumber}-${e.id}`,
+                originalId: e.id,
+              }))
+            ),
             {
               searchTerm: this.#searchTerm,
               order,

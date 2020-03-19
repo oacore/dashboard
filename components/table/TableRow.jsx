@@ -1,15 +1,20 @@
 import React from 'react'
 import { Table } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
+import { observer } from 'mobx-react'
 
 import tableClassNames from './index.css'
 
-const TableRow = React.memo(props => {
+const TableRow = props => {
   const { id, index, columns, context, isClickable } = props
+  const { disabled } = context
   const rowProps = {
     'data-id': id,
     'data-is-clickable': isClickable,
-    'className': classNames.use([isClickable && tableClassNames.clickable]),
+    'className': classNames.use([
+      isClickable && tableClassNames.clickable,
+      disabled && tableClassNames.disable,
+    ]),
   }
 
   return (
@@ -21,6 +26,6 @@ const TableRow = React.memo(props => {
       ))}
     </Table.Row>
   )
-})
+}
 
-export default TableRow
+export default observer(TableRow)
