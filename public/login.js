@@ -68,7 +68,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (urlParams.get('loading') === 'true') addLoadingAnimation()
+  if (urlParams.has('loading')) addLoadingAnimation()
 
   const form = document.getElementById('login-form')
   form.addEventListener('submit', login)
