@@ -203,11 +203,14 @@ class App extends NextApp {
   Login = () => {
     const { router } = this.props
 
-    const search = new URLSearchParams({
+    const searchParams = {
       reason: router.query.reason === 'logout' ? 'logout' : '',
-      loading: router.query.reason !== 'logout',
       identity_provider_url: API_URL.replace('internal', ''),
-    }).toString()
+    }
+
+    if (router.query.reason !== 'logout') searchParams.loading = true
+
+    const search = new URLSearchParams(searchParams).toString()
 
     const url = `/login.html?${search}`
     return (
