@@ -67,9 +67,9 @@ const SidebarContent = ({
         </p>
         <p>{author.map(a => a.name).join(' ')}</p>
         {fullText ? (
-          <DocumentLink href={fullText.url}>Open full text</DocumentLink>
+          <DocumentLink href={fullText.url}>Open</DocumentLink>
         ) : (
-          <DocumentLink href={displayPage.url}>Open metadata</DocumentLink>
+          <DocumentLink href={displayPage.url}>Open</DocumentLink>
         )}
       </div>
     </>

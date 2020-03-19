@@ -1,6 +1,7 @@
 .alert {
   --card-padding-x: 0;
   --card-padding-y: 0;
+  color: var(--primary-dark);
   border: 1px solid currentColor;
 
   & > * {
