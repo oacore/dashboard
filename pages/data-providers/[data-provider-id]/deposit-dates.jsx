@@ -115,6 +115,7 @@ const DepositDates = ({
         }
         download={!store.depositDates.isExportDisabled}
         disabled={store.depositDates.isExportDisabled}
+        tag="a"
       >
         {texts.exporting.download}
       </Button>
