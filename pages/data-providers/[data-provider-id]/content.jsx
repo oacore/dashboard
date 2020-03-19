@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-classes-per-file
 import React from 'react'
 import { Label } from '@oacore/design'
 import dayjs from 'dayjs'
@@ -9,7 +8,6 @@ import styles from './content.css'
 import TakeDown from 'components/takedown'
 import { withGlobalStore } from 'store'
 import Table from 'components/table'
-import PublishedToggle from 'components/published-toggle'
 import { Card } from 'design'
 import DocumentLink from 'components/document-link'
 
@@ -24,26 +22,6 @@ class OAIColumn extends Table.Column {
     } = this.props
 
     return <Label color="primary">{oai.split(':').pop()}</Label>
-  }
-}
-
-// TODO: Move this into sidebar
-class VisibilityColumn extends Table.Column {
-  render() {
-    const {
-      store,
-      context: { id, disabled },
-    } = this.props
-
-    return (
-      <PublishedToggle
-        className={styles.visibilitySwitch}
-        defaultVisibility={!disabled}
-        onVisibilityChanged={isVisible =>
-          store.works.changeVisibility(id, isVisible)
-        }
-      />
-    )
   }
 }
 
@@ -109,13 +87,6 @@ const Data = ({ store, ...restProps }) => (
         order="desc"
         className={styles.lastUpdateColumn}
         getter={v => dayjs(v.lastUpdate).fromNow()}
-      />
-      <VisibilityColumn
-        id="visibility"
-        display="Visibility"
-        order=""
-        className={styles.visibilityColumn}
-        store={store}
       />
       <Table.Sidebar>
         <SidebarContent store={store} />

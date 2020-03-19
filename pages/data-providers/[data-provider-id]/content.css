@@ -29,26 +29,17 @@
 }
 
 .authors-column {
-  width: 25%;
+  width: 35%;
 }
 
 .last-update-column {
   width: 15%;
 }
 
-.visibility-column {
-  width: 10%;
-}
-
 .doi-label {
   margin-left: 1rem;
   color: var(--gray-700);
   background: var(--gray-100);
-}
-
-.visibility-switch {
-  margin-top: -0.5rem;
-  margin-bottom: -0.5rem;
 }
 
 .header {
