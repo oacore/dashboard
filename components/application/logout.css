@@ -1,9 +1,14 @@
-@custom-media --screen-until-desktop (max-width: 727px);
+@custom-media --screen-until-desktop (max-width: 1199px);
+
+.container {
+  word-wrap: nowrap;
+}
 
 .name {
   &::after {
     content: ' | ';
   }
+
   @media (--screen-until-desktop) {
     display: none;
   }
