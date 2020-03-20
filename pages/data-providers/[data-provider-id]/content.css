@@ -48,6 +48,8 @@
   background: var(--gray-700);
 }
 
-.content {
-  padding: 1rem;
+.sidebar {
+  & .danger {
+    fill: var(--danger);
+  }
 }
