@@ -13,14 +13,9 @@
   }
 }
 
-.label-column {
+.oai-column {
   width: 15%;
   min-width: 5rem;
-
-  & > mark {
-    text-align: center;
-    text-overflow: clip;
-  }
 }
 
 .title-column {

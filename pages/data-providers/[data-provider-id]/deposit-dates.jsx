@@ -5,23 +5,13 @@ import { withGlobalStore } from 'store'
 import Markdown from 'components/markdown'
 import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
-import { Button, Card, Label } from 'design'
+import { Button, Card } from 'design'
 import * as texts from 'texts/depositing'
 import DocumentLink from 'components/document-link'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
 import styles from './deposit-dates.css'
-
-class OAIColumn extends Table.Column {
-  render() {
-    const {
-      context: { oai },
-    } = this.props
-
-    return <Label color="primary">{oai.split(':').pop()}</Label>
-  }
-}
 
 const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   const { Header, Body, Footer } = Table.Sidebar
@@ -116,11 +106,11 @@ const DepositDates = ({
         pages={store.depositDates.publicReleaseDates}
         searchable
       >
-        <OAIColumn
+        <Table.Column
           id="oai"
           display="OAI"
-          order=""
-          className={styles.labelColumn}
+          getter={v => v.oai.split(':').pop()}
+          className={styles.oaiColumn}
         />
         <Table.Column
           id="title"

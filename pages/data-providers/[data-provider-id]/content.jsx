@@ -1,5 +1,4 @@
 import React from 'react'
-import { Label } from '@oacore/design'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
@@ -12,18 +11,6 @@ import { Card } from 'design'
 import DocumentLink from 'components/document-link'
 
 dayjs.extend(relativeTime)
-
-class OAIColumn extends Table.Column {
-  render() {
-    const {
-      context: {
-        identifier: { oai },
-      },
-    } = this.props
-
-    return <Label color="primary">{oai.split(':').pop()}</Label>
-  }
-}
 
 const SidebarContent = ({
   store,
@@ -67,11 +54,14 @@ const Data = ({ store, ...restProps }) => (
       pages={store.works}
       searchable
     >
-      <OAIColumn
+      <Table.Column
         id="oai"
         display="OAI"
-        order=""
-        className={styles.labelColumn}
+        getter={v => {
+          const { oai } = v.identifier
+          return oai.split(':').pop()
+        }}
+        className={styles.oaiColumn}
       />
       <Table.Column id="title" display="Title" className={styles.titleColumn} />
       <Table.Column
