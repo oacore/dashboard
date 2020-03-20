@@ -74,6 +74,15 @@ const tableConfig = {
   },
 }
 
+const ExportButton = ({ children, href, disabled, ...restProps }) => {
+  const props = disabled ? { disabled } : { href, download: true, tag: 'a' }
+  return (
+    <Button variant="contained" {...props} {...restProps}>
+      {children}
+    </Button>
+  )
+}
+
 /**
  * TODO: This is an example of bad design. We have to know structure
  *       of Layout.Main and explicitly pass props.
@@ -108,17 +117,12 @@ const DepositDates = ({
           count: store.depositDates.depositDatesCount || '',
         })}
       </p>
-      <Button
-        variant="contained"
-        href={
-          !store.depositDates.isExportDisabled && store.depositDates.datesUrl
-        }
-        download={!store.depositDates.isExportDisabled}
+      <ExportButton
+        href={store.depositDates.datesUrl}
         disabled={store.depositDates.isExportDisabled}
-        tag="a"
       >
         {texts.exporting.download}
-      </Button>
+      </ExportButton>
     </Card>
 
     <Card className={styles.depositTimeLag} tag="section">
