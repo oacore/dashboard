@@ -2,11 +2,22 @@ import React from 'react'
 
 import styles from './styles.css'
 
-import { Button } from 'design'
+import { Button, Icon } from 'design'
 
-const TakeDown = React.memo(({ ...passProps }) => (
+const TakeDown = React.memo(({ disabled, ...passProps }) => (
   <Button className={styles.takedown} variant="outlined" {...passProps}>
-    Take down
+    {!disabled ? (
+      'Take down'
+    ) : (
+      <>
+        <Icon
+          className={styles.icon}
+          src="/design/icons.svg#globe"
+          aria-hidden
+        />
+        Restore
+      </>
+    )}
   </Button>
 ))
 

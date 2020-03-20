@@ -1,6 +1,8 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { classNames } from '@oacore/design/lib/utils'
+import { observer } from 'mobx-react'
 
 import styles from './content.css'
 
@@ -12,39 +14,52 @@ import DocumentLink from 'components/document-link'
 
 dayjs.extend(relativeTime)
 
-const SidebarContent = ({
-  store,
-  context: {
-    id,
-    identifier: { oai },
-    title,
-    author,
-    link,
-  },
-}) => {
-  const { Header, Body, Footer } = Table.Sidebar
-  const fullText = link.find(v => v.type === 'download')
-  const displayPage = link.find(v => v.type === 'display')
-  return (
-    <>
-      <Header className={styles.header}>{oai}</Header>
-      <Body>
-        <p>
-          <b>{title}</b>
-        </p>
-        <p>{author.map(a => a.name).join(' ')}</p>
-      </Body>
-      <Footer>
-        {fullText ? (
-          <DocumentLink href={fullText.url}>Open</DocumentLink>
-        ) : (
-          <DocumentLink href={displayPage.url}>Open</DocumentLink>
-        )}
-        <TakeDown onClick={() => store.works.changeVisibility(id)} />
-      </Footer>
-    </>
-  )
-}
+const SidebarContent = observer(
+  ({
+    store,
+    context: {
+      id,
+      identifier: { oai },
+      title,
+      author,
+      link,
+      disabled,
+    },
+  }) => {
+    const { Header, Body, Footer } = Table.Sidebar
+    const fullText = link.find(v => v.type === 'download')
+    const displayPage = link.find(v => v.type === 'display')
+    return (
+      <>
+        <Header
+          className={classNames.use([
+            styles.header,
+            disabled && styles.headerDisabled,
+          ])}
+        >
+          {oai}
+        </Header>
+        <Body>
+          <p>
+            <b>{title}</b>
+          </p>
+          <p>{author.map(a => a.name).join(' ')}</p>
+        </Body>
+        <Footer>
+          {fullText ? (
+            <DocumentLink href={fullText.url}>Open</DocumentLink>
+          ) : (
+            <DocumentLink href={displayPage.url}>Open</DocumentLink>
+          )}
+          <TakeDown
+            onClick={() => store.works.changeVisibility(id)}
+            disabled={disabled}
+          />
+        </Footer>
+      </>
+    )
+  }
+)
 
 const Data = ({ store, ...restProps }) => (
   <Card {...restProps}>
