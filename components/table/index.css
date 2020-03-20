@@ -52,6 +52,17 @@
     right: 1rem;
     cursor: pointer;
   }
+
+  & > * {
+    padding: 1rem;
+  }
+}
+
+.footer {
+  margin-top: auto;
+  justify-self: flex-end;
+  background: var(--white);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 .container {
