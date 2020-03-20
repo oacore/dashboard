@@ -1,6 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react'
 
@@ -9,21 +10,23 @@ import styles from './content.css'
 import TakeDown from 'components/takedown'
 import { withGlobalStore } from 'store'
 import Table from 'components/table'
-import { Card } from 'design'
+import { Card, DetailList, Icon } from 'design'
 import DocumentLink from 'components/document-link'
 
 dayjs.extend(relativeTime)
+dayjs.extend(advancedFormat)
 
 const SidebarContent = observer(
   ({
     store,
     context: {
       id,
-      identifier: { oai },
+      identifier: { oai, doi },
       title,
       author,
       link,
       disabled,
+      lastUpdate,
     },
   }) => {
     const { Header, Body, Footer } = Table.Sidebar
@@ -39,11 +42,27 @@ const SidebarContent = observer(
         >
           {oai}
         </Header>
-        <Body>
-          <p>
+        <Body className={styles.sidebar}>
+          <div>
             <b>{title}</b>
-          </p>
-          <p>{author.map(a => a.name).join(' ')}</p>
+          </div>
+          <div>{author.map(a => a.name).join(' ')}</div>
+          <DetailList>
+            <DetailList.Item name="Full text">
+              <Icon
+                className={classNames.use([!fullText && styles.danger])}
+                src={`/design/icons.svg#${
+                  fullText ? 'document-success' : 'document-alert'
+                }`}
+                aria-hidden
+              />
+              {fullText ? 'Available' : 'Unavailable'}
+            </DetailList.Item>
+            {doi && <DetailList.Item name="DOI">{doi}</DetailList.Item>}
+            <DetailList.Item name="Update date">
+              {dayjs(lastUpdate).format('Do MMMM YYYY, hh:mm:ss')}
+            </DetailList.Item>
+          </DetailList>
         </Body>
         <Footer>
           {fullText ? (
