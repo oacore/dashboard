@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { classNames } from '@oacore/design/lib/utils'
 
 import tableClassNames from './index.css'
 
@@ -21,13 +22,14 @@ class Sidebar extends React.Component {
   }
 }
 
-Sidebar.displayName = 'TableSidebar'
-
-const SidebarHeader = ({ children, ...passProps }) => {
+const SidebarHeader = ({ children, className, ...passProps }) => {
   const closeIconRef = useRef(null)
 
   return (
-    <div {...passProps}>
+    <div
+      className={classNames.use([tableClassNames.header]).join(className)}
+      {...passProps}
+    >
       {children}
       <CloseIcon
         ref={closeIconRef}
@@ -43,6 +45,21 @@ const SidebarHeader = ({ children, ...passProps }) => {
   )
 }
 
+const SidebarBody = ({ children, ...passProps }) => (
+  <div {...passProps}>{children}</div>
+)
+
+const SidebarFooter = ({ children, className, ...passProps }) => (
+  <div
+    className={classNames.use([tableClassNames.footer]).join(className)}
+    {...passProps}
+  >
+    {children}
+  </div>
+)
+
 Sidebar.Header = SidebarHeader
+Sidebar.Body = SidebarBody
+Sidebar.Footer = SidebarFooter
 
 export default Sidebar

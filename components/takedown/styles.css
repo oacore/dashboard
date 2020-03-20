@@ -1,4 +1,10 @@
 .takedown {
   width: 100%;
+  height: 2.625rem;
   margin-top: 1rem;
+}
+
+.icon {
+  padding-right: 0.3rem;
+  padding-bottom: 0.1rem;
 }
