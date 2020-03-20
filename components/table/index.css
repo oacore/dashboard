@@ -28,6 +28,10 @@
   left: 0;
   margin-right: 0;
   transition: margin-right 200ms ease;
+
+  & .clickable:hover {
+    background: var(--gray-200);
+  }
 }
 
 .sidebar {
