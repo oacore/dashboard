@@ -4,7 +4,8 @@
   "builds": [{ "src": "next.config.js", "use": "@now/next" }],
   "build": {
     "env": {
-      "NPM_TOKEN": "@npm_token"
+      "NPM_TOKEN": "@npm_token",
+      "NODE_ENV": "development"
     }
   }
 }
