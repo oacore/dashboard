@@ -35,7 +35,8 @@ function login(event) {
   window.dispatchEvent(new Event('login-processing'))
   const formData = new FormData(event.target)
   const data = new URLSearchParams(formData)
-  fetch(`${identityProviderUrl}login_check`, {
+  const url = new URL('login_check', identityProviderUrl)
+  fetch(url, {
     method: 'POST',
     body: data,
     credentials: 'include',
