@@ -37,6 +37,7 @@ const SidebarContent = observer(
         <Header
           className={classNames.use([
             styles.header,
+            !fullText && styles.headerDanger,
             disabled && styles.headerDisabled,
           ])}
         >
