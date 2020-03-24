@@ -62,7 +62,7 @@ class DepositDates {
   loadDepositDatesCount = async () => {
     try {
       this.isExportDisabled = false
-      const { headers } = await apiRequest(this.datesUrl, { mehtod: 'HEAD' })
+      const { headers } = await apiRequest(this.datesUrl, { method: 'HEAD' })
       const length = headers.get('Collection-Length')
       this.depositDatesCount = Number.parseInt(length, 10) || null
     } catch (error) {
