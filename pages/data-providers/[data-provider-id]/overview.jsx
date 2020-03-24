@@ -88,7 +88,7 @@ const DOICard = ({ value }) => (
   <Card>
     <h2>DOI</h2>
     <PerformanceChart value={value} caption="DOI" />
-    <Button variant="contained" disabled>
+    <Button variant="contained" href="doi" tag="a">
       Browse
     </Button>
   </Card>
