@@ -64,33 +64,20 @@ const processStatus = response => {
   return response
 }
 
-const processBody = response => {
+const processBody = (response, { method }) => {
   const { headers } = response
   const type = headers.get('Content-Type')
 
-  return (/application\/([\w.-]\+)?json/g.test(type)
+  return (/application\/([\w.-]\+)?json/g.test(type) && method !== 'HEAD'
     ? response.json()
     : response.blob()
   ).then(data => ({ data, type, headers }))
 }
 
-// TODO: Remove later
-// Old type of error processing
-// eslint-disable-next-line no-unused-vars
-const processError = error => {
-  const { response, message } = error
-  if (error instanceof NetworkError) throw error
-
-  // user is probably offline or CORS failed
-  throw new NetworkError(
-    `Request for ${response?.url} failed. Response: ${response?.status}, ${message}`
-  )
-}
-
 const executeRequest = ({ url, ...options }) =>
   fetch(url, options)
     .then(processStatus)
-    .then(processBody)
+    .then(response => processBody(response, { ...options }))
 
 const performRequest = (url, options) => {
   const request = prepareRequest({ url, ...options })
