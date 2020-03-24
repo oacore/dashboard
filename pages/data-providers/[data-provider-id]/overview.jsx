@@ -1,5 +1,4 @@
 import React from 'react'
-import { ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
 
 import { withGlobalStore } from 'store'
@@ -7,45 +6,16 @@ import { Button, Card, Overlay } from 'design'
 import NumericValue from 'components/numeric-value'
 import TimeLagChart from 'components/time-lag-chart'
 import { depositing } from 'texts/overview'
+import PerformanceChart from 'components/performance-chart'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
 import styles from './overview.css'
 
-const RadialChart = ({ value, caption }) => (
-  <div className={styles.chartContainer}>
-    <ResponsiveContainer width="100%" height={320 - 64}>
-      <RadialBarChart
-        innerRadius="95%"
-        data={[
-          {
-            value,
-            fill: 'var(--primary)',
-          },
-          {
-            value: 100,
-            fill: '#fff',
-          },
-        ]}
-        startAngle={225}
-        endAngle={-45}
-      >
-        <RadialBar minAngle={15} background clockWise dataKey="value" />
-      </RadialBarChart>
-    </ResponsiveContainer>
-    <NumericValue
-      className={styles.chartLabel}
-      value={value}
-      append="%"
-      caption={caption}
-    />
-  </div>
-)
-
 const PlaceholderCard = ({ title, value, description }) => (
   <Card>
     <h2>{title}</h2>
-    <RadialChart value={value} caption={title} />
+    <PerformanceChart value={value} caption={title} />
     <p>{description}</p>
     <Button variant="contained" disabled>
       Browse
@@ -114,6 +84,16 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
   )
 }
 
+const DOICard = ({ value }) => (
+  <Card>
+    <h2>DOI</h2>
+    <PerformanceChart value={value} caption="DOI" />
+    <Button variant="contained" disabled>
+      Browse
+    </Button>
+  </Card>
+)
+
 const DashboardView = ({
   metadataCount,
   fullTextCount,
@@ -128,7 +108,6 @@ const DashboardView = ({
     {...restProps}
   >
     <h1 className="sr-only">Overview</h1>
-
     <DataStatisticsCard
       metadataCount={metadataCount}
       fullTextCount={fullTextCount}
@@ -137,8 +116,7 @@ const DashboardView = ({
       chartData={isTimeLagDataLoading ? null : timeLagData}
       complianceLevel={isTimeLagDataLoading ? null : complianceLevel}
     />
-
-    <PlaceholderCard title="Doi" value={14.2} />
+    <DOICard value={14.2} />
     <PlaceholderCard title="ORCiDs" value={5.8} />
   </main>
 )

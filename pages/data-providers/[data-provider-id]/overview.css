@@ -19,16 +19,3 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
-.chart-container {
-  position: relative;
-}
-
-.chart-label {
-  position: absolute;
-  top: 128px;
-  left: 50%;
-  margin: 1rem 0 0;
-  text-align: center;
-  transform: translate(-50%, -50%);
-}
