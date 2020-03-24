@@ -24,6 +24,8 @@ const env = { local, development, production }
 const config = {
   ...env.production,
   ...env[NODE_ENV],
+  SENTRY_DSN: process.env.SENTRY_DSN,
+  GA_TRACKING_CODE: process.env.GA_TRACKING_CODE,
 }
 
 validate(config)
