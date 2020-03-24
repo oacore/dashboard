@@ -1,6 +1,5 @@
 const path = require('path')
 
-const webpack = require('webpack')
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const withImages = require('next-images')
 const withSourceMaps = require('@zeit/next-source-maps')
@@ -127,13 +126,6 @@ const nextConfig = {
       'config': path.join(__dirname, 'config.js'),
       '@sentry/node': config.isServer ? '@sentry/node' : '@sentry/browser',
     })
-
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
-        GA_TRACKING_CODE: JSON.stringify(process.env.GA_TRACKING_CODE),
-      })
-    )
 
     return config
   },
