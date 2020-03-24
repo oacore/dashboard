@@ -18,7 +18,7 @@ const Logout = ({ store }) => {
   const name = store.user.email
   const redirectUrl =
     typeof window != 'undefined'
-      ? `${window.location.origin}?reson=logout`
+      ? `${window.location.origin}?reason=logout`
       : null
 
   return (
