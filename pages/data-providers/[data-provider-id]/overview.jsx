@@ -3,29 +3,14 @@ import { ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
 
 import { withGlobalStore } from 'store'
-import { Button, Card, Overlay, Numeral } from 'design'
+import { Button, Card, Overlay } from 'design'
+import NumericValue from 'components/numeric-value'
 import TimeLagChart from 'components/time-lag-chart'
 import { depositing } from 'texts/overview'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
 import styles from './overview.css'
-
-const formatNumber = (n, { locale = 'en-GB' } = {}) =>
-  n > 1000
-    ? `${(Math.floor(n / 10) / 100).toLocaleString(locale)}\xa0K`
-    : n.toLocaleString(locale)
-
-const Num = ({ value, append, caption, diff, ...restProps }) => (
-  <Numeral tag="p" {...restProps}>
-    <Numeral.Value>
-      {typeof value == 'number' ? formatNumber(value) : value}
-    </Numeral.Value>
-    {append && <Numeral.Appendix>&nbsp;{append}</Numeral.Appendix>}{' '}
-    {diff && <Numeral.Diff>{diff}</Numeral.Diff>}{' '}
-    <Numeral.Caption>{caption}</Numeral.Caption>
-  </Numeral>
-)
 
 const RadialChart = ({ value, caption }) => (
   <div className={styles.chartContainer}>
@@ -48,7 +33,7 @@ const RadialChart = ({ value, caption }) => (
         <RadialBar minAngle={15} background clockWise dataKey="value" />
       </RadialBarChart>
     </ResponsiveContainer>
-    <Num
+    <NumericValue
       className={styles.chartLabel}
       value={value}
       append="%"
@@ -86,11 +71,11 @@ const DataStatisticsCard = ({
 }) => (
   <Card className={className} {...restProps}>
     <h2>Harvested data</h2>
-    <Num
+    <NumericValue
       value={valueOrDefault(fullTextCount, 'Loading...')}
       caption="full texts"
     />
-    <Num
+    <NumericValue
       value={valueOrDefault(metadataCount, 'Loading...')}
       caption="metadata records"
       size="small"
