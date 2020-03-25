@@ -260,6 +260,7 @@ class App extends NextApp {
           dataProvider={store.dataProvider}
           activity={store.activity.id}
           onClick={this.handleNavigation}
+          isAuthenticated
         >
           <Component {...pageProps} />
         </Application>

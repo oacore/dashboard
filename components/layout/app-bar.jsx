@@ -1,16 +1,26 @@
 import React, { useContext } from 'react'
 import { AppBar } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
 import LayoutContext from './context'
 import styles from './styles.css'
 
 import { AppBarToggle, Logo } from 'design'
 
-const DashboardAppBar = ({ children, className, ...restProps }) => {
+const DashboardAppBar = ({
+  children,
+  className,
+  variant = 'internal', // 'internal' or 'public'
+  ...restProps
+}) => {
   const [state, dispatch] = useContext(LayoutContext)
 
   return (
-    <AppBar className={styles.appBar} fixed {...restProps}>
+    <AppBar
+      className={classNames.use('appBar', variant).from(styles)}
+      fixed
+      {...restProps}
+    >
       <AppBarToggle
         className={styles.appBarToggle}
         type="button"

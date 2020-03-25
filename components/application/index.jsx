@@ -8,13 +8,23 @@ import Logout from './logout'
 
 import activities from 'store/activities'
 
-const Application = ({ children, dataProvider, activity, ...restProps }) => (
+const Application = ({
+  children,
+  dataProvider,
+  activity,
+  isAuthenticated = false,
+  ...restProps
+}) => (
   <>
     <Head />
     <Container {...restProps}>
-      <AppBar>
-        {dataProvider && <RepositorySelect value={dataProvider} />}
-        <Logout />
+      <AppBar variant={isAuthenticated ? 'internal' : 'public'}>
+        {isAuthenticated ? (
+          <>
+            {dataProvider && <RepositorySelect value={dataProvider} />}
+            <Logout />
+          </>
+        ) : null}
       </AppBar>
       <SideBar tag="nav">
         <h2 className="sr-only">Navigate your data</h2>
