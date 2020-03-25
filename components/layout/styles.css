@@ -26,7 +26,12 @@
 }
 
 .app-bar-toggle {
+  display: none;
   height: 3.5rem;
+}
+
+.internal .app-bar-toggle {
+  display: block;
 
   @media (--screen-at-least-desktop) {
     display: none;
@@ -35,7 +40,9 @@
 
 .app-bar-brand {
   width: var(--side-bar-width);
+}
 
+.internal .app-bar-brand {
   @media (--screen-until-desktop) {
     display: none;
   }
