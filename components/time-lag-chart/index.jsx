@@ -115,7 +115,8 @@ const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
                   'lag-bar': true,
                   'compliant': parseInt(entry.key, 10) * aggregationSize < 90,
                 })
-                .from(styles)}
+                .from(styles)
+                .toString()}
               key={entry.key}
             />
           ))}
