@@ -1,14 +1,28 @@
 import { observable, action, computed } from 'mobx'
 
 import activities from './activities'
+import Store from './store'
 import User from './user'
 import DepositDates from './deposit-dates'
 import Works from './works'
 
 import apiRequest from 'api'
 
-class Root {
-  @observable user = new User()
+class Root extends Store {
+  constructor() {
+    const request = async (...args) => {
+      this.requestsInProgress += 1
+      try {
+        return await apiRequest(...args)
+      } finally {
+        this.requestsInProgress -= 1
+      }
+    }
+
+    super(null, { request })
+  }
+
+  @observable user = new User(this.options)
 
   @observable dataProvider = null
 
@@ -28,6 +42,13 @@ class Root {
   @observable works = null
 
   @observable depositDates = null
+
+  @observable requestsInProgress = 0
+
+  @computed
+  get isLoading() {
+    return this.requestsInProgress > 0
+  }
 
   @computed
   get dataProviders() {
@@ -73,8 +94,8 @@ class Root {
     this.retrievePluginConfig()
 
     const url = `/data-providers/${this.dataProvider.id}`
-    this.works = new Works(url)
-    this.depositDates = new DepositDates(url)
+    this.works = new Works(url, this.options)
+    this.depositDates = new DepositDates(url, this.options)
   }
 
   @action changeActivity(url) {
@@ -88,14 +109,14 @@ class Root {
   @action
   async retrieveStatistics() {
     const url = `/data-providers/${this.dataProvider.id}/statistics`
-    const { data } = await apiRequest(url)
+    const { data } = await this.request(url)
     Object.assign(this.statistics, data)
   }
 
   @action
   async retrievePluginConfig() {
     const url = `/data-providers/${this.dataProvider.id}/plugins`
-    const { data } = await apiRequest(url)
+    const { data } = await this.request(url)
 
     data.forEach(plugin => {
       this.plugins[plugin.type] = plugin
