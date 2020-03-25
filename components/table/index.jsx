@@ -256,7 +256,7 @@ class InfiniteTable extends React.PureComponent {
                 )}
                 {columns.map(column => (
                   <Table.HeadCell
-                    key={column.id}
+                    key={column.props.id}
                     order={columnOrder[column.props.id]}
                     onClick={event => {
                       if (columnOrder[column.props.id] === null) return
