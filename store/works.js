@@ -1,12 +1,11 @@
 import { action } from 'mobx'
 
 import { Pages } from './helpers/pages'
-import apiRequest from '../api'
 
 class Works extends Pages {
-  constructor(baseUrl) {
+  constructor(baseUrl, options) {
     const url = `${baseUrl}/works`
-    super(url)
+    super(url, options)
   }
 
   @action
@@ -17,7 +16,7 @@ class Works extends Pages {
     const { disabled } = row
     row.disabled = !disabled
     try {
-      await apiRequest(`/works/${workId}`, {
+      await this.request(`/works/${workId}`, {
         method: 'PATCH',
         body: { disabled: !disabled },
       })

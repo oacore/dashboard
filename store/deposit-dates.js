@@ -1,13 +1,13 @@
 import { action, computed, observable } from 'mobx'
 
 import { Pages } from './helpers/pages'
+import Store from './store'
 
-import apiRequest from 'api'
 import { NotFoundError } from 'api/errors'
 
 const { API_URL } = process.env
 
-class DepositDates {
+class DepositDates extends Store {
   @observable isExportDisabled = false
 
   @observable depositDatesCount = 0
@@ -18,12 +18,13 @@ class DepositDates {
 
   @observable publicReleaseDates = null
 
-  constructor(baseUrl) {
+  constructor(baseUrl, options) {
+    super(baseUrl, options)
+
     const datesUrl = `${baseUrl}/public-release-dates`
-    this.publicReleaseDates = new Pages(`${baseUrl}/public-release-dates`)
+    this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
-
     this.retrieveDepositTimeLag()
     this.loadDepositDatesCount()
   }
@@ -49,7 +50,7 @@ class DepositDates {
   async retrieveDepositTimeLag() {
     this.isRetrieveDepositDatesInProgress = true
     try {
-      const { data } = await apiRequest(this.depositTimeLagUrl)
+      const { data } = await this.request(this.depositTimeLagUrl)
       this.timeLagData = data
     } catch (error) {
       if (!(error instanceof NotFoundError)) throw error
@@ -62,7 +63,9 @@ class DepositDates {
   loadDepositDatesCount = async () => {
     try {
       this.isExportDisabled = false
-      const { headers } = await apiRequest(this.datesUrl, { method: 'HEAD' })
+      const { headers } = await this.request(this.datesUrl, {
+        method: 'HEAD',
+      })
       const length = headers.get('Collection-Length')
       this.depositDatesCount = Number.parseInt(length, 10) || null
     } catch (error) {

@@ -3,14 +3,13 @@ import { observable } from 'mobx'
 import getOrder from '../order'
 import Page from './page'
 import invalidatePreviousRequests from '../invalidatePreviousRequests'
+import Store from '../../store'
 
-import apiRequest from 'api'
 import { NotFoundError } from 'api/errors'
 import { LinkedList } from 'utils/linkedList'
 
 const PAGE_SIZE = 100
-
-class Pages {
+class Pages extends Store {
   #pages = new LinkedList()
 
   #searchTerm = ''
@@ -22,10 +21,6 @@ class Pages {
   isLastPageLoaded = false
 
   isFirstPageLoaded = false
-
-  constructor(url) {
-    this.url = url
-  }
 
   async slice(from, to) {
     while (this.#pages.length < to && !this.isLastPageLoaded)
@@ -55,7 +50,7 @@ class Pages {
     if (order) params.orderBy = order
     if (this.#searchTerm) params.q = this.#searchTerm
 
-    const request = apiRequest(this.url, { searchParams: params, signal })
+    const request = this.request(this.url, { searchParams: params, signal })
     return new Promise((resolve, reject) =>
       request.then(
         ({ data }) => {
