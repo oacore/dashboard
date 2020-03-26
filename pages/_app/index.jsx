@@ -16,6 +16,7 @@ import Application from 'components/application'
 import { Sentry } from 'utils/sentry'
 
 const { IDP_URL } = process.env
+const FORBIDDEN_REDIRECT_URL = 'https://dashboard.core.ac.uk'
 
 process.on('unhandledRejection', err => {
   Sentry.captureException(err)
@@ -99,6 +100,8 @@ class App extends NextApp {
   handlePostMessage = async event => {
     if (event.data === 'login-processing' && !this.state.isAuthorized)
       await this.fetchUser()
+    else if (event.data === 'login-fallback')
+      window.location.replace(FORBIDDEN_REDIRECT_URL)
   }
 
   reflectStoreToRoute = () => {
