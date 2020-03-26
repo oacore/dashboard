@@ -1,7 +1,8 @@
 const getOrder = columnOrder =>
   Object.entries(columnOrder)
-    .filter(i => i[1])
-    .map(([k, v]) => `${k}:${v}`)
+    .map(([property, direction]) => [property, (direction || '').toLowerCase()])
+    .filter(([, direction]) => direction === 'asc' || direction === 'desc')
+    .map(([property, direction]) => `${property}:${direction}}`)
     .join(';')
 
 export default getOrder
