@@ -1,10 +1,16 @@
 @custom-media --screen-until-desktop (max-width: 1199px);
 
 .container {
-  word-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .name {
+  display: inline-block;
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+
   &::after {
     content: ' | ';
   }
