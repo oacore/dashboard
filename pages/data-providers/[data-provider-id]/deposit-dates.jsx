@@ -109,23 +109,27 @@ const DepositDates = ({
         <Table.Column
           id="oai"
           display="OAI"
+          order="any"
           getter={v => v.oai.split(':').pop()}
           className={styles.oaiColumn}
         />
         <Table.Column
           id="title"
           display="Title"
+          order="any"
           className={styles.titleColumn}
         />
         <Table.Column
           id="authors"
           display="Authors"
+          order="any"
           className={styles.authorsColumn}
           getter={v => v.authors && v.authors.map(a => a.name).join(' ')}
         />
         <Table.Column
           id="publicationDate"
           display="Publication date"
+          order="any"
           className={styles.depositDateColumn}
           getter={v => dayjs(v.publicationDate).format('DD/MM/YYYY')}
         />

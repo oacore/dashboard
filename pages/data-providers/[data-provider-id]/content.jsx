@@ -92,6 +92,7 @@ const Data = ({ store, ...restProps }) => (
       <Table.Column
         id="oai"
         display="OAI"
+        order="any"
         getter={v => {
           const { oai } = v.identifier
           return oai.split(':').pop()
@@ -102,6 +103,7 @@ const Data = ({ store, ...restProps }) => (
       <Table.Column
         id="authors"
         display="Authors"
+        order="any"
         className={styles.authorsColumn}
         getter={v => v.author.map(a => a.name).join(' ')}
       />
