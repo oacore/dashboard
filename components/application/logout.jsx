@@ -23,7 +23,9 @@ const Logout = ({ store }) => {
 
   return (
     <AppBar.Item className={styles.container}>
-      <span className={styles.name}>{name}</span>{' '}
+      <span className={styles.name} title={name}>
+        {name}
+      </span>{' '}
       <a href={getLogoutUrl(redirectUrl)}>Logout</a>
     </AppBar.Item>
   )
