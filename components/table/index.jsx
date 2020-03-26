@@ -76,15 +76,17 @@ class InfiniteTable extends React.PureComponent {
 
     // TODO: Maybe there is a better way for distinguish Column children
     const columns = childrenArray.filter(
-      item =>
-        item.type === Column ||
-        Object.prototype.isPrototypeOf.call(Column, item.type)
+      child =>
+        child.type === Column ||
+        Object.prototype.isPrototypeOf.call(Column, child.type)
     )
-    const columnOrder = columns.reduce((acc, curr) => {
-      acc[curr.props.id] =
-        curr.props.order !== undefined ? curr.props.order : null
-      return acc
-    }, {})
+
+    const columnOrder = Object.fromEntries(
+      columns.map(column => {
+        const { id, order = null } = column.props
+        return [id, order]
+      })
+    )
 
     return {
       sidebar: childrenArray.find(item => item.type === Sidebar),
@@ -105,19 +107,16 @@ class InfiniteTable extends React.PureComponent {
 
   toggleOrder = id => {
     const { columnOrder } = this.state
-    if (columnOrder[id] === undefined) return
+    if (columnOrder[id] == null) return
 
     this.setState(
       {
-        columnOrder: Object.entries(columnOrder).reduce(
-          (acc, [currId, currOrder]) => {
-            if (currId === id) acc[currId] = getNextOrder(currOrder)
-            else if (currOrder === null) acc[currId] = null
-            else acc[currId] = ''
-
-            return acc
-          },
-          {}
+        columnOrder: Object.fromEntries(
+          Object.entries(columnOrder).map(([currId, currOrder]) => {
+            if (currId === id) return [currId, getNextOrder(currOrder)]
+            if (currOrder == null) return [currId, null]
+            return [currId, 'any']
+          })
         ),
       },
       () => this.fetchData({ force: true })
