@@ -2,7 +2,9 @@ import React from 'react'
 
 import { withGlobalStore } from 'store'
 import Table from 'components/table'
+import NumericValue from 'components/numeric-value'
 import ExportButton from 'components/export-button'
+import EnrichmentChart from 'components/enrichment-chart'
 import texts from 'texts/doi'
 import { Card } from 'design'
 
@@ -19,8 +21,25 @@ const DepositDates = ({
   <Tag className={[styles.container, className].join(' ')} {...restProps}>
     <h1>DOI</h1>
 
-    <Card className={styles.cardOne} tag="section">
-      <h2>Lorem ipsum</h2>
+    <Card className={styles.overviewCard} tag="section">
+      <h2>Coverage</h2>
+      <div className={styles.overviewCardContent}>
+        <div className={styles.overviewCardText}>
+          <NumericValue value="10.45%" caption="outputs with DOIs" />
+          {2 && (
+            <p>
+              We have <strong>{2}</strong> DOIs more to enrich your records.
+            </p>
+          )}
+        </div>
+        <div className={styles.overviewCardChart}>
+          <EnrichmentChart
+            value={10}
+            increase={2}
+            caption={store.dataProvider.name}
+          />
+        </div>
+      </div>
     </Card>
 
     <Card className={styles.cardTwo} tag="section">

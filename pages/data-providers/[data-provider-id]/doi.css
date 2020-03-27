@@ -15,9 +15,19 @@
   }
 }
 
-.card-one {
+.overview-card {
   flex: 2 2 60%;
   width: 100%;
+}
+
+.overview-card-content {
+  display: flex;
+  flex-wrap: wrap;
+
+  & > * {
+    flex: 1 0 1px;
+    min-width: 12rem;
+  }
 }
 
 .card-two {
