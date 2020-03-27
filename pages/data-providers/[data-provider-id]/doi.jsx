@@ -50,6 +50,9 @@ const DepositDates = ({
           display="DOI"
           order="any"
           className={styles.doiColumn}
+          getter={v =>
+            v.crossrefDoi && !v.repoDoi ? `${v.crossrefDoi} 🆕` : v.repoDoi
+          }
         />
         <Table.Column
           id="title"
