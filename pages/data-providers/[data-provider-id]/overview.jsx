@@ -65,7 +65,7 @@ const PlaceholderCard = ({ title, value, description }) => (
     <Button variant="contained" disabled>
       Browse
     </Button>
-    <Overlay>
+    <Overlay blur>
       <b>Coming soon</b>
     </Overlay>
   </Card>
