@@ -86,8 +86,9 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
 
 const DOICard = ({ value }) => (
   <Card>
-    <h2>DOI</h2>
-    <PerformanceChart value={value} caption="DOI" />
+    <h2>DOI coverage</h2>
+    <PerformanceChart value={value} increase={2} caption="DOI" />
+    {2 && <p>We can enrich you DOI coverage by {2}%.</p>}
     <Button variant="contained" href="doi" tag="a">
       Browse
     </Button>
