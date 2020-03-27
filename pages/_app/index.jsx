@@ -10,7 +10,7 @@ import Route from './route'
 import styles from './index.css'
 
 import { UnauthorizedError } from 'api/errors'
-import logPageView from 'utils/analytics'
+import { logPageView } from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 import { Sentry } from 'utils/sentry'

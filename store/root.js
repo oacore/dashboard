@@ -5,17 +5,27 @@ import Store from './store'
 import User from './user'
 import DepositDates from './deposit-dates'
 import Works from './works'
+import { logTiming } from '../utils/analytics'
 
 import apiRequest from 'api'
 
 class Root extends Store {
   constructor() {
-    const request = async (...args) => {
+    const request = async (url, options) => {
       this.requestsInProgress += 1
+      const startTime = Date.now()
+
       try {
-        return await apiRequest(...args)
+        return await apiRequest(url, options)
       } finally {
         this.requestsInProgress -= 1
+        const endpoint = `${options?.method || 'GET'} ${this.baseUrl}${url}`
+        logTiming({
+          category: 'API calls',
+          value: Date.now() - startTime,
+          variable: endpoint.replace(/\d+/g, '<id>'),
+          label: endpoint,
+        })
       }
     }
 
@@ -53,6 +63,12 @@ class Root extends Store {
   @computed
   get dataProviders() {
     return this.user.dataProviders
+  }
+
+  @computed
+  get baseUrl() {
+    if (!this.dataProvider) return null
+    return `/data-providers/${this.dataProvider.id}`
   }
 
   @action async init(dataProviderId, activityPath) {
@@ -93,9 +109,8 @@ class Root extends Store {
     this.retrieveStatistics()
     this.retrievePluginConfig()
 
-    const url = `/data-providers/${this.dataProvider.id}`
-    this.works = new Works(url, this.options)
-    this.depositDates = new DepositDates(url, this.options)
+    this.works = new Works(this.baseUrl, this.options)
+    this.depositDates = new DepositDates(this.baseUrl, this.options)
   }
 
   @action changeActivity(url) {
