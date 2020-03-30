@@ -2,7 +2,7 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import logoPath from './core-symbol.svg'
-import styles from './index.css'
+import styles from './index.module.css'
 
 const Logo = React.memo(
   ({

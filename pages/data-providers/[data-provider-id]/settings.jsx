@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './settings.css'
+import styles from './settings.module.css'
 
 import { Card, TextField, Button } from 'design'
 import { withGlobalStore } from 'store'

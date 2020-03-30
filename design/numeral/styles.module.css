@@ -1,11 +1,9 @@
-:root {
+.container {
   --numeral-value-sm-size: 2em;
   --numeral-value-md-size: 3em;
   --numeral-value-lg-size: 4em;
   --numeral-value-size: var(--numeral-value-md-size);
-}
 
-.container {
   /* For the future */
 }
 

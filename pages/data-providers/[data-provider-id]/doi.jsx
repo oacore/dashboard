@@ -11,7 +11,7 @@ import { Card, Icon } from 'design'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
-import styles from './doi.css'
+import styles from './doi.module.css'
 
 const formatDOI = (entity) => {
   const { crossrefDoi, repoDoi: originDoi } = entity

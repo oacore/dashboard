@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 import { CloseIcon } from 'design'
 

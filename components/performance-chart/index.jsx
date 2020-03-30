@@ -2,7 +2,7 @@ import React from 'react'
 import { RadialBar, RadialBarChart, ResponsiveContainer } from 'recharts'
 
 import NumericValue from '../numeric-value'
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 const PerformanceChart = ({ value, increase, caption }) => (
   <div className={styles.container}>

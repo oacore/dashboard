@@ -1,12 +1,10 @@
-:root {
+.list {
   --drawer-list-padding-y: calc(var(--component-padding-y, 1rem) / 2);
   --drawer-list-padding-x: calc(var(--component-padding-x, 1rem) / 2);
   --drawer-item-padding-y: calc(var(--component-padding-y, 1rem) / 2);
   --drawer-item-padding-x: calc(var(--component-padding-x, 1rem) / 2);
   --drawer-item-spacing: calc(var(--component-padding-x, 1rem) / 2);
-}
 
-.list {
   padding: var(--drawer-list-padding-y) var(--drawer-list-padding-x);
   margin: 0;
   line-height: 1;

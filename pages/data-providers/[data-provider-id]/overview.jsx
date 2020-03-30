@@ -11,7 +11,7 @@ import PerformanceChart from 'components/performance-chart'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
-import styles from './overview.css'
+import styles from './overview.module.css'
 
 const OverviewCard = ({ children, className, ...passProps }) => (
   <Card className={styles.overviewCard} {...passProps}>

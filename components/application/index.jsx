@@ -6,7 +6,7 @@ import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
 import Logout from './logout'
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 import activities from 'store/activities'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './index.css'
+import styles from './index.module.css'
 
 const Overlay = ({
   children,

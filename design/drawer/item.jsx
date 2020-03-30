@@ -1,7 +1,7 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 const FlatItem = ({
   children,

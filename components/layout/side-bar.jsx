@@ -3,7 +3,7 @@ import { AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
 import LayoutContext from './context'
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 import { Logo, CloseIcon } from 'design'
 

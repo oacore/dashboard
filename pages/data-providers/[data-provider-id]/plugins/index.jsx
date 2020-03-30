@@ -2,7 +2,7 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import Link from 'next/link'
 
-import pluginsClassNames from './plugins.css'
+import pluginsClassNames from './plugins.module.css'
 
 import { Card, Button } from 'design'
 import { overview as texts } from 'texts/plugins'

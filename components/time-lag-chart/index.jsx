@@ -13,7 +13,7 @@ import { nest } from 'd3-collection'
 import { sum, mean } from 'd3-array'
 
 import CustomTooltip from './tooltip'
-import styles from './index.css'
+import styles from './index.module.css'
 
 const customTicks = {
   ...Object.fromEntries(

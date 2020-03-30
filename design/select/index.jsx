@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 // TODO: Taken from @oacore/design
 const generateId = () => Math.random().toString(36).substr(2, 9)

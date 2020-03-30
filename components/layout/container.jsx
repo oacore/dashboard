@@ -2,7 +2,7 @@ import React, { useReducer } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import { Provider } from './context'
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 const reducer = (state, action) => {
   switch (action.type) {

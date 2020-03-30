@@ -2,7 +2,7 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react'
 
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 import { Table } from 'design'
 

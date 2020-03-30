@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from './index.css'
+import styles from './index.module.css'
 
 const Tooltip = ({ active, payload, label, aggregationSize }) => {
   const index = parseInt(label, 10) * aggregationSize

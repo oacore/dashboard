@@ -5,7 +5,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react'
 
-import styles from './content.css'
+import styles from './content.module.css'
 
 import TakeDown from 'components/takedown'
 import { withGlobalStore } from 'store'
