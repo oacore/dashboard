@@ -5,9 +5,10 @@ import { withGlobalStore } from 'store'
 import Markdown from 'components/markdown'
 import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
-import { Button, Card } from 'design'
+import { Card } from 'design'
 import * as texts from 'texts/depositing'
 import DocumentLink from 'components/document-link'
+import ExportButton from 'components/export-button'
 
 // TODO: Remove once cards are in @oacore/design
 // eslint-disable-next-line
@@ -31,15 +32,6 @@ const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
         </DocumentLink>
       </Footer>
     </>
-  )
-}
-
-const ExportButton = ({ children, href, disabled, ...restProps }) => {
-  const props = disabled ? { disabled } : { href, download: true, tag: 'a' }
-  return (
-    <Button variant="contained" {...props} {...restProps}>
-      {children}
-    </Button>
   )
 }
 
