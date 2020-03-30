@@ -23,6 +23,30 @@ process.on('uncaughtException', (err) => {
 
 const ROUTES_WITHOUT_STORE = ['/login']
 
+export async function getStaticProps({ res }) {
+  res.setHeader(
+    'Content-Security-Policy',
+    [
+      // consider everything from these two domains as a safe
+      "default-src 'self' *.core.ac.uk core.ac.uk",
+      // in development there are attached inline scripts
+      // (probably from hot reload or some Next.JS magic)
+      `script-src 'self' *.google-analytics.com ${
+        process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
+      }`,
+      `style-src 'self' ${
+        process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
+      }`,
+      // google analytics may transport info via image
+      // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
+      "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
+      `connect-src 'self' *.core.ac.uk core.ac.uk sentry.io *.google-analytics.com ${
+        process.env.NODE_ENV !== 'production' ? 'localhost:* 127.0.0.1:*' : ''
+      }`,
+    ].join(';')
+  )
+}
+
 class App extends NextApp {
   state = {
     isAuthorized: false,
@@ -37,44 +61,6 @@ class App extends NextApp {
     if (!Number.isNaN(Number(dataProvider))) {
       this.store.switchDataProvider(dataProvider)
       this.store.changeActivity(activity || 'overview')
-    }
-  }
-
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {}
-    // Provide the store to getInitialProps of pages
-    if (Component.getInitialProps)
-      pageProps = (await Component.getInitialProps({ ...ctx })) || {}
-
-    // add the header only on server-side
-    if (ctx?.res != null) {
-      ctx.res.setHeader(
-        'Content-Security-Policy',
-        [
-          // consider everything from these two domains as a safe
-          "default-src 'self' *.core.ac.uk core.ac.uk",
-          // in development there are attached inline scripts
-          // (probably from hot reload or some Next.JS magic)
-          `script-src 'self' *.google-analytics.com ${
-            process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
-          }`,
-          `style-src 'self' ${
-            process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
-          }`,
-          // google analytics may transport info via image
-          // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-          "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
-          `connect-src 'self' *.core.ac.uk core.ac.uk sentry.io *.google-analytics.com ${
-            process.env.NODE_ENV !== 'production'
-              ? 'localhost:* 127.0.0.1:*'
-              : ''
-          }`,
-        ].join(';')
-      )
-    }
-
-    return {
-      pageProps,
     }
   }
 
