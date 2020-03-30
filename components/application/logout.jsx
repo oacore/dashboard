@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppBar } from '@oacore/design'
 
-import styles from './logout.css'
+import styles from './logout.module.css'
 
 import { withGlobalStore } from 'store'
 

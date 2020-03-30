@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 const StackedVerticalBarChart = React.memo(({ data }) => {
   const [transformedData, setTransformedData] = useState([])

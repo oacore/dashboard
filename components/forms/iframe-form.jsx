@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 
 import { Card } from '../../design'
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 const IframeForm = ({ className, title, ...passProps }) => {
   const ref = useRef(null)

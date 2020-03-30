@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'next/router'
 
-import styles from './login.css'
+import styles from './login.module.css'
 
 import { IframeForm } from 'components/forms'
 

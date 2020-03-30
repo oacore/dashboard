@@ -1,15 +1,9 @@
-const presetEnv = require('postcss-preset-env')
-const extend = require('postcss-extend')
-const nano = require('cssnano')
-
 module.exports = {
-  map: true,
-  plugins: [
-    presetEnv({
+  plugins: {
+    'postcss-preset-env': {
       stage: 0,
-    }),
-    extend(),
-    nano({
+    },
+    'cssnano': {
       preset: [
         'default',
         {
@@ -22,6 +16,7 @@ module.exports = {
           reduceTransforms: false,
         },
       ],
-    }),
-  ],
+    },
+    'postcss-extend': {},
+  },
 }

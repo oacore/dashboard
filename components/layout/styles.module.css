@@ -1,12 +1,10 @@
-:root {
-  --side-bar-width: 13rem;
-  --app-bar-skip: 3.5rem;
-}
-
 @custom-media --screen-at-least-desktop (min-width: 728px);
 @custom-media --screen-until-desktop (max-width: 727px);
 
 .container {
+  --side-bar-width: 13rem;
+  --app-bar-skip: 3.5rem;
+
   display: flex;
   flex-direction: column;
   min-height: 100%;

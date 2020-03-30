@@ -1,9 +1,7 @@
-:root {
-  --select-background: var(--gray-50);
-}
-
 /* TODO: Better name, it's a div shown on top of input when not hovered */
 .input-container {
+  --select-background: var(--gray-50);
+
   position: absolute;
   top: 0;
   right: 0;

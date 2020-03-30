@@ -5,7 +5,7 @@ import { withRouter } from 'next/router'
 import '@oacore/design/lib/index.css'
 
 import Route from './route'
-import './index.css'
+import './global.css'
 
 import { UnauthorizedError } from 'api/errors'
 import { logPageView } from 'utils/analytics'

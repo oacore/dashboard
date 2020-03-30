@@ -1,7 +1,7 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 const Numeral = React.memo(
   ({ children, className, size, tag: Tag = 'div', ...restProps }) => (

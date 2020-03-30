@@ -1,7 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 
-import styles from './deposit-dates.css'
+import styles from './deposit-dates.module.css'
 
 import StackedVerticalBarChart from 'components/stacked-vertical-bar-chart'
 import NumericValue from 'components/numeric-value'

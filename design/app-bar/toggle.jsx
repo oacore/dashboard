@@ -2,7 +2,7 @@ import React from 'react'
 import { AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './toggle.css'
+import styles from './toggle.module.css'
 
 const Toggle = React.memo(({ className, tag = 'button', ...restProps }) => (
   <AppBar.Item

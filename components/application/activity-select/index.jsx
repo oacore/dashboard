@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 import { Icon, Drawer } from 'design'
 import { navigation } from 'texts'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './styles.css'
+import styles from './styles.module.css'
 import NoDataFoundRow from './no-data-found-row'
 import TableRow from './row'
 import Sidebar from './sidebar'

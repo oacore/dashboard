@@ -2,7 +2,7 @@ import React from 'react'
 import { AppBar } from '@oacore/design'
 import Router from 'next/router'
 
-import styles from './repository-select.css'
+import styles from './repository-select.module.css'
 
 import { withGlobalStore } from 'store'
 import { Select } from 'design'
