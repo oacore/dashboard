@@ -173,7 +173,7 @@ class InfiniteTable extends React.PureComponent {
 
     this.setState(newState)
 
-    const data = await pages.slice(0, size)
+    const data = await pages.slice(0, newSize)
 
     this.setState({
       data,
