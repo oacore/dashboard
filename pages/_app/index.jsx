@@ -2,7 +2,6 @@ import React from 'react'
 import NextApp from 'next/app'
 import { withRouter } from 'next/router'
 import { autorun } from 'mobx'
-import { observer } from 'mobx-react'
 
 import '@oacore/design/lib/index.css'
 
@@ -26,7 +25,6 @@ process.on('uncaughtException', err => {
   Sentry.captureException(err)
 })
 
-@observer
 class App extends NextApp {
   state = {
     isAuthorized: false,
@@ -265,7 +263,6 @@ class App extends NextApp {
           dataProvider={store.dataProvider}
           activity={store.activity.id}
           onClick={this.handleNavigation}
-          isLoading={store.isLoading}
           isAuthenticated
         >
           <Component {...pageProps} />
