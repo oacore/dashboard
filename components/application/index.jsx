@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Container, AppBar, SideBar, Main } from '../layout'
-import LoadingBar from '../loading-bar'
+import LoadingBar from './loading-bar'
 import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
@@ -15,13 +15,12 @@ const Application = ({
   dataProvider,
   activity,
   isAuthenticated = false,
-  isLoading = false,
   ...restProps
 }) => (
   <>
     <Head />
     <Container {...restProps}>
-      {isLoading && <LoadingBar className={styles.loadingBar} />}
+      <LoadingBar className={styles.loadingBar} />
       <AppBar variant={isAuthenticated ? 'internal' : 'public'}>
         {isAuthenticated ? (
           <>
