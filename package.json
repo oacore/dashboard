@@ -41,7 +41,7 @@
   "dependencies": {
     "@oacore/design": "0.0.11",
     "@sentry/browser": "^5.13.0",
-    "@sentry/node": "^5.13.1",
+    "@sentry/node": "^5.15.4",
     "@zeit/next-source-maps": "0.0.3",
     "classnames": "^2.2.6",
     "core-js": "3.4.2",
