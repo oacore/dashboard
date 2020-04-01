@@ -107,7 +107,7 @@ const DepositDates = ({
         searchable
       >
         <Table.Column
-          id="repo_doi"
+          id="repoDoi"
           display={texts.table.columns.doi}
           order="any"
           className={styles.doiColumn}
