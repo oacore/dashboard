@@ -7,7 +7,7 @@ import styles from './styles.css'
 const PerformanceChart = ({ value, increase, caption }) => (
   <div className={styles.container}>
     <div className={styles.rechartsWrapper}>
-      <ResponsiveContainer className={styles.rechartsInner}>
+      <ResponsiveContainer className={styles.rechartsInner} maxHeight={350}>
         <RadialBarChart
           innerRadius="100%"
           data={[

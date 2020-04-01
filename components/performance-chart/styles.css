@@ -1,5 +1,6 @@
 .container {
   position: relative;
+  max-height: 250px;
   margin-top: var(--spacer, 1.5rem);
   margin-bottom: var(--spacer, 1.5rem);
   overflow: hidden;
@@ -22,7 +23,6 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: 12.5% 0 0;
   text-align: center;
   transform: translate(-50%, -50%);
 }
