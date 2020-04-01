@@ -12,18 +12,40 @@ import PerformanceChart from 'components/performance-chart'
 // eslint-disable-next-line
 import styles from './overview.css'
 
+const OverviewCard = ({ children, className, ...passProps }) => (
+  <Card className={styles.overviewCard} {...passProps}>
+    {children}
+  </Card>
+)
+
+const LinkButton = ({
+  children,
+  tag = 'a',
+  href = '',
+  variant = 'contained',
+  ...passProps
+}) => (
+  <Button
+    className={styles.linkButton}
+    variant={variant}
+    tag={tag}
+    href={href}
+    {...passProps}
+  >
+    {children}
+  </Button>
+)
+
 const PlaceholderCard = ({ title, value, description }) => (
-  <Card>
+  <OverviewCard>
     <h2>{title}</h2>
-    <PerformanceChart value={value} caption={title} />
+    <PerformanceChart className={styles.chart} value={value} caption={title} />
     <p>{description}</p>
-    <Button variant="contained" disabled>
-      Browse
-    </Button>
+    <LinkButton>Browse</LinkButton>
     <Overlay blur>
       <b>Coming soon</b>
     </Overlay>
-  </Card>
+  </OverviewCard>
 )
 
 const Loading = ({ children = 'Loading...', tag: Tag = 'p', ...restProps }) => (
@@ -33,13 +55,8 @@ const Loading = ({ children = 'Loading...', tag: Tag = 'p', ...restProps }) => (
 const valueOrDefault = (value, defaultValue) =>
   value == null ? defaultValue : value
 
-const DataStatisticsCard = ({
-  metadataCount,
-  fullTextCount,
-  className,
-  ...restProps
-}) => (
-  <Card className={className} {...restProps}>
+const DataStatisticsCard = ({ metadataCount, fullTextCount, ...restProps }) => (
+  <OverviewCard {...restProps}>
     <h2>Harvested data</h2>
     <NumericValue
       value={valueOrDefault(fullTextCount, 'Loading...')}
@@ -50,10 +67,8 @@ const DataStatisticsCard = ({
       caption="metadata records"
       size="small"
     />
-    <Button variant="contained" href="content" tag="a">
-      Browse
-    </Button>
-  </Card>
+    <LinkButton href="content">Browse</LinkButton>
+  </OverviewCard>
 )
 
 const DepositingCard = ({ chartData, complianceLevel }) => {
@@ -62,25 +77,25 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
   const content =
     !loading && chartData && chartData.length > 0 ? (
       <>
-        <TimeLagChart data={chartData} height={200} />
+        <TimeLagChart className={styles.chart} data={chartData} height={200} />
         <p>
           {description.complianceLevel.render({
             amount: (100 - complianceLevel).toFixed(1),
           })}
         </p>
-        <Button variant="contained" href="deposit-dates" tag="a" disabled>
+        <LinkButton href="deposit-dates" tag="a">
           {action}
-        </Button>
+        </LinkButton>
       </>
     ) : (
       <p>{description.missingData}</p>
     )
 
   return (
-    <Card>
+    <OverviewCard>
       <h2>{title}</h2>
       {loading ? <Loading /> : content}
-    </Card>
+    </OverviewCard>
   )
 }
 
@@ -97,9 +112,10 @@ const useDefault = (value, substitute = null) =>
 const DOICard = ({ doiCount, outputsCount, enrichmentSize }) => {
   const { title, action } = texts.doi
   return (
-    <Card>
+    <OverviewCard>
       <h2>{title}</h2>
       <PerformanceChart
+        className={styles.chart}
         value={useDefault((doiCount / outputsCount) * 100, '🔁')}
         increase={useDefault((enrichmentSize / doiCount) * 100)}
       />
@@ -109,10 +125,8 @@ const DOICard = ({ doiCount, outputsCount, enrichmentSize }) => {
           {formatPercent((enrichmentSize / doiCount) * 100)}%.
         </p>
       )}
-      <Button variant="contained" href="doi" tag="a">
-        {action}
-      </Button>
-    </Card>
+      <LinkButton href="doi">{action}</LinkButton>
+    </OverviewCard>
   )
 }
 
