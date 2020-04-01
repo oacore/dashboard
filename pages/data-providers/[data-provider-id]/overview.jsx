@@ -95,14 +95,13 @@ const useDefault = (value, substitute = null) =>
     : value
 
 const DOICard = ({ doiCount, outputsCount, enrichmentSize }) => {
-  const { title, numberCaption, action } = texts.doi
+  const { title, action } = texts.doi
   return (
     <Card>
       <h2>{title}</h2>
       <PerformanceChart
         value={useDefault((doiCount / outputsCount) * 100, '🔁')}
         increase={useDefault((enrichmentSize / doiCount) * 100)}
-        caption={numberCaption}
       />
       {enrichmentSize > 0 && (
         <p>
