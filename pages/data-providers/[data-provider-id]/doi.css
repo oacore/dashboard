@@ -35,23 +35,23 @@
   width: 100%;
 }
 
-.doi-table {
+.doi-table-card {
   flex: 3 3 90%;
   margin-bottom: 0;
   overflow-x: auto;
+}
 
-  & table {
-    /* It would be nice to avoid calc() in the following line */
-    width: calc(100% + 2 * var(--card-padding-x));
-    min-width: 40rem;
-    margin-right: calc(-1 * var(--card-padding-x));
-    margin-left: calc(-1 * var(--card-padding-x));
-    table-layout: fixed;
-  }
+.doi-table {
+  /* It would be nice to avoid calc() in the following line */
+  width: calc(100% + 2 * var(--card-padding-x));
+  margin-right: calc(-1 * var(--card-padding-x));
+  margin-left: calc(-1 * var(--card-padding-x));
+  overflow-x: auto;
+}
 
-  & thead th {
-    text-align: left;
-  }
+.doi-table > table {
+  min-width: 55rem;
+  table-layout: fixed;
 
   & th,
   & td {
@@ -62,20 +62,15 @@
 }
 
 .doi-column {
-  width: 20%;
-  min-width: 10rem;
+  width: 30%;
 }
 
 .title-column {
-  width: 40%;
-
-  /* TODO: allow width: auto; min-width does not work */
-  min-width: 15rem;
+  width: 35%;
 }
 
 .authors-column {
-  width: 40%;
-  min-width: 10rem;
+  width: 35%;
 }
 
 .new-icon {
