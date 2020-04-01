@@ -120,7 +120,7 @@ const DashboardView = ({
   metadataCount,
   fullTextCount,
   doiCount,
-  doiEnricmentSize,
+  doiEnrichmentSize,
   timeLagData,
   isTimeLagDataLoading,
   complianceLevel,
@@ -143,7 +143,7 @@ const DashboardView = ({
     <DOICard
       outputsCount={metadataCount}
       doiCount={doiCount}
-      enrichmentSize={doiEnricmentSize}
+      enrichmentSize={doiEnrichmentSize}
     />
     <PlaceholderCard title="ORCiDs" value={5.8} />
   </main>
@@ -174,7 +174,7 @@ const Dashboard = ({ store, ...restProps }) => (
     isTimeLagDataLoading={store.depositDates.isRetrieveDepositDatesInProgress}
     complianceLevel={store.depositDates.complianceLevel}
     doiCount={store.doi.originCount}
-    doiEnricmentSize={store.doi.enrichmentSize}
+    doiEnrichmentSize={store.doi.enrichmentSize}
     {...restProps}
   />
 )
