@@ -134,7 +134,7 @@ class Root extends Store {
     const url = `/data-providers/${this.dataProvider.id}/plugins`
     const { data } = await this.request(url)
 
-    data.forEach(plugin => {
+    data.forEach((plugin) => {
       this.plugins[plugin.type] = plugin
     })
   }

@@ -19,22 +19,14 @@ const Alert = React.memo(({ children, variant }) => (
 ))
 
 const AlertHeader = React.memo(({ children, className }) => (
-  <Card
-    className={classNames
-      .use('alert-header')
-      .from(styles)
-      .join(className)}
-  >
+  <Card className={classNames.use('alert-header').from(styles).join(className)}>
     {children}
   </Card>
 ))
 
 const AlertContent = React.memo(({ children, className }) => (
   <Card
-    className={classNames
-      .use('alert-content')
-      .from(styles)
-      .join(className)}
+    className={classNames.use('alert-content').from(styles).join(className)}
   >
     {children}
   </Card>

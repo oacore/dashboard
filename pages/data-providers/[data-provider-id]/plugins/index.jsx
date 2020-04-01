@@ -22,7 +22,7 @@ const PluginCard = ({
   </Card>
 )
 
-const DiscoveryPluginCard = passProps => (
+const DiscoveryPluginCard = (passProps) => (
   <PluginCard
     title={texts.discovery.title}
     description={texts.discovery.description}
@@ -32,7 +32,7 @@ const DiscoveryPluginCard = passProps => (
   />
 )
 
-const RecommenderPluginCard = passProps => (
+const RecommenderPluginCard = (passProps) => (
   <PluginCard
     title={texts.recommender.title}
     description={texts.recommender.description}

@@ -23,7 +23,7 @@ const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
         <p>
           <b>{title}</b>
         </p>
-        <p>{authors?.map(a => a.name).join(' ')}</p>
+        <p>{authors?.map((a) => a.name).join(' ')}</p>
       </Body>
       <Footer>
         <DocumentLink href={`https://core.ac.uk/display/${originalId}`}>
@@ -110,7 +110,7 @@ const DepositDates = ({
           id="oai"
           display="OAI"
           order="any"
-          getter={v => v.oai.split(':').pop()}
+          getter={(v) => v.oai.split(':').pop()}
           className={styles.oaiColumn}
         />
         <Table.Column
@@ -124,21 +124,21 @@ const DepositDates = ({
           display="Authors"
           order="any"
           className={styles.authorsColumn}
-          getter={v => v.authors && v.authors.map(a => a.name).join(' ')}
+          getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
         />
         <Table.Column
           id="publicationDate"
           display="Publication date"
           order="any"
           className={styles.depositDateColumn}
-          getter={v => dayjs(v.publicationDate).format('DD/MM/YYYY')}
+          getter={(v) => dayjs(v.publicationDate).format('DD/MM/YYYY')}
         />
         <Table.Column
           id="publicReleaseDate"
           display="Deposit date"
           order="desc"
           className={styles.depositDateColumn}
-          getter={v => dayjs(v.publicReleaseDate).format('DD/MM/YYYY')}
+          getter={(v) => dayjs(v.publicReleaseDate).format('DD/MM/YYYY')}
         />
         <Table.Sidebar>
           <SidebarContent />

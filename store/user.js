@@ -11,7 +11,7 @@ class User extends Store {
 
   searchDataProviders(searchTerm) {
     return this.dataProviders.filter(
-      e => e.name.toLowerCase().search(searchTerm.toLowerCase()) !== -1
+      (e) => e.name.toLowerCase().search(searchTerm.toLowerCase()) !== -1
     )
   }
 

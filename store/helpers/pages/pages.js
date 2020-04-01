@@ -56,7 +56,7 @@ class Pages extends Store {
         ({ data }) => {
           const page = new Page(
             observable(
-              data.map(e => ({
+              data.map((e) => ({
                 ...e,
                 id: `${this.#pageNumber}-${e.id}`,
                 originalId: e.id,
@@ -74,7 +74,7 @@ class Pages extends Store {
           this.isLastPageLoaded = page.isLast
           resolve(page)
         },
-        reason => {
+        (reason) => {
           if (reason instanceof NotFoundError) {
             const page = new Page([], {
               searchTerm: this.#searchTerm,

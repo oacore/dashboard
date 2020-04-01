@@ -8,7 +8,7 @@ import activities from 'store/activities'
 
 const toUrl = (value, dataProvider) =>
   value === 'index' ? `./` : `/data-providers/${dataProvider}/${value}`
-const toIcon = value => `/design/icons.svg#${activities.get(value).icon}`
+const toIcon = (value) => `/design/icons.svg#${activities.get(value).icon}`
 
 const ActivitySelect = ({ children }) => (
   <Drawer.List className={styles.list}>{children}</Drawer.List>
