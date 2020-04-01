@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 
 import tableClassNames from './index.css'
 
-const TableRow = props => {
+const TableRow = (props) => {
   const { id, index, columns, context, isClickable } = props
   const { disabled } = context
   const rowProps = {
@@ -19,7 +19,7 @@ const TableRow = props => {
 
   return (
     <Table.Row data-index={index} {...rowProps}>
-      {columns.map(column => (
+      {columns.map((column) => (
         <Table.Cell key={column.props.id}>
           {React.cloneElement(column, { context })}
         </Table.Cell>

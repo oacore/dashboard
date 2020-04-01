@@ -17,7 +17,7 @@ import styles from './index.css'
 
 const customTicks = {
   ...Object.fromEntries(
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].flatMap(i => [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].flatMap((i) => [
       [-i * 365, `${-i}y`],
       [i * 365, `${i}y`],
     ])
@@ -33,14 +33,14 @@ const isInInterval = (groupIndex, dayIndex, groupSize = aggregationSize) =>
   dayIndex >= groupIndex * groupSize &&
   dayIndex <= groupIndex * groupSize + groupSize - 1
 
-const isTick = groupIndex =>
-  Object.keys(customTicks).some(day =>
+const isTick = (groupIndex) =>
+  Object.keys(customTicks).some((day) =>
     isInInterval(groupIndex, parseInt(day, 10))
   )
 
-const formatter = g => {
+const formatter = (g) => {
   const groupIndex = parseInt(g, 10)
-  const el = Object.entries(customTicks).find(e =>
+  const el = Object.entries(customTicks).find((e) =>
     isInInterval(groupIndex, parseInt(e[0], 10))
   )
   if (el) return el[1]
@@ -53,7 +53,7 @@ const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
   useEffect(() => {
     const rawIntervalSize =
       data[data.length - 1].depositTimeLag - data[0].depositTimeLag
-    const dataMap = new Map(data.map(e => [e.depositTimeLag, e.worksCount]))
+    const dataMap = new Map(data.map((e) => [e.depositTimeLag, e.worksCount]))
     const normalizedData = []
 
     for (
@@ -76,10 +76,10 @@ const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
     }
 
     const aggregation = nest()
-      .key(d => Math.floor(d.depositTimeLag / aggregationSize))
-      .rollup(v => ({
-        total: sum(v, d => d.worksCount),
-        avg: mean(v, d => d.worksCount),
+      .key((d) => Math.floor(d.depositTimeLag / aggregationSize))
+      .rollup((v) => ({
+        total: sum(v, (d) => d.worksCount),
+        avg: mean(v, (d) => d.worksCount),
       }))
       .entries(normalizedData)
 
@@ -88,7 +88,9 @@ const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
 
   const ticks = useMemo(
     () =>
-      aggregatedData.filter(e => isTick(parseInt(e.key, 10))).map(e => e.key),
+      aggregatedData
+        .filter((e) => isTick(parseInt(e.key, 10)))
+        .map((e) => e.key),
     [aggregatedData]
   )
 
@@ -108,7 +110,7 @@ const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
         />
         <ReferenceLine y={0} className={styles.referenceLine} />
         <Bar dataKey="value.total">
-          {aggregatedData.map(entry => (
+          {aggregatedData.map((entry) => (
             <Cell
               className={classNames
                 .use({

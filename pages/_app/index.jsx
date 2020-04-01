@@ -17,11 +17,11 @@ import { Sentry } from 'utils/sentry'
 const { IDP_URL } = process.env
 const FORBIDDEN_REDIRECT_URL = 'https://dashboard.core.ac.uk'
 
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   Sentry.captureException(err)
 })
 
-process.on('uncaughtException', err => {
+process.on('uncaughtException', (err) => {
   Sentry.captureException(err)
 })
 
@@ -33,7 +33,7 @@ class App extends NextApp {
 
   loginIframeRef = React.createRef()
 
-  handleRouteChange = url => {
+  handleRouteChange = (url) => {
     logPageView(url)
     const { dataProvider, activity } = new Route(url)
 
@@ -81,13 +81,13 @@ class App extends NextApp {
     }
   }
 
-  redirectToLogin = pathname => {
+  redirectToLogin = (pathname) => {
     const url = new URL(window.location.origin)
     url.searchParams.set('continue', pathname)
     window.location.replace(url)
   }
 
-  handlePromiseRejection = event => {
+  handlePromiseRejection = (event) => {
     if (event.reason instanceof UnauthorizedError) {
       this.redirectToLogin(window.location.href)
       // Don't report to console
@@ -95,7 +95,7 @@ class App extends NextApp {
     }
   }
 
-  handlePostMessage = async event => {
+  handlePostMessage = async (event) => {
     if (event.data === 'login-processing' && !this.state.isAuthorized)
       await this.fetchUser()
     else if (event.data === 'login-fallback')
@@ -120,7 +120,7 @@ class App extends NextApp {
       const { dataProvider, activity } = new Route(window.location.pathname)
       await this.store.init(dataProvider, activity)
       this.setState({ isAuthorized: true })
-      Sentry.configureScope(scope => {
+      Sentry.configureScope((scope) => {
         scope.setUser({
           id: this.store.user.id,
           email: this.store.user.email,
@@ -165,8 +165,8 @@ class App extends NextApp {
   }
 
   componentDidCatch(error, errorInfo) {
-    Sentry.withScope(scope => {
-      Object.keys(errorInfo).forEach(key => {
+    Sentry.withScope((scope) => {
+      Object.keys(errorInfo).forEach((key) => {
         scope.setExtra(key, errorInfo[key])
         scope.setExtra('ssr', false)
       })
@@ -180,7 +180,7 @@ class App extends NextApp {
       this.redirectToLogin(window.location.href)
   }
 
-  handleNavigation = event => {
+  handleNavigation = (event) => {
     const link = event.target.closest('[href]')
     if (link == null) return
 

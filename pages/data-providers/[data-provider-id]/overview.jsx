@@ -158,7 +158,7 @@ const filterChartData = (data, complianceLevel = 0.75) => {
   const rightLimit = leftLimit + dataLimit
 
   return data.filter(
-    item =>
+    (item) =>
       item.depositTimeLag >= leftLimit && item.depositTimeLag <= rightLimit
   )
 }

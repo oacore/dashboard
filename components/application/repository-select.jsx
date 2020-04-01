@@ -11,9 +11,9 @@ const RepositorySelect = ({ store }) => (
     <Select
       id="repository"
       className={styles.repositorySelect}
-      options={searchTerm => store.user.searchDataProviders(searchTerm)}
+      options={(searchTerm) => store.user.searchDataProviders(searchTerm)}
       value={store.dataProvider.name}
-      onSelectionChange={value => {
+      onSelectionChange={(value) => {
         store.changeDataProvider(value)
       }}
       disabled={store.user.dataProviders.length <= 1}

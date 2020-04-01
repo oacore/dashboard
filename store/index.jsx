@@ -22,9 +22,9 @@ export const initStore = () => {
   return globalStore
 }
 
-export const withGlobalStore = Component => {
+export const withGlobalStore = (Component) => {
   const ObservableComponent = observer(Component)
-  return props => {
+  return (props) => {
     const context = useContext(GlobalContext)
     return <ObservableComponent store={context} {...props} />
   }

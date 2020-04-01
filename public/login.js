@@ -8,7 +8,7 @@ function performLoginRequest(url, data) {
     method: 'POST',
     body: data,
     credentials: 'include',
-  }).then(response => {
+  }).then((response) => {
     if (response.status === 401)
       throw new UnauthorisedError('Wrong credentials')
     if (response.status === 402 || response.status === 403)
@@ -60,7 +60,7 @@ function login(event) {
   performLoginRequest(loginUrl, data)
     .then(
       () => 'login-processing',
-      error => {
+      (error) => {
         if (error instanceof ForbiddenError) {
           const fallbackUrl = new URL('login_check', fallbackIDP)
           return performLoginRequest(fallbackUrl, data).then(
@@ -73,7 +73,7 @@ function login(event) {
         return 'login-processing'
       }
     )
-    .then(message => {
+    .then((message) => {
       if (window.location !== window.parent.location) {
         // The page is in an iframe
         window.parent.postMessage(message, window.location.origin)

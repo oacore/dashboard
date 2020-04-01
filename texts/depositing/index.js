@@ -6,7 +6,7 @@ import exporting from './export.yml'
 import Template from '../template'
 
 const templateProps = ['complianceLevel', 'compliance-level']
-templateProps.forEach(property => {
+templateProps.forEach((property) => {
   overview.description[property] = new Template(overview.description[property])
 })
 

@@ -30,8 +30,8 @@ const SidebarContent = observer(
     },
   }) => {
     const { Header, Body, Footer } = Table.Sidebar
-    const fullText = link.find(v => v.type === 'download')
-    const displayPage = link.find(v => v.type === 'display')
+    const fullText = link.find((v) => v.type === 'download')
+    const displayPage = link.find((v) => v.type === 'display')
     return (
       <>
         <Header
@@ -47,7 +47,7 @@ const SidebarContent = observer(
           <div>
             <b>{title}</b>
           </div>
-          <div>{author.map(a => a.name).join(' ')}</div>
+          <div>{author.map((a) => a.name).join(' ')}</div>
           <DetailList>
             <DetailList.Item name="Full text">
               <Icon
@@ -93,7 +93,7 @@ const Data = ({ store, ...restProps }) => (
         id="oai"
         display="OAI"
         order="any"
-        getter={v => {
+        getter={(v) => {
           const { oai } = v.identifier
           return oai.split(':').pop()
         }}
@@ -105,14 +105,14 @@ const Data = ({ store, ...restProps }) => (
         display="Authors"
         order="any"
         className={styles.authorsColumn}
-        getter={v => v.author.map(a => a.name).join(' ')}
+        getter={(v) => v.author.map((a) => a.name).join(' ')}
       />
       <Table.Column
         id="lastUpdate"
         display="Last Update"
         order="desc"
         className={styles.lastUpdateColumn}
-        getter={v => dayjs(v.lastUpdate).fromNow()}
+        getter={(v) => dayjs(v.lastUpdate).fromNow()}
       />
       <Table.Sidebar>
         <SidebarContent store={store} />

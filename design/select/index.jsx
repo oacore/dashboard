@@ -4,10 +4,7 @@ import classNames from 'classnames'
 import styles from './styles.css'
 
 // TODO: Taken from @oacore/design
-const generateId = () =>
-  Math.random()
-    .toString(36)
-    .substr(2, 9)
+const generateId = () => Math.random().toString(36).substr(2, 9)
 
 const KEYS = {
   ESC: 27,
@@ -37,7 +34,7 @@ const Select = ({
   const [loading, setLoading] = useState(false)
   const [suggestions, setSuggestions] = useState([])
 
-  const handleMouseUp = useCallback(event => {
+  const handleMouseUp = useCallback((event) => {
     if (inputRef.current && inputRef.current.contains(event.target)) return
     setClickedElement(null)
     toggleShowSuggestions(false)
@@ -49,9 +46,9 @@ const Select = ({
     return () => window.removeEventListener('mouseup', handleMouseUp)
   }, [])
 
-  const handleKeyDown = event => {
+  const handleKeyDown = (event) => {
     let pos =
-      suggestions.findIndex(s => s.id === activeSuggestion.id) ||
+      suggestions.findIndex((s) => s.id === activeSuggestion.id) ||
       suggestions.length
     let direction = 1
     let suggestion = {}
@@ -140,7 +137,7 @@ const Select = ({
               setSearchTerm('')
               toggleShowSuggestions(true)
             }}
-            onBlur={event => {
+            onBlur={(event) => {
               const { relatedTarget: el } = event
               if (
                 clickedElement === null &&
@@ -148,7 +145,7 @@ const Select = ({
               )
                 toggleShowSuggestions(false)
             }}
-            onChange={event => {
+            onChange={(event) => {
               setSearchTerm(event.target.value)
             }}
             onKeyDown={handleKeyDown}
@@ -167,7 +164,7 @@ const Select = ({
         >
           {loading && <li>Loading</li>}
           {!loading &&
-            suggestions.map(s => (
+            suggestions.map((s) => (
               <SelectOption
                 id={`suggestion-result-${id}-${s.id}`}
                 key={s.id}
@@ -180,7 +177,7 @@ const Select = ({
                   // because onBlur input listener cause rerender.
                   setClickedElement(s.id)
                 }}
-                onMouseUp={event => {
+                onMouseUp={(event) => {
                   if (clickedElement === s.id) {
                     onSelectionChange(s.id)
                     toggleShowSuggestions(false)

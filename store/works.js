@@ -12,7 +12,7 @@ class Works extends Pages {
   async changeVisibility(rowId) {
     const [pageNumber, workId] = rowId.split('-', 2)
     const page = this.getPageByNumber(parseInt(pageNumber, 10))
-    const row = page.data.find(r => r.originalId === workId)
+    const row = page.data.find((r) => r.originalId === workId)
     const { disabled } = row
     row.disabled = !disabled
     try {
