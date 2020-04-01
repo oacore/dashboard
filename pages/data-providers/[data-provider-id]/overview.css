@@ -19,3 +19,26 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+.overview-card {
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin-top: 0;
+  }
+}
+
+.link-button {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.chart {
+  margin-top: auto;
+  margin-bottom: auto;
+
+  & ~ .link-button {
+    margin-top: 0;
+  }
+}
