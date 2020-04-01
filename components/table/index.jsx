@@ -192,6 +192,7 @@ class InfiniteTable extends React.PureComponent {
       title,
       fetchData,
       pages,
+      className,
       ...restProps
     } = this.props
     const {
@@ -234,72 +235,69 @@ class InfiniteTable extends React.PureComponent {
               value={searchTerm}
             />
           )}
-          <Table ref={this.tableRef} {...restProps}>
-            <colgroup>
-              {columns.map(column => (
-                <col key={column.props.id} className={column.props.className} />
-              ))}
-            </colgroup>
-
-            <Table.Head>
-              <Table.Row>
-                {selectable && (
-                  <Table.Cell className={tableClassNames.tableSelect}>
-                    <input
-                      type="checkbox"
-                      id="table-select-all"
-                      onChange={this.toggleSelectAll}
-                      checked={areSelectedAll}
-                    />
-                  </Table.Cell>
-                )}
-                {columns.map(column => (
-                  <Table.HeadCell
-                    key={column.props.id}
-                    order={columnOrder[column.props.id]}
-                    onClick={event => {
-                      if (columnOrder[column.props.id] === null) return
-                      event.preventDefault()
-                      this.toggleOrder(column.props.id)
-                    }}
-                  >
-                    {column.props.display}
-                  </Table.HeadCell>
-                ))}
-              </Table.Row>
-            </Table.Head>
-            <Table.Body
-              onClick={this.handleRowClick}
-              onDoubleClick={this.handleDoubleRowClick}
-            >
-              {!isFirstPageLoaded && data === null && (
+          <div className={className}>
+            <Table ref={this.tableRef} {...restProps}>
+              <Table.Head>
                 <Table.Row>
-                  <Table.Cell colSpan={1000}>Loading data</Table.Cell>
+                  {selectable && (
+                    <Table.Cell className={tableClassNames.tableSelect}>
+                      <input
+                        type="checkbox"
+                        id="table-select-all"
+                        onChange={this.toggleSelectAll}
+                        checked={areSelectedAll}
+                      />
+                    </Table.Cell>
+                  )}
+                  {columns.map(column => (
+                    <Table.HeadCell
+                      key={column.props.id}
+                      order={columnOrder[column.props.id]}
+                      onClick={event => {
+                        if (columnOrder[column.props.id] === null) return
+                        event.preventDefault()
+                        this.toggleOrder(column.props.id)
+                      }}
+                      className={column.props.className}
+                    >
+                      {column.props.display}
+                    </Table.HeadCell>
+                  ))}
                 </Table.Row>
-              )}
+              </Table.Head>
+              <Table.Body
+                onClick={this.handleRowClick}
+                onDoubleClick={this.handleDoubleRowClick}
+              >
+                {!isFirstPageLoaded && data === null && (
+                  <Table.Row>
+                    <Table.Cell colSpan={1000}>Loading data</Table.Cell>
+                  </Table.Row>
+                )}
 
-              {data !== null &&
-                data.map((row, index) => {
-                  const props = {
-                    id: row.id,
-                    index,
-                    context: row,
-                    columns,
-                    isClickable: Boolean(this.sidebar),
-                  }
+                {data !== null &&
+                  data.map((row, index) => {
+                    const props = {
+                      id: row.id,
+                      index,
+                      context: row,
+                      columns,
+                      isClickable: Boolean(this.sidebar),
+                    }
 
-                  return <TableRow key={row.id} {...props} />
-                })}
+                    return <TableRow key={row.id} {...props} />
+                  })}
 
-              {isFirstPageLoaded && !isLastPageLoaded && (
-                <LoadMoreRow
-                  observe={showNextLoad}
-                  onVisible={this.loadNextPage}
-                />
-              )}
-              {data && data.length === 0 && <NoDataFoundRow />}
-            </Table.Body>
-          </Table>
+                {isFirstPageLoaded && !isLastPageLoaded && (
+                  <LoadMoreRow
+                    observe={showNextLoad}
+                    onVisible={this.loadNextPage}
+                  />
+                )}
+                {data && data.length === 0 && <NoDataFoundRow />}
+              </Table.Body>
+            </Table>
+          </div>
         </div>
         {sidebar &&
           React.cloneElement(sidebar, {

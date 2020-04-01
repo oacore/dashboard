@@ -29,23 +29,21 @@
   flex: 3 3 90%;
 }
 
-.browse-table {
+.browse-table-card {
   flex: 3 3 90%;
   margin-bottom: 0;
+}
+
+.browse-table {
+  width: calc(100% + 2 * var(--card-padding-x));
+  margin-right: calc(-1 * var(--card-padding-x));
+  margin-left: calc(-1 * var(--card-padding-x));
   overflow-x: auto;
+}
 
-  & table {
-    /* It would be nice to avoid calc() in the following line */
-    width: calc(100% + 2 * var(--card-padding-x));
-    min-width: 40rem;
-    margin-right: calc(-1 * var(--card-padding-x));
-    margin-left: calc(-1 * var(--card-padding-x));
-    table-layout: fixed;
-  }
-
-  & thead th {
-    text-align: left;
-  }
+.browse-table > table {
+  min-width: 55rem;
+  table-layout: fixed;
 
   & th,
   & td {
@@ -56,25 +54,19 @@
 }
 
 .oai-column {
-  width: 10%;
-  min-width: 10rem;
+  width: 25%;
 }
 
 .title-column {
-  width: 35%;
-
-  /* TODO: allow width: auto; min-width does not work */
-  min-width: 15rem;
+  width: 30%;
 }
 
 .authors-column {
-  width: 25%;
-  min-width: 10rem;
+  width: 30%;
 }
 
 .deposit-date-column {
   width: 15%;
-  min-width: 12rem;
 }
 
 .header {

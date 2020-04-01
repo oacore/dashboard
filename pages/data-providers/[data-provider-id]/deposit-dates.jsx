@@ -91,11 +91,12 @@ const DepositDates = ({
         )}
     </Card>
 
-    <Card className={styles.browseTable} tag="section">
+    <Card className={styles.browseTableCard} tag="section">
       <Table
         key={store.dataProvider}
         title="Browse deposit dates"
         pages={store.depositDates.publicReleaseDates}
+        className={styles.browseTable}
         searchable
       >
         <Table.Column

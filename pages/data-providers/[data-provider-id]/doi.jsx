@@ -98,11 +98,12 @@ const DepositDates = ({
       </ExportButton>
     </Card>
 
-    <Card className={styles.doiTable} tag="section">
+    <Card className={styles.doiTableCard} tag="section">
       <Table
         key={store.dataProvider}
         title="Browse DOI records"
         pages={store.doi.doiRecords}
+        className={styles.doiTable}
         searchable
       >
         <Table.Column

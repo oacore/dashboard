@@ -1,8 +1,12 @@
 .content-table {
   width: calc(100% + 2 * var(--card-padding-x));
-  min-width: 40rem;
   margin-right: calc(-1 * var(--card-padding-x));
   margin-left: calc(-1 * var(--card-padding-x));
+  overflow-x: auto;
+}
+
+.content-table > table {
+  min-width: 55rem;
   table-layout: fixed;
 
   & th,
