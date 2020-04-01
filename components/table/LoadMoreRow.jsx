@@ -8,7 +8,7 @@ const LoadMoreRow = React.memo(({ onVisible, observe }) => {
 
   const observer = useRef(
     new IntersectionObserver(
-      entries => {
+      (entries) => {
         if (!entries[0].isIntersecting) return
 
         setLoadTriggered(true)

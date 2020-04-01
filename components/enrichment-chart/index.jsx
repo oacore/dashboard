@@ -30,7 +30,7 @@ const VerticalBarChart = ({
         <LabelList
           dataKey="value"
           position="insideRight"
-          formatter={value => Number(value).toLocaleString('en-GB')}
+          formatter={(value) => Number(value).toLocaleString('en-GB')}
           fill="#fff"
           offset={16}
         />
@@ -51,7 +51,7 @@ const EnrichmentChart = ({ value, caption, increase }) => {
       value: Number(value) || 0,
       fill: increase ? 'var(--gray-700)' : 'var(--primary)',
     },
-  ].filter(truthy => truthy)
+  ].filter((truthy) => truthy)
 
   return <VerticalBarChart data={data} />
 }

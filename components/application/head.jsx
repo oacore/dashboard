@@ -5,7 +5,7 @@ const Head = () => (
   <NextHead>
     <title>CORE Dashboard</title>
 
-    {['64', '128', '256', '512'].map(size => (
+    {['64', '128', '256', '512'].map((size) => (
       <link
         key={size}
         rel="icon"

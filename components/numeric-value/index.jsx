@@ -22,7 +22,7 @@ const formatNumber = (
   const actualNumber =
     Math.floor((number / divider) * 10 ** precision) / 10 ** precision
   return [actualNumber.toLocaleString(locale), appendix]
-    .filter(x => x) // drop empty appendix
+    .filter((x) => x) // drop empty appendix
     .join(spacer)
 }
 

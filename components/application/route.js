@@ -19,13 +19,13 @@ class Route {
       this.dataProvider && `data-providers/${this.dataProvider}`,
       // it's not possible to have activity without data provider
       this.dataProvider && this.activity,
-    ].filter(notEmpty => notEmpty)
+    ].filter((notEmpty) => notEmpty)
 
     return `/${partials.join('/')}` // with leading slash
   }
 }
 
-Route.parse = routeString => {
+Route.parse = (routeString) => {
   // Skip leading slash if exists
   const s = routeString.charAt() === '/' ? routeString.slice(1) : routeString
 

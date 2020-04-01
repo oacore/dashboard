@@ -35,7 +35,7 @@ const prepareHeaders = ({ headers: customHeaders, body }) => {
   }
 }
 
-const prepareRequest = init => {
+const prepareRequest = (init) => {
   const request = {}
 
   request.url = prepareUrl(init.url, API_URL)
@@ -52,7 +52,7 @@ const prepareRequest = init => {
   return { ...init, ...request }
 }
 
-const processStatus = response => {
+const processStatus = (response) => {
   if (response.status >= 400) {
     const Error = NetworkError.getErrorFromStatusCode(response.status)
     throw new Error(
@@ -71,13 +71,13 @@ const processBody = (response, { method }) => {
   return (/application\/([\w.-]\+)?json/g.test(type) && method !== 'HEAD'
     ? response.json()
     : response.blob()
-  ).then(data => ({ data, type, headers }))
+  ).then((data) => ({ data, type, headers }))
 }
 
 const executeRequest = ({ url, ...options }) =>
   fetch(url, options)
     .then(processStatus)
-    .then(response => processBody(response, { ...options }))
+    .then((response) => processBody(response, { ...options }))
 
 const performRequest = (url, options) => {
   const request = prepareRequest({ url, ...options })

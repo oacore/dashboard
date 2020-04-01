@@ -14,7 +14,7 @@ export class NotFoundError extends NetworkError {}
 export class BadRequestError extends NetworkError {}
 export class InternalServerError extends NetworkError {}
 
-NetworkError.getErrorFromStatusCode = statusCode => {
+NetworkError.getErrorFromStatusCode = (statusCode) => {
   if (statusCode === 401) return UnauthorizedError
   if (statusCode === 401) return PaymentRequiredError
   if (statusCode === 403) return ForbiddenError

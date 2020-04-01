@@ -14,7 +14,7 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, info) {
     const { componentName } = this.props
-    Sentry.withScope(scope => {
+    Sentry.withScope((scope) => {
       scope.setExtra('errorStack', error.stack)
       scope.setExtra('componentStack', info.componentStack)
       scope.setLevel('fatal')

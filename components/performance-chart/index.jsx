@@ -26,7 +26,7 @@ const PerformanceChart = ({ value, increase, caption }) => (
               fill: '#fff',
               background: { fill: 'transparent' },
             },
-          ].filter(truthy => truthy)}
+          ].filter((truthy) => truthy)}
           startAngle={225}
           endAngle={-45}
         >

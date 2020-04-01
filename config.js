@@ -15,8 +15,8 @@ const production = {
   IDP_URL: 'https://api.core.ac.uk',
 }
 
-const validate = config =>
-  ['API_URL', 'IDP_URL'].forEach(param => {
+const validate = (config) =>
+  ['API_URL', 'IDP_URL'].forEach((param) => {
     if (config[param] == null) throw new Error(`${param} is not configured.`)
   })
 

@@ -13,7 +13,7 @@ import { Card, Icon } from 'design'
 // eslint-disable-next-line
 import styles from './doi.css'
 
-const formatDOI = entity => {
+const formatDOI = (entity) => {
   const { crossrefDoi, repoDoi: originDoi } = entity
 
   if (crossrefDoi && !originDoi) {
@@ -124,7 +124,7 @@ const DepositDates = ({
           display={texts.table.columns.authors}
           order="any"
           className={styles.authorsColumn}
-          getter={v => v.authors && v.authors.map(a => a.name).join(' ')}
+          getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
         />
       </Table>
     </Card>

@@ -18,7 +18,7 @@ const SettingsGroup = ({
 
   const handleChange = () => setChanged(true)
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     setSubmitted(true)
     if (onSubmit) onSubmit(event)
   }
@@ -51,7 +51,7 @@ const Settings = ({ store, className, ...restProps }) => {
   const { dataProvider } = store
   const organization = { name: dataProvider.institution }
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault()
 
     const formData = new FormData(event.target)

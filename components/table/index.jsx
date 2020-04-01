@@ -12,7 +12,7 @@ import { Table, TextField } from 'design'
 import debounce from 'utils/debounce'
 import withErrorBoundary from 'utils/withErrorBoundary'
 
-const getNextOrder = order => {
+const getNextOrder = (order) => {
   if (order === 'asc') return 'desc'
   if (order === 'desc') return 'asc'
   return 'asc'
@@ -76,20 +76,20 @@ class InfiniteTable extends React.PureComponent {
 
     // TODO: Maybe there is a better way for distinguish Column children
     const columns = childrenArray.filter(
-      child =>
+      (child) =>
         child.type === Column ||
         Object.prototype.isPrototypeOf.call(Column, child.type)
     )
 
     const columnOrder = Object.fromEntries(
-      columns.map(column => {
+      columns.map((column) => {
         const { id, order = null } = column.props
         return [id, order]
       })
     )
 
     return {
-      sidebar: childrenArray.find(item => item.type === Sidebar),
+      sidebar: childrenArray.find((item) => item.type === Sidebar),
       columnOrder,
       columns,
     }
@@ -102,10 +102,10 @@ class InfiniteTable extends React.PureComponent {
   }
 
   toggleSelectAll = () => {
-    this.setState(s => ({ areSelectedAll: !s.areSelectedAll }))
+    this.setState((s) => ({ areSelectedAll: !s.areSelectedAll }))
   }
 
-  toggleOrder = id => {
+  toggleOrder = (id) => {
     const { columnOrder } = this.state
     if (columnOrder[id] == null) return
 
@@ -123,7 +123,7 @@ class InfiniteTable extends React.PureComponent {
     )
   }
 
-  handleRowClick = event => {
+  handleRowClick = (event) => {
     if (event.detail === 1) {
       const clickedRow = event.target.closest('tr')
       this.tableRowClickTimeout = setTimeout(() => {
@@ -134,9 +134,9 @@ class InfiniteTable extends React.PureComponent {
         if (selection.length) return
 
         const rowId = clickedRow.dataset.id
-        this.setState(s => ({
+        this.setState((s) => ({
           expandedRowId: rowId,
-          lastExpandedRow: s.data?.find(e => e.id === rowId),
+          lastExpandedRow: s.data?.find((e) => e.id === rowId),
         }))
       }, 200)
     }
@@ -224,7 +224,7 @@ class InfiniteTable extends React.PureComponent {
               name="search"
               label="Search"
               placeholder="Any identifier, title, author..."
-              onChange={event => {
+              onChange={(event) => {
                 this.setState({
                   searchTerm: event.target.value,
                   data: null,
@@ -249,11 +249,11 @@ class InfiniteTable extends React.PureComponent {
                       />
                     </Table.Cell>
                   )}
-                  {columns.map(column => (
+                  {columns.map((column) => (
                     <Table.HeadCell
                       key={column.props.id}
                       order={columnOrder[column.props.id]}
-                      onClick={event => {
+                      onClick={(event) => {
                         if (columnOrder[column.props.id] === null) return
                         event.preventDefault()
                         this.toggleOrder(column.props.id)
