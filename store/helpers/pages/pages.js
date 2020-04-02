@@ -10,11 +10,11 @@ const PAGE_SIZE = 100
 class Pages extends Store {
   @observable data = []
 
-  #searchTerm = ''
+  searchTerm = ''
 
-  #columnOrder = ''
+  columnOrder = ''
 
-  #pageNumber = 0
+  pageNumber = 0
 
   isLastPageLoaded = false
 
@@ -31,33 +31,33 @@ class Pages extends Store {
 
   reset({ columnOrder, searchTerm }) {
     this.data = []
-    this.#searchTerm = searchTerm
-    this.#columnOrder = columnOrder
-    this.#pageNumber = 0
+    this.searchTerm = searchTerm
+    this.columnOrder = columnOrder
+    this.pageNumber = 0
     this.isLastPageLoaded = false
     this.isFirstPageLoaded = false
   }
 
   @invalidatePreviousRequests
   load(signal) {
-    const order = getOrder(this.#columnOrder)
+    const order = getOrder(this.columnOrder)
 
     const params = {
       from: this.data.length,
       size: PAGE_SIZE,
     }
     if (order) params.orderBy = order
-    if (this.#searchTerm) params.q = this.#searchTerm
+    if (this.searchTerm) params.q = this.searchTerm
 
     const request = this.request(this.url, { searchParams: params, signal })
     return new Promise((resolve, reject) =>
       request.then(
         ({ data }) => {
-          if (this.#pageNumber === 0) this.isFirstPageLoaded = true
-          this.#pageNumber += 1
+          if (this.pageNumber === 0) this.isFirstPageLoaded = true
+          this.pageNumber += 1
           const transformedData = data.map((e) => ({
             ...e,
-            id: `${this.#pageNumber}-${e.id}`,
+            id: `${this.pageNumber}-${e.id}`,
             originalId: e.id,
           }))
           this.data.push(...transformedData)
@@ -67,9 +67,9 @@ class Pages extends Store {
         },
         (reason) => {
           if (reason instanceof NotFoundError) {
-            if (this.#pageNumber === 0) this.isFirstPageLoaded = true
+            if (this.pageNumber === 0) this.isFirstPageLoaded = true
             this.isLastPageLoaded = true
-            this.#pageNumber += 1
+            this.pageNumber += 1
             resolve()
           } else reject(reason)
         }
