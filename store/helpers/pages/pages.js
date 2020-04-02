@@ -1,16 +1,14 @@
 import { observable } from 'mobx'
 
 import getOrder from '../order'
-import Page from './page'
 import invalidatePreviousRequests from '../invalidatePreviousRequests'
 import Store from '../../store'
 
 import { NotFoundError } from 'api/errors'
-import { LinkedList } from 'utils/linkedList'
 
 const PAGE_SIZE = 100
 class Pages extends Store {
-  #pages = new LinkedList()
+  @observable data = []
 
   #searchTerm = ''
 
@@ -23,15 +21,16 @@ class Pages extends Store {
   isFirstPageLoaded = false
 
   async slice(from, to) {
-    while (this.#pages.length < to && !this.isLastPageLoaded)
+    while (this.data.length < to && !this.isLastPageLoaded) {
       // eslint-disable-next-line no-await-in-loop
       await this.load()
+    }
 
-    return this.#pages.data.slice(from, to)
+    return this.data.slice(from, to)
   }
 
   reset({ columnOrder, searchTerm }) {
-    this.#pages = new LinkedList()
+    this.data = []
     this.#searchTerm = searchTerm
     this.#columnOrder = columnOrder
     this.#pageNumber = 0
@@ -44,7 +43,7 @@ class Pages extends Store {
     const order = getOrder(this.#columnOrder)
 
     const params = {
-      from: this.#pages.length,
+      from: this.data.length,
       size: PAGE_SIZE,
     }
     if (order) params.orderBy = order
@@ -54,46 +53,28 @@ class Pages extends Store {
     return new Promise((resolve, reject) =>
       request.then(
         ({ data }) => {
-          const page = new Page(
-            observable(
-              data.map((e) => ({
-                ...e,
-                id: `${this.#pageNumber}-${e.id}`,
-                originalId: e.id,
-              }))
-            ),
-            {
-              searchTerm: this.#searchTerm,
-              order,
-              maxSize: PAGE_SIZE,
-            }
-          )
           if (this.#pageNumber === 0) this.isFirstPageLoaded = true
           this.#pageNumber += 1
-          this.#pages.add(page)
-          this.isLastPageLoaded = page.isLast
-          resolve(page)
+          const transformedData = data.map((e) => ({
+            ...e,
+            id: `${this.#pageNumber}-${e.id}`,
+            originalId: e.id,
+          }))
+          this.data.push(...transformedData)
+          this.isLastPageLoaded =
+            this.isLastPageLoaded || transformedData.length === 0
+          resolve(transformedData)
         },
         (reason) => {
           if (reason instanceof NotFoundError) {
-            const page = new Page([], {
-              searchTerm: this.#searchTerm,
-              order,
-              maxSize: PAGE_SIZE,
-            })
             if (this.#pageNumber === 0) this.isFirstPageLoaded = true
+            this.isLastPageLoaded = true
             this.#pageNumber += 1
-            this.#pages.add(page)
-            this.isLastPageLoaded = page.isLast
             resolve()
           } else reject(reason)
         }
       )
     )
-  }
-
-  getPageByNumber(pageNumber) {
-    return this.#pages.get(pageNumber)
   }
 }
 
