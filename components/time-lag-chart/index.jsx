@@ -47,85 +47,87 @@ const formatter = (g) => {
   return ''
 }
 
-const TimeLagChart = React.memo(({ data, width = '100%', height = 300 }) => {
-  const [aggregatedData, setAggregatedData] = useState([])
+const TimeLagChart = React.memo(
+  ({ data, width = '100%', height = 300, ...restProps }) => {
+    const [aggregatedData, setAggregatedData] = useState([])
 
-  useEffect(() => {
-    const rawIntervalSize =
-      data[data.length - 1].depositTimeLag - data[0].depositTimeLag
-    const dataMap = new Map(data.map((e) => [e.depositTimeLag, e.worksCount]))
-    const normalizedData = []
+    useEffect(() => {
+      const rawIntervalSize =
+        data[data.length - 1].depositTimeLag - data[0].depositTimeLag
+      const dataMap = new Map(data.map((e) => [e.depositTimeLag, e.worksCount]))
+      const normalizedData = []
 
-    for (
-      let i = 0;
-      i < rawIntervalSize + (rawIntervalSize % aggregationSize);
-      i++
-    ) {
-      const lagIndex = i + data[0].depositTimeLag
-      if (dataMap.has(lagIndex)) {
-        normalizedData.push({
-          depositTimeLag: lagIndex,
-          worksCount: dataMap.get(lagIndex),
-        })
-      } else {
-        normalizedData.push({
-          depositTimeLag: lagIndex,
-          worksCount: 0,
-        })
+      for (
+        let i = 0;
+        i < rawIntervalSize + (rawIntervalSize % aggregationSize);
+        i++
+      ) {
+        const lagIndex = i + data[0].depositTimeLag
+        if (dataMap.has(lagIndex)) {
+          normalizedData.push({
+            depositTimeLag: lagIndex,
+            worksCount: dataMap.get(lagIndex),
+          })
+        } else {
+          normalizedData.push({
+            depositTimeLag: lagIndex,
+            worksCount: 0,
+          })
+        }
       }
-    }
 
-    const aggregation = nest()
-      .key((d) => Math.floor(d.depositTimeLag / aggregationSize))
-      .rollup((v) => ({
-        total: sum(v, (d) => d.worksCount),
-        avg: mean(v, (d) => d.worksCount),
-      }))
-      .entries(normalizedData)
+      const aggregation = nest()
+        .key((d) => Math.floor(d.depositTimeLag / aggregationSize))
+        .rollup((v) => ({
+          total: sum(v, (d) => d.worksCount),
+          avg: mean(v, (d) => d.worksCount),
+        }))
+        .entries(normalizedData)
 
-    setAggregatedData(aggregation)
-  }, [data])
+      setAggregatedData(aggregation)
+    }, [data])
 
-  const ticks = useMemo(
-    () =>
-      aggregatedData
-        .filter((e) => isTick(parseInt(e.key, 10)))
-        .map((e) => e.key),
-    [aggregatedData]
-  )
+    const ticks = useMemo(
+      () =>
+        aggregatedData
+          .filter((e) => isTick(parseInt(e.key, 10)))
+          .map((e) => e.key),
+      [aggregatedData]
+    )
 
-  if (aggregatedData.length === 0) return null
+    if (aggregatedData.length === 0) return null
 
-  return (
-    <ResponsiveContainer width={width} height={height}>
-      <BarChart margin={{ bottom: -5 }} data={aggregatedData}>
-        <XAxis
-          dataKey="key"
-          tickLine={false}
-          ticks={ticks}
-          tickFormatter={formatter}
-        />
-        <Tooltip
-          content={<CustomTooltip aggregationSize={aggregationSize} />}
-        />
-        <ReferenceLine y={0} className={styles.referenceLine} />
-        <Bar dataKey="value.total">
-          {aggregatedData.map((entry) => (
-            <Cell
-              className={classNames
-                .use({
-                  'lag-bar': true,
-                  'compliant': parseInt(entry.key, 10) * aggregationSize < 90,
-                })
-                .from(styles)
-                .toString()}
-              key={entry.key}
-            />
-          ))}
-        </Bar>
-      </BarChart>
-    </ResponsiveContainer>
-  )
-})
+    return (
+      <ResponsiveContainer width={width} height={height} {...restProps}>
+        <BarChart margin={{ bottom: -5 }} data={aggregatedData}>
+          <XAxis
+            dataKey="key"
+            tickLine={false}
+            ticks={ticks}
+            tickFormatter={formatter}
+          />
+          <Tooltip
+            content={<CustomTooltip aggregationSize={aggregationSize} />}
+          />
+          <ReferenceLine y={0} className={styles.referenceLine} />
+          <Bar dataKey="value.total">
+            {aggregatedData.map((entry) => (
+              <Cell
+                className={classNames
+                  .use({
+                    'lag-bar': true,
+                    'compliant': parseInt(entry.key, 10) * aggregationSize < 90,
+                  })
+                  .from(styles)
+                  .toString()}
+                key={entry.key}
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    )
+  }
+)
 
 export default TimeLagChart
