@@ -1,11 +1,11 @@
 import React from 'react'
-import { AppBarItem } from '@oacore/design'
+import { AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './toggle.css'
 
 const Toggle = React.memo(({ className, tag = 'button', ...restProps }) => (
-  <AppBarItem
+  <AppBar.Item
     className={classNames.use(styles.container, className)}
     tag={tag}
     {...restProps}
@@ -13,7 +13,7 @@ const Toggle = React.memo(({ className, tag = 'button', ...restProps }) => (
     <span className={styles.bar} />
     <span className={styles.bar} />
     <span className={styles.bar} />
-  </AppBarItem>
+  </AppBar.Item>
 ))
 
 export default Toggle
