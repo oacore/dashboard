@@ -6,7 +6,6 @@ import styles from './styles.module.css'
 import { TextField, Button } from 'design'
 import { generateId, KEYS } from 'utils/helpers'
 
-
 // TODO: Consider converting it to class component
 const Select = ({
   onSelectionChange,

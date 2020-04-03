@@ -1,8 +1,8 @@
 import React from 'react'
-import { AppBar } from '@oacore/design'
 
 import styles from './logout.module.css'
 
+import { AppBar, Dropdown } from 'design'
 import { withGlobalStore } from 'store'
 
 const { IDP_URL } = process.env
@@ -23,10 +23,14 @@ const Logout = ({ store }) => {
 
   return (
     <AppBar.Item className={styles.container}>
-      <span className={styles.name} title={name}>
-        {name}
-      </span>{' '}
-      <a href={getLogoutUrl(redirectUrl)}>Logout</a>
+      <Dropdown>
+        <Dropdown.Toggle className={styles.name}>{name}</Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item>
+            <a href={getLogoutUrl(redirectUrl)}>Logout</a>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </AppBar.Item>
   )
 }
