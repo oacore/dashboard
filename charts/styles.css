@@ -1,0 +1,8 @@
+:root {
+  --chart-color: var(--primary);
+}
+
+.time-lag {
+  --chart-color: var(--success), var(--gray-600);
+  --chart-color-hover: var(--primary);
+}
