@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 
 import Chart from './chart'
 
-const BarChart = ({ data, children, options, ...chartProps }) => {
+const BarChart = ({ data, children, options, ...chartProps }, ref) => {
   const labels = data.map(([x]) => x)
   const values = data.map(([, y]) => y)
 
@@ -45,10 +45,16 @@ const BarChart = ({ data, children, options, ...chartProps }) => {
   }
 
   return (
-    <Chart type="bar" data={data} options={chartOptions} {...chartProps}>
+    <Chart
+      ref={ref}
+      type="bar"
+      data={data}
+      options={chartOptions}
+      {...chartProps}
+    >
       {children}
     </Chart>
   )
 }
 
-export default BarChart
+export default forwardRef(BarChart)

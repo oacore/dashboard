@@ -3,6 +3,9 @@
 }
 
 .time-lag {
-  --chart-color: var(--success), var(--gray-600);
+  --chart-color-compliant: var(--success);
+  --chart-color-incompliant: var(--success);
+  --chart-color-start: var(--success-dark);
+  --chart-color: var(--chart-color-compliant), var(--chart-color-incompliant);
   --chart-color-hover: var(--primary);
 }

@@ -1,7 +1,5 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, forwardRef } from 'react'
 import Chart from 'chart.js'
-
-// import styles from './index.css'
 
 const createColor = (node, property) => {
   const style = window.getComputedStyle(node)
@@ -28,12 +26,15 @@ const createConfig = (canvasNode, { type, data, options }) => ({
   type,
   data: {
     labels: data.map(([x]) => x),
-    datasets: [createDataset(canvasNode, data)],
+    datasets: [createDataset(canvasNode, data, options)],
   },
   options,
 })
 
-const CanvasChart = ({ type, data, options, children, ...canvasProps }) => {
+const CanvasChart = (
+  { type, data, options, children, ...canvasProps },
+  ref
+) => {
   const chartRef = useRef(null)
   const canvasRef = useCallback(
     (canvasNode) => {
@@ -44,6 +45,11 @@ const CanvasChart = ({ type, data, options, children, ...canvasProps }) => {
       const chart = new Chart(canvasNode, config)
 
       chartRef.current = chart
+
+      if (ref != null) {
+        if (typeof ref == 'function') ref(canvasNode)
+        else ref.current = canvasNode
+      }
     },
     [type, data, options]
   )
@@ -55,4 +61,4 @@ const CanvasChart = ({ type, data, options, children, ...canvasProps }) => {
   )
 }
 
-export default CanvasChart
+export default forwardRef(CanvasChart)

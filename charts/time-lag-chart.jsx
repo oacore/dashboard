@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import BarChart from './bar-chart'
@@ -35,14 +35,49 @@ const fillGaps = (dataEntries) =>
     return values
   }, [])
 
-const TimeLagChart = ({ data, children, className, ...chartProps }) => (
-  <BarChart
-    className={classNames.use(styles.timeLag, className)}
-    data={fillGaps(data)}
-    {...chartProps}
-  >
-    {children == null ? <TimeLagChartDescription data={data} /> : children}
-  </BarChart>
-)
+const TimeLagChart = (
+  { data, children, className, options, ...chartProps },
+  ref
+) => {
+  const [colors, setColors] = useState([])
+  const processedData = useMemo(() => fillGaps(data), [data])
+  const mergedOptions = useMemo(
+    () => ({
+      backgroundColor: ({ dataIndex }) => {
+        const [x] = processedData[dataIndex]
+        const [compliantColor, incompliantColor, startColor] = colors
 
-export default TimeLagChart
+        if (x === 0) return startColor
+        if (x <= 90) return compliantColor
+        return incompliantColor
+      },
+      ...options,
+    }),
+    [colors, options]
+  )
+
+  const canvasRef = useRef(ref)
+
+  useEffect(() => {
+    const style = window.getComputedStyle(canvasRef.current)
+    setColors([
+      style.getPropertyValue('--chart-color-compliant'),
+      style.getPropertyValue('--chart-color-incompliant'),
+      style.getPropertyValue('--chart-color-start'),
+    ])
+  }, [canvasRef])
+
+  return (
+    <BarChart
+      ref={canvasRef}
+      className={classNames.use(styles.timeLag, className)}
+      data={fillGaps(data)}
+      options={mergedOptions}
+      {...chartProps}
+    >
+      {children == null ? <TimeLagChartDescription data={data} /> : children}
+    </BarChart>
+  )
+}
+
+export default forwardRef(TimeLagChart)
