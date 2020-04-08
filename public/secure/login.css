@@ -83,3 +83,7 @@
 .loading > .blur-background ~ * {
   filter: blur(1px);
 }
+
+.forgotten-password {
+  float: right;
+}

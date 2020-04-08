@@ -4,14 +4,13 @@ import styles from './styles.module.css'
 
 import { IframeForm } from 'components/forms'
 import { Card } from 'design'
-import { withGlobalStore } from 'store'
 
 const { IDP_URL } = process.env
 
-const ChangePassword = ({ className, store, tag }) => {
-  const email = store.user?.email
+const ChangePassword = ({ className, email, token, tag }) => {
   const searchParams = {
     ...(email != null ? { email } : {}),
+    ...(token != null ? { token } : {}),
     identity_provider_url: IDP_URL,
   }
 
@@ -29,4 +28,4 @@ const ChangePassword = ({ className, store, tag }) => {
   )
 }
 
-export default withGlobalStore(ChangePassword)
+export default ChangePassword
