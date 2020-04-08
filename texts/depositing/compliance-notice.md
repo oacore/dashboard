@@ -2,7 +2,7 @@
 title: Compliance
 ---
 
-Your have **{{amount}}%** outputs are non-compliant according to
+You have **{{amount}}%** outputs are non-compliant according to
 [REF&nbsp;2021 Open Access Policy](https://core.ac.uk/ref-audit).
 
 Non-compliant outputs are outputs that were deposited

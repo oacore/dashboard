@@ -99,7 +99,7 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
   )
 }
 
-const formatPercent = (number, precision = 2) => `${number.toFixed(precision)}`
+const formatPercent = (number, precision = 2) => `${number.toFixed(precision)}%`
 
 const useDefault = (value, substitute = null) =>
   value == null ||
@@ -110,7 +110,7 @@ const useDefault = (value, substitute = null) =>
     : value
 
 const DOICard = ({ doiCount, outputsCount, enrichmentSize }) => {
-  const { title, action } = texts.doi
+  const { title, description, action } = texts.doi
   return (
     <OverviewCard>
       <h2>{title}</h2>
@@ -121,8 +121,9 @@ const DOICard = ({ doiCount, outputsCount, enrichmentSize }) => {
       />
       {enrichmentSize > 0 && (
         <p>
-          We can enrich you DOI coverage by{' '}
-          {formatPercent((enrichmentSize / doiCount) * 100)}%.
+          {description.render({
+            count: formatPercent((enrichmentSize / doiCount) * 100),
+          })}
         </p>
       )}
       <LinkButton href="doi">{action}</LinkButton>
