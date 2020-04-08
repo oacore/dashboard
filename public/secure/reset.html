@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' *.core.ac.uk;">
+
+<title>Change user password</title>
+
+<link href="/sanitize.css" rel="stylesheet" />
+<link href="/design/foundation/index.css" rel="stylesheet" />
+<link href="/design/elements/button/button.css" rel="stylesheet" />
+<link href="/design/elements/forms/text-field.css" rel="stylesheet" />
+<link href="/secure/reset.css" rel="stylesheet" />
+
+<form id="password-form" method="post" class="">
+  <p class="container">
+    <input id="email" type="text" name="email" autocomplete="username">
+    <label for="email">Email</label>
+  </p>
+
+  <p class="container">
+    <input id="token" type="text" name="token">
+    <label for="token">Token</label>
+  </p>
+
+  <p class="container">
+    <input id="password" type="password" placeholder="Enter Password" name="password" autocomplete="current-password" required>
+    <label for="password">Password</label>
+  </p>
+
+  <p class="container">
+    <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" autocomplete="new-password" minlength="8" maxlength="100" required>
+    <label for="newPassword">New password</label>
+  </p>
+  <p class="container">
+    <input id="newPasswordAgain" type="password" placeholder="Enter Password" name="newPasswordAgain" autocomplete="new-password" minlength="8" maxlength="100" required>
+    <label for="newPasswordAgain">New password again</label>
+  </p>
+  <div id="message" class="message"></div>
+  <button class="button contained" type="submit">Save</button>
+</form>
+
+<script src="/secure/reset.js" ></script>

@@ -4,4 +4,8 @@
 
 .section {
   margin-bottom: calc(1.5 * var(--component-padding-y, 1rem));
+
+  & input {
+    max-width: 50rem;
+  }
 }

@@ -5,6 +5,7 @@ import styles from './settings.css'
 
 import { Card, TextField, Button } from 'design'
 import { withGlobalStore } from 'store'
+import { ChangePassword } from 'components/forms'
 
 const SettingsGroup = ({
   children,
@@ -14,7 +15,7 @@ const SettingsGroup = ({
   ...formProps
 }) => {
   const [isChanged, setChanged] = useState(false)
-  const [isSubmited, setSubmitted] = useState(false)
+  const [isSubmitted, setSubmitted] = useState(false)
 
   const handleChange = () => setChanged(true)
 
@@ -38,7 +39,7 @@ const SettingsGroup = ({
       >
         {children}
         {isChanged && (
-          <Button variant="contained" disabled={isSubmited}>
+          <Button variant="contained" disabled={isSubmitted}>
             Save
           </Button>
         )}
@@ -72,7 +73,6 @@ const Settings = ({ store, className, ...restProps }) => {
       {...restProps}
     >
       <h1>Settings</h1>
-
       <SettingsGroup name="organization" onSubmit={handleSubmit} tag="section">
         <h2>Organisation settings</h2>
         <TextField
@@ -98,6 +98,8 @@ const Settings = ({ store, className, ...restProps }) => {
           tag="p"
         />
       </SettingsGroup>
+
+      <ChangePassword className={styles.section} tag="section" />
     </main>
   )
 }
