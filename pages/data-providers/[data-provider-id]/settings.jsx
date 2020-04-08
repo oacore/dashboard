@@ -86,7 +86,11 @@ const Settings = ({ store, className, ...restProps }) => {
         </FormShell>
       </Card>
 
-      <ChangePassword className={styles.section} tag="section" />
+      <ChangePassword
+        className={styles.section}
+        email={store.user.email}
+        tag="section"
+      />
     </main>
   )
 }

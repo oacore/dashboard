@@ -7,6 +7,7 @@ const email = document.getElementById('email')
 const token = document.getElementById('token')
 const form = document.getElementById('password-form')
 const requiredInputs = form.querySelectorAll('[required]')
+const password = document.getElementById('password')
 const newPassword = document.getElementById('newPassword')
 const newPasswordAgain = document.getElementById('newPasswordAgain')
 
@@ -23,7 +24,7 @@ function performApiRequest(url, data) {
     //     Currently API sends only 400 `{"message": "error"}`
     if (response.status !== 200) {
       throw new WrongInputError(
-        'Looks like you typed in wrong password. Please try it again!'
+        'Password reset error. Please request reset password again!'
       )
     }
     return response
@@ -32,7 +33,8 @@ function performApiRequest(url, data) {
 
 function showSuccessMessage() {
   const messageEl = document.getElementById('message')
-  messageEl.innerHTML = 'Password changed successfully'
+  messageEl.innerHTML =
+    'Password changed successfully. You can <a href="/login" target="_top">log in</a> now.'
   messageEl.classList.remove('message-error')
 }
 
@@ -65,7 +67,7 @@ function changePassword(event) {
     email: formData.get('email'),
     password: formData.get('password'),
     newPassword: formData.get('newPassword'),
-    token: formData.get('token'),
+    confirmationToken: formData.get('token'),
   }
 
   // remove empty params
@@ -100,9 +102,15 @@ window.addEventListener('DOMContentLoaded', () => {
     email.value = urlParams.get('email')
     email.setAttribute('type', 'hidden')
     email.parentElement.classList.add('hidden')
+  }
+
+  if (urlParams.has('token')) {
     token.value = urlParams.get('token')
     token.setAttribute('type', 'hidden')
     token.parentElement.classList.add('hidden')
+    password.removeAttribute('required')
+    password.setAttribute('type', 'hidden')
+    password.parentElement.classList.add('hidden')
   }
 
   requiredInputs.forEach((el) => {

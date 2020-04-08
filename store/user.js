@@ -28,6 +28,14 @@ class User extends Store {
     extendObservable(this, userDetails)
     this.dataProviders = dataProviders
   }
+
+  @action
+  async requestResetToken(data) {
+    await this.request('/auth/reset', {
+      method: 'POST',
+      body: data,
+    })
+  }
 }
 
 export default User
