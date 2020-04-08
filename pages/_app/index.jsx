@@ -32,7 +32,7 @@ class App extends NextApp {
     logPageView(url)
     const { dataProvider, activity } = new Route(url)
 
-    if (dataProvider) {
+    if (!Number.isNaN(Number(dataProvider))) {
       this.store.switchDataProvider(dataProvider)
       this.store.changeActivity(activity || 'overview')
     }
