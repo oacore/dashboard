@@ -9,6 +9,7 @@ const coverage = {
   body: new Template(coverageSource.body),
 }
 
+overview.description = new Template(overview.description)
 exporting.description = new Template(exporting.description)
 
 export default { overview, coverage, exporting, table }
