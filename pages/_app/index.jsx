@@ -120,7 +120,6 @@ class App extends NextApp {
     // we use routeChangeStart to immediately update selected activity
     router.events.on('routeChangeStart', this.handleRouteChange)
     window.addEventListener('unhandledrejection', this.handlePromiseRejection)
-    window.addEventListener('message', this.handlePostMessage)
 
     // Assumes store object is always the same
     this.store = store
@@ -173,9 +172,7 @@ class App extends NextApp {
       return (
         <>
           <Application dataProvider={undefined} activity="overview" />
-          {this.isRouteWithoutStore ? (
-            <Component {...pageProps} fetchUser={this.fetchUser} />
-          ) : null}
+          {this.isRouteWithoutStore ? <Component {...pageProps} /> : null}
         </>
       )
     }
