@@ -1,25 +1,28 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
+import Link from 'next/link'
 
 import pluginsClassNames from './plugins.css'
 
 import { Card, Button } from 'design'
 import { overview as texts } from 'texts/plugins'
+import { withGlobalStore } from 'store'
 
-const PluginCard = ({
-  title,
-  description,
-  actionCaption,
-  href,
-  ...restProps
-}) => (
-  <Card {...restProps}>
-    <h2>{title}</h2>
-    {description && <p>{description}</p>}
-    <Button variant="contained" href={href} tag="a">
-      {actionCaption}
-    </Button>
-  </Card>
+const PluginCard = withGlobalStore(
+  ({ title, description, actionCaption, href, store, ...restProps }) => (
+    <Card {...restProps}>
+      <h2>{title}</h2>
+      {description && <p>{description}</p>}
+      <Link
+        href={`/data-providers/[data-provider-id]/${href}`}
+        as={`/data-providers/${store.dataProvider.id}/${href}`}
+      >
+        <Button variant="contained" href={href} tag="a">
+          {actionCaption}
+        </Button>
+      </Link>
+    </Card>
+  )
 )
 
 const DiscoveryPluginCard = (passProps) => (

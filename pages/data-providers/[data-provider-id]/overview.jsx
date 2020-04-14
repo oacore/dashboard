@@ -1,5 +1,6 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
+import Link from 'next/link'
 
 import { withGlobalStore } from 'store'
 import { Button, Card, Overlay } from 'design'
@@ -18,22 +19,30 @@ const OverviewCard = ({ children, className, ...passProps }) => (
   </Card>
 )
 
-const LinkButton = ({
-  children,
-  tag = 'a',
-  href = '',
-  variant = 'contained',
-  ...passProps
-}) => (
-  <Button
-    className={styles.linkButton}
-    variant={variant}
-    tag={tag}
-    href={href}
-    {...passProps}
-  >
-    {children}
-  </Button>
+const LinkButton = withGlobalStore(
+  ({
+    children,
+    store,
+    tag = 'a',
+    href = '',
+    variant = 'contained',
+    ...passProps
+  }) => (
+    <Link
+      href={`/data-providers/[data-provider-id]/${href}`}
+      as={`/data-providers/${store.dataProvider.id}/${href}`}
+    >
+      <Button
+        className={styles.linkButton}
+        variant={variant}
+        tag={tag}
+        href={href}
+        {...passProps}
+      >
+        {children}
+      </Button>
+    </Link>
+  )
 )
 
 const PlaceholderCard = ({ title, value, description }) => (

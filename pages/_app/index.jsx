@@ -1,21 +1,17 @@
 import React from 'react'
 import NextApp from 'next/app'
 import { withRouter } from 'next/router'
-import { autorun } from 'mobx'
 
 import '@oacore/design/lib/index.css'
 
 import Route from './route'
-import styles from './index.css'
+import './index.css'
 
 import { UnauthorizedError } from 'api/errors'
 import { logPageView } from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 import { Sentry } from 'utils/sentry'
-
-const { IDP_URL } = process.env
-const FORBIDDEN_REDIRECT_URL = 'https://dashboard.core.ac.uk'
 
 process.on('unhandledRejection', (err) => {
   Sentry.captureException(err)
@@ -25,21 +21,20 @@ process.on('uncaughtException', (err) => {
   Sentry.captureException(err)
 })
 
+const ROUTES_WITHOUT_STORE = ['/login']
+
 class App extends NextApp {
   state = {
     isAuthorized: false,
-    loginInProcess: false,
   }
-
-  loginIframeRef = React.createRef()
 
   handleRouteChange = (url) => {
     logPageView(url)
     const { dataProvider, activity } = new Route(url)
 
     if (dataProvider) {
-      this.store.changeDataProvider(dataProvider)
-      this.store.changeActivity(activity)
+      this.store.switchDataProvider(dataProvider)
+      this.store.changeActivity(activity || 'overview')
     }
   }
 
@@ -81,10 +76,10 @@ class App extends NextApp {
     }
   }
 
-  redirectToLogin = (pathname) => {
-    const url = new URL(window.location.origin)
-    url.searchParams.set('continue', pathname)
-    window.location.replace(url)
+  redirectToLogin = () => {
+    const { router } = this.props
+    const url = new URL(`${window.location.origin}/login`)
+    router.push(url)
   }
 
   handlePromiseRejection = (event) => {
@@ -95,28 +90,8 @@ class App extends NextApp {
     }
   }
 
-  handlePostMessage = async (event) => {
-    if (event.data === 'login-processing' && !this.state.isAuthorized)
-      await this.fetchUser()
-    else if (event.data === 'login-fallback')
-      window.location.replace(FORBIDDEN_REDIRECT_URL)
-  }
-
-  reflectStoreToRoute = () => {
-    const { store } = this
-    const { router } = this.props
-
-    const route = new Route({
-      dataProvider: store.dataProvider?.id,
-      activity: store.activity?.path,
-    })
-
-    if (route.as !== window.location.pathname) router.push(route.href, route.as)
-  }
-
-  async fetchUser() {
+  fetchUser = async () => {
     try {
-      this.setState({ loginInProcess: true })
       const { dataProvider, activity } = new Route(window.location.pathname)
       await this.store.init(dataProvider, activity)
       this.setState({ isAuthorized: true })
@@ -129,30 +104,29 @@ class App extends NextApp {
     } catch (unauthorizedError) {
       // TODO: Do some check before redirect
       this.setState({ isAuthorized: false })
-    } finally {
-      this.setState({
-        loginInProcess: false,
-      })
-      if (this.loginIframeRef.current) {
-        this.loginIframeRef.current.contentWindow.postMessage(
-          'login-finished',
-          window.location.origin
-        )
-      }
+      if (!this.isRouteWithoutStore) this.redirectToLogin()
+      throw unauthorizedError
     }
+  }
+
+  get isRouteWithoutStore() {
+    const { router } = this.props
+    return ROUTES_WITHOUT_STORE.find((r) => router.asPath.startsWith(r))
   }
 
   async componentDidMount() {
     const store = initStore()
     const { router } = this.props
-    router.events.on('routeChangeComplete', this.handleRouteChange)
+
+    // we use routeChangeStart to immediately update selected activity
+    router.events.on('routeChangeStart', this.handleRouteChange)
     window.addEventListener('unhandledrejection', this.handlePromiseRejection)
     window.addEventListener('message', this.handlePostMessage)
 
     // Assumes store object is always the same
     this.store = store
-    autorun(this.reflectStoreToRoute)
-    await this.fetchUser()
+
+    if (!this.isRouteWithoutStore) await this.fetchUser()
   }
 
   componentWillUnmount() {
@@ -176,22 +150,7 @@ class App extends NextApp {
       Sentry.captureException(error)
     })
 
-    if (error instanceof UnauthorizedError)
-      this.redirectToLogin(window.location.href)
-  }
-
-  handleNavigation = (event) => {
-    const link = event.target.closest('[href]')
-    if (link == null) return
-
-    const url = new URL(link.href)
-    if (url.host !== window.location.host) return
-
-    event.preventDefault()
-    const route = new Route(url.pathname)
-    if (route.dataProvider != null)
-      this.store.changeDataProvider(route.dataProvider)
-    this.store.changeActivity(route.activity || 'overview')
+    if (error instanceof UnauthorizedError) this.redirectToLogin()
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -206,53 +165,18 @@ class App extends NextApp {
     return null
   }
 
-  Login = () => {
-    const { router } = this.props
-
-    const searchParams = {
-      reason: router.query.reason === 'logout' ? 'logout' : '',
-      identity_provider_url: IDP_URL,
-    }
-
-    if (router.query.reason !== 'logout') searchParams.loading = true
-
-    const search = new URLSearchParams(searchParams).toString()
-
-    const url = `/login.html?${search}`
-    return (
-      <iframe
-        ref={this.loginIframeRef}
-        title="Login Form"
-        src={url}
-        className={styles.loginIframe}
-        onLoad={() => {
-          const { isAuthorized, loginInProcess } = this.state
-          if (!isAuthorized && !loginInProcess) {
-            this.loginIframeRef.current.contentWindow.postMessage(
-              'login-finished',
-              window.location.origin
-            )
-          }
-        }}
-      />
-    )
-  }
-
   render() {
     const { store } = this
-    const { isAuthorized } = this.state
     const { Component, pageProps } = this.props
-    const { Login } = this
+    const { isAuthorized } = this.state
 
-    if (store == null || !isAuthorized) {
+    if (!store || !isAuthorized) {
       return (
         <>
-          <Application
-            dataProvider={undefined}
-            activity="overview"
-            onClick={this.handleNavigation}
-          />
-          <Login />
+          <Application dataProvider={undefined} activity="overview" />
+          {this.isRouteWithoutStore ? (
+            <Component {...pageProps} fetchUser={this.fetchUser} />
+          ) : null}
         </>
       )
     }
@@ -262,7 +186,6 @@ class App extends NextApp {
         <Application
           dataProvider={store.dataProvider}
           activity={store.activity.id}
-          onClick={this.handleNavigation}
           isAuthenticated
         >
           <Component {...pageProps} />
