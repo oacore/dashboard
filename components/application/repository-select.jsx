@@ -1,5 +1,6 @@
 import React from 'react'
 import { AppBar } from '@oacore/design'
+import Router from 'next/router'
 
 import styles from './repository-select.css'
 
@@ -14,7 +15,12 @@ const RepositorySelect = ({ store }) => (
       options={(searchTerm) => store.user.searchDataProviders(searchTerm)}
       value={store.dataProvider.name}
       onSelectionChange={(value) => {
-        store.changeDataProvider(value)
+        // provider is reflected to the store in app/index.jsx
+        // - handleRouteChange
+        Router.push(
+          '/data-providers/[data-provider-id]/overview',
+          `/data-providers/${value}/overview`
+        )
       }}
       disabled={store.user.dataProviders.length <= 1}
     />

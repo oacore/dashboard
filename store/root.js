@@ -74,7 +74,7 @@ class Root extends Store {
   @action async init(dataProviderId, activityPath) {
     await this.user.init()
     try {
-      this.changeDataProvider(dataProviderId)
+      this.switchDataProvider(dataProviderId)
       this.changeActivity(activityPath)
     } catch (accessError) {
       const fallbackId = this.user.dataProviders[0].id
@@ -85,12 +85,11 @@ class Root extends Store {
           `Fall back to DataProvider ${fallbackId}`
         )
       }
-      this.changeDataProvider(fallbackId)
+      this.switchDataProvider(fallbackId)
     }
   }
 
-  // TODO: Should be renamed to switchDataProvider
-  @action changeDataProvider(dataProviderStr) {
+  @action switchDataProvider(dataProviderStr) {
     const dataProviderId = Number.parseInt(dataProviderStr, 10)
 
     if (this.dataProvider && this.dataProvider.id === dataProviderId) return
