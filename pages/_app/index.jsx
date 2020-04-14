@@ -78,8 +78,7 @@ class App extends NextApp {
 
   redirectToLogin = () => {
     const { router } = this.props
-    const url = new URL(`${window.location.origin}/login`)
-    router.push(url)
+    router.push('/login')
   }
 
   handlePromiseRejection = (event) => {
