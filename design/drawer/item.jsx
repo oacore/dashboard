@@ -26,9 +26,13 @@ const TreeItem = ({ children, className, ...passProps }) => (
   </li>
 )
 
-const Item = ({ children, tag = 'li', ...passProps }) => {
+const Item = React.forwardRef(({ children, tag = 'li', ...passProps }, ref) => {
   const Component = tag === 'li' ? TreeItem : FlatItem
-  return <Component {...passProps}>{children}</Component>
-}
+  return (
+    <Component ref={ref} {...passProps}>
+      {children}
+    </Component>
+  )
+})
 
 export default Item

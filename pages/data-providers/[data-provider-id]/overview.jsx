@@ -31,12 +31,12 @@ const LinkButton = withGlobalStore(
     <Link
       href={`/data-providers/[data-provider-id]/${href}`}
       as={`/data-providers/${store.dataProvider.id}/${href}`}
+      passHref
     >
       <Button
         className={styles.linkButton}
         variant={variant}
         tag={tag}
-        href={href}
         {...passProps}
       >
         {children}
