@@ -37,7 +37,7 @@ const Login = React.memo(({ router, fetchUser }) => {
     return () => window.removeEventListener('message', handlePostMessage)
   }, [])
 
-  const url = `/login.html?${search}`
+  const url = `/secure/login.html?${search}`
   return (
     <iframe
       ref={loginIframeRef}
