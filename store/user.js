@@ -22,7 +22,7 @@ class User extends Store {
 
   @action
   async retrieveUser() {
-    const { data } = await this.request('/user')
+    const { data } = await this.request(this.url)
     const { dataProviders, ...userDetails } = data
 
     extendObservable(this, userDetails)

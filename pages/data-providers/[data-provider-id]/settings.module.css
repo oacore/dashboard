@@ -5,7 +5,21 @@
 .section {
   margin-bottom: calc(1.5 * var(--component-padding-y, 1rem));
 
-  & input {
+  & form {
     max-width: 50rem;
+  }
+}
+
+.invitation-form {
+  display: flex;
+  flex: 1 1 auto;
+
+  & > button {
+    margin-left: 1.5rem;
+    min-width: 6rem;
+  }
+
+  & > div {
+    flex-basis: 100%;
   }
 }

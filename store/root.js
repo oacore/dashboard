@@ -34,7 +34,7 @@ class Root extends Store {
     super(null, { request })
   }
 
-  @observable user = new User(this.options)
+  @observable user = new User('/user', this.options)
 
   @observable organisation = null
 
@@ -91,7 +91,7 @@ class Root extends Store {
       this.switchDataProvider(fallbackId)
     }
     this.organisation = new Organisation(
-      `/internal/organisations/${this.user.organisationId}`,
+      `/organisations/${this.user.organisationId}`,
       this.options
     )
   }
