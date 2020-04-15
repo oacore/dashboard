@@ -52,9 +52,7 @@ const SidebarContent = observer(
             <DetailList.Item name="Full text">
               <Icon
                 className={classNames.use([!fullText && styles.danger])}
-                src={`/design/icons.svg#${
-                  fullText ? 'document-success' : 'document-alert'
-                }`}
+                src={`#file-${fullText ? 'check' : 'alert'}`}
                 aria-hidden
               />
               {fullText ? 'Available' : 'Unavailable'}

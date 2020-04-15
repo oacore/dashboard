@@ -2,12 +2,12 @@ const config = [
   {
     id: 'overview',
     path: 'overview',
-    icon: 'dashboard',
+    icon: 'view-dashboard',
   },
   {
     id: 'content',
     path: 'content',
-    icon: 'document',
+    icon: 'file-document',
   },
   {
     id: 'depositDates',
@@ -37,7 +37,7 @@ const config = [
   {
     id: 'settings',
     path: 'settings',
-    icon: 'settings',
+    icon: 'cog',
   },
 ]
 

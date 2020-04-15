@@ -14,7 +14,7 @@ const DocumentLink = React.memo(({ href, children }) => (
     className={styles.documentLink}
   >
     {children}
-    <Icon src="/design/icons.svg#open" alt="open" aria-hidden />
+    <Icon src="#open-in-new" alt="open" aria-hidden />
   </Button>
 ))
 

@@ -10,11 +10,7 @@ const TakeDown = React.memo(({ disabled, ...passProps }) => (
       'Take down'
     ) : (
       <>
-        <Icon
-          className={styles.icon}
-          src="/design/icons.svg#globe"
-          aria-hidden
-        />
+        <Icon className={styles.icon} src="#earth" aria-hidden />
         Restore
       </>
     )}
