@@ -28,6 +28,8 @@ class App extends NextApp {
     isAuthorized: false,
   }
 
+  store = initStore()
+
   handleRouteChange = (url) => {
     logPageView(url)
     const { dataProvider, activity } = new Route(url)
@@ -114,15 +116,11 @@ class App extends NextApp {
   }
 
   async componentDidMount() {
-    const store = initStore()
     const { router } = this.props
 
     // we use routeChangeStart to immediately update selected activity
     router.events.on('routeChangeStart', this.handleRouteChange)
     window.addEventListener('unhandledrejection', this.handlePromiseRejection)
-
-    // Assumes store object is always the same
-    this.store = store
 
     if (!this.isRouteWithoutStore) await this.fetchUser()
   }
@@ -163,12 +161,12 @@ class App extends NextApp {
     return null
   }
 
-  render() {
+  AppShell = () => {
     const { store } = this
     const { Component, pageProps } = this.props
     const { isAuthorized } = this.state
 
-    if (!store || !isAuthorized) {
+    if (!isAuthorized) {
       return (
         <>
           <Application dataProvider={undefined} activity="overview" />
@@ -178,14 +176,22 @@ class App extends NextApp {
     }
 
     return (
+      <Application
+        dataProvider={store.dataProvider}
+        activity={store.activity.id}
+        isAuthenticated
+      >
+        <Component {...pageProps} />
+      </Application>
+    )
+  }
+
+  render() {
+    const { store, AppShell } = this
+
+    return (
       <GlobalProvider store={store}>
-        <Application
-          dataProvider={store.dataProvider}
-          activity={store.activity.id}
-          isAuthenticated
-        >
-          <Component {...pageProps} />
-        </Application>
+        <AppShell />
       </GlobalProvider>
     )
   }
