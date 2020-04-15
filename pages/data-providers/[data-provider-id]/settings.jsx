@@ -1,52 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './settings.module.css'
 
-import { Card, TextField, Button } from 'design'
+import { Card, TextField } from 'design'
 import { withGlobalStore } from 'store'
-import { ChangePassword } from 'components/forms'
+import { ChangePassword, FormShell } from 'components/forms'
 
-const SettingsGroup = ({
-  children,
-  className,
-  tag,
-  onSubmit,
-  ...formProps
-}) => {
-  const [isChanged, setChanged] = useState(false)
-  const [isSubmitted, setSubmitted] = useState(false)
-
-  const handleChange = () => setChanged(true)
-
-  const handleSubmit = (event) => {
-    setSubmitted(true)
-    if (onSubmit) onSubmit(event)
-  }
-
-  useEffect(() => {
-    setChanged(false)
-    setSubmitted(false)
-  }, [children])
-
-  return (
-    <Card className={classNames.use(styles.section).join(className)} tag={tag}>
-      <form
-        method="post"
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        {...formProps}
-      >
-        {children}
-        {isChanged && (
-          <Button variant="contained" disabled={isSubmitted}>
-            Save
-          </Button>
-        )}
-      </form>
-    </Card>
-  )
-}
+const SettingsGroup = ({ children, className, tag, ...formProps }) => (
+  <Card className={classNames.use(styles.section).join(className)} tag={tag}>
+    <FormShell {...formProps}>{children}</FormShell>
+  </Card>
+)
 
 const Settings = ({ store, className, ...restProps }) => {
   const { dataProvider } = store
