@@ -7,12 +7,6 @@ import { Card, TextField } from 'design'
 import { withGlobalStore } from 'store'
 import { ChangePassword, FormShell } from 'components/forms'
 
-const SettingsGroup = ({ children, className, tag, ...formProps }) => (
-  <Card className={classNames.use(styles.section).join(className)} tag={tag}>
-    <FormShell {...formProps}>{children}</FormShell>
-  </Card>
-)
-
 const Settings = ({ store, className, ...restProps }) => {
   const { dataProvider } = store
   const organization = { name: dataProvider.institution }
@@ -38,31 +32,42 @@ const Settings = ({ store, className, ...restProps }) => {
       {...restProps}
     >
       <h1>Settings</h1>
-      <SettingsGroup name="organization" onSubmit={handleSubmit} tag="section">
+      <Card
+        className={classNames.use(styles.section).join(className)}
+        tag="section"
+      >
         <h2>Organisation settings</h2>
-        <TextField
-          label="Name"
-          name="name"
-          defaultValue={organization.name}
-          tag="p"
-        />
-      </SettingsGroup>
+        <FormShell name="organization" onSubmit={handleSubmit}>
+          <TextField
+            label="Name"
+            name="name"
+            defaultValue={organization.name}
+            tag="p"
+          />
+        </FormShell>
+      </Card>
 
-      <SettingsGroup name="data-provider" onSubmit={handleSubmit} tag="section">
+      <Card
+        className={classNames.use(styles.section).join(className)}
+        tag="section"
+      >
+        {' '}
         <h2>Repository settings</h2>
-        <TextField
-          label="Name"
-          name="name"
-          defaultValue={dataProvider.name}
-          tag="p"
-        />
-        <TextField
-          label="Email"
-          name="email"
-          defaultValue={dataProvider.email}
-          tag="p"
-        />
-      </SettingsGroup>
+        <FormShell name="data-provider" onSubmit={handleSubmit}>
+          <TextField
+            label="Name"
+            name="name"
+            defaultValue={dataProvider.name}
+            tag="p"
+          />
+          <TextField
+            label="Email"
+            name="email"
+            defaultValue={dataProvider.email}
+            tag="p"
+          />
+        </FormShell>
+      </Card>
 
       <ChangePassword className={styles.section} tag="section" />
     </main>
