@@ -2,8 +2,15 @@ import React, { useState, useEffect } from 'react'
 
 import { Button } from 'design'
 
-const FormShell = ({ children, className, tag, onSubmit, ...formProps }) => {
-  const [isChanged, setChanged] = useState(false)
+const FormShell = ({
+  children,
+  tag,
+  onSubmit,
+  isButtonVisible = false,
+  buttonCaption = 'Save',
+  ...formProps
+}) => {
+  const [isChanged, setChanged] = useState(isButtonVisible)
   const [isSubmitted, setSubmitted] = useState(false)
 
   const handleChange = () => setChanged(true)
@@ -14,7 +21,7 @@ const FormShell = ({ children, className, tag, onSubmit, ...formProps }) => {
   }
 
   useEffect(() => {
-    setChanged(false)
+    if (!isButtonVisible) setChanged(false)
     setSubmitted(false)
   }, [children])
 
@@ -28,7 +35,7 @@ const FormShell = ({ children, className, tag, onSubmit, ...formProps }) => {
       {children}
       {isChanged && (
         <Button variant="contained" disabled={isSubmitted}>
-          Save
+          {buttonCaption}
         </Button>
       )}
     </form>

@@ -21,6 +21,7 @@ const Settings = ({ store, className, ...restProps }) => {
     const present = {
       'organization': store.updateOrganization,
       'data-provider': store.updateDataProvider,
+      'invitation': store.organisation.inviteUser,
     }[scope]
 
     present.call(store, data)
@@ -44,6 +45,16 @@ const Settings = ({ store, className, ...restProps }) => {
             defaultValue={organization.name}
             tag="p"
           />
+        </FormShell>
+        <h2>Invite</h2>
+        <FormShell
+          className={styles.invitationForm}
+          name="invitation"
+          buttonCaption="Invite"
+          isButtonVisible
+          onSubmit={handleSubmit}
+        >
+          <TextField size="small" label="Email" name="email" tag="div" />
         </FormShell>
       </Card>
 
