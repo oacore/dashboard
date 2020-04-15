@@ -39,7 +39,7 @@
     "yaml-import-loader": "^1.3.6"
   },
   "dependencies": {
-    "@oacore/design": "0.0.14",
+    "@oacore/design": "0.0.15",
     "@sentry/browser": "^5.13.0",
     "@sentry/node": "^5.15.4",
     "@zeit/next-source-maps": "0.0.3",
@@ -85,6 +85,8 @@
     "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
     "lint:css": "stylelint --ignore-path .gitignore '**/*.css'",
     "lint": "run-p lint:*",
-    "postinstall": "rm -rf ./public/design/ && cp -r \"$(npm explore @oacore/design -- pwd)/lib/assets\" ./public/design"
+    "postinstall": "rm -rf ./public/design/ && mkdir ./public/design && run-p cp:*",
+    "cp:assets": "cp -r $(npm explore @oacore/design -- pwd)/lib/assets/* ./public/design",
+    "cp:global": "cp -r $(npm explore @oacore/design -- pwd)/lib/global/* ./public/design"
   }
 }
