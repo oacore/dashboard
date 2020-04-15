@@ -7,6 +7,7 @@ import DepositDates from './deposit-dates'
 import Works from './works'
 import DOI from './doi'
 import { logTiming } from '../utils/analytics'
+import Organisation from './organisation'
 
 import apiRequest from 'api'
 
@@ -34,6 +35,8 @@ class Root extends Store {
   }
 
   @observable user = new User(this.options)
+
+  @observable organisation = null
 
   @observable dataProvider = null
 
@@ -87,6 +90,10 @@ class Root extends Store {
       }
       this.switchDataProvider(fallbackId)
     }
+    this.organisation = new Organisation(
+      `/internal/organisations/${this.user.organisationId}`,
+      this.options
+    )
   }
 
   @action switchDataProvider(dataProviderStr) {
