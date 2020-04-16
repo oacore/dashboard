@@ -8,6 +8,9 @@
 <title>Login into CORE Dashboard</title>
 
 <link href="/sanitize.css" rel="stylesheet" />
+<link href="/design/foundation/index.css" rel="stylesheet" />
+<link href="/design/elements/button/button.css" rel="stylesheet" />
+<link href="/design/elements/forms/text-field.css" rel="stylesheet" />
 <link href="/secure/login.css" rel="stylesheet" />
 
 <form id="login-form" method="post" class="">
@@ -22,15 +25,18 @@
       <div class="rect5"></div>
     </div>
   </div>
-  <label for="email"><b>Email</b></label>
-  <input id="email" type="email" placeholder="Enter email" name="email" autocomplete="email" required>
 
-  <label for="password"><b>Password</b></label>
-  <input id="password" type="password" placeholder="Enter Password" name="password" autocomplete="current-password" required>
-
+  <p class="container">
+    <input id="email" type="email" placeholder="Enter email" name="email" autocomplete="email" required>
+    <label for="email">Email</label>
+  </p>
+  <p class="container">
+    <input id="password" type="password" placeholder="Enter Password" name="password" autocomplete="current-password" required>
+    <label for="password">Password</label>
+  </p>
   <input type="hidden" name="remember_me" value="on">
 
-  <button type="submit">Login</button>
+  <button class="button contained" type="submit">Login</button>
 </form>
 
 <script src="/secure/login.js" ></script>
