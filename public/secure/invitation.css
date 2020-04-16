@@ -1,0 +1,41 @@
+body {
+  overflow: hidden;
+}
+
+form {
+  padding-top: 1rem;
+}
+
+.hidden {
+  display: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hidden + :not(.hidden) {
+  margin-top: 0;
+}
+
+.message {
+  padding-bottom: 1rem;
+}
+
+.message:empty {
+  display: none;
+}
+
+.message-error {
+  color: var(--danger-dark);
+}
+
+input:invalid,
+input:invalid + label {
+  --form-control-color: var(--primary);
+  --form-label-color: var(--form-control-color);
+}
+
+.touched:invalid,
+.touched:invalid + label {
+  --form-control-color: var(--danger-dark);
+  --form-label-color: var(--form-control-color);
+}

@@ -21,7 +21,7 @@ process.on('uncaughtException', (err) => {
   Sentry.captureException(err)
 })
 
-const ROUTES_WITHOUT_STORE = ['/login']
+const ROUTES_WITHOUT_STORE = ['/login', '/reset', '/invitation']
 
 export async function getStaticProps({ res }) {
   res.setHeader(

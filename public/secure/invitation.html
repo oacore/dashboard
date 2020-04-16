@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' *.core.ac.uk;">
+
+<title>Register from invitation</title>
+
+<link href="/sanitize.css" rel="stylesheet" />
+<link href="/design/foundation/index.css" rel="stylesheet" />
+<link href="/design/elements/button/button.css" rel="stylesheet" />
+<link href="/design/elements/forms/text-field.css" rel="stylesheet" />
+<link href="/secure/invitation.css" rel="stylesheet" />
+
+<form id="registration-form" method="post" class="">
+  <p class="container">
+    <input id="email" type="text" name="email" placeholder="Enter Email" autocomplete="username">
+    <label for="email">Email</label>
+  </p>
+
+  <p class="container">
+    <input id="invitationCode" placeholder="Enter invitation token" type="text" name="invitationCode">
+    <label for="invitationCode">Token</label>
+  </p>
+
+  <p class="container">
+    <input id="password" type="password" placeholder="Enter Password" name="password" autocomplete="new-password" minlength="8" maxlength="100" required>
+    <label for="password">Password</label>
+  </p>
+
+  <p class="container">
+    <input id="passwordAgain" type="password" placeholder="Enter Password" name="passwordAgain" autocomplete="new-password" minlength="8" maxlength="100" required>
+    <label for="passwordAgain">New password</label>
+  </p>
+  <div id="message" class="message"></div>
+  <button class="button contained" type="submit">Register</button>
+</form>
+
+<script src="/secure/invitation.js" ></script>

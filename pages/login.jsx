@@ -9,7 +9,7 @@ const { IDP_URL } = process.env
 
 const Login = React.memo(({ router }) => {
   const searchParams = {
-    reason: router.query.reason === 'logout' ? 'logout' : '',
+    reason: router.query.reason,
     identity_provider_url: IDP_URL,
   }
 
