@@ -34,11 +34,11 @@ function showWrongCredentialsMessage() {
   message.classList.remove('message-info')
 }
 
-function showLogoutMessage() {
-  const message = document.getElementById('message')
-  message.innerHTML = 'You have been successfully logged out. Log in again.'
-  message.classList.add('message-info')
-  message.classList.remove('message-error')
+function showInfoMessage(message) {
+  const messageEl = document.getElementById('message')
+  messageEl.innerHTML = message
+  messageEl.classList.add('message-info')
+  messageEl.classList.remove('message-error')
 }
 
 function login(event) {
@@ -83,7 +83,12 @@ window.addEventListener('DOMContentLoaded', () => {
         showWrongCredentialsMessage()
         break
       case 'logout':
-        showLogoutMessage()
+        showInfoMessage('The username or password you entered is incorrect.')
+        break
+      case 'registration':
+        showInfoMessage(
+          'You have been successfully registered. Please log in now.'
+        )
         break
       default:
     }
