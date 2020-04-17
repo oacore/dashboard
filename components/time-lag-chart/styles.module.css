@@ -1,0 +1,46 @@
+.lag-bar {
+  fill: var(--gray-500);
+}
+
+.compliant {
+  fill: var(--success-dark);
+}
+
+.reference-line {
+  stroke: var(--gray-800);
+}
+
+.tooltip {
+  padding: 0.5rem;
+  background-color: var(--white);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.chart-wrapper {
+  --scroll-bar-size: 0.75rem;
+  --chart-height: 100%;
+  position: relative;
+  width: 100%;
+
+  /* prevents for adding up scroll height to the element */
+  height: calc(var(--chart-height) + var(--scroll-bar-size));
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+    height: var(--scroll-bar-size);
+    background: var(--gray-200);
+    border-radius: 8rem;
+  }
+
+  &:hover::-webkit-scrollbar {
+    display: block;
+  }
+
+  &::-webkit-scrollbar-thumb:horizontal {
+    background: var(--gray-500);
+    background-clip: padding-box;
+    border-radius: 8rem;
+  }
+}

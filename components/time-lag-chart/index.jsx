@@ -1,39 +1,44 @@
-import React, { useState, useEffect } from 'react'
-import {
-  Cell,
-  Bar,
-  BarChart,
-  ReferenceLine,
-  XAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts'
+import React, { useState, useEffect, useRef } from 'react'
+import { Cell, Bar, BarChart, ReferenceLine, XAxis, Tooltip } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
+import { scaleSqrt } from 'd3-scale'
 
 import CustomTooltip from './tooltip'
-import styles from './index.module.css'
+import styles from './styles.module.css'
 
 const TimeLagChart = React.memo(
-  ({ data, width = '100%', height = 300, ...restProps }) => {
+  ({
+    data,
+    className,
+    from = Number.NEGATIVE_INFINITY,
+    size = Number.POSITIVE_INFINITY,
+    height = 300,
+    barWidth = 4,
+    gutterWidth = 2,
+    ...restProps
+  }) => {
     const [normalizedData, setNormalizedData] = useState([])
 
+    const chartRef = useRef(null)
     useEffect(() => {
       const rawIntervalSize =
         data[data.length - 1].depositTimeLag - data[0].depositTimeLag
       const dataMap = new Map(data.map((e) => [e.depositTimeLag, e.worksCount]))
       const normalize = []
 
-      for (let i = 0; i < rawIntervalSize; i++) {
+      const maxNumber = data.reduce(
+        (acc, curr) => Math.max(curr.worksCount, acc),
+        1
+      )
+      const scale = scaleSqrt().domain([0, maxNumber])
+
+      for (let i = 0; i <= rawIntervalSize; i++) {
         const lagIndex = i + data[0].depositTimeLag
-        if (dataMap.has(lagIndex)) {
+        if (lagIndex >= from && normalize.length < size) {
           normalize.push({
             depositTimeLag: lagIndex,
-            worksCount: dataMap.get(lagIndex),
-          })
-        } else {
-          normalize.push({
-            depositTimeLag: lagIndex,
-            worksCount: 0,
+            worksCount: dataMap.get(lagIndex) || 0,
+            worksCountScaled: scale(dataMap.get(lagIndex) || 0),
           })
         }
       }
@@ -41,35 +46,53 @@ const TimeLagChart = React.memo(
       setNormalizedData(normalize)
     }, [data])
 
-    if (normalizedData.length === 0) return null
+    useEffect(() => {
+      chartRef.current.style.setProperty('--chart-height', `${height}px`)
+    }, [])
 
     return (
-      <ResponsiveContainer width={width} height={height} {...restProps}>
-        <BarChart margin={{ bottom: -5 }} data={normalizedData}>
-          <XAxis
-            dataKey="depositTimeLag"
-            tickLine={false}
-            // TODO: create function for generating these values
-            ticks={[0, 30, 92]}
-          />
-          <Tooltip content={<CustomTooltip />} />
-          <ReferenceLine y={0} className={styles.referenceLine} />
-          <Bar dataKey="worksCount">
-            {normalizedData.map(({ depositTimeLag }) => (
-              <Cell
-                className={classNames
-                  .use({
-                    'lag-bar': true,
-                    'compliant': parseInt(depositTimeLag, 10) < 90,
-                  })
-                  .from(styles)
-                  .toString()}
-                key={depositTimeLag}
-              />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+      <div
+        ref={chartRef}
+        className={classNames.use(styles.chartWrapper, className)}
+        {...restProps}
+      >
+        {normalizedData.length !== 0 && (
+          <BarChart
+            // let's assume approx. 6 (4 bar width + 2 bar gap) pixels
+            // per bar by default
+            width={normalizedData.length * (barWidth + gutterWidth)}
+            height={height}
+            data={normalizedData}
+            barCategoryGap={gutterWidth}
+            barSize={barWidth}
+          >
+            <XAxis
+              dataKey="depositTimeLag"
+              tickLine={false}
+              ticks={normalizedData
+                .map((d) => d.depositTimeLag)
+                .filter((i) => i % 30 === 0)}
+            />
+            <Tooltip content={<CustomTooltip data={normalizedData} />} />
+            <ReferenceLine y={0} className={styles.referenceLine} />
+            <Bar dataKey="worksCountScaled">
+              {normalizedData.map(({ depositTimeLag }) => (
+                <Cell
+                  id={depositTimeLag}
+                  className={classNames
+                    .use({
+                      'lag-bar': true,
+                      'compliant': depositTimeLag < 90,
+                    })
+                    .from(styles)
+                    .toString()}
+                  key={depositTimeLag}
+                />
+              ))}
+            </Bar>
+          </BarChart>
+        )}
+      </div>
     )
   }
 )
