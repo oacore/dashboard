@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 
-import { Card } from '../design'
+import { Card } from '../../design'
 
 const IframeForm = ({ className, title, ...passProps }) => {
   const ref = useRef(null)
