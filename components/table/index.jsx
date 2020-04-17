@@ -1,12 +1,12 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import LoadMoreRow from './LoadMoreRow'
+import LoadMoreRow from './load-more-row'
 import tableClassNames from './index.css'
-import NoDataFoundRow from './NoDataFoundRow'
-import TableRow from './Row'
-import Sidebar from './Sidebar'
-import Column from './Column'
+import NoDataFoundRow from './no-data-found-row'
+import TableRow from './row'
+import Sidebar from './sidebar'
+import Column from './column'
 
 import { Table, TextField } from 'design'
 import debounce from 'utils/debounce'
