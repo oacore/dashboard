@@ -27,10 +27,6 @@ function removeLoadingAnimation() {
   form.classList.remove('loading')
 }
 
-function handlePostMessage(event) {
-  if (event.data === 'login-finished') removeLoadingAnimation()
-}
-
 function showWrongCredentialsMessage() {
   const message = document.getElementById('message')
   message.innerHTML = 'The username or password you entered is incorrect.'
@@ -57,28 +53,23 @@ function login(event) {
   const formData = new FormData(event.target)
   const data = new URLSearchParams(formData)
   const loginUrl = new URL('login_check', identityProviderUrl)
-  performLoginRequest(loginUrl, data)
-    .then(
-      () => 'login-processing',
-      (error) => {
-        if (error instanceof ForbiddenError) {
-          const fallbackUrl = new URL('login_check', fallbackIDP)
-          return performLoginRequest(fallbackUrl, data).then(
-            () => 'login-fallback',
-            () => 'login-fallback'
-          )
-        }
-
-        if (error instanceof UnauthorisedError) showWrongCredentialsMessage()
-        return 'login-processing'
+  performLoginRequest(loginUrl, data).then(
+    () => {
+      window.top.location.href = '/'
+    },
+    (error) => {
+      window.dispatchEvent(new Event('login-finished'))
+      if (error instanceof ForbiddenError) {
+        const fallbackUrl = new URL('login_check', fallbackIDP)
+        return performLoginRequest(fallbackUrl, data).finally(() => {
+          window.top.location.replace(fallbackIDP)
+        })
       }
-    )
-    .then((message) => {
-      if (window.location !== window.parent.location) {
-        // The page is in an iframe
-        window.parent.postMessage(message, window.location.origin)
-      } else window.location = '/'
-    })
+
+      if (error instanceof UnauthorisedError) showWrongCredentialsMessage()
+      return Promise.resolve()
+    }
+  )
 
   return false
 }
@@ -104,4 +95,3 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('login-processing', addLoadingAnimation)
 window.addEventListener('login-finished', removeLoadingAnimation)
-window.addEventListener('message', handlePostMessage)
