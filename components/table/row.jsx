@@ -2,7 +2,7 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react'
 
-import tableClassNames from './index.css'
+import styles from './styles.css'
 
 import { Table } from 'design'
 
@@ -13,8 +13,8 @@ const Row = (props) => {
     'data-id': id,
     'data-is-clickable': isClickable,
     'className': classNames.use([
-      isClickable && tableClassNames.clickable,
-      disabled && tableClassNames.disable,
+      isClickable && styles.clickable,
+      disabled && styles.disable,
     ]),
   }
 

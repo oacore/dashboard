@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import tableClassNames from './index.css'
+import styles from './styles.css'
 
 import { CloseIcon } from 'design'
 
@@ -15,7 +15,7 @@ class Sidebar extends React.Component {
   render() {
     const { children, ...passProps } = this.props
     return (
-      <div className={tableClassNames.sidebar}>
+      <div className={styles.sidebar}>
         {children && React.cloneElement(children, passProps)}
       </div>
     )
@@ -27,7 +27,7 @@ const SidebarHeader = ({ children, className, ...passProps }) => {
 
   return (
     <div
-      className={classNames.use([tableClassNames.header]).join(className)}
+      className={classNames.use([styles.header]).join(className)}
       {...passProps}
     >
       {children}
@@ -39,7 +39,7 @@ const SidebarHeader = ({ children, className, ...passProps }) => {
             new Event('sidebar-close', { bubbles: true })
           )
         }
-        className={tableClassNames.closeIcon}
+        className={styles.closeIcon}
       />
     </div>
   )
@@ -51,7 +51,7 @@ const SidebarBody = ({ children, ...passProps }) => (
 
 const SidebarFooter = ({ children, className, ...passProps }) => (
   <div
-    className={classNames.use([tableClassNames.footer]).join(className)}
+    className={classNames.use([styles.footer]).join(className)}
     {...passProps}
   >
     {children}
