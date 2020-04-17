@@ -2,19 +2,19 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react'
 
-import tableClassNames from './index.css'
+import styles from './styles.css'
 
 import { Table } from 'design'
 
-const TableRow = (props) => {
+const Row = (props) => {
   const { id, index, columns, context, isClickable } = props
   const { disabled } = context
   const rowProps = {
     'data-id': id,
     'data-is-clickable': isClickable,
     'className': classNames.use([
-      isClickable && tableClassNames.clickable,
-      disabled && tableClassNames.disable,
+      isClickable && styles.clickable,
+      disabled && styles.disable,
     ]),
   }
 
@@ -29,4 +29,4 @@ const TableRow = (props) => {
   )
 }
 
-export default observer(TableRow)
+export default observer(Row)

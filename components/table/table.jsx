@@ -1,12 +1,12 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import LoadMoreRow from './LoadMoreRow'
-import tableClassNames from './index.css'
-import NoDataFoundRow from './NoDataFoundRow'
-import TableRow from './TableRow'
-import Sidebar from './Sidebar'
-import Column from './Column'
+import LoadMoreRow from './load-more-row'
+import styles from './styles.css'
+import NoDataFoundRow from './no-data-found-row'
+import TableRow from './row'
+import Sidebar from './sidebar'
+import Column from './column'
 
 import { Table, TextField } from 'design'
 import debounce from 'utils/debounce'
@@ -211,11 +211,11 @@ class InfiniteTable extends React.PureComponent {
       <div
         ref={this.containerRef}
         className={classNames.use({
-          [tableClassNames.container]: true,
-          [tableClassNames.open]: Boolean(expandedRowId),
+          [styles.container]: true,
+          [styles.open]: Boolean(expandedRowId),
         })}
       >
-        <div className={tableClassNames.table}>
+        <div className={styles.table}>
           {title && <h2>{title}</h2>}
           {searchable && (
             <TextField
@@ -240,7 +240,7 @@ class InfiniteTable extends React.PureComponent {
               <Table.Head>
                 <Table.Row>
                   {selectable && (
-                    <Table.Cell className={tableClassNames.tableSelect}>
+                    <Table.Cell className={styles.tableSelect}>
                       <input
                         type="checkbox"
                         id="table-select-all"
@@ -308,8 +308,5 @@ class InfiniteTable extends React.PureComponent {
     )
   }
 }
-
-InfiniteTable.Sidebar = Sidebar
-InfiniteTable.Column = Column
 
 export default withErrorBoundary(InfiniteTable, 'table')

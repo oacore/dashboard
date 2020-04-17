@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { withGlobalStore } from 'store'
 import Table from 'components/table'
+import { withGlobalStore } from 'store'
 import NumericValue, { formatNumber } from 'components/numeric-value'
 import ExportButton from 'components/export-button'
 import EnrichmentChart from 'components/enrichment-chart'
