@@ -3,7 +3,7 @@ import { withRouter } from 'next/router'
 
 import styles from './login.css'
 
-import IframeForm from 'components/forms/iframe-form'
+import { IframeForm } from 'components/forms'
 
 const { IDP_URL } = process.env
 
