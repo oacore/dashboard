@@ -52,7 +52,6 @@
     "d3-collection": "^1.0.7",
     "dayjs": "^1.8.23",
     "extract-css-chunks-webpack-plugin": "^4.7.4",
-    "hoist-non-react-statics": "^3.3.2",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "mustache": "^4.0.0",
