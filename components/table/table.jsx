@@ -309,7 +309,4 @@ class InfiniteTable extends React.PureComponent {
   }
 }
 
-InfiniteTable.Sidebar = Sidebar
-InfiniteTable.Column = Column
-
 export default withErrorBoundary(InfiniteTable, 'table')
