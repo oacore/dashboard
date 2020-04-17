@@ -4,7 +4,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import LoadMoreRow from './LoadMoreRow'
 import tableClassNames from './index.css'
 import NoDataFoundRow from './NoDataFoundRow'
-import TableRow from './TableRow'
+import TableRow from './Row'
 import Sidebar from './Sidebar'
 import Column from './Column'
 

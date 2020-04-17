@@ -6,7 +6,7 @@ import tableClassNames from './index.css'
 
 import { Table } from 'design'
 
-const TableRow = (props) => {
+const Row = (props) => {
   const { id, index, columns, context, isClickable } = props
   const { disabled } = context
   const rowProps = {
@@ -29,4 +29,4 @@ const TableRow = (props) => {
   )
 }
 
-export default observer(TableRow)
+export default observer(Row)
