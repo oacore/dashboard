@@ -2,7 +2,8 @@ import React from 'react'
 import { withRouter } from 'next/router'
 
 import styles from './login.css'
-import IframeForm from '../form/iframe-form'
+
+import IframeForm from 'components/forms/iframe-form'
 
 const { IDP_URL } = process.env
 
