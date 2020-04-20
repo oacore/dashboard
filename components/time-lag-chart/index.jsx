@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Cell, Bar, BarChart, ReferenceLine, XAxis, Tooltip } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
 import { scaleSqrt } from 'd3-scale'
@@ -46,9 +46,47 @@ const TimeLagChart = React.memo(
       setNormalizedData(normalize)
     }, [data])
 
-    useEffect(() => {
-      chartRef.current.style.setProperty('--chart-height', `${height}px`)
+    const callback = useCallback((mutationsList, observer) => {
+      mutationsList.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((el) => {
+            if (
+              el.classList.contains('start') ||
+              // sometimes mutation observer detect only change in parent,
+              // i.e. g element not path element
+              el.firstElementChild?.classList.contains('start')
+            ) {
+              el.scrollIntoView({
+                // alight horizontally
+                inline: 'start',
+              })
+              observer.disconnect()
+            }
+          })
+        }
+      })
     }, [])
+
+    useEffect(() => {
+      const observer = new MutationObserver(callback)
+      const config = {
+        childList: true,
+        subtree: true,
+      }
+      observer.observe(chartRef.current, config)
+      chartRef.current.style.setProperty('--chart-height', `${height}px`)
+
+      return () => {
+        observer.disconnect()
+      }
+    }, [])
+
+    // if bar is empty recharts doesn't render cell
+    const barWithValue = useMemo(
+      () =>
+        normalizedData?.find((d) => d.depositTimeLag >= -20 && d.worksCount),
+      [normalizedData]
+    )
 
     return (
       <div
@@ -83,6 +121,7 @@ const TimeLagChart = React.memo(
                     .use({
                       'lag-bar': true,
                       'compliant': depositTimeLag < 90,
+                      'start': depositTimeLag === barWithValue.depositTimeLag,
                     })
                     .from(styles)
                     .toString()}
