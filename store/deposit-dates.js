@@ -10,8 +10,6 @@ const { API_URL } = process.env
 class DepositDates extends Store {
   @observable isExportDisabled = false
 
-  @observable depositDatesCount = 0
-
   @observable isRetrieveDepositDatesInProgress = false
 
   @observable timeLagData = []
@@ -34,25 +32,28 @@ class DepositDates extends Store {
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate`
 
     this.retrieveDepositTimeLag()
-    this.loadDepositDatesCount()
     this.getPublicationDatesValidate()
     this.getCrossDepositLag()
   }
 
   @computed
+  get totalCount() {
+    return this.timeLagData.reduce((acc, curr) => acc + curr.worksCount, 0)
+  }
+
+  @computed
+  get nonCompliantCount() {
+    return this.timeLagData.reduce((acc, curr) => {
+      if (curr.depositTimeLag > 90) return acc + curr.worksCount
+      return acc
+    }, 0)
+  }
+
+  @computed
   get complianceLevel() {
-    const [total, compliant] = this.timeLagData.reduce(
-      (acc, curr) => {
-        acc[0] += curr.worksCount
-
-        if (curr.depositTimeLag <= 90) acc[1] += curr.worksCount
-        return acc
-      },
-      [0, 0]
-    )
-
-    if (total === 0) return 0
-    const level = (compliant / total) * 100
+    if (this.totalCount === 0) return 0
+    const level =
+      ((this.totalCount - this.nonCompliantCount) / this.totalCount) * 100
     return Math.round(level * 100) / 100
   }
 
@@ -66,22 +67,6 @@ class DepositDates extends Store {
       if (!(error instanceof NotFoundError)) throw error
     } finally {
       this.isRetrieveDepositDatesInProgress = false
-    }
-  }
-
-  @action
-  async loadDepositDatesCount() {
-    try {
-      this.isExportDisabled = false
-      const { headers } = await this.request(this.datesUrl, {
-        method: 'HEAD',
-      })
-      const length = headers.get('Collection-Length')
-      const number = Number.parseInt(length, 10)
-      this.depositDatesCount = number >= 0 ? number : null
-    } catch (error) {
-      if (error instanceof NotFoundError) this.isExportDisabled = true
-      else throw error
     }
   }
 

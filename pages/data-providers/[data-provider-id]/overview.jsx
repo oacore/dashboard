@@ -2,16 +2,15 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import Link from 'next/link'
 
+import styles from './overview.module.css'
+
+import { valueOrDefault } from 'utils/helpers'
 import { withGlobalStore } from 'store'
 import { Button, Card, Overlay } from 'design'
 import NumericValue from 'components/numeric-value'
 import TimeLagChart from 'components/time-lag-chart'
 import * as texts from 'texts/overview'
 import PerformanceChart from 'components/performance-chart'
-
-// TODO: Remove once cards are in @oacore/design
-// eslint-disable-next-line
-import styles from './overview.module.css'
 
 const OverviewCard = ({ children, className, ...passProps }) => (
   <Card className={styles.overviewCard} {...passProps}>
@@ -61,17 +60,16 @@ const Loading = ({ children = 'Loading...', tag: Tag = 'p', ...restProps }) => (
   <Tag {...restProps}>{children}</Tag>
 )
 
-const valueOrDefault = (value, defaultValue) =>
-  value == null ? defaultValue : value
-
 const DataStatisticsCard = ({ metadataCount, fullTextCount, ...restProps }) => (
   <OverviewCard {...restProps}>
     <h2>Harvested data</h2>
     <NumericValue
+      tag="p"
       value={valueOrDefault(fullTextCount, 'Loading...')}
       caption="full texts"
     />
     <NumericValue
+      tag="p"
       value={valueOrDefault(metadataCount, 'Loading...')}
       caption="metadata records"
       size="small"
@@ -92,7 +90,7 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
             amount: (100 - complianceLevel).toFixed(1),
           })}
         </p>
-        <LinkButton href="deposit-dates" tag="a">
+        <LinkButton href="deposit-compliance" tag="a">
           {action}
         </LinkButton>
       </>

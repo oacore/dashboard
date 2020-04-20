@@ -1,5 +1,5 @@
 ---
-title: Compliance
+title: Deposit compliance
 ---
 
 You have **{{amount}}%** outputs are non-compliant according to

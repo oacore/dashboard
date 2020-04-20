@@ -10,8 +10,8 @@ const config = [
     icon: 'file-document',
   },
   {
-    id: 'depositDates',
-    path: 'deposit-dates',
+    id: 'depositCompliance',
+    path: 'deposit-compliance',
     icon: 'calendar-check',
   },
   {

@@ -1,6 +1,7 @@
 import overview from './overview.yml'
 import sourceChart from './chart.md'
 import sourceCrossRepositoryCheck from './cross-repository-check.md'
+import sourceDataOverview from './data-overview.md'
 import complianceNotice from './compliance-notice.md'
 import noDataNotice from './no-data.md'
 import exporting from './export.yml'
@@ -13,6 +14,11 @@ templateProps.forEach((property) => {
 })
 
 exporting.description = new Template(exporting.description)
+
+const dataOverview = {
+  ...sourceDataOverview.attributes,
+  body: new Template(sourceDataOverview.body),
+}
 
 const compliance = {
   ...complianceNotice.attributes,
@@ -36,6 +42,7 @@ const crossRepositoryCheck = {
 
 export default {
   overview,
+  dataOverview,
   chart,
   compliance,
   exporting,
@@ -44,6 +51,7 @@ export default {
 }
 export {
   overview,
+  dataOverview,
   chart,
   compliance,
   crossRepositoryCheck,
