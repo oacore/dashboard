@@ -67,7 +67,8 @@ class DepositDates extends Store {
         method: 'HEAD',
       })
       const length = headers.get('Collection-Length')
-      this.depositDatesCount = Number.parseInt(length, 10) || null
+      const number = Number.parseInt(length, 10)
+      this.depositDatesCount = number >= 0 ? number : null
     } catch (error) {
       if (error instanceof NotFoundError) this.isExportDisabled = true
       else throw error
