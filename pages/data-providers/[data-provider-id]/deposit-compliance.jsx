@@ -1,7 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 
-import styles from './deposit-dates.module.css'
+import styles from './deposit-compliance.module.css'
 
 import StackedVerticalBarChart from 'components/stacked-vertical-bar-chart'
 import NumericValue from 'components/numeric-value'
@@ -13,6 +13,7 @@ import { Card, Button } from 'design'
 import * as texts from 'texts/depositing'
 import DocumentLink from 'components/document-link'
 import ExportButton from 'components/export-button'
+import { valueOrDefault } from 'utils/helpers'
 
 const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   const { Header, Body, Footer } = Table.Sidebar
@@ -35,15 +36,12 @@ const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   )
 }
 
-const valueOrDefault = (value, defaultValue) =>
-  value == null ? defaultValue : value
-
 /**
  * TODO: This is an example of bad design. We have to know structure
  *       of Layout.Main and explicitly pass props.
  *       We should get rid out of it!
  */
-const DepositDates = ({
+const DepositCompliance = ({
   className,
   store,
   tag: Tag = 'main',
@@ -52,17 +50,24 @@ const DepositDates = ({
   <Tag className={[styles.container, className].join(' ')} {...restProps}>
     <h1>Deposit compliance</h1>
 
-    <Card className={styles.complianceLevel} tag="section">
-      <Card.Title tag="h2">{texts.compliance.title}</Card.Title>
-      {store.depositDates.complianceLevel ? (
-        <Markdown>
-          {texts.compliance.body.render({
-            amount: (100 - store.depositDates.complianceLevel).toFixed(1),
-          })}
-        </Markdown>
-      ) : (
-        <p>{texts.noData.body}</p>
-      )}
+    <Card className={styles.dataOverview} tag="section">
+      <Card.Title>{texts.dataOverview.title}</Card.Title>
+      <div className={styles.numbers}>
+        <NumericValue
+          tag="p"
+          value={valueOrDefault(store.depositDates.totalCount, 'Loading...')}
+          caption="outputs counted"
+        />
+        <NumericValue
+          tag="p"
+          value={valueOrDefault('2.7', 'Loading...')}
+          append="%"
+          caption="non-compliant"
+        />
+      </div>
+      <Button tag="a" href="#deposit-dates-card" variant="contained">
+        {texts.dataOverview.redirect}
+      </Button>
     </Card>
 
     <Card className={styles.crossRepositoryCheckRedirect} tag="section">
@@ -149,7 +154,11 @@ const DepositDates = ({
       </p>
     </Card>
 
-    <Card className={styles.browseTableCard} tag="section">
+    <Card
+      id="deposit-dates-card"
+      className={styles.browseTableCard}
+      tag="section"
+    >
       <Table
         key={store.dataProvider}
         title="Browse deposit dates"
@@ -208,4 +217,4 @@ const DepositDates = ({
   </Tag>
 )
 
-export default withGlobalStore(DepositDates)
+export default withGlobalStore(DepositCompliance)

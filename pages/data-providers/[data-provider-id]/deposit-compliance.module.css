@@ -15,12 +15,25 @@
   }
 }
 
-.compliance-level {
+.data-overview {
   flex: 2 2 60%;
   width: 100%;
 }
 
+.numbers {
+  display: flex;
+  flex-wrap: wrap;
+
+  & > p {
+    flex: 1 0 50%;
+    min-width: 10rem;
+    padding-bottom: var(--component-padding-y, 1rem);
+    margin: 0;
+  }
+}
+
 .outputs-match {
+  margin-bottom: 1rem;
   color: var(--success-dark);
 }
 

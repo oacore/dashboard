@@ -4,7 +4,7 @@ items:
   index: Overview
   data: Data
   content: Content
-  deposit-dates: Deposit compliance
+  depositCompliance: Deposit compliance
   doi: DOI
   plugins: Plugins
   statistics: Statistics

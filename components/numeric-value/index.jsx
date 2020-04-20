@@ -27,7 +27,7 @@ const formatNumber = (
 }
 
 const NumericValue = ({ value, append, caption, diff, ...restProps }) => (
-  <Numeral tag="p" {...restProps}>
+  <Numeral {...restProps}>
     <Numeral.Value>
       {typeof value == 'number' ? formatNumber(value) : value}
     </Numeral.Value>
