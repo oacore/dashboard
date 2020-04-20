@@ -9,7 +9,7 @@ const prepareUrl = (pathname, base = API_URL) => {
 
 const prepareParams = ({ url, searchParams }) =>
   new URLSearchParams([
-    ...Array.from(new URLSearchParams(url).entries()),
+    ...Array.from(url.searchParams.entries()),
     ...Array.from(new URLSearchParams(searchParams).entries()),
   ])
 
