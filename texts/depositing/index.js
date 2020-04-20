@@ -1,5 +1,6 @@
 import overview from './overview.yml'
 import sourceChart from './chart.md'
+import sourceCrossRepositoryCheck from './cross-repository-check.md'
 import complianceNotice from './compliance-notice.md'
 import noDataNotice from './no-data.md'
 import exporting from './export.yml'
@@ -28,6 +29,11 @@ const chart = {
   body: sourceChart.body,
 }
 
+const crossRepositoryCheck = {
+  ...sourceCrossRepositoryCheck.attributes,
+  body: new Template(sourceCrossRepositoryCheck.body),
+}
+
 export default {
   overview,
   chart,
@@ -36,4 +42,12 @@ export default {
   noData,
   publicationDates,
 }
-export { overview, chart, compliance, exporting, noData, publicationDates }
+export {
+  overview,
+  chart,
+  compliance,
+  crossRepositoryCheck,
+  exporting,
+  noData,
+  publicationDates,
+}

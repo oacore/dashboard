@@ -1,5 +1,5 @@
 ---
-title: Desposit time lag
+title: Deposit time lag
 ---
 
 The chart displays outputs' distribution according to deposit time lag.

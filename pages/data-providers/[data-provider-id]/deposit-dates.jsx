@@ -1,9 +1,10 @@
 import React from 'react'
 import dayjs from 'dayjs'
 
-import StackedVerticalBarChart from '../../../components/stacked-vertical-bar-chart'
 import styles from './deposit-dates.css'
 
+import StackedVerticalBarChart from 'components/stacked-vertical-bar-chart'
+import NumericValue from 'components/numeric-value'
 import { withGlobalStore } from 'store'
 import Markdown from 'components/markdown'
 import Table from 'components/table'
@@ -34,6 +35,9 @@ const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   )
 }
 
+const valueOrDefault = (value, defaultValue) =>
+  value == null ? defaultValue : value
+
 /**
  * TODO: This is an example of bad design. We have to know structure
  *       of Layout.Main and explicitly pass props.
@@ -49,7 +53,7 @@ const DepositDates = ({
     <h1>Deposit compliance</h1>
 
     <Card className={styles.complianceLevel} tag="section">
-      <h2>{texts.compliance.title}</h2>
+      <Card.Title tag="h2">{texts.compliance.title}</Card.Title>
       {store.depositDates.complianceLevel ? (
         <Markdown>
           {texts.compliance.body.render({
@@ -61,23 +65,23 @@ const DepositDates = ({
       )}
     </Card>
 
-    <Card className={styles.export} tag="section">
-      <h2>{texts.exporting.title}</h2>
-      <p>
-        {texts.exporting.description.render({
-          count: store.depositDates.depositDatesCount || '',
-        })}
-      </p>
-      <ExportButton
-        href={store.depositDates.datesUrl}
-        disabled={store.depositDates.isExportDisabled}
-      >
-        {texts.exporting.download}
-      </ExportButton>
+    <Card className={styles.crossRepositoryCheckRedirect} tag="section">
+      <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
+      <NumericValue
+        value={valueOrDefault(
+          store.depositDates.crossDepositLag?.possibleBonusCount,
+          'Loading...'
+        )}
+        caption="outputs match"
+        className={styles.outputsMatch}
+      />
+      <Button tag="a" variant="contained" href="#cross-repository-check">
+        {texts.crossRepositoryCheck.redirect}
+      </Button>
     </Card>
 
-    <Card className={styles.depositTimeLag} tag="section">
-      <h2>{texts.chart.title}</h2>
+    <Card tag="section">
+      <Card.Title tag="h2">{texts.chart.title}</Card.Title>
       {store.depositDates.timeLagData.length > 0 && (
         <>
           <TimeLagChart data={store.depositDates.timeLagData} />
@@ -88,6 +92,26 @@ const DepositDates = ({
         !store.depositDates.isRetrieveDepositDatesInProgress && (
           <p>{texts.noData.body}</p>
         )}
+    </Card>
+
+    <Card id="cross-repository-check" tag="section">
+      <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
+      <Card.Description>
+        {texts.crossRepositoryCheck.description}
+      </Card.Description>
+      <p>
+        {store.depositDates.crossDepositLag
+          ? texts.crossRepositoryCheck.body.render({
+              nonCompliantCount:
+                store.depositDates.crossDepositLag.nonCompliantCount,
+              recordsInAnotherRepository:
+                store.depositDates.crossDepositLag.possibleBonusCount,
+            })
+          : 'Loading data'}
+      </p>
+      <ExportButton href={store.depositDates.crossDepositLagCsvUrL}>
+        {texts.crossRepositoryCheck.download}
+      </ExportButton>
     </Card>
 
     <Card tag="section">
