@@ -18,6 +18,8 @@ class DepositDates extends Store {
 
   @observable publicReleaseDates = null
 
+  @observable crossDepositLag = null
+
   @observable publicationDatesValidate = null
 
   constructor(baseUrl, options) {
@@ -27,11 +29,14 @@ class DepositDates extends Store {
     this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
+    this.crossDepositLagUrL = `${baseUrl}/cross-deposit-lag`
+    this.crossDepositLagCsvUrL = `${API_URL}${this.crossDepositLagUrL}?accept=text/csv`
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate`
 
     this.retrieveDepositTimeLag()
     this.loadDepositDatesCount()
     this.getPublicationDatesValidate()
+    this.getCrossDepositLag()
   }
 
   @computed
@@ -78,6 +83,12 @@ class DepositDates extends Store {
       if (error instanceof NotFoundError) this.isExportDisabled = true
       else throw error
     }
+  }
+
+  @action
+  async getCrossDepositLag() {
+    const { data } = await this.request(this.crossDepositLagUrL)
+    this.crossDepositLag = data
   }
 
   @action
