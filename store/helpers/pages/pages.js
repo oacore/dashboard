@@ -7,6 +7,7 @@ import Store from '../../store'
 import { NotFoundError } from 'api/errors'
 
 const PAGE_SIZE = 100
+
 class Pages extends Store {
   @observable data = []
 

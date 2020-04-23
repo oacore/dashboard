@@ -6,6 +6,7 @@ import NoDataFoundRow from './no-data-found-row'
 import TableRow from './row'
 import Sidebar from './sidebar'
 import Column from './column'
+import Action from './action'
 
 import { Table, TextField, Button } from 'design'
 import debounce from 'utils/debounce'
@@ -17,28 +18,29 @@ const getNextOrder = (order) => {
   return 'asc'
 }
 
-// maximum number of rows shown in table at a time
-const WINDOW_SIZE = 100
-
 class InfiniteTable extends React.PureComponent {
   tableRowClickTimeout = null
 
   sidebar = null
 
+  action = null
+
   columns = []
+
+  defaultRowSize = null
 
   constructor(props) {
     super(props)
     this.tableRef = React.createRef()
     this.containerRef = React.createRef()
-
+    this.defaultRowSize = props.defaultSize || 100
     const { sidebar, columnOrder, columns } = this.getConfig()
 
     // eslint-disable-next-line react/state-in-constructor
     this.state = {
       lastExpandedRow: null,
       data: null,
-      size: WINDOW_SIZE - 1,
+      size: this.defaultRowSize,
       searchTerm: '',
       isFirstPageLoaded: false,
       isLastPageLoaded: false,
@@ -149,7 +151,7 @@ class InfiniteTable extends React.PureComponent {
     let newSize = size
 
     if (next) newSize += 10
-    else newSize = WINDOW_SIZE
+    else newSize = this.defaultRowSize
 
     if (force) {
       pages.reset({
@@ -183,6 +185,7 @@ class InfiniteTable extends React.PureComponent {
       fetchData,
       pages,
       className,
+      defaultSize,
       ...restProps
     } = this.props
     const {
@@ -273,6 +276,7 @@ class InfiniteTable extends React.PureComponent {
                   <Table.Cell colSpan={1000}>
                     <div className={styles.footerRight}>
                       {isFirstPageLoaded &&
+                        totalLength &&
                         `Showing 1 - ${size} of ${totalLength}`}
                       {!isLastPageLoaded && (
                         <Button

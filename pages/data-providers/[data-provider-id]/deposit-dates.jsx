@@ -97,6 +97,7 @@ const DepositDates = ({
         title="Browse deposit dates"
         pages={store.depositDates.publicReleaseDates}
         className={styles.browseTable}
+        defaultSize={15}
         searchable
       >
         <Table.Column
