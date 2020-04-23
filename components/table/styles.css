@@ -1,5 +1,6 @@
 :root {
   --table-sidebar-width: 30rem;
+  --table-border-color: var(--gray-200);
 }
 
 @custom-media --screen-at-least-desktop (min-width: 1200px);
@@ -49,13 +50,6 @@
   }
 }
 
-.footer {
-  margin-top: auto;
-  justify-self: flex-end;
-  background: var(--white);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-}
-
 .container {
   &:not(.open) > .sidebar {
     box-shadow: none;
@@ -77,4 +71,24 @@
 
 .disable {
   color: var(--gray-400);
+}
+
+.footer {
+  background: var(--white);
+  border-top: 2px solid var(--table-border-color);
+}
+
+.footer-right {
+  float: right;
+  width: 50%;
+  text-align: right;
+}
+
+.footer-left {
+  float: left;
+  width: 50%;
+}
+
+.load-next-page {
+  margin-left: 1rem;
 }

@@ -8,6 +8,7 @@
 .content-table > table {
   min-width: 55rem;
   table-layout: fixed;
+  min-height: 100%;
 
   & th,
   & td {
