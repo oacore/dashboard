@@ -7,7 +7,7 @@ import TableRow from './row'
 import Sidebar from './sidebar'
 import Column from './column'
 
-import { Table, TextField } from 'design'
+import { Table, TextField, Button } from 'design'
 import debounce from 'utils/debounce'
 import withErrorBoundary from 'utils/withErrorBoundary'
 
@@ -41,9 +41,10 @@ class InfiniteTable extends React.PureComponent {
       size: WINDOW_SIZE - 1,
       searchTerm: '',
       isFirstPageLoaded: false,
-      // isLastPageLoaded: false,
+      isLastPageLoaded: false,
       columnOrder,
       expandedRowId: null,
+      totalLength: null,
     }
 
     this.sidebar = sidebar
@@ -150,19 +151,17 @@ class InfiniteTable extends React.PureComponent {
     if (next) newSize += 10
     else newSize = WINDOW_SIZE
 
-    const newState = {}
-
     if (force) {
       pages.reset({
         columnOrder,
         searchTerm,
       })
 
-      newState.isFirstPageLoaded = false
-      newState.isLastPageLoaded = false
+      this.setState({
+        isFirstPageLoaded: false,
+        isLastPageLoaded: false,
+      })
     }
-
-    this.setState(newState)
 
     const data = await pages.slice(0, newSize)
 
@@ -170,7 +169,8 @@ class InfiniteTable extends React.PureComponent {
       data,
       size: newSize,
       isFirstPageLoaded: pages.isFirstPageLoaded,
-      // isLastPageLoaded: pages.isLastPageLoaded,
+      isLastPageLoaded: pages.isLastPageLoaded,
+      totalLength: pages.totalLength,
     })
   }
 
@@ -192,6 +192,9 @@ class InfiniteTable extends React.PureComponent {
       isFirstPageLoaded,
       expandedRowId,
       lastExpandedRow,
+      isLastPageLoaded,
+      size,
+      totalLength,
     } = this.state
     const { sidebar, columns } = this
     return (
@@ -265,6 +268,24 @@ class InfiniteTable extends React.PureComponent {
                   })}
                 {data && data.length === 0 && <NoDataFoundRow />}
               </Table.Body>
+              <tfoot className={styles.footer}>
+                <Table.Row>
+                  <Table.Cell colSpan={1000}>
+                    <div className={styles.footerRight}>
+                      {isFirstPageLoaded &&
+                        `Showing 1 - ${size} of ${totalLength}`}
+                      {!isLastPageLoaded && (
+                        <Button
+                          className={styles.loadNextPage}
+                          onClick={this.loadNextPage}
+                        >
+                          Show more
+                        </Button>
+                      )}
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              </tfoot>
             </Table>
           </div>
         </div>

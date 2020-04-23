@@ -16,6 +16,8 @@ class Pages extends Store {
 
   pageNumber = 0
 
+  totalLength = null
+
   isLastPageLoaded = false
 
   isFirstPageLoaded = false
@@ -52,8 +54,13 @@ class Pages extends Store {
     const request = this.request(this.url, { searchParams: params, signal })
     return new Promise((resolve, reject) =>
       request.then(
-        ({ data }) => {
-          if (this.pageNumber === 0) this.isFirstPageLoaded = true
+        ({ data, headers }) => {
+          if (this.pageNumber === 0) {
+            this.isFirstPageLoaded = true
+            const length = headers.get('Collection-Length')
+            const number = Number.parseInt(length, 10)
+            this.totalLength = number >= 0 ? number : null
+          }
           this.pageNumber += 1
           const transformedData = data.map((e) => ({
             ...e,
