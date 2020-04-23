@@ -4,17 +4,6 @@
 
 @custom-media --screen-at-least-desktop (min-width: 1200px);
 
-/* TODO: handle this in design library perhaps */
-.table-select > input {
-  width: 1rem;
-  height: 1rem;
-}
-
-.table-select {
-  width: 2rem;
-  height: 3rem;
-}
-
 .detail-row {
   & > th,
   & > td {

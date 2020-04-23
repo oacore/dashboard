@@ -41,7 +41,6 @@ class InfiniteTable extends React.PureComponent {
       data: null,
       showNextLoad: false,
       size: WINDOW_SIZE - 1,
-      areSelectedAll: false,
       searchTerm: '',
       isFirstPageLoaded: false,
       isLastPageLoaded: false,
@@ -99,10 +98,6 @@ class InfiniteTable extends React.PureComponent {
     this.setState({
       expandedRowId: null,
     })
-  }
-
-  toggleSelectAll = () => {
-    this.setState((s) => ({ areSelectedAll: !s.areSelectedAll }))
   }
 
   toggleOrder = (id) => {
@@ -197,7 +192,6 @@ class InfiniteTable extends React.PureComponent {
     } = this.props
     const {
       data,
-      areSelectedAll,
       searchTerm,
       columnOrder,
       showNextLoad,
@@ -239,16 +233,6 @@ class InfiniteTable extends React.PureComponent {
             <Table ref={this.tableRef} {...restProps}>
               <Table.Head>
                 <Table.Row>
-                  {selectable && (
-                    <Table.Cell className={styles.tableSelect}>
-                      <input
-                        type="checkbox"
-                        id="table-select-all"
-                        onChange={this.toggleSelectAll}
-                        checked={areSelectedAll}
-                      />
-                    </Table.Cell>
-                  )}
                   {columns.map((column) => (
                     <Table.HeadCell
                       key={column.props.id}
