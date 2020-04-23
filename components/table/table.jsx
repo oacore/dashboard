@@ -34,7 +34,7 @@ class InfiniteTable extends React.PureComponent {
     this.tableRef = React.createRef()
     this.containerRef = React.createRef()
     this.defaultRowSize = props.defaultSize || 100
-    const { sidebar, columnOrder, columns } = this.getConfig()
+    const { action, sidebar, columnOrder, columns } = this.getConfig()
 
     // eslint-disable-next-line react/state-in-constructor
     this.state = {
@@ -49,6 +49,7 @@ class InfiniteTable extends React.PureComponent {
       totalLength: null,
     }
 
+    this.action = action
     this.sidebar = sidebar
     this.columns = columns
   }
@@ -90,6 +91,7 @@ class InfiniteTable extends React.PureComponent {
 
     return {
       sidebar: childrenArray.find((item) => item.type === Sidebar),
+      action: childrenArray.find((item) => item.type === Action),
       columnOrder,
       columns,
     }
@@ -150,7 +152,7 @@ class InfiniteTable extends React.PureComponent {
     const { searchTerm, columnOrder, size } = this.state
     let newSize = size
 
-    if (next) newSize += 10
+    if (next) newSize += 100
     else newSize = this.defaultRowSize
 
     if (force) {
@@ -199,7 +201,8 @@ class InfiniteTable extends React.PureComponent {
       size,
       totalLength,
     } = this.state
-    const { sidebar, columns } = this
+    const { action, sidebar, columns } = this
+
     return (
       <div
         ref={this.containerRef}
@@ -274,6 +277,7 @@ class InfiniteTable extends React.PureComponent {
               <tfoot className={styles.footer}>
                 <Table.Row>
                   <Table.Cell colSpan={1000}>
+                    <div className={styles.footerLeft}>{action}</div>
                     <div className={styles.footerRight}>
                       {isFirstPageLoaded &&
                         totalLength &&

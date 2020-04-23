@@ -137,6 +137,14 @@ const DepositDates = ({
         <Table.Sidebar>
           <SidebarContent />
         </Table.Sidebar>
+        <Table.Action>
+          <ExportButton
+            href={store.depositDates.datesUrl}
+            disabled={store.depositDates.isExportDisabled}
+          >
+            {texts.exporting.download}
+          </ExportButton>
+        </Table.Action>
       </Table>
     </Card>
   </Tag>
