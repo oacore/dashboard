@@ -1,7 +1,6 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import LoadMoreRow from './load-more-row'
 import styles from './styles.css'
 import NoDataFoundRow from './no-data-found-row'
 import TableRow from './row'
@@ -39,11 +38,10 @@ class InfiniteTable extends React.PureComponent {
     this.state = {
       lastExpandedRow: null,
       data: null,
-      showNextLoad: false,
       size: WINDOW_SIZE - 1,
       searchTerm: '',
       isFirstPageLoaded: false,
-      isLastPageLoaded: false,
+      // isLastPageLoaded: false,
       columnOrder,
       expandedRowId: null,
     }
@@ -146,15 +144,13 @@ class InfiniteTable extends React.PureComponent {
 
   async fetchData({ next = false, force = false } = {}) {
     const { pages } = this.props
-    const { searchTerm, columnOrder, showNextLoad, size } = this.state
+    const { searchTerm, columnOrder, size } = this.state
     let newSize = size
 
     if (next) newSize += 10
     else newSize = WINDOW_SIZE
 
-    const newState = {
-      showNextLoad: false,
-    }
+    const newState = {}
 
     if (force) {
       pages.reset({
@@ -174,8 +170,7 @@ class InfiniteTable extends React.PureComponent {
       data,
       size: newSize,
       isFirstPageLoaded: pages.isFirstPageLoaded,
-      isLastPageLoaded: pages.isLastPageLoaded,
-      showNextLoad: force ? true : showNextLoad,
+      // isLastPageLoaded: pages.isLastPageLoaded,
     })
   }
 
@@ -194,9 +189,7 @@ class InfiniteTable extends React.PureComponent {
       data,
       searchTerm,
       columnOrder,
-      showNextLoad,
       isFirstPageLoaded,
-      isLastPageLoaded,
       expandedRowId,
       lastExpandedRow,
     } = this.state
@@ -222,7 +215,6 @@ class InfiniteTable extends React.PureComponent {
                 this.setState({
                   searchTerm: event.target.value,
                   data: null,
-                  showNextLoad: false,
                 })
                 this.onSearchEnded()
               }}
@@ -271,13 +263,6 @@ class InfiniteTable extends React.PureComponent {
 
                     return <TableRow key={row.id} {...props} />
                   })}
-
-                {isFirstPageLoaded && !isLastPageLoaded && (
-                  <LoadMoreRow
-                    observe={showNextLoad}
-                    onVisible={this.loadNextPage}
-                  />
-                )}
                 {data && data.length === 0 && <NoDataFoundRow />}
               </Table.Body>
             </Table>
