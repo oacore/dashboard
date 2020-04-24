@@ -18,6 +18,8 @@ class DepositDates extends Store {
 
   @observable publicReleaseDates = null
 
+  @observable publicationDatesValidate = null
+
   constructor(baseUrl, options) {
     super(baseUrl, options)
 
@@ -25,8 +27,11 @@ class DepositDates extends Store {
     this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
+    this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate`
+
     this.retrieveDepositTimeLag()
     this.loadDepositDatesCount()
+    this.getPublicationDatesValidate()
   }
 
   @computed
@@ -60,7 +65,7 @@ class DepositDates extends Store {
   }
 
   @action
-  loadDepositDatesCount = async () => {
+  async loadDepositDatesCount() {
     try {
       this.isExportDisabled = false
       const { headers } = await this.request(this.datesUrl, {
@@ -73,6 +78,12 @@ class DepositDates extends Store {
       if (error instanceof NotFoundError) this.isExportDisabled = true
       else throw error
     }
+  }
+
+  @action
+  async getPublicationDatesValidate() {
+    const { data } = await this.request(this.publicationDatesValidateUrl)
+    this.publicationDatesValidate = data
   }
 }
 

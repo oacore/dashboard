@@ -75,3 +75,7 @@
   color: var(--white);
   background: var(--success-dark);
 }
+
+.details-button {
+  margin-right: 1rem;
+}
