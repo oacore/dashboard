@@ -1,18 +1,17 @@
 import React from 'react'
 import dayjs from 'dayjs'
 
+import StackedVerticalBarChart from '../../../components/stacked-vertical-bar-chart'
+import styles from './deposit-dates.css'
+
 import { withGlobalStore } from 'store'
 import Markdown from 'components/markdown'
 import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
-import { Card } from 'design'
+import { Card, Button } from 'design'
 import * as texts from 'texts/depositing'
 import DocumentLink from 'components/document-link'
 import ExportButton from 'components/export-button'
-
-// TODO: Remove once cards are in @oacore/design
-// eslint-disable-next-line
-import styles from './deposit-dates.css'
 
 const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   const { Header, Body, Footer } = Table.Sidebar
@@ -89,6 +88,41 @@ const DepositDates = ({
         !store.depositDates.isRetrieveDepositDatesInProgress && (
           <p>{texts.noData.body}</p>
         )}
+    </Card>
+
+    <Card tag="section">
+      <Card.Title>{texts.publicationDates.title}</Card.Title>
+      <Card.Description>{texts.publicationDates.description}</Card.Description>
+      {store.depositDates.publicationDatesValidate ? (
+        <StackedVerticalBarChart
+          data={[
+            {
+              value: store.depositDates.publicationDatesValidate.fullCount,
+              caption: texts.publicationDates.matching,
+              background: 'var(--success)',
+            },
+            {
+              value: store.depositDates.publicationDatesValidate.partialCount,
+              caption: texts.publicationDates.incorrect,
+              background: 'var(--warning)',
+            },
+            {
+              value: store.depositDates.publicationDatesValidate.noneCount,
+              caption: texts.publicationDates.different,
+              background: 'var(--danger)',
+              color: 'var(--white)',
+            },
+          ]}
+        />
+      ) : (
+        <p>Loading data</p>
+      )}
+      <p>
+        <Button className={styles.detailsButton} variant="contained" disabled>
+          Details
+        </Button>
+        Coming soon
+      </p>
     </Card>
 
     <Card className={styles.browseTableCard} tag="section">

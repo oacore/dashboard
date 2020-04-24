@@ -4,6 +4,7 @@ import complianceNotice from './compliance-notice.md'
 import noDataNotice from './no-data.md'
 import exporting from './export.yml'
 import Template from '../template'
+import publicationDates from './publication-dates.yml'
 
 const templateProps = ['complianceLevel', 'compliance-level']
 templateProps.forEach((property) => {
@@ -27,5 +28,12 @@ const chart = {
   body: sourceChart.body,
 }
 
-export default { overview, chart, compliance, exporting, noData }
-export { overview, chart, compliance, exporting, noData }
+export default {
+  overview,
+  chart,
+  compliance,
+  exporting,
+  noData,
+  publicationDates,
+}
+export { overview, chart, compliance, exporting, noData, publicationDates }

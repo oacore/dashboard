@@ -1,0 +1,67 @@
+@custom-media --screen-at-least-desktop (min-width: 728px);
+
+.container {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.bar {
+  flex: 1;
+  height: 2rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  margin: 0;
+  overflow: hidden;
+  text-align: right;
+}
+
+.bar > span {
+  display: inline-block;
+  padding: 0.5rem;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.caption {
+  float: left;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label {
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: space-between;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: space-between;
+  padding-left: 0;
+  list-style-type: none;
+
+  @media (--screen-at-least-desktop) {
+    display: none;
+  }
+}
+
+.color {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  vertical-align: top;
+  border-radius: 2px;
+}
+
+.label-text-right {
+  margin-left: auto;
+}
