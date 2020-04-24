@@ -7,8 +7,8 @@ import TableRow from './row'
 import Sidebar from './sidebar'
 import Column from './column'
 import Action from './action'
+import Pagination from './pagination'
 
-import { formatNumber } from 'utils/helpers'
 import { Table, TextField, Button } from 'design'
 import debounce from 'utils/debounce'
 import withErrorBoundary from 'utils/withErrorBoundary'
@@ -280,11 +280,13 @@ class InfiniteTable extends React.PureComponent {
                   <Table.Cell colSpan={1000}>
                     <div className={styles.footerLeft}>{action}</div>
                     <div className={styles.footerRight}>
-                      {isFirstPageLoaded &&
-                        totalLength &&
-                        `Showing 1 - ${formatNumber(size)} of ${formatNumber(
-                          totalLength
-                        )}`}
+                      {isFirstPageLoaded && (
+                        <Pagination
+                          size={size}
+                          total={totalLength}
+                          isAllLoaded={isLastPageLoaded}
+                        />
+                      )}
                       {!isLastPageLoaded && (
                         <Button
                           className={styles.loadNextPage}
