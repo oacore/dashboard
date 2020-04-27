@@ -43,7 +43,6 @@
     "@sentry/browser": "^5.13.0",
     "@sentry/node": "^5.15.4",
     "@zeit/next-source-maps": "0.0.3",
-    "classnames": "^2.2.6",
     "core-js": "3.4.2",
     "cosmiconfig": "^6.0.0",
     "css-loader": "^3.2.1",

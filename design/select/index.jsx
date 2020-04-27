@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
-import classNames from 'classnames'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.css'
 
@@ -104,7 +104,7 @@ const Select = ({
   }, [searchTerm])
 
   return (
-    <Tag className={classNames(styles.selectWrapper, className)}>
+    <Tag className={classNames.use(styles.selectWrapper, className)}>
       {!disabled && (
         <>
           <div className="sr-only" aria-live="assertive">
@@ -152,11 +152,11 @@ const Select = ({
           />
         </>
       )}
-      <div className={classNames(styles.inputContainer)}>{value}</div>
+      <div className={classNames.use(styles.inputContainer)}>{value}</div>
       {!disabled && (
         <ul
           id={`suggestion-results-${id}`}
-          className={classNames(styles.selectMenu, {
+          className={classNames.use(styles.selectMenu, {
             [styles.show]: showSuggestions && suggestions.length,
           })}
           role="listbox"
@@ -201,7 +201,7 @@ const SelectOption = ({ id, children, value, selected, ...restProps }) => (
     id={id}
     role="option"
     aria-selected={selected}
-    className={classNames({
+    className={classNames.use({
       [styles.optionSelected]: selected,
     })}
   >
