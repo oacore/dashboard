@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './settings.module.css'
@@ -8,10 +8,11 @@ import { withGlobalStore } from 'store'
 import { ChangePassword, FormShell } from 'components/forms'
 
 const Settings = ({ store, className, ...restProps }) => {
+  const [formMessage, setFormMessage] = useState({})
   const { dataProvider } = store
   const organization = { name: dataProvider.institution }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     const formData = new FormData(event.target)
@@ -24,7 +25,11 @@ const Settings = ({ store, className, ...restProps }) => {
       'invitation': store.organisation.inviteUser,
     }[scope]
 
-    present.call(store, data)
+    const result = await present.call(store, data)
+    setFormMessage({
+      ...formMessage,
+      [scope]: result.message,
+    })
   }
 
   return (
@@ -53,6 +58,7 @@ const Settings = ({ store, className, ...restProps }) => {
           buttonCaption="Invite"
           isButtonVisible
           onSubmit={handleSubmit}
+          message={formMessage.invitation}
         >
           <TextField size="small" label="Email" name="email" tag="div" />
         </FormShell>

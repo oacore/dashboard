@@ -8,6 +8,7 @@ const FormShell = ({
   onSubmit,
   isButtonVisible = false,
   buttonCaption = 'Save',
+  message,
   ...formProps
 }) => {
   const [isChanged, setChanged] = useState(isButtonVisible)
@@ -38,6 +39,7 @@ const FormShell = ({
           {buttonCaption}
         </Button>
       )}
+      {message && <p>{message}</p>}
     </form>
   )
 }
