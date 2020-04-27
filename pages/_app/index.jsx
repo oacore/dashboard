@@ -149,18 +149,6 @@ class App extends NextApp {
     if (error instanceof UnauthorizedError) this.redirectToLogin()
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const { router } = props
-    const { store } = state
-
-    if (!store) return null
-    const { dataProvider, activity } = new Route(router.asPath)
-
-    store.dataProvider = dataProvider
-    store.activity = activity
-    return null
-  }
-
   AppShell = () => {
     const { store } = this
     const { Component, pageProps } = this.props
