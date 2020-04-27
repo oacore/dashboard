@@ -22,6 +22,10 @@
   & .clickable:hover {
     background: var(--gray-200);
   }
+
+  & table {
+    text-align: left;
+  }
 }
 
 .sidebar {
