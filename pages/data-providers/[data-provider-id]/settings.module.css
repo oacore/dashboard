@@ -1,3 +1,5 @@
+@custom-media --screen-small-screen-width (max-width: 380px);
+
 .container {
   padding: 1rem;
 }
@@ -12,14 +14,24 @@
 
 .invitation-form {
   display: flex;
-  flex: 1 1 auto;
+  flex-wrap: wrap;
 
   & > button {
+    flex: 0 0 auto;
     margin-left: 1.5rem;
-    min-width: 6rem;
+
+    @media (--screen-small-screen-width) {
+      margin-top: 0.5rem;
+      margin-left: 0;
+    }
   }
 
   & > div {
-    flex-basis: 100%;
+    flex: 1 1 auto;
+  }
+
+  & > p {
+    flex: 0 0 100%;
+    margin-top: 0.5rem;
   }
 }
