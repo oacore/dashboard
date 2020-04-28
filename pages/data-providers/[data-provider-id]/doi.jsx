@@ -20,11 +20,7 @@ const formatDOI = (entity) => {
     return (
       <>
         {crossrefDoi}{' '}
-        <Icon
-          className={styles.newIcon}
-          src="/design/icons.svg#new"
-          alt="New"
-        />
+        <Icon className={styles.newIcon} src="#new-box" alt="New" />
       </>
     )
   }

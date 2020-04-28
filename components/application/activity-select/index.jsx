@@ -18,7 +18,7 @@ const linkProps = (value, dataProvider) => {
     as: `/data-providers/${dataProvider}/${value}`,
   }
 }
-const toIcon = (value) => `/design/icons.svg#${activities.get(value).icon}`
+const toIcon = (value) => `#${activities.get(value).icon}`
 
 const ActivitySelect = ({ children }) => (
   <Drawer.List className={styles.list}>{children}</Drawer.List>

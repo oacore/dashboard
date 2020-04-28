@@ -39,7 +39,8 @@
     "yaml-import-loader": "^1.3.6"
   },
   "dependencies": {
-    "@oacore/design": "0.0.15",
+    "@mdi/svg": "^5.0.45",
+    "@oacore/design": "0.1.0",
     "@sentry/browser": "^5.13.0",
     "@sentry/node": "^5.15.4",
     "@zeit/next-source-maps": "0.0.3",
@@ -75,16 +76,13 @@
   "scripts": {
     "dev": "next dev",
     "dev-api": "NODE_ENV=local next dev",
-    "build:icons": "svgstore public/icons/* | svgo -i - -o public/icons.svg --disable=removeUselessDefs,cleanupIDs",
-    "prebuild": "run-p build:icons",
     "build": "next build",
     "start": "next start",
     "lint:json": "prettier --ignore-path .gitignore --check '**/*.json'",
     "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
     "lint:css": "stylelint --ignore-path .gitignore '**/*.css'",
     "lint": "run-p lint:*",
-    "postinstall": "rm -rf ./public/design/ && mkdir ./public/design && run-p cp:*",
-    "cp:assets": "cp -r $(npm explore @oacore/design -- pwd)/lib/assets/* ./public/design",
+    "postinstall": "run-p cp:*",
     "cp:global": "cp -r $(npm explore @oacore/design -- pwd)/lib/global/* ./public/design"
   }
 }
