@@ -53,6 +53,8 @@ function prefillOptionalFields() {
   if (urlParams.has('invitationCode')) {
     invitationCode.value = urlParams.get('invitationCode')
     invitationCode.setAttribute('readonly', 'true')
+    invitationCode.setAttribute('type', 'hidden')
+    invitationCode.parentElement.classList.add('hidden')
   }
 }
 
