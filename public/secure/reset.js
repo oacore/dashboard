@@ -33,8 +33,11 @@ function performApiRequest(url, data) {
 
 function showSuccessMessage() {
   const messageEl = document.getElementById('message')
-  messageEl.innerHTML =
-    'Password changed successfully. You can <a href="/login" target="_top">log in</a> now.'
+  let message = 'Password changed successfully.'
+
+  if (urlParams.has('token'))
+    message += ' You can <a href="/login" target="_top">log in</a> now.'
+  messageEl.innerHTML = message
   messageEl.classList.remove('message-error')
 }
 
@@ -102,12 +105,15 @@ window.addEventListener('DOMContentLoaded', () => {
     email.value = urlParams.get('email')
     email.setAttribute('type', 'hidden')
     email.parentElement.classList.add('hidden')
+
+    // if there is an email it we hide token because it's either
+    // supplied or not need (user changing password in settings)
+    token.setAttribute('type', 'hidden')
+    token.parentElement.classList.add('hidden')
   }
 
   if (urlParams.has('token')) {
     token.value = urlParams.get('token')
-    token.setAttribute('type', 'hidden')
-    token.parentElement.classList.add('hidden')
     password.removeAttribute('required')
     password.setAttribute('type', 'hidden')
     password.parentElement.classList.add('hidden')

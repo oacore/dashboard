@@ -68,7 +68,6 @@ const Settings = ({ store, className, ...restProps }) => {
         className={classNames.use(styles.section).join(className)}
         tag="section"
       >
-        {' '}
         <h2>Repository settings</h2>
         <FormShell name="data-provider" onSubmit={handleSubmit}>
           <TextField
