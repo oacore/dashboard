@@ -98,7 +98,6 @@ class Root extends Store {
 
   @action switchDataProvider(dataProviderStr) {
     const dataProviderId = Number.parseInt(dataProviderStr, 10)
-
     if (this.dataProvider && this.dataProvider.id === dataProviderId) return
     const dataProvider = this.user.dataProviders.find(
       ({ id }) => dataProviderId === id
