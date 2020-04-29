@@ -104,16 +104,19 @@ class App extends NextApp {
   async componentDidMount() {
     const { router } = this.props
 
-    // we use routeChangeStart to immediately update selected activity
-    router.events.on('routeChangeStart', this.handleRouteChange)
     window.addEventListener('unhandledrejection', this.handlePromiseRejection)
 
     if (!this.isRouteWithoutStore) await this.fetchUser()
+
+    // we use routeChangeStart to immediately update selected activity
+    // ensure it's bound after user is fetched to avoid false errors
+    //  - user has no access to data provider
+    router.events.on('routeChangeStart', this.handleRouteChange)
   }
 
   componentWillUnmount() {
     const { router } = this.props
-    router.events.off('routeChangeComplete', this.handleRouteChange)
+    router.events.off('routeChangeStart', this.handleRouteChange)
     window.removeEventListener(
       'unhandledrejection',
       this.handlePromiseRejection
