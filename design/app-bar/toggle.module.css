@@ -1,12 +1,3 @@
 .container {
   color: var(--gray-700);
 }
-
-.bar {
-  display: block;
-  width: 24px;
-  height: 4px;
-  margin-bottom: 4px;
-  background: currentColor;
-  border-radius: 1px;
-}

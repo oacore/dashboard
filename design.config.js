@@ -23,6 +23,7 @@ const icons = [
   'sort-descending',
   'tune',
   'view-dashboard',
+  'menu',
 ]
 
 const iconsRoot = path.join(
