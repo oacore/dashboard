@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import { useStaticRendering, observer } from 'mobx-react'
+import { useStaticRendering, observer } from 'mobx-react-lite'
 
 import RootStore from './root'
 
