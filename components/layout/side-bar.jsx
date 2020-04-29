@@ -5,7 +5,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import LayoutContext from './context'
 import styles from './styles.module.css'
 
-import { Logo, CloseIcon } from 'design'
+import { Logo, Icon } from 'design'
 
 const SideBar = ({
   children,
@@ -32,7 +32,7 @@ const SideBar = ({
           tag="button"
           onClick={() => dispatch({ type: 'toggle_sidebar' })}
         >
-          <CloseIcon aria-label="Close sidebar" />
+          <Icon src="#close" alt="Close icon" aria-label="Close sidebar" />
         </AppBar.Item>
       </AppBar>
 
