@@ -1,6 +1,6 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import styles from './styles.module.css'
 

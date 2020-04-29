@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import { classNames } from '@oacore/design/lib/utils'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import styles from './content.module.css'
 
