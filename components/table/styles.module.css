@@ -27,6 +27,8 @@
 }
 
 .sidebar {
+  --sidebar-padding: 1rem;
+
   position: fixed;
   top: 0;
   right: 0;
@@ -41,14 +43,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   transition: transform 200ms ease;
 
-  & .close-icon {
-    position: absolute;
-    right: 1rem;
-    cursor: pointer;
-  }
-
   & > * {
-    padding: 1rem;
+    padding: var(--sidebar-padding);
   }
 }
 
@@ -76,6 +72,7 @@
 }
 
 .footer {
+  margin-top: auto;
   background: var(--white);
   border-top: 2px solid var(--table-border-color);
 }
@@ -93,4 +90,15 @@
 
 .load-next-page {
   margin-left: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.close-icon {
+  margin: calc(-1 * var(--sidebar-padding)) calc(-1 * var(--sidebar-padding))
+    calc(-1 * var(--sidebar-padding)) auto;
+  color: var(--white);
 }
