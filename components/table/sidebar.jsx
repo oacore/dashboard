@@ -3,7 +3,7 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 
-import { CloseIcon } from 'design'
+import { Button, Icon } from 'design'
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -31,16 +31,17 @@ const SidebarHeader = ({ children, className, ...passProps }) => {
       {...passProps}
     >
       {children}
-      <CloseIcon
+      <Button
         ref={closeIconRef}
-        aria-label="Close table sidebar"
+        className={styles.closeIcon}
         onClick={() =>
           closeIconRef.current.dispatchEvent(
             new Event('sidebar-close', { bubbles: true })
           )
         }
-        className={styles.closeIcon}
-      />
+      >
+        <Icon src="#close" alt="Close icon" aria-label="Close table sidebar" />
+      </Button>
     </div>
   )
 }
