@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@mdi/svg": "^5.0.45",
-    "@oacore/design": "0.1.0",
+    "@oacore/design": "^0.1.1",
     "@sentry/browser": "^5.13.0",
     "@sentry/node": "^5.15.4",
     "@zeit/next-source-maps": "0.0.3",

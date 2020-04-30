@@ -27,15 +27,3 @@ form {
 .message-error {
   color: var(--danger-dark);
 }
-
-input:invalid,
-input:invalid + label {
-  --form-control-color: var(--primary);
-  --form-label-color: var(--form-control-color);
-}
-
-.touched:invalid,
-.touched:invalid + label {
-  --form-control-color: var(--danger-dark);
-  --form-label-color: var(--form-control-color);
-}
