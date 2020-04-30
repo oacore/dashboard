@@ -90,6 +90,11 @@ window.addEventListener('DOMContentLoaded', () => {
           'You have been successfully registered. Please log in now.'
         )
         break
+      case 'reset':
+        showInfoMessage(
+          'Your password has been reset successfully. Please log in now.'
+        )
+        break
       default:
     }
   }
