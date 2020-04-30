@@ -18,7 +18,7 @@ const ChangePassword = ({ className, email, token, tag }) => {
 
   return (
     <Card className={className} tag={tag}>
-      <h2>Change password</h2>
+      <h2>{email ? 'Change password' : 'Reset password'}</h2>
       <IframeForm
         className={styles.changePasswordIframe}
         title="Password change form"

@@ -5,5 +5,5 @@ download: Download CSV
 redirect: Check outputs
 ---
 
-Over {{nonCompliantCount}} non-compliant records in your repository we discovered
-{{recordsInAnotherRepository}} records were deposited in the another repository or journal
+There are {{nonCompliantCount}} non-compliant records in your repository, {{recordsInAnotherRepository}} out of which have been found in another repository or journal.
+A list of these records is available for download in a CSV file.
