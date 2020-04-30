@@ -31,7 +31,6 @@ class Resource {
     Object.assign(this, object)
   }
 
-  @action
   retrieve(...scopes) {
     const { request } = this.options
     if (this.id == null) {
@@ -51,7 +50,7 @@ class Resource {
       }
 
       return request(this[scopeUrl]).then((data) => {
-        this[scope] = data
+        this.extend({ [scope]: data })
         return data
       })
     })
