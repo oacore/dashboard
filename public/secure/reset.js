@@ -86,7 +86,9 @@ function changePassword(event) {
     .then(
       () => {
         resetInputs()
-        showSuccessMessage()
+        if (window.top.location.pathname.startsWith('/reset'))
+          window.top.location.href = '/login?reason=reset'
+        else showSuccessMessage()
       },
       ({ message }) => showErrorMessage(message)
     )
