@@ -87,7 +87,7 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
         <TimeLagChart className={styles.chart} data={chartData} height={200} />
         <p>
           {description.complianceLevel.render({
-            amount: (100 - complianceLevel).toFixed(1),
+            amount: (100 - complianceLevel).toFixed(2),
           })}
         </p>
         <LinkButton href="deposit-compliance" tag="a">

@@ -60,7 +60,10 @@ const DepositCompliance = ({
         />
         <NumericValue
           tag="p"
-          value={valueOrDefault('2.7', 'Loading...')}
+          value={valueOrDefault(
+            (100 - store.depositDates.complianceLevel).toFixed(2),
+            'Loading...'
+          )}
           append="%"
           caption="non-compliant"
         />
