@@ -8,7 +8,6 @@
 }
 
 .table {
-  --table-sidebar-width: 30rem;
   --table-border-color: var(--gray-200);
 
   position: relative;
@@ -49,6 +48,8 @@
 }
 
 .container {
+  --table-sidebar-width: 30rem;
+
   &:not(.open) > .sidebar {
     box-shadow: none;
     transform: translateX(100%);

@@ -43,8 +43,6 @@
 }
 
 .header {
-  width: 100%;
-  padding: 1rem;
   color: var(--white);
   background: var(--success-dark);
 }
