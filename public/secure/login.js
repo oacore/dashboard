@@ -83,7 +83,7 @@ window.addEventListener('DOMContentLoaded', () => {
         showWrongCredentialsMessage()
         break
       case 'logout':
-        showInfoMessage('The username or password you entered is incorrect.')
+        showInfoMessage('You have been successfully logged out.')
         break
       case 'registration':
         showInfoMessage(
