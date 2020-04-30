@@ -83,7 +83,7 @@ const DepositDates = ({
       <h2>{texts.exporting.title}</h2>
       <p>
         {texts.exporting.description.render({
-          count: store.depositDates.totalCount || '',
+          count: store.doi.enrichmentSize || '',
         })}
       </p>
       <ExportButton
