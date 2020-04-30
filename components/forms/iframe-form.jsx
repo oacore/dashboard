@@ -1,21 +1,26 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 
-import { Card } from '../../design'
 import styles from './styles.module.css'
+
+import { Card } from 'design'
 
 const IframeForm = ({ className, title, ...passProps }) => {
   const ref = useRef(null)
+  const observer = useRef(null)
+
   const resize = useCallback(() => {
     ref.current.style.height = `${ref.current.contentWindow.document.body.offsetHeight}px`
   }, [])
 
   useEffect(() => {
-    if (ref.current === null) return () => {}
+    observer.current = new ResizeObserver(resize)
+    return () => observer.current.disconnect()
+  }, [])
 
-    const observer = new ResizeObserver(resize)
-    observer.observe(ref.current.contentWindow.document.body)
-    return () => observer.disconnect()
-  }, [ref.current])
+  const handleOnLoad = useCallback(() => {
+    observer.current.observe(ref.current.contentWindow.document.body)
+    resize()
+  }, [])
 
   return (
     <Card className={className}>
@@ -23,7 +28,7 @@ const IframeForm = ({ className, title, ...passProps }) => {
         ref={ref}
         className={styles.iframeForm}
         title={title}
-        onLoad={resize}
+        onLoad={handleOnLoad}
         {...passProps}
       />
     </Card>
