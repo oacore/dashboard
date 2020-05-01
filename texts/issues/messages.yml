@@ -1,0 +1,63 @@
+-
+  type: OAI_ENDPOINT
+  title: There were problems with an OAI endpoint
+-
+  type: INVALID_OAIPMH_ENDPOINT
+  title: Invalid OAI-PMH endpoint
+-
+  type: SSL_CERTIFICATE_ERROR
+  title: SSL certificate error
+-
+  type: GENERIC_OAI
+  title: Generic OAI
+-
+  type: GENERIC_ATTACHMENT_URL
+  title: Generic document URL
+-
+  type: ROBOTS
+  title: Problems with the configured robots.txt
+-
+  type: ATTACHMENT_MALFORMED_URL
+  title: A document URL is malformed
+-
+  type: ATTACHMENT_NOT_VALID
+  title: A document is not valid
+-
+  type: NO_FULL_TEXT_LINKS
+  title: No attachments found
+-
+  type: EXTERNAL_UNKNOWN
+  title: No full text was found due to unknown external reasons
+-
+  type: ENCRYPTED_ATTACHMENT
+  title: Full text has digital restrictions
+-
+  type: ATTACHMENT_TITLE_MISMATCH
+  title: Full text title mismatches metadata
+-
+  type: RESTRICTED_ATTACHMENT
+  title: The document exists on the repository but the download is restricted
+-
+  type: UNSUPPORTED_FILETYPE
+  title: Full text has unsupported filetype
+-
+  type: NO_VALID_ATTACHMENT_DOWNLOAD_URLS
+  title: No eligible document URLs were available
+-
+  type: ATTACHMENT_IO_EXCEPTION
+  title: The error has occurred during the document processing
+-
+  type: SLOW_NETWORK
+  title: Slow network
+-
+  type: NON_EXISTENT_PAGE_ATTACHMENT
+  title: Full text not found
+-
+  type: UNSPECIFIED_DOWNLOAD_ERROR
+  title: Unspecified error
+-
+  type: ATTACHMENT_TOO_BIG
+  title: Full text size is too big
+-
+  type: ATTACHMENT_SAME_DOMAIN_POLICY_ENFORCED
+  title: Full text URL mismatch OAI-PMH domain

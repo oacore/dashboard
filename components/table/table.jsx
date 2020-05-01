@@ -9,7 +9,7 @@ import Column from './column'
 import Action from './action'
 import Pagination from './pagination'
 
-import { Table, TextField, Button } from 'design'
+import { Table, TextField, Button, Select } from 'design'
 import debounce from 'utils/debounce'
 import withErrorBoundary from 'utils/withErrorBoundary'
 
@@ -48,6 +48,7 @@ class InfiniteTable extends React.PureComponent {
       columnOrder,
       expandedRowId: null,
       totalLength: null,
+      selectedOption: '',
     }
 
     this.action = action
@@ -150,7 +151,7 @@ class InfiniteTable extends React.PureComponent {
 
   async fetchData({ next = false, force = false } = {}) {
     const { pages } = this.props
-    const { searchTerm, columnOrder, size } = this.state
+    const { searchTerm, columnOrder, size, selectedOption } = this.state
     let newSize = size
 
     if (next) newSize += 100
@@ -160,6 +161,7 @@ class InfiniteTable extends React.PureComponent {
       pages.reset({
         columnOrder,
         searchTerm,
+        type: selectedOption,
       })
 
       this.setState({
@@ -188,6 +190,7 @@ class InfiniteTable extends React.PureComponent {
       pages,
       className,
       defaultSize,
+      options,
       ...restProps
     } = this.props
     const {
@@ -200,6 +203,7 @@ class InfiniteTable extends React.PureComponent {
       isLastPageLoaded,
       size,
       totalLength,
+      selectedOption,
     } = this.state
     const { action, sidebar, columns } = this
 
@@ -212,6 +216,25 @@ class InfiniteTable extends React.PureComponent {
         })}
       >
         <div className={styles.table}>
+          {selectable && options.length > 0 && (
+            <Select
+              options={(s) =>
+                options.filter(
+                  (el) => el.name.toLowerCase().search(s?.toLowerCase()) !== -1
+                )
+              }
+              value={
+                selectedOption &&
+                options.find((el) => el.id === selectedOption).name
+              }
+              onSelectionChange={(value) =>
+                this.setState({ selectedOption: value }, () =>
+                  this.fetchData({ force: true })
+                )
+              }
+              label="Select issue type"
+            />
+          )}
           {searchable && (
             <TextField
               id="search"

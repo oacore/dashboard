@@ -7,9 +7,9 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 
 import '@oacore/design/lib/index.css'
+import './global.css'
 
 import Route from './route'
-import './global.css'
 
 import { UnauthorizedError } from 'api/errors'
 import { logPageView } from 'utils/analytics'

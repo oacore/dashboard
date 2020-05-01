@@ -32,6 +32,9 @@ const OverviewTemplate = ({
   doiCount,
   doiEnrichmentSize,
   dataProviderId,
+  harvestingDate,
+  errorCount,
+  warningCount,
   className,
   tag: Tag = 'main',
   ...restProps
@@ -44,6 +47,9 @@ const OverviewTemplate = ({
     <DataStatisticsCard
       metadataCount={metadataCount}
       fullTextCount={fullTextCount}
+      harvestingDate={harvestingDate}
+      errorCount={errorCount}
+      warningCount={warningCount}
       dataProviderId={dataProviderId}
     />
     <DepositingCard
