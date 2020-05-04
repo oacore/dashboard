@@ -92,3 +92,17 @@
 .details-button {
   margin-right: 1rem;
 }
+
+.matching-icon {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+}
+
+.matching-icon.none {
+  color: var(--danger);
+}
+
+.matching-icon.partial {
+  color: var(--warning);
+}

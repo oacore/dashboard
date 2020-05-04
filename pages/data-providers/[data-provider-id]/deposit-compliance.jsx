@@ -1,5 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './deposit-compliance.module.css'
 
@@ -9,7 +10,7 @@ import { withGlobalStore } from 'store'
 import Markdown from 'components/markdown'
 import Table from 'components/table'
 import TimeLagChart from 'components/time-lag-chart'
-import { Card, Button } from 'design'
+import { Card, Button, Icon } from 'design'
 import * as texts from 'texts/depositing'
 import DocumentLink from 'components/document-link'
 import ExportButton from 'components/export-button'
@@ -34,6 +35,50 @@ const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
       </Footer>
     </>
   )
+}
+
+const statusToCaption = (status) => {
+  switch (status) {
+    case 'full':
+      return 'Matches Crossref'
+    case 'partial':
+      return 'Matches Crossref partially'
+    case 'none':
+      return 'Does not match Crossref'
+    default:
+      return null
+  }
+}
+
+const MatchingIcon = ({ status }) => {
+  const iconType = status === 'full' ? 'check' : 'alert'
+  return (
+    <Icon
+      className={classNames.use(styles.matchingIcon, styles[status])}
+      src={`#${iconType}-circle`}
+      alt={statusToCaption(status)}
+      aria-hidden
+    />
+  )
+}
+
+class PublicationDateColumn extends Table.Column {
+  render() {
+    const {
+      publicReleaseDate: date,
+      publicationDateValidationLevel: status,
+    } = this.props.context
+
+    const showStatus = status && status !== 'full'
+    const caption = showStatus !== 'full' && statusToCaption(status)
+
+    return (
+      <span title={caption}>
+        {dayjs(date).format('DD/MM/YYYY')}{' '}
+        {showStatus && <MatchingIcon status={status} />}
+      </span>
+    )
+  }
 }
 
 /**
@@ -191,12 +236,11 @@ const DepositCompliance = ({
           className={styles.authorsColumn}
           getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
         />
-        <Table.Column
+        <PublicationDateColumn
           id="publicationDate"
           display="Publication date"
           order="any"
           className={styles.depositDateColumn}
-          getter={(v) => dayjs(v.publicationDate).format('DD/MM/YYYY')}
         />
         <Table.Column
           id="publicReleaseDate"
