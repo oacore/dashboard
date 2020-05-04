@@ -51,7 +51,7 @@ const DepositCompliance = ({
     <h1>Deposit compliance</h1>
 
     <Card className={styles.dataOverview} tag="section">
-      <Card.Title>{texts.dataOverview.title}</Card.Title>
+      <Card.Title tag="h2">{texts.dataOverview.title}</Card.Title>
       <div className={styles.numbers}>
         <NumericValue
           tag="p"
@@ -123,7 +123,7 @@ const DepositCompliance = ({
     </Card>
 
     <Card tag="section">
-      <Card.Title>{texts.publicationDates.title}</Card.Title>
+      <Card.Title tag="h2">{texts.publicationDates.title}</Card.Title>
       <Card.Description>{texts.publicationDates.description}</Card.Description>
       {store.depositDates.publicationDatesValidate ? (
         <StackedVerticalBarChart
