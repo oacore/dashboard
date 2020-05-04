@@ -12,7 +12,7 @@ class DepositDates extends Store {
 
   @observable isRetrieveDepositDatesInProgress = false
 
-  @observable timeLagData = []
+  @observable timeLagData = null
 
   @observable publicReleaseDates = null
 
@@ -38,12 +38,12 @@ class DepositDates extends Store {
 
   @computed
   get totalCount() {
-    return this.timeLagData.reduce((acc, curr) => acc + curr.worksCount, 0)
+    return this.timeLagData?.reduce((acc, curr) => acc + curr.worksCount, 0)
   }
 
   @computed
   get nonCompliantCount() {
-    return this.timeLagData.reduce((acc, curr) => {
+    return this.timeLagData?.reduce((acc, curr) => {
       if (curr.depositTimeLag > 90) return acc + curr.worksCount
       return acc
     }, 0)
@@ -51,9 +51,11 @@ class DepositDates extends Store {
 
   @computed
   get complianceLevel() {
-    if (this.totalCount === 0) return 0
+    if (this.totalCount == null || this.nonCompliantCount == null) return null
+    if (this.totalCount === 0 || this.nonCompliantCount) return 0
     const level =
       ((this.totalCount - this.nonCompliantCount) / this.totalCount) * 100
+
     return Math.round(level * 100) / 100
   }
 
