@@ -184,7 +184,6 @@ class InfiniteTable extends React.PureComponent {
       config,
       selectable,
       searchable,
-      title,
       fetchData,
       pages,
       className,
@@ -213,7 +212,6 @@ class InfiniteTable extends React.PureComponent {
         })}
       >
         <div className={styles.table}>
-          {title && <h2>{title}</h2>}
           {searchable && (
             <TextField
               id="search"

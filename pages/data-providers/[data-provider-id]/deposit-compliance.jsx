@@ -162,9 +162,9 @@ const DepositCompliance = ({
       className={styles.browseTableCard}
       tag="section"
     >
+      <Card.Title tag="h2">Browse deposit dates</Card.Title>
       <Table
         key={store.dataProvider}
-        title="Browse deposit dates"
         pages={store.depositDates.publicReleaseDates}
         className={styles.browseTable}
         defaultSize={15}

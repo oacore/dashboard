@@ -95,9 +95,9 @@ const DepositDates = ({
     </Card>
 
     <Card className={styles.doiTableCard} tag="section">
+      <Card.Title tag="h2">Browse DOI records</Card.Title>
       <Table
         key={store.dataProvider}
-        title="Browse DOI records"
         pages={store.doi.doiRecords}
         className={styles.doiTable}
         searchable
