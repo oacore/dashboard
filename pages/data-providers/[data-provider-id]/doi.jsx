@@ -38,7 +38,7 @@ const useDefault = (value, substitute = null) =>
 
 const CoverageCard = ({ dataProviderName, doiCount, enrichmentSize }) => (
   <Card className={styles.overviewCard} tag="section">
-    <h2>{texts.coverage.title}</h2>
+    <Card.Title tag="h2">{texts.coverage.title}</Card.Title>
     <div className={styles.overviewCardContent}>
       <div className={styles.overviewCardText}>
         <NumericValue
@@ -80,7 +80,7 @@ const DepositDates = ({
     />
 
     <Card className={styles.exportCard} tag="section">
-      <h2>{texts.exporting.title}</h2>
+      <Card.Title tag="h2">{texts.exporting.title}</Card.Title>
       <p>
         {texts.exporting.description.render({
           count: store.doi.enrichmentSize || '',

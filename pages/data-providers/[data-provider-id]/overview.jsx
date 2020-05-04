@@ -46,7 +46,7 @@ const LinkButton = withGlobalStore(
 
 const PlaceholderCard = ({ title, value, description }) => (
   <OverviewCard>
-    <h2>{title}</h2>
+    <Card.Title tag="h2">{title}</Card.Title>
     <PerformanceChart className={styles.chart} value={value} caption={title} />
     <p>{description}</p>
     <LinkButton>Browse</LinkButton>
@@ -103,7 +103,7 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
 
   return (
     <OverviewCard>
-      <h2>{title}</h2>
+      <Card.Title tag="h2">{title}</Card.Title>
       {loading ? <Loading /> : content}
     </OverviewCard>
   )
@@ -123,7 +123,7 @@ const DOICard = ({ doiCount, outputsCount, enrichmentSize }) => {
   const { title, description, action } = texts.doi
   return (
     <OverviewCard>
-      <h2>{title}</h2>
+      <Card.Title tag="h2">{title}</Card.Title>
       <PerformanceChart
         className={styles.chart}
         value={useDefault((doiCount / outputsCount) * 100, '🔁')}

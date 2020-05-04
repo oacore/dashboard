@@ -42,7 +42,7 @@ const Settings = ({ store, className, ...restProps }) => {
         className={classNames.use(styles.section).join(className)}
         tag="section"
       >
-        <h2>Organisation settings</h2>
+        <Card.Title tag="h2">Organisation settings</Card.Title>
         <FormShell name="organization" onSubmit={handleSubmit}>
           <TextField
             label="Name"
@@ -68,7 +68,7 @@ const Settings = ({ store, className, ...restProps }) => {
         className={classNames.use(styles.section).join(className)}
         tag="section"
       >
-        <h2>Repository settings</h2>
+        <Card.Title tag="h2">Repository settings</Card.Title>
         <FormShell name="data-provider" onSubmit={handleSubmit}>
           <TextField
             label="Name"
