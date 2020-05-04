@@ -61,7 +61,8 @@ const DepositCompliance = ({
         <NumericValue
           tag="p"
           value={valueOrDefault(
-            (100 - store.depositDates.complianceLevel).toFixed(2),
+            store.depositDates.complianceLevel &&
+              (100 - store.depositDates.complianceLevel).toFixed(2),
             'Loading...'
           )}
           append="%"
@@ -90,13 +91,13 @@ const DepositCompliance = ({
 
     <Card tag="section">
       <Card.Title tag="h2">{texts.chart.title}</Card.Title>
-      {store.depositDates.timeLagData.length > 0 && (
+      {store.depositDates.timeLagData?.length > 0 && (
         <>
           <TimeLagChart data={store.depositDates.timeLagData} />
           <Markdown>{texts.chart.body}</Markdown>
         </>
       )}
-      {!store.depositDates.timeLagData.length &&
+      {!store.depositDates.timeLagData?.length &&
         !store.depositDates.isRetrieveDepositDatesInProgress && (
           <p>{texts.noData.body}</p>
         )}

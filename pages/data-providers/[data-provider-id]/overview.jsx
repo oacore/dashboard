@@ -82,12 +82,15 @@ const DepositingCard = ({ chartData, complianceLevel }) => {
   const { title, description, action } = texts.depositing
   const loading = chartData == null && complianceLevel == null
   const content =
-    !loading && chartData && chartData.length > 0 ? (
+    chartData && chartData.length > 0 ? (
       <>
         <TimeLagChart className={styles.chart} data={chartData} height={200} />
         <p>
           {description.complianceLevel.render({
-            amount: (100 - complianceLevel).toFixed(2),
+            amount: valueOrDefault(
+              complianceLevel && (100 - complianceLevel).toFixed(2),
+              'loading...'
+            ),
           })}
         </p>
         <LinkButton href="deposit-compliance" tag="a">
@@ -158,10 +161,7 @@ const DashboardView = ({
       metadataCount={metadataCount}
       fullTextCount={fullTextCount}
     />
-    <DepositingCard
-      chartData={isTimeLagDataLoading ? null : timeLagData}
-      complianceLevel={isTimeLagDataLoading ? null : complianceLevel}
-    />
+    <DepositingCard chartData={timeLagData} complianceLevel={complianceLevel} />
     <DOICard
       outputsCount={metadataCount}
       doiCount={doiCount}
@@ -189,10 +189,14 @@ const Dashboard = ({ store, ...restProps }) => (
   <DashboardView
     metadataCount={store.statistics.metadataCount}
     fullTextCount={store.statistics.fullTextCount}
-    timeLagData={filterChartData(
-      store.depositDates.timeLagData,
-      store.depositDates.complianceLevel / 100
-    )}
+    timeLagData={
+      store.depositDates.timeLagData &&
+      store.depositDates.complianceLevel &&
+      filterChartData(
+        store.depositDates.timeLagData,
+        store.depositDates.complianceLevel / 100
+      )
+    }
     isTimeLagDataLoading={store.depositDates.isRetrieveDepositDatesInProgress}
     complianceLevel={store.depositDates.complianceLevel}
     doiCount={store.doi.originCount}
