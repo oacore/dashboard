@@ -14,7 +14,7 @@ import { Card, Button, Icon } from 'design'
 import * as texts from 'texts/depositing'
 import DocumentLink from 'components/document-link'
 import ExportButton from 'components/export-button'
-import { valueOrDefault } from 'utils/helpers'
+import { formatNumber, valueOrDefault } from 'utils/helpers'
 
 const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   const { Header, Body, Footer } = Table.Sidebar
@@ -156,10 +156,12 @@ const DepositCompliance = ({
       <p>
         {store.depositDates.crossDepositLag
           ? texts.crossRepositoryCheck.body.render({
-              nonCompliantCount:
-                store.depositDates.crossDepositLag.nonCompliantCount,
-              recordsInAnotherRepository:
-                store.depositDates.crossDepositLag.possibleBonusCount,
+              nonCompliantCount: formatNumber(
+                store.depositDates.crossDepositLag.nonCompliantCount
+              ),
+              recordsInAnotherRepository: formatNumber(
+                store.depositDates.crossDepositLag.possibleBonusCount
+              ),
             })
           : 'Loading data'}
       </p>
