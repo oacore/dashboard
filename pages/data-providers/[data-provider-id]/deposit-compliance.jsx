@@ -175,7 +175,10 @@ const DepositCompliance = ({
             })
           : 'Data is being processed. This may take several minutes.'}
       </p>
-      <ExportButton href={store.depositDates.crossDepositLagCsvUrL}>
+      <ExportButton
+        href={store.depositDates.crossDepositLagCsvUrL}
+        disabled={!store.depositDates.crossDepositLag}
+      >
         {texts.crossRepositoryCheck.download}
       </ExportButton>
     </Card>
