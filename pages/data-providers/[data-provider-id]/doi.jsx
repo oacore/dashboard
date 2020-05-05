@@ -1,5 +1,7 @@
 import React from 'react'
 
+import styles from './doi.module.css'
+
 import Table from 'components/table'
 import { withGlobalStore } from 'store'
 import NumericValue, { formatNumber } from 'components/numeric-value'
@@ -8,10 +10,6 @@ import EnrichmentChart from 'components/enrichment-chart'
 import Markdown from 'components/markdown'
 import * as texts from 'texts/doi'
 import { Card, Icon } from 'design'
-
-// TODO: Remove once cards are in @oacore/design
-// eslint-disable-next-line
-import styles from './doi.module.css'
 
 const formatDOI = (entity) => {
   const { crossrefDoi, repoDoi: originDoi } = entity
