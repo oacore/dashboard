@@ -5,8 +5,10 @@ items:
   issues: Issues
   data: Data
   content: Content
-  depositCompliance: Deposit compliance
+  deposit-compliance: Deposit compliance
   doi: DOI
   plugins: Plugins
+  plugins/discovery: Discovery Plugin
+  plugins/recommender: Recommender Plugin
   statistics: Statistics
   settings: Settings
