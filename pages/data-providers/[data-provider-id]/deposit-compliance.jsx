@@ -97,6 +97,45 @@ const getComplianceLevelNumberProps = (complianceLevel) => {
   }
 }
 
+const PublicationsDatesCard = ({ fullCount, partialCount, noneCount }) => {
+  const isLoading = [fullCount, partialCount, noneCount].some(
+    (el) => el == null
+  )
+  const data = [
+    {
+      value: fullCount,
+      caption: texts.publicationDates.matching,
+      background: 'var(--success)',
+    },
+    {
+      value: partialCount,
+      caption: texts.publicationDates.incorrect,
+      background: 'var(--warning)',
+    },
+    {
+      value: noneCount,
+      caption: texts.publicationDates.different,
+      background: 'var(--danger)',
+      color: 'var(--white)',
+    },
+  ].filter((el) => el.value > 0)
+
+  return (
+    <Card tag="section">
+      <Card.Title tag="h2">{texts.publicationDates.title}</Card.Title>
+      <Card.Description>{texts.publicationDates.description}</Card.Description>
+      {isLoading && <p>Loading data</p>}
+      {!isLoading && !data.length && <p>No data found</p>}
+      {!isLoading && data.length > 0 && <StackedVerticalBarChart data={data} />}
+      <p>
+        <Button className={styles.detailsButton} variant="contained" disabled>
+          Details
+        </Button>
+        Coming soon
+      </p>
+    </Card>
+  )
+}
 /**
  * TODO: This is an example of bad design. We have to know structure
  *       of Layout.Main and explicitly pass props.
@@ -180,40 +219,11 @@ const DepositCompliance = ({
       </ExportButton>
     </Card>
 
-    <Card tag="section">
-      <Card.Title tag="h2">{texts.publicationDates.title}</Card.Title>
-      <Card.Description>{texts.publicationDates.description}</Card.Description>
-      {store.depositDates.publicationDatesValidate ? (
-        <StackedVerticalBarChart
-          data={[
-            {
-              value: store.depositDates.publicationDatesValidate.fullCount,
-              caption: texts.publicationDates.matching,
-              background: 'var(--success)',
-            },
-            {
-              value: store.depositDates.publicationDatesValidate.partialCount,
-              caption: texts.publicationDates.incorrect,
-              background: 'var(--warning)',
-            },
-            {
-              value: store.depositDates.publicationDatesValidate.noneCount,
-              caption: texts.publicationDates.different,
-              background: 'var(--danger)',
-              color: 'var(--white)',
-            },
-          ]}
-        />
-      ) : (
-        <p>Loading data</p>
-      )}
-      <p>
-        <Button className={styles.detailsButton} variant="contained" disabled>
-          Details
-        </Button>
-        Coming soon
-      </p>
-    </Card>
+    <PublicationsDatesCard
+      fullCount={store.depositDates.publicationDatesValidate?.fullCount}
+      partialCount={store.depositDates.publicationDatesValidate?.partialCount}
+      noneCount={store.depositDates.publicationDatesValidate?.noneCount}
+    />
 
     <Card
       id="deposit-dates-card"
