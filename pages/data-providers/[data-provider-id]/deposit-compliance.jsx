@@ -66,7 +66,7 @@ class PublicationDateColumn extends Table.Column {
   render() {
     const {
       publicReleaseDate: date,
-      publicationDateValidationLevel: status,
+      publicationDateMatchingLevel: status,
     } = this.props.context
 
     const showStatus = status && status !== 'full'
