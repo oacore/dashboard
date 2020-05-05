@@ -1,3 +1,8 @@
-const Index = () => null
+import { useRedirect } from '../../_app/hooks'
 
-export default Index
+const DataProvider = () => {
+  useRedirect('overview')
+  return null
+}
+
+export default DataProvider

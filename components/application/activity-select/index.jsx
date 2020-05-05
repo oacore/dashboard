@@ -1,52 +1,45 @@
+import path from 'path'
+
 import React from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
+import activities from '../activities'
 import styles from './styles.module.css'
 
 import { Icon, Drawer } from 'design'
 import { navigation } from 'texts'
-import activities from 'store/activities'
 
-const linkProps = (value, dataProvider) => {
-  if (value === 'index') {
-    return {
-      href: './',
-    }
-  }
-  return {
-    href: `/data-providers/[data-provider-id]/${value}`,
-    as: `/data-providers/${dataProvider}/${value}`,
-  }
-}
 const toIcon = (value) => `#${activities.get(value).icon}`
 
 const ActivitySelect = ({ children }) => (
   <Drawer.List className={styles.list}>{children}</Drawer.List>
 )
 
-const ActivitySelectOption = ({
-  children,
-  value,
-  selected,
-  path,
-  dataProvider,
-}) => (
-  <Link passHref {...linkProps(path, dataProvider)}>
-    <Drawer.Item className={styles[value]} active={selected}>
-      {children || (
-        <>
-          <Icon
-            className={styles.itemIcon}
-            src={toIcon(value)}
-            alt=""
-            aria-hidden
-          />
-          {navigation.items[value]}
-        </>
-      )}
-    </Drawer.Item>
-  </Link>
-)
+const ActivitySelectOption = ({ children, value, selected }) => {
+  const router = useRouter()
+  return (
+    <Link
+      href={path.join('/data-providers/[data-provider-id]', value)}
+      as={path.join('/data-providers', router.query['data-provider-id'], value)}
+      passHref
+    >
+      <Drawer.Item className={styles[value]} active={selected}>
+        {children || (
+          <>
+            <Icon
+              className={styles.itemIcon}
+              src={toIcon(value)}
+              alt=""
+              aria-hidden
+            />
+            {navigation.items[value]}
+          </>
+        )}
+      </Drawer.Item>
+    </Link>
+  )
+}
 
 ActivitySelect.Option = ActivitySelectOption
 

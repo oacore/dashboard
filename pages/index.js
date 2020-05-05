@@ -1,19 +1,9 @@
-import { useEffect } from 'react'
-import { withRouter } from 'next/router'
+import { useRedirect } from './_app/hooks'
 
-import Route from './_app/route'
-
-import { withGlobalStore } from 'store'
-
-const Index = ({ router, store }) => {
-  useEffect(() => {
-    const route = new Route({
-      dataProvider: store.dataProvider.id,
-      activity: store.activity.path,
-    })
-    router.push(route.href, route.as)
-  })
+// Unfortunately, our real homepage is missing
+const Home = () => {
+  useRedirect('data-providers')
   return null
 }
 
-export default withRouter(withGlobalStore(Index))
+export default Home

@@ -1,6 +1,5 @@
 import { observable, action, computed } from 'mobx'
 
-import activities from './activities'
 import Store from './store'
 import User from './user'
 import DepositDates from './deposit-dates'
@@ -41,8 +40,6 @@ class Root extends Store {
 
   @observable dataProvider = null
 
-  @observable activity = null
-
   @observable statistics = {
     metadataCount: null,
     fullTextCount: null,
@@ -77,44 +74,39 @@ class Root extends Store {
     return `/data-providers/${this.dataProvider.id}`
   }
 
-  @action async init(dataProviderId, activityPath) {
+  @action async init(dataProviderId) {
     await this.user.init()
-    try {
-      this.switchDataProvider(dataProviderId)
-      this.changeActivity(activityPath)
-    } catch (accessError) {
-      const fallbackId = this.user.dataProviders[0].id
-      if (process.env.NODE_ENV !== 'production') {
-        // eslint-disable-next-line no-console
-        console.log(
-          accessError.message,
-          `Fall back to DataProvider ${fallbackId}`
-        )
-      }
-      this.switchDataProvider(fallbackId)
-    }
-    this.organisation = new Organisation(
-      `/organisations/${this.user.organisationId}`,
-      this.options
-    )
+    this.changeDataProvider(dataProviderId)
+
+    const organisationUrl = `/organisations/${this.user.organisationId}`
+    this.organisation = new Organisation(organisationUrl, this.options)
   }
 
-  @action switchDataProvider(dataProviderStr) {
-    const dataProviderId = Number.parseInt(dataProviderStr, 10)
-    if (this.dataProvider && this.dataProvider.id === dataProviderId) return
-    const dataProvider = this.user.dataProviders.find(
-      ({ id }) => dataProviderId === id
-    )
+  @action changeDataProvider(id) {
+    // Clean-up or initial request
+    if (id == null) {
+      this.dataProvider = null
+      return
+    }
 
+    // Compare strings and numbers
+    // since we do not really know what type of ID the API exposes
+    // eslint-disable-next-line eqeqeq
+    const hasTargetId = (dataProvider) => id == dataProvider.id
+
+    // Probably a repeated request. No need to change
+    if (this.dataProvider != null && hasTargetId(this.dataProvider)) return
+
+    // Check access rights
+    // TODO: Should be moved or ideally removed
+    const dataProvider = this.dataProviders.find(hasTargetId)
     if (dataProvider == null) {
-      throw new Error(
-        `User ${this.user.id} does not have access to DataProvider ${dataProviderId}.`
-      )
+      const userStr = `User#${this.user.id}`
+      const dpStr = `DataProvider#${id}`
+      throw new Error(`${userStr} does not have access to the ${dpStr}`)
     }
 
     this.dataProvider = dataProvider
-    this.changeActivity('overview')
-
     this.retrieveStatistics()
     this.retrievePluginConfig()
 
@@ -123,14 +115,6 @@ class Root extends Store {
     this.depositDates = new DepositDates(url, this.options)
     this.doi = new DOI(url, this.options)
     this.issues = new Issues(url, this.options)
-  }
-
-  @action changeActivity(url) {
-    const activity =
-      activities.find(({ path }) => url === path) || activities.get('overview')
-
-    if (this.activity?.path === url) return
-    this.activity = activity
   }
 
   @action
