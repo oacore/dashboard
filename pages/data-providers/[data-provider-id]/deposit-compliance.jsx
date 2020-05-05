@@ -81,6 +81,22 @@ class PublicationDateColumn extends Table.Column {
   }
 }
 
+const getComplianceLevelNumberProps = (complianceLevel) => {
+  if (complianceLevel === null || complianceLevel > 0) {
+    return {
+      value: 'Loading...',
+      append: '%',
+      caption: 'non-compliant',
+    }
+  }
+
+  return {
+    value: complianceLevel,
+    append: '',
+    caption: 'outputs are non-compliant',
+  }
+}
+
 /**
  * TODO: This is an example of bad design. We have to know structure
  *       of Layout.Main and explicitly pass props.
@@ -105,13 +121,7 @@ const DepositCompliance = ({
         />
         <NumericValue
           tag="p"
-          value={valueOrDefault(
-            store.depositDates.complianceLevel &&
-              (100 - store.depositDates.complianceLevel).toFixed(2),
-            'Loading...'
-          )}
-          append="%"
-          caption="non-compliant"
+          {...getComplianceLevelNumberProps(store.depositDates.complianceLevel)}
         />
       </div>
       <Button tag="a" href="#deposit-dates-card" variant="contained">

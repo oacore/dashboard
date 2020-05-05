@@ -7,4 +7,10 @@ description:
   # Displays when we have deposit compliance calculated
   compliance-level: '{{amount}}% of outputs are non-compliant.'
 
+  # Displays when compliance level is 100%
+  all-compliant: We couldn't detect any non-compliant output.
+
+  # Displays when compliance level is 0%
+  all-non-compliant: We couldn't detect any compliant outputs.
+
 action: Details
