@@ -173,7 +173,7 @@ const DepositCompliance = ({
                 store.depositDates.crossDepositLag.possibleBonusCount
               ),
             })
-          : 'Loading data'}
+          : 'Data is being processed. This may take several minutes.'}
       </p>
       <ExportButton href={store.depositDates.crossDepositLagCsvUrL}>
         {texts.crossRepositoryCheck.download}
