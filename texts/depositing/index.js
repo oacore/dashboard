@@ -8,7 +8,12 @@ import exporting from './export.yml'
 import Template from '../template'
 import publicationDates from './publication-dates.yml'
 
-const templateProps = ['complianceLevel', 'compliance-level']
+const templateProps = [
+  'complianceLevel',
+  'missingData',
+  'allCompliant',
+  'allNonCompliant',
+]
 templateProps.forEach((property) => {
   overview.description[property] = new Template(overview.description[property])
 })

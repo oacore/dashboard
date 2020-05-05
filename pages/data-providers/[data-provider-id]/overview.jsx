@@ -78,21 +78,36 @@ const DataStatisticsCard = ({ metadataCount, fullTextCount, ...restProps }) => (
   </OverviewCard>
 )
 
+const getDescriptionForDepositingCard = (complianceLevel) => {
+  const { description } = texts.depositing
+  let chartDescription
+  if (
+    complianceLevel === null ||
+    (complianceLevel > 0 && complianceLevel < 100)
+  ) {
+    chartDescription = description.complianceLevel.render({
+      amount: valueOrDefault(
+        complianceLevel && (100 - complianceLevel).toFixed(2),
+        'loading...'
+      ),
+    })
+  } else if (complianceLevel === 0)
+    chartDescription = description.allNonCompliant.render()
+  else chartDescription = description.allCompliant.render()
+
+  return chartDescription
+}
+
 const DepositingCard = ({ chartData, complianceLevel }) => {
   const { title, description, action } = texts.depositing
   const loading = chartData == null && complianceLevel == null
+  const chartDescription = getDescriptionForDepositingCard(complianceLevel)
+
   const content =
     chartData && chartData.length > 0 ? (
       <>
         <TimeLagChart className={styles.chart} data={chartData} height={200} />
-        <p>
-          {description.complianceLevel.render({
-            amount: valueOrDefault(
-              complianceLevel && (100 - complianceLevel).toFixed(2),
-              'loading...'
-            ),
-          })}
-        </p>
+        <p>{chartDescription}</p>
         <LinkButton href="deposit-compliance" tag="a">
           {action}
         </LinkButton>
