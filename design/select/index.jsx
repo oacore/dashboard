@@ -70,7 +70,7 @@ const Select = ({
         event.preventDefault()
         event.stopPropagation()
         if (activeSuggestion.id !== undefined)
-          onSelectionChange(activeSuggestion)
+          onSelectionChange(activeSuggestion.id)
 
         inputRef.current.blur()
         break
