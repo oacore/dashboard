@@ -3,6 +3,8 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 
+import { TextField, Button } from 'design'
+
 // TODO: Taken from @oacore/design
 const generateId = () => Math.random().toString(36).substr(2, 9)
 
@@ -22,13 +24,14 @@ const Select = ({
   options,
   className,
   disabled = false,
+  label,
   tag: Tag = 'div',
   id = generateId(),
 }) => {
   const inputRef = useRef(null)
   const [clickedElement, setClickedElement] = useState(null)
   const selectMenuRef = useRef(null)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState(value)
   const [showSuggestions, toggleShowSuggestions] = useState(false)
   const [activeSuggestion, setActiveSuggestion] = useState({})
   const [loading, setLoading] = useState(false)
@@ -45,6 +48,10 @@ const Select = ({
     window.addEventListener('mouseup', handleMouseUp)
     return () => window.removeEventListener('mouseup', handleMouseUp)
   }, [])
+
+  useEffect(() => {
+    setSearchTerm(value)
+  }, [value])
 
   const handleKeyDown = (event) => {
     let pos =
@@ -63,7 +70,7 @@ const Select = ({
         event.preventDefault()
         event.stopPropagation()
         if (activeSuggestion.id !== undefined)
-          onSelectionChange(activeSuggestion)
+          onSelectionChange(activeSuggestion.id)
 
         inputRef.current.blur()
         break
@@ -114,7 +121,7 @@ const Select = ({
               ? `${suggestions.length} suggestions found, to navigate use up and down arrows`
               : ''}
           </div>
-          <input
+          <TextField
             ref={inputRef}
             id={`select-${id}`}
             className={styles.input}
@@ -142,17 +149,20 @@ const Select = ({
               if (
                 clickedElement === null &&
                 !(el && el.dataset.selectId === id)
-              )
+              ) {
+                setSearchTerm(value)
                 toggleShowSuggestions(false)
+              }
             }}
             onChange={(event) => {
               setSearchTerm(event.target.value)
             }}
             onKeyDown={handleKeyDown}
+            label={label}
           />
         </>
       )}
-      <div className={classNames.use(styles.inputContainer)}>{value}</div>
+      <div className={classNames.use(styles.inputContainer)} />
       {!disabled && (
         <ul
           id={`suggestion-results-${id}`}
@@ -205,9 +215,9 @@ const SelectOption = ({ id, children, value, selected, ...restProps }) => (
       [styles.optionSelected]: selected,
     })}
   >
-    <button type="button" value={value} tabIndex="-1" {...restProps}>
+    <Button type="button" value={value} tabIndex="-1" {...restProps}>
       {children}
-    </button>
+    </Button>
   </li>
 )
 

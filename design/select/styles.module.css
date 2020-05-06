@@ -1,24 +1,29 @@
-/* TODO: Better name, it's a div shown on top of input when not hovered */
 .input-container {
-  --select-background: var(--gray-50);
-
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: block;
-  padding: var(--form-control-padding-x) var(--form-control-padding-y);
+  top: var(--form-control-border-width);
+  right: var(--form-control-border-width);
+  bottom: var(--form-control-border-width);
+  left: var(--form-control-border-width);
   pointer-events: none;
   cursor: pointer;
-  background: var(--select-background);
-}
+  background: transparent;
 
-.input:focus + .input-container {
-  display: none;
+  &::after {
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    width: 0;
+    height: 0;
+    content: '';
+    border-top: 5px solid var(--black);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    transform: translateY(-50%);
+  }
 }
 
 .select-wrapper {
+  --select-background: var(--gray-50);
   position: relative;
 }
 
@@ -26,6 +31,7 @@
   position: absolute;
   right: 0;
   left: 0;
+  z-index: 100;
   display: none;
   max-height: 20rem;
   padding: 0;
@@ -48,7 +54,10 @@
   }
 
   &:not(:hover) .option-selected {
-    /* TODO: This color should be specified globally */
-    background: rgba(0, 0, 0, 0.06667);
+    /**
+     TODO: Taken from
+        https://github.com/oacore/design/blob/master/src/elements/button/button.css#L38
+    */
+    background: #0001;
   }
 }
