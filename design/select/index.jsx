@@ -3,6 +3,8 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 
+import { TextField } from 'design'
+
 // TODO: Taken from @oacore/design
 const generateId = () => Math.random().toString(36).substr(2, 9)
 
@@ -22,6 +24,7 @@ const Select = ({
   options,
   className,
   disabled = false,
+  label,
   tag: Tag = 'div',
   id = generateId(),
 }) => {
@@ -114,7 +117,7 @@ const Select = ({
               ? `${suggestions.length} suggestions found, to navigate use up and down arrows`
               : ''}
           </div>
-          <input
+          <TextField
             ref={inputRef}
             id={`select-${id}`}
             className={styles.input}
@@ -149,6 +152,7 @@ const Select = ({
               setSearchTerm(event.target.value)
             }}
             onKeyDown={handleKeyDown}
+            label={label}
           />
         </>
       )}
