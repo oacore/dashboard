@@ -1,12 +1,10 @@
 /* TODO: Better name, it's a div shown on top of input when not hovered */
 .input-container {
-  --select-background: var(--gray-50);
-
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: var(--select-border-width);
+  right: var(--select-border-width);
+  bottom: var(--select-border-width);
+  left: var(--select-border-width);
   display: block;
   padding: var(--form-control-padding-x) var(--form-control-padding-y);
   pointer-events: none;
@@ -19,6 +17,8 @@
 }
 
 .select-wrapper {
+  --select-background: var(--gray-50);
+  --select-border-width: var(--form-control-border-width, 1px);
   position: relative;
 }
 

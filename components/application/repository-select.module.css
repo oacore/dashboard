@@ -10,6 +10,7 @@
 
 .repository-select {
   --select-background: var(--app-bar-background);
+  --select-border-width: 0;
 
   /* TODO: this will be probably icon */
   & input + div::after {
@@ -23,5 +24,9 @@
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
     transform: translateY(-50%);
+  }
+
+  &:focus-within {
+    --select-border-width: var(--form-control-border-width);
   }
 }
