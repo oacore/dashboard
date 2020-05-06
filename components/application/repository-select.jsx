@@ -23,6 +23,7 @@ const RepositorySelect = ({ store }) => (
         )
       }}
       disabled={store.user.dataProviders.length <= 1}
+      overlay
     />
   </AppBar.Item>
 )

@@ -25,6 +25,7 @@ const Select = ({
   className,
   disabled = false,
   label,
+  overlay = false,
   tag: Tag = 'div',
   id = generateId(),
 }) => {
@@ -156,7 +157,9 @@ const Select = ({
           />
         </>
       )}
-      <div className={classNames.use(styles.inputContainer)}>{value}</div>
+      {overlay && (
+        <div className={classNames.use(styles.inputContainer)}>{value}</div>
+      )}
       {!disabled && (
         <ul
           id={`suggestion-results-${id}`}
