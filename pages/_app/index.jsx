@@ -64,7 +64,9 @@ class App extends NextApp {
 
   redirectToLogin() {
     const { router } = this.props
-    router.push('/login')
+    const basePath = '/login'
+    const nextPath = router.asPath.indexOf(basePath) >= 0 ? '/' : router.asPath
+    router.push(`${basePath}?continue=${encodeURIComponent(nextPath)}`)
   }
 
   handlePromiseRejection = (event) => {
