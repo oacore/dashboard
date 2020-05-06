@@ -22,13 +22,8 @@
   }
 }
 
-.input:focus + .input-container {
-  display: none;
-}
-
 .select-wrapper {
   --select-background: var(--gray-50);
-  --select-border-width: var(--form-control-border-width, 1px);
   position: relative;
 }
 
@@ -36,6 +31,7 @@
   position: absolute;
   right: 0;
   left: 0;
+  z-index: 100;
   display: none;
   max-height: 20rem;
   padding: 0;
@@ -58,7 +54,10 @@
   }
 
   &:not(:hover) .option-selected {
-    /* TODO: This color should be specified globally */
-    background: rgba(0, 0, 0, 0.06667);
+    /**
+     TODO: Taken from
+        https://github.com/oacore/design/blob/master/src/elements/button/button.css#L38
+    */
+    background: #0001;
   }
 }

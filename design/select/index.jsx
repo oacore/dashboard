@@ -3,7 +3,7 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 
-import { TextField } from 'design'
+import { TextField, Button } from 'design'
 
 // TODO: Taken from @oacore/design
 const generateId = () => Math.random().toString(36).substr(2, 9)
@@ -215,9 +215,9 @@ const SelectOption = ({ id, children, value, selected, ...restProps }) => (
       [styles.optionSelected]: selected,
     })}
   >
-    <button type="button" value={value} tabIndex="-1" {...restProps}>
+    <Button type="button" value={value} tabIndex="-1" {...restProps}>
       {children}
-    </button>
+    </Button>
   </li>
 )
 
