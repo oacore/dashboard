@@ -25,14 +25,13 @@ const Select = ({
   className,
   disabled = false,
   label,
-  overlay = false,
   tag: Tag = 'div',
   id = generateId(),
 }) => {
   const inputRef = useRef(null)
   const [clickedElement, setClickedElement] = useState(null)
   const selectMenuRef = useRef(null)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState(value)
   const [showSuggestions, toggleShowSuggestions] = useState(false)
   const [activeSuggestion, setActiveSuggestion] = useState({})
   const [loading, setLoading] = useState(false)
@@ -49,6 +48,10 @@ const Select = ({
     window.addEventListener('mouseup', handleMouseUp)
     return () => window.removeEventListener('mouseup', handleMouseUp)
   }, [])
+
+  useEffect(() => {
+    setSearchTerm(value)
+  }, [value])
 
   const handleKeyDown = (event) => {
     let pos =
@@ -146,8 +149,10 @@ const Select = ({
               if (
                 clickedElement === null &&
                 !(el && el.dataset.selectId === id)
-              )
+              ) {
+                setSearchTerm(value)
                 toggleShowSuggestions(false)
+              }
             }}
             onChange={(event) => {
               setSearchTerm(event.target.value)
@@ -157,9 +162,7 @@ const Select = ({
           />
         </>
       )}
-      {overlay && (
-        <div className={classNames.use(styles.inputContainer)}>{value}</div>
-      )}
+      <div className={classNames.use(styles.inputContainer)} />
       {!disabled && (
         <ul
           id={`suggestion-results-${id}`}

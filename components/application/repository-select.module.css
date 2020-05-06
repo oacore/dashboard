@@ -10,9 +10,9 @@
 
 .repository-select {
   --select-background: var(--app-bar-background);
-  --select-border-width: 0;
+  --form-control-border-width: 0;
 
   &:focus-within {
-    --select-border-width: var(--form-control-border-width);
+    --form-control-border-width: 1px;
   }
 }

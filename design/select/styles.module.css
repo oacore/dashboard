@@ -1,14 +1,12 @@
 .input-container {
   position: absolute;
-  top: var(--select-border-width);
-  right: var(--select-border-width);
-  bottom: var(--select-border-width);
-  left: var(--select-border-width);
-  display: block;
-  padding: var(--form-control-padding-x) var(--form-control-padding-y);
+  top: var(--form-control-border-width);
+  right: var(--form-control-border-width);
+  bottom: var(--form-control-border-width);
+  left: var(--form-control-border-width);
   pointer-events: none;
   cursor: pointer;
-  background: var(--select-background);
+  background: transparent;
 
   &::after {
     position: absolute;
