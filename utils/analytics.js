@@ -17,6 +17,7 @@ export const logPageView = (url = null) => {
 }
 
 export const logTiming = (options) => {
+  if (!isGAInitialized) return
   ReactGA.timing(options)
 }
 
