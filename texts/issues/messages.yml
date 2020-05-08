@@ -1,63 +1,453 @@
--
-  type: OAI_ENDPOINT
-  title: There were problems with an OAI endpoint
--
-  type: INVALID_OAIPMH_ENDPOINT
-  title: Invalid OAI-PMH endpoint
+#!
+# Guidelines
+# ==============================================================================
+#
+# Data structure
+# ------------------------------------------------------------------------------
+#
+# The following properties are required and widely used in the project
+#
+# - `type`          unique issue identifier, user to identify the messages
+#
+# - `matches`       list of types that issue may appear with,
+#                   needed to support past and future renaming
+#
+# - `title`         short description in a few words
+#
+# - `description`   detailed description of the issue
+#
+# - `resolution`    instructions to resolve the issue
+#
+# - `severity`      the level of the issue impact
+#
+#
+# The rest is only informative, needed for this document self-descriptiveness:
+#
+# - `trigger`       the reason why the issue happens
+#
+# - `details`       what is included into the details object,
+#                   on overview what variables could appear in them `message`
+#                   and `resolution` properties
+
+
+# OLD ONES
+# ==============================================================================
+#
+# We have to merge this ones with the bottom list
+
 -
   type: SSL_CERTIFICATE_ERROR
   title: SSL certificate error
--
-  type: GENERIC_OAI
-  title: Generic OAI
--
-  type: GENERIC_ATTACHMENT_URL
-  title: Generic document URL
--
-  type: ROBOTS
-  title: Problems with the configured robots.txt
--
-  type: ATTACHMENT_MALFORMED_URL
-  title: A document URL is malformed
--
-  type: ATTACHMENT_NOT_VALID
-  title: A document is not valid
--
-  type: NO_FULL_TEXT_LINKS
-  title: No attachments found
+  severity: DEBUG
+  level: internal
 -
   type: EXTERNAL_UNKNOWN
-  title: No full text was found due to unknown external reasons
+  # title: No full text was found due to unknown external reasons
+  severity: DEBUG
+  level: internal
+  description: |
+    We were unable to identify what kind of error happend during the harvesting.
+    If this issue impacts a lot of records, please contact us.
+
+
+# Metadata Download
+# ==============================================================================
+#
+# Mostly affects the whole repository.
+
 -
-  type: ENCRYPTED_ATTACHMENT
-  title: Full text has digital restrictions
+  type: RESUMPTION_TOKEN_FAILURE
+  matches: [OAI_ENDPOINT]
+  severity: ERROR
+  trigger: |
+    When we are unable to download due to a failed resumptionToken
+  title: OAI-PMH resumption token failure
+  description: |
+    The resumption token issued results in a failed request
+
+    {{ url }}
+  resolution: ''
+  details: [url]
+
+-
+  type: INVALID_OAIPMH_ENDPOINT
+  severity: ERROR
+  trigger: |
+    If the OAI-PMH harvest fails, and it is caused because of an incorrect
+    OAI-PMH endpoint
+  title: OAI-PMH endpoint is not valid
+  description: |
+    Your current OAI-PMH endpoint ({{ oaiPmhEndpoint }}) is not valid.
+    If you changed the endpoint recently, please, update it in
+    [Settings](./settings#oai-pmh).
+  resolution:
+    -
+      caption: Open settings
+      url: ./settings#oai-pmh
+    -
+      # help desk about "What is an OAI-PMH endpoint?"
+      caption: Learn more # or "I'm having problems"
+      url: https://kmi-ou.atlassian.net/wiki/spaces/KB/pages/4227093/What+is+an+OAI-PMH+endpoint
+  details: [oaiPmhEndpoint]
+
+
+# Metadata Extract
+# ==============================================================================
+#
+# Affects metadata
+
+-
+  # this issue is EPrints specific only, we can safely software name here
+  type: GENERIC_OAI
+  severity: WARNING
+  trigger: |
+    When an OAI contains to default, unconfigure OAI Identifier
+  title: Unconfigured OAI Identifier
+  description: |
+    We recommend to update OAI identifier with your own website address instead
+    `generic.eprints.org` preffix.
+  resolution:
+    -
+      caption: Learn more ↗️
+      url: https://wiki.eprints.org/w/OAI
+    -
+      # I have no idea how to make this
+      # but this should be there
+      caption: Mark resolved
+
+  details: [oai]
+
+-
+  type: GENERIC_ATTACHMENT_URL
+  matches: []
+  severity: WARNING
+  trigger: |
+    When the repository is misconfigured to use the default handle.net url
+  title: Unconfigured handle.net urls
+  description: |
+    The repository is exposing an unconfigured handle.net url. This means we
+    are unlikely to find full texts from your repository
+
+    {{ affectedUrl }}
+  resolution: |
+    Review the configuration for your handle.net persistent links
+  details: [affectedUrl]
+
+
+# Document Download
+# ==============================================================================
+#
+# Affects fulltext
+
+-
+  type: ROBOTS_URL_DISALLOWED
+  matches: [ROBOTS]
+  severity: ERROR
+  title: URL blocked by `robots.txt` rule
+  description: |
+    A rule in robots.txt prevents us from downloaded content from
+    {{ currentUrl }}
+  resolution: |
+    Revise your robots.txt rules in order to allow CORE to download content.
+  trigger: |
+    When we identify a rule in robots.txt which prevents us from downloading
+    from a url
+  details: [currentUrl]
+
+-
+  type: ROBOTS_MAXIMUM_CRAWL_DELAY_EXCEEDED
+  matches: []
+  severity: ERROR
+  title: Long crawl delay
+  description: |
+    In [`robots.txt` file]({{ link to robots }}),
+    a crawl delay has been set to {{ currentCrawlDelay }}.
+    It is longer than the maximum allowed rate of {{ maximumCrawlDelayLimit }}.
+  resolution: |
+    In order for CORE to harvest your repository in a reasonable amount of
+    time, we recommend lowering your crawl delay
+  trigger: |
+    If a crawl delay is longer than {{ maximumCrawlDelayLimit }}ms
+  details: [maximumCrawlDelayLimit, currentCrawlDelay]
+
+-
+  type: ATTACHMENT_MALFORMED_URL
+  severity: ERROR
+  trigger: |
+    When attempting a download in Document Download task, if a URL does not
+    conform to a standard URL, this issue is triggered.
+  title: URL is malformed
+  description: |
+    The URL {{ currentUrl }} is malformed.
+    {{#if sourceUrl }}It was discovered at {{ sourceUrl }}{{/if}}
+  resolution: |
+    Ensure that `dc:identifier` fields contain valid URLs and are correctly
+    URL encoded. For example, spaces should be replaced with `%20`. Further
+    details can be found at [should we write a guide or link elsewhere?]
+  details: [currentUrl, sourceUrl]
+
+-
+  type: ATTACHMENT_NOT_VALID
+  severity: ERROR
+  trigger: |
+    We check that a download is a pdf by checking the first 5 bytes contain
+    %pdf- If this is false, we set the PDF_NOT_VALID. In most cases, the issue
+    is replaced by a more specific issue as this issue is always triggered
+    when downloading HTML files.
+  title: The downloaded file was not a valid validate
+  description: |
+    We were unable to read the
+    {currentUrl}
+  resolution: |
+    We currently only support downloading pdf files. If the file is a pdf, it
+    may not conform to the pdf standard. We suggest recreating the file or
+    opening it in Adobe Reader to validate the file.
+  details: [currentUrl]
+
+-
+  type: NO_VALID_FULLTEXT_LINKS_EXTRACTED
+  matches: [NO_FULL_TEXT_LINKS]
+  severity: WARNING
+  trigger: |
+    After downloading an HTML page, we attempt to extract links. If 0 are
+    found, this issue is triggered.
+  title: No valid attachment links found
+  description: |
+    We downloaded the metadata, but we were unable to find any full text links.
+    Ensure `dc:identifier` contains a direct link to the full text. We only
+    support `.pdf` file type.
+  resolution:
+    -
+      caption: Mark resolved
+  details: [currentUrl]
+
+-
+  hidden: true
+  type: NO_ATTACHMENT_FOUND_NO_REPORTED_FAILURES
+  matches: [NON_EXISTENT_PAGE_ATTACHMENT]
+  # title: No attachment found, no other issues happend
+  severity: DEBUG
+  trigger: |
+    This issue is triggered when no specific issue was detected and reported.
+
+    If this issue is stored, it means we need to identify and find the root
+    cause.
+  description: |
+    This issue is triggered when no specific issue was detected and reported.
+    It's an internal issue and we are already working on improving reporting
+    of this kind of problem. Contact us if you have any questions.
+
+-
+  hidden: true
+  type: ATTACHMENT_PROCESSING_FAILURE
+  matches: []
+  severity: ERROR
+
+-
+  type: ATTACHMENT_ENCRYPTED
+  matches: [ENCRYPTED_ATTACHMENT]
+  severity: ERROR # or WARNING
+  trigger: |
+    This issue is triggered when a pdf has DRM enabled.
+
+    If we are able to bypass, a WARNING is given
+
+    If we are not, an ERROR
+  title: The pdf is encrypted
+  description: |
+    The pdf has Document Security enabled. This digitally restricts how the
+    pdf is opened and used. For example, it may prevent editing, printing or
+    viewing the full text via a screen reader.
+
+    If this is message is issued with a Warning, we were able to bypass the
+    security settings
+
+    If this message is an error, we were unable to bypass the security and we
+    have not imported the fulltext.
+  resolution: |
+    We recommend that Document Security is removed from the PDF.
+    [https://helpx.adobe.com/uk/acrobat/using/securing-pdfs-passwords.html#remove_password_security]
+  details: [currentUrl]
+
 -
   type: ATTACHMENT_TITLE_MISMATCH
-  title: Full text title mismatches metadata
+  severity: WARNING
+  trigger: |
+    We check that the pdf contains the title provided in the metadata. If the
+    first 50 lines of the pdf do not contain an exact match of the title
+    **OR** is similar.
+  title: Title in the metadata doesn't match the full text
+  description: |
+    To ensure we link the correct metadata and full text, we check that the
+    metadata title text is contained within the full text.
+    An exact match is not required, but must be similar.
+
+    This error is common for scanned items where Optical Character
+    Recognition&nbsp;(OCR) has not been performed.
+
+    Ensure that the Metadata Title is the same as the document title
+    or including a link to the full text in `dc:identifier`.
+  resolution:
+    -
+      caption: Mark resolved
+  # should be moved to separate place or deleted
+  extra-intructions: |
+    Ensure that the Metadata Title is the same as the document title. For
+    example:
+
+    Failed match example:
+    - `dc:title:` _An Open Access Paper: a study_
+    - PDF title: _A study of Open Access Papers_
+
+    A successful partial match:
+    - `dc:title`: _A study of Open Access Papers in Europe_
+    - PDF title: _Studying Open Access papers in Europe_
+
+    The closer the match, the more likely we will accept the change.
+
+    You may bypass this check by including a link to the full text
+    in `dc:identifier`.
+  details: [currentUrl]
+
 -
-  type: RESTRICTED_ATTACHMENT
-  title: The document exists on the repository but the download is restricted
+  type: ATTACHMENT_EMBARGOED
+  matches: [RESTRICTED_ATTACHMENT]
+  severity: WARNING
+  trigger: |
+    The PDF link redirected to a login page
+  title: Embargoed full text
+  description: |
+    The full text download URL has restricted access.
+
+    If the fulltext is intended to be embargoed or restricted in some way,
+    no further action is required.
+  resolution: ''
+  details: [currentUrl]
+
 -
   type: UNSUPPORTED_FILETYPE
-  title: Full text has unsupported filetype
+  severity: WARNING
+  trigger: |
+    We correctly extracted urls, but we didn’t find any supported file formats
+  title: Unsupported file format
+  description: |
+    We found a link to a full text, but it was an unsupported file format.
+    We are only able to harvest PDF documents currently.
+  resolution: |
+    We are only able to harvest PDF documents.
+  details: [currentUrl]
+
 -
-  type: NO_VALID_ATTACHMENT_DOWNLOAD_URLS
-  title: No eligible document URLs were available
+  type: ATTACHMENT_NO_VALID_SEED_URLS_FOUND
+  matches: [NO_VALID_ATTACHMENT_DOWNLOAD_URLS]
+  severity: WARNING
+  trigger: |
+    The downloaded metadata contained no urls
+  title: No download links found
+  description: |
+    The metadata provided contained no urls so we are unable to find a full text
+  resolution: |
+    Ensure dc:identifier contains a url to the full text
+
+    Ensure any links on the metadata contain correct urls to the fulltext
+
+    Consider linking directly to the fulltext from the metadata
+  details: []
+
 -
   type: ATTACHMENT_IO_EXCEPTION
-  title: The error has occurred during the document processing
+  severity: ERROR
+  trigger: |
+    Temporary System Error
+  title: System Error
+  description: |
+    A network or server error occurred. We do not have any further information
+    but we will attempt to download this document soon.
+  resolution: ''
+  details: []
+
 -
   type: SLOW_NETWORK
-  title: Slow network
+  severity: ERROR
+  trigger: |
+    If a document download takes longer than 20 seconds, we abort the download
+  title: Slow Network
+  description: |
+    We aborted the download because it took too long. Please check the
+    performance of your repository. We will try again later.
+
+    {{ currentUrl }}
+  resolution: ''
+  details: [currentUrl]
+
 -
-  type: NON_EXISTENT_PAGE_ATTACHMENT
-  title: Full text not found
+  type: ATTACHMENT_URL_ERROR
+  matches: []
+  severity: ERROR
+  trigger: |
+    When we attempted to view the url, the server returned a 404 page not found
+  title: Broken Link
+  description: |
+    The url we attempted to visit returned an Error 404 Not Found.
+
+    We visited {{ currentUrl }}
+    From this page: {{ sourceUrl }}
+  resolution: |
+    check the page for any broken links and consider fixing it
+  details: [sourceUrl, currentUrl]
+
+-
+  type: UNSPECIFIED_NETWORK_ERROR
+  matches: []
+  severity: ERROR
+  trigger: |
+    Unspecified network error
+  title: A temporary network error occurred during download
+  description: |
+    An error occurred in our system which prevented a download. We will
+    reattempt the download soon.
+  resolution: |
+    If you see many of these issues, please contact us and we will investigate
+    further
+  details: [currentUrl]
+
 -
   type: UNSPECIFIED_DOWNLOAD_ERROR
-  title: Unspecified error
+  severity: ERROR
+  trigger: |
+    Unspecified download error
+  title: We were unable to find the full text
+  description: |
+    We were unable to find the full text for this item. We were not able to
+    detect a specific reason why
+  resolution: |
+    If you see many of these issues, please contact us and we will investigate
+    further
+  details: []
+
 -
-  type: ATTACHMENT_TOO_BIG
-  title: Full text size is too big
+  type: ATTACHMENT_SIZE_LIMIT_REACHED
+  matches: [ATTACHMENT_TOO_BIG]
+  severity: ERROR
+  trigger: |
+    File size too big
+  title: Unable to download large file
+  description: |
+    The file size is larger than 512&nbsp;MB so we aborted the download
+  resolution: |
+    We are unable to support downloading files larger than 512&nbsp;MB
+  details: [currentUrl]
+
 -
   type: ATTACHMENT_SAME_DOMAIN_POLICY_ENFORCED
-  title: Full text URL mismatch OAI-PMH domain
+  severity: ERROR
+  trigger: |
+    Download a file from another domain is forbidden due to the “Same Domain
+    Policy”
+  title: Unable to download files “Same Domain Policy”
+  description: |
+    We enforce a policy where we restrict the download of fulltexts to the
+    same domain as the OAI-PMH endpoint.
+  resolution: |
+    [TDB]
+  details: []
