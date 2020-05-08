@@ -31,9 +31,7 @@ class DepositDates extends Store {
     this.crossDepositLagCsvUrL = `${API_URL}${this.crossDepositLagUrL}?accept=text/csv`
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate`
 
-    this.retrieveDepositTimeLag()
-    this.getPublicationDatesValidate()
-    this.getCrossDepositLag()
+    this.retrieve()
   }
 
   @computed
@@ -73,15 +71,24 @@ class DepositDates extends Store {
   }
 
   @action
-  async getCrossDepositLag() {
+  async retrieveCrossDepositLag() {
     const { data } = await this.request(this.crossDepositLagUrL)
     this.crossDepositLag = data
   }
 
   @action
-  async getPublicationDatesValidate() {
+  async retrievePublicationDatesValidate() {
     const { data } = await this.request(this.publicationDatesValidateUrl)
     this.publicationDatesValidate = data
+  }
+
+  retrieve() {
+    // 1. Doing it sequentially because of the API suffering
+    //    from heavy concurrent requests
+    // 2. Chaining Promises using finally() to handle unexpected rejections
+    return this.retrieveDepositTimeLag()
+      .finally(() => this.retrievePublicationDatesValidate())
+      .finally(() => this.retrieveCrossDepositLag())
   }
 }
 
