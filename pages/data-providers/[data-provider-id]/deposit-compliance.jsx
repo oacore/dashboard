@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import dayjs from 'dayjs'
 import { classNames } from '@oacore/design/lib/utils'
 
@@ -84,7 +84,7 @@ class PublicationDateColumn extends Table.Column {
 const getComplianceLevelNumberProps = (complianceLevel) => {
   if (complianceLevel === null || complianceLevel > 0) {
     return {
-      value: 'Loading...',
+      value: valueOrDefault(complianceLevel, 'Loading...'),
       append: '%',
       caption: 'non-compliant',
     }
@@ -146,145 +146,157 @@ const DepositCompliance = ({
   store,
   tag: Tag = 'main',
   ...restProps
-}) => (
-  <Tag className={[styles.container, className].join(' ')} {...restProps}>
-    <h1>Deposit compliance</h1>
+}) => {
+  useEffect(() => {
+    if (
+      !store.depositDates.publicationDatesValidate ||
+      !store.depositDates.crossDepositLag
+    )
+      store.depositDates.retrieveAdditionalData()
+  }, [])
 
-    <Card className={styles.dataOverview} tag="section">
-      <Card.Title tag="h2">{texts.dataOverview.title}</Card.Title>
-      <div className={styles.numbers}>
-        <NumericValue
-          tag="p"
-          value={valueOrDefault(store.depositDates.totalCount, 'Loading...')}
-          caption="outputs counted"
-        />
-        <NumericValue
-          tag="p"
-          {...getComplianceLevelNumberProps(store.depositDates.complianceLevel)}
-        />
-      </div>
-      <Button tag="a" href="#deposit-dates-card" variant="contained">
-        {texts.dataOverview.redirect}
-      </Button>
-    </Card>
+  return (
+    <Tag className={[styles.container, className].join(' ')} {...restProps}>
+      <h1>Deposit compliance</h1>
 
-    <Card className={styles.crossRepositoryCheckRedirect} tag="section">
-      <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
-      <NumericValue
-        value={valueOrDefault(
-          store.depositDates.crossDepositLag?.possibleBonusCount,
-          'Loading...'
+      <Card className={styles.dataOverview} tag="section">
+        <Card.Title tag="h2">{texts.dataOverview.title}</Card.Title>
+        <div className={styles.numbers}>
+          <NumericValue
+            tag="p"
+            value={valueOrDefault(store.depositDates.totalCount, 'Loading...')}
+            caption="outputs counted"
+          />
+          <NumericValue
+            tag="p"
+            {...getComplianceLevelNumberProps(
+              store.depositDates.complianceLevel
+            )}
+          />
+        </div>
+        <Button tag="a" href="#deposit-dates-card" variant="contained">
+          {texts.dataOverview.redirect}
+        </Button>
+      </Card>
+
+      <Card className={styles.crossRepositoryCheckRedirect} tag="section">
+        <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
+        <NumericValue
+          value={valueOrDefault(
+            store.depositDates.crossDepositLag?.possibleBonusCount,
+            'Loading...'
+          )}
+          caption="outputs match"
+          className={styles.outputsMatch}
+        />
+        <Button tag="a" variant="contained" href="#cross-repository-check">
+          {texts.crossRepositoryCheck.redirect}
+        </Button>
+      </Card>
+
+      <Card tag="section">
+        <Card.Title tag="h2">{texts.chart.title}</Card.Title>
+        {store.depositDates.timeLagData?.length > 0 && (
+          <>
+            <TimeLagChart data={store.depositDates.timeLagData} />
+            <Markdown>{texts.chart.body}</Markdown>
+          </>
         )}
-        caption="outputs match"
-        className={styles.outputsMatch}
+        {!store.depositDates.timeLagData?.length &&
+          !store.depositDates.isRetrieveDepositDatesInProgress && (
+            <p>{texts.noData.body}</p>
+          )}
+      </Card>
+
+      <Card id="cross-repository-check" tag="section">
+        <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
+        <Card.Description>
+          {texts.crossRepositoryCheck.description}
+        </Card.Description>
+        <p>
+          {store.depositDates.crossDepositLag
+            ? texts.crossRepositoryCheck.body.render({
+                nonCompliantCount: formatNumber(
+                  store.depositDates.crossDepositLag.nonCompliantCount
+                ),
+                recordsInAnotherRepository: formatNumber(
+                  store.depositDates.crossDepositLag.possibleBonusCount
+                ),
+              })
+            : 'Loading data'}
+        </p>
+        <ExportButton href={store.depositDates.crossDepositLagCsvUrL}>
+          {texts.crossRepositoryCheck.download}
+        </ExportButton>
+      </Card>
+
+      <PublicationsDatesCard
+        fullCount={store.depositDates.publicationDatesValidate?.fullCount}
+        partialCount={store.depositDates.publicationDatesValidate?.partialCount}
+        noneCount={store.depositDates.publicationDatesValidate?.noneCount}
       />
-      <Button tag="a" variant="contained" href="#cross-repository-check">
-        {texts.crossRepositoryCheck.redirect}
-      </Button>
-    </Card>
 
-    <Card tag="section">
-      <Card.Title tag="h2">{texts.chart.title}</Card.Title>
-      {store.depositDates.timeLagData?.length > 0 && (
-        <>
-          <TimeLagChart data={store.depositDates.timeLagData} />
-          <Markdown>{texts.chart.body}</Markdown>
-        </>
-      )}
-      {!store.depositDates.timeLagData?.length &&
-        !store.depositDates.isRetrieveDepositDatesInProgress && (
-          <p>{texts.noData.body}</p>
-        )}
-    </Card>
-
-    <Card id="cross-repository-check" tag="section">
-      <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
-      <Card.Description>
-        {texts.crossRepositoryCheck.description}
-      </Card.Description>
-      <p>
-        {store.depositDates.crossDepositLag
-          ? texts.crossRepositoryCheck.body.render({
-              nonCompliantCount: formatNumber(
-                store.depositDates.crossDepositLag.nonCompliantCount
-              ),
-              recordsInAnotherRepository: formatNumber(
-                store.depositDates.crossDepositLag.possibleBonusCount
-              ),
-            })
-          : 'Loading data'}
-      </p>
-      <ExportButton href={store.depositDates.crossDepositLagCsvUrL}>
-        {texts.crossRepositoryCheck.download}
-      </ExportButton>
-    </Card>
-
-    <PublicationsDatesCard
-      fullCount={store.depositDates.publicationDatesValidate?.fullCount}
-      partialCount={store.depositDates.publicationDatesValidate?.partialCount}
-      noneCount={store.depositDates.publicationDatesValidate?.noneCount}
-    />
-
-    <Card
-      id="deposit-dates-card"
-      className={styles.browseTableCard}
-      tag="section"
-    >
-      <Card.Title tag="h2">Browse deposit dates</Card.Title>
-      <Table
-        key={store.dataProvider}
-        pages={store.depositDates.publicReleaseDates}
-        className={styles.browseTable}
-        defaultSize={15}
-        searchable
+      <Card
+        id="deposit-dates-card"
+        className={styles.browseTableCard}
+        tag="section"
       >
-        <Table.Column
-          id="oai"
-          display="OAI"
-          order="any"
-          getter={(v) => v.oai.split(':').pop()}
-          className={styles.oaiColumn}
-        />
-        <Table.Column
-          id="title"
-          display="Title"
-          order="any"
-          className={styles.titleColumn}
-        />
-        <Table.Column
-          id="authors"
-          display="Authors"
-          order="any"
-          className={styles.authorsColumn}
-          getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
-        />
-        <PublicationDateColumn
-          id="publicationDate"
-          display="Publication date"
-          order="any"
-          className={styles.depositDateColumn}
-        />
-        <Table.Column
-          id="publicReleaseDate"
-          display="Deposit date"
-          order="desc"
-          className={styles.depositDateColumn}
-          getter={(v) => dayjs(v.publicReleaseDate).format('DD/MM/YYYY')}
-        />
-        <Table.Sidebar>
-          <SidebarContent />
-        </Table.Sidebar>
-        <Table.Action>
-          <ExportButton
-            href={store.depositDates.datesUrl}
-            disabled={store.depositDates.isExportDisabled}
-          >
-            {texts.exporting.download}
-          </ExportButton>
-        </Table.Action>
-      </Table>
-    </Card>
-  </Tag>
-)
+        <Card.Title tag="h2">Browse deposit dates</Card.Title>
+        <Table
+          key={store.dataProvider}
+          pages={store.depositDates.publicReleaseDates}
+          className={styles.browseTable}
+          defaultSize={15}
+          searchable
+        >
+          <Table.Column
+            id="oai"
+            display="OAI"
+            order="any"
+            getter={(v) => v.oai.split(':').pop()}
+            className={styles.oaiColumn}
+          />
+          <Table.Column
+            id="title"
+            display="Title"
+            order="any"
+            className={styles.titleColumn}
+          />
+          <Table.Column
+            id="authors"
+            display="Authors"
+            order="any"
+            className={styles.authorsColumn}
+            getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
+          />
+          <PublicationDateColumn
+            id="publicationDate"
+            display="Publication date"
+            order="any"
+            className={styles.depositDateColumn}
+          />
+          <Table.Column
+            id="publicReleaseDate"
+            display="Deposit date"
+            order="desc"
+            className={styles.depositDateColumn}
+            getter={(v) => dayjs(v.publicReleaseDate).format('DD/MM/YYYY')}
+          />
+          <Table.Sidebar>
+            <SidebarContent />
+          </Table.Sidebar>
+          <Table.Action>
+            <ExportButton
+              href={store.depositDates.datesUrl}
+              disabled={store.depositDates.isExportDisabled}
+            >
+              {texts.exporting.download}
+            </ExportButton>
+          </Table.Action>
+        </Table>
+      </Card>
+    </Tag>
+  )
+}
 
 export default withGlobalStore(DepositCompliance)
