@@ -23,8 +23,9 @@ const Select = ({
   value,
   options,
   className,
-  disabled = false,
   label,
+  labelSrOnly = false,
+  disabled = false,
   tag: Tag = 'div',
   id = generateId(),
 }) => {
@@ -129,7 +130,6 @@ const Select = ({
             placeholder="Search..."
             autoComplete="off"
             role="combobox"
-            aria-label="Select repository"
             aria-expanded={showSuggestions && suggestions.length}
             aria-owns="suggestion-results"
             aria-autocomplete="both"
@@ -159,6 +159,7 @@ const Select = ({
             }}
             onKeyDown={handleKeyDown}
             label={label}
+            labelSrOnly={labelSrOnly}
           />
         </>
       )}

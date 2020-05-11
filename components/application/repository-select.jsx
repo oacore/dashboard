@@ -23,6 +23,8 @@ const RepositorySelect = ({ store }) => (
         )
       }}
       disabled={store.user.dataProviders.length <= 1}
+      label="Select repository"
+      labelSrOnly
     />
   </AppBar.Item>
 )
