@@ -84,7 +84,7 @@ class PublicationDateColumn extends Table.Column {
 const getComplianceLevelNumberProps = (complianceLevel) => {
   if (complianceLevel === null || complianceLevel > 0) {
     return {
-      value: 'Loading...',
+      value: valueOrDefault(complianceLevel, 'Loading...'),
       append: '%',
       caption: 'non-compliant',
     }
