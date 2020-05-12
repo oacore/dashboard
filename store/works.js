@@ -9,7 +9,7 @@ class Works extends Pages {
   }
 
   @action
-  async changeVisibility(rowId) {
+  changeVisibility = async (rowId) => {
     const [, workId] = rowId.split('-', 2)
     const row = this.data.find((r) => r.originalId === workId)
     const { disabled } = row
