@@ -7,14 +7,7 @@ import * as texts from 'texts/doi'
 import NumericValue, { formatNumber } from 'components/numeric-value'
 import Markdown from 'components/markdown'
 import EnrichmentChart from 'components/enrichment-chart'
-
-const useDefault = (value, substitute = null) =>
-  value == null ||
-  value === Infinity ||
-  value === -Infinity ||
-  Number.isNaN(value)
-    ? substitute
-    : value
+import { valueOrDefault } from 'utils/helpers'
 
 const CoverageCard = ({ dataProviderName, doiCount, enrichmentSize }) => (
   <Card className={styles.overviewCard} tag="section">
@@ -22,7 +15,7 @@ const CoverageCard = ({ dataProviderName, doiCount, enrichmentSize }) => (
     <div className={styles.overviewCardContent}>
       <div>
         <NumericValue
-          value={useDefault(formatNumber(doiCount), 'Loading...')}
+          value={valueOrDefault(doiCount, 'Loading...')}
           caption={texts.coverage.numberLabel}
         />
         {enrichmentSize > 0 && (
