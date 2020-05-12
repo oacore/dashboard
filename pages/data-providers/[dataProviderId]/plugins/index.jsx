@@ -14,7 +14,7 @@ const PluginCard = withGlobalStore(
       <h2>{title}</h2>
       {description && <p>{description}</p>}
       <Link
-        href={`/data-providers/[data-provider-id]/${href}`}
+        href={`/data-providers/[dataProviderId]/${href}`}
         as={`/data-providers/${store.dataProvider.id}/${href}`}
       >
         <Button variant="contained" href={href} tag="a">

@@ -7,7 +7,7 @@ import Route from 'components/application/route'
 class NextRoute extends Route {
   get href() {
     const context = {
-      dataProvider: this.dataProvider && '[data-provider-id]',
+      dataProvider: this.dataProvider && '[dataProviderId]',
       activity: this.dataProvider && this.activity,
     }
 

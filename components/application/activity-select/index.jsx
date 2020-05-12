@@ -14,7 +14,7 @@ const linkProps = (value, dataProvider) => {
     }
   }
   return {
-    href: `/data-providers/[data-provider-id]/${value}`,
+    href: `/data-providers/[dataProviderId]/${value}`,
     as: `/data-providers/${dataProvider}/${value}`,
   }
 }

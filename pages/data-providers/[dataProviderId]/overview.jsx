@@ -28,7 +28,7 @@ const LinkButton = withGlobalStore(
     ...passProps
   }) => (
     <Link
-      href={`/data-providers/[data-provider-id]/${href}`}
+      href={`/data-providers/[dataProviderId]/${href}`}
       as={`/data-providers/${store.dataProvider.id}/${href}`}
       passHref
     >

@@ -18,7 +18,7 @@ const RepositorySelect = ({ store }) => (
         // provider is reflected to the store in app/index.jsx
         // - handleRouteChange
         Router.push(
-          '/data-providers/[data-provider-id]/overview',
+          '/data-providers/[dataProviderId]/overview',
           `/data-providers/${value}/overview`
         )
       }}
