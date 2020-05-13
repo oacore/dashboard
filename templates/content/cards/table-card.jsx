@@ -1,10 +1,10 @@
 import React from 'react'
-import dayjs from 'dayjs'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 
+import { formatDate } from 'utils/helpers'
 import { Card, DetailList, Icon } from 'design'
 import DocumentLink from 'components/document-link'
 import TakeDown from 'components/takedown'
@@ -53,7 +53,14 @@ const SidebarContent = observer(
             </DetailList.Item>
             {doi && <DetailList.Item name="DOI">{doi}</DetailList.Item>}
             <DetailList.Item name="Update date">
-              {dayjs(lastUpdate).format('Do MMMM YYYY, hh:mm:ss')}
+              {formatDate(lastUpdate, {
+                year: 'numeric',
+                month: 'long',
+                weekday: 'short',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+              })}
             </DetailList.Item>
           </DetailList>
         </Body>
@@ -96,7 +103,7 @@ const TableCard = ({ works, changeVisibility, ...props }) => (
         display="Last Update"
         order="desc"
         className={styles.lastUpdateColumn}
-        getter={(v) => dayjs(v.lastUpdate).fromNow()}
+        getter={(v) => formatDate(v.lastUpdate)}
       />
       <Table.Sidebar>
         <SidebarContent changeVisibility={changeVisibility} />

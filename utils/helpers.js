@@ -12,8 +12,19 @@ export const valueOrDefault = (value, defaultValue) =>
 export const formatNumber = (number, { locale = 'en-GB', ...options } = {}) =>
   new Intl.NumberFormat(locale, options).format(number)
 
+export const formatDate = (date, options = {}) => {
+  try {
+    return new Intl.DateTimeFormat('en-GB', options).format(new Date(date))
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development')
+      console.error('Date in invalid format', date, error)
+    return date
+  }
+}
+
 export default {
   range,
   valueOrDefault,
   formatNumber,
+  formatDate,
 }
