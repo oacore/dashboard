@@ -82,7 +82,7 @@ const Settings = ({ store, className, ...restProps }) => {
             name="email"
             defaultValue={dataProvider.email}
             tag="p"
-            readonly="true"
+            readOnly
           />
         </FormShell>
       </Card>
