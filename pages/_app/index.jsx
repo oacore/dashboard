@@ -78,6 +78,9 @@ class App extends NextApp {
 
   handlePromiseRejection = (event) => {
     if (event.reason instanceof UnauthorizedError) {
+      this.setState({
+        isAuthorized: false,
+      })
       this.redirectToLogin(window.location.href)
       // Don't report to console
       event.preventDefault()
@@ -142,7 +145,12 @@ class App extends NextApp {
       Sentry.captureException(error)
     })
 
-    if (error instanceof UnauthorizedError) this.redirectToLogin()
+    if (error instanceof UnauthorizedError) {
+      this.setState({
+        isAuthorized: false,
+      })
+      this.redirectToLogin()
+    }
   }
 
   AppShell = () => {
