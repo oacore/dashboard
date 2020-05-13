@@ -5,6 +5,7 @@ import styles from './styles.module.css'
 
 import { Card, TextField, Button } from 'design'
 import { withGlobalStore } from 'store'
+import Title from 'components/title'
 
 const ResetPassword = ({ className, store, ...restProps }) => {
   const [message, setMessage] = useState(null)
@@ -30,6 +31,7 @@ const ResetPassword = ({ className, store, ...restProps }) => {
       className={classNames.use(styles.resetContainer, className)}
       {...restProps}
     >
+      <Title hidden>Password reset</Title>
       <form onSubmit={handleSubmit}>
         <h2>Reset password</h2>
         <TextField id="email" label="Email" name="email" tag="p" required />

@@ -9,6 +9,8 @@ import {
   DepositingCard,
 } from './cards'
 
+import Title from 'components/title'
+
 const filterChartData = (data, complianceLevel = 0.75) => {
   const dataLimit = 365 * 4
   const complianceLimit = 90
@@ -40,7 +42,7 @@ const OverviewTemplate = ({
     className={classNames.use(styles.container).join(className)}
     {...restProps}
   >
-    <h1 className="sr-only">Overview</h1>
+    <Title hidden>Overview</Title>
     <DataStatisticsCard
       metadataCount={metadataCount}
       fullTextCount={fullTextCount}

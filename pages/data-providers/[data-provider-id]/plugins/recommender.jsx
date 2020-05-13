@@ -4,10 +4,11 @@ import { withGlobalStore } from 'store'
 import { Card } from 'design'
 import Markdown from 'components/markdown'
 import { plugins } from 'texts'
+import Title from 'components/title'
 
 const Plugins = ({ store, ...restProps }) => (
   <Card {...restProps}>
-    <h1>{plugins.recommender.title}</h1>
+    <Title>{plugins.recommender.title}</Title>
     <Markdown>
       {plugins.recommender.description.render({
         key: store.plugins.recommender?.key,
