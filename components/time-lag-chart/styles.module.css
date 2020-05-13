@@ -27,7 +27,7 @@
   height: calc(var(--chart-height) + var(--scroll-bar-size));
   overflow-x: scroll;
 
-  &::-webkit-scrollbar {
+  /* &::-webkit-scrollbar {
     display: none;
     height: var(--scroll-bar-size);
     background: var(--gray-200);
@@ -42,5 +42,5 @@
     background: var(--gray-500);
     background-clip: padding-box;
     border-radius: 8rem;
-  }
+  } */
 }

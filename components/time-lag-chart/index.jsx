@@ -1,10 +1,8 @@
-/* eslint-disable */
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import React, { useEffect, useRef, useCallback } from 'react'
 import { Cell, Bar, BarChart, ReferenceLine, XAxis, Tooltip } from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
 import { scaleSqrt } from 'd3-scale'
 
-import depositTimeLag from './data'
 import CustomTooltip from './tooltip'
 import styles from './styles.module.css'
 
@@ -21,27 +19,95 @@ const toX = ([x]) => x
 const toY = ([, y]) => y
 
 // creates square root scale applicator based on maximal value parameter
+// changes second point to scaled and stores original value as third
 const toSqrtScale = (yMax) => {
   const scale = scaleSqrt().domain([0, yMax])
-  return ([x, y]) => [x, scale(y || 0)]
+  return ([x, y, ...rest]) => [x, scale(y || 0), ...rest]
 }
 
 /**
  * For a sorted array of [x, y] pints returns new array,
  * where are missing x-values filled with y-values = 0
  */
-const withGaps = (values = [], [x, y]) => {
+const withGaps = (values, [x, y, ...rest]) => {
   const [prevX] = values[values.length - 1] ?? [x - 1]
   values.push(...Array.from(Array(x - prevX - 1), (_, i) => [prevX + i + 1, 0]))
-  values.push([x, y])
+  values.push([x, y, ...rest])
   return values
+}
+
+const useBoundaryScrollHandler = (options = {}) => {
+  const {
+    initialShift, // index of the column 0, initial shift
+    barCount = COMPLIANCE_LIMIT,
+    barWidth = 4,
+    gutterWidth = 2,
+  } = options
+
+  const deps = [initialShift, barCount, barWidth, gutterWidth]
+  const callback = useCallback((element) => {
+    const { clientWidth } = element
+    const barVisibleCount = Math.floor(
+      (clientWidth + gutterWidth) / (barWidth + gutterWidth)
+    )
+
+    const startBarIndex =
+      barVisibleCount > barCount
+        ? initialShift - Math.floor((barVisibleCount - barCount) / 2)
+        : initialShift
+    const scrollPosition =
+      barWidth * (startBarIndex - 1) + gutterWidth * (startBarIndex - 1)
+
+    element.scroll(scrollPosition, 0)
+  }, deps)
+
+  return callback
+}
+
+const useBoundaryHandler = (elementRef, options) => {
+  const observerRef = useRef(null)
+
+  const handle = useBoundaryScrollHandler(options)
+
+  const dispose = useCallback(() => {
+    if (observerRef.current) observerRef.current.disconnect()
+    observerRef.current = null
+  }, [observerRef])
+
+  useEffect(() => {
+    dispose()
+
+    const element = elementRef.current
+    const observer = new ResizeObserver(([{ target }]) => handle(target))
+    observer.observe(element)
+    observerRef.current = observer
+
+    return dispose
+  }, [elementRef, handle])
+
+  return dispose
+}
+
+const useBoundary = (ref, options) => {
+  const disposeBoundary = useBoundaryHandler(ref, options)
+
+  // Do not sync scroll with 0 bar if user already scrolled
+  const enableControl = useRef(true)
+  const scrollDisposer = useCallback((event) => {
+    if (Math.abs(event.deltaX) < Math.abs(event.deltaY)) return
+
+    enableControl.current = false
+    disposeBoundary()
+  }, [])
+
+  return scrollDisposer
 }
 
 const TimeLagChart = React.forwardRef(
   (
     {
       className,
-      data,
+      data: points,
       barWidth = 4,
       gutterWidth = 2,
       height = 300,
@@ -50,31 +116,41 @@ const TimeLagChart = React.forwardRef(
     ref
   ) => {
     const chartRef = useRef(ref)
+    const scaledPoints = points.map(toSqrtScale(Math.max(...points.map(toY))))
+
+    const tooltip = <CustomTooltip data={points} />
+
+    const disposeScrollControl = useBoundary(chartRef, {
+      barWidth,
+      gutterWidth,
+      initialShift: points.findIndex(([x]) => x === 0),
+    })
+
     return (
       <div
         ref={chartRef}
         className={classNames.use(styles.chartWrapper, className)}
+        onWheel={disposeScrollControl}
         {...restProps}
       >
-        {data.length !== 0 && (
+        {scaledPoints.length !== 0 && (
           <BarChart
-            // let's assume approx. 6 (4 bar width + 2 bar gap) pixels
-            // per bar by default
-            width={data.length * (barWidth + gutterWidth)}
+            // calculating width based on bar size and the space between bars
+            width={scaledPoints.length * (barWidth + gutterWidth)}
             height={height}
-            data={data}
+            data={scaledPoints}
             barCategoryGap={gutterWidth}
             barSize={barWidth}
           >
             <XAxis
               dataKey="0"
               tickLine={false}
-              ticks={data.map(toX).filter((x) => x % 30 === 0)}
+              ticks={scaledPoints.map(toX).filter((x) => x % 30 === 0)}
             />
-            <Tooltip content={<CustomTooltip data={data} />} />
+            <Tooltip content={tooltip} />
             <ReferenceLine y={0} className={styles.referenceLine} />
             <Bar dataKey="1">
-              {data.map(([x]) => (
+              {scaledPoints.map(([x]) => (
                 <Cell
                   id={x}
                   className={classNames
@@ -99,86 +175,16 @@ const TimeLagChart = React.forwardRef(
 const TimeLagChartController = React.memo(
   ({
     data,
-    from = Number.NEGATIVE_INFINITY,
-    size = Number.POSITIVE_INFINITY,
+    minX = Number.NEGATIVE_INFINITY,
+    maxX = Number.POSITIVE_INFINITY,
     ...restProps
   }) => {
-    const points = depositTimeLag.map(toPoints)
-    const scaledPoints = points
-      .map(toSqrtScale(Math.max(...points.map(toY))))
-      .reduce(withGaps)
-    console.log(scaledPoints)
+    const points = data
+      .map(toPoints)
+      .filter(([x]) => x >= minX && x <= maxX)
+      .reduce(withGaps, [])
 
-    //     const chartRef = useRef(null)
-    //     useEffect(() => {
-    //       const rawIntervalSize =
-    //         data[data.length - 1].depositTimeLag - data[0].depositTimeLag
-    //       const dataMap = new Map(data.map((e) => [e.depositTimeLag, e.worksCount]))
-    //       const normalize = []
-    //
-    //       const maxNumber = data.reduce(
-    //         (acc, curr) => Math.max(curr.worksCount, acc),
-    //         1
-    //       )
-    //       const scale = scaleSqrt().domain([0, maxNumber])
-    //
-    //       for (let i = 0; i <= rawIntervalSize; i++) {
-    //         const lagIndex = i + data[0].depositTimeLag
-    //         if (lagIndex >= from && normalize.length < size) {
-    //           normalize.push({
-    //             depositTimeLag: lagIndex,
-    //             worksCount: dataMap.get(lagIndex) || 0,
-    //             worksCountScaled: scale(dataMap.get(lagIndex) || 0),
-    //           })
-    //         }
-    //       }
-    //
-    //       setNormalizedData(normalize)
-    //     }, [data])
-
-    //     const callback = useCallback((mutationsList, observer) => {
-    //       mutationsList.forEach((mutation) => {
-    //         if (mutation.type === 'childList') {
-    //           mutation.addedNodes.forEach((el) => {
-    //             if (
-    //               el.classList.contains('start') ||
-    //               // sometimes mutation observer detect only change in parent,
-    //               // i.e. g element not path element
-    //               el.firstElementChild?.classList.contains('start')
-    //             ) {
-    //               el.scrollIntoView({
-    //                 // alight horizontally
-    //                 inline: 'start',
-    //               })
-    //               observer.disconnect()
-    //             }
-    //           })
-    //         }
-    //       })
-    //     }, [])
-    //
-    //     useEffect(() => {
-    //       const observer = new MutationObserver(callback)
-    //       const config = {
-    //         childList: true,
-    //         subtree: true,
-    //       }
-    //       observer.observe(chartRef.current, config)
-    //       chartRef.current.style.setProperty('--chart-height', `${height}px`)
-    //
-    //       return () => {
-    //         observer.disconnect()
-    //       }
-    //     }, [])
-
-    // if bar is empty recharts doesn't render cell
-    // const barWithValue = useMemo(
-    //   () =>
-    //     normalizedData?.find((d) => d.depositTimeLag >= -20 && d.worksCount),
-    //   [normalizedData]
-    // )
-
-    return <TimeLagChart data={scaledPoints} {...restProps} />
+    return <TimeLagChart data={points} {...restProps} />
   }
 )
 
