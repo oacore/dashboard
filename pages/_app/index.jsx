@@ -141,7 +141,7 @@ class App extends NextApp {
 
   AppShell = () => {
     const { store } = this
-    const { Component, pageProps } = this.props
+    const { Component, pageProps, router } = this.props
     const { isAuthorized } = this.state
     const pathname = this.props.router.asPath
 
@@ -149,7 +149,9 @@ class App extends NextApp {
       return (
         <>
           <Application dataProvider={undefined} pathname={pathname} />
-          {this.isRouteWithoutStore ? <Component {...pageProps} /> : null}
+          {isRouteWithoutStore(router.asPath) ? (
+            <Component {...pageProps} />
+          ) : null}
         </>
       )
     }
