@@ -48,7 +48,7 @@ class InfiniteTable extends React.PureComponent {
       columnOrder,
       expandedRowId: null,
       totalLength: null,
-      selectedOption: '',
+      selectedOption: null,
     }
 
     this.action = action
@@ -191,6 +191,7 @@ class InfiniteTable extends React.PureComponent {
       className,
       defaultSize,
       options,
+      selectLabel,
       ...restProps
     } = this.props
     const {
@@ -224,15 +225,16 @@ class InfiniteTable extends React.PureComponent {
                 )
               }
               value={
-                selectedOption &&
-                options.find((el) => el.id === selectedOption).name
+                selectedOption !== null
+                  ? options.find((el) => el.id === selectedOption).name
+                  : ''
               }
               onSelectionChange={(value) =>
                 this.setState({ selectedOption: value }, () =>
                   this.fetchData({ force: true })
                 )
               }
-              label="Select issue type"
+              label={selectLabel}
             />
           )}
           {searchable && (
