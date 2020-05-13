@@ -12,15 +12,29 @@ const SideBar = ({
   className,
   tag: Tag = 'nav',
   id, // prevent passing ID to element attributes
+  onClick,
   ...restProps
 }) => {
   const [state, dispatch] = useContext(LayoutContext)
+
+  const close = (event) => {
+    const controlElementSelector = 'a, button, [type=submit], [type=button]'
+    const controlElement = event.target.closest(controlElementSelector)
+    if (controlElement != null) dispatch({ type: 'toggle_sidebar' })
+  }
+
+  const handleClick = (event) => {
+    if (onClick) onClick(event)
+    close(event)
+  }
+
   return (
     <Tag
       id={state.sidebarId}
       className={classNames
         .use(styles['side-bar'], state.sidebarOpen && styles.open)
         .join(className)}
+      onClick={handleClick}
       {...restProps}
     >
       <AppBar className={styles.sideBarHeader}>
