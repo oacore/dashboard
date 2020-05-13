@@ -39,7 +39,12 @@ const Select = ({
   const [suggestions, setSuggestions] = useState([])
 
   const handleMouseUp = useCallback((event) => {
-    if (inputRef.current && inputRef.current.contains(event.target)) return
+    if (
+      inputRef.current?.contains(event.target) ||
+      selectMenuRef.current?.contains(event.target)
+    )
+      return
+
     setClickedElement(null)
     toggleShowSuggestions(false)
     setActiveSuggestion({})
@@ -190,6 +195,7 @@ const Select = ({
                 }}
                 onMouseUp={(event) => {
                   if (clickedElement === s.id) {
+                    setSearchTerm(s.name)
                     onSelectionChange(s.id)
                     toggleShowSuggestions(false)
                   }
