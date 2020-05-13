@@ -77,6 +77,8 @@ class Root extends Store {
 
   @observable dataProvider = null
 
+  @observable irus = null
+
   @observable statistics = {
     metadataCount: null,
     fullTextCount: null,
@@ -151,8 +153,10 @@ class Root extends Store {
     }
 
     this.dataProvider = dataProvider
+    this.reset()
     this.retrieveStatistics()
     this.retrievePluginConfig()
+    this.retrieveIrusStats()
 
     const url = `/data-providers/${this.dataProvider.id}`
     this.works = new Works(url, this.options)
@@ -201,6 +205,17 @@ class Root extends Store {
     // TODO: Should be a method without cross-call to another method
   }
 
+  @action
+  async retrieveIrusStats() {
+    try {
+      const url = `/data-providers/${this.dataProvider.id}/irus`
+      const { data } = await apiRequest(url)
+      this.irus = data
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
   async sendContactRequest(data) {
     try {
       await this.request(this.contactUrl, { method: 'POST', body: data })
@@ -209,6 +224,11 @@ class Root extends Store {
       if (process.env.NODE_ENV !== 'production') console.error(anyError)
       return false
     }
+  }
+
+  @action
+  async reset() {
+    this.irus = null
   }
 }
 
