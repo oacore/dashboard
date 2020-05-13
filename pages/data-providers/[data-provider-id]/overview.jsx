@@ -16,6 +16,7 @@ const Overview = ({ store, ...props }) => (
     harvestingDate={store.issues.harvestingStatus?.lastHarvestingDate}
     errorCount={store.issues.aggregation?.errorsCount}
     warningCount={store.issues.aggregation?.warningsCount}
+    viewStatistics={store.irus}
     {...props}
   />
 )

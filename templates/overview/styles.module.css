@@ -1,23 +1,11 @@
 .container {
+  --column-min-width: 18rem;
+
   display: grid;
-  grid-template-rows: 1fr;
   grid-gap: 1.5rem 2rem;
-  grid-auto-flow: dense;
-  flex: unset;
+  grid-auto-rows: min-content;
+  grid-template-columns: repeat(auto-fit, minmax(var(--column-min-width), 1fr));
   padding: var(--component-padding-y, 1rem) var(--component-padding-x, 1rem);
-
-  & > * {
-    position: relative;
-  }
-
-  /* TODO: Values are experimental and should be changed */
-  @media (min-width: 840px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 .overview-card {
@@ -64,4 +52,11 @@
 
 .warning {
   background: var(--warning-light);
+}
+
+.irus-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }

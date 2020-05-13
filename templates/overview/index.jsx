@@ -2,7 +2,7 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
-import { DataStatisticsCard, DoiCard, DepositingCard } from './cards'
+import { DataStatisticsCard, DoiCard, DepositingCard, IrusCard } from './cards'
 
 import Title from 'components/title'
 
@@ -18,6 +18,7 @@ const OverviewTemplate = ({
   harvestingDate,
   errorCount,
   warningCount,
+  viewStatistics,
   className,
   tag: Tag = 'main',
   ...restProps
@@ -46,6 +47,7 @@ const OverviewTemplate = ({
       enrichmentSize={doiEnrichmentSize}
       dataProviderId={dataProviderId}
     />
+    {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
   </Tag>
 )
 
