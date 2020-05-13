@@ -36,6 +36,25 @@ const withGaps = (values, [x, y, ...rest]) => {
   return values
 }
 
+const withBuckets = (size, start = 0) => (buckets, value, index) => {
+  if ((index + start) % size === 0 || index === 0) {
+    const current = [value]
+    buckets.push(current)
+  } else {
+    const last = buckets[buckets.length - 1]
+    last.push(value)
+  }
+
+  return buckets
+}
+
+const toSum = (values) => values.reduce((total, x) => total + x, 0)
+
+const test = [1, 2, 3, 4, 5, 6, 7]
+
+// eslint-disable-next-line
+console.log(test.reduce(withBuckets(2), []).map(toSum))
+
 const useBoundaryScrollHandler = (options = {}) => {
   const {
     initialShift, // index of the column 0, initial shift
