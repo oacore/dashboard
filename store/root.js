@@ -6,6 +6,7 @@ import User from './user'
 import DepositDates from './deposit-dates'
 import Works from './works'
 import DOI from './doi'
+import Issues from './issues'
 import { logTiming } from '../utils/analytics'
 import Organisation from './organisation'
 
@@ -53,6 +54,8 @@ class Root extends Store {
   }
 
   @observable works = null
+
+  @observable issues = null
 
   @observable depositDates = null
 
@@ -119,6 +122,7 @@ class Root extends Store {
     this.works = new Works(url, this.options)
     this.depositDates = new DepositDates(url, this.options)
     this.doi = new DOI(url, this.options)
+    this.issues = new Issues(url, this.options)
   }
 
   @action changeActivity(url) {

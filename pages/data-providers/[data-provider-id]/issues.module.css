@@ -1,0 +1,83 @@
+%item {
+  flex: 3 3 90%;
+  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  padding: var(--component-padding-y, 1rem) 0;
+
+  & > * {
+    @extend %item;
+  }
+}
+
+.harvesting-overview {
+  flex: 1 1 30%;
+  width: 100%;
+}
+
+.errors-overview {
+  flex: 2 2 60%;
+  width: 100%;
+}
+
+.numbers {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--spacer) calc(-1 * var(--component-padding-x, 1rem)) 0;
+
+  & > * {
+    flex: 1 0 1px;
+    margin: 0 var(--component-padding-x, 1rem);
+  }
+}
+
+.errors-count {
+  color: var(--danger-dark);
+}
+
+.issues-table > table {
+  width: calc(100% + 2 * var(--card-padding-x));
+  min-width: 55rem;
+  margin-right: calc(-1 * var(--card-padding-x));
+  margin-left: calc(-1 * var(--card-padding-x));
+  overflow-x: auto;
+  table-layout: fixed;
+
+  & th,
+  & td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.title-column {
+  width: 80%;
+}
+
+.issue-icon {
+  margin-right: 0.5rem;
+}
+
+.issue-icon.error {
+  color: var(--danger-dark);
+}
+
+.issue-icon.warning {
+  color: var(--warning-dark);
+}
+
+.link-column {
+  width: 20%;
+}
+
+.table-button {
+  /* Aligning button text to the cell text, prevent row height increasing */
+  margin: calc(var(--button-padding-y) - var(--table-cell-padding-y))
+    calc(-1 * var(--button-padding-x));
+}

@@ -15,6 +15,8 @@ class Pages extends Store {
 
   columnOrder = ''
 
+  type = ''
+
   pageNumber = 0
 
   totalLength = null
@@ -32,13 +34,14 @@ class Pages extends Store {
     return this.data.slice(from, to)
   }
 
-  reset({ columnOrder, searchTerm }) {
+  reset({ columnOrder, searchTerm, type }) {
     this.data = []
     this.searchTerm = searchTerm
     this.columnOrder = columnOrder
     this.pageNumber = 0
     this.isLastPageLoaded = false
     this.isFirstPageLoaded = false
+    this.type = type
   }
 
   @invalidatePreviousRequests
@@ -49,6 +52,8 @@ class Pages extends Store {
       from: this.data.length,
       size: PAGE_SIZE,
     }
+
+    if (this.type) params.type = this.type
     if (order) params.orderBy = order
     if (this.searchTerm) params.q = this.searchTerm
 

@@ -5,6 +5,11 @@ const config = [
     icon: 'view-dashboard',
   },
   {
+    id: 'issues',
+    path: 'issues',
+    icon: 'alert-circle',
+  },
+  {
     id: 'content',
     path: 'content',
     icon: 'file-document',
