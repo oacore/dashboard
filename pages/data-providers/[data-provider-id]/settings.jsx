@@ -6,6 +6,7 @@ import styles from './settings.module.css'
 import { Card, TextField } from 'design'
 import { withGlobalStore } from 'store'
 import { ChangePassword, FormShell } from 'components/forms'
+import Title from 'components/title'
 
 const Settings = ({ store, className, ...restProps }) => {
   const [formMessage, setFormMessage] = useState({})
@@ -37,7 +38,7 @@ const Settings = ({ store, className, ...restProps }) => {
       className={classNames.use(styles.container, className)}
       {...restProps}
     >
-      <h1>Settings</h1>
+      <Title>Settings</Title>
       <Card
         className={classNames.use(styles.section).join(className)}
         tag="section"

@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter } from 'next/router'
 
 import styles from './login.module.css'
+import Title from '../components/title'
 
 import { IframeForm } from 'components/forms'
 
@@ -17,11 +18,14 @@ const Login = React.memo(({ router }) => {
 
   const url = `/secure/login.html?${search}`
   return (
-    <IframeForm
-      className={styles.loginIframeContainer}
-      title="Login Form"
-      src={url}
-    />
+    <>
+      <Title hidden>Login</Title>
+      <IframeForm
+        className={styles.loginIframeContainer}
+        title="Login Form"
+        src={url}
+      />
+    </>
   )
 })
 

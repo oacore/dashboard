@@ -7,6 +7,7 @@ import pluginsClassNames from './plugins.module.css'
 import { Card, Button } from 'design'
 import { overview as texts } from 'texts/plugins'
 import { withGlobalStore } from 'store'
+import Title from 'components/title'
 
 const PluginCard = withGlobalStore(
   ({ title, description, actionCaption, href, store, ...restProps }) => (
@@ -50,7 +51,7 @@ const Plugins = ({ className, ...restProps }) => (
     className={classNames.use(pluginsClassNames.container, className)}
     {...restProps}
   >
-    <h1>Plugins</h1>
+    <Title>Plugins</Title>
     <DiscoveryPluginCard tag="section" />
     <RecommenderPluginCard tag="section" />
   </main>

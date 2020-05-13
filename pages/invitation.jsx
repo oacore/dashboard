@@ -4,6 +4,7 @@ import { withRouter } from 'next/router'
 
 import styles from './invitation.module.css'
 
+import Title from 'components/title'
 import { Card } from 'design'
 import { InvitationRegister } from 'components/forms'
 
@@ -12,6 +13,7 @@ const Invitation = ({ className, router, ...restProps }) => (
     className={classNames.use(styles.invitationContainer, className)}
     {...restProps}
   >
+    <Title hidden>Register</Title>
     <InvitationRegister
       tag="div"
       email={router.query.email}

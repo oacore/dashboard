@@ -3,6 +3,8 @@ import React from 'react'
 import styles from './styles.module.css'
 import { CoverageCard, ExportCard, TableCard } from './cards'
 
+import Title from 'components/title'
+
 const DoiTemplate = ({
   className,
   enrichmentSize,
@@ -15,7 +17,7 @@ const DoiTemplate = ({
   ...restProps
 }) => (
   <Tag className={[styles.container, className].join(' ')} {...restProps}>
-    <h1>DOI</h1>
+    <Title>DOI</Title>
 
     <CoverageCard
       dataProviderName={dataProviderName}

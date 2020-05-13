@@ -10,6 +10,8 @@ import {
   CrossRepositoryCheckCard,
 } from './cards'
 
+import Title from 'components/title'
+
 const DepositComplianceTemplate = ({
   className,
   isExportDisabled,
@@ -26,7 +28,7 @@ const DepositComplianceTemplate = ({
   ...restProps
 }) => (
   <Tag className={[styles.container, className].join(' ')} {...restProps}>
-    <h1>Deposit compliance</h1>
+    <Title>Deposit compliance</Title>
     <DataOverviewCard
       totalCount={totalCount}
       complianceLevel={complianceLevel}
