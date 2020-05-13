@@ -191,6 +191,7 @@ class InfiniteTable extends React.PureComponent {
       className,
       defaultSize,
       options,
+      selectLabel,
       ...restProps
     } = this.props
     const {
@@ -233,7 +234,7 @@ class InfiniteTable extends React.PureComponent {
                   this.fetchData({ force: true })
                 )
               }
-              label="Select issue type"
+              label={selectLabel}
             />
           )}
           {searchable && (

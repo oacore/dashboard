@@ -73,6 +73,7 @@ const TableCard = ({ totalCount, aggregation, pages }) => {
         pages={pages}
         selectable
         options={filterOptions}
+        selectLabel="Select issue type"
       >
         <TitleColumn
           id="title"
