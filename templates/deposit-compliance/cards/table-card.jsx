@@ -1,9 +1,9 @@
 import React from 'react'
-import dayjs from 'dayjs'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 
+import { formatDate } from 'utils/helpers'
 import { Card, Icon } from 'design'
 import Table from 'components/table'
 import ExportButton from 'components/export-button'
@@ -68,7 +68,7 @@ class PublicationDateColumn extends Table.Column {
 
     return (
       <span title={caption}>
-        {dayjs(date).format('DD/MM/YYYY')}{' '}
+        {formatDate(date)}
         {showStatus && <MatchingIcon status={status} />}
       </span>
     )
@@ -119,7 +119,7 @@ const TableCard = ({ isExportDisabled, datesUrl, publicReleaseDatesPages }) => (
         display="Deposit date"
         order="desc"
         className={styles.depositDateColumn}
-        getter={(v) => dayjs(v.publicReleaseDate).format('DD/MM/YYYY')}
+        getter={(v) => formatDate(v.publicReleaseDate)}
       />
       <Table.Sidebar>
         <SidebarContent />

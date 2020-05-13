@@ -9,11 +9,9 @@ import styles from './issues.module.css'
 import texts from 'texts/issues'
 import { Button, Card, Icon } from 'design'
 import NumericValue from 'components/numeric-value'
-import { valueOrDefault } from 'utils/helpers'
+import { valueOrDefault, formatDate } from 'utils/helpers'
 import { withGlobalStore } from 'store'
 import Table from 'components/table'
-
-const formatDate = (date) => new Intl.DateTimeFormat('en-GB').format(date)
 
 class TitleColumn extends Table.Column {
   render() {
@@ -61,10 +59,7 @@ const Issues = ({ className, store, tag: Tag = 'main', ...restProps }) => {
     store.issues.aggregation || {}
   const totalCount = errorsCount + warningsCount
   const harvesting = {
-    date:
-      lastHarvestingDate != null
-        ? formatDate(new Date(lastHarvestingDate))
-        : null,
+    date: lastHarvestingDate != null ? formatDate(lastHarvestingDate) : null,
     caption:
       globalsCount == null ? 'aborted due to error' : 'harvested successfully',
   }

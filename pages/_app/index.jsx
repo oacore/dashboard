@@ -1,9 +1,6 @@
 import React from 'react'
 import NextApp from 'next/app'
 import 'mobx-react-lite/batchingForReactDom'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import advancedFormat from 'dayjs/plugin/advancedFormat'
 import { withRouter } from 'next/router'
 import '@oacore/design/lib/index.css'
 import './global.css'
@@ -13,9 +10,6 @@ import { logPageView } from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 import { Sentry } from 'utils/sentry'
-
-dayjs.extend(relativeTime)
-dayjs.extend(advancedFormat)
 
 process.on('unhandledRejection', (err) => {
   Sentry.captureException(err)

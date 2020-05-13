@@ -4,13 +4,11 @@ import styles from '../styles.module.css'
 import OverviewCard from './overview-card'
 
 import NumericValue from 'components/numeric-value'
-import { valueOrDefault } from 'utils/helpers'
+import { valueOrDefault, formatDate } from 'utils/helpers'
 import LinkButton from 'components/link-button'
 
-const formatDate = (date) => new Intl.DateTimeFormat('en-GB').format(date)
-
 const HarvestingStatus = ({ date, errorCount, warningCount }) => {
-  const formattedDate = date != null ? formatDate(new Date(date)) : null
+  const formattedDate = date != null ? formatDate(date) : null
 
   const counter =
     errorCount > 0
