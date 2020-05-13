@@ -59,7 +59,7 @@
     The resumption token issued results in a failed request
 
     {{ url }}
-  resolution:
+  resolution: ''
   details: [url]
 
 -
@@ -300,7 +300,7 @@
 
     If the fulltext is intended to be embargoed or restricted in some way,
     no further action is required.
-  resolution:
+  resolution: ''
   details: [currentUrl]
 
 -
@@ -343,7 +343,7 @@
   description: |
     A network or server error occurred. We do not have any further information
     but we will attempt to download this document soon.
-  resolution:
+  resolution: ''
   details: []
 
 -
@@ -357,7 +357,7 @@
     performance of your repository. We will try again later.
 
     {{ currentUrl }}
-  resolution:
+  resolution: ''
   details: [currentUrl]
 
 -
