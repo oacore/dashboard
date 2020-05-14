@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useCallback } from 'react'
-import { Cell, Bar, BarChart, ReferenceLine, XAxis, Tooltip } from 'recharts'
+import {
+  Cell,
+  Bar,
+  BarChart,
+  ReferenceLine,
+  ResponsiveContainer,
+  XAxis,
+  Tooltip,
+} from 'recharts'
 import { classNames } from '@oacore/design/lib/utils'
 import { scaleSqrt } from 'd3-scale'
 
@@ -48,12 +56,15 @@ const withBuckets = (size, start = 0) => (buckets, value, index) => {
   return buckets
 }
 
-const toSum = (values) => values.reduce((total, x) => total + x, 0)
-
-const test = [1, 2, 3, 4, 5, 6, 7]
-
-// eslint-disable-next-line
-console.log(test.reduce(withBuckets(2), []).map(toSum))
+const toBucketSum = (values) =>
+  values.reduce(
+    ([xRange, yTotal], [x, y], index) => {
+      if (index <= 1) xRange.push(x)
+      else xRange[1] = x
+      return [xRange, yTotal + y]
+    },
+    [[], 0]
+  )
 
 const useBoundaryScrollHandler = (options = {}) => {
   const {
@@ -136,6 +147,7 @@ const TimeLagChart = React.forwardRef(
   ) => {
     const chartRef = useRef(ref)
     const scaledPoints = points.map(toSqrtScale(Math.max(...points.map(toY))))
+    const labels = scaledPoints.map(toX).filter((x) => (x[0] ?? x) % 30 === 0)
 
     const tooltip = <CustomTooltip data={points} />
 
@@ -153,38 +165,33 @@ const TimeLagChart = React.forwardRef(
         {...restProps}
       >
         {scaledPoints.length !== 0 && (
-          <BarChart
+          <ResponsiveContainer
             // calculating width based on bar size and the space between bars
-            width={scaledPoints.length * (barWidth + gutterWidth)}
+            minWidth={scaledPoints.length * (barWidth + gutterWidth)}
             height={height}
-            data={scaledPoints}
-            barCategoryGap={gutterWidth}
-            barSize={barWidth}
           >
-            <XAxis
-              dataKey="0"
-              tickLine={false}
-              ticks={scaledPoints.map(toX).filter((x) => x % 30 === 0)}
-            />
-            <Tooltip content={tooltip} />
-            <ReferenceLine y={0} className={styles.referenceLine} />
-            <Bar dataKey="1">
-              {scaledPoints.map(([x]) => (
-                <Cell
-                  id={x}
-                  className={classNames
-                    .use({
-                      'lag-bar': true,
-                      'compliant': x < COMPLIANCE_LIMIT,
-                      'start': x === 0,
-                    })
-                    .from(styles)
-                    .toString()}
-                  key={x}
-                />
-              ))}
-            </Bar>
-          </BarChart>
+            <BarChart data={scaledPoints} barCategoryGap={gutterWidth}>
+              <XAxis dataKey="0" tickLine={false} ticks={labels} />
+              <Tooltip content={tooltip} />
+              <ReferenceLine y={0} className={styles.referenceLine} />
+              <Bar dataKey="1">
+                {scaledPoints.map(([x]) => (
+                  <Cell
+                    id={x[0] ?? x}
+                    className={classNames
+                      .use({
+                        'lag-bar': true,
+                        'compliant': x <= COMPLIANCE_LIMIT,
+                        'start': x === 0,
+                      })
+                      .from(styles)
+                      .toString()}
+                    key={x[0] ?? x}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
         )}
       </div>
     )
@@ -196,6 +203,7 @@ const TimeLagChartController = React.memo(
     data,
     minX = Number.NEGATIVE_INFINITY,
     maxX = Number.POSITIVE_INFINITY,
+    aggregateBy = 10,
     ...restProps
   }) => {
     const points = data
@@ -203,7 +211,15 @@ const TimeLagChartController = React.memo(
       .filter(([x]) => x >= minX && x <= maxX)
       .reduce(withGaps, [])
 
-    return <TimeLagChart data={points} {...restProps} />
+    const zeroIndex = points.findIndex(([x]) => x === 0)
+    const aggregatedPoints =
+      aggregateBy > 1
+        ? points
+            .reduce(withBuckets(aggregateBy, zeroIndex), [])
+            .map(toBucketSum)
+        : points
+
+    return <TimeLagChart data={aggregatedPoints} {...restProps} />
   }
 )
 
