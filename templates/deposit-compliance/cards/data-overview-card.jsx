@@ -10,14 +10,14 @@ import NumericValue from 'components/numeric-value'
 const getComplianceLevelNumberProps = (complianceLevel) => {
   if (complianceLevel === null || complianceLevel > 0) {
     return {
-      value: valueOrDefault(complianceLevel, 'Loading...'),
+      value: valueOrDefault(100 - complianceLevel, 'Loading...'),
       append: '%',
       caption: 'non-compliant',
     }
   }
 
   return {
-    value: complianceLevel,
+    value: 100 - complianceLevel,
     append: '',
     caption: 'outputs are non-compliant',
   }
