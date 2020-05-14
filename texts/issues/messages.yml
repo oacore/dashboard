@@ -151,11 +151,11 @@
   type: ROBOTS_MAXIMUM_CRAWL_DELAY_EXCEEDED
   matches: []
   severity: ERROR
-  title: Long Crawl Delay
+  title: Long crawl delay
   description: |
-    A crawl delay has been set in your robots.txt file to
-    {{ currentCrawlDelay }}. It is longer than the maximum allowed rate of
-    {{ maximumCrawlDelayLimit }}.
+    In [`robots.txt` file]({{ link to robots }}),
+    a crawl delay has been set to {{ currentCrawlDelay }}.
+    It is longer than the maximum allowed rate of {{ maximumCrawlDelayLimit }}.
   resolution: |
     In order for CORE to harvest your repository in a reasonable amount of
     time, we recommend lowering your crawl delay
