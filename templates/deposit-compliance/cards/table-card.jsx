@@ -12,6 +12,7 @@ import ExportButton from 'components/export-button'
 import { PaymentRequiredNote } from 'modules/billing'
 import * as texts from 'texts/depositing'
 import { formatDate } from 'utils/helpers'
+import useDynamicTableData from 'components/table/hooks/use-dynamic-data'
 
 const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   const { Header, Body, Footer } = Table.Sidebar
@@ -83,15 +84,19 @@ const DepositDatesTable = ({
   datesUrl,
   publicReleaseDatesPages: pages,
 }) => {
+  const [tableProps, fetchData] = useDynamicTableData({
+    pages,
+    defaultSize: 15,
+  })
   const hasData = pages.data && pages.data.length > 0
   const hasError = !!pages.error
   return (
     <Table
-      pages={pages}
       className={styles.browseTable}
-      defaultSize={15}
+      fetchData={fetchData}
       excludeFooter={!hasData || hasError}
       searchable={!hasError}
+      {...tableProps}
     >
       <Table.Column
         id="oai"
