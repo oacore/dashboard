@@ -6,6 +6,7 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 
+import useDynamicTableData from 'components/table/hooks/use-dynamic-data'
 import { Card, Button, Icon } from 'design'
 import Table from 'components/table'
 import texts from 'texts/issues'
@@ -52,6 +53,8 @@ class RecordColumn extends Table.Column {
 }
 
 const TableCard = ({ totalCount, aggregation, pages }) => {
+  const [tableProps, fetchData] = useDynamicTableData({ pages })
+
   const filterOptions = [
     {
       id: '',
@@ -71,10 +74,11 @@ const TableCard = ({ totalCount, aggregation, pages }) => {
       <Table
         title="Browse issues"
         className={styles.issuesTable}
-        pages={pages}
         selectable
         options={filterOptions}
         selectLabel="Select issue type"
+        fetchData={fetchData}
+        {...tableProps}
       >
         <TitleColumn
           id="title"

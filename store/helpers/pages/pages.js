@@ -26,8 +26,6 @@ class Pages extends Store {
 
   isLastPageLoaded = false
 
-  isFirstPageLoaded = false
-
   async slice(from, to) {
     while (this.data.length < to && !this.isLastPageLoaded) {
       // eslint-disable-next-line no-await-in-loop
@@ -43,7 +41,6 @@ class Pages extends Store {
     this.columnOrder = columnOrder
     this.pageNumber = 0
     this.isLastPageLoaded = false
-    this.isFirstPageLoaded = false
     this.type = type
   }
 
@@ -65,7 +62,6 @@ class Pages extends Store {
       request
         .then(({ data, headers }) => {
           if (this.pageNumber === 0) {
-            this.isFirstPageLoaded = true
             const length = headers.get('Collection-Length')
             const number = Number.parseInt(length, 10)
             this.totalLength = number >= 0 ? number : null
@@ -83,7 +79,6 @@ class Pages extends Store {
         })
         .catch((error) => {
           // Resetting pointers to prevent pagination working
-          this.isFirstPageLoaded = true
           this.isLastPageLoaded = true
 
           // We use NotFoundError to detect the end of the data stream

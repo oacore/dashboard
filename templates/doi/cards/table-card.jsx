@@ -9,6 +9,7 @@ import { Card, Icon } from 'design'
 import Table from 'components/table'
 import { PaymentRequiredNote } from 'modules/billing'
 import * as texts from 'texts/doi'
+import useDynamicTableData from 'components/table/hooks/use-dynamic-data'
 
 const formatDOI = (entity) => {
   const { crossrefDoi, repoDoi: originDoi } = entity
@@ -26,6 +27,7 @@ const formatDOI = (entity) => {
 }
 
 const TableCard = ({ pages }) => {
+  const [tableProps, fetchData] = useDynamicTableData({ pages })
   const hasData = useObserver(() => pages.data && pages.data.length > 0)
   const hasError = useObserver(() => !!pages.error)
 
@@ -33,10 +35,11 @@ const TableCard = ({ pages }) => {
     <Card className={styles.doiTableCard} tag="section">
       <Card.Title tag="h2">Browse DOI records</Card.Title>
       <Table
-        pages={pages}
         className={styles.doiTable}
         excludeFooter={hasError || !hasData}
         searchable={!hasError}
+        fetchData={fetchData}
+        {...tableProps}
       >
         <Table.Column
           id="repoDoi"

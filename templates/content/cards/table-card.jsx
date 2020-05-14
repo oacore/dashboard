@@ -9,6 +9,7 @@ import { Card, DetailList, Icon } from 'design'
 import DocumentLink from 'components/document-link'
 import TakeDown from 'components/takedown'
 import Table from 'components/table'
+import useDynamicTableData from 'components/table/hooks/use-dynamic-data'
 
 const SidebarContent = observer(
   ({
@@ -77,39 +78,51 @@ const SidebarContent = observer(
   }
 )
 
-const TableCard = ({ works, changeVisibility, ...props }) => (
-  <Card {...props}>
-    <Table className={styles.contentTable} pages={works} searchable>
-      <Table.Column
-        id="oai"
-        display="OAI"
-        order="any"
-        getter={(v) => {
-          const { oai } = v.identifier
-          return oai.split(':').pop()
-        }}
-        className={styles.oaiColumn}
-      />
-      <Table.Column id="title" display="Title" className={styles.titleColumn} />
-      <Table.Column
-        id="authors"
-        display="Authors"
-        order="any"
-        className={styles.authorsColumn}
-        getter={(v) => v.author.map((a) => a.name).join(' ')}
-      />
-      <Table.Column
-        id="lastUpdate"
-        display="Last Update"
-        order="desc"
-        className={styles.lastUpdateColumn}
-        getter={(v) => formatDate(v.lastUpdate)}
-      />
-      <Table.Sidebar>
-        <SidebarContent changeVisibility={changeVisibility} />
-      </Table.Sidebar>
-    </Table>
-  </Card>
-)
+const TableCard = ({ works, changeVisibility, ...props }) => {
+  const [tableProps, fetchData] = useDynamicTableData({ pages: works })
+  return (
+    <Card {...props}>
+      <Table
+        className={styles.contentTable}
+        searchable
+        fetchData={fetchData}
+        {...tableProps}
+      >
+        <Table.Column
+          id="oai"
+          display="OAI"
+          order="any"
+          getter={(v) => {
+            const { oai } = v.identifier
+            return oai.split(':').pop()
+          }}
+          className={styles.oaiColumn}
+        />
+        <Table.Column
+          id="title"
+          display="Title"
+          className={styles.titleColumn}
+        />
+        <Table.Column
+          id="authors"
+          display="Authors"
+          order="any"
+          className={styles.authorsColumn}
+          getter={(v) => v.author.map((a) => a.name).join(' ')}
+        />
+        <Table.Column
+          id="lastUpdate"
+          display="Last Update"
+          order="desc"
+          className={styles.lastUpdateColumn}
+          getter={(v) => formatDate(v.lastUpdate)}
+        />
+        <Table.Sidebar>
+          <SidebarContent changeVisibility={changeVisibility} />
+        </Table.Sidebar>
+      </Table>
+    </Card>
+  )
+}
 
 export default TableCard
