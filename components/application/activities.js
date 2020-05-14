@@ -39,6 +39,11 @@ const config = new RouteConfig([
     icon: 'view-dashboard',
   },
   {
+    test: /\/issues/,
+    path: 'issues',
+    icon: 'alert-circle',
+  },
+  {
     test: /\/content/,
     path: 'content',
     icon: 'file-document',
