@@ -54,7 +54,7 @@
   severity: ERROR
   trigger: |
     When we are unable to download due to a failed resumptionToken
-  title: Resumption Token Failure
+  title: OAI-PMH resumption token failure
   description: |
     The resumption token issued results in a failed request
 
@@ -68,16 +68,19 @@
   trigger: |
     If the OAI-PMH harvest fails, and it is caused because of an incorrect
     OAI-PMH endpoint
-  title: Invalid OAI-PMH endpoint
+  title: OAI-PMH endpoint is not valid
   description: |
-    Double check that the provided OAI-PMH endpoint is valid and correct
-
-    Current Endpoint: {{ oaiPmhEndpoint }}
-  resolution: |
-    You may update the OAI-PMH endpoint using the Repository Dashboard
-
-    Maybe link to a document like this
-    https://kmi-ou.atlassian.net/servicedesk/customer/portal/2/topic/a5556556-aff6-4a2f-ab14-f48f9d557f53/article/4227093
+    Your current OAI-PMH endpoint ({{ oaiPmhEndpoint }}) is not valid.
+    If you changed the endpoint recently, please, update it in
+    [Settings](./settings#oai-pmh).
+  resolution:
+    -
+      caption: Open settings
+      url: ./settings#oai-pmh
+    -
+      # help desk about "What is an OAI-PMH endpoint?"
+      caption: Learn more # or "I'm having problems"
+      url: https://kmi-ou.atlassian.net/wiki/spaces/KB/pages/4227093/What+is+an+OAI-PMH+endpoint
   details: [oaiPmhEndpoint]
 
 
@@ -87,16 +90,24 @@
 # Affects metadata
 
 -
+  # this issue is EPrints specific only, we can safely software name here
   type: GENERIC_OAI
   severity: WARNING
   trigger: |
     When an OAI contains to default, unconfigure OAI Identifier
   title: Unconfigured OAI Identifier
   description: |
-    The OAI identifier is configured to use the default generic.eprints.org
-    prefix. We recommend updating this to your own website address
-  resolution: |
-    Review your EPrints documentation to update the OAI identifier
+    We recommend to update OAI identifier with your own website address instead
+    `generic.eprints.org` preffix.
+  resolution:
+    -
+      caption: Learn more ↗️
+      url: https://wiki.eprints.org/w/OAI
+    -
+      # I have no idea how to make this
+      # but this should be there
+      caption: Mark resolved
+
   details: [oai]
 
 -
@@ -125,7 +136,7 @@
   type: ROBOTS_URL_DISALLOWED
   matches: [ROBOTS]
   severity: ERROR
-  title: URL Blocked by robots.txt rule
+  title: URL blocked by `robots.txt` rule
   description: |
     A rule in robots.txt prevents us from downloaded content from
     {{ currentUrl }}
