@@ -33,34 +33,54 @@ const getDescriptionForDepositingCard = (complianceLevel) => {
   return chartDescription
 }
 
-const DepositingCard = ({ chartData, complianceLevel, dataProviderId }) => {
-  const { title, description, action } = texts.depositing
-  const loading = chartData == null && complianceLevel == null
-  const chartDescription = getDescriptionForDepositingCard(complianceLevel)
+const filterChartData = (data, complianceLevel = 0.75) => {
+  const dataLimit = 365 * 4
+  const complianceLimit = 90
 
-  const content =
-    chartData && chartData.length > 0 ? (
-      <>
-        <TimeLagChart className={styles.chart} data={chartData} height={200} />
-        <p>{chartDescription}</p>
-        <LinkButton
-          href="deposit-compliance"
-          dataProviderId={dataProviderId}
-          className={styles.linkButton}
-        >
-          {action}
-        </LinkButton>
-      </>
-    ) : (
-      <p>{description.missingData}</p>
-    )
+  const leftLimit =
+    complianceLimit + Math.floor(dataLimit * complianceLevel) * -1
+  const rightLimit = leftLimit + dataLimit
 
-  return (
-    <OverviewCard>
-      <Card.Title tag="h2">{title}</Card.Title>
-      {loading ? <Loading /> : content}
-    </OverviewCard>
+  return data.filter(
+    (item) =>
+      item.depositTimeLag >= leftLimit && item.depositTimeLag <= rightLimit
   )
 }
+
+const Content = ({ chartData, complianceLevel, dataProviderId }) =>
+  chartData.length === 0 ? (
+    <p>{texts.depositing.description.missingData}</p>
+  ) : (
+    <>
+      <TimeLagChart
+        className={styles.chart}
+        data={filterChartData(chartData, complianceLevel / 100)}
+        height={200}
+      />
+      <p>{getDescriptionForDepositingCard(complianceLevel)}</p>
+      <LinkButton
+        href="deposit-compliance"
+        dataProviderId={dataProviderId}
+        className={styles.linkButton}
+      >
+        {texts.depositing.action}
+      </LinkButton>
+    </>
+  )
+
+const DepositingCard = ({ chartData, complianceLevel, dataProviderId }) => (
+  <OverviewCard>
+    <Card.Title tag="h2">{texts.depositing.title}</Card.Title>
+    {chartData == null || complianceLevel == null ? (
+      <Loading />
+    ) : (
+      <Content
+        complianceLevel={complianceLevel}
+        chartData={chartData}
+        dataProviderId={dataProviderId}
+      />
+    )}
+  </OverviewCard>
+)
 
 export default DepositingCard
