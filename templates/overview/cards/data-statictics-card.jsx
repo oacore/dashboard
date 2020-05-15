@@ -62,7 +62,7 @@ const DataStatisticsCard = ({
         href="issues"
         dataProviderId={dataProviderId}
       >
-        View issues
+        Issues
       </LinkButton>
       <LinkButton
         className={styles.linkButton}
@@ -70,7 +70,7 @@ const DataStatisticsCard = ({
         href="content"
         dataProviderId={dataProviderId}
       >
-        Browse content
+        Content
       </LinkButton>
     </p>
   </OverviewCard>
