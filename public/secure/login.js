@@ -48,6 +48,7 @@ function login(event) {
     urlParams.get('identity_provider_url') || 'https://api.core.ac.uk/'
   const fallbackIDP =
     urlParams.get('fallback_idp') || 'https://dashboard.core.ac.uk/'
+  const redirectUrl = urlParams.get('continue') || '/'
 
   window.dispatchEvent(new Event('login-processing'))
   const formData = new FormData(event.target)
@@ -55,14 +56,14 @@ function login(event) {
   const loginUrl = new URL('login_check', identityProviderUrl)
   performLoginRequest(loginUrl, data).then(
     () => {
-      window.top.location.href = '/'
+      window.parent.location.replace(redirectUrl)
     },
     (error) => {
       window.dispatchEvent(new Event('login-finished'))
       if (error instanceof ForbiddenError) {
         const fallbackUrl = new URL('login_check', fallbackIDP)
         return performLoginRequest(fallbackUrl, data).finally(() => {
-          window.top.location.replace(fallbackIDP)
+          window.parent.location.replace(fallbackIDP)
         })
       }
 

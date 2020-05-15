@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
 import styles from './login.module.css'
 import Title from '../components/title'
@@ -8,15 +8,17 @@ import { IframeForm } from 'components/forms'
 
 const { IDP_URL } = process.env
 
-const Login = React.memo(({ router }) => {
-  const searchParams = {
+const Login = React.memo(() => {
+  const router = useRouter()
+  const searchParams = new URLSearchParams({
     reason: router.query.reason,
     identity_provider_url: IDP_URL,
-  }
+  })
 
-  const search = new URLSearchParams(searchParams).toString()
+  if (router.query.continue) searchParams.set('continue', router.query.continue)
 
-  const url = `/secure/login.html?${search}`
+  const url = `/secure/login.html?${searchParams}`
+
   return (
     <>
       <Title hidden>Login</Title>
@@ -29,4 +31,4 @@ const Login = React.memo(({ router }) => {
   )
 })
 
-export default withRouter(Login)
+export default Login
