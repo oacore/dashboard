@@ -81,7 +81,10 @@ const TableCard = ({ isExportDisabled, datesUrl, publicReleaseDatesPages }) => (
     className={styles.browseTableCard}
     tag="section"
   >
-    <Card.Title tag="h2">Browse deposit dates</Card.Title>
+    <Card.Title tag="h2">Deposit dates</Card.Title>
+    <Card.Description>
+      Lists deposit dates discovered from your repository
+    </Card.Description>
     <Table
       pages={publicReleaseDatesPages}
       className={styles.browseTable}
