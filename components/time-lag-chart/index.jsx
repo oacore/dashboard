@@ -170,7 +170,10 @@ const TimeLagChart = React.forwardRef(
             minWidth={scaledPoints.length * (barWidth + gutterWidth)}
             height={height}
           >
-            <BarChart data={scaledPoints} barCategoryGap={gutterWidth}>
+            <BarChart
+              data={scaledPoints}
+              barCategoryGap={Math.floor(gutterWidth / 2)}
+            >
               <XAxis dataKey="0" tickLine={false} ticks={labels} />
               <Tooltip content={tooltip} />
               <ReferenceLine y={0} className={styles.referenceLine} />
