@@ -50,7 +50,7 @@ class DepositDates extends Store {
   @computed
   get complianceLevel() {
     if (this.totalCount == null || this.nonCompliantCount == null) return null
-    if (this.totalCount === 0 || this.nonCompliantCount === 0) return 0
+    if (this.totalCount === 0) return 0
     const level =
       ((this.totalCount - this.nonCompliantCount) / this.totalCount) * 100
 
