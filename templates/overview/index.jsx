@@ -11,20 +11,6 @@ import {
 
 import Title from 'components/title'
 
-const filterChartData = (data, complianceLevel = 0.75) => {
-  const dataLimit = 365 * 4
-  const complianceLimit = 90
-
-  const leftLimit =
-    complianceLimit + Math.floor(dataLimit * complianceLevel) * -1
-  const rightLimit = leftLimit + dataLimit
-
-  return data.filter(
-    (item) =>
-      item.depositTimeLag >= leftLimit && item.depositTimeLag <= rightLimit
-  )
-}
-
 const OverviewTemplate = ({
   metadataCount,
   fullTextCount,
@@ -55,11 +41,7 @@ const OverviewTemplate = ({
       dataProviderId={dataProviderId}
     />
     <DepositingCard
-      chartData={
-        timeLagData &&
-        complianceLevel &&
-        filterChartData(timeLagData, complianceLevel / 100)
-      }
+      chartData={timeLagData}
       complianceLevel={complianceLevel}
       dataProviderId={dataProviderId}
     />
