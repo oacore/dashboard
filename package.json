@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@mdi/svg": "^5.2.45",
+    "@nivo/bar": "^0.61.1",
     "@oacore/design": "^0.1.2",
     "@sentry/browser": "^5.15.5",
     "@sentry/node": "^5.15.5",
