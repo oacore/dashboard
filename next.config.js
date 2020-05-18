@@ -61,7 +61,7 @@ const nextConfig = {
         ],
       },
       {
-        test: /\.md$/,
+        test: /\.(txt|md)$/,
         loader: ['json-loader', camelCaseLoader, 'yaml-frontmatter-loader'],
       },
       {
