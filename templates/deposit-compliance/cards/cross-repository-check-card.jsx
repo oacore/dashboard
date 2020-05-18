@@ -1,25 +1,29 @@
 import React from 'react'
 
+import { PaymentRequiredError } from 'store/errors'
 import { Card } from 'design'
-import * as texts from 'texts/depositing'
-import { formatNumber } from 'utils/helpers'
 import ExportButton from 'components/export-button'
 import Markdown from 'components/markdown'
+import { PaymentRequiredNote } from 'modules/billing'
+import * as texts from 'texts/depositing'
+import { formatNumber } from 'utils/helpers'
 
 const Content = ({ nonCompliantCount, differentCount, exportUrl }) => {
-  const template =
-    texts.crossRepositoryCheck[differentCount ? 'success' : 'failure']
+  const templateName = differentCount > 0 ? 'success' : 'failure'
+  const template = texts.crossRepositoryCheck[templateName]
   const text = template.render({
-    nonCompliantCount: formatNumber(nonCompliantCount),
+    nonCompliantCount: nonCompliantCount ? formatNumber(nonCompliantCount) : '',
     recordsInAnotherRepository: formatNumber(differentCount),
   })
 
   return (
     <>
       <Markdown>{text}</Markdown>
-      <ExportButton href={exportUrl}>
-        {texts.crossRepositoryCheck.download}
-      </ExportButton>
+      {differentCount > 0 && (
+        <ExportButton href={exportUrl}>
+          {texts.crossRepositoryCheck.download}
+        </ExportButton>
+      )}
     </>
   )
 }
@@ -41,6 +45,11 @@ const CrossRepositoryCheckCard = ({
       />
     ) : (
       'Loading data'
+    )}
+    {crossDepositLag?.error instanceof PaymentRequiredError && (
+      <PaymentRequiredNote
+        template={texts.crossRepositoryCheck.paymentRequired}
+      />
     )}
   </Card>
 )

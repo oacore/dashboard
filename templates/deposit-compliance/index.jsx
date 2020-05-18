@@ -35,6 +35,7 @@ const DepositComplianceTemplate = ({
     />
     <CrossRepositoryCheckRedirectCard
       possibleBonusCount={crossDepositLag?.possibleBonusCount}
+      error={crossDepositLag?.error}
     />
     <DepositTimeLagCard
       timeLagData={timeLagData}
