@@ -8,9 +8,10 @@ import DOI from './doi'
 import Issues from './issues'
 import { logTiming } from '../utils/analytics'
 import Organisation from './organisation'
-import { AccessError, AuthorizationError } from './errors'
+import { AccessError, AuthorizationError, PaymentRequiredError } from './errors'
 
 import apiRequest from 'api'
+import * as NetworkErrors from 'api/errors'
 
 class Root extends Store {
   options = {
@@ -24,6 +25,23 @@ class Root extends Store {
 
       try {
         return await apiRequest(url, options)
+      } catch (error) {
+        if (error instanceof NetworkErrors.UnauthorizedError) {
+          throw new AuthorizationError(
+            `Authorization required for accessing to ${url}`
+          )
+        }
+
+        if (error instanceof NetworkErrors.ForbiddenError)
+          throw new AccessError(`${this.user} does not have access to ${url}`)
+
+        if (error instanceof NetworkErrors.PaymentRequiredError) {
+          throw new PaymentRequiredError(
+            `Payment required for accessing to ${url}`
+          )
+        }
+
+        throw error
       } finally {
         this.requestsInProgress -= 1
         const endpoint = `${options?.method || 'GET'} ${this.baseUrl}${url}`
@@ -113,9 +131,8 @@ class Root extends Store {
     // TODO: Should be moved or ideally removed
     const dataProvider = this.dataProviders.find(hasTargetId)
     if (dataProvider == null) {
-      const userStr = `User#${this.user.id}`
       const dpStr = `DataProvider#${id}`
-      throw new AccessError(`${userStr} does not have access to the ${dpStr}`)
+      throw new AccessError(`${this.user} does not have access to the ${dpStr}`)
     }
 
     this.dataProvider = dataProvider
