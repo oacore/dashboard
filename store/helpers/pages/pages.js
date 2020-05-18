@@ -3,12 +3,15 @@ import { observable } from 'mobx'
 import getOrder from '../order'
 import invalidatePreviousRequests from '../invalidatePreviousRequests'
 import Store from '../../store'
+import { PaymentRequiredError } from '../../errors'
 
 import { NotFoundError } from 'api/errors'
 
 const PAGE_SIZE = 100
 
 class Pages extends Store {
+  @observable error = null
+
   @observable data = []
 
   searchTerm = ''
@@ -59,8 +62,8 @@ class Pages extends Store {
 
     const request = this.request(this.url, { searchParams: params, signal })
     return new Promise((resolve, reject) =>
-      request.then(
-        ({ data, headers }) => {
+      request
+        .then(({ data, headers }) => {
           if (this.pageNumber === 0) {
             this.isFirstPageLoaded = true
             const length = headers.get('Collection-Length')
@@ -77,16 +80,32 @@ class Pages extends Store {
           this.isLastPageLoaded =
             this.isLastPageLoaded || transformedData.length === 0
           resolve(transformedData)
-        },
-        (reason) => {
-          if (reason instanceof NotFoundError) {
-            if (this.pageNumber === 0) this.isFirstPageLoaded = true
-            this.isLastPageLoaded = true
-            this.pageNumber += 1
+        })
+        .catch((error) => {
+          // Storing the error to propagate messages to the UI
+          this.error = error
+          this.data = error.data
+
+          // Resetting pointers to prevent pagination working
+          this.isFirstPageLoaded = true
+          this.isLastPageLoaded = true
+
+          if (error instanceof NotFoundError) {
+            this.data = []
             resolve()
-          } else reject(reason)
-        }
-      )
+          } else if (error instanceof PaymentRequiredError) {
+            // Stripping data to 5 elements only if there are more
+            // These elements may be used as a preview
+            this.data = this.data.slice(0, 5)
+
+            // Cleaning the error up if there is no data.
+            // The user would be frustrated that we are asking to pay providing
+            // no data instead
+            if (this.data.length === 0) this.error = null
+
+            resolve()
+          } else reject(error)
+        })
     )
   }
 }
