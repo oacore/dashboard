@@ -1,4 +1,4 @@
-import { NetworkError } from './errors'
+import NetworkError from './errors'
 
 const { API_URL } = process.env
 
