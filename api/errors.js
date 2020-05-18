@@ -1,5 +1,6 @@
-// eslint-disable-next-line max-classes-per-file
-export class NetworkError extends Error {
+/* eslint-disable max-classes-per-file */
+
+class NetworkError extends Error {
   constructor(message, response) {
     super(message)
     this.name = this.constructor.name
@@ -15,7 +16,7 @@ export class BadRequestError extends NetworkError {}
 export class InternalServerError extends NetworkError {}
 export class NotAcceptableError extends NetworkError {}
 
-NetworkError.getErrorFromStatusCode = (statusCode) => {
+export const fromStatusCode = (statusCode) => {
   if (statusCode === 401) return UnauthorizedError
   if (statusCode === 402) return PaymentRequiredError
   if (statusCode === 403) return ForbiddenError
@@ -25,5 +26,7 @@ NetworkError.getErrorFromStatusCode = (statusCode) => {
   if (statusCode >= 500) return InternalServerError
   return NetworkError
 }
+
+NetworkError.getErrorFromStatusCode = fromStatusCode
 
 export default NetworkError
