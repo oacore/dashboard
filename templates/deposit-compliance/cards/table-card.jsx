@@ -1,14 +1,17 @@
 import React from 'react'
+import { useObserver } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 
-import { formatDate } from 'utils/helpers'
+import { PaymentRequiredError } from 'store/errors'
 import { Card, Icon } from 'design'
+import DocumentLink from 'components/document-link'
 import Table from 'components/table'
 import ExportButton from 'components/export-button'
+import { PaymentRequiredNote } from 'modules/billing'
 import * as texts from 'texts/depositing'
-import DocumentLink from 'components/document-link'
+import { formatDate } from 'utils/helpers'
 
 const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   const { Header, Body, Footer } = Table.Sidebar
@@ -75,21 +78,20 @@ class PublicationDateColumn extends Table.Column {
   }
 }
 
-const TableCard = ({ isExportDisabled, datesUrl, publicReleaseDatesPages }) => (
-  <Card
-    id="deposit-dates-card"
-    className={styles.browseTableCard}
-    tag="section"
-  >
-    <Card.Title tag="h2">Deposit dates</Card.Title>
-    <Card.Description>
-      Lists deposit dates discovered from your repository
-    </Card.Description>
+const DepositDatesTable = ({
+  isExportDisabled,
+  datesUrl,
+  publicReleaseDatesPages: pages,
+}) => {
+  const hasData = pages.data && pages.data.length > 0
+  const hasError = !!pages.error
+  return (
     <Table
-      pages={publicReleaseDatesPages}
+      pages={pages}
       className={styles.browseTable}
       defaultSize={15}
-      searchable
+      excludeFooter={!hasData || hasError}
+      searchable={!hasError}
     >
       <Table.Column
         id="oai"
@@ -133,7 +135,39 @@ const TableCard = ({ isExportDisabled, datesUrl, publicReleaseDatesPages }) => (
         </ExportButton>
       </Table.Action>
     </Table>
-  </Card>
-)
+  )
+}
+
+const TableCard = ({
+  isExportDisabled,
+  datesUrl,
+  publicReleaseDatesPages: pages,
+}) => {
+  const hasData = useObserver(() => pages.data && pages.data.length > 0)
+  const error = useObserver(() => pages.error)
+
+  return (
+    <Card
+      id="deposit-dates-card"
+      className={styles.browseTableCard}
+      tag="section"
+    >
+      <Card.Title tag="h2">Deposit dates</Card.Title>
+      <Card.Description>
+        Lists deposit dates discovered from your repository
+      </Card.Description>
+      <DepositDatesTable
+        publicReleaseDatesPages={pages}
+        isExportDisabled={isExportDisabled}
+        datesUrl={datesUrl}
+      />
+      {error instanceof PaymentRequiredError && (
+        <Card.Footer className={classNames.use(hasData && styles.backdrop)}>
+          <PaymentRequiredNote template={texts.paymentRequired} />
+        </Card.Footer>
+      )}
+    </Card>
+  )
+}
 
 export default TableCard
