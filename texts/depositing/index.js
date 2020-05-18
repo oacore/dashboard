@@ -1,4 +1,5 @@
 import Template from '../template'
+import { paymentRequired } from '../billing'
 import overview from './overview.yml'
 import sourceChart from './chart.md'
 import crossRepositoryCheck from './cross-repository-check'
@@ -48,6 +49,7 @@ export default {
   exporting,
   noData,
   publicationDates,
+  paymentRequired,
 }
 export {
   overview,
@@ -58,4 +60,5 @@ export {
   exporting,
   noData,
   publicationDates,
+  paymentRequired,
 }

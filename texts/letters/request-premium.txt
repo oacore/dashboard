@@ -1,0 +1,9 @@
+---
+subject: CORE Repository Dashboard Premium request for {{ organisationName }} (ID {{ organisationId }})
+---
+Hello,
+
+I would like to request a premium CORE Repository Dashboard account for {{ organisationName }} (ID {{ organisationId }}).
+
+Sincerely,
+{{ userName }}
