@@ -1,6 +1,7 @@
 export * from '@oacore/design/lib'
 
 export AppBarToggle from './app-bar/toggle'
+export Card from './card'
 export Drawer from './drawer'
 export Logo from './logo'
 export Numeral from './numeral'
