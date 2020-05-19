@@ -120,6 +120,7 @@ class Root extends Store {
 
     const organisationUrl = `/organisations/${this.user.organisationId}`
     this.organisation = new Organisation(organisationUrl, this.options)
+    this.organisation.init()
 
     this.changeDataProvider(dataProviderId)
   }
