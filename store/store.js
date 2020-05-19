@@ -8,7 +8,10 @@ class Store {
   constructor(url, options) {
     this.url = url
     this.options = { ...this.constructor.defaultOptions, ...options }
-    this.request = this.options.request
+  }
+
+  request(...args) {
+    return this.options.request(...args)
   }
 }
 
