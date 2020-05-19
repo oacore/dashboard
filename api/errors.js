@@ -17,7 +17,7 @@ export class NotAcceptableError extends NetworkError {}
 
 NetworkError.getErrorFromStatusCode = (statusCode) => {
   if (statusCode === 401) return UnauthorizedError
-  if (statusCode === 401) return PaymentRequiredError
+  if (statusCode === 402) return PaymentRequiredError
   if (statusCode === 403) return ForbiddenError
   if (statusCode === 404) return NotFoundError
   if (statusCode === 406) return NotAcceptableError
