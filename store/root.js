@@ -69,6 +69,8 @@ class Root extends Store {
     this.options.request = this.options.request.bind(this)
   }
 
+  contactUrl = `${process.env.API_URL}/contact`
+
   @observable user = null
 
   @observable organisation = null
@@ -197,6 +199,16 @@ class Root extends Store {
     this.updateDataProvider({ institution })
 
     // TODO: Should be a method without cross-call to another method
+  }
+
+  async sendContactRequest(data) {
+    try {
+      await this.request(this.contactUrl, { method: 'POST', body: data })
+      return true
+    } catch (anyError) {
+      if (process.env.NODE_ENV !== 'production') console.error(anyError)
+      return false
+    }
   }
 }
 
