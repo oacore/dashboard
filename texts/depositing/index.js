@@ -1,11 +1,11 @@
+import Template from '../template'
 import overview from './overview.yml'
 import sourceChart from './chart.md'
-import sourceCrossRepositoryCheck from './cross-repository-check.md'
+import crossRepositoryCheck from './cross-repository-check'
 import sourceDataOverview from './data-overview.md'
 import complianceNotice from './compliance-notice.md'
 import noDataNotice from './no-data.md'
 import exporting from './export.yml'
-import Template from '../template'
 import publicationDates from './publication-dates.yml'
 
 const templateProps = [
@@ -38,11 +38,6 @@ const noData = {
 const chart = {
   ...sourceChart.attributes,
   body: sourceChart.body,
-}
-
-const crossRepositoryCheck = {
-  ...sourceCrossRepositoryCheck.attributes,
-  body: new Template(sourceCrossRepositoryCheck.body),
 }
 
 export default {
