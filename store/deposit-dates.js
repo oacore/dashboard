@@ -79,6 +79,16 @@ class DepositDates extends Store {
     const { status } = response
     const data = status === 200 || status === 0 ? response.data : {}
 
+    // TODO: Remove the following workaround when we have a data table
+    // Waiting for 2 requests to disable loading once having both data
+    // and error, it prevents user confusion if the data changes
+    data.error = await this.request(this.crossDepositLagCsvUrL, {
+      method: 'HEAD',
+    }).then(
+      () => null, // return no error if data retrieving is successful
+      (error) => error // pass the error above
+    )
+
     this.crossDepositLag = data
   }
 
