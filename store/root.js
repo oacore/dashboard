@@ -6,7 +6,6 @@ import DepositDates from './deposit-dates'
 import Works from './works'
 import DOI from './doi'
 import Issues from './issues'
-import { logTiming } from '../utils/analytics'
 import Organisation from './organisation'
 import { AccessError, AuthorizationError, PaymentRequiredError } from './errors'
 
@@ -19,7 +18,6 @@ class Root extends Store {
 
     request(url, options) {
       this.requestsInProgress += 1
-      const startTime = Date.now()
 
       return apiRequest(url, options)
         .catch((error) => {
@@ -42,15 +40,6 @@ class Root extends Store {
         })
         .finally(() => {
           this.requestsInProgress -= 1
-        })
-        .finally(() => {
-          const endpoint = `${options?.method || 'GET'} ${this.baseUrl}${url}`
-          logTiming({
-            category: 'API calls',
-            value: Date.now() - startTime,
-            variable: endpoint.replace(/\d+/g, '<id>'),
-            label: endpoint,
-          })
         })
     },
   }

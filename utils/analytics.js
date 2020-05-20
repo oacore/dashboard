@@ -16,12 +16,6 @@ export const logPageView = (url = null) => {
   ReactGA.pageview(url || window.location.pathname)
 }
 
-export const logTiming = (options) => {
-  if (!isGAInitialized) return
-  ReactGA.timing(options)
-}
-
 export default {
   logPageView,
-  logTiming,
 }
