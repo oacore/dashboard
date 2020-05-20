@@ -2,6 +2,7 @@ import { action, computed, observable } from 'mobx'
 
 import { Pages } from './helpers/pages'
 import Store from './store'
+import { PaymentRequiredError } from './errors'
 
 import { NotFoundError } from 'api/errors'
 
@@ -78,6 +79,21 @@ class DepositDates extends Store {
     // Ignore body if got 202 Accepted
     const { status } = response
     const data = status === 200 || status === 0 ? response.data : {}
+
+    // TODO: Remove the following workaround when we have a data table
+    // Waiting for 2 requests to disable loading once having both data
+    // and error, it prevents user confusion if the data changes
+    data.error = await this.request(this.crossDepositLagCsvUrl, {
+      method: 'HEAD',
+    }).then(
+      () => null, // return no error if data retrieving is successful
+      (error) => error // pass the error above
+    )
+
+    // Clean the error up if we have no data to export
+    // This prevents showing the message when there is nothing to sell
+    if (data.error instanceof PaymentRequiredError && !data.possibleBonusCount)
+      data.error = null
 
     this.crossDepositLag = data
   }
