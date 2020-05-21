@@ -72,7 +72,13 @@ class DepositDates extends Store {
 
   @action
   async retrieveCrossDepositLag() {
-    const { data } = await this.request(this.crossDepositLagUrl)
+    const response = await this.request(this.crossDepositLagUrl)
+
+    // Use data only if status is 200 OK
+    // Ignore body if got 202 Accepted
+    const { status } = response
+    const data = status === 200 || status === 0 ? response.data : {}
+
     this.crossDepositLag = data
   }
 
