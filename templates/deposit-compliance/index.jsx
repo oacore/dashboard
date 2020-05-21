@@ -18,7 +18,7 @@ const DepositComplianceTemplate = ({
   datesUrl,
   publicReleaseDatesPages,
   publicationDatesValidate,
-  crossDepositLagCsvUrL,
+  crossDepositLagCsvUrl,
   complianceLevel,
   totalCount,
   timeLagData,
@@ -42,7 +42,7 @@ const DepositComplianceTemplate = ({
     />
     <CrossRepositoryCheckCard
       crossDepositLag={crossDepositLag}
-      crossDepositLagCsvUrL={crossDepositLagCsvUrL}
+      crossDepositLagCsvUrl={crossDepositLagCsvUrl}
     />
 
     <PublicationsDatesCard

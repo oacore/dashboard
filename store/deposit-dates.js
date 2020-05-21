@@ -27,8 +27,8 @@ class DepositDates extends Store {
     this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
-    this.crossDepositLagUrL = `${baseUrl}/cross-deposit-lag`
-    this.crossDepositLagCsvUrL = `${API_URL}${this.crossDepositLagUrL}?accept=text/csv`
+    this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag`
+    this.crossDepositLagCsvUrl = `${API_URL}${this.crossDepositLagUrl}?accept=text/csv`
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate`
 
     this.retrieve()
@@ -72,7 +72,7 @@ class DepositDates extends Store {
 
   @action
   async retrieveCrossDepositLag() {
-    const response = await this.request(this.crossDepositLagUrL)
+    const response = await this.request(this.crossDepositLagUrl)
 
     // Use data only if status is 200 OK
     // Ignore body if got 202 Accepted
