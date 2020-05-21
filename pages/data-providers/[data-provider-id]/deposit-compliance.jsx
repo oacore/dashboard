@@ -9,7 +9,7 @@ const DepositCompliance = ({ store, ...restProps }) => (
     datesUrl={store.depositDates.datesUrl}
     publicReleaseDatesPages={store.depositDates.publicReleaseDates}
     publicationDatesValidate={store.depositDates.publicationDatesValidate}
-    crossDepositLagCsvUrL={store.depositDates.crossDepositLagCsvUrL}
+    crossDepositLagCsvUrl={store.depositDates.crossDepositLagCsvUrl}
     complianceLevel={store.depositDates.complianceLevel}
     totalCount={store.depositDates.totalCount}
     timeLagData={store.depositDates.timeLagData}

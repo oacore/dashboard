@@ -26,7 +26,7 @@ const Content = ({ nonCompliantCount, differentCount, exportUrl }) => {
 
 const CrossRepositoryCheckCard = ({
   crossDepositLag,
-  crossDepositLagCsvUrL: crossDepositLagCsvUrl,
+  crossDepositLagCsvUrl,
 }) => (
   <Card id="cross-repository-check" tag="section">
     <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
