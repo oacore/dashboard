@@ -89,12 +89,9 @@ class DepositDates extends Store {
   }
 
   retrieve() {
-    // 1. Doing it sequentially because of the API suffering
-    //    from heavy concurrent requests
-    // 2. Chaining Promises using finally() to handle unexpected rejections
-    return this.retrieveDepositTimeLag()
-      .finally(() => this.retrievePublicationDatesValidate())
-      .finally(() => this.retrieveCrossDepositLag())
+    this.retrieveDepositTimeLag()
+    this.retrievePublicationDatesValidate()
+    this.retrieveCrossDepositLag()
   }
 }
 
