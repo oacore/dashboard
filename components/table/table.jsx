@@ -192,6 +192,7 @@ class InfiniteTable extends React.PureComponent {
       defaultSize,
       options,
       selectLabel,
+      excludeFooter,
       ...restProps
     } = this.props
     const {
@@ -298,30 +299,32 @@ class InfiniteTable extends React.PureComponent {
                   })}
                 {data && data.length === 0 && <NoDataFoundRow />}
               </Table.Body>
-              <tfoot className={styles.footer}>
-                <Table.Row>
-                  <Table.Cell colSpan={1000}>
-                    <div className={styles.footerLeft}>{action}</div>
-                    <div className={styles.footerRight}>
-                      {isFirstPageLoaded && (
-                        <Pagination
-                          size={size}
-                          total={totalLength}
-                          isAllLoaded={isLastPageLoaded}
-                        />
-                      )}
-                      {!isLastPageLoaded && (
-                        <Button
-                          className={styles.loadNextPage}
-                          onClick={this.loadNextPage}
-                        >
-                          Show more
-                        </Button>
-                      )}
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
-              </tfoot>
+              {!excludeFooter && (
+                <tfoot className={styles.footer}>
+                  <Table.Row>
+                    <Table.Cell colSpan={1000}>
+                      <div className={styles.footerLeft}>{action}</div>
+                      <div className={styles.footerRight}>
+                        {isFirstPageLoaded && (
+                          <Pagination
+                            size={size}
+                            total={totalLength}
+                            isAllLoaded={isLastPageLoaded}
+                          />
+                        )}
+                        {!isLastPageLoaded && (
+                          <Button
+                            className={styles.loadNextPage}
+                            onClick={this.loadNextPage}
+                          >
+                            Show more
+                          </Button>
+                        )}
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                </tfoot>
+              )}
             </Table>
           </div>
         </div>
