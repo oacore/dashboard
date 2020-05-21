@@ -4,29 +4,44 @@ import { Card } from 'design'
 import * as texts from 'texts/depositing'
 import { formatNumber } from 'utils/helpers'
 import ExportButton from 'components/export-button'
+import Markdown from 'components/markdown'
+
+const Content = ({ nonCompliantCount, differentCount, exportUrl }) => {
+  const template =
+    texts.crossRepositoryCheck[differentCount ? 'success' : 'failure']
+  const text = template.render({
+    nonCompliantCount: formatNumber(nonCompliantCount),
+    recordsInAnotherRepository: formatNumber(differentCount),
+  })
+
+  return (
+    <>
+      <Markdown>{text}</Markdown>
+      <ExportButton href={exportUrl}>
+        {texts.crossRepositoryCheck.download}
+      </ExportButton>
+    </>
+  )
+}
 
 const CrossRepositoryCheckCard = ({
   crossDepositLag,
-  crossDepositLagCsvUrL,
+  crossDepositLagCsvUrL: crossDepositLagCsvUrl,
 }) => (
   <Card id="cross-repository-check" tag="section">
     <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
     <Card.Description>
       {texts.crossRepositoryCheck.description}
     </Card.Description>
-    <p>
-      {crossDepositLag
-        ? texts.crossRepositoryCheck.body.render({
-            nonCompliantCount: formatNumber(crossDepositLag.nonCompliantCount),
-            recordsInAnotherRepository: formatNumber(
-              crossDepositLag.possibleBonusCount
-            ),
-          })
-        : 'Loading data'}
-    </p>
-    <ExportButton href={crossDepositLagCsvUrL}>
-      {texts.crossRepositoryCheck.download}
-    </ExportButton>
+    {crossDepositLag ? (
+      <Content
+        nonCompliantCount={crossDepositLag.nonCompliantCount}
+        differentCount={crossDepositLag.possibleBonusCount}
+        exportUrl={crossDepositLagCsvUrl}
+      />
+    ) : (
+      'Loading data'
+    )}
   </Card>
 )
 
