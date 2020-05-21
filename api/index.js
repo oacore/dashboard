@@ -65,13 +65,13 @@ const processStatus = (response) => {
 }
 
 const processBody = (response, { method }) => {
-  const { headers } = response
+  const { status, headers } = response
   const type = headers.get('Content-Type')
 
   return (/application\/([\w.-]\+)?json/g.test(type) && method !== 'HEAD'
     ? response.json()
     : response.blob()
-  ).then((data) => ({ data, type, headers }))
+  ).then((data) => ({ data, type, status, headers }))
 }
 
 const executeRequest = ({ url, ...options }) =>
