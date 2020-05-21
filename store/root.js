@@ -12,35 +12,53 @@ import { AccessError, AuthorizationError, PaymentRequiredError } from './errors'
 import apiRequest from 'api'
 import * as NetworkErrors from 'api/errors'
 
+const REPEADTED_REQUEST_TIMEOUT = 30000
+const REPEADTED_REQUEST_LIMIT = 5
+
 class Root extends Store {
   static defaultOptions = {
     allowAnonymousAccess: false,
 
     request(url, options) {
-      this.requestsInProgress += 1
+      let attemptCount = 0
 
-      return apiRequest(url, options)
-        .catch((error) => {
-          if (error instanceof NetworkErrors.UnauthorizedError) {
-            throw new AuthorizationError(
-              `Authorization required for accessing to ${url}`
-            )
-          }
+      const requestContinuously = () => {
+        attemptCount += 1
+        if (attemptCount < 2) this.requestsInProgress += 1
 
-          if (error instanceof NetworkErrors.PaymentRequiredError) {
-            throw new PaymentRequiredError(
-              `Payment required for accessing to ${url}`
-            )
-          }
+        return apiRequest(url, options)
+          .finally(() => {
+            if (attemptCount < 2) this.requestsInProgress -= 1
+          })
+          .then((response) =>
+            response.status === 202 && attemptCount < REPEADTED_REQUEST_LIMIT
+              ? new Promise((resolve, reject) => {
+                  const repeatedRequest = () =>
+                    requestContinuously(url, options).then(resolve, reject)
+                  setTimeout(repeatedRequest, REPEADTED_REQUEST_TIMEOUT)
+                })
+              : response
+          )
+      }
 
-          if (error instanceof NetworkErrors.ForbiddenError)
-            throw new AccessError(`${this.user} does not have access to ${url}`)
+      return requestContinuously().catch((error) => {
+        if (error instanceof NetworkErrors.UnauthorizedError) {
+          throw new AuthorizationError(
+            `Authorization required for accessing to ${url}`
+          )
+        }
 
-          throw error
-        })
-        .finally(() => {
-          this.requestsInProgress -= 1
-        })
+        if (error instanceof NetworkErrors.PaymentRequiredError) {
+          throw new PaymentRequiredError(
+            `Payment required for accessing to ${url}`
+          )
+        }
+
+        if (error instanceof NetworkErrors.ForbiddenError)
+          throw new AccessError(`${this.user} does not have access to ${url}`)
+
+        throw error
+      })
     },
   }
 
