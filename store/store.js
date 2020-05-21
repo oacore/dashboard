@@ -11,7 +11,7 @@ class Store {
   }
 
   request(...args) {
-    return this.options.request(...args)
+    return this.options.request.call(this, ...args)
   }
 }
 
