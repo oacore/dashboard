@@ -44,6 +44,11 @@ class Root extends Store {
     },
   }
 
+  constructor(options) {
+    super(null, options)
+    this.options.request = this.options.request.bind(this)
+  }
+
   @observable user = null
 
   @observable organisation = null
