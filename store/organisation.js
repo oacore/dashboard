@@ -15,6 +15,8 @@ class Organisation extends Store {
     } catch (error) {
       if (error instanceof NotAcceptableError)
         return { message: 'Email for this organisation is already registered.' }
+
+      return { message: 'Something went wrong. Please try again later.' }
     }
 
     return { message: 'Invitation has been sent.' }
