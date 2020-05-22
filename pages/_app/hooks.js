@@ -3,7 +3,11 @@ import { join } from 'path'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-const useRedirect = (routePath, actualPath = routePath) => {
+const useRedirect = (
+  routePath,
+  actualPath = routePath,
+  { replace = true } = {}
+) => {
   const router = useRouter()
 
   useEffect(() => {
@@ -12,7 +16,8 @@ const useRedirect = (routePath, actualPath = routePath) => {
 
     const pathname = join(router.pathname, routePath)
     const asPath = join(router.asPath, actualPath)
-    router.push(pathname, asPath)
+    if (replace) router.replace(pathname, asPath)
+    else router.push(pathname, asPath)
   }, [])
 }
 
