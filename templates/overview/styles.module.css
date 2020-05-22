@@ -60,3 +60,70 @@
   justify-content: center;
   height: 100%;
 }
+
+.rioxx-chart {
+  margin-top: var(--spacer);
+}
+
+.row {
+  height: 2rem;
+  line-height: 1;
+  background: var(--gray-300);
+  border-radius: var(--component-corner-radius, 2px);
+}
+
+.bar {
+  display: inline-block;
+  min-width: 2px;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+  background: var(--primary);
+  border-radius: var(--component-corner-radius, 2px);
+}
+
+.label {
+  display: inline-block;
+  padding: 0 0.5rem;
+  color: var(--gray-800);
+  white-space: nowrap;
+
+  &.left {
+    color: var(--white);
+    transform: translateX(-100%);
+  }
+}
+
+.chart-title {
+  margin-bottom: 0.5rem;
+}
+
+.issues-list {
+  padding: 0;
+  list-style: none;
+
+  & > li {
+    display: block;
+    padding-left: 2rem;
+
+    &::before {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.625rem;
+      margin-left: -2.125rem;
+      vertical-align: middle;
+      content: '';
+      background: var(--danger-dark);
+      border-radius: 50%;
+      mask: url('/design/icons/close-circle-outline.svg');
+    }
+  }
+
+  & code {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bolder;
+    color: var(--danger-dark);
+  }
+}
