@@ -6,6 +6,7 @@ const icons = [
   'calendar-check',
   'check-circle',
   'close',
+  'close-circle-outline',
   'cog',
   'dots-vertical',
   'download',

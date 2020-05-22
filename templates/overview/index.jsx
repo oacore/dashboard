@@ -3,6 +3,7 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 import { DataStatisticsCard, DoiCard, DepositingCard, IrusCard } from './cards'
+import RioxxCard from './cards/rioxx-card'
 
 import Title from 'components/title'
 
@@ -19,6 +20,7 @@ const OverviewTemplate = ({
   errorCount,
   warningCount,
   viewStatistics,
+  rioxxCompliance,
   className,
   tag: Tag = 'main',
   ...restProps
@@ -47,6 +49,7 @@ const OverviewTemplate = ({
       enrichmentSize={doiEnrichmentSize}
       dataProviderId={dataProviderId}
     />
+    {rioxxCompliance != null && <RioxxCard compliance={rioxxCompliance} />}
     {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
   </Tag>
 )
