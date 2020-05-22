@@ -1,6 +1,5 @@
 const path = require('path')
 
-const withImages = require('next-images')
 const withSourceMaps = require('@zeit/next-source-maps')
 
 const camelCaseLoader = path.join(__dirname, 'webpack/camelcase-loader.js')
@@ -89,4 +88,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withSourceMaps(withImages(nextConfig))
+module.exports = withSourceMaps(nextConfig)
