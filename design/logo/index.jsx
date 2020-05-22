@@ -1,14 +1,13 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import logoPath from './core-symbol.svg'
 import styles from './index.module.css'
 
 const Logo = React.memo(
   ({
     children = 'Dashboard',
     className,
-    src = logoPath,
+    src = '/core-symbol.svg',
     alt = 'CORE',
     tag: Tag = 'span',
     ...restProps
