@@ -49,9 +49,11 @@ class Root extends Store {
         }
 
         if (error instanceof NetworkErrors.PaymentRequiredError) {
-          throw new PaymentRequiredError(
+          const targetError = new PaymentRequiredError(
             `Payment required for accessing to ${url}`
           )
+          targetError.data = error.data
+          throw targetError
         }
 
         if (error instanceof NetworkErrors.ForbiddenError)
