@@ -74,10 +74,21 @@ const processBody = (response, { method }) => {
   ).then((data) => ({ data, type, status, headers }))
 }
 
+const processError = (error, details) => {
+  const { response } = error
+  return processBody(response, details).then((body) => {
+    Object.assign(error, body)
+    throw error
+  })
+}
+
 const executeRequest = ({ url, ...options }) =>
   fetch(url, options)
     .then(processStatus)
-    .then((response) => processBody(response, { ...options }))
+    .then(
+      (response) => processBody(response, { ...options }),
+      (error) => processError(error, { ...options })
+    )
 
 const performRequest = (url, options) => {
   const request = prepareRequest({ url, ...options })
