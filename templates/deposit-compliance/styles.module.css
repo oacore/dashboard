@@ -95,10 +95,6 @@
   background: var(--success-dark);
 }
 
-.details-button {
-  margin-right: 1rem;
-}
-
 .matching-icon {
   width: 1rem;
   height: 1rem;
