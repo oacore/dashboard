@@ -1,8 +1,11 @@
 import { createContext } from 'react'
 
-const LayoutContext = createContext({
-  sidebarExpanded: false,
-})
+const LayoutContext = createContext([
+  {
+    sidebarId: 'sidebar',
+    sidebarExpanded: false,
+  },
+])
 
 const { Provider, Consumer } = LayoutContext
 

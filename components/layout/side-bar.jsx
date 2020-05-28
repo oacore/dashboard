@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useCallback } from 'react'
 import { AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
-import LayoutContext from './context'
+import useSidebar from './use-sidebar'
 import styles from './styles.module.css'
 
 import { Logo, Icon } from 'design'
@@ -15,24 +15,24 @@ const SideBar = ({
   onClick,
   ...restProps
 }) => {
-  const [state, dispatch] = useContext(LayoutContext)
+  const sidebar = useSidebar()
 
-  const close = (event) => {
+  const handleControlClick = useCallback((event) => {
     const controlElementSelector = 'a, button, [type=submit], [type=button]'
     const controlElement = event.target.closest(controlElementSelector)
-    if (controlElement != null) dispatch({ type: 'toggle_sidebar' })
-  }
+    if (controlElement != null) sidebar.close()
+  }, [])
 
-  const handleClick = (event) => {
+  const handleClick = useCallback((event) => {
     if (onClick) onClick(event)
-    close(event)
-  }
+    handleControlClick(event)
+  }, [])
 
   return (
     <Tag
-      id={state.sidebarId}
+      id={sidebar.id}
       className={classNames
-        .use(styles['side-bar'], state.sidebarOpen && styles.open)
+        .use(styles.sideBar, sidebar.isOpen && styles.open)
         .join(className)}
       onClick={handleClick}
       {...restProps}
@@ -41,12 +41,8 @@ const SideBar = ({
         <AppBar.Brand className={styles.sideBarHeaderBrand} href="/">
           <Logo />
         </AppBar.Brand>
-        <AppBar.Item
-          type="button"
-          tag="button"
-          onClick={() => dispatch({ type: 'toggle_sidebar' })}
-        >
-          <Icon src="#close" alt="Close icon" aria-label="Close sidebar" />
+        <AppBar.Item type="button" tag="button">
+          <Icon src="#close" alt="Close" aria-label="Close sidebar" />
         </AppBar.Item>
       </AppBar>
 

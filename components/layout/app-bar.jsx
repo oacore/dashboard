@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
-import LayoutContext from './context'
+import useSidebar from './use-sidebar'
 import styles from './styles.module.css'
 
 import { AppBarToggle, Logo } from 'design'
@@ -13,7 +13,7 @@ const DashboardAppBar = ({
   variant = 'internal', // 'internal' or 'public'
   ...restProps
 }) => {
-  const [state, dispatch] = useContext(LayoutContext)
+  const sidebar = useSidebar()
 
   return (
     <AppBar
@@ -25,9 +25,9 @@ const DashboardAppBar = ({
         className={styles.appBarToggle}
         type="button"
         aria-haspopup="true"
-        aria-controls={state.sidebarId}
-        aria-expanded={state.sidebarOpen}
-        onClick={() => dispatch({ type: 'toggle_sidebar' })}
+        aria-controls={sidebar.id}
+        aria-expanded={sidebar.isOpen}
+        onClick={sidebar.open}
       />
 
       <AppBar.Brand className={styles.appBarBrand} href="/">
