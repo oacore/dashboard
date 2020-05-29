@@ -79,6 +79,8 @@ class Root extends Store {
 
   @observable irus = null
 
+  @observable rioxx = null
+
   @observable statistics = {
     metadataCount: null,
     fullTextCount: null,
@@ -157,6 +159,7 @@ class Root extends Store {
     this.retrieveStatistics()
     this.retrievePluginConfig()
     this.retrieveIrusStats()
+    this.retrieveRioxxStats()
 
     const url = `/data-providers/${this.dataProvider.id}`
     this.works = new Works(url, this.options)
@@ -216,6 +219,28 @@ class Root extends Store {
     }
   }
 
+  @action async retrieveRioxxStats() {
+    try {
+      const url = `/data-providers/${this.dataProvider.id}/rioxx/aggregation`
+      const { data } = await apiRequest(url)
+      const {
+        compliantRecordBasic: partiallyCompliantCount,
+        compliantRecordFull: compliantCount,
+        totalRecords: totalCount,
+        ...rest
+      } = data
+
+      this.rioxx = {
+        partiallyCompliantCount,
+        compliantCount,
+        totalCount,
+        ...rest,
+      }
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
   async sendContactRequest(data) {
     try {
       await this.request(this.contactUrl, { method: 'POST', body: data })
@@ -229,6 +254,7 @@ class Root extends Store {
   @action
   async reset() {
     this.irus = null
+    this.rioxx = null
   }
 }
 
