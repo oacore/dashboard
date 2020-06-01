@@ -51,9 +51,7 @@ class InfiniteTable extends React.PureComponent {
       selectedOption: null,
     }
 
-    this.action = action
-    this.sidebar = sidebar
-    this.columns = columns
+    Object.assign(this, { action, sidebar, columns })
   }
 
   componentDidMount() {
@@ -62,6 +60,11 @@ class InfiniteTable extends React.PureComponent {
       'sidebar-close',
       this.closeSidebar
     )
+  }
+
+  componentDidUpdate() {
+    const { action, sidebar, columns } = this.getConfig()
+    Object.assign(this, { action, sidebar, columns })
   }
 
   componentWillUnmount() {
