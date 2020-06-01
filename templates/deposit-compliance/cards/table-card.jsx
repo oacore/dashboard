@@ -126,9 +126,11 @@ const DepositDatesTable = ({
         className={styles.depositDateColumn}
         getter={(v) => formatDate(v.publicReleaseDate)}
       />
-      <Table.Sidebar>
-        <SidebarContent />
-      </Table.Sidebar>
+      {!hasError && (
+        <Table.Sidebar>
+          <SidebarContent />
+        </Table.Sidebar>
+      )}
       <Table.Action>
         <ExportButton href={datesUrl} disabled={isExportDisabled}>
           {texts.exporting.download}
