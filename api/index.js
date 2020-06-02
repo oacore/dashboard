@@ -54,8 +54,8 @@ const prepareRequest = (init) => {
 
 const processStatus = (response) => {
   if (response.status >= 400) {
-    const Error = NetworkError.getErrorFromStatusCode(response.status)
-    throw new Error(
+    const StatusError = NetworkError.getErrorFromStatusCode(response.status)
+    throw new StatusError(
       `Request for ${response.url} failed on ${response.status}`,
       response
     )
@@ -76,8 +76,12 @@ const processBody = (response, { method }) => {
 
 const processError = (error, details) => {
   const { response } = error
+  if (response == null) throw error // re-throwing if nothing to process
+
   return processBody(response, details).then((body) => {
     Object.assign(error, body)
+
+    // re-throwing after processing
     throw error
   })
 }
