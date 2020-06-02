@@ -43,6 +43,7 @@ class RecordColumn extends Table.Column {
         className={styles.tableButton}
         href={url}
         target="_blank"
+        tag="a"
       >
         View <Icon src="#open-in-new" alt="in new" />
       </Button>
