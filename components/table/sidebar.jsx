@@ -27,7 +27,7 @@ const SidebarHeader = ({ children, className, ...passProps }) => {
 
   return (
     <div
-      className={classNames.use([styles.header]).join(className)}
+      className={classNames.use([styles.sidebarHeader]).join(className)}
       {...passProps}
     >
       {children}
@@ -46,13 +46,18 @@ const SidebarHeader = ({ children, className, ...passProps }) => {
   )
 }
 
-const SidebarBody = ({ children, ...passProps }) => (
-  <div {...passProps}>{children}</div>
+const SidebarBody = ({ children, className, ...passProps }) => (
+  <div
+    className={classNames.use(styles.sidebarBody).join(className)}
+    {...passProps}
+  >
+    {children}
+  </div>
 )
 
 const SidebarFooter = ({ children, className, ...passProps }) => (
   <div
-    className={classNames.use([styles.footer]).join(className)}
+    className={classNames.use(styles.sidebarFooter).join(className)}
     {...passProps}
   >
     {children}
