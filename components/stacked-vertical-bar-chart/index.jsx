@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 
 import styles from './styles.module.css'
 
+import { formatNumber } from 'utils/helpers'
+
 const StackedVerticalBarChart = React.memo(({ data }) => {
   const [transformedData, setTransformedData] = useState([])
 
@@ -34,7 +36,7 @@ const StackedVerticalBarChart = React.memo(({ data }) => {
               }}
             >
               <span className={styles.caption}>{caption}</span>
-              <span>{value}</span>
+              <span>{formatNumber(value)}</span>
             </div>
           )
         )}
