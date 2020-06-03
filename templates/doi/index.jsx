@@ -1,7 +1,7 @@
 import React from 'react'
 
 import styles from './styles.module.css'
-import { CoverageCard, ExportCard, TableCard } from './cards'
+import { CoverageCard, TableCard } from './cards'
 
 import Title from 'components/title'
 
@@ -13,6 +13,7 @@ const DoiTemplate = ({
   doiCount,
   dataProviderName,
   doiRecords,
+  totalCount,
   tag: Tag = 'main',
   ...restProps
 }) => (
@@ -22,14 +23,11 @@ const DoiTemplate = ({
     <CoverageCard
       dataProviderName={dataProviderName}
       doiCount={doiCount}
+      totalCount={totalCount}
       enrichmentSize={enrichmentSize}
     />
-    <ExportCard
-      enrichmentSize={enrichmentSize}
-      doiUrl={doiUrl}
-      isExportDisabled={isExportDisabled}
-    />
-    <TableCard pages={doiRecords} />
+
+    <TableCard pages={doiRecords} exportUrl={doiUrl} />
   </Tag>
 )
 
