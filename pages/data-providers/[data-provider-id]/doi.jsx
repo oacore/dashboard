@@ -15,6 +15,7 @@ const DoiPage = ({ store, ...props }) => (
     doiCount={store.doi.originCount}
     dataProviderName={store.dataProvider.name}
     doiRecords={store.doi.doiRecords}
+    totalCount={store.statistics?.metadataCount}
     {...props}
   />
 )

@@ -6,6 +6,7 @@ import styles from '../styles.module.css'
 
 import { PaymentRequiredError } from 'store/errors'
 import { Card, Icon } from 'design'
+import ExportButton from 'components/export-button'
 import Table from 'components/table'
 import { PaymentRequiredNote } from 'modules/billing'
 import * as texts from 'texts/doi'
@@ -26,10 +27,11 @@ const formatDOI = (entity) => {
   return originDoi
 }
 
-const TableCard = ({ pages }) => {
+const TableCard = ({ pages, exportUrl }) => {
   const [tableProps, fetchData] = useDynamicTableData({ pages })
   const hasData = useObserver(() => pages.data && pages.data.length > 0)
   const hasError = useObserver(() => !!pages.error)
+  const isExportDisabled = !hasData || hasError
 
   return (
     <Card className={styles.doiTableCard} tag="section">
@@ -64,6 +66,11 @@ const TableCard = ({ pages }) => {
           className={styles.authorsColumn}
           getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
         />
+        <Table.Action>
+          <ExportButton href={exportUrl} disabled={isExportDisabled}>
+            {texts.exporting.download}
+          </ExportButton>
+        </Table.Action>
       </Table>
       {pages.error instanceof PaymentRequiredError && (
         <Card.Footer className={classNames.use(hasData && styles.backdrop)}>
