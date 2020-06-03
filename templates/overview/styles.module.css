@@ -59,6 +59,17 @@
   flex-direction: column;
   justify-content: center;
   height: 100%;
+
+  /**
+   * This is a workaround to display half-cut bar labels.
+   * Ideally we should remove adjust/replace Recharts
+   *
+   * TODO: Remove when Recharts is replaced here or the contents change
+   */
+
+  & svg {
+    overflow: unset;
+  }
 }
 
 .rioxx-chart {
