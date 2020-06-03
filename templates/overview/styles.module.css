@@ -77,7 +77,7 @@
 }
 
 .row {
-  height: 2rem;
+  display: flex;
   line-height: 1;
   background: var(--gray-300);
   border-radius: var(--component-corner-radius, 2px);
@@ -85,23 +85,18 @@
 
 .bar {
   display: inline-block;
+  flex-basis: 1px;
   min-width: 2px;
-  height: 100%;
+  padding: 0.5rem 0;
+  color: var(--white);
   text-align: center;
-  vertical-align: middle;
   background: var(--primary);
   border-radius: var(--component-corner-radius, 2px);
-}
 
-.label {
-  display: inline-block;
-  padding: 0 0.5rem;
-  color: var(--gray-800);
-  white-space: nowrap;
-
-  &.left {
-    color: var(--white);
-    transform: translateX(-100%);
+  &.empty {
+    color: var(--gray-800);
+    text-align: left;
+    background: transparent;
   }
 }
 
