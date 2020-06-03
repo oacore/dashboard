@@ -25,18 +25,15 @@ const PercentageChart = ({
 
   return (
     <Tag className={classNames.use(styles.row).join(className)} {...htmlProps}>
+      <div className={styles.bar} style={{ flexGrow: complianceLevel }}>
+        {complianceLevel >= 0.2 && labelText}
+      </div>
       <div
-        className={styles.bar}
-        style={{ width: `${complianceLevel * 100}%` }}
-      />
-      <span
-        className={classNames.use(
-          styles.label,
-          complianceLevel >= 0.2 && styles.left
-        )}
+        className={classNames.use(styles.bar, styles.empty)}
+        style={{ flexGrow: 1 - complianceLevel }}
       >
-        {labelText}
-      </span>
+        {complianceLevel < 0.2 && labelText}
+      </div>
       <span className="sr-only">{children}</span>
     </Tag>
   )
