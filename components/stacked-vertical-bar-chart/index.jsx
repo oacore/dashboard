@@ -30,7 +30,7 @@ const StackedVerticalBarChart = React.memo(({ data }) => {
               title={`${caption} – ${value} (${percentage.toFixed(2)}%)`}
               className={styles.bar}
               style={{
-                flexBasis: `${percentage}%`,
+                flexGrow: percentage,
                 background,
                 color,
               }}
