@@ -9,8 +9,14 @@ export const valueOrDefault = (value, defaultValue) =>
     ? defaultValue
     : value
 
-export const formatNumber = (number, { locale = 'en-GB', ...options } = {}) =>
-  new Intl.NumberFormat(locale, options).format(number)
+export const formatNumber = (
+  number,
+  { locale = 'en-GB', maximumFractionDigits = 2, ...restOptions } = {}
+) =>
+  new Intl.NumberFormat(locale, {
+    maximumFractionDigits,
+    ...restOptions,
+  }).format(number)
 
 const dateTimeFormatCache = new Map()
 
