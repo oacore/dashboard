@@ -27,11 +27,7 @@ const DoiTemplate = ({
     <ExportCard
       enrichmentSize={enrichmentSize}
       doiUrl={doiUrl}
-      isExportDisabled={
-        isExportDisabled ||
-        doiRecords.error != null ||
-        doiRecords.data.length === 0
-      }
+      isExportDisabled={isExportDisabled}
     />
     <TableCard pages={doiRecords} />
   </Tag>
