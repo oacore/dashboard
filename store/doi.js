@@ -27,11 +27,6 @@ class DOI extends Store {
     return lag
   }
 
-  @computed
-  get isExportDisabled() {
-    return this.enrichmentSize <= 0
-  }
-
   @observable doiRecords = null
 
   constructor(baseUrl, options) {
