@@ -1,8 +1,8 @@
-title: Deposit compliance
+title: REF 2021 compliance
 
 description:
   # Displays when we have no deposit dates collected
-  missing-data: We are collecting data. It should appear anytime soon.
+  missing-data: We have no REF 2021 data for your repository at the moment.
 
   # Displays when we have deposit compliance calculated
   compliance-level: '{{amount}}% of outputs are non-compliant.'
@@ -12,5 +12,7 @@ description:
 
   # Displays when compliance level is 0%
   all-non-compliant: We couldn't detect any compliant outputs.
+
+  region-warning: Specific to UK repositories.
 
 action: Details

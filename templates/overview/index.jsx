@@ -16,6 +16,7 @@ const OverviewTemplate = ({
   doiCount,
   doiEnrichmentSize,
   dataProviderId,
+  countryCode,
   harvestingDate,
   errorCount,
   warningCount,
@@ -42,6 +43,7 @@ const OverviewTemplate = ({
       chartData={timeLagData}
       complianceLevel={complianceLevel}
       dataProviderId={dataProviderId}
+      countryCode={countryCode}
     />
     <DoiCard
       outputsCount={metadataCount}

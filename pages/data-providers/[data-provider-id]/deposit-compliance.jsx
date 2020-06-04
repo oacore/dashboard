@@ -17,6 +17,7 @@ const DepositCompliance = ({ store, ...restProps }) => (
       store.depositDates.isRetrieveDepositDatesInProgress
     }
     crossDepositLag={store.depositDates.crossDepositLag}
+    countryCode={store.dataProvider?.location?.countryCode}
     {...restProps}
   />
 )
