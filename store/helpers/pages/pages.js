@@ -87,7 +87,7 @@ class Pages extends Store {
 
           // Storing the error to propagate messages to the UI
           this.error = error
-          this.data = error.data
+          this.data = error.data || []
 
           if (error instanceof PaymentRequiredError) {
             // Stripping data to 5 elements only if there are more
