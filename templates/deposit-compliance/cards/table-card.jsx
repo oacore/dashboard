@@ -80,6 +80,7 @@ class PublicationDateColumn extends Table.Column {
 }
 
 const DepositDatesTable = ({
+  className,
   isExportDisabled,
   datesUrl,
   publicReleaseDatesPages: pages,
@@ -92,7 +93,7 @@ const DepositDatesTable = ({
   const hasError = !!pages.error
   return (
     <Table
-      className={styles.browseTable}
+      className={classNames.use(styles.browseTable).join(className)}
       fetchData={fetchData}
       excludeFooter={!hasData || hasError}
       searchable={!hasError}
@@ -164,6 +165,7 @@ const TableCard = ({
         Lists deposit dates discovered from your repository
       </Card.Description>
       <DepositDatesTable
+        className={error instanceof PaymentRequiredError && styles.muted}
         publicReleaseDatesPages={pages}
         isExportDisabled={isExportDisabled}
         datesUrl={datesUrl}

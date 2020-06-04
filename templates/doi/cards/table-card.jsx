@@ -35,7 +35,10 @@ const TableCard = ({ pages }) => {
     <Card className={styles.doiTableCard} tag="section">
       <Card.Title tag="h2">Browse DOI records</Card.Title>
       <Table
-        className={styles.doiTable}
+        className={classNames.use(
+          styles.doiTable,
+          pages.error instanceof PaymentRequiredError && styles.muted
+        )}
         excludeFooter={hasError || !hasData}
         searchable={!hasError}
         fetchData={fetchData}

@@ -91,3 +91,8 @@
     background: linear-gradient(to top, var(--background, #fff), transparent);
   }
 }
+
+.muted {
+  color: var(--gray-700);
+  filter: blur(1px);
+}
