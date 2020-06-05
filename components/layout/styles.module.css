@@ -2,7 +2,7 @@
 @custom-media --screen-until-desktop (max-width: 727px);
 
 .container {
-  --side-bar-width: 13rem;
+  --side-bar-width: 12rem;
   --app-bar-skip: 3.5rem;
 
   display: flex;
