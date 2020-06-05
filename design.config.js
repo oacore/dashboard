@@ -1,6 +1,7 @@
 const path = require('path')
 
 const icons = [
+  'alert-outline',
   'alert-circle',
   'barcode',
   'calendar-check',

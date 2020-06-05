@@ -128,3 +128,10 @@
   color: var(--gray-700);
   filter: blur(1px);
 }
+
+.alert {
+  padding: var(--component-padding-y, 1rem) var(--component-spacer-x, 1rem);
+  color: var(--danger-dark);
+  border: 1px solid;
+  border-radius: var(--component-corner-radius, 2px);
+}

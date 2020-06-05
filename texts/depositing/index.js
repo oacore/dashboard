@@ -4,7 +4,7 @@ import overview from './overview.yml'
 import sourceChart from './chart.md'
 import crossRepositoryCheck from './cross-repository-check'
 import sourceDataOverview from './data-overview.md'
-import complianceNotice from './compliance-notice.md'
+import introSrc from './intro.md'
 import noDataNotice from './no-data.md'
 import exporting from './export.yml'
 import publicationDates from './publication-dates.yml'
@@ -21,14 +21,14 @@ templateProps.forEach((property) => {
 
 exporting.description = new Template(exporting.description)
 
+const intro = {
+  ...introSrc.attributes,
+  body: introSrc.body,
+}
+
 const dataOverview = {
   ...sourceDataOverview.attributes,
   body: new Template(sourceDataOverview.body),
-}
-
-const compliance = {
-  ...complianceNotice.attributes,
-  body: new Template(complianceNotice.body),
 }
 
 const noData = {
@@ -43,9 +43,9 @@ const chart = {
 
 export default {
   overview,
+  intro,
   dataOverview,
   chart,
-  compliance,
   exporting,
   noData,
   publicationDates,
@@ -53,9 +53,9 @@ export default {
 }
 export {
   overview,
+  intro,
   dataOverview,
   chart,
-  compliance,
   crossRepositoryCheck,
   exporting,
   noData,

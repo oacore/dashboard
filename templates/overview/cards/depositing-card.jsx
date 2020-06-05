@@ -1,4 +1,5 @@
 import React from 'react'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 import OverviewCard from './overview-card'
@@ -7,7 +8,18 @@ import * as texts from 'texts/overview'
 import { valueOrDefault } from 'utils/helpers'
 import TimeLagChart from 'components/time-lag-chart'
 import LinkButton from 'components/link-button'
-import { Card } from 'design'
+import { Card, Icon } from 'design'
+
+const RegionAlert = ({
+  className,
+  children: message,
+  tag: Tag = 'p',
+  ...htmlProps
+}) => (
+  <Tag className={classNames.use(styles.alert).join(className)} {...htmlProps}>
+    <Icon src="#alert-outline" /> {message}
+  </Tag>
+)
 
 const Loading = ({ children = 'Loading...', tag: Tag = 'p', ...restProps }) => (
   <Tag {...restProps}>{children}</Tag>
@@ -47,7 +59,7 @@ const filterChartData = (data, complianceLevel = 0.75) => {
   )
 }
 
-const Content = ({ chartData, complianceLevel, dataProviderId }) =>
+const Content = ({ chartData, complianceLevel, dataProviderId, countryCode }) =>
   chartData.length === 0 ? (
     <p>{texts.depositing.description.missingData}</p>
   ) : (
@@ -58,6 +70,9 @@ const Content = ({ chartData, complianceLevel, dataProviderId }) =>
         height={200}
       />
       <p>{getDescriptionForDepositingCard(complianceLevel)}</p>
+      {countryCode?.toLowerCase() !== 'gb' && (
+        <RegionAlert>{texts.depositing.description.regionWarning}</RegionAlert>
+      )}
       <LinkButton
         href="deposit-compliance"
         dataProviderId={dataProviderId}
@@ -68,7 +83,12 @@ const Content = ({ chartData, complianceLevel, dataProviderId }) =>
     </>
   )
 
-const DepositingCard = ({ chartData, complianceLevel, dataProviderId }) => (
+const DepositingCard = ({
+  chartData,
+  complianceLevel,
+  dataProviderId,
+  countryCode,
+}) => (
   <OverviewCard>
     <Card.Title tag="h2">{texts.depositing.title}</Card.Title>
     {chartData == null || complianceLevel == null ? (
@@ -78,6 +98,7 @@ const DepositingCard = ({ chartData, complianceLevel, dataProviderId }) => (
         complianceLevel={complianceLevel}
         chartData={chartData}
         dataProviderId={dataProviderId}
+        countryCode={countryCode}
       />
     )}
   </OverviewCard>
