@@ -87,7 +87,7 @@ const DepositDatesTable = ({
 }) => {
   const [tableProps, fetchData] = useDynamicTableData({
     pages,
-    defaultSize: 15,
+    defaultSize: 5,
   })
   const hasData = pages.data && pages.data.length > 0
   const hasError = !!pages.error

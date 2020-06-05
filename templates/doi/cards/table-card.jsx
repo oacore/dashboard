@@ -28,7 +28,10 @@ const formatDOI = (entity) => {
 }
 
 const TableCard = ({ pages, exportUrl }) => {
-  const [tableProps, fetchData] = useDynamicTableData({ pages })
+  const [tableProps, fetchData] = useDynamicTableData({
+    pages,
+    defaultSize: 5,
+  })
   const hasData = useObserver(() => pages.data && pages.data.length > 0)
   const hasError = useObserver(() => !!pages.error)
   const isExportDisabled = !hasData || hasError
