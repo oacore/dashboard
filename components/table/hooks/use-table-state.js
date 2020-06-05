@@ -119,11 +119,7 @@ const useTableState = ({ fetchDataProp, data, ...rest }) => {
 
   useDebouncedEffect(() => {
     fetchData({ force: true })
-  }, [searchTerm, selectedOption])
-
-  useDebouncedEffect(() => {
-    fetchData({ force: true, resetData: false })
-  }, [columnOrder])
+  }, [searchTerm, selectedOption, columnOrder])
 
   return [
     state,

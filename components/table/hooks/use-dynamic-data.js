@@ -24,14 +24,18 @@ const useDynamicTableData = ({ pages, defaultSize = 100 }) => {
       columnOrder,
       searchTerm,
       selectedOption: type,
-      resetData = true,
     } = {}) => {
       let newSize = dataState.size
 
       if (next) newSize += 100
       else newSize = defaultSize
 
-      let newState = {}
+      const newState = {}
+
+      // reset data when search or column order changes
+      if (searchTerm !== pages.searchTerm || columnOrder !== pages.columnOrder)
+        newState.data = null
+
       if (force) {
         pages.reset({
           columnOrder,
@@ -39,14 +43,10 @@ const useDynamicTableData = ({ pages, defaultSize = 100 }) => {
           type,
         })
 
-        newState = {
-          isLoading: true,
-          isLastPageLoaded: false,
-        }
+        newState.isLastPageLoaded = false
       }
 
       newState.isLoading = true
-      if (resetData) newState.data = null
 
       changeDataState({
         type: 'CHANGE_DATA_STATE',
