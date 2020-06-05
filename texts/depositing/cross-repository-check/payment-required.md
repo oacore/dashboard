@@ -1,2 +1,5 @@
-If you wish to download the CSV with the list of these records, 
-email us at [{{ email }}]({{ mailtoUrl }}) or use the button below.
+Upgrade to the premium [CORE Repository Edition][landing] to download the
+list of these records in CSV. Contact us at [{{ email }}]({{ mailtoUrl }})
+or use the button below.
+
+[landing]: https://blog.core.ac.uk/wp-content/uploads/2020/04/CORE-Repository-Edition-Details.pdf
