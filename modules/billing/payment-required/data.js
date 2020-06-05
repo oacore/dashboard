@@ -16,7 +16,7 @@ const userInput = observable({
 })
 
 const emailContext = observable({
-  toEmail: 'enterp\u0072is\u0065\u0040cor\u0065\u002e\u0061\u0063\u002euk',
+  toEmail: 'sa\u006c\u0065s\u0040cor\u0065\u002e\u0061\u0063\u002euk',
 
   // These 4 are mirrored from the global store
   // with and React's effect and MobX's autorun in useSync()
@@ -95,7 +95,7 @@ const useFormContext = () =>
     body: emailContext.body,
     fromName: emailContext.fromName,
     fromEmail: emailContext.fromEmail,
-    product: 'DASHBOARD',
+    product: 'REPO_EDITION',
   }))
 
 const useNoteContext = () =>
