@@ -78,6 +78,9 @@ class Pages extends Store {
           resolve(transformedData)
         })
         .catch((error) => {
+          // Aborted request is intentional don't include it as a error
+          if (error.name === 'AbortError') return resolve()
+
           // Resetting pointers to prevent pagination working
           this.isLastPageLoaded = true
 
