@@ -12,7 +12,7 @@ const Overview = ({ store, ...props }) => (
     complianceLevel={store.depositDates.complianceLevel}
     doiCount={store.doi.originCount}
     doiEnrichmentSize={store.doi.enrichmentSize}
-    dataProvider={store.dataProvider.id}
+    dataProviderId={store.dataProvider.id}
     countryCode={store.dataProvider?.location?.countryCode}
     harvestingDate={store.issues.harvestingStatus?.lastHarvestingDate}
     errorCount={store.issues.aggregation?.errorsCount}
