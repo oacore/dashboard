@@ -15,7 +15,18 @@ const Login = React.memo(() => {
     identity_provider_url: IDP_URL,
   })
 
-  if (router.query.continue) searchParams.set('continue', router.query.continue)
+  if (router.query.continue) {
+    try {
+      const redirect = new URL(router.query.continue, window.location.origin)
+      if (
+        window.location.origin === redirect.origin &&
+        !redirect.pathname.startsWith('/login')
+      )
+        searchParams.set('continue', redirect.toString())
+    } catch (error) {
+      // silently ignore wrong continue param
+    }
+  }
 
   const url = `/secure/login.html?${searchParams}`
 
