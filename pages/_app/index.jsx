@@ -66,9 +66,10 @@ class App extends NextApp {
   redirectToLogin({ reason = 'logout' } = {}) {
     const { router } = this.props
     const basePath = '/login'
-    const nextPath = router.asPath.indexOf(basePath) >= 0 ? '/' : router.asPath
     router.push(
-      `${basePath}?continue=${encodeURIComponent(nextPath)}&reason=${reason}`
+      `${basePath}?continue=${encodeURIComponent(
+        router.asPath
+      )}&reason=${reason}`
     )
   }
 
