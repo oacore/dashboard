@@ -83,6 +83,11 @@ window.addEventListener('DOMContentLoaded', () => {
       case 'wrong_credentials':
         showWrongCredentialsMessage()
         break
+      case 'logout_unexpectedly':
+        showInfoMessage(
+          'You have been logged out unexpectedly. Please log in again.'
+        )
+        break
       case 'logout':
         showInfoMessage('You have been successfully logged out.')
         break
