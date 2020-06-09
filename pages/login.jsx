@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import styles from './login.module.css'
@@ -10,25 +10,31 @@ const { IDP_URL } = process.env
 
 const Login = React.memo(() => {
   const router = useRouter()
-  const searchParams = new URLSearchParams({
-    reason: router.query.reason,
-    identity_provider_url: IDP_URL,
-  })
+  const [url, setUrl] = useState(null)
 
-  if (router.query.continue) {
+  useEffect(() => {
+    const searchParams = new URLSearchParams({
+      reason: router.query.reason,
+      identity_provider_url: IDP_URL,
+    })
+
     try {
+      if (!router.query.continue) throw new Error('No continue param present')
       const redirect = new URL(router.query.continue, window.location.origin)
       if (
-        window.location.origin === redirect.origin &&
-        !redirect.pathname.startsWith('/login')
+        `${redirect.origin}${redirect.pathname}` ===
+        `${window.location.origin}${window.location.pathname}`
       )
-        searchParams.set('continue', redirect.toString())
-    } catch (error) {
-      // silently ignore wrong continue param
+        throw new Error('Trying to redirect to the current page')
+      searchParams.set('continue', redirect.toString())
+    } catch (continueMalformedError) {
+      searchParams.set('continue', '/')
     }
-  }
 
-  const url = `/secure/login.html?${searchParams}`
+    setUrl(`/secure/login.html?${searchParams}`)
+  }, [router.query.reason, router.query.continue])
+
+  if (!url) return null
 
   return (
     <>
