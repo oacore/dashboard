@@ -63,11 +63,13 @@ class App extends NextApp {
     store.changeDataProvider(dataProviderId, caller)
   }
 
-  redirectToLogin() {
+  redirectToLogin({ reason = 'logout' } = {}) {
     const { router } = this.props
     const basePath = '/login'
     const nextPath = router.asPath.indexOf(basePath) >= 0 ? '/' : router.asPath
-    router.push(`${basePath}?continue=${encodeURIComponent(nextPath)}`)
+    router.push(
+      `${basePath}?continue=${encodeURIComponent(nextPath)}&reason=${reason}`
+    )
   }
 
   handlePromiseRejection = (event) => {
@@ -76,7 +78,9 @@ class App extends NextApp {
       event.reason instanceof UnauthorizedError
     ) {
       this.setState({ isAuthorized: false })
-      this.redirectToLogin(window.location.href)
+      this.redirectToLogin({
+        reason: 'logout_unexpectedly',
+      })
       // Don't report to console
       event.preventDefault()
     }
@@ -144,7 +148,9 @@ class App extends NextApp {
       error instanceof UnauthorizedError
     ) {
       this.setState({ isAuthorized: false })
-      this.redirectToLogin()
+      this.redirectToLogin({
+        reason: 'logout_unexpectedly',
+      })
     }
   }
 
