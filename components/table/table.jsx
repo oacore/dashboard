@@ -61,6 +61,12 @@ const InfiniteTable = ({
       )
   }, [])
 
+  const bodyHasCallbacks = Boolean(sidebar)
+
+  // even if this is not an actual Hook, it starts from 'use-'
+  // to potentially have useCallback() call behind
+  const useRowCallback = (handler) => (bodyHasCallbacks ? handler : null)
+
   return (
     <div
       ref={containerRef}
@@ -104,10 +110,10 @@ const InfiniteTable = ({
               columns={columns}
             />
             <Body
-              handleRowClick={handleRowClick}
-              handleDoubleRowClick={handleDoubleRowClick}
+              handleRowClick={useRowCallback(handleRowClick)}
+              handleDoubleRowClick={useRowCallback(handleDoubleRowClick)}
               columns={columns}
-              isClickable={Boolean(sidebar)}
+              isClickable={bodyHasCallbacks}
               data={data}
             />
             {!excludeFooter && (
