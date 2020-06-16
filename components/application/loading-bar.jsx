@@ -1,7 +1,7 @@
 import React from 'react'
+import { LoadingBar } from '@oacore/design'
 
 import { withGlobalStore } from 'store'
-import LoadingBar from 'components/loading-bar'
 
 const LoadingBarController = ({ store, ...passProps }) =>
   store.isLoading ? <LoadingBar {...passProps} /> : null

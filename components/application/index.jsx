@@ -7,7 +7,6 @@ import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
 import Logout from './logout'
-import styles from './styles.module.css'
 
 const Application = ({
   children,
@@ -19,7 +18,7 @@ const Application = ({
   <>
     <Head />
     <Container {...restProps}>
-      <LoadingBar className={styles.loadingBar} />
+      <LoadingBar fixed />
       <AppBar variant={isAuthenticated ? 'internal' : 'public'}>
         {isAuthenticated ? (
           <>
