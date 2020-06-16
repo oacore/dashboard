@@ -83,6 +83,9 @@ const nextConfig = {
       'api': path.join(__dirname, 'api'),
       'config': path.join(__dirname, 'config.js'),
       '@sentry/node': config.isServer ? '@sentry/node' : '@sentry/browser',
+
+      'react': path.join(__dirname, 'node_modules', 'react'),
+      'react-dom': path.join(__dirname, 'node_modules', 'react-dom'),
     })
 
     return config
