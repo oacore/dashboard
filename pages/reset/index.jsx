@@ -18,10 +18,10 @@ const ResetPassword = ({ className, store, ...restProps }) => {
       const data = {
         email: formData.get('email'),
       }
-      await store.user.requestResetToken(data)
+      await store.requestResetToken(data)
       setMessage('Please check your mailbox with the following instructions.')
     } catch (error) {
-      setMessage("Something wen't wrong. Please try it again!")
+      setMessage('Something went wrong. Please try it again!')
     }
     return false
   }
