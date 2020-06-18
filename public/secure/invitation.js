@@ -76,11 +76,8 @@ function registerUser(event) {
     if (!value) delete data[key]
   })
 
-  const changePasswordUrl = new URL(
-    '/internal/auth/register',
-    identityProviderUrl
-  )
-  performApiRequest(changePasswordUrl, data)
+  const registerUrl = new URL('/internal/auth/register', identityProviderUrl)
+  performApiRequest(registerUrl, data)
     .then(
       () => {
         window.top.location.href = '/login?reason=registration'
