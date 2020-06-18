@@ -24,14 +24,6 @@ class User extends Resource {
     return this.id == null
   }
 
-  // TODO: Should be moved to a separate entity
-  requestResetToken(data) {
-    return this.request('/auth/reset', {
-      method: 'POST',
-      body: data,
-    })
-  }
-
   toString() {
     return `${super.toString()} (${this.name})`
   }

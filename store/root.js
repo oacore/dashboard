@@ -256,6 +256,13 @@ class Root extends Store {
     this.irus = null
     this.rioxx = null
   }
+
+  requestResetToken(data) {
+    return this.request('/auth/reset', {
+      method: 'POST',
+      body: data,
+    })
+  }
 }
 
 export default Root
