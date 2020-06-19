@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback, useRef } from 'react'
+import ResizeObserver from 'resize-observer-polyfill'
 
 import styles from './styles.module.css'
 
