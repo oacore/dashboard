@@ -9,8 +9,6 @@ import { NotFoundError } from 'api/errors'
 const { API_URL } = process.env
 
 class DepositDates extends Store {
-  @observable isExportDisabled = false
-
   @observable isRetrieveDepositDatesInProgress = false
 
   @observable timeLagData = null

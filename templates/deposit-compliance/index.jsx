@@ -29,7 +29,6 @@ const RegionAlert = ({
 
 const DepositComplianceTemplate = ({
   className,
-  isExportDisabled,
   datesUrl,
   publicReleaseDatesPages,
   publicationDatesValidate,
@@ -72,7 +71,6 @@ const DepositComplianceTemplate = ({
       noneCount={publicationDatesValidate?.noneCount}
     />
     <TableCard
-      isExportDisabled={isExportDisabled}
       publicReleaseDatesPages={publicReleaseDatesPages}
       datesUrl={datesUrl}
     />

@@ -5,7 +5,6 @@ import DepositComplianceTemplate from 'templates/deposit-compliance'
 
 const DepositCompliance = ({ store, ...restProps }) => (
   <DepositComplianceTemplate
-    isExportDisabled={store.depositDates.isExportDisabled}
     datesUrl={store.depositDates.datesUrl}
     publicReleaseDatesPages={store.depositDates.publicReleaseDates}
     publicationDatesValidate={store.depositDates.publicationDatesValidate}

@@ -81,7 +81,6 @@ class PublicationDateColumn extends Table.Column {
 
 const DepositDatesTable = ({
   className,
-  isExportDisabled,
   datesUrl,
   publicReleaseDatesPages: pages,
 }) => {
@@ -138,7 +137,7 @@ const DepositDatesTable = ({
         </Table.Sidebar>
       )}
       <Table.Action>
-        <ExportButton href={datesUrl} disabled={isExportDisabled}>
+        <ExportButton href={datesUrl}>
           {texts.exporting.download}
         </ExportButton>
       </Table.Action>
@@ -147,7 +146,6 @@ const DepositDatesTable = ({
 }
 
 const TableCard = ({
-  isExportDisabled,
   datesUrl,
   publicReleaseDatesPages: pages,
 }) => {
@@ -167,7 +165,6 @@ const TableCard = ({
       <DepositDatesTable
         className={error instanceof PaymentRequiredError && styles.muted}
         publicReleaseDatesPages={pages}
-        isExportDisabled={isExportDisabled}
         datesUrl={datesUrl}
       />
       {error instanceof PaymentRequiredError && (
