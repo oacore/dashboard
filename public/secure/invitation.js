@@ -1,6 +1,8 @@
 // eslint-disable-next-line max-classes-per-file
 class UnauthorisedError extends Error {}
 class WrongInputError extends Error {}
+class InvitationCodeInvalid extends Error {}
+class InvitationCodeAlreadyUsed extends Error {}
 
 const urlParams = new URLSearchParams(window.location.search)
 const email = document.getElementById('email')
@@ -22,8 +24,15 @@ function performApiRequest(url, data) {
       throw new UnauthorisedError('Wrong credentials')
     }
 
-    // TODO: We should distinguish errors.
-    //     Currently API sends only 400 `{"message": "error"}`
+    if (response.status === 406)
+      throw new InvitationCodeInvalid('Invitation code is invalid.')
+
+    if (response.status === 409) {
+      throw new InvitationCodeAlreadyUsed(
+        'Seem like you have registered already. Please try to log in.'
+      )
+    }
+
     if (response.status !== 201)
       throw new WrongInputError('Registration error. Please try it again!')
 
