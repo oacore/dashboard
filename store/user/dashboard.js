@@ -4,6 +4,11 @@ class DashboardUser extends User {
   static defaultValues = {
     ...User.defaultValues,
     dataProviders: [],
+    dataProvider: null,
+  }
+
+  retrieve(...scopes) {
+    return super.retrieve('dataProviders', ...scopes)
   }
 
   canManage(dataProviderId) {

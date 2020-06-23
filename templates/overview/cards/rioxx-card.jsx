@@ -48,14 +48,13 @@ const Content = ({ compliantCount, totalCount, missingTerms }) => (
       title={`${formatNumber(compliantCount)} out of ${formatNumber(
         totalCount
       )} outputs are compliant with basic RIOXX`}
-      tag="p"
     >
       compliant with RIOXX
     </PercentageChart>
     <ul className={styles.issuesList}>
       {missingTerms.map(({ elementName, outputsCount }) => (
-        <li>
-          <span className={styles.count}>{formatNumber(outputsCount)}</span>
+        <li key={elementName}>
+          <span>{formatNumber(outputsCount)}</span>
           &nbsp;outputs are missing&nbsp;
           <code>{elementName}</code>
         </li>
