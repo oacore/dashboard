@@ -137,18 +137,13 @@ const DepositDatesTable = ({
         </Table.Sidebar>
       )}
       <Table.Action>
-        <ExportButton href={datesUrl}>
-          {texts.exporting.download}
-        </ExportButton>
+        <ExportButton href={datesUrl}>{texts.exporting.download}</ExportButton>
       </Table.Action>
     </Table>
   )
 }
 
-const TableCard = ({
-  datesUrl,
-  publicReleaseDatesPages: pages,
-}) => {
+const TableCard = ({ datesUrl, publicReleaseDatesPages: pages }) => {
   const hasData = useObserver(() => pages.data && pages.data.length > 0)
   const error = useObserver(() => pages.error)
 

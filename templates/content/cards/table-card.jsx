@@ -10,6 +10,8 @@ import DocumentLink from 'components/document-link'
 import TakeDown from 'components/takedown'
 import Table from 'components/table'
 import useDynamicTableData from 'components/table/hooks/use-dynamic-data'
+import ExportButton from 'components/export-button'
+import * as texts from 'texts/content'
 
 const SidebarContent = observer(
   ({
@@ -78,7 +80,7 @@ const SidebarContent = observer(
   }
 )
 
-const TableCard = ({ works, changeVisibility, ...props }) => {
+const TableCard = ({ works, changeVisibility, exportUrl, ...props }) => {
   const [tableProps, fetchData] = useDynamicTableData({ pages: works })
   return (
     <Card {...props}>
@@ -120,6 +122,11 @@ const TableCard = ({ works, changeVisibility, ...props }) => {
         <Table.Sidebar>
           <SidebarContent changeVisibility={changeVisibility} />
         </Table.Sidebar>
+        <Table.Action>
+          <ExportButton href={exportUrl}>
+            {texts.exporting.download}
+          </ExportButton>
+        </Table.Action>
       </Table>
     </Card>
   )
