@@ -118,7 +118,9 @@ class App extends NextApp {
       .catch((error) => {
         if (error instanceof AuthorizationError) {
           this.setState({ isAuthorized: false })
-          this.redirectToLogin()
+          this.redirectToLogin({
+            reason: '',
+          })
         } else throw error
       })
   }
