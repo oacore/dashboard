@@ -57,7 +57,7 @@ class Resource {
         )
       }
 
-      return request(this[scopeUrl]).then((data) => {
+      return request(this[scopeUrl]).then(({ data }) => {
         this.extend({ [scope]: data })
         return data
       })

@@ -12,8 +12,8 @@ import { AccessError, AuthorizationError, PaymentRequiredError } from './errors'
 import apiRequest from 'api'
 import * as NetworkErrors from 'api/errors'
 
-const REPEADTED_REQUEST_TIMEOUT = 30000
-const REPEADTED_REQUEST_LIMIT = 5
+const REPEATED_REQUEST_TIMEOUT = 30000
+const REPEATED_REQUEST_LIMIT = 5
 
 class Root extends Store {
   static defaultOptions = {
@@ -31,11 +31,11 @@ class Root extends Store {
             if (attemptCount < 2) this.requestsInProgress -= 1
           })
           .then((response) =>
-            response.status === 202 && attemptCount < REPEADTED_REQUEST_LIMIT
+            response.status === 202 && attemptCount < REPEATED_REQUEST_LIMIT
               ? new Promise((resolve, reject) => {
                   const repeatedRequest = () =>
                     requestContinuously(url, options).then(resolve, reject)
-                  setTimeout(repeatedRequest, REPEADTED_REQUEST_TIMEOUT)
+                  setTimeout(repeatedRequest, REPEATED_REQUEST_TIMEOUT)
                 })
               : response
           )
@@ -71,11 +71,9 @@ class Root extends Store {
 
   contactUrl = `${process.env.API_URL}/contact`
 
-  @observable user = null
+  @observable user = new User({}, this.options)
 
   @observable organisation = null
-
-  @observable dataProvider = null
 
   @observable irus = null
 
@@ -105,26 +103,27 @@ class Root extends Store {
   }
 
   @computed
-  get dataProviders() {
-    return this.user?.dataProviders
+  get dataProvider() {
+    return this.user.dataProvider
+  }
+
+  set dataProvider(id) {
+    this.user.dataProvider = id
   }
 
   @computed
-  get baseUrl() {
-    if (!this.dataProvider) return null
-    return `/data-providers/${this.dataProvider.id}`
+  get dataProviders() {
+    return this.user.dataProviders
   }
 
   @action async init(dataProviderId) {
     try {
-      this.user = new User({}, this.options)
       await this.user.retrieve()
     } catch (unauthorizedError) {
       if (!this.options.allowAnonymousAccess)
         throw new AuthorizationError('Anonymous users are not allowed')
     }
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
-
     this.organisation.retrieve()
 
     this.changeDataProvider(dataProviderId)
@@ -146,7 +145,6 @@ class Root extends Store {
     if (this.dataProvider != null && hasTargetId(this.dataProvider)) return
 
     // Check access rights
-    // TODO: Should be moved or ideally removed
     const dataProvider = this.dataProviders.find(hasTargetId)
     if (dataProvider == null) {
       const dpStr = `DataProvider#${id}`
@@ -154,6 +152,7 @@ class Root extends Store {
     }
 
     this.dataProvider = dataProvider
+
     this.reset()
     this.retrieveStatistics()
     this.retrievePluginConfig()
@@ -182,29 +181,6 @@ class Root extends Store {
     data.forEach((plugin) => {
       this.plugins[plugin.type] = plugin
     })
-  }
-
-  @action
-  async updateDataProvider(patch) {
-    try {
-      // TODO: Should be this.dataProvider.url
-      const url = `/data-providers/${this.dataProvider.id}`
-      const { data } = await apiRequest(url, {
-        method: 'PATCH',
-        body: patch,
-      })
-      Object.assign(this.dataProvider, data)
-    } catch (networkOrAccessError) {
-      // Ignore errors for this moment
-    }
-  }
-
-  @action
-  async updateOrganization(patch) {
-    const { name: institution } = patch
-    this.updateDataProvider({ institution })
-
-    // TODO: Should be a method without cross-call to another method
   }
 
   @action
@@ -240,6 +216,28 @@ class Root extends Store {
     }
   }
 
+  @action
+  async updateDataProvider(patch) {
+    try {
+      const url = `/data-providers/${this.dataProvider.id}`
+      const { data } = await this.options.request(url, {
+        method: 'PATCH',
+        body: patch,
+      })
+      Object.assign(this.user.dataProvider, data)
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action
+  async updateOrganization(patch) {
+    const { name: institution } = patch
+    await this.updateDataProvider({ institution })
+
+    // TODO: Should be a method without cross-call to another method
+  }
+
   async sendContactRequest(data) {
     try {
       await this.request(this.contactUrl, { method: 'POST', body: data })
@@ -251,7 +249,7 @@ class Root extends Store {
   }
 
   @action
-  async reset() {
+  reset() {
     this.irus = null
     this.rioxx = null
   }
