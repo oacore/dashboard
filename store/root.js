@@ -117,16 +117,15 @@ class Root extends Store {
 
   @action async init(dataProviderId) {
     try {
-      this.user = new User()
+      this.user = new User({}, this.options)
       await this.user.retrieve()
     } catch (unauthorizedError) {
       if (!this.options.allowAnonymousAccess)
         throw new AuthorizationError('Anonymous users are not allowed')
     }
+    this.organisation = new Organisation(this.user.affiliationUrl, this.options)
 
-    const organisationUrl = `/organisations/${this.user.organisationId}`
-    this.organisation = new Organisation(organisationUrl, this.options)
-    this.organisation.init()
+    this.organisation.retrieve()
 
     this.changeDataProvider(dataProviderId)
   }
