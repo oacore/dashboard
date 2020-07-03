@@ -107,8 +107,14 @@ class Root extends Store {
     return this.user.dataProvider
   }
 
-  set dataProvider(id) {
-    this.user.dataProvider = id
+  set dataProvider(dataProvider) {
+    // Check access rights
+    if (!this.user.canManage(dataProvider.id)) {
+      const dpStr = `DataProvider#${dataProvider.id}`
+      throw new AccessError(`${this.user} does not have access to the ${dpStr}`)
+    }
+
+    this.user.dataProvider = dataProvider
   }
 
   @computed
@@ -136,22 +142,14 @@ class Root extends Store {
       return
     }
 
-    // Compare strings and numbers
-    // since we do not really know what type of ID the API exposes
-    // eslint-disable-next-line eqeqeq
-    const hasTargetId = (dataProvider) => id == dataProvider.id
+    const dataProviderInt = parseInt(id, 10)
 
     // Probably a repeated request. No need to change
-    if (this.dataProvider != null && hasTargetId(this.dataProvider)) return
+    // Compare strings and numbers
+    // since we do not really know what type of ID the API exposes
+    if (this.dataProvider?.id === dataProviderInt) return
 
-    // Check access rights
-    const dataProvider = this.dataProviders.find(hasTargetId)
-    if (dataProvider == null) {
-      const dpStr = `DataProvider#${id}`
-      throw new AccessError(`${this.user} does not have access to the ${dpStr}`)
-    }
-
-    this.dataProvider = dataProvider
+    this.dataProvider = this.user.getDataProviderById(dataProviderInt)
 
     this.reset()
     this.retrieveStatistics()

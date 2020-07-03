@@ -15,6 +15,10 @@ class DashboardUser extends User {
     return this.dataProviders.some(({ id }) => dataProviderId === id)
   }
 
+  getDataProviderById(dataProviderId) {
+    return this.dataProviders.find(({ id }) => dataProviderId === id)
+  }
+
   searchDataProviders(searchTerm) {
     return this.dataProviders.filter(
       (e) => e.name.toLowerCase().search(searchTerm.toLowerCase()) !== -1
