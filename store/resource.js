@@ -4,7 +4,7 @@ import apiRequest from 'api'
 
 class Resource {
   static defaultOptions = {
-    request: (...args) => apiRequest(args).then(({ data }) => data),
+    request: apiRequest,
     prefetch: false,
   }
 
@@ -42,7 +42,7 @@ class Resource {
   retrieve(...scopes) {
     const { request } = this.options
     if (this.id == null) {
-      return request(this.url).then((data) => {
+      return request(this.url).then(({ data }) => {
         this.extend(data)
         return this.retrieve(...scopes)
       })
