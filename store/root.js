@@ -122,7 +122,7 @@ class Root extends Store {
     return this.user.dataProviders
   }
 
-  @action async init(dataProviderId) {
+  @action async init() {
     try {
       await this.user.retrieve()
     } catch (unauthorizedError) {
@@ -131,8 +131,6 @@ class Root extends Store {
     }
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
     this.organisation.retrieve()
-
-    this.changeDataProvider(dataProviderId)
   }
 
   @action changeDataProvider(id) {
