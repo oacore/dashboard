@@ -6,7 +6,7 @@ import '@oacore/design/lib/index.css'
 import './global.css'
 
 import { UnauthorizedError } from 'api/errors'
-import { AuthorizationError } from 'store/errors'
+import { AuthorizationError, AccessError } from 'store/errors'
 import { logPageView } from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
@@ -100,7 +100,7 @@ class App extends NextApp {
       pathname.match(/\/data-providers\/([^/]+)\/?/) ?? []
     const { store } = this
     store
-      .init(dataProviderId)
+      .init()
       .then(() => {
         Sentry.configureScope((scope) => {
           scope.setUser({
@@ -110,9 +110,11 @@ class App extends NextApp {
         })
 
         // Subscribe store to router after initialization
-        router.events.on('routeChangeStart', this.handleRouteChange)
+        // We use routeChangeComplete otherwise router.query contains previous
+        // values
+        router.events.on('routeChangeComplete', this.handleRouteChange)
 
-        // Trigger App render
+        store.changeDataProvider(dataProviderId)
         this.setState({ isAuthorized: true })
       })
       .catch((error) => {
@@ -121,6 +123,13 @@ class App extends NextApp {
           this.redirectToLogin({
             reason: '',
           })
+        } else if (error instanceof AccessError) {
+          // If the state is updated before route changes NextJS may render
+          // the old component. Since we don't have any data for that provider
+          // it may fail. (Works, DepositDates are not initialized...)
+          router
+            .replace('/data-providers')
+            .then(() => this.setState({ isAuthorized: true }))
         } else throw error
       })
   }
