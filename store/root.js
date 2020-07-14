@@ -110,7 +110,7 @@ class Root extends Store {
   set dataProvider(dataProvider) {
     // Check access rights
     if (dataProvider !== null && !this.user.canManage(dataProvider?.id)) {
-      const dpStr = `DataProvider#${dataProvider.id}`
+      const dpStr = `DataProvider#${dataProvider?.id}`
       throw new AccessError(`${this.user} does not have access to the ${dpStr}`)
     }
 
