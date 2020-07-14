@@ -14,11 +14,14 @@ const FormShell = ({
   const [isChanged, setChanged] = useState(isButtonVisible)
   const [isSubmitted, setSubmitted] = useState(false)
 
-  const handleChange = () => setChanged(true)
+  const handleChange = () => {
+    setChanged(true)
+  }
 
   const handleSubmit = (event) => {
     setSubmitted(true)
     if (onSubmit) onSubmit(event)
+    event.target.reset()
   }
 
   useEffect(() => {
@@ -39,7 +42,7 @@ const FormShell = ({
           {buttonCaption}
         </Button>
       )}
-      {message && <p>{message}</p>}
+      {message && !isChanged && <p>{message}</p>}
     </form>
   )
 }

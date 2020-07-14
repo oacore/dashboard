@@ -44,7 +44,11 @@ const Settings = ({ store, className, ...restProps }) => {
         tag="section"
       >
         <Card.Title tag="h2">Organisation settings</Card.Title>
-        <FormShell name="organization" onSubmit={handleSubmit}>
+        <FormShell
+          name="organization"
+          onSubmit={handleSubmit}
+          message={formMessage.organization}
+        >
           <TextField
             label="Name"
             name="name"
@@ -70,7 +74,11 @@ const Settings = ({ store, className, ...restProps }) => {
         tag="section"
       >
         <Card.Title tag="h2">Repository settings</Card.Title>
-        <FormShell name="data-provider" onSubmit={handleSubmit}>
+        <FormShell
+          name="data-provider"
+          onSubmit={handleSubmit}
+          message={formMessage['data-provider']}
+        >
           <TextField
             label="Name"
             name="name"
