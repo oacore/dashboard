@@ -223,15 +223,20 @@ class Root extends Store {
         body: patch,
       })
       Object.assign(this.user.dataProvider, data)
+      return {
+        message: 'Settings were updated successfully!',
+      }
     } catch (networkOrAccessError) {
-      // Ignore errors for this moment
+      return {
+        message: 'Something went wrong. Please try it again later!',
+      }
     }
   }
 
   @action
-  async updateOrganization(patch) {
+  updateOrganization(patch) {
     const { name: institution } = patch
-    await this.updateDataProvider({ institution })
+    return this.updateDataProvider({ institution })
 
     // TODO: Should be a method without cross-call to another method
   }
