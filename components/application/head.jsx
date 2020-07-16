@@ -11,7 +11,7 @@ const Head = () => (
         rel="icon"
         type="image/png"
         sizes={`${size}x${size}`}
-        href={`/favicon/favicon-${size}px.png`}
+        href={`https://core.ac.uk/favicon/favicon-${size}px.png`}
       />
     ))}
 
@@ -19,7 +19,7 @@ const Head = () => (
       rel="icon"
       sizes="any"
       type="image/svg+xml"
-      href="/favicon/favicon.svg"
+      href="https://core.ac.uk/favicon/favicon.svg"
     />
   </NextHead>
 )
