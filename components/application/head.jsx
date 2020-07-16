@@ -21,15 +21,6 @@ const Head = () => (
       type="image/svg+xml"
       href="/favicon/favicon.svg"
     />
-    <style>
-      {`
-        html,
-        body,
-        #__next {
-          height: 100%;
-        }
-      `}
-    </style>
   </NextHead>
 )
 
