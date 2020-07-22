@@ -39,7 +39,7 @@ const SideBar = ({
     >
       <AppBar className={styles.sideBarHeader}>
         <AppBar.Brand className={styles.sideBarHeaderBrand} href="/">
-          <Logo />
+          <Logo>Dashboard</Logo>
         </AppBar.Brand>
         <AppBar.Item type="button" tag="button">
           <Icon src="#close" alt="Close" aria-label="Close sidebar" />

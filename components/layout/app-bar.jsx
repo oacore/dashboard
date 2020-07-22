@@ -31,7 +31,7 @@ const DashboardAppBar = ({
       />
 
       <AppBar.Brand className={styles.appBarBrand} href="/">
-        <Logo />
+        <Logo>Dashboard</Logo>
       </AppBar.Brand>
 
       {children}
