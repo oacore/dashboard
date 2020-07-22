@@ -10,30 +10,30 @@
 <link href="/sanitize.css" rel="stylesheet" />
 <link href="/design/global/foundation/index.css" rel="stylesheet" />
 <link href="/design/global/elements/button/button.css" rel="stylesheet" />
-<link href="/design/global/elements/forms/text-field.css" rel="stylesheet" />
+<link href="/design/global/elements/forms/styles.css" rel="stylesheet" />
 <link href="/secure/reset.css" rel="stylesheet" />
 
 <form id="password-form" method="post" class="">
-  <p class="container">
-    <input id="email" class="control" type="text" name="email" autocomplete="username">
+  <p class="group">
+    <input id="email" class="control" type="email" name="email" autocomplete="email" placeholder="Email">
     <label class="label" for="email">Email</label>
   </p>
 
-  <p class="container">
+  <p class="group">
     <input id="token" class="control" type="text" name="token">
     <label class="label" for="token">Token</label>
   </p>
 
-  <p class="container">
+  <p class="group">
     <input id="password" class="control" type="password" placeholder="Enter Password" name="password" autocomplete="current-password" required>
     <label class="label" for="password">Password</label>
   </p>
 
-  <p class="container">
+  <p class="group">
     <input id="newPassword" class="control" type="password" placeholder="Enter Password" name="newPassword" autocomplete="new-password" minlength="8" maxlength="100" required>
     <label class="label" for="newPassword">New password</label>
   </p>
-  <p class="container">
+  <p class="group">
     <input id="newPasswordAgain" class="control" type="password" placeholder="Enter Password" name="newPasswordAgain" autocomplete="new-password" minlength="8" maxlength="100" required>
     <label class="label" for="newPasswordAgain">Repeat password</label>
   </p>
