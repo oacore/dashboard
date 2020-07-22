@@ -52,7 +52,14 @@ function login(event) {
 
   window.dispatchEvent(new Event('login-processing'))
   const formData = new FormData(event.target)
-  const data = new URLSearchParams(formData)
+  // Explicitly retrieve data because following code
+  // is not supported in old Edge
+  // const data = new URLSearchParams(formData)
+  const data = new URLSearchParams({
+    email: formData.get('email'),
+    password: formData.get('password'),
+    remember_me: formData.get('remember_me'),
+  })
   const loginUrl = new URL('login_check', identityProviderUrl)
   performLoginRequest(loginUrl, data).then(
     () => {
