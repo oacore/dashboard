@@ -17,10 +17,8 @@
 }
 
 .app-bar {
-  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1020;
 }
 
 .app-bar-toggle {
