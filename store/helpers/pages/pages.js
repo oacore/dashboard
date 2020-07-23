@@ -28,8 +28,13 @@ class Pages extends Store {
 
   async slice(from, to) {
     while (this.data.length < to && !this.isLastPageLoaded) {
-      // eslint-disable-next-line no-await-in-loop
-      await this.load()
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await this.load()
+      } catch (error) {
+        if (error.name === 'AbortError') break
+        throw error
+      }
     }
 
     return this.data.slice(from, to)
@@ -75,11 +80,17 @@ class Pages extends Store {
           this.data.push(...transformedData)
           this.isLastPageLoaded =
             this.isLastPageLoaded || transformedData.length === 0
+
           resolve(transformedData)
         })
         .catch((error) => {
-          // Aborted request is intentional don't include it as a error
-          if (error.name === 'AbortError') return resolve()
+          // AbortError is intentional. Propagate it one level up
+          // and catch it there.
+          // Don't set isLastPageLoaded flag here because it's not
+          // semantically correct. It could have been solved like that though
+          // since in the current implementation
+          // page reset always follows after AbortError
+          if (error.name === 'AbortError') return reject(error)
 
           // Resetting pointers to prevent pagination working
           this.isLastPageLoaded = true
