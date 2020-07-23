@@ -43,7 +43,8 @@ function performApiRequest(url, data) {
 function showErrorMessage(message) {
   const messageEl = document.getElementById('message')
   messageEl.innerHTML = message
-  messageEl.classList.add('message-error')
+  messageEl.classList.add('success')
+  messageEl.classList.add('danger')
 }
 
 function checkNewPasswordsMatch() {

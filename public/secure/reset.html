@@ -11,9 +11,12 @@
 <link href="/design/global/foundation/index.css" rel="stylesheet" />
 <link href="/design/global/elements/button/button.css" rel="stylesheet" />
 <link href="/design/global/elements/forms/styles.css" rel="stylesheet" />
+<link href="/design/global/elements/message/message.css" rel="stylesheet" />
+
 <link href="/secure/reset.css" rel="stylesheet" />
 
 <form id="password-form" method="post" class="">
+  <div id="message" class="message fill"></div>
   <p class="group">
     <input id="email" class="control" type="email" name="email" autocomplete="email" placeholder="Email">
     <label class="label" for="email">Email</label>
@@ -37,7 +40,6 @@
     <input id="newPasswordAgain" class="control" type="password" placeholder="Enter Password" name="newPasswordAgain" autocomplete="new-password" minlength="8" maxlength="100" required>
     <label class="label" for="newPasswordAgain">Repeat password</label>
   </p>
-  <div id="message" class="message"></div>
   <button class="button contained" type="submit">Save</button>
 </form>
 

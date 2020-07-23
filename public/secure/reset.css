@@ -2,8 +2,8 @@ body {
   overflow: hidden;
 }
 
-form {
-  padding-top: 1rem;
+.group:first-of-type {
+  margin-top: 0;
 }
 
 .hidden {
@@ -17,13 +17,9 @@ form {
 }
 
 .message {
-  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .message:empty {
   display: none;
-}
-
-.message-error {
-  color: var(--danger-dark);
 }
