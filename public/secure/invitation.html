@@ -11,9 +11,11 @@
 <link href="/design/global/foundation/index.css" rel="stylesheet" />
 <link href="/design/global/elements/button/button.css" rel="stylesheet" />
 <link href="/design/global/elements/forms/styles.css" rel="stylesheet" />
+<link href="/design/global/elements/message/message.css" rel="stylesheet" />
 <link href="/secure/invitation.css" rel="stylesheet" />
 
 <form id="registration-form" method="post" class="">
+  <div id="message" class="message fill"></div>
   <p class="group">
     <input id="email" class="control" type="text" name="email" placeholder="Enter Email" autocomplete="username">
     <label class="label" for="email">Email</label>
@@ -33,7 +35,6 @@
     <input id="passwordAgain" class="control" type="password" placeholder="Enter Password" name="passwordAgain" autocomplete="new-password" minlength="8" maxlength="100" required>
     <label class="label" for="passwordAgain">New password</label>
   </p>
-  <div id="message" class="message"></div>
   <button class="button contained" type="submit">Register</button>
 </form>
 

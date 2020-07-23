@@ -30,15 +30,15 @@ function removeLoadingAnimation() {
 function showWrongCredentialsMessage() {
   const message = document.getElementById('message')
   message.innerHTML = 'The username or password you entered is incorrect.'
-  message.classList.add('message-error')
-  message.classList.remove('message-info')
+  message.classList.add('danger')
+  message.classList.remove('success')
 }
 
 function showInfoMessage(message) {
   const messageEl = document.getElementById('message')
   messageEl.innerHTML = message
-  messageEl.classList.add('message-info')
-  messageEl.classList.remove('message-error')
+  messageEl.classList.add('success')
+  messageEl.classList.remove('danger')
 }
 
 function login(event) {

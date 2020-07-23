@@ -38,13 +38,15 @@ function showSuccessMessage() {
   if (urlParams.has('token'))
     message += ' You can <a href="/login" target="_top">log in</a> now.'
   messageEl.innerHTML = message
-  messageEl.classList.remove('message-error')
+  messageEl.classList.remove('danger')
+  messageEl.classList.add('success')
 }
 
 function showErrorMessage(message) {
   const messageEl = document.getElementById('message')
   messageEl.innerHTML = message
-  messageEl.classList.add('message-error')
+  messageEl.classList.remove('success')
+  messageEl.classList.add('danger')
 }
 
 function checkNewPasswordsMatch() {
