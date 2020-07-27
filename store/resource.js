@@ -23,7 +23,7 @@ class Resource {
     this.extend(data)
 
     const { prefetch } = this.options
-    if (typeof init == 'string' && prefetch) this.retrieve()
+    if (prefetch) this.retrieve()
   }
 
   @action

@@ -3,11 +3,11 @@ import React from 'react'
 import { withGlobalStore } from 'store'
 import ContentTemplate from 'templates/content'
 
-const Content = ({ store, ...props }) => (
+const Content = ({ store: { dataProvider }, ...props }) => (
   <ContentTemplate
-    exportUrl={store.works.contentExportUrl}
-    works={store.works}
-    changeVisibility={store.works.changeVisibility}
+    eportUrl={dataProvider?.works.contentExportUrl}
+    works={dataProvider?.works}
+    changeVisibility={dataProvider?.works.changeVisibility}
     {...props}
   />
 )

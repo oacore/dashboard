@@ -5,20 +5,24 @@ import { withGlobalStore } from 'store'
 
 const Overview = ({ store, ...props }) => (
   <OverviewTemplate
-    metadataCount={store.statistics.metadataCount}
-    fullTextCount={store.statistics.fullTextCount}
-    timeLagData={store.depositDates.timeLagData}
-    isTimeLagDataLoading={store.depositDates.isRetrieveDepositDatesInProgress}
-    complianceLevel={store.depositDates.complianceLevel}
-    doiCount={store.doi.originCount}
-    doiEnrichmentSize={store.doi.enrichmentSize}
+    metadataCount={store.dataProvider?.statistics.metadataCount}
+    fullTextCount={store.dataProvider?.statistics.fullTextCount}
+    timeLagData={store.dataProvider?.depositDates.timeLagData}
+    isTimeLagDataLoading={
+      store.dataProvider?.depositDates.isRetrieveDepositDatesInProgress
+    }
+    complianceLevel={store.dataProvider?.depositDates.complianceLevel}
+    doiCount={store.dataProvider?.doi.originCount}
+    doiEnrichmentSize={store.dataProvider?.doi.enrichmentSize}
     dataProviderId={store.dataProvider.id}
     countryCode={store.dataProvider?.location?.countryCode}
-    harvestingDate={store.issues.harvestingStatus?.lastHarvestingDate}
-    errorCount={store.issues.aggregation?.errorsCount}
-    warningCount={store.issues.aggregation?.warningsCount}
-    viewStatistics={store.irus}
-    rioxxCompliance={store.rioxx}
+    harvestingDate={
+      store.dataProvider?.issues.harvestingStatus?.lastHarvestingDate
+    }
+    errorCount={store.dataProvider?.issues.aggregation?.errorsCount}
+    warningCount={store.dataProvider?.issues.aggregation?.warningsCount}
+    viewStatistics={store.dataProvider?.irus}
+    rioxxCompliance={store.dataProvider?.rioxx}
     {...props}
   />
 )

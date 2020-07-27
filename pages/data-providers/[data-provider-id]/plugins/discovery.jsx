@@ -11,7 +11,7 @@ const Plugins = ({ store, ...restProps }) => (
     <Title>{plugins.discovery.title}</Title>
     <Markdown>
       {plugins.discovery.description.render({
-        key: store.plugins.discovery?.key,
+        key: store.dataProvider?.plugins.discovery?.key,
       })}
     </Markdown>
   </Card>

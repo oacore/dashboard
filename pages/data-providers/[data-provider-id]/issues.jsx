@@ -3,11 +3,11 @@ import React from 'react'
 import IssuesTemplate from 'templates/issues'
 import { withGlobalStore } from 'store'
 
-const Issues = ({ store, ...props }) => (
+const Issues = ({ store: { dataProvider }, ...props }) => (
   <IssuesTemplate
-    harvestingStatus={store.issues.harvestingStatus}
-    aggregation={store.issues.aggregation}
-    pages={store.issues.issues}
+    harvestingStatus={dataProvider?.issues.harvestingStatus}
+    aggregation={dataProvider?.issues.aggregation}
+    pages={dataProvider?.issues.issues}
     {...props}
   />
 )

@@ -1,6 +1,6 @@
 import { action } from 'mobx'
 
-import { Pages } from './helpers/pages'
+import { Pages } from '../helpers/pages'
 
 const { API_URL } = process.env
 
