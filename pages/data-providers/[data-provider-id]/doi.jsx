@@ -3,19 +3,19 @@ import React from 'react'
 import { withGlobalStore } from 'store'
 import DoiTemplate from 'templates/doi'
 
-const DoiPage = ({ store, ...props }) => (
+const DoiPage = ({ store: { dataProvider }, ...props }) => (
   <DoiTemplate
-    enrichmentSize={store.doi.enrichmentSize}
-    doiUrl={store.doi.doiUrl}
+    enrichmentSize={dataProvider?.doi.enrichmentSize}
+    doiUrl={dataProvider?.doi.doiUrl}
     isExportDisabled={
-      store.doi.enrichmentSize === 0 ||
-      store.doi.doiRecords.error != null ||
-      store.doi.doiRecords.data.length === 0
+      dataProvider?.doi.enrichmentSize === 0 ||
+      dataProvider?.doi.doiRecords.error != null ||
+      dataProvider?.doi.doiRecords.data.length === 0
     }
-    doiCount={store.doi.originCount}
-    dataProviderName={store.dataProvider.name}
-    doiRecords={store.doi.doiRecords}
-    totalCount={store.statistics?.metadataCount}
+    doiCount={dataProvider?.doi.originCount}
+    dataProviderName={dataProvider.name}
+    doiRecords={dataProvider?.doi.doiRecords}
+    totalCount={dataProvider?.statistics?.metadataCount}
     {...props}
   />
 )

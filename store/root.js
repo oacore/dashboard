@@ -2,12 +2,9 @@ import { observable, action, computed } from 'mobx'
 
 import Store from './store'
 import User from './user'
-import DepositDates from './deposit-dates'
-import Works from './works'
-import DOI from './doi'
-import Issues from './issues'
 import Organisation from './organisation'
 import { AccessError, AuthorizationError, PaymentRequiredError } from './errors'
+import DataProvider from './data-provider'
 
 import apiRequest from 'api'
 import * as NetworkErrors from 'api/errors'
@@ -75,23 +72,7 @@ class Root extends Store {
 
   @observable organisation = null
 
-  @observable irus = null
-
-  @observable rioxx = null
-
-  @observable statistics = {
-    metadataCount: null,
-    fullTextCount: null,
-  }
-
-  @observable plugins = {
-    discovery: null,
-    recommender: null,
-  }
-
-  @observable works = null
-
-  @observable issues = null
+  @observable dataProvider = null
 
   @observable depositDates = null
 
@@ -100,21 +81,6 @@ class Root extends Store {
   @computed
   get isLoading() {
     return this.requestsInProgress > 0
-  }
-
-  @computed
-  get dataProvider() {
-    return this.user.dataProvider
-  }
-
-  set dataProvider(dataProvider) {
-    // Check access rights
-    if (dataProvider !== null && !this.user.canManage(dataProvider?.id)) {
-      const dpStr = `DataProvider#${dataProvider?.id}`
-      throw new AccessError(`${this.user} does not have access to the ${dpStr}`)
-    }
-
-    this.user.dataProvider = dataProvider
   }
 
   @computed
@@ -129,6 +95,7 @@ class Root extends Store {
       if (!this.options.allowAnonymousAccess)
         throw new AuthorizationError('Anonymous users are not allowed')
     }
+
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
     this.organisation.retrieve()
   }
@@ -147,69 +114,22 @@ class Root extends Store {
     // since we do not really know what type of ID the API exposes
     if (this.dataProvider?.id === dataProviderInt) return
 
-    this.dataProvider = this.user.getDataProviderById(dataProviderInt)
+    const dataProviderMetaData = this.user.getDataProviderById(dataProviderInt)
 
-    this.reset()
-    this.retrieveStatistics()
-    this.retrievePluginConfig()
-    this.retrieveIrusStats()
-    this.retrieveRioxxStats()
+    // Check access rights
+    if (
+      dataProviderMetaData !== null &&
+      !this.user.canManage(dataProviderMetaData?.id)
+    ) {
+      // TODO: allow access to any dataProvider for admin users
+      const dpStr = `DataProvider#${dataProviderMetaData?.id}`
+      throw new AccessError(`${this.user} does not have access to the ${dpStr}`)
+    }
 
-    const url = `/data-providers/${this.dataProvider.id}`
-    this.works = new Works(url, this.options)
-    this.depositDates = new DepositDates(url, this.options)
-    this.doi = new DOI(url, this.options)
-    this.issues = new Issues(url, this.options)
-  }
-
-  @action
-  async retrieveStatistics() {
-    const url = `/data-providers/${this.dataProvider.id}/statistics`
-    const { data } = await this.request(url)
-    Object.assign(this.statistics, data)
-  }
-
-  @action
-  async retrievePluginConfig() {
-    const url = `/data-providers/${this.dataProvider.id}/plugins`
-    const { data } = await this.request(url)
-
-    data.forEach((plugin) => {
-      this.plugins[plugin.type] = plugin
+    this.dataProvider = new DataProvider(dataProviderMetaData, {
+      ...this.options,
+      prefetch: true,
     })
-  }
-
-  @action
-  async retrieveIrusStats() {
-    try {
-      const url = `/data-providers/${this.dataProvider.id}/irus`
-      const { data } = await apiRequest(url)
-      this.irus = data
-    } catch (networkOrAccessError) {
-      // Ignore errors for this moment
-    }
-  }
-
-  @action async retrieveRioxxStats() {
-    try {
-      const url = `/data-providers/${this.dataProvider.id}/rioxx/aggregation`
-      const { data } = await apiRequest(url)
-      const {
-        compliantRecordBasic: partiallyCompliantCount,
-        compliantRecordFull: compliantCount,
-        totalRecords: totalCount,
-        ...rest
-      } = data
-
-      this.rioxx = {
-        partiallyCompliantCount,
-        compliantCount,
-        totalCount,
-        ...rest,
-      }
-    } catch (networkOrAccessError) {
-      // Ignore errors for this moment
-    }
   }
 
   @action
@@ -220,7 +140,7 @@ class Root extends Store {
         method: 'PATCH',
         body: patch,
       })
-      Object.assign(this.user.dataProvider, data)
+      Object.assign(this.dataProvider, data)
       return {
         message: 'Settings were updated successfully!',
       }
@@ -247,12 +167,6 @@ class Root extends Store {
       if (process.env.NODE_ENV !== 'production') console.error(anyError)
       return false
     }
-  }
-
-  @action
-  reset() {
-    this.irus = null
-    this.rioxx = null
   }
 
   requestResetToken(data) {

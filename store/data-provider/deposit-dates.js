@@ -1,8 +1,8 @@
 import { action, computed, observable } from 'mobx'
 
-import { Pages } from './helpers/pages'
-import Store from './store'
-import { PaymentRequiredError } from './errors'
+import { Pages } from '../helpers/pages'
+import Store from '../store'
+import { PaymentRequiredError } from '../errors'
 
 import { NotFoundError } from 'api/errors'
 

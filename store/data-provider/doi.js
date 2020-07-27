@@ -1,7 +1,7 @@
 import { action, observable, computed } from 'mobx'
 
-import { Pages } from './helpers/pages'
-import Store from './store'
+import { Pages } from '../helpers/pages'
+import Store from '../store'
 
 const { API_URL } = process.env
 
