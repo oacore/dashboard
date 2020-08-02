@@ -43,7 +43,7 @@
     "@sentry/browser": "^5.15.5",
     "@sentry/node": "^5.15.5",
     "@zeit/next-source-maps": "0.0.3",
-    "core-js": "3.4.2",
+    "core-js": "3.6.5",
     "cosmiconfig": "^6.0.0",
     "css-loader": "^3.5.3",
     "cssnano": "^4.1.10",
