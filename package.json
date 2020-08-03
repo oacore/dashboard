@@ -48,7 +48,7 @@
     "d3-collection": "^1.0.7",
     "extract-css-chunks-webpack-plugin": "^4.7.4",
     "mobx": "^5.15.4",
-    "mobx-react-lite": "^2.0.6",
+    "mobx-react-lite": "^2.0.7",
     "mustache": "^4.0.1",
     "next": "^9.5.1",
     "postcss-extend": "^1.0.5",
