@@ -46,7 +46,6 @@
     "cssnano": "^4.1.10",
     "d3-array": "^2.5.0",
     "d3-collection": "^1.0.7",
-    "extract-css-chunks-webpack-plugin": "^4.7.4",
     "mobx": "^5.15.4",
     "mobx-react-lite": "^2.0.7",
     "mustache": "^4.0.1",
