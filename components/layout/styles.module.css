@@ -35,6 +35,7 @@
 }
 
 .app-bar-brand {
+  display: inline-flex;
   width: var(--side-bar-width);
 }
 
@@ -78,6 +79,7 @@
 }
 
 .side-bar-header-brand {
+  display: inline-flex;
   flex-grow: 1;
 }
 

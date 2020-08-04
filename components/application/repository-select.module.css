@@ -1,7 +1,7 @@
 .container {
   --app-bar-padding-y: calc(var(--component-padding-y, 1rem) / 2);
   --app-bar-padding-x: calc(var(--component-padding-y, 1rem) / 2);
-  --form-control-padding-y: 0.75rem;
+  --form-control-padding-y: 0.5rem;
   --form-control-padding-x: 0.5rem;
 
   position: relative;
