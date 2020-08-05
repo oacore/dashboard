@@ -12,3 +12,8 @@ items:
   plugins/recommender: Recommender Plugin
   statistics: Statistics
   settings: Settings
+tooltips:
+  plugins:
+    Access CORE Discovery and CORE Recommender, find the installation instructions
+  issues:
+    Detect and monitor technical issues with data harvesting/aggregation related to your repository
