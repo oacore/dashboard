@@ -24,7 +24,11 @@ const ActivitySelectOption = ({ children, value, selected }) => {
       as={path.join('/data-providers', router.query['data-provider-id'], value)}
       passHref
     >
-      <Drawer.Item className={styles[value]} active={selected}>
+      <Drawer.Item
+        className={styles[value]}
+        active={selected}
+        title={navigation.tooltips[value]}
+      >
         {children || (
           <>
             <Icon
