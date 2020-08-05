@@ -1,22 +1,29 @@
-import React, { useCallback } from 'react'
-import { AppBar } from '@oacore/design'
+import React, { useCallback, useState, useEffect } from 'react'
+import { AppBar, Select } from '@oacore/design'
 import { useRouter } from 'next/router'
 
 import styles from './repository-select.module.css'
 
 import { withGlobalStore } from 'store'
-import { Select } from 'design'
 
 const RepositorySelect = ({ store }) => {
   const router = useRouter()
-  const handleChange = useCallback(
-    (value) => {
+  const [suggestions, setSuggestions] = useState(store.user.dataProviders)
+  const [value, setValue] = useState(store.dataProvider.name)
+
+  const handleOnChange = useCallback(
+    (data) => {
+      if (data.value === store.dataProvider.name) return
+      if (!data.id) {
+        setValue(store.dataProvider.name)
+        return
+      }
       const routePath = '/data-providers/[data-provider-id]'
-      const actualPath = `/data-providers/${value}`
+      const actualPath = `/data-providers/${data.id}`
 
       router.push(routePath, actualPath)
     },
-    [router]
+    [router, store.dataProvider.name]
   )
 
   const getOptions = useCallback(
@@ -24,18 +31,33 @@ const RepositorySelect = ({ store }) => {
     [store.user]
   )
 
+  const handleOnInput = useCallback((data) => {
+    if (!data.id) setSuggestions(getOptions(data.value))
+    setValue(data.value)
+  }, [])
+
+  useEffect(() => {
+    setValue(store.dataProvider.name)
+  }, [store.dataProvider.name])
+
   return (
     <AppBar.Item className={styles.container}>
       <Select
         id="repository"
         className={styles.repositorySelect}
-        options={getOptions}
-        value={store.dataProvider.name}
-        onSelectionChange={handleChange}
-        disabled={store.dataProviders.length <= 1}
-        label="Select repository"
-        labelSrOnly
-      />
+        value={value}
+        onInput={handleOnInput}
+        onChange={handleOnChange}
+        placeholder="Search repositories"
+        clearButton={false}
+        clearOnFocus
+      >
+        {suggestions.map((el) => (
+          <Select.Option key={el.id} id={el.id} value={el.name}>
+            {el.name}
+          </Select.Option>
+        ))}
+      </Select>
     </AppBar.Item>
   )
 }
