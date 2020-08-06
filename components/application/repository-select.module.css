@@ -10,7 +10,10 @@
 
 .repository-select {
   --select-background: var(--app-bar-background);
-  --form-control-border-width: 0;
+
+  /* Disabling because calc(Xpx - 0); on input doesn't work */
+  /* stylelint-disable-next-line length-zero-no-unit */
+  --form-control-border-width: 0px;
   position: absolute;
   right: 0;
   left: 0;
