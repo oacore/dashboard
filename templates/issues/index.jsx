@@ -24,7 +24,11 @@ const IssuesTemplate = ({
         lastHarvestingDate={lastHarvestingDate}
       />
       <ErrorsOverviewCard totalCount={totalCount} errorsCount={errorsCount} />
-      <TableCard totalCount={totalCount} pages={pages} />
+      <TableCard
+        totalCount={totalCount}
+        aggregation={aggregation}
+        pages={pages}
+      />
     </Tag>
   )
 }
