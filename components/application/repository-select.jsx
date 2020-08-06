@@ -51,6 +51,7 @@ const RepositorySelect = ({ store }) => {
         placeholder="Search repositories"
         clearButton={false}
         clearOnFocus
+        spellCheck={false}
       >
         {suggestions.map((el) => (
           <Select.Option key={el.id} id={el.id} value={el.name}>
