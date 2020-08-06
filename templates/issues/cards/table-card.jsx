@@ -58,13 +58,13 @@ const TableCard = ({ totalCount, aggregation, pages }) => {
   const filterOptions = [
     {
       id: '',
-      name: `All issues (${totalCount})`,
+      value: `All issues (${totalCount})`,
     },
     ...Object.entries(aggregation?.countByType ?? {})
       .filter(([, count]) => count > 0)
       .map(([type, count]) => ({
         id: type,
-        name: `${texts.messages[type]?.title || type} (${count})`,
+        value: `${texts.messages[type]?.title || type} (${count})`,
       })),
   ]
 

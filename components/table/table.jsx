@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
+import Select from './select'
 import styles from './styles.module.css'
 import Footer from './footer'
 import Header from './header'
@@ -8,7 +9,7 @@ import Body from './body'
 import useTableConfig from './hooks/use-table-config'
 import useTableState from './hooks/use-table-state'
 
-import { Table, TextField, Select } from 'design'
+import { Table, TextField } from 'design'
 import withErrorBoundary from 'utils/withErrorBoundary'
 
 const InfiniteTable = ({
@@ -39,14 +40,14 @@ const InfiniteTable = ({
   } = useTableConfig(children)
 
   const [
-    { expandedRowId, selectedOption, searchTerm, columnOrder },
+    { expandedRowId, searchTerm, columnOrder },
     {
       handleSidebarClose,
       handleRowClick,
       handleDoubleRowClick,
-      handleSelectedOption,
       handleColumnOrderChange,
       handleSearchChange,
+      handleSelectedOption,
       fetchData,
     },
   ] = useTableState({ columnOrder: columnOrderConfig, fetchDataProp, data })
@@ -78,17 +79,10 @@ const InfiniteTable = ({
       <div className={styles.table}>
         {selectable && options.length > 0 && (
           <Select
-            options={(s) =>
-              options.filter(
-                (el) => el.name.toLowerCase().search(s?.toLowerCase()) !== -1
-              )
-            }
-            value={
-              selectedOption &&
-              options.find((el) => el.id === selectedOption).name
-            }
-            onSelectionChange={handleSelectedOption}
             label={selectLabel}
+            placeholder={selectLabel}
+            options={options}
+            onOptionSelected={handleSelectedOption}
           />
         )}
         {searchable && (
