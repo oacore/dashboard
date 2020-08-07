@@ -6,5 +6,5 @@ discovery:
 recommender:
   title: Recommender
   description: |
-    Enrich your full text coverage dynamically adding missing bits from CORE
+    Enrich your full text coverage dynamically by adding missing content from CORE
   action: How to install
