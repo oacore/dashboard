@@ -2,3 +2,6 @@ title: Cross-repository check
 description: List of early outputs deposited in other repositories.
 download: Download CSV
 redirect: Check outputs
+tooltip:
+  The number of records that are not compliant in your repository, but CORE discovered
+  them in another repository, where they are compliant.

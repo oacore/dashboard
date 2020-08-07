@@ -7,6 +7,7 @@ import { Card } from 'design'
 import Markdown from 'components/markdown'
 import StatisticsChart from 'components/statistics-chart'
 import { formatDate } from 'utils/helpers'
+import * as texts from 'texts/overview'
 
 const Content = ({ data, ...htmlProps }) => (
   <div {...htmlProps}>
@@ -28,7 +29,7 @@ const Content = ({ data, ...htmlProps }) => (
 )
 
 const IrusCard = ({ statistics }) => (
-  <OverviewCard>
+  <OverviewCard title={texts.irusUk.cardTooltip}>
     <Card.Title tag="h2">Download statistics</Card.Title>
     {statistics != null ? (
       <Content className={styles.irusCardContent} data={statistics} />

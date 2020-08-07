@@ -8,7 +8,11 @@ import NumericValue from 'components/numeric-value'
 import { valueOrDefault } from 'utils/helpers'
 
 const CrossRepositoryCheckRedirectCard = ({ possibleBonusCount }) => (
-  <Card className={styles.crossRepositoryCheckRedirect} tag="section">
+  <Card
+    className={styles.crossRepositoryCheckRedirect}
+    tag="section"
+    title={texts.crossRepositoryCheck.tooltip}
+  >
     <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
     <NumericValue
       value={valueOrDefault(possibleBonusCount, 'Loading...')}

@@ -6,9 +6,14 @@ import styles from '../styles.module.css'
 import { Card } from 'design'
 import NumericValue from 'components/numeric-value'
 import { valueOrDefault } from 'utils/helpers'
+import texts from 'texts/issues'
 
 const ErrorsOverviewCard = ({ totalCount, errorsCount }) => (
-  <Card className={styles.errorsOverview} tag="section">
+  <Card
+    className={styles.errorsOverview}
+    tag="section"
+    title={texts.issuesOverviewCardTooltip}
+  >
     <Card.Title tag="h2">Issues overview</Card.Title>
     <div className={styles.numbers}>
       <NumericValue

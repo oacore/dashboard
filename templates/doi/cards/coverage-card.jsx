@@ -62,6 +62,7 @@ const CoverageCard = ({ doiCount, totalCount, enrichmentSize }) => (
           value={valueOrDefault(doiCount, 'Loading...')}
           caption={texts.coverage.numberLabel}
           tag="p"
+          title={texts.coverage.numberLabelTooltip}
         />
       </div>
       <div className={styles.optional}>
@@ -70,6 +71,7 @@ const CoverageCard = ({ doiCount, totalCount, enrichmentSize }) => (
           append="%"
           caption={texts.coverage.percentLabel}
           tag="p"
+          title={texts.coverage.percentLabelTooltip}
         />
       </div>
       <div>
@@ -79,6 +81,7 @@ const CoverageCard = ({ doiCount, totalCount, enrichmentSize }) => (
           notation="standard"
           className={classNames.use(enrichmentSize > 0 && styles.enrichment)}
           tag="p"
+          title={texts.coverage.enrichmentLabelTooltip}
         />
       </div>
     </div>
