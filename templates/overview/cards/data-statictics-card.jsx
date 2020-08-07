@@ -1,14 +1,21 @@
 import React from 'react'
+import Link from 'next/link'
 
 import styles from '../styles.module.css'
 import OverviewCard from './overview-card'
 
+import { Link as DesignLink } from 'design'
 import NumericValue from 'components/numeric-value'
 import { valueOrDefault, formatDate } from 'utils/helpers'
 import LinkButton from 'components/link-button'
 import * as texts from 'texts/overview'
 
-const HarvestingStatus = ({ date, errorCount, warningCount }) => {
+const HarvestingStatus = ({
+  date,
+  errorCount,
+  warningCount,
+  dataProviderId,
+}) => {
   const formattedDate = date != null ? formatDate(date) : null
 
   const counter =
@@ -16,9 +23,20 @@ const HarvestingStatus = ({ date, errorCount, warningCount }) => {
       ? { number: errorCount, entity: 'error' }
       : { number: warningCount, entity: 'warning' }
   const caption =
-    counter.number > 0
-      ? `harvested with ${counter.number || 'no'} ${counter.entity}s`
-      : `harvested with no errors`
+    counter.number > 0 ? (
+      <>
+        harvested with {counter.number}{' '}
+        <Link
+          href="/data-providers/[data-provider-id]/issues"
+          as={`/data-providers/${dataProviderId}/issues`}
+          passHref
+        >
+          <DesignLink>{counter.entity}s</DesignLink>
+        </Link>
+      </>
+    ) : (
+      `harvested with no errors`
+    )
 
   return (
     <NumericValue
@@ -56,6 +74,7 @@ const DataStatisticsCard = ({
       date={harvestingDate}
       errorCount={errorCount}
       warningCount={warningCount}
+      dataProviderId={dataProviderId}
     />
     <p className={styles.overviewCardFooter}>
       <LinkButton
