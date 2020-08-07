@@ -19,7 +19,7 @@ const DoiCard = ({
 }) => {
   const { title, description, action } = texts.doi
   return (
-    <OverviewCard>
+    <OverviewCard title={texts.doi.cardTooltip}>
       <Card.Title tag="h2">{title}</Card.Title>
       <PerformanceChart
         className={styles.chart}

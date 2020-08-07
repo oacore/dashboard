@@ -1,3 +1,4 @@
 title: DOI coverage
 description: Enrich your DOI coverage by {{count}}.
 action: Details
+cardTooltip: Obtain identifier enrichments detected by CORE for your content, such as for DOIs missing in your repository

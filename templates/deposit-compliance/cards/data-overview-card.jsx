@@ -15,6 +15,7 @@ const DataOverviewCard = ({ totalCount, complianceLevel }) => (
         tag="p"
         value={valueOrDefault(totalCount, 'Loading...')}
         caption="outputs counted"
+        title={texts.dataOverview.tooltipOutputsCounted}
       />
       {totalCount > 0 && (
         <NumericValue
@@ -22,6 +23,7 @@ const DataOverviewCard = ({ totalCount, complianceLevel }) => (
           value={valueOrDefault(100 - complianceLevel, 'Loading...')}
           append="%"
           caption="non-compliant"
+          title={texts.dataOverview.tooltipNonCompliant}
         />
       )}
     </div>

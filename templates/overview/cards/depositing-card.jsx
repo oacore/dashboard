@@ -89,7 +89,7 @@ const DepositingCard = ({
   dataProviderId,
   countryCode,
 }) => (
-  <OverviewCard>
+  <OverviewCard title={texts.depositing.tooltip}>
     <Card.Title tag="h2">{texts.depositing.title}</Card.Title>
     {chartData == null || complianceLevel == null ? (
       <Loading />

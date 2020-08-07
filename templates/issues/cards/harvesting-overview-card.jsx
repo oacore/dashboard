@@ -5,6 +5,7 @@ import styles from '../styles.module.css'
 import { Card } from 'design'
 import NumericValue from 'components/numeric-value'
 import { valueOrDefault, formatDate } from 'utils/helpers'
+import texts from 'texts/issues'
 
 const HarvestingOverviewCard = ({ lastHarvestingDate, globalsCount }) => {
   const harvesting = {
@@ -17,7 +18,11 @@ const HarvestingOverviewCard = ({ lastHarvestingDate, globalsCount }) => {
   }
 
   return (
-    <Card className={styles.harvestingOverview} tag="section">
+    <Card
+      className={styles.harvestingOverview}
+      tag="section"
+      title={texts.harvestingCardTooltip}
+    >
       <Card.Title tag="h2">Harvesting status</Card.Title>
       <NumericValue
         value={valueOrDefault(harvesting.date, 'Loading...')}

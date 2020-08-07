@@ -6,6 +6,7 @@ import OverviewCard from './overview-card'
 import NumericValue from 'components/numeric-value'
 import { valueOrDefault, formatDate } from 'utils/helpers'
 import LinkButton from 'components/link-button'
+import * as texts from 'texts/overview'
 
 const HarvestingStatus = ({ date, errorCount, warningCount }) => {
   const formattedDate = date != null ? formatDate(date) : null
@@ -38,8 +39,8 @@ const DataStatisticsCard = ({
   warningCount,
   ...restProps
 }) => (
-  <OverviewCard {...restProps}>
-    <h2>Harvested data</h2>
+  <OverviewCard {...restProps} title={texts.harvesting.cardTooltip}>
+    <h2>{texts.harvesting.title}</h2>
     <NumericValue
       tag="p"
       value={valueOrDefault(fullTextCount, 'Loading...')}
