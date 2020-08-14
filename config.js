@@ -11,8 +11,8 @@ const development = {
 }
 
 const production = {
-  API_URL: 'https://api.core.ac.uk/internal',
-  IDP_URL: 'https://api.core.ac.uk',
+  API_URL: 'https://api01.core.ac.uk/internal',
+  IDP_URL: 'https://api01.core.ac.uk',
 }
 
 const validate = (config) =>
@@ -23,7 +23,7 @@ const validate = (config) =>
 const env = { local, development, production }
 const config = {
   ...env.production,
-  ...env[NODE_ENV],
+  // ...env[NODE_ENV],
   SENTRY_DSN: process.env.SENTRY_DSN,
   GA_TRACKING_CODE: process.env.GA_TRACKING_CODE,
 }
