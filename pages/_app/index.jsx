@@ -19,7 +19,7 @@ process.on('uncaughtException', (err) => {
   Sentry.captureException(err)
 })
 
-const ROUTES_WITHOUT_STORE = ['/login', '/reset', '/invitation']
+const ROUTES_WITHOUT_STORE = ['/login', '/reset', '/invitation', '/terms']
 
 const isRouteWithoutStore = (pathname) =>
   ROUTES_WITHOUT_STORE.some((prefix) => pathname.startsWith(prefix))
