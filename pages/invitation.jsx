@@ -10,7 +10,7 @@ import { InvitationRegister } from 'components/forms'
 
 const Invitation = ({ className, router, ...restProps }) => (
   <Card
-    className={classNames.use(styles.invitationContainer, className)}
+    className={classNames.use(styles.invitationContainer, className).toString()}
     {...restProps}
   >
     <Title hidden>Register</Title>

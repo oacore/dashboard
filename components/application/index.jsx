@@ -12,14 +12,15 @@ const Application = ({
   children,
   dataProvider,
   pathname,
+  variant = 'public', // 'public' or 'internal'
   isAuthenticated = false,
   ...restProps
 }) => (
   <>
     <Head />
-    <Container {...restProps}>
+    <Container variant={variant} {...restProps}>
       <LoadingBar fixed />
-      <AppBar variant={isAuthenticated ? 'internal' : 'public'}>
+      <AppBar>
         {isAuthenticated ? (
           <>
             {dataProvider && <RepositorySelect value={dataProvider} />}
@@ -27,22 +28,24 @@ const Application = ({
           </>
         ) : null}
       </AppBar>
-      <SideBar tag="nav">
-        <h2 className="sr-only">Navigate your data</h2>
-        {dataProvider && (
-          <ActivitySelect>
-            {activities.routes
-              .filter((activity) => activity.parent == null)
-              .map(({ path, test }) => (
-                <ActivitySelect.Option
-                  key={path}
-                  value={path}
-                  selected={test(pathname)}
-                />
-              ))}
-          </ActivitySelect>
-        )}
-      </SideBar>
+      {variant === 'internal' && (
+        <SideBar tag="nav">
+          <h2 className="sr-only">Navigate your data</h2>
+          {dataProvider && (
+            <ActivitySelect>
+              {activities.routes
+                .filter((activity) => activity.parent == null)
+                .map(({ path, test }) => (
+                  <ActivitySelect.Option
+                    key={path}
+                    value={path}
+                    selected={test(pathname)}
+                  />
+                ))}
+            </ActivitySelect>
+          )}
+        </SideBar>
+      )}
       {children && <Main>{children}</Main>}
     </Container>
   </>
