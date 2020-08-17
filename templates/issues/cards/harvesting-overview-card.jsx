@@ -7,11 +7,31 @@ import NumericValue from 'components/numeric-value'
 import { valueOrDefault, formatDate } from 'utils/helpers'
 import texts from 'texts/issues'
 
-const HarvestingOverviewCard = ({ lastHarvestingDate, globalsCount }) => {
-  const harvesting = {
-    date: lastHarvestingDate != null ? formatDate(lastHarvestingDate) : null,
-    caption:
-      globalsCount == null ? 'aborted due to error' : 'harvested successfully',
+const HarvestingOverviewCard = ({
+  lastHarvestingDate,
+  globalsCount,
+  isLoadingHarvestingStatus,
+}) => {
+  let harvesting = {
+    date: null,
+    caption: null,
+  }
+
+  if (!isLoadingHarvestingStatus) {
+    if (lastHarvestingDate == null) {
+      harvesting = {
+        date: 'Unknown',
+        caption: '',
+      }
+    } else {
+      harvesting = {
+        date: formatDate(lastHarvestingDate),
+        caption:
+          globalsCount == null
+            ? 'aborted due to error'
+            : 'harvested successfully',
+      }
+    }
   }
 
   return (
