@@ -9,10 +9,7 @@ import texts from 'texts/issues'
 
 const HarvestingOverviewCard = ({ lastHarvestingDate, globalsCount }) => {
   const harvesting = {
-    date:
-      lastHarvestingDate != null
-        ? formatDate(new Date(lastHarvestingDate))
-        : null,
+    date: lastHarvestingDate != null ? formatDate(lastHarvestingDate) : null,
     caption:
       globalsCount == null ? 'aborted due to error' : 'harvested successfully',
   }
