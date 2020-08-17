@@ -45,6 +45,7 @@ const RepositorySelect = ({ store }) => {
       <Select
         id="repository"
         className={styles.repositorySelect}
+        label="Repository"
         value={value}
         onInput={handleOnInput}
         onChange={handleOnChange}
@@ -52,6 +53,7 @@ const RepositorySelect = ({ store }) => {
         clearButton={false}
         clearOnFocus
         spellCheck={false}
+        variant="pure"
       >
         {suggestions.map((el) => (
           <Select.Option key={el.id} id={el.id} value={el.name}>
