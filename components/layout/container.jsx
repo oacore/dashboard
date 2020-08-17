@@ -4,7 +4,13 @@ import { classNames } from '@oacore/design/lib/utils'
 import { Provider as LayoutContext } from './context'
 import styles from './styles.module.css'
 
-const Container = ({ children, className, tag: Tag = 'div', ...restProps }) => {
+const Container = ({
+  children,
+  className,
+  variant,
+  tag: Tag = 'div',
+  ...restProps
+}) => {
   const [state, update] = useState({
     sidebarId: 'sidebar',
     sidebarExpanded: false,
@@ -13,7 +19,8 @@ const Container = ({ children, className, tag: Tag = 'div', ...restProps }) => {
   return (
     <Tag
       className={classNames
-        .use(styles.container, state.sidebarExpanded && styles.overlay)
+        .use('container', variant, state.sidebarExpanded)
+        .from(styles)
         .join(className)}
       {...restProps}
     >

@@ -23,7 +23,7 @@ process.on('uncaughtException', (err) => {
 const ROUTES_WITHOUT_STORE = ['/login', '/reset', '/invitation']
 
 const isRouteWithoutStore = (pathname) =>
-  ROUTES_WITHOUT_STORE.find((prefix) => pathname.startsWith(prefix))
+  ROUTES_WITHOUT_STORE.some((prefix) => pathname.startsWith(prefix))
 
 export async function getStaticProps({ res }) {
   res.setHeader(
@@ -170,16 +170,19 @@ class App extends NextApp {
     const { store } = this
     const { Component, pageProps, router } = this.props
     const { isAuthorized } = this.state
-    const pathname = this.props.router.asPath
+    const pathname = router.asPath
+    const variant =
+      isAuthorized && !isRouteWithoutStore(pathname) ? 'internal' : 'public'
 
     if (!isAuthorized) {
       return (
-        <>
-          <Application dataProvider={undefined} pathname={pathname} />
-          {isRouteWithoutStore(router.asPath) ? (
-            <Component {...pageProps} />
-          ) : null}
-        </>
+        <Application
+          dataProvider={undefined}
+          pathname={pathname}
+          variant={variant}
+        >
+          {isRouteWithoutStore(pathname) ? <Component {...pageProps} /> : null}
+        </Application>
       )
     }
 
@@ -187,6 +190,7 @@ class App extends NextApp {
       <Application
         dataProvider={store.dataProvider}
         pathname={pathname}
+        variant={variant}
         isAuthenticated
       >
         <Component {...pageProps} />
