@@ -40,7 +40,7 @@ const CrossRepositoryCheckCard = ({
     {crossDepositLag ? (
       <Content
         nonCompliantCount={crossDepositLag.nonCompliantCount}
-        differentCount={crossDepositLag.possibleBonusCount}
+        differentCount={crossDepositLag.bonusCount}
         exportUrl={crossDepositLagCsvUrl}
       />
     ) : (
