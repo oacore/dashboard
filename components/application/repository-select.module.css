@@ -26,7 +26,7 @@
 .repository-select::after {
   position: absolute;
   top: 50%;
-  right: 2rem;
+  right: 0.5rem;
   width: 0;
   height: 0;
   content: '';
