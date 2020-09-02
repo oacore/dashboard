@@ -38,7 +38,7 @@
     "@mdi/svg": "^5.4.55",
     "@oacore/design": "^1.1.2",
     "@sentry/browser": "^5.20.1",
-    "@sentry/node": "^5.20.1",
+    "@sentry/node": "^5.22.3",
     "@zeit/next-source-maps": "0.0.3",
     "core-js": "^3.6.5",
     "cosmiconfig": "^7.0.0",
