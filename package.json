@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@mdi/svg": "^5.5.55",
-    "@oacore/design": "^1.1.2",
+    "@oacore/design": "^2.0.1",
     "@sentry/browser": "^5.22.3",
     "@sentry/node": "^5.22.3",
     "@zeit/next-source-maps": "0.0.3",
