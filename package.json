@@ -35,7 +35,7 @@
     "yaml-import-loader": "^1.3.6"
   },
   "dependencies": {
-    "@mdi/svg": "^5.4.55",
+    "@mdi/svg": "^5.5.55",
     "@oacore/design": "^1.1.2",
     "@sentry/browser": "^5.22.3",
     "@sentry/node": "^5.22.3",
