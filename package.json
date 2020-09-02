@@ -46,7 +46,7 @@
     "cssnano": "^4.1.10",
     "d3-array": "^2.5.0",
     "d3-collection": "^1.0.7",
-    "mobx": "^5.15.4",
+    "mobx": "^5.15.6",
     "mobx-react-lite": "^2.0.7",
     "mustache": "^4.0.1",
     "next": "^9.5.3",
