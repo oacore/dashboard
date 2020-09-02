@@ -42,7 +42,7 @@
     "@zeit/next-source-maps": "0.0.3",
     "core-js": "^3.6.5",
     "cosmiconfig": "^7.0.0",
-    "css-loader": "^4.2.0",
+    "css-loader": "^4.2.2",
     "cssnano": "^4.1.10",
     "d3-array": "^2.5.0",
     "d3-collection": "^1.0.7",
