@@ -1,6 +1,5 @@
 import React from 'react'
 import NextApp from 'next/app'
-import 'mobx-react-lite/batchingForReactDom'
 import { withRouter } from 'next/router'
 import '@oacore/design/lib/index.css'
 import './global.css'
