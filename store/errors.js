@@ -14,6 +14,10 @@ export class PaymentRequiredError extends Error {
   name = 'PaymentRequiredError'
 }
 
+export class NotFoundError extends Error {
+  name = 'NotFoundError'
+}
+
 // Passing API error through to simplify error processing,
 // preserve original error message
 export { NetworkError }

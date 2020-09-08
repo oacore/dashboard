@@ -5,7 +5,7 @@ import '@oacore/design/lib/index.css'
 import './global.css'
 
 import { UnauthorizedError } from 'api/errors'
-import { AuthorizationError, AccessError } from 'store/errors'
+import { AuthorizationError, AccessError, NotFoundError } from 'store/errors'
 import { logPageView } from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
@@ -84,6 +84,9 @@ class App extends NextApp {
       // Don't report to console
       event.preventDefault()
     }
+
+    // Forcing reload because Next.js subscribes to this even first
+    if (event.reason instanceof NotFoundError) window.location.replace('/')
   }
 
   componentDidMount() {

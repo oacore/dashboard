@@ -11,16 +11,9 @@ class DashboardUser extends User {
   }
 
   canManage(dataProviderId) {
-    return this.dataProviders.some(({ id }) => dataProviderId === id)
-  }
-
-  getDataProviderById(dataProviderId) {
-    return this.dataProviders.find(({ id }) => dataProviderId === id)
-  }
-
-  searchDataProviders(searchTerm) {
-    return this.dataProviders.filter(
-      (e) => e.name.toLowerCase().search(searchTerm.toLowerCase()) !== -1
+    return (
+      this.superAdmin ||
+      this.dataProviders.some(({ id }) => dataProviderId === id)
     )
   }
 }

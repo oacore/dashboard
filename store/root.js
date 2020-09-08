@@ -85,7 +85,18 @@ class Root extends Store {
 
   @computed
   get dataProviders() {
-    return this.user.dataProviders
+    // The current data provider can be loaded asynchronously to the user's
+    // ones. Hence, we filter to remove this possible duplicate
+    const ids = new Set()
+    const list = [this.dataProvider, ...this.user.dataProviders].filter(
+      (dataProvider) => {
+        if (dataProvider == null || ids.has(dataProvider.id)) return false
+        ids.add(dataProvider.id)
+        return true
+      }
+    )
+    list.sort((a, b) => a.name.localeCompare(b.name))
+    return list
   }
 
   @action async init() {
@@ -107,29 +118,42 @@ class Root extends Store {
       return
     }
 
-    const dataProviderInt = parseInt(id, 10)
-
     // Probably a repeated request. No need to change
-    // Compare strings and numbers
-    // since we do not really know what type of ID the API exposes
-    if (this.dataProvider?.id === dataProviderInt) return
-
-    const dataProviderMetaData = this.user.getDataProviderById(dataProviderInt)
+    //
+    // Compare strings and numbers since we do not know what type of ID
+    // the API exposes
+    // eslint-disable-next-line eqeqeq
+    if (this.dataProvider?.id == id) return
 
     // Check access rights
-    if (
-      dataProviderMetaData !== null &&
-      !this.user.canManage(dataProviderMetaData?.id)
-    ) {
-      // TODO: allow access to any dataProvider for admin users
-      const dpStr = `DataProvider#${dataProviderMetaData?.id}`
+    if (!this.user.canManage(id)) {
+      const dpStr = `DataProvider#${id}`
       throw new AccessError(`${this.user} does not have access to the ${dpStr}`)
     }
 
-    this.dataProvider = new DataProvider(dataProviderMetaData, {
+    const dataProviderInit = this.findDataProvider(id)
+    this.dataProvider = new DataProvider(dataProviderInit, {
       ...this.options,
       prefetch: true,
     })
+  }
+
+  findDataProvider(id) {
+    const dataProvider = this.user.dataProviders.find(
+      // Comparing string ID from the URL with whatever it is in the object
+      // eslint-disable-next-line eqeqeq
+      ({ id: dataProviderId }) => dataProviderId == id
+    )
+    return dataProvider ?? { url: `/data-providers/${id}` }
+  }
+
+  searchDataProviders(searchTerm = '') {
+    return this.dataProviders.filter(
+      (dataProvider) =>
+        (dataProvider.name ?? '')
+          .toLowerCase()
+          .search(searchTerm.toLowerCase()) !== -1
+    )
   }
 
   @action
