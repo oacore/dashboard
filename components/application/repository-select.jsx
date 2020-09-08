@@ -27,8 +27,8 @@ const RepositorySelect = ({ store }) => {
   )
 
   const getOptions = useCallback(
-    (searchTerm) => store.user.searchDataProviders(searchTerm),
-    [store.user]
+    (searchTerm) => store.searchDataProviders(searchTerm),
+    [store]
   )
 
   const handleOnInput = useCallback((data) => {

@@ -6,8 +6,14 @@ import DepositDates from './deposit-dates'
 import DOI from './doi'
 import Issues from '../issues'
 import apiRequest from '../../api'
+import { NotFoundError as NetworkNotFoundError } from '../../api/errors'
+import { NotFoundError } from '../errors'
 
 class DataProvider extends Resource {
+  @observable id = ''
+
+  @observable name = ''
+
   @observable irus = null
 
   @observable rioxx = null
@@ -27,17 +33,30 @@ class DataProvider extends Resource {
   }
 
   @action retrieve() {
-    this.reset()
-    this.retrieveStatistics()
-    this.retrievePluginConfig()
-    this.retrieveIrusStats()
-    this.retrieveRioxxStats()
+    super.retrieve().then(
+      () => {
+        this.reset()
+        this.retrieveStatistics()
+        this.retrievePluginConfig()
+        this.retrieveIrusStats()
+        this.retrieveRioxxStats()
 
-    const url = `/data-providers/${this.id}`
-    this.works = new Works(url, this.options)
-    this.depositDates = new DepositDates(url, this.options)
-    this.doi = new DOI(url, this.options)
-    this.issues = new Issues(url, this.options)
+        const url = `/data-providers/${this.id}`
+        this.works = new Works(url, this.options)
+        this.depositDates = new DepositDates(url, this.options)
+        this.doi = new DOI(url, this.options)
+        this.issues = new Issues(url, this.options)
+      },
+      (error) => {
+        if (error instanceof NetworkNotFoundError) {
+          this.error = new NotFoundError(
+            `DataProvider(${this.url}) could not be found.`
+          )
+          throw this.error
+        }
+        throw error
+      }
+    )
   }
 
   @action
