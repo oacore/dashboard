@@ -9,12 +9,14 @@ const IframeForm = ({ className, title, ...passProps }) => {
   const ref = useRef(null)
 
   const resize = useCallback(() => {
+    console.log('resize')
     ref.current.style.height = `${ref.current.contentWindow.document.body.offsetHeight}px`
   }, [])
 
   const observer = useRef(new ResizeObserver(resize))
 
   const handleOnLoad = useCallback(() => {
+    console.log('handleOnLoad', ref.current)
     if (ref.current.contentWindow.document.body) {
       observer.current.unobserve(ref.current.contentWindow.document.body)
       observer.current.observe(ref.current.contentWindow.document.body)
@@ -23,6 +25,7 @@ const IframeForm = ({ className, title, ...passProps }) => {
   }, [])
 
   useEffect(() => {
+    console.log('componentDidMount')
     // onLoad event may be fired before the JS is completely loaded
     // ensure the element gets observed
     // https://github.com/facebook/react/issues/15446
