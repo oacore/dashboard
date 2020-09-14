@@ -1,9 +1,10 @@
 import React from 'react'
 import NextApp from 'next/app'
 import { withRouter } from 'next/router'
+
 import '@oacore/design/lib/index.css'
 import './global.css'
-
+import TermsModal from 'templates/terms-modal'
 import { UnauthorizedError } from 'api/errors'
 import { AuthorizationError, AccessError, NotFoundError } from 'store/errors'
 import { logPageView } from 'utils/analytics'
@@ -149,30 +150,32 @@ class App extends NextApp {
     const { Component, pageProps, router } = this.props
     const { isAuthorized } = this.state
     const pathname = router.asPath
-    const variant =
-      isAuthorized && !isRouteWithoutStore(pathname) ? 'internal' : 'public'
+    const isPublicRoute = isRouteWithoutStore(pathname)
+    const variant = isAuthorized && !isPublicRoute ? 'internal' : 'public'
 
-    if (!isAuthorized) {
+    if (!isAuthorized || isPublicRoute) {
       return (
         <Application
           dataProvider={undefined}
           pathname={pathname}
           variant={variant}
         >
-          {isRouteWithoutStore(pathname) ? <Component {...pageProps} /> : null}
+          {isPublicRoute ? <Component {...pageProps} /> : null}
         </Application>
       )
     }
 
     return (
-      <Application
-        dataProvider={store.dataProvider}
-        pathname={pathname}
-        variant={variant}
-        isAuthenticated
-      >
-        <Component {...pageProps} />
-      </Application>
+      <TermsModal>
+        <Application
+          dataProvider={store.dataProvider}
+          pathname={pathname}
+          variant={variant}
+          isAuthenticated
+        >
+          <Component {...pageProps} />
+        </Application>
+      </TermsModal>
     )
   }
 

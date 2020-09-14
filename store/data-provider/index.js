@@ -1,18 +1,21 @@
-import { action, observable } from 'mobx'
+import { action, observable, computed } from 'mobx'
 
 import Resource from '../resource'
 import Works from './works'
 import DepositDates from './deposit-dates'
 import DOI from './doi'
 import Issues from '../issues'
-import apiRequest from '../../api'
-import { NotFoundError as NetworkNotFoundError } from '../../api/errors'
 import { NotFoundError } from '../errors'
+
+import { NotFoundError as NetworkNotFoundError } from 'api/errors'
+import apiRequest from 'api'
 
 class DataProvider extends Resource {
   @observable id = ''
 
   @observable name = ''
+
+  @observable acceptedTerms = false
 
   @observable irus = null
 
@@ -38,10 +41,20 @@ class DataProvider extends Resource {
 
   @observable location = {}
 
+  @observable revalidatingPolicies = false
+
+  @observable policies = null
+
+  @computed
+  get areTermsAccepted() {
+    return this.policies?.some((p) => p?.type === 'terms' && p?.acceptedDate)
+  }
+
   @action retrieve() {
     super.retrieve().then(
       () => {
         this.reset()
+        this.retrievePolicies()
         this.retrieveStatistics()
         this.retrievePluginConfig()
         this.retrieveIrusStats()
@@ -112,6 +125,25 @@ class DataProvider extends Resource {
       }
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
+    }
+  }
+
+  @action async retrievePolicies() {
+    const { data } = await this.options.request(
+      `/data-providers/${this.id}/policies`
+    )
+    this.policies = data
+  }
+
+  @action async acceptTerms() {
+    this.revalidatingPolicies = true
+    try {
+      await this.options.request(`/data-providers/${this.id}/policies/terms`, {
+        method: 'POST',
+      })
+      await this.retrievePolicies()
+    } catch (error) {
+      this.revalidatingPolicies = true
     }
   }
 
