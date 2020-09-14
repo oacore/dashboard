@@ -8,7 +8,7 @@ import texts from 'texts/legal'
 import Title from 'components/title'
 import { Section, Heading } from 'components/content'
 
-const TermsPage = ({ className }, ...restProps) => (
+const TermsPage = ({ className, ...restProps }) => (
   <main
     className={classNames.use(className, styles.page, styles.enumerated)}
     lang="en-GB"
