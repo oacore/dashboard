@@ -40,6 +40,7 @@ const Application = ({
                     key={path}
                     value={path}
                     selected={test(pathname)}
+                    dataProviderId={dataProvider.id}
                   />
                 ))}
             </ActivitySelect>
