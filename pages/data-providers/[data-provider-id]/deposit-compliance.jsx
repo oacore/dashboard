@@ -5,19 +5,19 @@ import DepositComplianceTemplate from 'templates/deposit-compliance'
 
 const DepositCompliance = ({ store: { dataProvider }, ...restProps }) => (
   <DepositComplianceTemplate
-    datesUrl={dataProvider?.depositDates.datesUrl}
-    publicReleaseDatesPages={dataProvider?.depositDates.publicReleaseDates}
+    datesUrl={dataProvider?.depositDates?.datesUrl}
+    publicReleaseDatesPages={dataProvider?.depositDates?.publicReleaseDates}
     publicationDatesValidate={
-      dataProvider?.depositDates.publicationDatesValidate
+      dataProvider?.depositDates?.publicationDatesValidate
     }
-    crossDepositLagCsvUrl={dataProvider?.depositDates.crossDepositLagCsvUrl}
-    complianceLevel={dataProvider?.depositDates.complianceLevel}
-    totalCount={dataProvider?.depositDates.totalCount}
-    timeLagData={dataProvider?.depositDates.timeLagData}
+    crossDepositLagCsvUrl={dataProvider?.depositDates?.crossDepositLagCsvUrl}
+    complianceLevel={dataProvider?.depositDates?.complianceLevel}
+    totalCount={dataProvider?.depositDates?.totalCount}
+    timeLagData={dataProvider?.depositDates?.timeLagData}
     isRetrieveDepositDatesInProgress={
-      dataProvider?.depositDates.isRetrieveDepositDatesInProgress
+      dataProvider?.depositDates?.isRetrieveDepositDatesInProgress
     }
-    crossDepositLag={dataProvider?.depositDates.crossDepositLag}
+    crossDepositLag={dataProvider?.depositDates?.crossDepositLag}
     countryCode={dataProvider?.location?.countryCode}
     {...restProps}
   />
