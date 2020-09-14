@@ -5,16 +5,16 @@ import DoiTemplate from 'templates/doi'
 
 const DoiPage = ({ store: { dataProvider }, ...props }) => (
   <DoiTemplate
-    enrichmentSize={dataProvider?.doi.enrichmentSize}
-    doiUrl={dataProvider?.doi.doiUrl}
+    enrichmentSize={dataProvider?.doi?.enrichmentSize}
+    doiUrl={dataProvider?.doi?.doiUrl}
     isExportDisabled={
-      dataProvider?.doi.enrichmentSize === 0 ||
-      dataProvider?.doi.doiRecords.error != null ||
-      dataProvider?.doi.doiRecords.data.length === 0
+      dataProvider?.doi?.enrichmentSize === 0 ||
+      dataProvider?.doi?.doiRecords.error != null ||
+      dataProvider?.doi?.doiRecords.data.length === 0
     }
-    doiCount={dataProvider?.doi.originCount}
+    doiCount={dataProvider?.doi?.originCount}
     dataProviderName={dataProvider.name}
-    doiRecords={dataProvider?.doi.doiRecords}
+    doiRecords={dataProvider?.doi?.doiRecords}
     totalCount={dataProvider?.statistics?.metadataCount}
     {...props}
   />
