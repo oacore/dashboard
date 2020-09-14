@@ -51,7 +51,9 @@ const OverviewTemplate = ({
       enrichmentSize={doiEnrichmentSize}
       dataProviderId={dataProviderId}
     />
-    {rioxxCompliance != null && <RioxxCard compliance={rioxxCompliance} />}
+    {rioxxCompliance != null && rioxxCompliance.totalCount > 0 && (
+      <RioxxCard compliance={rioxxCompliance} />
+    )}
     {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
   </Tag>
 )
