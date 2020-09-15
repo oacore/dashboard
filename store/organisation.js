@@ -8,7 +8,7 @@ class Organisation extends Resource {
   inviteUser = async (data) => {
     const url = `${this.url}/invitation`
     try {
-      await this.request(url, {
+      await this.options.request(url, {
         method: 'POST',
         body: data,
       })
