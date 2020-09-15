@@ -133,7 +133,7 @@ class Root extends Store {
   }
 
   @action
-  async updateDataProvider(patch) {
+  updateDataProvider = async (patch) => {
     try {
       const url = `/data-providers/${this.dataProvider.id}`
       const { data } = await this.options.request(url, {
@@ -152,7 +152,7 @@ class Root extends Store {
   }
 
   @action
-  updateOrganization(patch) {
+  updateOrganization = (patch) => {
     const { name: institution } = patch
     return this.updateDataProvider({ institution })
 
