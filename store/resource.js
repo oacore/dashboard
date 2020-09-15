@@ -41,7 +41,7 @@ class Resource {
 
   retrieve(...scopes) {
     const { request } = this.options
-    if (this.id == null) {
+    if (!this.id) {
       return request(this.url).then(({ data }) => {
         this.extend(data)
         return this.retrieve(...scopes)
