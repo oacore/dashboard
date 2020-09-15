@@ -42,10 +42,15 @@ class Resource {
   retrieve(...scopes) {
     const { request } = this.options
     if (!this.id) {
-      return request(this.url).then(({ data }) => {
-        this.extend(data)
-        return this.retrieve(...scopes)
-      })
+      return request(this.url).then(
+        ({ data }) => {
+          this.extend(data)
+          return this.retrieve(...scopes)
+        },
+        (error) => {
+          throw error
+        }
+      )
     }
 
     const requests = scopes.map((scope) => {
