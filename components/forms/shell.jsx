@@ -11,7 +11,7 @@ const FormShell = ({
   message,
   ...formProps
 }) => {
-  const [isChanged, setChanged] = useState(isButtonVisible)
+  const [isChanged, setChanged] = useState(false)
   const [isSubmitted, setSubmitted] = useState(false)
 
   const handleChange = () => {
@@ -25,7 +25,7 @@ const FormShell = ({
   }
 
   useEffect(() => {
-    if (!isButtonVisible) setChanged(false)
+    setChanged(false)
     setSubmitted(false)
   }, [children])
 
@@ -37,12 +37,12 @@ const FormShell = ({
       {...formProps}
     >
       {children}
-      {isChanged && (
+      {(isChanged || isButtonVisible) && (
         <Button variant="contained" disabled={isSubmitted}>
           {buttonCaption}
         </Button>
       )}
-      {message && !isChanged && <p>{message}</p>}
+      {message && (!isChanged || isButtonVisible) && <p>{message}</p>}
     </form>
   )
 }
