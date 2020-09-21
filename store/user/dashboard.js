@@ -13,7 +13,7 @@ class DashboardUser extends User {
   canManage(dataProviderId) {
     return (
       this.superAdmin ||
-      this.dataProviders.some(({ id }) => dataProviderId === id)
+      this.dataProviders.some(({ id }) => Number(dataProviderId) === id)
     )
   }
 }
