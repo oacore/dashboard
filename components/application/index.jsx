@@ -33,7 +33,7 @@ const Application = observer(
         {variant === 'internal' && (
           <SideBar tag="nav">
             <h2 className="sr-only">Navigate your data</h2>
-            {Boolean(dataProvider.id) && (
+            {Boolean(dataProvider?.id) && (
               <ActivitySelect>
                 {activities.routes
                   .filter((activity) => activity.parent == null)
