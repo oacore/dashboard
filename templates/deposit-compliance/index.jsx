@@ -70,10 +70,12 @@ const DepositComplianceTemplate = ({
       partialCount={publicationDatesValidate?.partialCount}
       noneCount={publicationDatesValidate?.noneCount}
     />
-    <TableCard
-      publicReleaseDatesPages={publicReleaseDatesPages}
-      datesUrl={datesUrl}
-    />
+    {publicReleaseDatesPages && (
+      <TableCard
+        publicReleaseDatesPages={publicReleaseDatesPages}
+        datesUrl={datesUrl}
+      />
+    )}
   </Tag>
 )
 

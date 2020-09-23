@@ -6,12 +6,14 @@ import Title from '../../components/title'
 const ContentTemplate = ({ works, changeVisibility, exportUrl, ...props }) => (
   <>
     <Title hidden>Content</Title>
-    <TableCard
-      works={works}
-      changeVisibility={changeVisibility}
-      exportUrl={exportUrl}
-      {...props}
-    />
+    {works && (
+      <TableCard
+        works={works}
+        changeVisibility={changeVisibility}
+        exportUrl={exportUrl}
+        {...props}
+      />
+    )}
   </>
 )
 
