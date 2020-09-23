@@ -74,8 +74,9 @@ const TableCard = ({ totalCount, aggregation, pages }) => {
       <Table
         title="Browse issues"
         className={styles.issuesTable}
-        selectable
         options={filterOptions}
+        selectable
+        selectId="select-issue-type"
         selectLabel="Select issue type"
         fetchData={fetchData}
         {...tableProps}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { Select as DesignSelect } from '@oacore/design'
 
-const Select = ({ options, label, placeholder, onOptionSelected }) => {
+const Select = ({ id, options, label, placeholder, onOptionSelected }) => {
   const [selectValue, setSelectValue] = useState('')
   const [suggestions, setSuggestions] = useState(options)
 
@@ -30,6 +30,7 @@ const Select = ({ options, label, placeholder, onOptionSelected }) => {
 
   return (
     <DesignSelect
+      id={id}
       value={selectValue}
       onInput={handleOnInput}
       onChange={handleOnChange}
