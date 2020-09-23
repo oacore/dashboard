@@ -32,6 +32,8 @@ class DataProvider extends Resource {
     recommender: null,
   }
 
+  @observable location = {}
+
   @action retrieve() {
     super.retrieve().then(
       () => {
