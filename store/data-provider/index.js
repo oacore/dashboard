@@ -22,6 +22,10 @@ class DataProvider extends Resource {
 
   @observable issues = null
 
+  @observable depositDates = null
+
+  @observable doi = null
+
   @observable statistics = {
     metadataCount: null,
     fullTextCount: null,
