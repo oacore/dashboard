@@ -4,7 +4,11 @@ tooltip:
   time lag, see the matching of your outputs’ publication dates and get an insight of your outputs’ deposit dates.
 description:
   # Displays when we have no deposit dates collected
-  missing-data: We have no REF 2021 data for your repository at the moment.
+  missing-data: |
+    Your repository is not configured to expose information on dates of
+    deposit in a machine-readable format. For more information check our
+    [guidelines](https://core.ac.uk/ref-audit) and contact us at
+    [thet&#101;&#97;m&#64;c&#111;re&#46;&#97;c&#46;&#117;k](mailto:t%68%65t%65am%40core%2e%61c%2eu%6b)
 
   # Displays when we have deposit compliance calculated
   compliance-level: '{{amount}}% of outputs are non-compliant.'
