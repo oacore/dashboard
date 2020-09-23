@@ -27,7 +27,7 @@ const DoiTemplate = ({
       enrichmentSize={enrichmentSize}
     />
 
-    <TableCard pages={doiRecords} exportUrl={doiUrl} />
+    {doiRecords && <TableCard pages={doiRecords} exportUrl={doiUrl} />}
   </Tag>
 )
 
