@@ -19,6 +19,7 @@ const InfiniteTable = ({
   pages,
   className,
   options,
+  selectId,
   selectLabel,
   children,
   fetchData: fetchDataProp,
@@ -79,6 +80,7 @@ const InfiniteTable = ({
       <div className={styles.table}>
         {selectable && options.length > 0 && (
           <Select
+            id={selectId}
             label={selectLabel}
             placeholder={selectLabel}
             options={options}
