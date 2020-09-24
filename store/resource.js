@@ -10,6 +10,10 @@ class Resource {
 
   static defaultValues = {}
 
+  get retrieved() {
+    return !!this.id
+  }
+
   constructor(init, options) {
     this.options = { ...this.constructor.defaultOptions, ...options }
 
@@ -41,11 +45,11 @@ class Resource {
 
   retrieve(...scopes) {
     const { request } = this.options
-    if (!this.id) {
+    if (!this.retrieved) {
       return request(this.url).then(
         ({ data }) => {
           this.extend(data)
-          return this.retrieve(...scopes)
+          return Resource.prototype.retrieve.apply(this, scopes)
         },
         (error) => {
           throw error
