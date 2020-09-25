@@ -8,6 +8,7 @@ import * as texts from 'texts/overview'
 import { valueOrDefault } from 'utils/helpers'
 import TimeLagChart from 'components/time-lag-chart'
 import LinkButton from 'components/link-button'
+import Markdown from 'components/markdown'
 import { Card, Icon } from 'design'
 
 const RegionAlert = ({
@@ -61,7 +62,7 @@ const filterChartData = (data, complianceLevel = 0.75) => {
 
 const Content = ({ chartData, complianceLevel, dataProviderId, countryCode }) =>
   chartData.length === 0 ? (
-    <p>{texts.depositing.description.missingData}</p>
+    <Markdown>{texts.depositing.description.missingData.render()}</Markdown>
   ) : (
     <>
       <TimeLagChart
