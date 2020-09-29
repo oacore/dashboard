@@ -62,7 +62,7 @@
     "remark-slug": "^6.0.0",
     "resize-observer-polyfill": "^1.5.1",
     "source-map-loader": "^1.1.0",
-    "webpack": "^4.44.1"
+    "webpack": "^4.44.2"
   },
   "engines": {
     "node": ">=12"
