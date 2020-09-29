@@ -44,7 +44,7 @@
     "cosmiconfig": "^7.0.0",
     "css-loader": "^4.3.0",
     "cssnano": "^4.1.10",
-    "d3-array": "^2.7.1",
+    "d3-array": "^2.8.0",
     "d3-collection": "^1.0.7",
     "mobx": "^5.15.6",
     "mobx-react-lite": "^2.2.2",
