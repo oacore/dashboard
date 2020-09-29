@@ -47,7 +47,7 @@
     "d3-array": "^2.7.1",
     "d3-collection": "^1.0.7",
     "mobx": "^5.15.6",
-    "mobx-react-lite": "^2.2.1",
+    "mobx-react-lite": "^2.2.2",
     "mustache": "^4.0.1",
     "next": "^9.5.3",
     "postcss-extend": "^1.0.5",
