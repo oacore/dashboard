@@ -24,30 +24,6 @@ const ROUTES_WITHOUT_STORE = ['/login', '/reset', '/invitation']
 const isRouteWithoutStore = (pathname) =>
   ROUTES_WITHOUT_STORE.some((prefix) => pathname.startsWith(prefix))
 
-export async function getStaticProps({ res }) {
-  res.setHeader(
-    'Content-Security-Policy',
-    [
-      // consider everything from these two domains as a safe
-      "default-src 'self' *.core.ac.uk core.ac.uk",
-      // in development there are attached inline scripts
-      // (probably from hot reload or some Next.JS magic)
-      `script-src 'self' *.google-analytics.com ${
-        process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
-      }`,
-      `style-src 'self' ${
-        process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
-      }`,
-      // google analytics may transport info via image
-      // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-      "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
-      `connect-src 'self' *.core.ac.uk core.ac.uk sentry.io *.google-analytics.com ${
-        process.env.NODE_ENV !== 'production' ? 'localhost:* 127.0.0.1:*' : ''
-      }`,
-    ].join(';')
-  )
-}
-
 class App extends NextApp {
   state = {
     isAuthorized: false,
@@ -209,6 +185,32 @@ class App extends NextApp {
       </GlobalProvider>
     )
   }
+}
+
+App.getInitialProps = async ({ ctx: { res } }) => {
+  if (res) {
+    res.setHeader(
+      'Content-Security-Policy',
+      [
+        // consider everything from these two domains as a safe
+        "default-src 'self' *.core.ac.uk core.ac.uk",
+        // in development there are attached inline scripts
+        // (probably from hot reload or some Next.JS magic)
+        `script-src 'self' *.google-analytics.com ${
+          process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
+        }`,
+        "style-src 'self' 'unsafe-inline'",
+        // google analytics may transport info via image
+        // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
+        "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
+        `connect-src 'self' *.core.ac.uk core.ac.uk sentry.io *.google-analytics.com ${
+          process.env.NODE_ENV !== 'production' ? 'localhost:* 127.0.0.1:*' : ''
+        }`,
+      ].join(';')
+    )
+  }
+
+  return {}
 }
 
 export default withRouter(App)
