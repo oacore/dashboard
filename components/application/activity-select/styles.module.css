@@ -32,4 +32,10 @@
     margin-top: auto;
     justify-self: flex-end;
   }
+
+  /* https://github.com/csstools/sanitize.css/issues/203 */
+  & li::before {
+    position: absolute;
+    content: '\200B';
+  }
 }
