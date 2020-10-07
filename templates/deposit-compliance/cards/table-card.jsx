@@ -63,7 +63,7 @@ const MatchingIcon = ({ status }) => {
 class PublicationDateColumn extends Table.Column {
   render() {
     const {
-      publicReleaseDate: date,
+      publicationDate: date,
       publicationDateMatchingLevel: status,
     } = this.props.context
 
