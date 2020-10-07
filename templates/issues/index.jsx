@@ -1,15 +1,19 @@
 import React from 'react'
 
 import styles from './styles.module.css'
-import { TableCard, HarvestingOverviewCard, ErrorsOverviewCard } from './cards'
-import { valueOrDefault } from '../../utils/helpers'
+import {
+  IssuesListCard,
+  HarvestingOverviewCard,
+  ErrorsOverviewCard,
+} from './cards'
+
+import { valueOrDefault } from 'utils/helpers'
 
 const IssuesTemplate = ({
   className,
-  store,
   harvestingStatus,
   aggregation,
-  pages,
+  issuesByType,
   tag: Tag = 'main',
   ...restProps
 }) => {
@@ -24,11 +28,11 @@ const IssuesTemplate = ({
         lastHarvestingDate={lastHarvestingDate}
       />
       <ErrorsOverviewCard totalCount={totalCount} errorsCount={errorsCount} />
-      {pages && (
-        <TableCard
+      {aggregation && (
+        <IssuesListCard
           totalCount={totalCount}
           aggregation={aggregation}
-          pages={pages}
+          issuesByType={issuesByType}
         />
       )}
     </Tag>

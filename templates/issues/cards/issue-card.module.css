@@ -1,0 +1,94 @@
+.card {
+  position: relative;
+  transition: box-shadow 150ms;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Modifiers */
+.two {
+  filter: url('filters.svg#two');
+}
+
+.multiple {
+  filter: url('filters.svg#three');
+}
+
+.expanded {
+  filter: none;
+}
+
+/* Issue list on the car */
+.list {
+  display: block;
+  padding: 0;
+  margin: 0 calc(-1 * var(--card-padding-x, 0)) var(--spacer);
+  list-style: none;
+}
+
+.list li {
+  display: block;
+  border: solid var(--gray-300);
+  border-width: 1px 0;
+
+  &:not(:first-child) {
+    margin-top: -1px;
+  }
+}
+
+.output-link {
+  position: relative;
+  display: block;
+  padding: 0.75rem var(--card-padding-x);
+  line-height: 1;
+  color: inherit;
+  text-decoration: inherit;
+
+  &:hover,
+  &:focus {
+    color: inherit;
+    text-decoration: inherit;
+    background: var(--gray-100);
+  }
+}
+
+.output-id {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--primary);
+  letter-spacing: 0.015em;
+}
+
+.output-line {
+  width: calc(100% - 2rem);
+  height: 1em;
+  overflow: hidden;
+  line-height: 1;
+  text-overflow: ellipsis;
+}
+
+.output-author {
+  /* TODO: Should be replaced with var(--medium-emphasis) something */
+  opacity: 0.6;
+
+  &::after {
+    content: ', ';
+  }
+}
+
+.output-icon {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--card-padding-x) - 0.25rem);
+  opacity: 0.38;
+  transform: translateY(-50%);
+}
+
+/* TODO: Investigate buttons specificity */
+.card [hidden] {
+  display: none;
+}

@@ -8,13 +8,12 @@ class Issues extends Store {
 
   @observable aggregation = null
 
-  @observable issues = null
+  @observable issuesByType = new Map()
 
   constructor(baseUrl, options) {
     super(baseUrl, options)
 
     this.issuesUrl = `${baseUrl}/issues`
-    this.issues = new Pages(this.issuesUrl, this.options)
     this.getHarvestingStatus()
     this.getIssuesAggregation()
   }
@@ -28,6 +27,14 @@ class Issues extends Store {
   @action
   async getIssuesAggregation() {
     const { data } = await this.request(`${this.issuesUrl}/aggregation`)
+
+    // initialize pages per every issue type
+    Object.keys(data.countByType || {}).forEach((type) => {
+      const pages = new Pages(this.issuesUrl, this.options)
+      pages.type = type
+      this.issuesByType.set(type, pages)
+    })
+
     this.aggregation = data
   }
 }
