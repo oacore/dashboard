@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <filter id="two" transform="scale(0.5)">
+    <feOffset result="offOut1" in="SourceGraphic" dx="2" dy="4" />
+    <feBlend in="SourceGraphic" in2="offOut1" mode="normal" />
+    <feMerge>
+      <feMergeNode in="offOut1" />
+      <feMergeNode in="SourceGraphic" />
+    </feMerge>
+  </filter>
+
+  <filter id="three" transform="scale(0.5)">
+    <feOffset result="offOut1" in="SourceGraphic" dx="2" dy="4" />
+    <feOffset result="offOut2" in="SourceGraphic" dx="4" dy="8" />
+    <feBlend in="SourceGraphic" in2="offOut1" mode="normal" />
+    <feBlend in="SourceGraphic" in2="offOut2" mode="normal" />
+    <feMerge>
+      <feMergeNode in="offOut2" />
+      <feMergeNode in="offOut1" />
+      <feMergeNode in="SourceGraphic" />
+    </feMerge>
+  </filter>
+</svg>
