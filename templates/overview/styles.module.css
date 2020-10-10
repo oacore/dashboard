@@ -122,7 +122,7 @@
       content: '';
       background: var(--danger-dark);
       border-radius: 50%;
-      mask: url('/design/icons/close-circle-outline.svg');
+      mask: url('/public/design/icons/close-circle-outline.svg');
     }
   }
 
