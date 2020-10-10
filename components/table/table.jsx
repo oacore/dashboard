@@ -55,12 +55,11 @@ const InfiniteTable = ({
 
   // attach event listeners on mount
   useEffect(() => {
-    containerRef.current.addEventListener('sidebar-close', handleSidebarClose)
-    return () =>
-      containerRef.current.removeEventListener(
-        'sidebar-close',
-        handleSidebarClose
-      )
+    const instance = containerRef.current
+    instance.addEventListener('sidebar-close', handleSidebarClose)
+    return () => {
+      instance.removeEventListener('sidebar-close', handleSidebarClose)
+    }
   }, [])
 
   const bodyHasCallbacks = Boolean(sidebar)
