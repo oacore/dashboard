@@ -9,7 +9,8 @@ const MarkdownLink = ({ href, title, children }) => {
     title,
   }
 
-  const isExternal = new URL(href).origin !== window?.location.origin
+  const isExternal =
+    new URL(href, 'http://example.com').origin !== window?.location.origin
   if (isExternal) {
     Object.assign(props, {
       target: '_blank',
