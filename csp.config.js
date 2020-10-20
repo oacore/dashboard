@@ -16,6 +16,9 @@ const config = {
 
 if (process.env.NODE_ENV !== 'production') {
   // Allow hot module replacement using inlined scripts and styles
+  //
+  // Because styles are always built, it could be injected without inlining
+  // See the bug report: https://github.com/oacore/design/pull/350
   config['script-src'].push("'unsafe-inline'", "'unsafe-eval'")
   config['style-src'].push("'unsafe-inline'")
 
