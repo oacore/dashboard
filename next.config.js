@@ -4,10 +4,20 @@ const withSourceMaps = require('@zeit/next-source-maps')
 
 const camelCaseLoader = path.join(__dirname, 'webpack/camelcase-loader.js')
 
-const envConfig = require('./config')
+const envConfig = require('./env.config')
+const csp = require('./csp.config')
 
 const nextConfig = {
   env: envConfig,
+
+  async headers() {
+    return [
+      {
+        source: '/:path(.*)',
+        headers: [{ key: 'Content-Security-Policy', value: csp }],
+      },
+    ]
+  },
 
   webpack(config) {
     const { rules } = config.module
