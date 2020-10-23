@@ -16,7 +16,7 @@ class Pages extends Store {
 
   searchTerm = ''
 
-  columnOrder = ''
+  columnOrder = {}
 
   type = ''
 
@@ -40,7 +40,7 @@ class Pages extends Store {
     return this.data.slice(from, to)
   }
 
-  reset({ columnOrder, searchTerm, type }) {
+  reset({ columnOrder = {}, searchTerm = '', type = '' }) {
     this.data = []
     this.searchTerm = searchTerm
     this.columnOrder = columnOrder
