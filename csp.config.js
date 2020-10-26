@@ -1,25 +1,26 @@
-/*!
+/*
  * Content-Security-Policy
  */
 const SELF = "'self'"
-const PRODUCION = '*.core.ac.uk'
+// Note it needs to be like that because https://core.ac.uk
+// is not covered by wildcard
+const PRODUCTION = '*.core.ac.uk core.ac.uk'
 
 const config = {
-  'default-src': [SELF, PRODUCION],
+  'default-src': [SELF, PRODUCTION],
   'script-src': [SELF, '*.google-analytics.com'],
-  // TODO: Remove 'unsafe-inline' when the Next.js' bug is resolved
+  // TODO: Move 'unsafe-inline' to development when the Next.js' bug is resolved
   // See more: https://github.com/vercel/next.js/issues/17445
   'style-src': [SELF, "'unsafe-inline'"],
   // Google Analytics may transport data via image:
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-  'img-src': [SELF, PRODUCION, 'data:', '*.google-analytics.com'],
-  'connect-src': [SELF, PRODUCION, 'sentry.io', '*.google-analytics.com'],
+  'img-src': [SELF, PRODUCTION, 'data:', '*.google-analytics.com'],
+  'connect-src': [SELF, PRODUCTION, 'sentry.io', '*.google-analytics.com'],
 }
 
 if (process.env.NODE_ENV !== 'production') {
   // Allow hot module replacement using inlined scripts and styles
   config['script-src'].push("'unsafe-inline'", "'unsafe-eval'")
-  config['style-src'].push("'unsafe-inline'")
 
   // Allow connection to the local hosts in development:
   // - local API is running on a different port
