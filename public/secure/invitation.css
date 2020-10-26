@@ -23,3 +23,30 @@ body {
 .message:empty {
   display: none;
 }
+
+
+.terms {
+  display: inline-block;
+  position: relative;
+}
+
+.terms label:before {
+  content: '';
+  position: relative;
+  float: left;
+  width: 1rem;
+  height: 1rem;
+}
+
+.terms input {
+  position: absolute;
+  top: 0.1rem;
+}
+
+.terms label {
+  color: var(--black);
+}
+
+.terms label p:last-child {
+  margin-bottom: 1rem;
+}

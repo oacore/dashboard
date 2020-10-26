@@ -15,6 +15,7 @@ const Invitation = ({ className, router, ...restProps }) => (
   >
     <Title hidden>Register</Title>
     <InvitationRegister
+      className={styles.card}
       tag="div"
       email={router.query.email}
       invitationCode={router.query.invitationCode}
