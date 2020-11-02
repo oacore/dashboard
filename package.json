@@ -36,6 +36,9 @@
   },
   "dependencies": {
     "@mdi/svg": "^5.8.55",
+    "@mdx-js/loader": "^1.6.19",
+    "@mdx-js/react": "^1.6.19",
+    "@next/mdx": "^10.0.0",
     "@oacore/design": "^3.2.1",
     "@sentry/browser": "^5.27.2",
     "@sentry/node": "^5.27.2",

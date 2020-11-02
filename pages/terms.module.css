@@ -1,0 +1,40 @@
+.page {
+  display: grid;
+  grid-template-columns: 1fr fit-content(80ch) 1fr;
+  padding: 3rem var(--component-padding-x, 1rem);
+  background-color: var(--white);
+
+  & > * {
+    grid-column: 2 / -2;
+  }
+}
+
+.page > section {
+  margin: 0 0 3rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.page > section section {
+  margin-bottom: 1.5rem;
+}
+
+/**
+ * The implementation assumes semantic mark-up based on the <section> element.
+ * Articles, asides and custom elements are not supported but there might not
+ * be a need in that.
+ */
+
+.enumerated section {
+  counter-increment: section;
+}
+
+.enumerated section:first-of-type {
+  counter-reset: section;
+}
+
+.enumerated :matches(h2, h3, h4, h5, h6)::before {
+  content: counters(section, '.') '. ';
+}

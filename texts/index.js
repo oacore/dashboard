@@ -3,6 +3,7 @@ import plugins from './plugins'
 import issues from './issues'
 import letters from './letters'
 import content from './content'
+import legal from './legal'
 
 export default {
   issues,
@@ -10,6 +11,7 @@ export default {
   plugins,
   letters,
   content,
+  legal,
 }
 
-export { issues, navigation, plugins, content }
+export { issues, navigation, plugins, content, legal }
