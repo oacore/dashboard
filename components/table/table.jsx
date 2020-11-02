@@ -88,7 +88,7 @@ const InfiniteTable = ({
         )}
         {searchable && (
           <TextField
-            id="search"
+            id="table-search"
             type="search"
             name="search"
             label="Search"

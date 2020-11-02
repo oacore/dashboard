@@ -47,6 +47,7 @@ const Form = ({
     >
       <div className={styles.personal}>
         <TextField
+          id="request-premium-email"
           type="email"
           name="email"
           defaultValue={fromEmail}
@@ -58,6 +59,7 @@ const Form = ({
         />
         {showName ? (
           <TextField
+            id="request-premium-name"
             name="name"
             defaultValue={fromName}
             autoComplete="name"

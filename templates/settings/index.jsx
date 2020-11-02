@@ -55,6 +55,7 @@ const SettingsTemplate = ({
           message={formMessage.organization}
         >
           <TextField
+            id="settings-global-email"
             label="Name"
             name="name"
             defaultValue={organization.name}
@@ -70,7 +71,13 @@ const SettingsTemplate = ({
           onSubmit={handleSubmit}
           message={formMessage.invitation}
         >
-          <TextField size="small" label="Email" name="email" tag="div" />
+          <TextField
+            id="settings-invitation"
+            size="small"
+            label="Email"
+            name="email"
+            tag="div"
+          />
         </FormShell>
       </Card>
 
@@ -85,12 +92,14 @@ const SettingsTemplate = ({
           message={formMessage['data-provider']}
         >
           <TextField
+            id="settings-repository-name"
             label="Name"
             name="name"
             defaultValue={dataProvider.name}
             tag="p"
           />
           <TextField
+            id="settings-repository-email"
             label="Email"
             name="email"
             defaultValue={dataProvider.email}
