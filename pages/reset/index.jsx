@@ -34,7 +34,13 @@ const ResetPassword = ({ className, store, ...restProps }) => {
       <Title hidden>Password reset</Title>
       <form onSubmit={handleSubmit}>
         <h2>Reset password</h2>
-        <TextField id="email" label="Email" name="email" tag="p" required />
+        <TextField
+          id="reset-email"
+          label="Email"
+          name="email"
+          tag="p"
+          required
+        />
         <Button variant="contained">Continue</Button>
         {message && <p>{message}</p>}
       </form>
