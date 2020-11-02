@@ -4,5 +4,6 @@
   left: 50%;
   width: 100%;
   max-width: 25rem;
+  min-height: unset;
   transform: translate(-50%, -50%);
 }
