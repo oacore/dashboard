@@ -1,7 +1,5 @@
 const path = require('path')
 
-const withSourceMaps = require('@zeit/next-source-maps')
-
 const camelCaseLoader = path.join(__dirname, 'webpack/camelcase-loader.js')
 
 const envConfig = require('./env.config')
@@ -115,4 +113,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withSourceMaps(nextConfig)
+module.exports = nextConfig
