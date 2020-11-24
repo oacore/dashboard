@@ -22,6 +22,7 @@ const ChangePassword = ({ className, email, token, tag }) => {
         {email ? 'Change password' : 'Reset password'}
       </Card.Title>
       <IframeForm
+        id="reset-password-form"
         className={styles.changePasswordIframe}
         title="Password change form"
         src={`/secure/reset.html?${search}`}

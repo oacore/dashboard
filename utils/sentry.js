@@ -6,6 +6,7 @@ let sentryOptions
 if (process.env.SENTRY_DSN) {
   sentryOptions = {
     dsn: process.env.SENTRY_DSN,
+    ignoreErrors: ['ResizeObserver loop limit exceeded'],
   }
 }
 

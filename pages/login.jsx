@@ -40,6 +40,7 @@ const Login = React.memo(() => {
     <>
       <Title hidden>Login</Title>
       <IframeForm
+        id="login-form"
         className={styles.loginIframeContainer}
         title="Login Form"
         src={url}

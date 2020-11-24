@@ -1,3 +1,6 @@
 .iframe-form {
   width: 100%;
+
+  /* Some arbitrary height in case browser doesn't support ResizeObserver */
+  min-height: 15rem;
 }
