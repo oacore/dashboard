@@ -39,7 +39,6 @@
     "@oacore/design": "^3.2.1",
     "@sentry/browser": "^5.27.2",
     "@sentry/node": "^5.27.2",
-    "@zeit/next-source-maps": "0.0.3",
     "core-js": "^3.6.5",
     "cosmiconfig": "^7.0.0",
     "css-loader": "^5.0.0",
