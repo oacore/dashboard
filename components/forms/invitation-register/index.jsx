@@ -20,8 +20,9 @@ const InvitationRegister = ({ className, email, invitationCode, tag }) => {
     <Card className={className} tag={tag}>
       <h2>Register</h2>
       <IframeForm
+        id="invitation-form"
         className={styles.invitationRegisterIframe}
-        title="Password change form"
+        title="Registration form"
         src={`/secure/invitation.html?${search}`}
       />
     </Card>
