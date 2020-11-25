@@ -1,4 +1,5 @@
 import { observable, action, computed } from 'mobx'
+import escapeString from 'escape-string-regexp'
 
 import Store from './store'
 import User from './user'
@@ -152,7 +153,7 @@ class Root extends Store {
       (dataProvider) =>
         (dataProvider.name ?? '')
           .toLowerCase()
-          .search(searchTerm.toLowerCase()) !== -1
+          .search(escapeString(searchTerm.toLowerCase())) !== -1
     )
   }
 
