@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { Select as DesignSelect } from '@oacore/design'
+import escapeString from 'escape-string-regexp'
 
 const Select = ({ id, options, label, placeholder, onOptionSelected }) => {
   const [selectValue, setSelectValue] = useState('')
@@ -8,7 +9,10 @@ const Select = ({ id, options, label, placeholder, onOptionSelected }) => {
   const getOptions = useCallback(
     (searchTerm) =>
       options.filter(
-        (el) => el.value.toLowerCase().search(searchTerm?.toLowerCase()) !== -1
+        (el) =>
+          el.value
+            .toLowerCase()
+            .search(escapeString(searchTerm?.toLowerCase())) !== -1
       ),
 
     [options]
