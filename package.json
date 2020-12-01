@@ -37,7 +37,7 @@
   "dependencies": {
     "@mdi/svg": "^5.8.55",
     "@oacore/design": "^3.2.1",
-    "@sentry/browser": "^5.27.2",
+    "@sentry/browser": "^5.27.6",
     "@sentry/node": "^5.27.2",
     "core-js": "^3.6.5",
     "cosmiconfig": "^7.0.0",
