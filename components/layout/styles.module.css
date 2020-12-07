@@ -21,6 +21,7 @@
 .app-bar {
   top: 0;
   left: 0;
+  font-weight: 600;
 }
 
 .app-bar-toggle {
@@ -89,4 +90,10 @@
   position: relative;
   flex-grow: 1;
   min-height: 100%;
+}
+
+.logo {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
 }
