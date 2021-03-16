@@ -1,0 +1,4 @@
+.container {
+  margin-right: var(--component-padding-y, 1rem);
+  margin-left: var(--component-padding-y, 1rem);
+}

@@ -9,6 +9,7 @@ import { AuthorizationError, AccessError, NotFoundError } from 'store/errors'
 import { logPageView } from 'utils/analytics'
 import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
+import InstabilityMessage from 'components/instability-message'
 import { Sentry } from 'utils/sentry'
 
 process.on('unhandledRejection', (err) => {
@@ -171,7 +172,10 @@ class App extends NextApp {
         variant={variant}
         isAuthenticated
       >
-        <Component {...pageProps} />
+        <>
+          <InstabilityMessage />
+          <Component {...pageProps} />
+        </>
       </Application>
     )
   }
