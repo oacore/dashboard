@@ -17,6 +17,7 @@ const icons = [
   'file-check',
   'help-circle',
   'help-circle-outline',
+  'information-outline',
   'magnify',
   'new-box',
   'open-in-new',

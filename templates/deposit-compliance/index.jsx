@@ -23,11 +23,15 @@ const SUPPORT_EMAIL = decodeURIComponent(
 
 const NotEnoughDataMessage = () => (
   <Message>
-    <Icon src="#alert-outline" /> Your repository is not configured to expose
-    information on dates of deposit in a machine-readable format. For more
-    information check our{' '}
-    <Link href="https://core.ac.uk/ref-audit">guidelines</Link> and contact us
-    at <Link href={SUPPORT_EMAIL_URL}>{SUPPORT_EMAIL}</Link>.
+    <Icon src="#information-outline" /> This content is available for
+    repositories using EPrints, Haplo and DSpace software. Contact us at{' '}
+    <Link href={SUPPORT_EMAIL_URL}>{SUPPORT_EMAIL}</Link> to upgrade your
+    account to the{' '}
+    <Link href="https://core.ac.uk/services/repository-edition">
+      Repository Edition
+    </Link>{' '}
+    and view the information. For more details check our{' '}
+    <Link href="https://core.ac.uk/ref-audit">guidelines</Link>.
   </Message>
 )
 
