@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import styles from './login.module.css'
 import Title from '../components/title'
 
+import InstabilityMessage from 'components/instability-message'
 import { IframeForm } from 'components/forms'
 
 const { IDP_URL } = process.env
@@ -39,6 +40,7 @@ const Login = React.memo(() => {
   return (
     <>
       <Title hidden>Login</Title>
+      <InstabilityMessage />
       <IframeForm
         id="login-form"
         className={styles.loginIframeContainer}
