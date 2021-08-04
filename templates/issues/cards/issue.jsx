@@ -92,21 +92,22 @@ const IssueCard = ({
       <ul className={styles.list} hidden={listHidden}>
         {issues.map(({ id: issueId, output }) => (
           <li key={issueId}>
-            <Link
-              href={`https://core.ac.uk/display/${output.id}`}
-              external
-              className={styles.outputLink}
-              title="Open the record page"
-            >
-              <span className={styles.outputId}>{output.oai}</span>{' '}
-              <div className={styles.outputLine}>
-                <span className={styles.outputAuthor}>
-                  {output.authors[0]} {output.authors.length > 1 && ' et al.'}
-                </span>{' '}
-                <span className={styles.outputTitle}>{output.title}</span>
-              </div>
-              <Icon src="#open-in-new" className={styles.outputIcon} />
-            </Link>
+            {output && output.id && (
+              <Link
+                href={`https://core.ac.uk/display/${output.id}`}
+                className={styles.outputLink}
+                title="Open the record page"
+              >
+                <Icon src="#open-in-new" className={styles.outputIcon} />
+                <span className={styles.outputId}>{output.oai}</span>{' '}
+                <div className={styles.outputLine}>
+                  <span className={styles.outputAuthor}>
+                    {output.authors[0]} {output.authors.length > 1 && ' et al.'}
+                  </span>{' '}
+                  <span className={styles.outputTitle}>{output.title}</span>
+                </div>
+              </Link>
+            )}
           </li>
         ))}
       </ul>

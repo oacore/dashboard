@@ -41,7 +41,7 @@
 .output-link {
   position: relative;
   display: block;
-  padding: 0.75rem var(--card-padding-x);
+  padding: 0.5rem 0;
   line-height: 1;
   color: inherit;
   text-decoration: inherit;
@@ -81,11 +81,8 @@
 }
 
 .output-icon {
-  position: absolute;
-  top: 50%;
   right: calc(var(--card-padding-x) - 0.25rem);
   opacity: 0.38;
-  transform: translateY(-50%);
 }
 
 /* TODO: Investigate buttons specificity */
