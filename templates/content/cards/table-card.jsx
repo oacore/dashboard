@@ -96,7 +96,8 @@ const TableCard = ({ works, changeVisibility, exportUrl, ...props }) => {
           order="any"
           getter={(v) => {
             const { oai } = v.identifier
-            return oai.split(':').pop()
+            if (oai) return oai.split(':').pop()
+            return '-'
           }}
           className={styles.oaiColumn}
         />
