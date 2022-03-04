@@ -14,6 +14,7 @@ const OverviewTemplate = ({
   isTimeLagDataLoading,
   complianceLevel,
   doiCount,
+  doiDownloadUrl,
   doiEnrichmentSize,
   dataProviderId,
   countryCode,
@@ -48,6 +49,7 @@ const OverviewTemplate = ({
     <DoiCard
       outputsCount={metadataCount}
       doiCount={doiCount}
+      downloadUrl={doiDownloadUrl}
       enrichmentSize={doiEnrichmentSize}
       dataProviderId={dataProviderId}
     />

@@ -13,6 +13,7 @@ const Overview = ({ store, ...props }) => (
     }
     complianceLevel={store.dataProvider?.depositDates?.complianceLevel}
     doiCount={store.dataProvider?.doi?.originCount}
+    doiDownloadUrl={store.dataProvider?.doi?.doiUrl}
     doiEnrichmentSize={store.dataProvider?.doi?.enrichmentSize}
     dataProviderId={store.dataProvider.id}
     countryCode={store.dataProvider?.location?.countryCode}

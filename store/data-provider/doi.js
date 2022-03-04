@@ -43,6 +43,7 @@ class DOI extends Store {
   @action
   retrieveStatistics = async () => {
     const { data } = await this.request(this.statisticsUrl)
+
     this.originCount = data.dataProviderDoiCount
     this.totalCount = data.totalDoiCount
   }

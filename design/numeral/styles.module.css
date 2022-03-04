@@ -1,5 +1,6 @@
 .container {
   --numeral-value-sm-size: 2em;
+  --numeral-value-ex-sm-size: 0.2em;
   --numeral-value-md-size: 3em;
   --numeral-value-lg-size: 4em;
   --numeral-value-size: var(--numeral-value-md-size);
@@ -30,6 +31,10 @@
 
 .small {
   --numeral-value-size: var(--numeral-value-sm-size);
+}
+
+.extra-small {
+  --numeral-value-size: var(--numeral-value-ex-sm-size);
 }
 
 .large {

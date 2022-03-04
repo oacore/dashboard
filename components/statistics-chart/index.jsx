@@ -31,8 +31,8 @@ const StatisticsChart = ({
             dataKey={dataKey}
             stackId="1"
             fill={colors[dataKey]}
-            barSize={40}
-            barGap={5}
+            barSize={100}
+            barGap={10}
             isAnimationActive={false}
           >
             {index === barKeys.length - 1 ? (

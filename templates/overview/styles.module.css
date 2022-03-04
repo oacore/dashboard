@@ -1,6 +1,10 @@
-.container {
-  --column-min-width: 18rem;
+@custom-media --screen-until-desktop (max-width: 1240px);
 
+.container {
+  --column-min-width: 30rem;
+  @media (--screen-until-desktop) {
+    --column-min-width: 20rem;
+  }
   display: grid;
   grid-gap: 1.5rem 2rem;
   grid-auto-rows: min-content;
@@ -15,6 +19,22 @@
 
   & > * {
     margin-top: 0;
+  }
+}
+
+.doi-card {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(calc(var(--column-min-width) / 2), 1fr)
+  );
+
+  @media (--screen-until-desktop) {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(var(--column-min-width), 1fr)
+    );
   }
 }
 
@@ -70,6 +90,12 @@
   & svg {
     overflow: unset;
   }
+}
+
+.doi-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .rioxx-chart {
@@ -139,4 +165,19 @@
   color: var(--danger-dark);
   border: 1px solid;
   border-radius: var(--component-corner-radius, 2px);
+}
+
+.statistics {
+  font-size: 0.9em;
+}
+
+.doi-card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.doi-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
