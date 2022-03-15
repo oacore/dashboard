@@ -4,6 +4,8 @@ import { classNames } from '@oacore/design/lib/utils'
 import OverviewCard from './overview-card'
 import styles from '../styles.module.css'
 
+import Actions from 'components/actions'
+import Markdown from 'components/markdown'
 import { Button, Card } from 'design'
 import * as texts from 'texts/overview'
 import { formatNumber } from 'utils/helpers'
@@ -19,20 +21,24 @@ const PercentageChart = ({
   ...htmlProps
 }) => {
   const complianceLevel = compliantCount / totalCount
-  const labelText = `${formatNumber(complianceLevel * 100, {
+  const mainLabelText = `${formatNumber(complianceLevel * 100, {
+    maximumFractionDigits: 2,
+  })}%`
+
+  const secondaryLabelText = `${formatNumber(100 - complianceLevel * 100, {
     maximumFractionDigits: 2,
   })}%`
 
   return (
     <Tag className={classNames.use(styles.row).join(className)} {...htmlProps}>
       <div className={styles.bar} style={{ flexGrow: complianceLevel }}>
-        {complianceLevel >= 0.2 && labelText}
+        {complianceLevel >= 0.2 && mainLabelText}
       </div>
       <div
         className={classNames.use(styles.bar, styles.empty)}
         style={{ flexGrow: 1 - complianceLevel }}
       >
-        {complianceLevel < 0.2 && labelText}
+        {complianceLevel >= 0.1 && secondaryLabelText}
       </div>
       <span className="sr-only">{children}</span>
     </Tag>
@@ -61,7 +67,7 @@ const Content = ({ compliantCount, totalCount, missingTerms }) => (
       ))}
     </ul>
     <Button
-      variant="contained"
+      variant="outlined"
       className={styles.linkButton}
       href={RIOXX_SPEC_URL}
       target="_blank"
@@ -75,7 +81,12 @@ const Content = ({ compliantCount, totalCount, missingTerms }) => (
 
 const RioxxCard = ({ compliance }) => (
   <OverviewCard>
-    <Card.Title tag="h2">{texts.rioxx.title}</Card.Title>
+    <div className={classNames.use(styles.cardHeader)}>
+      <Card.Title tag="h2">{texts.rioxx.title}</Card.Title>
+      <Actions />
+    </div>
+
+    <Markdown className={styles.subtitle}>{texts.rioxx.description}</Markdown>
     {compliance != null ? (
       <Content
         compliantCount={compliance.partiallyCompliantCount}

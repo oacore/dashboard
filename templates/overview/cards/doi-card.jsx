@@ -2,8 +2,8 @@ import React from 'react'
 
 import OverviewCard from './overview-card'
 import styles from '../styles.module.css'
-import ExportButton from '../../../components/export-button'
 
+import ExportButton from 'components/export-button'
 import Actions from 'components/actions'
 import Legend from 'components/legend'
 import Markdown from 'components/markdown'
@@ -44,7 +44,7 @@ const DoiCard = ({
   ]
   return (
     <OverviewCard title={texts.doi.cardTooltip}>
-      <div className={styles.doiCardHeader}>
+      <div className={styles.cardHeader}>
         <Card.Title tag="h2">{title}</Card.Title>
         <Actions downloadUrl={downloadUrl} />
       </div>
@@ -86,11 +86,14 @@ const DoiCard = ({
   )
 }
 
-const DiffStatistics = ({ outputsCount, doiCount }) => (
-  <span className={styles.statistics}>
-    {formatNumber(doiCount, { notation: 'compact' })} out of{' '}
-    {formatNumber(outputsCount, { notation: 'compact' })}
-  </span>
-)
+const DiffStatistics = ({ outputsCount, doiCount }) =>
+  outputsCount ? (
+    <span className={styles.statistics}>
+      {formatNumber(doiCount, { notation: 'compact' })} out of{' '}
+      {formatNumber(outputsCount, { notation: 'compact' })}
+    </span>
+  ) : (
+    <span>Loading...</span>
+  )
 
 export default DoiCard

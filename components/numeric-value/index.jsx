@@ -10,16 +10,22 @@ const NumericValue = ({
   diff,
   notation = 'compact',
   compactDisplay,
+  maximumFractionDigits = 2,
+  bold,
   ...htmlProps
 }) => (
   <Numeral {...htmlProps}>
-    <Numeral.Value>
+    <Numeral.Value bold={bold}>
       {typeof value == 'number'
-        ? formatNumber(value, { notation, compactDisplay })
+        ? formatNumber(value, {
+            notation,
+            compactDisplay,
+            maximumFractionDigits,
+          })
         : value}
     </Numeral.Value>
-    {append && <Numeral.Appendix>{append}</Numeral.Appendix>}{' '}
-    {diff && <Numeral.Diff>{diff}</Numeral.Diff>}{' '}
+    {append && <Numeral.Appendix bold={bold}>{append}</Numeral.Appendix>}{' '}
+    {diff && <Numeral.Diff>{diff}</Numeral.Diff>}
     <Numeral.Caption>{caption}</Numeral.Caption>
   </Numeral>
 )

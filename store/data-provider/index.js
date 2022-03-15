@@ -67,8 +67,21 @@ class DataProvider extends Resource {
 
   @action
   async retrieveStatistics() {
-    const url = `/data-providers/${this.id}/statistics`
-    const { data } = await this.options.request(url)
+    const url = new URL(
+      `/v3/data-providers/${this.id}/stats?depositHistory=true`,
+      process.env.API_URL
+    ).href
+
+    const body = {
+      rawStats: true,
+      depositHistory: true,
+    }
+
+    const { data } = await await apiRequest(url, {
+      body,
+      method: 'POST',
+    })
+
     Object.assign(this.statistics, data)
   }
 

@@ -9,6 +9,7 @@ import Title from 'components/title'
 
 const OverviewTemplate = ({
   metadataCount,
+  metadatadaHistory,
   fullTextCount,
   timeLagData,
   isTimeLagDataLoading,
@@ -17,6 +18,7 @@ const OverviewTemplate = ({
   doiDownloadUrl,
   doiEnrichmentSize,
   dataProviderId,
+  dataProviderName,
   countryCode,
   harvestingDate,
   errorCount,
@@ -31,14 +33,16 @@ const OverviewTemplate = ({
     className={classNames.use(styles.container).join(className)}
     {...restProps}
   >
-    <Title hidden>Overview</Title>
+    <Title>{dataProviderName}</Title>
     <DataStatisticsCard
+      metadatadaHistory={metadatadaHistory}
       metadataCount={metadataCount}
       fullTextCount={fullTextCount}
       harvestingDate={harvestingDate}
       errorCount={errorCount}
       warningCount={warningCount}
       dataProviderId={dataProviderId}
+      viewStatistics={viewStatistics}
     />
     <DepositingCard
       chartData={timeLagData}
@@ -46,6 +50,11 @@ const OverviewTemplate = ({
       dataProviderId={dataProviderId}
       countryCode={countryCode}
     />
+
+    {rioxxCompliance != null && rioxxCompliance.totalCount > 0 && (
+      <RioxxCard compliance={rioxxCompliance} />
+    )}
+    {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
     <DoiCard
       outputsCount={metadataCount}
       doiCount={doiCount}
@@ -53,10 +62,6 @@ const OverviewTemplate = ({
       enrichmentSize={doiEnrichmentSize}
       dataProviderId={dataProviderId}
     />
-    {rioxxCompliance != null && rioxxCompliance.totalCount > 0 && (
-      <RioxxCard compliance={rioxxCompliance} />
-    )}
-    {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
   </Tag>
 )
 

@@ -5,16 +5,33 @@ import { classNames } from '@oacore/design/lib/utils'
 import NumericValue from '../numeric-value'
 import styles from './styles.module.css'
 
-const PerformanceChart = ({ value, caption, values, className }) => (
+import { valueOrDefault } from 'utils/helpers'
+import CustomTooltip from 'design/tooltip'
+
+const PerformanceChart = ({
+  value,
+  rounded = false,
+  caption,
+  values,
+  className,
+  minHeight = 300,
+  stroke = '#e0e0e0',
+  maxHeight = minHeight,
+  valueSize = 'middle',
+}) => (
   <div className={classNames.use(styles.container).join(className)}>
-    <ResponsiveContainer className={styles.rechartsInner} minHeight={300}>
+    <ResponsiveContainer
+      className={styles.rechartsInner}
+      maxHeight={maxHeight}
+      minHeight={minHeight}
+    >
       <PieChart>
         <Pie
           isAnimationActive={false}
-          stroke="#e0e0e0"
+          stroke={stroke}
           data={values}
-          startAngle={225}
-          endAngle={-45}
+          startAngle={rounded ? 270 : 225}
+          endAngle={rounded ? -135 : -45}
           innerRadius="90%"
           outerRadius="100%"
           paddingAngle={0}
@@ -24,30 +41,21 @@ const PerformanceChart = ({ value, caption, values, className }) => (
             <Cell key={`cell-${entry}`} fill={entry.color} />
           ))}
         </Pie>
-        <Tooltip
-          wrapperStyle={{
-            zIndex: 10000,
-            padding: '0',
-          }}
-          itemStyle={{
-            padding: '0.2rem',
-          }}
-          contentStyle={{
-            padding: '0',
-            backgroundColor: '#e0e0e0',
-            border: 'none',
-            boxShadow: ' 0px 5px 25px 5px rgba(112,112,112,0.51)',
-          }}
-          labelStyle={{}}
-        />
+        <Tooltip position={{ x: 50, y: -25 }} content={<CustomTooltip />} />
       </PieChart>
     </ResponsiveContainer>
-    <NumericValue
-      className={styles.label}
-      value={value}
-      append="%"
-      caption={caption}
-    />
+
+    {value && (
+      <NumericValue
+        className={styles.label}
+        value={valueOrDefault(value, 'Loading...')}
+        append={value ? '%' : null}
+        size={valueSize}
+        caption={caption}
+        maximumFractionDigits={0}
+        bold
+      />
+    )}
   </div>
 )
 

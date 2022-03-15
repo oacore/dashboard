@@ -9,9 +9,11 @@ const Actions = ({ tag: Tag = 'div', className, downloadUrl }) => (
     <Button>
       <Icon src="#alert-circle-outline" className={styles.pure} />
     </Button>
-    <Button type="button" disabled={!!downloadUrl} href={downloadUrl}>
-      <Icon src="#download" className={styles.pure} />
-    </Button>
+    {downloadUrl && (
+      <Button type="button" href={downloadUrl}>
+        <Icon src="#download" className={styles.pure} />
+      </Button>
+    )}
   </Tag>
 )
 

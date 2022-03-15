@@ -5,7 +5,7 @@ import styles from './styles.module.css'
 const Legend = ({ values }) => (
   <div className={styles.legends}>
     {values.map((entry) => (
-      <div className={styles.legend}>
+      <div className={styles.legend} key={entry.name}>
         <i className={styles.box} style={{ backgroundColor: entry.color }} />
         <span className={styles.caption}>{entry.name}</span>
       </div>

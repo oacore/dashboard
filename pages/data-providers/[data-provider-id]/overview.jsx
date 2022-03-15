@@ -5,8 +5,9 @@ import { withGlobalStore } from 'store'
 
 const Overview = ({ store, ...props }) => (
   <OverviewTemplate
-    metadataCount={store.dataProvider?.statistics?.metadataCount}
-    fullTextCount={store.dataProvider?.statistics?.fullTextCount}
+    metadatadaHistory={store.dataProvider?.statistics?.history}
+    metadataCount={store.dataProvider?.statistics?.countMetadata}
+    fullTextCount={store.dataProvider?.statistics?.countFulltext}
     timeLagData={store.dataProvider?.depositDates?.timeLagData}
     isTimeLagDataLoading={
       store.dataProvider?.depositDates?.isRetrieveDepositDatesInProgress
@@ -16,6 +17,7 @@ const Overview = ({ store, ...props }) => (
     doiDownloadUrl={store.dataProvider?.doi?.doiUrl}
     doiEnrichmentSize={store.dataProvider?.doi?.enrichmentSize}
     dataProviderId={store.dataProvider.id}
+    dataProviderName={store.dataProvider.name}
     countryCode={store.dataProvider?.location?.countryCode}
     harvestingDate={
       store.dataProvider?.issues?.harvestingStatus?.lastHarvestingDate

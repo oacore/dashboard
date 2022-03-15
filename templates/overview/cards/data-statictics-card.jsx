@@ -1,98 +1,141 @@
 import React from 'react'
-import Link from 'next/link'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
-import OverviewCard from './overview-card'
 
-import { Link as DesignLink } from 'design'
-import NumericValue from 'components/numeric-value'
+import useHarvestingDate from 'utils/hooks/use-harvesting-dates'
+import StatisticsChart from 'components/statistics-chart'
 import { valueOrDefault, formatDate } from 'utils/helpers'
-import LinkButton from 'components/link-button'
-import * as texts from 'texts/overview'
+import Loader from 'components/loader'
+import { Card } from 'design'
+import NumericValue from 'components/numeric-value'
+import text from 'texts/harvesting'
+import Markdown from 'components/markdown'
+import COLORS from 'utils/colors'
+import PerformanceChart from 'components/performance-chart'
+import Actions from 'components/actions'
+import ActionButton from 'components/action-button'
 
-const HarvestingStatus = ({
-  date,
-  errorCount,
-  warningCount,
-  dataProviderId,
-}) => {
-  const formattedDate = date != null ? formatDate(date) : null
-
-  const counter =
-    errorCount > 0
-      ? { number: errorCount, entity: 'error' }
-      : { number: warningCount, entity: 'warning' }
-  const caption =
-    counter.number > 0 ? (
-      <>
-        harvested with {counter.number}{' '}
-        <Link
-          href="/data-providers/[data-provider-id]/issues"
-          as={`/data-providers/${dataProviderId}/issues`}
-          passHref
-        >
-          <DesignLink>{counter.entity}s</DesignLink>
-        </Link>
-      </>
-    ) : (
-      `harvested with no errors`
-    )
+const ActionsBar = ({ onSetActiveType, activeType }) => {
+  const onButtonClick = (name) => {
+    onSetActiveType(name)
+  }
 
   return (
-    <NumericValue
-      tag="p"
-      value={valueOrDefault(formattedDate, 'Loading...')}
-      caption={counter.number == null ? 'Loading...' : caption}
-      size="small"
-    />
+    <div>
+      {Object.values(text.actions).map(({ name }) => (
+        <ActionButton
+          onClick={() => onButtonClick(name)}
+          key={name}
+          text={name}
+          active={activeType === name}
+        />
+      ))}
+      <Actions />
+    </div>
   )
 }
 
+const FullTextsProgressChart = ({
+  value,
+  chartValues,
+  caption,
+  fullTextCount,
+}) => (
+  <div className={styles.infoCardChart}>
+    <PerformanceChart
+      minHeight={110}
+      rounded
+      className={styles.infoChart}
+      values={chartValues}
+      value={value}
+      valueSize="extra-small"
+    />
+    <NumericValue
+      className={styles.label}
+      value={valueOrDefault(fullTextCount, 'Loading...')}
+      size="extra-small"
+      caption={caption}
+    />
+  </div>
+)
+
 const DataStatisticsCard = ({
+  metadatadaHistory,
   metadataCount,
   fullTextCount,
   dataProviderId,
   harvestingDate,
   errorCount,
   warningCount,
+  viewStatistics,
   ...restProps
-}) => (
-  <OverviewCard {...restProps} title={texts.harvesting.cardTooltip}>
-    <h2>{texts.harvesting.title}</h2>
-    <NumericValue
-      tag="p"
-      value={valueOrDefault(fullTextCount, 'Loading...')}
-      caption="full texts"
-    />
-    <NumericValue
-      tag="p"
-      value={valueOrDefault(metadataCount, 'Loading...')}
-      caption="metadata records"
-      size="small"
-    />
-    <HarvestingStatus
-      date={harvestingDate}
-      errorCount={errorCount}
-      warningCount={warningCount}
-      dataProviderId={dataProviderId}
-    />
-    <p className={styles.overviewCardFooter}>
-      <LinkButton
-        className={styles.linkButton}
-        href="issues"
-        dataProviderId={dataProviderId}
-      >
-        Issues
-      </LinkButton>
-      <LinkButton
-        className={styles.linkButton}
-        variant="text"
-        href="content"
-        dataProviderId={dataProviderId}
-      >
-        Content
-      </LinkButton>
-    </p>
-  </OverviewCard>
-)
+}) => {
+  const activeFilterType = text.actions.find((action) => action.defaultActive)
+    .name
+  const { barChartValues, activeType, onSetActiveType } = useHarvestingDate(
+    metadatadaHistory,
+    activeFilterType
+  )
+
+  const perfomanceChartValues = [
+    {
+      name: 'Full text',
+      value: fullTextCount,
+      color: COLORS.primary,
+    },
+    {
+      name: 'Without full text',
+      value: metadataCount - fullTextCount,
+      color: COLORS.gray200,
+    },
+  ]
+  return (
+    <Card className={styles.infoCard} {...restProps} title={text.cardTooltip}>
+      <div className={styles.cardHeader}>
+        <Card.Title tag="h2">{text.title}</Card.Title>
+        <ActionsBar activeType={activeType} onSetActiveType={onSetActiveType} />
+      </div>
+
+      <Markdown className={classNames.use(styles.subtitle, styles.metadata)}>
+        {text.metadata.title}
+      </Markdown>
+
+      {!metadataCount || !fullTextCount ? (
+        <Loader width={100} />
+      ) : (
+        <>
+          <NumericValue
+            bold
+            tag="p"
+            value={valueOrDefault(metadataCount, 'Loading...')}
+          />
+
+          <FullTextsProgressChart
+            fullTextCount={fullTextCount}
+            chartValues={perfomanceChartValues}
+            caption={text.metadata.caption}
+            value={valueOrDefault((fullTextCount / metadataCount) * 100, '🔁')}
+          />
+          {barChartValues.length > 0 && (
+            <StatisticsChart
+              data={barChartValues.map(({ date, value }) => ({
+                'name': formatDate(date, {
+                  day: 'numeric',
+                  month: 'numeric',
+                  year: '2-digit',
+                }),
+                'Metadata count': value,
+              }))}
+              labelsPosition="inside"
+              colors={{
+                'Metadata count': 'var(--primary)',
+              }}
+            />
+          )}
+        </>
+      )}
+    </Card>
+  )
+}
 export default DataStatisticsCard
