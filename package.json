@@ -1,6 +1,6 @@
 {
   "name": "@oacore/dashboard",
-  "description": "CORE Dashboard is a powerful tool for CORE data providers to manage their data in CORE.",
+  "description": "CORE Dashboard is a powerful tool for CORE data providers to manage their data in CORE",
   "main": "pages/index.js",
   "author": "CORE, The Open University <dev@core.ac.uk>",
   "license": "UNLICENSED",
