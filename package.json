@@ -75,6 +75,6 @@
     "lint:css": "stylelint --ignore-path .gitignore '**/*.css'",
     "lint": "run-p lint:*",
     "postinstall": "run-p cp:*",
-    "cp:global": "mkdir -p ./public/design && cp -r \"$(npm explore @oacore/design -- pwd)/lib/global\" ./public/design"
+    "cp:global": "mkdir -p ./public/design && cp -r node_modules/@oacore/design/lib/global ./public/design"
   }
 }
