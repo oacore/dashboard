@@ -5,9 +5,10 @@ const local = {
   IDP_URL: 'http://127.0.0.1:8000',
 }
 
+// TODO Temporary switch to prod
 const development = {
-  API_URL: 'https://api-dev.core.ac.uk/internal',
-  IDP_URL: 'https://api-dev.core.ac.uk',
+  API_URL: 'https://api.core.ac.uk/internal',
+  IDP_URL: 'https://api.core.ac.uk',
 }
 
 const production = {
