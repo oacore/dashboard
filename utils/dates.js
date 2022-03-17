@@ -18,7 +18,10 @@ const getDatesByMonth = (history) => {
 
     Object.assign(dates, prevLastYear, lastYear)
   }
-  const lastDatesArray = Object.values(dates).map((item) => item.lastHarvesting)
+  const lastDatesArray = Object.values(dates)
+
+    .map((item) => item.lastHarvesting)
+    .filter(Boolean)
 
   return lastDatesArray.sort(compareByString)
 }
@@ -30,7 +33,7 @@ const getDatesByHalfYear = (history) => {
 
   lastDates.map((monthes) => {
     filteredData.push(monthes['06'])
-    filteredData.push(monthes[12])
+    filteredData.push(monthes['12'])
     return null
   })
 
@@ -57,47 +60,48 @@ const groupDates = (data, activeType) => {
 
   let year
   let month
-
+  let weekNum
   let formattedDates
+
+  const historyDates = arrayOfObj.reduce((acc, obj) => {
+    const b = obj.date.split(/\D/)
+
+    weekNum = `0${Math.ceil(b[2] / 7)}`
+
+    if (!acc[b[0]]) acc[b[0]] = {}
+    year = acc[b[0]]
+    year.lastHarvesting = obj
+
+    if (!year[b[1]]) year[b[1]] = {}
+    month = year[b[1]]
+
+    if (!month[obj]) month.lastHarvesting = obj
+
+    if (!month[obj]) month[weekNum] = []
+    // Add object to  week
+    month[weekNum].push(obj)
+
+    return acc
+  }, Object.create(null))
 
   switch (activeType) {
     case 'Year': {
-      const formatted = arrayOfObj.reduce((acc, obj) => {
-        const b = obj.date.split(/\D/)
-
-        if (!acc[b[0]]) acc[b[0]] = {}
-
-        if (!acc[b[0]]) acc[b[0]] = {}
-        year = acc[b[0]]
-
-        year.lastHarvesting = obj
-
-        return acc
-      }, Object.create(null))
-      formattedDates = getDatesByYear(formatted)
+      formattedDates = getDatesByYear(historyDates)
+      break
+    }
+    case 'Month': {
+      formattedDates = getDatesByMonth(historyDates)
       break
     }
 
-    default: {
-      const formatted = arrayOfObj.reduce((acc, obj) => {
-        const b = obj.date.split(/\D/)
-
-        if (!acc[b[0]]) acc[b[0]] = {}
-        year = acc[b[0]]
-
-        if (!year[b[1]]) year[b[1]] = {}
-        month = year[b[1]]
-
-        if (!month[obj]) month.lastHarvesting = obj
-        return acc
-      }, Object.create(null))
-      if (activeType === '6 month')
-        formattedDates = getDatesByHalfYear(formatted)
-      else formattedDates = getDatesByMonth(formatted)
-
+    case '6 month': {
+      formattedDates = getDatesByHalfYear(historyDates)
       break
     }
+    default:
+      return formattedDates
   }
+
   return formattedDates
 }
 

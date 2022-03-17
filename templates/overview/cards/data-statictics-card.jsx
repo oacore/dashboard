@@ -3,8 +3,8 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 
+import AreaChart from 'components/area-chart'
 import useHarvestingDate from 'utils/hooks/use-harvesting-dates'
-import StatisticsChart from 'components/statistics-chart'
 import { valueOrDefault, formatDate } from 'utils/helpers'
 import Loader from 'components/loader'
 import { Card } from 'design'
@@ -42,7 +42,7 @@ const FullTextsProgressChart = ({
   caption,
   fullTextCount,
 }) => (
-  <div className={styles.infoCardChart}>
+  <div className={classNames.use(styles.infoCardChart, styles.infoBox)}>
     <PerformanceChart
       minHeight={110}
       rounded
@@ -71,11 +71,12 @@ const DataStatisticsCard = ({
   viewStatistics,
   ...restProps
 }) => {
-  const activeFilterType = text.actions.find((action) => action.defaultActive)
-    .name
+  const defaultActiveFilterType = text.actions.find(
+    (action) => action.defaultActive
+  ).name
   const { barChartValues, activeType, onSetActiveType } = useHarvestingDate(
     metadatadaHistory,
-    activeFilterType
+    defaultActiveFilterType
   )
 
   const perfomanceChartValues = [
@@ -97,20 +98,21 @@ const DataStatisticsCard = ({
         <ActionsBar activeType={activeType} onSetActiveType={onSetActiveType} />
       </div>
 
-      <Markdown className={classNames.use(styles.subtitle, styles.metadata)}>
-        {text.metadata.title}
-      </Markdown>
+      <div className={styles.infoBox}>
+        <Markdown className={classNames.use(styles.subtitle, styles.metadata)}>
+          {text.metadata.title}
+        </Markdown>
+        <NumericValue
+          bold
+          tag="p"
+          value={valueOrDefault(metadataCount, 'Loading...')}
+        />
+      </div>
 
       {!metadataCount || !fullTextCount ? (
         <Loader width={100} />
       ) : (
         <>
-          <NumericValue
-            bold
-            tag="p"
-            value={valueOrDefault(metadataCount, 'Loading...')}
-          />
-
           <FullTextsProgressChart
             fullTextCount={fullTextCount}
             chartValues={perfomanceChartValues}
@@ -118,19 +120,33 @@ const DataStatisticsCard = ({
             value={valueOrDefault((fullTextCount / metadataCount) * 100, '🔁')}
           />
           {barChartValues.length > 0 && (
-            <StatisticsChart
+            // <StatisticsChart
+            //   data={barChartValues.map(({ date, value }) => ({
+            //     'name': formatDate(date, {
+            //       ...(activeType !== 'Month' && { day: 'numeric' }),
+            //       ...(activeType === 'Month'
+            //         ? { month: 'short' }
+            //         : { month: 'numeric' }),
+            //       ...(activeType !== '2-digit' && { year: '2-digit' }),
+            //     }),
+            //     'Metadata count': value,
+            //   }))}
+            //   colors={{
+            //     'Metadata count': 'var(--primary)',
+            //   }}
+            // />
+
+            <AreaChart
               data={barChartValues.map(({ date, value }) => ({
                 'name': formatDate(date, {
-                  day: 'numeric',
-                  month: 'numeric',
-                  year: '2-digit',
+                  ...(activeType !== 'Month' && { day: 'numeric' }),
+                  ...(activeType === 'Month'
+                    ? { month: 'short' }
+                    : { month: 'numeric' }),
+                  ...(activeType !== '2-digit' && { year: '2-digit' }),
                 }),
                 'Metadata count': value,
               }))}
-              labelsPosition="inside"
-              colors={{
-                'Metadata count': 'var(--primary)',
-              }}
             />
           )}
         </>

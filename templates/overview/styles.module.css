@@ -234,3 +234,7 @@
   font-size: 1.1rem;
   color: var(--gray-600);
 }
+
+.info-box {
+  background-color: var(--gray-500);
+}
