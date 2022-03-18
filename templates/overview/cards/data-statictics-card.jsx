@@ -3,7 +3,6 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 
-import StatisticsChart from 'components/statistics-chart'
 import AreaChart from 'components/area-chart'
 import useHarvestingDate from 'utils/hooks/use-harvesting-dates'
 import { valueOrDefault, formatDate } from 'utils/helpers'
@@ -126,32 +125,17 @@ const DataStatisticsCard = ({
               )}
             />
           </div>
-          {barChartValues.length > 0 &&
-            (activeType === 'Month' ? (
-              <AreaChart
-                data={barChartValues.map(({ date, value }) => ({
-                  'name': formatDate(date, {
-                    month: 'short',
-                    year: '2-digit',
-                  }),
-                  'Metadata count': value,
-                }))}
-              />
-            ) : (
-              <StatisticsChart
-                data={barChartValues.map(({ date, value }) => ({
-                  'name': formatDate(date, {
-                    day: 'numeric',
-                    month: 'numeric',
-                    year: '2-digit',
-                  }),
-                  'Metadata count': value,
-                }))}
-                colors={{
-                  'Metadata count': 'var(--primary)',
-                }}
-              />
-            ))}
+          {barChartValues.length > 0 && (
+            <AreaChart
+              data={barChartValues.map(({ date, value }) => ({
+                'name': formatDate(date, {
+                  month: 'short',
+                  year: '2-digit',
+                }),
+                'Metadata count': value,
+              }))}
+            />
+          )}
         </>
       )}
     </Card>

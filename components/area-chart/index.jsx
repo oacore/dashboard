@@ -65,7 +65,10 @@ const AreaChart = ({
                 position={labelsPosition}
                 offset={10}
                 formatter={(value) =>
-                  `${formatNumber(value, { notation: 'compact' })}`
+                  `${formatNumber(value, {
+                    notation: 'compact',
+                    maximumFractionDigits: 2,
+                  })}`
                 }
                 fill={labelsPosition === 'inside' ? '#fff' : '#222'}
                 dataKey={(entry) =>

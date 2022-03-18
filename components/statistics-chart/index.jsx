@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 
 import CustomTooltip from 'design/tooltip'
+import { formatNumber } from 'utils/helpers'
 
 const StatisticsChart = ({
   data,
@@ -50,6 +51,9 @@ const StatisticsChart = ({
           >
             {index === barKeys.length - 1 ? (
               <LabelList
+                formatter={(value) =>
+                  `${formatNumber(value, { notation: 'compact' })}`
+                }
                 position={labelsPosition === 'inside' ? 'insideTop' : 'top'}
                 fill={labelsPosition === 'inside' ? '#fff' : '#222'}
                 dataKey={(entry) =>
