@@ -55,13 +55,15 @@ const OverviewTemplate = ({
       <RioxxCard compliance={rioxxCompliance} />
     )}
     {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
-    <DoiCard
-      outputsCount={metadataCount}
-      doiCount={doiCount}
-      downloadUrl={doiDownloadUrl}
-      enrichmentSize={doiEnrichmentSize}
-      dataProviderId={dataProviderId}
-    />
+    {doiCount && (
+      <DoiCard
+        outputsCount={metadataCount}
+        doiCount={doiCount}
+        downloadUrl={doiDownloadUrl}
+        enrichmentSize={doiEnrichmentSize}
+        dataProviderId={dataProviderId}
+      />
+    )}
   </Tag>
 )
 

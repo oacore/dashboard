@@ -16,7 +16,7 @@ const production = {
 }
 
 const validate = (config) =>
-  ['API_URL', 'IDP_URL'].forEach((param) => {
+  ['API_URL', 'IDP_URL', 'API_KEY'].forEach((param) => {
     if (config[param] == null) throw new Error(`${param} is not configured.`)
   })
 

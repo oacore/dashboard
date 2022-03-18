@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import groupDates from 'utils/dates'
+import { transformDates, setDatesByType } from 'utils/dates'
 
-const useHarvestingDate = (metadatadaHistory, type) => {
-  const [activeType, setActiveType] = useState(type)
-  const [barChartValues, setBarChartValues] = React.useState([])
+const useHarvestingDate = (metadatadaHistory, initialType) => {
+  const [activeType, setActiveType] = useState(initialType)
+  const [barChartValues, setBarChartValues] = useState([])
+  const [tranformedDates, setTransformedDates] = useState([])
 
   useEffect(() => {
     if (metadatadaHistory) {
-      const monthHistory = groupDates(metadatadaHistory, activeType)
-      setBarChartValues(monthHistory)
+      const monthHistory = transformDates(metadatadaHistory)
+      setTransformedDates(monthHistory)
+      const activeDates = setDatesByType(monthHistory, activeType)
+      setBarChartValues(activeDates)
     }
   }, [metadatadaHistory])
 
   const onSetActiveType = (historyType) => {
     setActiveType(historyType)
-    const values = groupDates(metadatadaHistory, historyType)
-    setBarChartValues(values)
+    const activeDates = setDatesByType(tranformedDates, historyType)
+    setBarChartValues(activeDates)
   }
 
   return {

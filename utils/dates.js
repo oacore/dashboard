@@ -19,7 +19,6 @@ const getDatesByMonth = (history) => {
     Object.assign(dates, prevLastYear, lastYear)
   }
   const lastDatesArray = Object.values(dates)
-
     .map((item) => item.lastHarvesting)
     .filter(Boolean)
 
@@ -50,7 +49,7 @@ const getDatesByYear = (history) => {
   return lastDatesArray.sort(compareByString)
 }
 
-const groupDates = (data, activeType) => {
+const transformDates = (data) => {
   const arrayOfObj =
     data &&
     Object.entries(data).map((e) => ({
@@ -61,7 +60,6 @@ const groupDates = (data, activeType) => {
   let year
   let month
   let weekNum
-  let formattedDates
 
   const historyDates = arrayOfObj.reduce((acc, obj) => {
     const b = obj.date.split(/\D/)
@@ -84,25 +82,29 @@ const groupDates = (data, activeType) => {
     return acc
   }, Object.create(null))
 
+  return historyDates
+}
+
+const setDatesByType = (initialDates, activeType) => {
+  let formattedDates
+
   switch (activeType) {
     case 'Year': {
-      formattedDates = getDatesByYear(historyDates)
+      formattedDates = getDatesByYear(initialDates)
       break
     }
     case 'Month': {
-      formattedDates = getDatesByMonth(historyDates)
+      formattedDates = getDatesByMonth(initialDates)
       break
     }
-
     case '6 month': {
-      formattedDates = getDatesByHalfYear(historyDates)
+      formattedDates = getDatesByHalfYear(initialDates)
       break
     }
     default:
       return formattedDates
   }
-
   return formattedDates
 }
 
-export default groupDates
+export { transformDates, setDatesByType }

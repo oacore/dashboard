@@ -4,8 +4,8 @@ metadata:
   caption: Full texts
 actions:
     - name: Month
-      defaultActive: true
     - name: 6 month
+      defaultActive: true
     - name: Year
 
 

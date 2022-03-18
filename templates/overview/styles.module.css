@@ -181,6 +181,7 @@
 
 .card-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
 }
@@ -204,25 +205,45 @@
 
 .subtitle {
   margin-bottom: 0;
-  color: var(--gray-600);
+  font-weight: 300;
+  color: var(--gray-700);
 }
 
 .metadata {
-  margin-top: 1rem;
+  padding-right: 1.5rem;
   font-size: 1.3rem;
 }
 
 /* stylelint-disable declaration-no-important */
 .info-chart {
   max-width: 110px;
+  padding: 0;
   margin: 0 !important;
+}
+
+/* White circle inside  */
+.info-chart::before {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 90px;
+  height: 90px;
+  content: '';
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+.info-card-content {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  gap: 1rem;
 }
 
 .info-card-chart {
   display: grid;
   align-items: center;
-  max-width: 13rem;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 110px 1fr;
 }
 
 .label {
@@ -230,11 +251,12 @@
 }
 
 .label span:nth-child(2) {
-  margin-left: 0.2rem;
   font-size: 1.1rem;
   color: var(--gray-600);
+  text-align: center;
 }
 
 .info-box {
-  background-color: var(--gray-500);
+  padding: 0.5rem 1rem;
+  background-color: var(--gray-100);
 }

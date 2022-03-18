@@ -50,6 +50,8 @@ const AreaChart = ({
         <Tooltip cursor={false} content={<CustomTooltip />} />
         {barKeys.map((dataKey, index) => (
           <Area
+            key={dataKey}
+            isAnimationActive={false}
             type="monotone"
             fill="url(#color)"
             dataKey={dataKey}
@@ -74,34 +76,6 @@ const AreaChart = ({
           </Area>
         ))}
       </RechartAreaChart>
-      {/* <LineChart
-        data={data}
-        margin={{
-          top: 10,
-          right: 30,
-          left: 30,
-          bottom: 0,
-        }}
-        {...restProps}
-      >
-        <CartesianGrid strokeDasharray="3 0" vertical={false} stroke="#eee" />
-        <XAxis
-          type="category"
-          dataKey="name"
-          axisLine={false}
-          tick={{ stroke: 'var(--gray-400)' }}
-        />
-        <YAxis type="number" hide domain={['dataMin', 'dataMax']} />
-        {barKeys.map((dataKey) => (
-          <Line
-            type="monotone"
-            dataKey={dataKey}
-            stroke={lineColor}
-            activeDot={{ r: 8 }}
-          />
-        ))}
-        <Tooltip cursor={false} content={<CustomTooltip />} />
-      </LineChart> */}
     </ResponsiveContainer>
   )
 }

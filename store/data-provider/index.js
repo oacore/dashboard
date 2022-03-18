@@ -90,9 +90,11 @@ class DataProvider extends Resource {
     const url = `/data-providers/${this.id}/plugins`
     const { data } = await this.options.request(url)
 
-    data.forEach((plugin) => {
-      this.plugins[plugin.type] = plugin
-    })
+    if (data) {
+      data.forEach((plugin) => {
+        this.plugins[plugin.type] = plugin
+      })
+    }
   }
 
   @action
