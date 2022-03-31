@@ -6,6 +6,7 @@ const FormShell = ({
   children,
   tag,
   onSubmit,
+  useButtonOnChange = true,
   isButtonVisible = false,
   buttonCaption = 'Save',
   message,
@@ -37,7 +38,7 @@ const FormShell = ({
       {...formProps}
     >
       {children}
-      {(isChanged || isButtonVisible) && (
+      {((useButtonOnChange && isChanged) || isButtonVisible) && (
         <Button variant="contained" disabled={isSubmitted}>
           {buttonCaption}
         </Button>

@@ -1,0 +1,50 @@
+title: Settings
+
+organisation:
+  title: Organisation settings
+
+invite:
+  title: Invite
+  buttonCaption: Invite
+
+repository:
+  title: Repository settings
+
+mapping:
+  title: Register OAI mapping
+  description: |
+      This allows you
+      to register a mapping between the OAI Prefix and
+      the URL in your repository to which it should resolve.
+      Once resolved and activated your OAI resolver
+      will start resolving your OAIs direct to your
+      repository metadata page. Where not registered, we will
+      resolve to the metadata page in CORE.
+  form:
+    - title: "The first part of your repository’s OAI identificators until the colon:"
+      label: OAI Prefix
+      name: prefix
+      helper: "Example:oai:digital.lib.washington.edu"
+    - title: "Mapping to your repositorie’s metadata page."
+      name: url-mapping
+      label: URL Mapping
+      helper: "Example: digital.lib.washington.edu"
+  switch:
+    disabled: Activate resolving to your repository
+    active: Resolving to your repository is activated
+  buttonCaption: save
+
+upload:
+  title: Upload logo
+  description: |
+        Upload your logo and make your repository
+        more recognisable. The logo will be displayed on
+        all search results pages, making your content more
+        attractive.
+  imageCaption: 110х110, png, jpg.
+  buttonCaptions:
+    save: Save
+    delete: Delete
+    upload: upload
+    change: Change
+

@@ -32,6 +32,7 @@ const icons = [
   'tune',
   'view-dashboard',
   'menu',
+  'pencil',
 ]
 
 const iconsRoot = path.join(
