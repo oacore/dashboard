@@ -14,5 +14,6 @@ Object.values(sourceMessages).forEach((msg) => {
 
 export default {
   ...issuesTab,
+  actions: Object.values(issuesTab.actions),
   messages,
 }

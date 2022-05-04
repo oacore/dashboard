@@ -1,0 +1,34 @@
+.info-card-chart {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 110px 1fr;
+}
+
+.info-box {
+  padding: 0.5rem 1rem;
+  background-color: var(--gray-100);
+}
+
+.label {
+  text-align: center;
+  margin-left: 0.5rem;
+}
+
+/* stylelint-disable declaration-no-important */
+.info-chart {
+  max-width: 110px;
+  padding: 0;
+  margin: 0 !important;
+}
+
+/* White circle inside  */
+.info-chart::before {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 90px;
+  height: 90px;
+  content: '';
+  background-color: #fff;
+  border-radius: 50%;
+}

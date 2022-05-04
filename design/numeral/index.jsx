@@ -40,6 +40,17 @@ const Caption = React.memo(
   )
 )
 
+const Title = React.memo(
+  ({ children, className, tag: Tag = 'span', ...restProps }) => (
+    <Tag
+      className={classNames.use(styles.title).join(className)}
+      {...restProps}
+    >
+      {children}
+    </Tag>
+  )
+)
+
 const Diff = React.memo(
   ({ children, className, tag: Tag = 'span', ...restProps }) => (
     <Tag className={classNames.use(styles.diff).join(className)} {...restProps}>
@@ -67,6 +78,6 @@ Numeral.Appendix = Appendix
 Numeral.Caption = Caption
 Numeral.Diff = Diff
 Numeral.Value = Value
-
+Numeral.Title = Title
 export default Numeral
-export { Appendix, Diff, Caption, Value }
+export { Appendix, Diff, Caption, Value, Title }

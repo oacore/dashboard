@@ -1,3 +1,25 @@
+title: Harvesting
+gen-info:
+  title: General information
+
 download: Download CSV
 harvesting-card-tooltip: The date when your repository was last harvested by CORE.
 issues-overview-card-tooltip: Issues relating to your repository that were detected by CORE whilst harvesting.
+issues:
+  title: Harvesting issues
+  affected : records are affected by this issued
+  recommendation-card-title: Recomendation
+  download-action: Download in csv
+  list-actions:
+    show: See the list
+    hide: hide
+actions:
+    - name: All
+      defaultActive: true
+      action: All
+    - name: Errors
+      action: ERROR
+    - name: Warnings
+      action: WARNING
+    - name: other
+      action: DEBUG

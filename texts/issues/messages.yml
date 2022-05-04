@@ -451,3 +451,31 @@
   resolution: |
     [TDB]
   details: []
+
+-
+  type: LINK_REDIRECTED_TO_DISALLOWED_URL
+  severity: ERROR
+  trigger: |
+    Download a file from another domain is forbidden due to the “Same Domain
+    Policy”
+  title: LINK_REDIRECTED_TO_DISALLOWED_URL NEED NEW TEXT
+  description: |
+    We enforce a policy where we restrict the download of fulltexts to the
+    same domain as the OAI-PMH endpoint.
+  resolution: |
+    [TDB]
+  details: []
+
+-
+  type: POTENTIAL_LANGUAGE_MISMATCH
+  severity: ERROR
+  trigger: |
+    Download a file from another domain is forbidden due to the “Same Domain
+    Policy”
+  title: POTENTIAL_LANGUAGE_MISMATCH NEED NEW TEXT
+  description: |
+    We enforce a policy where we restrict the download of fulltexts to the
+    same domain as the OAI-PMH endpoint.
+  resolution: |
+    [TDB]
+  details: []

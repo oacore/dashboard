@@ -1,46 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self' *.core.ac.uk;"
+  />
+  <!-- <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"
+  /> -->
+  <title>Login into CORE Dashboard</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' *.core.ac.uk;">
+  <link href="/sanitize.css" rel="stylesheet" />
+  <link href="/design/global/foundation/index.css" rel="stylesheet" />
+  <link href="/design/global/elements/button/button.css" rel="stylesheet" />
+  <link href="/design/global/elements/forms/styles.css" rel="stylesheet" />
+  <link href="/design/global/elements/message/message.css" rel="stylesheet" />
+  <link href="/secure/login.css" rel="stylesheet" />
 
-<title>Login into CORE Dashboard</title>
-
-<link href="/sanitize.css" rel="stylesheet" />
-<link href="/design/global/foundation/index.css" rel="stylesheet" />
-<link href="/design/global/elements/button/button.css" rel="stylesheet" />
-<link href="/design/global/elements/forms/styles.css" rel="stylesheet" />
-<link href="/design/global/elements/message/message.css" rel="stylesheet" />
-<link href="/secure/login.css" rel="stylesheet" />
-
-<form id="login-form" method="post" class="">
-  <h1>Login</h1>
-  <div id="message" class="message fill"></div>
-  <div class="blur-background">
-    <div class="spinner">
-      <div class="rect1"></div>
-      <div class="rect2"></div>
-      <div class="rect3"></div>
-      <div class="rect4"></div>
-      <div class="rect5"></div>
+  <form id="login-form" method="post" class="">
+    <h1>Login</h1>
+    <div id="message" class="message fill"></div>
+    <div class="blur-background">
+      <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+      </div>
     </div>
-  </div>
 
-  <p class="group">
-    <input id="email" class="control" type="email" placeholder="Enter email" name="email" autocomplete="email" required>
-    <label class="label" for="email">Email</label>
-  </p>
-  <p class="group">
-    <input id="password" class="control" type="password" placeholder="Enter Password" name="password" autocomplete="current-password" required>
-    <label class="label" for="password">Password</label>
-  </p>
-  <input type="hidden" name="remember_me" value="on">
+    <p class="group">
+      <input
+        id="email"
+        class="control"
+        type="email"
+        placeholder="Enter email"
+        name="email"
+        autocomplete="email"
+        required
+      />
+      <label class="label" for="email">Email</label>
+    </p>
+    <p class="group">
+      <input
+        id="password"
+        class="control"
+        type="password"
+        placeholder="Enter Password"
+        name="password"
+        autocomplete="current-password"
+        required
+      />
+      <label class="label" for="password">Password</label>
+    </p>
+    <input type="hidden" name="remember_me" value="on" />
 
-  <button class="button contained" type="submit">Login</button>
-  <a class="forgotten-password" href="/reset" target="_top">Forgotten password?</a>
-</form>
+    <button class="button contained" type="submit">Login</button>
+    <a class="forgotten-password" href="/reset" target="_top"
+      >Forgotten password?</a
+    >
+  </form>
 
-
-<script src="/secure/resize.js" ></script>
-<script src="/secure/login.js" ></script>
+  <script src="/secure/resize.js"></script>
+  <script src="/secure/login.js"></script>
+</html>

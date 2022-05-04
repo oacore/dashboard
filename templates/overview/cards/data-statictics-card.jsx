@@ -12,7 +12,7 @@ import NumericValue from 'components/numeric-value'
 import text from 'texts/harvesting'
 import Markdown from 'components/markdown'
 import COLORS from 'utils/colors'
-import PerformanceChart from 'components/performance-chart'
+import FullTextsProgressChart from 'components/full-texts-progress-chart'
 import Actions from 'components/actions'
 import ActionButton from 'components/action-button'
 
@@ -35,30 +35,6 @@ const ActionsBar = ({ onSetActiveType, activeType }) => {
     </div>
   )
 }
-
-const FullTextsProgressChart = ({
-  value,
-  chartValues,
-  caption,
-  fullTextCount,
-}) => (
-  <div className={classNames.use(styles.infoCardChart, styles.infoBox)}>
-    <PerformanceChart
-      minHeight={110}
-      rounded
-      className={styles.infoChart}
-      values={chartValues}
-      value={value}
-      valueSize="extra-small"
-    />
-    <NumericValue
-      className={styles.label}
-      value={valueOrDefault(fullTextCount, 'Loading...')}
-      size="extra-small"
-      caption={caption}
-    />
-  </div>
-)
 
 const DataStatisticsCard = ({
   metadatadaHistory,
