@@ -1,4 +1,3 @@
-import { toJS } from 'mobx'
 import { useState, useCallback, useEffect } from 'react'
 
 const useIssues = ({ pages }) => {
@@ -7,7 +6,7 @@ const useIssues = ({ pages }) => {
 
   const loadMore = useCallback(async () => {
     if (!pages) return
-
+    setLoading(true)
     const data = await pages.slice(0, issues.length + 10)
     await Promise.allSettled(
       data

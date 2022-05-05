@@ -14,7 +14,7 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
     data: issues,
     loadMore: loadMoreIssues,
     loading: issuesLoading,
-    done: allIssuesLoaded,
+
     onCleanList,
   } = useIssues({ pages: issuesList })
   const toggleVisibleList = () => {
@@ -22,6 +22,7 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
     setVisibleList(!visibleList)
     if (!visibleList) loadMoreIssues()
   }
+
   return (
     <li className={styles.typeCard}>
       <div className={styles.typeCardSection}>
@@ -56,7 +57,6 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
           <Button
             variant="outlined"
             disabled={issuesLoading}
-            // hidden={!listHidden}
             onClick={toggleVisibleList}
           >
             {visibleList

@@ -51,8 +51,7 @@
   align-items: center;
 }
 
-.issues-card-title span {
-  background-color: var(--warning);
+.issues-card-errors-count {
   border-radius: 50%;
   height: 30px;
   width: 30px;
@@ -142,6 +141,7 @@
   background-color: rgba(225, 201, 74, 0.2);
 }
 
+.issues-card-errors-count-warning,
 .type-card-count-warning span {
   background-color: var(--warning);
 }
@@ -150,6 +150,7 @@
   background-color: rgba(255, 95, 82, 0.15);
 }
 
+.issues-card-errors-count-error,
 .type-card-count-error span {
   color: #fff;
   background-color: var(--danger-light);
@@ -159,6 +160,7 @@
   background-color: rgba(42, 81, 170, 0.14);
 }
 
+.issues-card-errors-count-debug,
 .type-card-count-debug span {
   color: #fff;
   background-color: #2a51aa;

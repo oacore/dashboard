@@ -44,6 +44,7 @@ const HarvestingPageTemplate = ({
       />
       {/* <HarvestingStatusCard /> */}
       <Card>Temporary</Card>
+
       {/* <DataStatisticsCard
         metadataCount={metadataCount}
         fullTextCount={fullTextCount}
@@ -56,7 +57,23 @@ const HarvestingPageTemplate = ({
         <div className={styles.issuesCardHeader}>
           <Card.Title className={styles.issuesCardTitle} tag="h2">
             {texts.issues.title}
-            <span>{issueList.length}</span>
+            {activeType !== defaultType && (
+              <span
+                className={classNames.use(
+                  styles.issuesCardErrorsCount,
+                  `${
+                    styles[
+                      `issuesCardErrorsCount${
+                        activeType[0].toUpperCase() +
+                        activeType.slice(1).toLowerCase()
+                      }`
+                    ]
+                  }`
+                )}
+              >
+                {issueList.length}
+              </span>
+            )}
           </Card.Title>
           <div className={styles.buttonGroup}>
             {texts.actions.map((button) => (
