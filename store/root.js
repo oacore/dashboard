@@ -194,6 +194,46 @@ class Root extends Store {
     }
   }
 
+  @action
+  updateOaiSettings = async (body) => {
+    try {
+      const url = `/data-providers/${this.dataProvider.id}/oairesolver/settings`
+      await this.options.request(url, {
+        method: 'PATCH',
+        body: {
+          ...body,
+          activated: Boolean(body.activated) || false,
+        },
+      })
+
+      Object.assign(this.dataProvider.oaiMapping, body)
+
+      return {
+        type: 'success',
+        message: 'Settings were updated successfully!',
+      }
+    } catch (error) {
+      return {
+        type: 'danger',
+        message: 'Something went wrong. Please try it again later!',
+      }
+    }
+  }
+
+  @action
+  updateLogo = async (body) => {
+    try {
+      const url = `/data-providers/${this.dataProvider.id}/settings`
+      await apiRequest(url, {
+        method: 'POST',
+        body,
+      })
+      Object.assign(this.dataProvider, body)
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
   requestResetToken(data) {
     return this.request('/auth/reset', {
       method: 'POST',

@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
-import { Switch, useSwitch } from '@oacore/design'
 
 import styles from './styles.module.css'
 import oaiLogo from './assets/oai_logo.svg'
-import imagePlacegolder from './assets/placeholder.svg'
 
-import { Card, TextField, Form } from 'design'
-import { ChangePassword, FormShell } from 'components/forms'
+import { Card, TextField } from 'design'
+import {
+  ChangePassword,
+  FormShell,
+  ResolverSettingsForm,
+} from 'components/forms'
 import Upload from 'components/upload'
 import Title from 'components/title'
 import content from 'texts/settings'
 
-const UploadSection = ({ className }) => (
+const UploadSection = ({ className, handleUpload, logoUrl }) => (
   <Card
     className={classNames.use(styles.section).join(className)}
     tag="section"
@@ -24,9 +26,11 @@ const UploadSection = ({ className }) => (
       </Card.Description>
       {/* We will use repository URL later */}
       <Upload
+        deleteCaption={content.upload.deleteCaption}
+        logoUrl={logoUrl}
         imageCaption={content.upload.imageCaption}
-        imgDefault={imagePlacegolder}
         buttonCaptions={content.upload.buttonCaptions}
+        onSubmit={handleUpload}
       />
     </div>
   </Card>
@@ -35,41 +39,40 @@ const UploadSection = ({ className }) => (
 const SettingsTemplate = ({
   userEmail,
   dataProvider,
+  dataProviderLogo,
   updateOrganization,
   updateDataProvider,
+  oaiMapping,
+  mappingSubmit,
+  updateLogo,
   inviteUser,
   className,
   tag: Tag = 'main',
   ...restProps
 }) => {
-  const { toggleChange, isActivated } = useSwitch()
   const [formMessage, setFormMessage] = useState({})
   const organization = { name: dataProvider.institution }
-
-  // For testing
-  const mappingSubmitting = () => ({
-    message: 'OK',
-  })
 
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const formData = new FormData(event.target)
-    const data = Object.fromEntries(formData.entries())
+    const target = event.target.form || event.target
 
-    const scope = event.target.getAttribute('name')
+    const formData = new FormData(target)
+    const data = Object.fromEntries(formData.entries())
+    const scope = target.getAttribute('name')
+
     const present = {
       'organization': updateOrganization,
       'data-provider': updateDataProvider,
       'invitation': inviteUser,
-      'mapping': mappingSubmitting,
+      'mapping': mappingSubmit,
     }[scope]
 
     const result = await present(data)
-
     setFormMessage({
       ...formMessage,
-      [scope]: result.message,
+      [scope]: { type: result.type, text: result.message },
     })
   }
 
@@ -154,50 +157,16 @@ const SettingsTemplate = ({
         <Card.Description className={styles.description}>
           {content.mapping.description}
         </Card.Description>
-        <FormShell
-          name="mapping"
-          useButtonOnChange={false}
-          isButtonVisible={isActivated}
-          buttonCaption={content.mapping.buttonCaption}
-          className={styles.mappingForm}
-          onSubmit={handleSubmit}
-          message={formMessage.mapping}
-        >
-          <div className={styles.mappingFields}>
-            {content.mapping.form.map((field) => (
-              <div key={field.name}>
-                <Form.Label
-                  className={styles.mappingLabel}
-                  htmlFor={field.name}
-                >
-                  {field.title}
-                </Form.Label>
-                <TextField
-                  className={styles.mappingInput}
-                  id="settings-repository-name"
-                  label={field.label}
-                  name={field.name}
-                  defaultValue={dataProvider.name}
-                  helper={field.helper}
-                  statusIcon="#pencil"
-                />
-              </div>
-            ))}
-          </div>
-          <Switch
-            className={styles.toggle}
-            id="toggle-switch"
-            isActivated={isActivated}
-            onChange={toggleChange}
-            label={
-              isActivated
-                ? content.mapping.switch.active
-                : content.mapping.switch.disabled
-            }
+        {Object.keys(oaiMapping).length && (
+          <ResolverSettingsForm
+            formMessage={formMessage.mapping}
+            onSubmit={handleSubmit}
+            mappingSubmit={mappingSubmit}
+            oaiMapping={oaiMapping}
           />
-        </FormShell>
+        )}
       </Card>
-      <UploadSection />
+      <UploadSection logoUrl={dataProviderLogo} handleUpload={updateLogo} />
     </Tag>
   )
 }

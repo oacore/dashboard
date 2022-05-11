@@ -55,18 +55,3 @@
   line-height: 1.5rem;
   color: var(--gray-900);
 }
-
-.mapping-label {
-  padding-left: 1rem;
-  margin: 2rem 0;
-}
-
-.toggle {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-/* stylelint-disable declaration-no-important */
-.mapping-input svg {
-  fill: var(--gray-500) !important;
-}
