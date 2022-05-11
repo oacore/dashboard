@@ -65,7 +65,7 @@ function changePassword(event) {
   event.preventDefault()
 
   const identityProviderUrl =
-    urlParams.get('identity_provider_url') || 'https://api02.core.ac.uk/'
+    urlParams.get('identity_provider_url') || 'https://api.core.ac.uk/'
 
   const formData = new FormData(event.target)
   const data = {
