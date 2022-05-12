@@ -11,17 +11,16 @@
 }
 
 .metadata {
-  margin-top: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 2rem;
 }
 
 .chart {
-  margin: 1.8rem 0;
-  padding: 0 !important;
   max-width: 12.5rem;
-  background-color: var(--white) !important;
+  margin: 1.8rem 0;
+  background-color: var(--white);
 }
 
 .errors-info {
@@ -36,13 +35,14 @@
 .issues-card {
   grid-column: 1 / -1;
   border-top: 3px solid var(--primary);
+
   /* background-color: #fff; */
 }
 
 .issues-card-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 2rem;
 }
 
@@ -52,39 +52,39 @@
 }
 
 .issues-card-errors-count {
-  border-radius: 50%;
-  height: 30px;
-  width: 30px;
-  line-height: 30px;
   display: inline-block;
-  text-align: center;
+  width: 30px;
+  height: 30px;
   margin-left: 0.8rem;
-  color: var(--white);
   font-size: 0.9rem;
+  line-height: 30px;
+  color: var(--white);
+  text-align: center;
+  border-radius: 50%;
 }
 
 .button-group {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .action-button {
-  padding: 0.2rem;
   min-width: 150px;
+  padding: 0.2rem;
 }
 
 .type-card {
-  margin-bottom: 1rem;
   display: grid;
+  margin-bottom: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(var(--column-min-width), 1fr));
 }
 
 .type-card-section {
   display: flex;
-  padding: 1.5rem;
   flex-direction: column;
   justify-content: space-between;
+  padding: 1.5rem;
   background-color: var(--gray-100);
 }
 
@@ -133,8 +133,8 @@
 }
 
 .type-card-count span {
-  font-weight: 600;
   padding: 0.5rem;
+  font-weight: 600;
 }
 
 .type-card-count-warning {
@@ -179,6 +179,17 @@
   white-space: nowrap;
 }
 
+.issue-table tbody::before {
+  display: block;
+  line-height: 2rem;
+  text-indent: -99999px;
+  content: '@';
+}
+
+.issue-table tr:nth-child(1) {
+  border-top: none;
+}
+
 .oai-column {
   width: 10%;
   min-width: 5rem;
@@ -200,4 +211,13 @@
 
 .update-date-column {
   width: 15%;
+}
+
+.oai-cell {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  margin-top: 0.7rem;
+  margin-left: 0.2rem;
+  background-color: var(--gray-100);
+  border-radius: 5px;
 }

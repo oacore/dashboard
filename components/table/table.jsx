@@ -119,6 +119,7 @@ const InfiniteTable = ({
                 isLoading={isLoading}
                 totalLength={totalLength}
                 size={size}
+                {...restProps}
               >
                 {action}
               </Footer>

@@ -17,11 +17,13 @@ const Row = (props) => {
       disabled && styles.disable,
     ]),
   }
-
   return (
     <Table.Row data-index={index} {...rowProps}>
       {columns.map((column) => (
-        <Table.Cell key={column.props.id}>
+        <Table.Cell
+          className={column.props.cellClassName}
+          key={column.props.id}
+        >
           {React.cloneElement(column, { context })}
         </Table.Cell>
       ))}

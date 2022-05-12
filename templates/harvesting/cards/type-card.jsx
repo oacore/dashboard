@@ -15,10 +15,13 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
     data: issues,
     loadMore: loadMoreIssues,
     loading: issuesLoading,
+    onCleanList,
   } = useIssues({ pages: issuesList })
+
   const toggleVisibleList = () => {
     setVisibleList(!visibleList)
-    loadMoreIssues()
+    onCleanList()
+    if (!visibleList) loadMoreIssues({ initial: true })
   }
 
   return (
@@ -66,7 +69,7 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
       {visibleList && Object.keys(issues).length > 0 && (
         <IssuesList
           fetchData={loadMoreIssues}
-          tableProps={issues}
+          issuesList={issues}
           visible={visibleList}
         />
       )}

@@ -1,4 +1,5 @@
 import React from 'react'
+import { classNames } from '@oacore/design/lib/utils'
 
 import Pagination from './pagination'
 import styles from './styles.module.css'
@@ -14,6 +15,9 @@ const Footer = React.memo(
     fetchData,
     size,
     isLoading,
+    buttonText = 'Show more',
+    buttonVariant = 'outlined',
+    buttonClassName,
   }) => (
     <Table.Footer className={styles.footer}>
       <Table.Row>
@@ -30,10 +34,13 @@ const Footer = React.memo(
             {!isLastPageLoaded && (
               <Button
                 disabled={isLoading}
-                className={styles.loadNextPage}
+                className={classNames
+                  .use(styles.loadNextPage)
+                  .join(buttonClassName)}
+                variant={buttonVariant}
                 onClick={() => fetchData({ next: true })}
               >
-                Show more
+                {buttonText}
               </Button>
             )}
           </div>

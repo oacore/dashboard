@@ -222,9 +222,8 @@
 }
 
 .info-card-chart {
-  display: grid;
-  align-items: center;
-  grid-template-columns: 110px 1fr;
+  padding: 0.5rem 1rem;
+  background-color: var(--gray-100);
 }
 
 .label {

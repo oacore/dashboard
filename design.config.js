@@ -19,6 +19,8 @@ const icons = [
   'dots-vertical',
   'download',
   'earth',
+  'eye',
+  'eye-off',
   'file-document',
   'file-alert',
   'file-check',

@@ -95,6 +95,7 @@ const DataStatisticsCard = ({
               fullTextCount={fullTextCount}
               chartValues={perfomanceChartValues}
               caption={text.metadata.caption}
+              className={styles.infoCardChart}
               value={valueOrDefault(
                 (fullTextCount / metadataCount) * 100,
                 '🔁'
