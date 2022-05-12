@@ -13,7 +13,7 @@ const Settings = ({ store, ...restProps }) => (
     inviteUser={store.organisation.inviteUser}
     mappingSubmit={store.updateOaiSettings}
     updateLogo={store.updateLogo}
-    dataProviderLogo={store.dataProvider?.logoBase64}
+    dataProviderLogo={store.dataProvider.logo}
     {...restProps}
   />
 )

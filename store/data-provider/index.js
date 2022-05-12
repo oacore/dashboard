@@ -40,6 +40,8 @@ class DataProvider extends Resource {
 
   @observable oaiMapping = {}
 
+  @observable logo = ''
+
   @action retrieve() {
     super.retrieve().then(
       () => {
@@ -49,6 +51,7 @@ class DataProvider extends Resource {
         this.retrieveIrusStats()
         this.retrieveRioxxStats()
         this.retrieveOaiMapping()
+        this.retrieveLogo()
 
         const url = `/data-providers/${this.id}`
         this.works = new Works(url, this.options)
@@ -138,6 +141,16 @@ class DataProvider extends Resource {
       const url = `/data-providers/${this.id}/oairesolver/settings`
       const { data } = await apiRequest(url)
       this.oaiMapping = data
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action async retrieveLogo() {
+    try {
+      const url = `/data-providers/${this.id}/logo`
+      const { data } = await apiRequest(url)
+      this.logo = data
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
     }

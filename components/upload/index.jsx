@@ -41,7 +41,7 @@ const Upload = ({
     // eslint-disable-next-line no-alert
     if (window.confirm(deleteCaption)) {
       await onSubmit({
-        logoBase64: null,
+        logo: null,
       })
       setIsUploadingActive(false)
       setPreview(null)
@@ -50,7 +50,7 @@ const Upload = ({
 
   const handleSubmit = async () => {
     await onSubmit({
-      logoBase64: preview,
+      logo: preview,
     })
     setIsUploadingActive(false)
     setPreview(null)

@@ -24,7 +24,6 @@ const UploadSection = ({ className, handleUpload, logoUrl }) => (
       <Card.Description className={styles.uploadDescription}>
         {content.upload.description}
       </Card.Description>
-      {/* We will use repository URL later */}
       <Upload
         deleteCaption={content.upload.deleteCaption}
         logoUrl={logoUrl}
