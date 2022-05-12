@@ -2,31 +2,61 @@ import React from 'react'
 
 import styles from '../styles.module.css'
 
-import { Icon, Link } from 'design'
+import Table from 'components/table'
+import { formatDate } from 'utils/helpers'
 
-const IssuesList = ({ issues }) => (
-  <ul className={styles.list}>
-    {issues.map(({ id: issueId, output }) => (
-      <li key={issueId}>
-        {output && output.id && (
-          <Link
-            href={`https://core.ac.uk/display/${output.id}`}
-            className={styles.outputLink}
-            title="Open the record page"
-          >
-            <Icon src="#open-in-new" className={styles.outputIcon} />
-            <span className={styles.outputId}>{output.oai}</span>{' '}
-            <div className={styles.outputLine}>
-              <span className={styles.outputAuthor}>
-                {output.authors[0]} {output.authors.length > 1 && ' et al.'}
-              </span>{' '}
-              <span className={styles.outputTitle}>{output.title}</span>
-            </div>
-          </Link>
-        )}
-      </li>
-    ))}
-  </ul>
+const IssuesList = ({ tableProps, fetchData }) => (
+  <div className={styles.issueTable}>
+    <Table fetchData={fetchData} {...tableProps}>
+      <Table.Column
+        id="oai"
+        display="OAI"
+        getter={(v) => {
+          const { oai } = v?.output
+          if (oai) return oai.split(':').pop()
+          return '-'
+        }}
+        className={styles.oaiColumn}
+        cellClassName={styles.oaiCell}
+      />
+      <Table.Column
+        id="title"
+        display="Title"
+        getter={(v) => {
+          const { title } = v?.output
+          return title || '-'
+        }}
+        className={styles.titleColumn}
+      />
+      <Table.Column
+        id="authors"
+        display="Authors"
+        className={styles.authorsColumn}
+        getter={(v) => v?.output.authors.join(' ')}
+      />
+      <Table.Column
+        id="publicationDate"
+        display="Publication date"
+        className={styles.publicationDateColumn}
+        getter={(v) => formatDate(v?.output.datePublished)}
+      />
+      <Table.Column
+        id="updateDate"
+        display="Update date"
+        className={styles.updateDateColumn}
+        getter={(v) => {
+          const { udpatedDate } = v?.output
+          return udpatedDate ? formatDate(udpatedDate) : '-'
+        }}
+      />
+      {/* <Table.Sidebar>
+        <SidebarContent changeVisibility={changeVisibility} />
+      </Table.Sidebar> */}
+      {/* <Table.Action>
+        <ExportButton href={exportUrl}>{texts.exporting.download}</ExportButton>
+      </Table.Action> */}
+    </Table>
+  </div>
 )
 
 export default IssuesList

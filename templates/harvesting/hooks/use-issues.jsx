@@ -2,12 +2,14 @@ import { useState, useCallback, useEffect } from 'react'
 
 const useIssues = ({ pages }) => {
   const [issues, setIssues] = useState([])
+  const [issueWithArticles, setIssueWithArticles] = useState({})
   const [loading, setLoading] = useState(false)
 
   const loadMore = useCallback(async () => {
     if (!pages) return
     setLoading(true)
     const data = await pages.slice(0, issues.length + 10)
+
     await Promise.allSettled(
       data
         .filter(({ output }) => output == null)
@@ -18,6 +20,11 @@ const useIssues = ({ pages }) => {
         )
     )
     setLoading(false)
+    setIssueWithArticles({
+      ...pages,
+      data,
+      size: data.length,
+    })
     setIssues(data)
   }, [issues])
 
@@ -32,12 +39,13 @@ const useIssues = ({ pages }) => {
   const onCleanList = () => {
     if (pages) pages.reset({ type: pages.type })
     setIssues([])
+    setIssueWithArticles(null)
   }
 
   return {
     loadMore,
     loading,
-    data: issues,
+    data: issueWithArticles,
     done: !pages ? true : pages.isLastPageLoaded,
     onCleanList,
   }

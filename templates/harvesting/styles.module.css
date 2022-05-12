@@ -165,3 +165,39 @@
   color: #fff;
   background-color: #2a51aa;
 }
+
+.issue-table {
+  grid-column: 1 / -1;
+  margin-top: 2rem;
+}
+
+.issue-table td,
+.issue-table th {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oai-column {
+  width: 10%;
+  min-width: 5rem;
+}
+
+.title-column {
+  width: 30%;
+  max-width: 5rem;
+}
+
+.authors-column {
+  width: 30%;
+  max-width: 5rem;
+}
+
+.publication-update-column {
+  width: 15%;
+}
+
+.update-date-column {
+  width: 15%;
+}

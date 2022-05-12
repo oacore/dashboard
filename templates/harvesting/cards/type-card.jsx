@@ -10,17 +10,15 @@ import texts from 'texts/issues'
 
 const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
   const [visibleList, setVisibleList] = useState(false)
+
   const {
     data: issues,
     loadMore: loadMoreIssues,
     loading: issuesLoading,
-
-    onCleanList,
   } = useIssues({ pages: issuesList })
   const toggleVisibleList = () => {
-    onCleanList()
     setVisibleList(!visibleList)
-    if (!visibleList) loadMoreIssues()
+    loadMoreIssues()
   }
 
   return (
@@ -65,7 +63,13 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
           </Button>
         </div>
       </div>
-      {visibleList && <IssuesList issues={issues} visible={visibleList} />}
+      {visibleList && Object.keys(issues).length > 0 && (
+        <IssuesList
+          fetchData={loadMoreIssues}
+          tableProps={issues}
+          visible={visibleList}
+        />
+      )}
     </li>
   )
 }

@@ -30,6 +30,7 @@ const HarvestingPageTemplate = ({
     aggregation,
     defaultType
   )
+
   return (
     <Tag
       className={classNames.use(styles.container).join(className)}
