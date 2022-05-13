@@ -156,7 +156,7 @@ const SettingsTemplate = ({
         <Card.Description className={styles.description}>
           {content.mapping.description}
         </Card.Description>
-        {Object.keys(oaiMapping).length && (
+        {Object.keys(oaiMapping).length > 0 && (
           <ResolverSettingsForm
             formMessage={formMessage.mapping}
             onSubmit={handleSubmit}
