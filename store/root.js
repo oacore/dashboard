@@ -228,7 +228,9 @@ class Root extends Store {
         method: 'POST',
         body,
       })
-      Object.assign(this.dataProvider, body)
+      Object.assign(this.dataProvider, {
+        logo: body.logoBase64,
+      })
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
     }
