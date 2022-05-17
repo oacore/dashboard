@@ -79,7 +79,6 @@ class DataProvider extends Resource {
     ).href
 
     const body = {
-      rawStats: true,
       depositHistory: true,
     }
 
@@ -88,6 +87,7 @@ class DataProvider extends Resource {
         body,
         method: 'POST',
       })
+
       Object.assign(this.statistics, data)
     } catch (error) {
       // Ignore errors for this moment
