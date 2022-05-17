@@ -4,9 +4,8 @@ import { classNames } from '@oacore/design/lib/utils'
 import OverviewCard from './overview-card'
 import styles from '../styles.module.css'
 
-import Actions from 'components/actions'
 import Markdown from 'components/markdown'
-import { Button, Card } from 'design'
+import { Button } from 'design'
 import * as texts from 'texts/overview'
 import { formatNumber } from 'utils/helpers'
 
@@ -21,6 +20,7 @@ const PercentageChart = ({
   ...htmlProps
 }) => {
   const complianceLevel = compliantCount / totalCount
+
   const mainLabelText = `${formatNumber(complianceLevel * 100, {
     maximumFractionDigits: 2,
   })}%`
@@ -38,7 +38,9 @@ const PercentageChart = ({
         className={classNames.use(styles.bar, styles.empty)}
         style={{ flexGrow: 1 - complianceLevel }}
       >
-        {complianceLevel >= 0.1 && secondaryLabelText}
+        {complianceLevel >= 0.1 &&
+          complianceLevel <= 0.94 &&
+          secondaryLabelText}
       </div>
       <span className="sr-only">{children}</span>
     </Tag>
@@ -80,12 +82,7 @@ const Content = ({ compliantCount, totalCount, missingTerms }) => (
 )
 
 const RioxxCard = ({ compliance }) => (
-  <OverviewCard>
-    <div className={classNames.use(styles.cardHeader)}>
-      <Card.Title tag="h2">{texts.rioxx.title}</Card.Title>
-      <Actions />
-    </div>
-
+  <OverviewCard title={texts.rioxx.title}>
     <Markdown className={styles.subtitle}>{texts.rioxx.description}</Markdown>
     {compliance != null ? (
       <Content

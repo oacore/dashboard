@@ -4,11 +4,9 @@ import OverviewCard from './overview-card'
 import styles from '../styles.module.css'
 
 import ExportButton from 'components/export-button'
-import Actions from 'components/actions'
 import Legend from 'components/legend'
 import Markdown from 'components/markdown'
 import * as texts from 'texts/overview'
-import { Card } from 'design'
 import PerformanceChart from 'components/performance-chart'
 import { valueOrDefault, formatNumber } from 'utils/helpers'
 import LinkButton from 'components/link-button'
@@ -23,7 +21,7 @@ const DoiCard = ({
   dataProviderId,
   downloadUrl,
 }) => {
-  const { title, description, action, downloadAction } = texts.doi
+  const { title, description, action, downloadAction, cardTooltip } = texts.doi
   const chartValues = [
     {
       name: 'Outputs have DOI',
@@ -42,11 +40,11 @@ const DoiCard = ({
     },
   ]
   return (
-    <OverviewCard title={texts.doi.cardTooltip}>
-      <div className={styles.cardHeader}>
-        <Card.Title tag="h2">{title}</Card.Title>
-        <Actions downloadUrl={downloadUrl} />
-      </div>
+    <OverviewCard
+      downloadUrl={downloadAction}
+      title={title}
+      tooltip={cardTooltip}
+    >
       <div className={styles.doiCard}>
         <PerformanceChart
           caption={

@@ -12,14 +12,7 @@ repository:
 
 mapping:
   title: Register OAI mapping
-  description: |
-      This allows you
-      to register a mapping between the OAI Prefix and
-      the URL in your repository to which it should resolve.
-      Once resolved and activated your OAI resolver
-      will start resolving your OAIs direct to your
-      repository metadata page. Where not registered, we will
-      resolve to the metadata page in CORE.
+  description: This allows you to register a mapping between the OAI Prefix and the URL in your repository to which it should resolve. Once resolved and activated your OAI resolver willstart resolving your OAIs direct to your repository metadata page. Where not registered, we will resolw to the metadata page in CORE. To find out more see [OAI identifier documentation](https://core.ac.uk/documentation/oai-resolver).
   form:
     - title: "The first part of your repository’s OAI identificators until the colon:"
       label: OAI Prefix
@@ -40,11 +33,12 @@ upload:
   description: |
         You can now upload your official logo to make it easier for users to identify your content.
         The logo will be displayed next to your content in searches, in the CORE reader and on your data provider’s page.
+  note: "**Note**: This option will be avalable soon."
   imageCaption: 100х100, png, jpg.
   buttonCaptions:
     save: Save
     delete: Delete
     upload: upload
     change: Change
-  deleteCaption: You sure about that?
+  deleteCaption: Are you sure you want to remove the logo?
 

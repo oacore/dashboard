@@ -4,6 +4,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import styles from './styles.module.css'
 import oaiLogo from './assets/oai_logo.svg'
 
+import Markdown from 'components/markdown'
 import { Card, TextField } from 'design'
 import {
   ChangePassword,
@@ -21,8 +22,9 @@ const UploadSection = ({ className, handleUpload, logoUrl }) => (
   >
     <Card.Title tag="h2">{content.upload.title}</Card.Title>
     <div className={styles.uploadContainer}>
-      <Card.Description className={styles.uploadDescription}>
-        {content.upload.description}
+      <Card.Description className={styles.uploadDescription} tag="div">
+        <p> {content.upload.description}</p>
+        <Markdown>{content.upload.note}</Markdown>
       </Card.Description>
       <Upload
         deleteCaption={content.upload.deleteCaption}
@@ -154,7 +156,7 @@ const SettingsTemplate = ({
         <img src={oaiLogo} alt="Oai logo" />
         <Card.Title tag="h2">{content.mapping.title}</Card.Title>
         <Card.Description className={styles.description}>
-          {content.mapping.description}
+          <Markdown>{content.mapping.description}</Markdown>
         </Card.Description>
         {Object.keys(oaiMapping).length > 0 && (
           <ResolverSettingsForm

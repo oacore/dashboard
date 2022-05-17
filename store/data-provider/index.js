@@ -83,12 +83,15 @@ class DataProvider extends Resource {
       depositHistory: true,
     }
 
-    const { data } = await await apiRequest(url, {
-      body,
-      method: 'POST',
-    })
-
-    Object.assign(this.statistics, data)
+    try {
+      const { data } = await await apiRequest(url, {
+        body,
+        method: 'POST',
+      })
+      Object.assign(this.statistics, data)
+    } catch (error) {
+      // Ignore errors for this moment
+    }
   }
 
   @action

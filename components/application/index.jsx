@@ -8,6 +8,7 @@ import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
 import Logout from './logout'
+import styles from './styles.module.css'
 
 const Application = observer(
   ({
@@ -25,6 +26,11 @@ const Application = observer(
         <AppBar>
           {isAuthenticated ? (
             <>
+              {!!dataProvider?.logo && (
+                <div className={styles.repositoryLogo}>
+                  <img src={dataProvider.logo} alt={dataProvider.name} />
+                </div>
+              )}
               {dataProvider && <RepositorySelect value={dataProvider} />}
               <Logout />
             </>

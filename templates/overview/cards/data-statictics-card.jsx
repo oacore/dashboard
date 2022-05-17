@@ -2,6 +2,7 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
+import OverviewCard from './overview-card'
 
 import AreaChart from 'components/area-chart'
 import useHarvestingDate from 'utils/hooks/use-harvesting-dates'
@@ -31,7 +32,7 @@ const ActionsBar = ({ onSetActiveType, activeType }) => {
           active={activeType === name}
         />
       ))}
-      <Actions />
+      <Actions description={text.cardTooltip} />
     </div>
   )
 }
@@ -92,7 +93,7 @@ const DataStatisticsCard = ({
     },
   ]
   return (
-    <Card className={styles.infoCard} {...restProps} title={text.cardTooltip}>
+    <OverviewCard className={styles.infoCard} {...restProps}>
       <div className={styles.cardHeader}>
         <Card.Title tag="h2">{text.title}</Card.Title>
         <ActionsBar activeType={activeType} onSetActiveType={onSetActiveType} />
@@ -138,7 +139,7 @@ const DataStatisticsCard = ({
           )}
         </>
       )}
-    </Card>
+    </OverviewCard>
   )
 }
 export default DataStatisticsCard
