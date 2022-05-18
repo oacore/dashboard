@@ -101,6 +101,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-top: 2rem;
+  margin-left: 2rem;
 }
 
 .rioxx-chart {
@@ -205,8 +207,6 @@
 
 .subtitle {
   margin-bottom: 0;
-  font-weight: 300;
-  color: var(--gray-700);
 }
 
 .metadata {

@@ -38,6 +38,10 @@ class DataProvider extends Resource {
 
   @observable location = {}
 
+  @observable oaiMapping = {}
+
+  @observable logo = ''
+
   @action retrieve() {
     super.retrieve().then(
       () => {
@@ -46,6 +50,8 @@ class DataProvider extends Resource {
         this.retrievePluginConfig()
         this.retrieveIrusStats()
         this.retrieveRioxxStats()
+        this.retrieveOaiMapping()
+        this.retrieveLogo()
 
         const url = `/data-providers/${this.id}`
         this.works = new Works(url, this.options)
@@ -73,16 +79,19 @@ class DataProvider extends Resource {
     ).href
 
     const body = {
-      rawStats: true,
       depositHistory: true,
     }
 
-    const { data } = await await apiRequest(url, {
-      body,
-      method: 'POST',
-    })
+    try {
+      const { data } = await await apiRequest(url, {
+        body,
+        method: 'POST',
+      })
 
-    Object.assign(this.statistics, data)
+      Object.assign(this.statistics, data)
+    } catch (error) {
+      // Ignore errors for this moment
+    }
   }
 
   @action
@@ -125,6 +134,26 @@ class DataProvider extends Resource {
         totalCount,
         ...rest,
       }
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action async retrieveOaiMapping() {
+    try {
+      const url = `/data-providers/${this.id}/oairesolver/settings`
+      const { data } = await apiRequest(url)
+      this.oaiMapping = data
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action async retrieveLogo() {
+    try {
+      const url = `/data-providers/${this.id}/logo`
+      const { data } = await apiRequest(url)
+      this.logo = data
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
     }

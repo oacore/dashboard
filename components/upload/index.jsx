@@ -1,18 +1,21 @@
 import React from 'react'
-import { Button } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
+import imagePlacegolder from './assets/placeholder.svg'
 
-const Upload = ({ buttonCaptions, imgDefault, imageCaption }) => {
-  const [preview, setPreview] = React.useState(imgDefault)
-  const [imageFile, setImageFile] = React.useState(null)
+import { Button, Icon } from 'design'
 
-  // Posibility check image dimensions
-  // const imgElement = React.useRef(null)
-  // const onImageLoad = () => {
-  //   console.log(imgElement.current.naturalHeight)
-  //   console.log(imgElement.current.naturalWidth)
-  // }
+const Upload = ({
+  buttonCaptions,
+  imageCaption,
+  deleteCaption,
+  logoUrl: initialLogo,
+  onSubmit,
+}) => {
+  const fileRef = React.useRef()
+  const [preview, setPreview] = React.useState()
+  const [isUploadingActive, setIsUploadingActive] = React.useState(false)
 
   function uploadFile(file) {
     const reader = new FileReader()
@@ -21,7 +24,6 @@ const Upload = ({ buttonCaptions, imgDefault, imageCaption }) => {
     reader.onload = () => {
       const fileRes = btoa(reader.result)
       setPreview(`data:image/jpg;base64,${fileRes}`)
-      setImageFile(file)
     }
 
     reader.onerror = () => {}
@@ -30,54 +32,90 @@ const Upload = ({ buttonCaptions, imgDefault, imageCaption }) => {
   const handleUpload = (e) => {
     e.preventDefault()
     e.stopPropagation()
+    setIsUploadingActive(true)
     const [file] = e.target.files || e.dataTransfer.files
     uploadFile(file)
   }
 
-  const onReset = () => {
-    setPreview(imgDefault)
-    setImageFile(null)
+  const onReset = async () => {
+    // eslint-disable-next-line no-alert
+    if (window.confirm(deleteCaption)) {
+      await onSubmit({
+        logoBase64: null,
+      })
+      setIsUploadingActive(false)
+      setPreview(null)
+    }
   }
 
-  return (
-    <div className={styles.upload}>
-      {imageFile && (
-        <span
-          aria-hidden="true"
-          variant="text"
-          className={styles.delete}
-          onClick={onReset}
+  const handleSubmit = async () => {
+    await onSubmit({
+      logoBase64: preview,
+    })
+    setIsUploadingActive(false)
+    setPreview(null)
+  }
+
+  const isActiveImage = !!preview || !!initialLogo
+
+  const setActionsComponent = () => {
+    if (preview) {
+      return (
+        <Button
+          type="submit"
+          className={styles.action}
+          variant="outlined"
+          onClick={handleSubmit}
         >
-          {buttonCaptions.delete}
-        </span>
-      )}
-      <div className={styles.container}>
-        <img
-          src={preview}
-          alt="Logo"
-          // ref={imgElement}
-          className={styles.logo}
-          // onLoad={onImageLoad}
+          {buttonCaptions.save}
+        </Button>
+      )
+    }
+
+    return (
+      <>
+        <Button
+          className={styles.action}
+          variant="contained"
+          onClick={() => fileRef.current.click()}
+        >
+          {initialLogo && !preview
+            ? buttonCaptions.change
+            : buttonCaptions.upload}
+        </Button>
+        <input
+          type="file"
+          className={styles.input}
+          accept="image/*"
+          ref={fileRef}
+          onChange={(e) => handleUpload(e)}
         />
-        {imageCaption && <span className={styles.caption}>{imageCaption}</span>}
-        {imageFile ? (
-          <Button type="submit" className={styles.action} variant="contained">
-            {buttonCaptions.save}
+      </>
+    )
+  }
+
+  const actionComponent = setActionsComponent()
+
+  return (
+    <div className={styles.container}>
+      <div
+        className={classNames.use(styles.image, {
+          [styles.imagePreview]: isActiveImage,
+        })}
+      >
+        {isActiveImage && (
+          <Button onClick={onReset} className={styles.delete}>
+            <Icon src="#close" alt="delete" />
           </Button>
-        ) : (
-          <>
-            <input
-              type="file"
-              className={styles.input}
-              accept="image/*"
-              onChange={(e) => handleUpload(e)}
-            />
-            <Button className={styles.action} variant="contained">
-              {buttonCaptions.upload}
-            </Button>
-          </>
         )}
+        <img
+          src={isUploadingActive ? preview : initialLogo || imagePlacegolder}
+          alt="Logo"
+          className={classNames.use(styles.logo)}
+        />
       </div>
+      {imageCaption && <span className={styles.caption}>{imageCaption}</span>}
+      {actionComponent}
     </div>
   )
 }

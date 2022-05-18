@@ -45,7 +45,7 @@ function login(event) {
   event.preventDefault()
   const urlParams = new URLSearchParams(window.location.search)
   const identityProviderUrl =
-    urlParams.get('identity_provider_url') || 'https://api.core.ac.uk/'
+    urlParams.get('identity_provider_url') || 'https://api02.core.ac.uk/'
   const fallbackIDP =
     urlParams.get('fallback_idp') || 'https://dashboard.core.ac.uk/'
   const redirectUrl = urlParams.get('continue') || '/'

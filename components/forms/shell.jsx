@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Button } from 'design'
+import { Button, Message } from 'design'
 
 const FormShell = ({
   children,
@@ -43,7 +43,9 @@ const FormShell = ({
           {buttonCaption}
         </Button>
       )}
-      {message && (!isChanged || isButtonVisible) && <p>{message}</p>}
+      {message && !isChanged && (
+        <Message variant={message.type}>{message.text}</Message>
+      )}
     </form>
   )
 }
