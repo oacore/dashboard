@@ -26,6 +26,7 @@ const HarvestingPageTemplate = ({
 }) => {
   const defaultType = texts.actions.find((action) => action.defaultActive)
     .action
+
   const { issueList, onChangeIssueList, activeType } = useTypes(
     aggregation,
     defaultType
@@ -44,7 +45,6 @@ const HarvestingPageTemplate = ({
         errorsCount={errorsCount}
       />
       {/* <HarvestingStatusCard /> */}
-      <Card>Temporary</Card>
 
       {/* <DataStatisticsCard
         metadataCount={metadataCount}
@@ -79,6 +79,7 @@ const HarvestingPageTemplate = ({
           <div className={styles.buttonGroup}>
             {texts.actions.map((button) => (
               <Button
+                key={button.action}
                 onClick={() => onChangeIssueList(button.action)}
                 variant={
                   activeType === button.action ? 'contained' : 'outlined'

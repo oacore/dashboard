@@ -2,11 +2,16 @@ import React from 'react'
 import { Table } from '@oacore/design'
 
 const Header = React.memo(
-  ({ columns, handleColumnOrderChange, columnOrder }) => (
+  ({
+    isHeaderClickable = true,
+    columns,
+    handleColumnOrderChange,
+    columnOrder,
+  }) => (
     <Table.Head>
       <Table.Row>
-        {columns.map(
-          ({ props: { id, className: columnClassName, display } }) => (
+        {columns.map(({ props: { id, className: columnClassName, display } }) =>
+          isHeaderClickable ? (
             <Table.HeadCell
               key={id}
               order={columnOrder[id]}
@@ -18,6 +23,14 @@ const Header = React.memo(
             >
               {display}
             </Table.HeadCell>
+          ) : (
+            <Table.Cell
+              key={id}
+              order={columnOrder[id]}
+              className={columnClassName}
+            >
+              {display}
+            </Table.Cell>
           )
         )}
       </Table.Row>

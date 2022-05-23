@@ -24,6 +24,8 @@ const tableStateReducer = (state, action) => {
   switch (action.type) {
     case 'CLOSE_SIDEBAR':
       return { ...state, expandedRowId: null }
+    case 'CLOSE_DETAILS':
+      return { ...state, expandedRowId: null }
     case 'CHANGE_SELECTED_OPTION':
       return { ...state, selectedOption: action.value }
     case 'SEARCH_CHANGED':
@@ -43,7 +45,7 @@ const tableStateReducer = (state, action) => {
   }
 }
 
-const useTableState = ({ fetchDataProp, data, ...rest }) => {
+const useTableState = ({ fetchDataProp, data, defaultRowClick, ...rest }) => {
   const tableRowClickTimeout = useRef(null)
   const [state, changeState] = useReducer(tableStateReducer, {
     searchTerm: '',
@@ -58,6 +60,11 @@ const useTableState = ({ fetchDataProp, data, ...rest }) => {
     []
   )
 
+  const handleDetailsClose = useCallback(
+    () => changeState({ type: 'CLOSE_DETAILS' }),
+    []
+  )
+
   const handleRowClick = useCallback(
     (event) => {
       if (event.detail === 1) {
@@ -67,7 +74,10 @@ const useTableState = ({ fetchDataProp, data, ...rest }) => {
           const selection = window.getSelection().toString()
           if (selection.length) return
 
-          const rowId = clickedRow.dataset.id
+          const rowId = clickedRow?.dataset.id
+
+          if (defaultRowClick && rowId) defaultRowClick(rowId)
+
           changeState({
             type: 'CHANGE_TABLE_STATE',
             value: {
@@ -78,6 +88,18 @@ const useTableState = ({ fetchDataProp, data, ...rest }) => {
       }
     },
     [data]
+  )
+
+  const handleRowToggle = useCallback(
+    (event) => {
+      if (state.expandedRowId !== null) {
+        handleDetailsClose()
+        return
+      }
+
+      handleRowClick(event)
+    },
+    [state.expandedRowId]
   )
 
   const handleDoubleRowClick = useCallback(() => {
@@ -125,7 +147,9 @@ const useTableState = ({ fetchDataProp, data, ...rest }) => {
     state,
     {
       handleSidebarClose,
+      handleDetailsClose,
       handleRowClick,
+      handleRowToggle,
       handleDoubleRowClick,
       handleSelectedOption,
       handleColumnOrderChange,

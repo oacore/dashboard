@@ -22,6 +22,7 @@ const DoiCard = ({
   downloadUrl,
 }) => {
   const { title, description, action, downloadAction, cardTooltip } = texts.doi
+
   const chartValues = [
     {
       name: 'Outputs have DOI',

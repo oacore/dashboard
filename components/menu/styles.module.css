@@ -1,0 +1,16 @@
+.menu {
+  background-color: var(--white);
+  border: 1px solid var(--gray-300);
+}
+
+.item {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--gray-600);
+  cursor: pointer;
+  border-bottom: 1px solid var(--gray-300);
+
+  &:hover {
+    background-color: var(--gray-100);
+  }
+}

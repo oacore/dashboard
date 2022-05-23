@@ -3,12 +3,14 @@ import { useState, useCallback, useEffect } from 'react'
 const useIssues = ({ pages }) => {
   const [issues, setIssues] = useState([])
   const [issueWithArticles, setIssueWithArticles] = useState({})
+  const [activeArticle, setActiveArticle] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const loadMore = useCallback(
     async ({ initial = false }) => {
       if (!pages) return
       setLoading(true)
+
       const data = initial
         ? await pages.slice(0, 10)
         : await pages.slice(0, issues.length + 10)
@@ -41,18 +43,23 @@ const useIssues = ({ pages }) => {
     []
   )
 
-  const onCleanList = () => {
-    if (pages) pages.reset({ type: pages.type })
-    setIssues([])
-    setIssueWithArticles({})
-  }
+  const onSetActiveArticle = useCallback(
+    (id) => {
+      const output = issueWithArticles?.data.find((issue) => issue.id === id)
+        ?.output
+
+      setActiveArticle(output)
+    },
+    [issueWithArticles]
+  )
 
   return {
     loadMore,
     loading,
     data: issueWithArticles,
     done: !pages ? true : pages.isLastPageLoaded,
-    onCleanList,
+    onSetActiveArticle,
+    activeArticle,
   }
 }
 

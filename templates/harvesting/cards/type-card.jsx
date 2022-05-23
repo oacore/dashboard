@@ -3,29 +3,42 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 import useIssues from '../hooks/use-issues'
-import IssuesList from './issues-list'
+import ArticlesList from './articles-list'
 
+import Markdown from 'components/markdown'
 import { Button, Icon } from 'design'
 import texts from 'texts/issues'
 
-const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
+const TypeCard = ({
+  type,
+  count,
+  title,
+  description,
+  resolution,
+  issuesList,
+  hidden,
+}) => {
   const [visibleList, setVisibleList] = useState(false)
 
   const {
-    data: issues,
-    loadMore: loadMoreIssues,
-    loading: issuesLoading,
-    onCleanList,
+    data: articles,
+    loadMore: loadMoreArticles,
+    loading: articlesLoading,
+    onSetActiveArticle,
+    activeArticle,
   } = useIssues({ pages: issuesList })
 
   const toggleVisibleList = () => {
     setVisibleList(!visibleList)
-    onCleanList()
-    if (!visibleList) loadMoreIssues({ initial: true })
+    if (!visibleList) loadMoreArticles({ initial: true })
   }
 
   return (
-    <li className={styles.typeCard}>
+    <li
+      className={classNames.use(styles.typeCard, {
+        [styles.typeCardHidden]: hidden,
+      })}
+    >
       <div className={styles.typeCardSection}>
         <div className={styles.typeCardHeader}>
           <Icon
@@ -34,7 +47,7 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
           />
           <h3 className={styles.typeCardTitle}>{title}</h3>
         </div>
-        <p>{trigger}</p>
+        <p>{description}</p>
         <div
           className={classNames.use(
             styles.typeCardCount,
@@ -44,7 +57,6 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
           <span>{count}</span> {texts.issues.affected}
         </div>
       </div>
-
       <div className={styles.typeCardSection}>
         <div className={styles.typeCardHeader}>
           <Icon src="#comment-multiple" className={styles.cardIconComment} />
@@ -52,12 +64,12 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
             {texts.issues.recommendationCardTitle}
           </h3>
         </div>
-        <p>{resolution}</p>
+        <Markdown>{resolution}</Markdown>
         <div className={styles.typeCardActions}>
           <Button variant="contained">{texts.issues.downloadAction} </Button>
           <Button
             variant="outlined"
-            disabled={issuesLoading}
+            disabled={articlesLoading}
             onClick={toggleVisibleList}
           >
             {visibleList
@@ -66,11 +78,13 @@ const TypeCard = ({ type, count, title, trigger, resolution, issuesList }) => {
           </Button>
         </div>
       </div>
-      {visibleList && Object.keys(issues).length > 0 && (
-        <IssuesList
-          fetchData={loadMoreIssues}
-          issuesList={issues}
+      {visibleList && Object.keys(articles).length > 0 && (
+        <ArticlesList
+          fetchData={loadMoreArticles}
+          issuesList={articles}
           visible={visibleList}
+          activeArticle={activeArticle}
+          onSetActiveArticle={onSetActiveArticle}
         />
       )}
     </li>

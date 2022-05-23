@@ -9,16 +9,18 @@ const TypesList = ({ typesList, issuesByType }) => (
       ({
         actualType,
         title,
-        trigger,
+        description,
         resolution,
         outputsAffectedCount,
         severity,
+        hidden,
       }) => (
         <TypeCard
           key={actualType}
+          hidden={hidden}
           issuesList={issuesByType.get(actualType)}
           title={title}
-          trigger={trigger}
+          description={description}
           resolution={resolution}
           count={outputsAffectedCount}
           type={severity[0].toUpperCase() + severity.slice(1).toLowerCase()}

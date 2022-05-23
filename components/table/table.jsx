@@ -27,7 +27,12 @@ const InfiniteTable = ({
   size,
   isLastPageLoaded,
   totalLength,
+  isHeaderClickable,
   isLoading,
+  defaultRowClick,
+  buttonVariant,
+  buttonText,
+  useExpandIcon = false,
   excludeFooter = false,
   ...restProps
 }) => {
@@ -36,6 +41,7 @@ const InfiniteTable = ({
   const {
     sidebar,
     action,
+    details,
     columnOrder: columnOrderConfig,
     columns,
   } = useTableConfig(children)
@@ -46,12 +52,18 @@ const InfiniteTable = ({
       handleSidebarClose,
       handleRowClick,
       handleDoubleRowClick,
+      handleRowToggle,
       handleColumnOrderChange,
       handleSearchChange,
       handleSelectedOption,
       fetchData,
     },
-  ] = useTableState({ columnOrder: columnOrderConfig, fetchDataProp, data })
+  ] = useTableState({
+    columnOrder: columnOrderConfig,
+    fetchDataProp,
+    data,
+    defaultRowClick,
+  })
 
   // attach event listeners on mount
   useEffect(() => {
@@ -62,7 +74,7 @@ const InfiniteTable = ({
     }
   }, [])
 
-  const bodyHasCallbacks = Boolean(sidebar)
+  const bodyHasCallbacks = Boolean(sidebar || details)
 
   // even if this is not an actual Hook, it starts from 'use-'
   // to potentially have useCallback() call behind
@@ -73,7 +85,7 @@ const InfiniteTable = ({
       ref={containerRef}
       className={classNames.use({
         [styles.container]: true,
-        [styles.open]: Boolean(expandedRowId),
+        [styles.open]: !!expandedRowId && !!sidebar,
       })}
     >
       <div className={styles.table}>
@@ -103,16 +115,26 @@ const InfiniteTable = ({
               handleColumnOrderChange={handleColumnOrderChange}
               columnOrder={columnOrder}
               columns={columns}
+              isHeaderClickable={isHeaderClickable}
             />
             <Body
-              handleRowClick={useRowCallback(handleRowClick)}
+              handleRowClick={
+                sidebar
+                  ? useRowCallback(handleRowClick)
+                  : useRowCallback(handleRowToggle)
+              }
               handleDoubleRowClick={useRowCallback(handleDoubleRowClick)}
               columns={columns}
               isClickable={bodyHasCallbacks}
               data={data}
+              details={details}
+              useExpandIcon={useExpandIcon}
+              expandedRowId={expandedRowId?.id}
             />
             {!excludeFooter && (
               <Footer
+                buttonVariant={buttonVariant}
+                buttonText={buttonText}
                 isLastPageLoaded={isLastPageLoaded}
                 isFirstPageLoaded={data !== null}
                 fetchData={fetchData}

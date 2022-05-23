@@ -42,7 +42,7 @@
   level: internal
 -
   type: EXTERNAL_UNKNOWN
-  # title: No full text was found due to unknown external reasons
+  title: No full text was found due to unknown external reasons
   severity: DEBUG
   level: internal
   description: |
@@ -80,14 +80,8 @@
     Your current OAI-PMH endpoint ({{ oaiPmhEndpoint }}) is not valid.
     If you changed the endpoint recently, please, update it in
     [Settings](./settings#oai-pmh).
-  resolution:
-    -
-      caption: Open settings
-      url: ./settings#oai-pmh
-    -
-      # help desk about "What is an OAI-PMH endpoint?"
-      caption: Learn more # or "I'm having problems"
-      url: https://kmi-ou.atlassian.net/wiki/spaces/KB/pages/4227093/What+is+an+OAI-PMH+endpoint
+  resolution: |
+    You may update the OAI-PMH endpoint using the Repository Dashboard
   details: [oaiPmhEndpoint]
 
 
@@ -106,15 +100,8 @@
   description: |
     We recommend to update OAI identifier with your own website address instead
     `generic.eprints.org` preffix.
-  resolution:
-    -
-      caption: Learn more ↗️
-      url: https://wiki.eprints.org/w/OAI
-    -
-      # I have no idea how to make this
-      # but this should be there
-      caption: Mark resolved
-
+  resolution: |
+    Review your documentation to update the OAI identifier
   details: [oai]
 
 -
@@ -214,18 +201,15 @@
   title: No valid attachment links found
   description: |
     We downloaded the metadata, but we were unable to find any full text links.
-    Ensure `dc:identifier` contains a direct link to the full text. We only
-    support `.pdf` file type.
-  resolution:
-    -
-      caption: Mark resolved
+  resolution: |
+    Ensure that dc:identifier contains a direct link to the full text. We only support the following file types: .pdf
   details: [currentUrl]
 
 -
   hidden: true
   type: NO_ATTACHMENT_FOUND_NO_REPORTED_FAILURES
   matches: [NON_EXISTENT_PAGE_ATTACHMENT]
-  # title: No attachment found, no other issues happend
+  title: No attachment found, no other issues happend
   severity: DEBUG
   trigger: |
     This issue is triggered when no specific issue was detected and reported.
@@ -287,9 +271,8 @@
 
     Ensure that the Metadata Title is the same as the document title
     or including a link to the full text in `dc:identifier`.
-  resolution:
-    -
-      caption: Mark resolved
+  resolution: |
+      Neew new text resolution
   # should be moved to separate place or deleted
   extra-intructions: |
     Ensure that the Metadata Title is the same as the document title. For
@@ -347,11 +330,9 @@
   description: |
     The metadata provided contained no urls so we are unable to find a full text
   resolution: |
-    Ensure dc:identifier contains a url to the full text
-
-    Ensure any links on the metadata contain correct urls to the fulltext
-
-    Consider linking directly to the fulltext from the metadata
+    Ensure dc:identifier contains a url to the full text.
+    Ensure any links on the metadata contain correct urls to the fulltext.
+    Consider linking directly to the fulltext from the metadata.
   details: []
 
 -

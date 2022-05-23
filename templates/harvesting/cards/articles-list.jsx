@@ -1,25 +1,38 @@
 import React from 'react'
+import { Icon } from '@oacore/design/lib/elements'
 
-import styles from '../styles.module.css'
+import styles from './table.module.css'
+import Article from './article'
 
 import Table from 'components/table'
 import { formatDate } from 'utils/helpers'
 
-const IssuesList = ({ issuesList, fetchData }) => {
+const ArticlesList = ({
+  issuesList,
+  fetchData,
+  onSetActiveArticle,
+  activeArticle,
+}) => {
   const tableProps = {
     ...issuesList,
     buttonVariant: 'contained',
     buttonText: 'Load more',
   }
+
   return (
     <div className={styles.issueTable}>
-      <Table fetchData={fetchData} {...tableProps}>
+      <Table
+        fetchData={fetchData}
+        isHeaderClickable={false}
+        useExpandIcon
+        defaultRowClick={onSetActiveArticle}
+        {...tableProps}
+      >
         <Table.Column
           id="oai"
           display="OAI"
           getter={(v) => {
-            const { oai } = v?.output
-            if (oai) return oai.split(':').pop()
+            if (v?.output.oai) return v.output.oai.split(':').pop()
             return '-'
           }}
           className={styles.oaiColumn}
@@ -50,21 +63,24 @@ const IssuesList = ({ issuesList, fetchData }) => {
           id="updateDate"
           display="Update date"
           className={styles.updateDateColumn}
+          cellClassName={styles.dateCell}
           getter={(v) => {
             const { udpatedDate } = v?.output
             return udpatedDate ? formatDate(udpatedDate) : '-'
           }}
         />
-        {/* <Table.Sidebar>
-          <SidebarContent changeVisibility={changeVisibility} />
-        </Table.Sidebar> */}
-        {/* <Table.Action>
-          <ExportButton href={exportUrl}>{texts.exporting.download}
-          </ExportButton>
-        </Table.Action> */}
+        <Table.Column
+          id="visibility"
+          getter={() => <Icon src="#eye" className={styles.visibilityIcon} />}
+          className={styles.visibilityStatusColumn}
+        />
+
+        <Table.Details id="output">
+          <Article article={activeArticle} />
+        </Table.Details>
       </Table>
     </div>
   )
 }
 
-export default IssuesList
+export default ArticlesList

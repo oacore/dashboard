@@ -23,3 +23,20 @@ actions:
       action: WARNING
     - name: other
       action: DEBUG
+
+article:
+  fields:
+    - name: Author
+      key : authors
+    - name: Publication Date
+      key: datePublished
+    - name: DOI
+      key: doi
+    - name: OAI
+      key: oai
+    - name: Abstract
+      key: abstract
+  actions:
+    - title: Download
+      key: downloadLink
+

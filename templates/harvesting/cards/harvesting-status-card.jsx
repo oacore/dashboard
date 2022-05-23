@@ -7,6 +7,7 @@ import { valueOrDefault, formatDate } from 'utils/helpers'
 import NumericValue from 'components/numeric-value'
 import FullTextsProgressChart from 'components/full-texts-progress-chart'
 import COLORS from 'utils/colors'
+import texts from 'texts/issues'
 
 const HarvestingStatusCard = ({
   errorsCount,
@@ -15,7 +16,7 @@ const HarvestingStatusCard = ({
   metadataCount,
 }) => (
   <Card>
-    <Card.Title tag="h2">General information</Card.Title>
+    <Card.Title tag="h2">{texts.genInfo.title}</Card.Title>
     <div className={styles.metadata}>
       <NumericValue
         value={valueOrDefault(formatDate(lastHarvestingDate), 'Loading...')}
@@ -29,25 +30,25 @@ const HarvestingStatusCard = ({
         tag="div"
         bold
       />
+      <FullTextsProgressChart
+        className={styles.chart}
+        fullTextCount={fullTextCount}
+        chartValues={[
+          {
+            name: 'Full text',
+            value: fullTextCount,
+            color: COLORS.primary,
+          },
+          {
+            name: 'Without full text',
+            value: metadataCount - fullTextCount,
+            color: COLORS.gray200,
+          },
+        ]}
+        caption="Full texts"
+        value={valueOrDefault((fullTextCount / metadataCount) * 100, '🔁')}
+      />
     </div>
-    <FullTextsProgressChart
-      className={styles.chart}
-      fullTextCount={fullTextCount}
-      chartValues={[
-        {
-          name: 'Full text',
-          value: fullTextCount,
-          color: COLORS.primary,
-        },
-        {
-          name: 'Without full text',
-          value: metadataCount - fullTextCount,
-          color: COLORS.gray200,
-        },
-      ]}
-      caption="Full texts"
-      value={valueOrDefault((fullTextCount / metadataCount) * 100, '🔁')}
-    />
     {errorsCount && (
       <p className={styles.errorsInfo}>
         Harvested with

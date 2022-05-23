@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import texts from 'texts/issues'
 
@@ -32,16 +32,21 @@ const useTypes = (aggregations, initialType) => {
     setIssueList(defaultIssuesList)
   }, [aggregations])
 
-  const onChangeIssueList = (actionName) => {
-    setActiveType(actionName)
+  const onChangeIssueList = useCallback(
+    (actionName) => {
+      setActiveType(actionName)
 
-    if (actionName === 'All') {
-      setIssueList(transformedList)
-      return
-    }
-    const list = transformedList.filter((item) => item.severity === actionName)
-    setIssueList(list)
-  }
+      if (actionName === 'All') {
+        setIssueList(transformedList)
+        return
+      }
+      const list = transformedList.filter(
+        (item) => item.severity === actionName
+      )
+      setIssueList(list)
+    },
+    [activeType, issueList]
+  )
 
   return {
     issueList,

@@ -6,20 +6,18 @@
   display: grid;
   grid-gap: 1.5rem 2rem;
   grid-auto-rows: min-content;
-  grid-template-columns: repeat(auto-fit, minmax(var(--column-min-width), 1fr));
+  grid-template-columns: repeat(auto-fit, 1fr);
   padding: var(--component-padding-y, 1rem) var(--component-padding-x, 1rem);
 }
 
 .metadata {
   display: flex;
+  gap: 5rem;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 2rem;
 }
 
 .chart {
   max-width: 12.5rem;
-  margin: 1.8rem 0;
   background-color: var(--white);
 }
 
@@ -166,58 +164,6 @@
   background-color: #2a51aa;
 }
 
-.issue-table {
-  grid-column: 1 / -1;
-  margin-top: 2rem;
-}
-
-.issue-table td,
-.issue-table th {
-  max-width: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.issue-table tbody::before {
-  display: block;
-  line-height: 2rem;
-  text-indent: -99999px;
-  content: '@';
-}
-
-.issue-table tr:nth-child(1) {
-  border-top: none;
-}
-
-.oai-column {
-  width: 10%;
-  min-width: 5rem;
-}
-
-.title-column {
-  width: 30%;
-  max-width: 5rem;
-}
-
-.authors-column {
-  width: 30%;
-  max-width: 5rem;
-}
-
-.publication-update-column {
-  width: 15%;
-}
-
-.update-date-column {
-  width: 15%;
-}
-
-.oai-cell {
-  display: inline-block;
-  padding: 0.2rem 0.5rem;
-  margin-top: 0.7rem;
-  margin-left: 0.2rem;
-  background-color: var(--gray-100);
-  border-radius: 5px;
+.type-card-hidden {
+  display: none;
 }

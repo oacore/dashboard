@@ -6,8 +6,7 @@ import styles from './styles.module.css'
 
 import { Table } from 'design'
 
-const Row = (props) => {
-  const { id, index, columns, context, isClickable } = props
+const Row = ({ id, index, columns, context, isClickable, onClick }) => {
   const { disabled } = context
   const rowProps = {
     'data-id': id,
@@ -17,10 +16,12 @@ const Row = (props) => {
       disabled && styles.disable,
     ]),
   }
+
   return (
-    <Table.Row data-index={index} {...rowProps}>
+    <Table.Row onClick={onClick} data-index={index} {...rowProps}>
       {columns.map((column) => (
         <Table.Cell
+          onClick={column.props.cellOnClick}
           className={column.props.cellClassName}
           key={column.props.id}
         >
