@@ -9,7 +9,7 @@ const Actions = ({ tag: Tag = 'div', className, downloadUrl, description }) => (
     {description && (
       <Popover className={styles.popover} placement="top" content={description}>
         <Button>
-          <Icon src="#alert-circle-outline" className={styles.pure} />
+          <Icon src="#information-outline" className={styles.pure} />
         </Button>
       </Popover>
     )}

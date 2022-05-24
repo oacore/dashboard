@@ -18,6 +18,7 @@ const Overview = ({ store, ...props }) => (
     doiEnrichmentSize={store.dataProvider?.doi?.enrichmentSize}
     dataProviderId={store.dataProvider.id}
     dataProviderName={store.dataProvider.name}
+    dataProviderInstitution={store.dataProvider?.institution}
     countryCode={store.dataProvider?.location?.countryCode}
     harvestingDate={
       store.dataProvider?.issues?.harvestingStatus?.lastHarvestingDate

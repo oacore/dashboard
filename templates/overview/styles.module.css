@@ -22,6 +22,10 @@
   }
 }
 
+.header > .subtitle {
+  color: var(--gray-700);
+}
+
 .info-card {
   grid-column: 1 / -1;
   background-color: #fff;

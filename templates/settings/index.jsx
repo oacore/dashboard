@@ -155,7 +155,7 @@ const SettingsTemplate = ({
       >
         <img src={oaiLogo} alt="Oai logo" />
         <Card.Title tag="h2">{content.mapping.title}</Card.Title>
-        <Card.Description className={styles.description}>
+        <Card.Description tag="div" className={styles.description}>
           <Markdown>{content.mapping.description}</Markdown>
         </Card.Description>
         {Object.keys(oaiMapping).length > 0 && (

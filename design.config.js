@@ -23,6 +23,7 @@ const icons = [
   'file-download',
   'help-circle',
   'help-circle-outline',
+  'information-outline',
   'magnify',
   'new-box',
   'open-in-new',
