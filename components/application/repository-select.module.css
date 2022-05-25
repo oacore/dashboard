@@ -5,9 +5,7 @@
   --form-control-padding-x: 0.5rem;
 
   position: relative;
-  display: flex;
   flex: 2 2 60%;
-  align-items: center;
 }
 
 .repository-select {
@@ -16,8 +14,9 @@
   /* Disabling because calc(Xpx - 0); on input doesn't work */
   /* stylelint-disable-next-line length-zero-no-unit */
   --form-control-border-width: 0px;
-
-  flex: 1;
+  position: absolute;
+  right: 0;
+  left: 0;
 
   &:focus-within {
     --form-control-border-width: 1px;

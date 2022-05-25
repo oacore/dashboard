@@ -1,10 +1,6 @@
-@custom-media --screen-until-desktop (max-width: 1240px);
-
 .container {
-  --column-min-width: 32rem;
-  @media (--screen-until-desktop) {
-    --column-min-width: 20rem;
-  }
+  --column-min-width: 18rem;
+
   display: grid;
   grid-gap: 1.5rem 2rem;
   grid-auto-rows: min-content;
@@ -19,31 +15,6 @@
 
   & > * {
     margin-top: 0;
-  }
-}
-
-.header > .subtitle {
-  color: var(--gray-700);
-}
-
-.info-card {
-  grid-column: 1 / -1;
-  background-color: #fff;
-}
-
-.doi-card {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(calc(var(--column-min-width) / 2), 1fr)
-  );
-
-  @media (--screen-until-desktop) {
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(var(--column-min-width), 1fr)
-    );
   }
 }
 
@@ -101,14 +72,6 @@
   }
 }
 
-.doi-card-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-top: 2rem;
-  margin-left: 2rem;
-}
-
 .rioxx-chart {
   margin-top: var(--spacer);
 }
@@ -124,8 +87,9 @@
   display: inline-block;
   flex-basis: 1px;
   min-width: 2px;
-  padding: 0.7rem 1rem;
+  padding: 0.5rem 0;
   color: var(--white);
+  text-align: center;
   background: var(--primary);
   border-radius: var(--component-corner-radius, 2px);
 
@@ -142,11 +106,11 @@
 
 .issues-list {
   padding: 0;
-  margin-top: 1rem;
   list-style: none;
 
   & > li {
     display: block;
+    padding-left: 2rem;
 
     &::before {
       display: inline-block;
@@ -162,15 +126,11 @@
     }
   }
 
-  & span {
-    font-weight: 700;
-  }
-
   & code {
     font-family: inherit;
     font-size: inherit;
     font-weight: bolder;
-    color: var(--primary);
+    color: var(--danger-dark);
   }
 }
 
@@ -179,88 +139,4 @@
   color: var(--danger-dark);
   border: 1px solid;
   border-radius: var(--component-corner-radius, 2px);
-}
-
-.statistics {
-  font-size: 0.9em;
-}
-
-.card-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.card-header-irus {
-  margin-bottom: 1rem;
-}
-
-.doi-card-actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.card-title {
-  margin-bottom: 1.5rem;
-}
-
-.irus-description {
-  margin-top: 0;
-}
-
-.subtitle {
-  margin-bottom: 0;
-}
-
-.metadata {
-  padding-right: 1.5rem;
-  font-size: 1.3rem;
-}
-
-/* stylelint-disable declaration-no-important */
-.info-chart {
-  max-width: 110px;
-  padding: 0;
-  margin: 0 !important;
-}
-
-/* White circle inside  */
-.info-chart::before {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 90px;
-  height: 90px;
-  content: '';
-  background-color: #fff;
-  border-radius: 50%;
-}
-
-.info-card-content {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 2rem 0;
-  gap: 1rem;
-}
-
-.info-card-chart {
-  display: grid;
-  align-items: center;
-  grid-template-columns: 110px 1fr;
-}
-
-.label {
-  margin-left: 1rem;
-}
-
-.label span:nth-child(2) {
-  font-size: 1.1rem;
-  color: var(--gray-600);
-  text-align: center;
-}
-
-.info-box {
-  padding: 0.5rem 1rem;
-  background-color: var(--gray-100);
 }

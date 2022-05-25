@@ -1,7 +1,6 @@
 import NetworkError from './errors'
 
 const { API_URL } = process.env
-const { API_KEY } = process.env
 
 const prepareUrl = (pathname, base = API_URL) => {
   const url = /^\w+:\/\//.test(pathname) ? pathname : `${base}${pathname}`
@@ -23,10 +22,7 @@ const prepareBody = ({ method, body }) => {
 }
 
 const prepareHeaders = ({ headers: customHeaders, body }) => {
-  const defaultHeaders = {
-    Accept: 'application/json',
-    Authorization: `Bearer ${API_KEY}`,
-  }
+  const defaultHeaders = { Accept: 'application/json' }
   const contentHeaders =
     typeof body == 'object' && body != null
       ? { 'Content-Type': 'application/json' }

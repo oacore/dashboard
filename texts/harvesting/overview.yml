@@ -1,16 +1,3 @@
-title: General information
-metadata:
-  title: Metadata records
-  caption: Full texts
-actions:
-    - name: Month
-    - name: 6 month
-      defaultActive: true
-    - name: Year
-
-
+title: Harvested data
 card-tooltip:
   Manage and control aggregated repository content by taking down full text or viewing the harvested metadata details
-
-downloads:
-  caption: downloads today

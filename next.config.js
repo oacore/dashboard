@@ -1,7 +1,5 @@
 const path = require('path')
 
-const withImages = require('next-images')
-
 const camelCaseLoader = path.join(__dirname, 'webpack/camelcase-loader.js')
 
 const envConfig = require('./env.config')
@@ -97,4 +95,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withImages(nextConfig)
+module.exports = nextConfig

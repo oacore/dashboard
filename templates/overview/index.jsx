@@ -9,17 +9,13 @@ import Title from 'components/title'
 
 const OverviewTemplate = ({
   metadataCount,
-  metadatadaHistory,
   fullTextCount,
   timeLagData,
   isTimeLagDataLoading,
   complianceLevel,
   doiCount,
-  doiDownloadUrl,
   doiEnrichmentSize,
   dataProviderId,
-  dataProviderName,
-  dataProviderInstitution,
   countryCode,
   harvestingDate,
   errorCount,
@@ -34,20 +30,14 @@ const OverviewTemplate = ({
     className={classNames.use(styles.container).join(className)}
     {...restProps}
   >
-    <div className={styles.header}>
-      <Title>{dataProviderName}</Title>
-      <p className={styles.subtitle}>{dataProviderInstitution}</p>
-    </div>
-
+    <Title hidden>Overview</Title>
     <DataStatisticsCard
-      metadatadaHistory={metadatadaHistory}
       metadataCount={metadataCount}
       fullTextCount={fullTextCount}
       harvestingDate={harvestingDate}
       errorCount={errorCount}
       warningCount={warningCount}
       dataProviderId={dataProviderId}
-      viewStatistics={viewStatistics}
     />
     <DepositingCard
       chartData={timeLagData}
@@ -55,20 +45,16 @@ const OverviewTemplate = ({
       dataProviderId={dataProviderId}
       countryCode={countryCode}
     />
-
+    <DoiCard
+      outputsCount={metadataCount}
+      doiCount={doiCount}
+      enrichmentSize={doiEnrichmentSize}
+      dataProviderId={dataProviderId}
+    />
     {rioxxCompliance != null && rioxxCompliance.totalCount > 0 && (
       <RioxxCard compliance={rioxxCompliance} />
     )}
     {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
-    {doiCount && (
-      <DoiCard
-        outputsCount={metadataCount}
-        doiCount={doiCount}
-        downloadUrl={doiDownloadUrl}
-        enrichmentSize={doiEnrichmentSize}
-        dataProviderId={dataProviderId}
-      />
-    )}
   </Tag>
 )
 
