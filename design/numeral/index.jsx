@@ -15,9 +15,13 @@ const Numeral = React.memo(
 )
 
 const Appendix = React.memo(
-  ({ children, className, tag: Tag = 'span', ...restProps }) => (
+  ({ children, className, bold, tag: Tag = 'span', ...restProps }) => (
     <Tag
-      className={classNames.use(styles.appendix).join(className)}
+      className={classNames
+        .use(styles.appendix, {
+          [styles.bold]: bold,
+        })
+        .join(className)}
       {...restProps}
     >
       {children}
@@ -45,9 +49,13 @@ const Diff = React.memo(
 )
 
 const Value = React.memo(
-  ({ children, className, tag: Tag = 'span', ...restProps }) => (
+  ({ children, className, bold = false, tag: Tag = 'span', ...restProps }) => (
     <Tag
-      className={classNames.use(styles.value).join(className)}
+      className={classNames
+        .use(styles.value, {
+          [styles.bold]: bold,
+        })
+        .join(className)}
       {...restProps}
     >
       {children}

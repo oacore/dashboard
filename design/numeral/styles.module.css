@@ -1,8 +1,10 @@
 .container {
   --numeral-value-sm-size: 2em;
+  --numeral-value-ex-sm-size: 1.5em;
   --numeral-value-md-size: 3em;
   --numeral-value-lg-size: 4em;
   --numeral-value-size: var(--numeral-value-md-size);
+  --font-weight-bold: 400;
 
   /* For the future */
 }
@@ -32,6 +34,14 @@
   --numeral-value-size: var(--numeral-value-sm-size);
 }
 
+.extra-small {
+  --numeral-value-size: var(--numeral-value-ex-sm-size);
+}
+
 .large {
   --numeral-value-size: var(--numeral-value-lg-size);
+}
+
+.bold {
+  font-weight: var(--font-weight-bold);
 }

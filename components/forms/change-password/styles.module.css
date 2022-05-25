@@ -1,8 +1,12 @@
 .change-password-iframe {
   --card-padding-x: 0;
   --card-padding-y: 0;
-  --card-box-shadow: 0;
-
   width: 100%;
   max-width: 50rem;
+
+  box-shadow: none;
+}
+
+.email {
+  color: var(--primary);
 }

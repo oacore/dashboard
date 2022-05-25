@@ -1,0 +1,11 @@
+.container {
+  display: inline-flex;
+}
+
+.pure {
+  color: var(--gray-600);
+}
+
+.popover {
+  max-width: 20rem;
+}

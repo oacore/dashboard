@@ -1,0 +1,27 @@
+.repository-logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0.1rem;
+  margin-left: 1rem;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+
+  &::before {
+    position: absolute;
+    z-index: -1;
+    content: ' ';
+    border: 2px solid var(--gray-300);
+    border-radius: 50%;
+    inset: 0;
+  }
+
+  & img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+}

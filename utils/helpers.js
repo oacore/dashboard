@@ -11,10 +11,9 @@ export const valueOrDefault = (value, defaultValue) =>
 
 export const formatNumber = (
   number,
-  { locale = 'en-GB', maximumFractionDigits = 2, ...restOptions } = {}
+  { locale = 'en-GB', ...restOptions } = {}
 ) =>
   new Intl.NumberFormat(locale, {
-    maximumFractionDigits,
     ...restOptions,
   }).format(number)
 

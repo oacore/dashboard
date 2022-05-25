@@ -3,11 +3,12 @@ import React from 'react'
 import OverviewCard from './overview-card'
 import styles from '../styles.module.css'
 
-import { Card } from 'design'
 import Markdown from 'components/markdown'
 import StatisticsChart from 'components/statistics-chart'
 import { formatDate } from 'utils/helpers'
 import * as texts from 'texts/overview'
+
+const { title, cardTooltip, description } = texts.irusUk
 
 const Content = ({ data, ...htmlProps }) => (
   <div {...htmlProps}>
@@ -21,16 +22,12 @@ const Content = ({ data, ...htmlProps }) => (
         'Views in CORE': 'var(--primary)',
       }}
     />
-    <Markdown>
-      Statistics collected by [IRUS](https://irus.jisc.ac.uk) from
-      [core.ac.uk](https://core.ac.uk)
-    </Markdown>
+    <Markdown className={styles.irusDescription}>{description}</Markdown>
   </div>
 )
 
 const IrusCard = ({ statistics }) => (
-  <OverviewCard title={texts.irusUk.cardTooltip}>
-    <Card.Title tag="h2">Download statistics</Card.Title>
+  <OverviewCard title={title} tooltip={cardTooltip}>
     {statistics != null ? (
       <Content className={styles.irusCardContent} data={statistics} />
     ) : (
