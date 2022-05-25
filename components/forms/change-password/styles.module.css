@@ -6,3 +6,7 @@
   width: 100%;
   max-width: 50rem;
 }
+
+.email {
+  color: var(--primary);
+}

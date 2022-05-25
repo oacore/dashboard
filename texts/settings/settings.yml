@@ -1,10 +1,10 @@
 title: Settings
 
 organisation:
-  title: Organisation settings
+  title: Your organisation
 
 invite:
-  title: Invite
+  title: Invite colleagues to the repository dashboard
   buttonCaption: Invite
 
 repository:

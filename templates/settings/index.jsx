@@ -92,7 +92,7 @@ const SettingsTemplate = ({
         >
           <TextField
             id="settings-global-email"
-            label="Name"
+            label="Set your institutional name"
             name="name"
             defaultValue={organization.name}
             tag="p"
@@ -144,11 +144,7 @@ const SettingsTemplate = ({
           />
         </FormShell>
       </Card>
-      <ChangePassword
-        className={styles.section}
-        email={userEmail}
-        tag="section"
-      />
+
       <Card
         className={classNames.use(styles.section).join(className)}
         tag="section"
@@ -168,6 +164,12 @@ const SettingsTemplate = ({
         )}
       </Card>
       <UploadSection logoUrl={dataProviderLogo} handleUpload={updateLogo} />
+
+      <ChangePassword
+        className={styles.section}
+        email={userEmail}
+        tag="section"
+      />
     </Tag>
   )
 }
