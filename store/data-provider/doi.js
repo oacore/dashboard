@@ -35,6 +35,7 @@ class DOI extends Store {
     const doiUrl = `${baseUrl}/doi`
     this.doiRecords = new Pages(doiUrl, this.options)
     this.doiUrl = `${API_URL}${doiUrl}?accept=text/csv`
+
     this.statisticsUrl = `${baseUrl}/statistics/doi`
     this.retrieveStatistics()
   }

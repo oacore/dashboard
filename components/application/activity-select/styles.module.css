@@ -29,9 +29,7 @@
   height: 100%;
 
   & .settings {
-    padding-top: 1rem;
-    margin-top: 1rem;
-    border-top: 1px solid var(--gray-300);
+    margin-top: auto;
     justify-self: flex-end;
   }
 

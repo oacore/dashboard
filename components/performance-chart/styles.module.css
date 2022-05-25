@@ -3,6 +3,20 @@
   max-height: 250px;
   margin-top: var(--spacer, 1.5rem);
   margin-bottom: var(--spacer, 1.5rem);
+  overflow: hidden;
+}
+
+.recharts-wrapper {
+  position: relative;
+  height: 0;
+  padding: 0 0 100%;
+  margin-bottom: -25%;
+}
+
+.recharts-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .label {
