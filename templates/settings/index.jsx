@@ -164,7 +164,6 @@ const SettingsTemplate = ({
         )}
       </Card>
       <UploadSection logoUrl={dataProviderLogo} handleUpload={updateLogo} />
-
       <ChangePassword
         className={styles.section}
         email={userEmail}
