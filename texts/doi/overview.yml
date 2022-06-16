@@ -1,4 +1,7 @@
 title: DOI coverage
-description: Enrich your DOI coverage by {{count}}.
-action: Details
+description: We can enrich your DOI coverage by <b>{{count}}</b>.  Download your CSV below.
+
+action: See the list
+downloadAction: Download
+
 cardTooltip: Obtain identifier enrichments detected by CORE for your content, such as for DOIs missing in your repository

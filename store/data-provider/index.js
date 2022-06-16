@@ -38,6 +38,10 @@ class DataProvider extends Resource {
 
   @observable location = {}
 
+  @observable oaiMapping = {}
+
+  @observable logo = ''
+
   @action retrieve() {
     super.retrieve().then(
       () => {
@@ -46,6 +50,8 @@ class DataProvider extends Resource {
         this.retrievePluginConfig()
         this.retrieveIrusStats()
         this.retrieveRioxxStats()
+        this.retrieveOaiMapping()
+        this.retrieveLogo()
 
         const url = `/data-providers/${this.id}`
         this.works = new Works(url, this.options)
@@ -67,9 +73,25 @@ class DataProvider extends Resource {
 
   @action
   async retrieveStatistics() {
-    const url = `/data-providers/${this.id}/statistics`
-    const { data } = await this.options.request(url)
-    Object.assign(this.statistics, data)
+    const url = new URL(
+      `/v3/data-providers/${this.id}/stats?depositHistory=true`,
+      process.env.API_URL
+    ).href
+
+    const body = {
+      depositHistory: true,
+    }
+
+    try {
+      const { data } = await await apiRequest(url, {
+        body,
+        method: 'POST',
+      })
+
+      Object.assign(this.statistics, data)
+    } catch (error) {
+      // Ignore errors for this moment
+    }
   }
 
   @action
@@ -77,9 +99,11 @@ class DataProvider extends Resource {
     const url = `/data-providers/${this.id}/plugins`
     const { data } = await this.options.request(url)
 
-    data.forEach((plugin) => {
-      this.plugins[plugin.type] = plugin
-    })
+    if (data) {
+      data.forEach((plugin) => {
+        this.plugins[plugin.type] = plugin
+      })
+    }
   }
 
   @action
@@ -110,6 +134,26 @@ class DataProvider extends Resource {
         totalCount,
         ...rest,
       }
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action async retrieveOaiMapping() {
+    try {
+      const url = `/data-providers/${this.id}/oairesolver/settings`
+      const { data } = await apiRequest(url)
+      this.oaiMapping = data
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action async retrieveLogo() {
+    try {
+      const url = `/data-providers/${this.id}/logo`
+      const { data } = await apiRequest(url)
+      this.logo = data
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
     }

@@ -9,6 +9,7 @@
 
   & form {
     max-width: 50rem;
+    margin-top: 1rem;
   }
 }
 
@@ -34,4 +35,24 @@
     flex: 0 0 100%;
     margin-top: 0.5rem;
   }
+}
+
+.description {
+  max-width: 90ch;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--gray-900);
+}
+
+.upload-container {
+  display: flex;
+  max-width: 53ch;
+}
+
+.upload-description {
+  margin: 1rem 3rem 0 1rem;
+  line-height: 1.5rem;
+  color: var(--gray-900);
 }

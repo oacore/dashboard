@@ -9,7 +9,7 @@ import { valueOrDefault } from 'utils/helpers'
 import TimeLagChart from 'components/time-lag-chart'
 import LinkButton from 'components/link-button'
 import Markdown from 'components/markdown'
-import { Card, Icon } from 'design'
+import { Icon } from 'design'
 
 const RegionAlert = ({
   className,
@@ -90,8 +90,10 @@ const DepositingCard = ({
   dataProviderId,
   countryCode,
 }) => (
-  <OverviewCard title={texts.depositing.tooltip}>
-    <Card.Title tag="h2">{texts.depositing.title}</Card.Title>
+  <OverviewCard
+    title={texts.depositing.title}
+    tooltip={texts.depositing.tooltip}
+  >
     {chartData == null || complianceLevel == null ? (
       <Loading />
     ) : (

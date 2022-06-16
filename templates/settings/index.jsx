@@ -2,16 +2,50 @@ import React, { useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
+import oaiLogo from './assets/oai_logo.svg'
 
+import Markdown from 'components/markdown'
 import { Card, TextField } from 'design'
-import { ChangePassword, FormShell } from 'components/forms'
+import {
+  ChangePassword,
+  FormShell,
+  ResolverSettingsForm,
+} from 'components/forms'
+import Upload from 'components/upload'
 import Title from 'components/title'
+import content from 'texts/settings'
+
+const UploadSection = ({ className, handleUpload, logoUrl }) => (
+  <Card
+    className={classNames.use(styles.section).join(className)}
+    tag="section"
+  >
+    <Card.Title tag="h2">{content.upload.title}</Card.Title>
+    <div className={styles.uploadContainer}>
+      <Card.Description className={styles.uploadDescription} tag="div">
+        <p> {content.upload.description}</p>
+        <Markdown>{content.upload.note}</Markdown>
+      </Card.Description>
+      <Upload
+        deleteCaption={content.upload.deleteCaption}
+        logoUrl={logoUrl}
+        imageCaption={content.upload.imageCaption}
+        buttonCaptions={content.upload.buttonCaptions}
+        onSubmit={handleUpload}
+      />
+    </div>
+  </Card>
+)
 
 const SettingsTemplate = ({
   userEmail,
   dataProvider,
+  dataProviderLogo,
   updateOrganization,
   updateDataProvider,
+  oaiMapping,
+  mappingSubmit,
+  updateLogo,
   inviteUser,
   className,
   tag: Tag = 'main',
@@ -23,32 +57,34 @@ const SettingsTemplate = ({
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const formData = new FormData(event.target)
-    const data = Object.fromEntries(formData.entries())
+    const target = event.target.form || event.target
 
-    const scope = event.target.getAttribute('name')
+    const formData = new FormData(target)
+    const data = Object.fromEntries(formData.entries())
+    const scope = target.getAttribute('name')
+
     const present = {
       'organization': updateOrganization,
       'data-provider': updateDataProvider,
       'invitation': inviteUser,
+      'mapping': mappingSubmit,
     }[scope]
 
     const result = await present(data)
-
     setFormMessage({
       ...formMessage,
-      [scope]: result.message,
+      [scope]: { type: result.type, text: result.message },
     })
   }
 
   return (
     <Tag className={classNames.use(styles.container, className)} {...restProps}>
-      <Title>Settings</Title>
+      <Title>{content.title}</Title>
       <Card
         className={classNames.use(styles.section).join(className)}
         tag="section"
       >
-        <Card.Title tag="h2">Organisation settings</Card.Title>
+        <Card.Title tag="h2">{content.organisation.title}</Card.Title>
         <FormShell
           name="organization"
           onSubmit={handleSubmit}
@@ -56,13 +92,13 @@ const SettingsTemplate = ({
         >
           <TextField
             id="settings-global-email"
-            label="Name"
+            label="Set your institutional name"
             name="name"
             defaultValue={organization.name}
             tag="p"
           />
         </FormShell>
-        <h2>Invite</h2>
+        <Card.Title tag="h2">{content.invite.title}</Card.Title>
         <FormShell
           className={styles.invitationForm}
           name="invitation"
@@ -85,7 +121,7 @@ const SettingsTemplate = ({
         className={classNames.use(styles.section).join(className)}
         tag="section"
       >
-        <Card.Title tag="h2">Repository settings</Card.Title>
+        <Card.Title>{content.repository.title}</Card.Title>
         <FormShell
           name="data-provider"
           onSubmit={handleSubmit}
@@ -109,6 +145,25 @@ const SettingsTemplate = ({
         </FormShell>
       </Card>
 
+      <Card
+        className={classNames.use(styles.section).join(className)}
+        tag="section"
+      >
+        <img src={oaiLogo} alt="Oai logo" />
+        <Card.Title tag="h2">{content.mapping.title}</Card.Title>
+        <Card.Description tag="div" className={styles.description}>
+          <Markdown>{content.mapping.description}</Markdown>
+        </Card.Description>
+        {Object.keys(oaiMapping).length > 0 && (
+          <ResolverSettingsForm
+            formMessage={formMessage.mapping}
+            onSubmit={handleSubmit}
+            mappingSubmit={mappingSubmit}
+            oaiMapping={oaiMapping}
+          />
+        )}
+      </Card>
+      <UploadSection logoUrl={dataProviderLogo} handleUpload={updateLogo} />
       <ChangePassword
         className={styles.section}
         email={userEmail}

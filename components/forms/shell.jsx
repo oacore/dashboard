@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
-import { Button } from 'design'
+import { Button, Message } from 'design'
 
 const FormShell = ({
   children,
   tag,
   onSubmit,
+  useButtonOnChange = true,
   isButtonVisible = false,
   buttonCaption = 'Save',
   message,
@@ -37,12 +38,14 @@ const FormShell = ({
       {...formProps}
     >
       {children}
-      {(isChanged || isButtonVisible) && (
+      {((useButtonOnChange && isChanged) || isButtonVisible) && (
         <Button variant="contained" disabled={isSubmitted}>
           {buttonCaption}
         </Button>
       )}
-      {message && (!isChanged || isButtonVisible) && <p>{message}</p>}
+      {message && !isChanged && (
+        <Message variant={message.type}>{message.text}</Message>
+      )}
     </form>
   )
 }
