@@ -460,3 +460,14 @@
   resolution: |
     [TDB]
   details: []
+-
+  type: UNPARSABLE_LANGUAGE
+  severity: ERROR
+  trigger: |
+    need to be added
+  title: UNPARSABLE_LANGUAGE  need to be added
+  description: |
+    need to be added
+  resolution: |
+    [TDB]
+  details: []

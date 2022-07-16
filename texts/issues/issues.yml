@@ -37,6 +37,8 @@ article:
     - name: Abstract
       key: abstract
   actions:
+    - title: Open in the repository
+      key: outputUrl
     - title: Download
       key: downloadLink
 

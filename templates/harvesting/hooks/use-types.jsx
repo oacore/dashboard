@@ -14,6 +14,7 @@ const useTypes = (aggregations, initialType) => {
         ...texts.messages[type],
         actualType: type,
         title: texts.messages[type]?.title || type,
+        severity: texts.messages[type]?.severity || 'Error',
         outputsAffectedCount: count,
       }))
 

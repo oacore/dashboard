@@ -6,6 +6,7 @@ import { useOutsideClick } from '@oacore/design/lib/hooks'
 
 import styles from './table.module.css'
 
+import request from 'api'
 import Menu from 'components/menu'
 import { capitalize } from 'utils/helpers'
 import texts from 'texts/issues'
@@ -38,6 +39,12 @@ const Article = ({ tag: Tag = 'td', className, article }) => {
 
   useOutsideClick(menuRef, closeMenu)
 
+  const disableRequest = async (id) => {
+    await request(`/articles/${id}`, {
+      method: 'PATCH',
+      body: { disabled: true },
+    })
+  }
   return (
     <Tag
       colSpan="12"
@@ -47,7 +54,10 @@ const Article = ({ tag: Tag = 'td', className, article }) => {
         <h2>{article.title}</h2>
         <div className={styles.actions} ref={menuRef}>
           <Popover placement="top" content="Click to disable">
-            <Button className={styles.actionButton}>
+            <Button
+              className={styles.actionButton}
+              onClick={() => disableRequest(article.id)}
+            >
               <Icon src="#eye" className={styles.actionButtonIcon} />
               Live in core
             </Button>

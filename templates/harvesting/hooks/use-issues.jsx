@@ -1,3 +1,4 @@
+import { toJS } from 'mobx'
 import { useState, useCallback, useEffect } from 'react'
 
 const useIssues = ({ pages }) => {
@@ -47,6 +48,8 @@ const useIssues = ({ pages }) => {
     (id) => {
       const output = issueWithArticles?.data.find((issue) => issue.id === id)
         ?.output
+
+      output.outputUrl = `https://core.ac.uk/outputs/${output?.id}`
 
       setActiveArticle(output)
     },

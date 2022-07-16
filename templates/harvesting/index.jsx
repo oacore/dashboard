@@ -44,7 +44,6 @@ const HarvestingPageTemplate = ({
         fullTextCount={fullTextCount}
         errorsCount={errorsCount}
       />
-      {/* <HarvestingStatusCard /> */}
 
       {/* <DataStatisticsCard
         metadataCount={metadataCount}
@@ -62,13 +61,11 @@ const HarvestingPageTemplate = ({
               <span
                 className={classNames.use(
                   styles.issuesCardErrorsCount,
-                  `${
-                    styles[
-                      `issuesCardErrorsCount${
-                        activeType[0].toUpperCase() +
-                        activeType.slice(1).toLowerCase()
-                      }`
-                    ]
+                  `${styles[
+                  `issuesCardErrorsCount${activeType[0].toUpperCase() +
+                  activeType.slice(1).toLowerCase()
+                  }`
+                  ]
                   }`
                 )}
               >
