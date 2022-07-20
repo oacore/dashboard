@@ -207,6 +207,7 @@
 
 .subtitle {
   margin-bottom: 0;
+  color: var(--gray-600);
 }
 
 .metadata {
@@ -224,16 +225,6 @@
 .info-card-chart {
   padding: 0.5rem 1rem;
   background-color: var(--gray-100);
-}
-
-.label {
-  margin-left: 1rem;
-}
-
-.label span:nth-child(2) {
-  font-size: 1.1rem;
-  color: var(--gray-600);
-  text-align: center;
 }
 
 .info-box {

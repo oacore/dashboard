@@ -92,7 +92,7 @@ const SettingsTemplate = ({
         >
           <TextField
             id="settings-global-email"
-            label="Name"
+            label="Set your institutional name"
             name="name"
             defaultValue={organization.name}
             tag="p"

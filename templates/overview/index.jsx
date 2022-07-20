@@ -19,6 +19,7 @@ const OverviewTemplate = ({
   doiEnrichmentSize,
   dataProviderId,
   dataProviderName,
+  dataProviderInstitution,
   countryCode,
   harvestingDate,
   errorCount,
@@ -33,7 +34,11 @@ const OverviewTemplate = ({
     className={classNames.use(styles.container).join(className)}
     {...restProps}
   >
-    <Title>{dataProviderName}</Title>
+    <div className={styles.header}>
+      <Title>{dataProviderName}</Title>
+      <p className={styles.subtitle}>{dataProviderInstitution}</p>
+    </div>
+
     <DataStatisticsCard
       metadatadaHistory={metadatadaHistory}
       metadataCount={metadataCount}

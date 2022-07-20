@@ -6,7 +6,7 @@ items:
   issues: Issues
   data: Data
   content: Content
-  deposit-compliance: REF 2021
+  deposit-compliance: OA compliance
   doi: DOI
   plugins: Plugins
   plugins/discovery: Discovery Plugin
