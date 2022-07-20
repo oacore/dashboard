@@ -7,29 +7,30 @@ harvesting-card-tooltip: The date when your repository was last harvested by COR
 issues-overview-card-tooltip: Issues relating to your repository that were detected by CORE whilst harvesting.
 issues:
   title: Harvesting issues
-  affected : records are affected by this issued
+  affected: records are affected by this issued
   recommendation-card-title: Recomendation
   download-action: Download in csv
   list-actions:
     show: See the list
     hide: hide
 actions:
-    - name: All
-      defaultActive: true
-      action: All
-    - name: Errors
-      action: ERROR
-    - name: Warnings
-      action: WARNING
-    - name: other
-      action: DEBUG
+  - name: All
+    defaultActive: true
+    action: All
+  - name: Errors
+    action: ERROR
+  - name: Warnings
+    action: WARNING
+  - name: other
+    action: DEBUG
 
 article:
   fields:
     - name: Author
-      key : authors
+      key: authors
+      findBy: name
     - name: Publication Date
-      key: datePublished
+      key: publishedDate
     - name: DOI
       key: doi
     - name: OAI
@@ -41,4 +42,12 @@ article:
       key: outputUrl
     - title: Download
       key: downloadLink
-
+  visibility:
+    - title: Live in core
+      disabled: false
+      icon: eye
+      extraText: Click to disable
+    - title: Taken down
+      disabled: true
+      icon: eye-off
+      extraText: Click to enable

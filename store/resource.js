@@ -24,6 +24,7 @@ class Resource {
   @action
   init(init) {
     const data = typeof init == 'string' ? { url: init } : init
+
     this.extend(data)
 
     const { prefetch } = this.options
@@ -40,6 +41,7 @@ class Resource {
     })
 
     extendObservable(this, toExtend)
+
     Object.assign(this, toAssign)
   }
 

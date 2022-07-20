@@ -12,6 +12,8 @@ const ArticlesList = ({
   fetchData,
   onSetActiveArticle,
   activeArticle,
+  changeArticleVisibility,
+  loading,
 }) => {
   const tableProps = {
     ...issuesList,
@@ -32,7 +34,7 @@ const ArticlesList = ({
           id="oai"
           display="OAI"
           getter={(v) => {
-            if (v?.output.oai) return v.output.oai.split(':').pop()
+            if (v?.output?.oai) return v.output.oai.split(':').pop()
             return '-'
           }}
           className={styles.oaiColumn}
@@ -51,13 +53,15 @@ const ArticlesList = ({
           id="authors"
           display="Authors"
           className={styles.authorsColumn}
-          getter={(v) => v?.output.authors.join(' ')}
+          getter={(v) =>
+            v?.output.authors.map((author) => author.name).join(' ')
+          }
         />
         <Table.Column
           id="publicationDate"
           display="Publication date"
           className={styles.publicationDateColumn}
-          getter={(v) => formatDate(v?.output.datePublished)}
+          getter={(v) => formatDate(v?.output.publishedDate)}
         />
         <Table.Column
           id="updateDate"
@@ -76,7 +80,11 @@ const ArticlesList = ({
         />
 
         <Table.Details id="output">
-          <Article article={activeArticle} />
+          <Article
+            loading={loading}
+            article={activeArticle}
+            changeVisibility={changeArticleVisibility}
+          />
         </Table.Details>
       </Table>
     </div>

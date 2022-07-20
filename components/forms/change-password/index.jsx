@@ -5,13 +5,11 @@ import styles from './styles.module.css'
 import { IframeForm } from 'components/forms'
 import { Card } from 'design'
 
-const { IDP_URL } = process.env
-
 const ChangePassword = ({ className, email, token, tag }) => {
   const searchParams = {
     ...(email != null ? { email } : {}),
     ...(token != null ? { token } : {}),
-    identity_provider_url: IDP_URL,
+    identity_provider_url: process.env.IDP_URL,
   }
 
   const search = new URLSearchParams(searchParams).toString()

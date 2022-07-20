@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Table } from '@oacore/design'
-import { toJS } from 'mobx'
 
 import TableRow from './row'
 import NoDataFoundRow from './no-data-found-row'
@@ -32,7 +31,7 @@ const Body = React.memo(
             onClick: handleRowClick,
           }
           return (
-            <>
+            <Fragment key={row.id}>
               <TableRow key={row.id} {...props} />
               {details &&
                 React.cloneElement(details, {
@@ -40,7 +39,7 @@ const Body = React.memo(
                   children:
                     row.id === expandedRowId ? details.props.children : null,
                 })}
-            </>
+            </Fragment>
           )
         })}
       {data !== null && data.length === 0 && <NoDataFoundRow />}

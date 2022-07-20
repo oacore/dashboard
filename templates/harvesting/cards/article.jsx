@@ -6,25 +6,33 @@ import { useOutsideClick } from '@oacore/design/lib/hooks'
 
 import styles from './table.module.css'
 
-import request from 'api'
 import Menu from 'components/menu'
 import { capitalize } from 'utils/helpers'
 import texts from 'texts/issues'
 import ReadMore from 'components/read-more'
 
-const Article = ({ tag: Tag = 'td', className, article }) => {
+const Article = ({
+  tag: Tag = 'td',
+  className,
+  article,
+  changeVisibility,
+  loading,
+}) => {
   const [visibleMenu, setVisibleMenu] = React.useState(false)
 
   const menuRef = useRef()
 
-  const fields = texts.article.fields.map((item) => ({
+  const { article: text } = texts
+
+  // Map exception for authors
+  const fields = text.fields.map((item) => ({
     ...item,
     value: Array.isArray(article[item.key])
-      ? article[item.key].join(' ')
+      ? article[item.key].map((author) => author[item.findBy]).join(' ')
       : article[item.key],
   }))
 
-  const actions = texts.article.actions.map((item) => ({
+  const actions = text.actions.map((item) => ({
     ...item,
     value: article[item.key],
   }))
@@ -37,14 +45,12 @@ const Article = ({ tag: Tag = 'td', className, article }) => {
     setVisibleMenu(false)
   }
 
+  const visibility = text.visibility.find(
+    (item) => item.disabled === article?.disabled
+  )
+
   useOutsideClick(menuRef, closeMenu)
 
-  const disableRequest = async (id) => {
-    await request(`/articles/${id}`, {
-      method: 'PATCH',
-      body: { disabled: true },
-    })
-  }
   return (
     <Tag
       colSpan="12"
@@ -53,13 +59,19 @@ const Article = ({ tag: Tag = 'td', className, article }) => {
       <div className={styles.articleHeader}>
         <h2>{article.title}</h2>
         <div className={styles.actions} ref={menuRef}>
-          <Popover placement="top" content="Click to disable">
+          <Popover placement="top" content={visibility.extraText}>
             <Button
-              className={styles.actionButton}
-              onClick={() => disableRequest(article.id)}
+              disabled={loading}
+              className={classNames.use(styles.actionButton, {
+                [styles.actionButtonDisabled]: visibility.disabled,
+              })}
+              onClick={() => changeVisibility(article)}
             >
-              <Icon src="#eye" className={styles.actionButtonIcon} />
-              Live in core
+              <Icon
+                src={`#${visibility.icon}`}
+                className={styles.actionButtonIcon}
+              />
+              {visibility.title}
             </Button>
           </Popover>
           <Button

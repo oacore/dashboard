@@ -1,9 +1,6 @@
 import NetworkError from './errors'
 
-const { API_URL } = process.env
-const { API_KEY } = process.env
-
-const prepareUrl = (pathname, base = API_URL) => {
+const prepareUrl = (pathname, base = process.env.API_URL) => {
   const url = /^\w+:\/\//.test(pathname) ? pathname : `${base}${pathname}`
   return new URL(url)
 }
@@ -25,7 +22,7 @@ const prepareBody = ({ method, body }) => {
 const prepareHeaders = ({ headers: customHeaders, body }) => {
   const defaultHeaders = {
     Accept: 'application/json',
-    Authorization: `Bearer ${API_KEY}`,
+    Authorization: `Bearer ${process.env.API_KEY}`,
   }
   const contentHeaders =
     typeof body == 'object' && body != null
@@ -42,7 +39,7 @@ const prepareHeaders = ({ headers: customHeaders, body }) => {
 const prepareRequest = (init) => {
   const request = {}
 
-  request.url = prepareUrl(init.url, API_URL)
+  request.url = prepareUrl(init.url, process.env.API_URL)
   request.url.search = prepareParams({ ...init, url: request.url })
   request.url = request.url.toString()
   request.method = prepareMethod(init)
@@ -72,9 +69,10 @@ const processBody = (response, { method }) => {
   const { status, headers } = response
   const type = headers.get('Content-Type')
 
-  return (/application\/([\w.-]\+)?json/g.test(type) && method !== 'HEAD'
-    ? response.json()
-    : response.blob()
+  return (
+    /application\/([\w.-]\+)?json/g.test(type) && method !== 'HEAD'
+      ? response.json()
+      : response.blob()
   ).then((data) => ({ data, type, status, headers }))
 }
 

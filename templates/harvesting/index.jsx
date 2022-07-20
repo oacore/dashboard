@@ -24,8 +24,9 @@ const HarvestingPageTemplate = ({
   fullTextCount,
   ...restProps
 }) => {
-  const defaultType = texts.actions.find((action) => action.defaultActive)
-    .action
+  const defaultType = texts.actions.find(
+    (action) => action.defaultActive
+  ).action
 
   const { issueList, onChangeIssueList, activeType } = useTypes(
     aggregation,
@@ -45,14 +46,6 @@ const HarvestingPageTemplate = ({
         errorsCount={errorsCount}
       />
 
-      {/* <DataStatisticsCard
-        metadataCount={metadataCount}
-        fullTextCount={fullTextCount}
-        harvestingDate={harvestingDate}
-        errorCount={errorCount}
-        warningCount={warningCount}
-        dataProviderId={dataProviderId}
-      /> */}
       <Card className={styles.issuesCard}>
         <div className={styles.issuesCardHeader}>
           <Card.Title className={styles.issuesCardTitle} tag="h2">
@@ -61,11 +54,13 @@ const HarvestingPageTemplate = ({
               <span
                 className={classNames.use(
                   styles.issuesCardErrorsCount,
-                  `${styles[
-                  `issuesCardErrorsCount${activeType[0].toUpperCase() +
-                  activeType.slice(1).toLowerCase()
-                  }`
-                  ]
+                  `${
+                    styles[
+                      `issuesCardErrorsCount${
+                        activeType[0].toUpperCase() +
+                        activeType.slice(1).toLowerCase()
+                      }`
+                    ]
                   }`
                 )}
               >

@@ -1,5 +1,6 @@
-import { toJS } from 'mobx'
 import { useState, useCallback, useEffect } from 'react'
+
+import request from 'api'
 
 const useIssues = ({ pages }) => {
   const [issues, setIssues] = useState([])
@@ -25,6 +26,7 @@ const useIssues = ({ pages }) => {
             })
           )
       )
+
       setLoading(false)
       setIssueWithArticles({
         ...pages,
@@ -46,8 +48,9 @@ const useIssues = ({ pages }) => {
 
   const onSetActiveArticle = useCallback(
     (id) => {
-      const output = issueWithArticles?.data.find((issue) => issue.id === id)
-        ?.output
+      const output = issueWithArticles?.data.find(
+        (issue) => issue.id === id
+      )?.output
 
       output.outputUrl = `https://core.ac.uk/outputs/${output?.id}`
 
@@ -56,12 +59,33 @@ const useIssues = ({ pages }) => {
     [issueWithArticles]
   )
 
+  const changeArticleVisibility = async (article) => {
+    setLoading(true)
+    try {
+      await request(`/articles/${article.id}`, {
+        method: 'PATCH',
+        body: { disabled: !article?.disabled },
+      })
+
+      setActiveArticle(
+        Object.assign(article, {
+          disabled: !article?.disabled,
+        })
+      )
+    } catch (error) {
+      throw Error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return {
     loadMore,
     loading,
     data: issueWithArticles,
     done: !pages ? true : pages.isLastPageLoaded,
     onSetActiveArticle,
+    changeArticleVisibility,
     activeArticle,
   }
 }

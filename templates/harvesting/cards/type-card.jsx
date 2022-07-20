@@ -19,13 +19,13 @@ const TypeCard = ({
   hidden,
 }) => {
   const [visibleList, setVisibleList] = useState(false)
-
   const {
     data: articles,
     loadMore: loadMoreArticles,
     loading: articlesLoading,
     onSetActiveArticle,
     activeArticle,
+    changeArticleVisibility,
   } = useIssues({ pages: issuesList })
 
   const toggleVisibleList = () => {
@@ -83,8 +83,10 @@ const TypeCard = ({
           fetchData={loadMoreArticles}
           issuesList={articles}
           visible={visibleList}
+          loading={articlesLoading}
           activeArticle={activeArticle}
           onSetActiveArticle={onSetActiveArticle}
+          changeArticleVisibility={changeArticleVisibility}
         />
       )}
     </li>

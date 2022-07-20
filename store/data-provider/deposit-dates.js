@@ -6,8 +6,6 @@ import { PaymentRequiredError } from '../errors'
 
 import { NotFoundError } from 'api/errors'
 
-const { API_URL } = process.env
-
 class DepositDates extends Store {
   @observable isRetrieveDepositDatesInProgress = false
 
@@ -24,10 +22,10 @@ class DepositDates extends Store {
 
     const datesUrl = `${baseUrl}/public-release-dates`
     this.publicReleaseDates = new Pages(datesUrl, this.options)
-    this.datesUrl = `${API_URL}${datesUrl}?accept=text/csv`
+    this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
     this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag`
-    this.crossDepositLagCsvUrl = `${API_URL}${this.crossDepositLagUrl}?accept=text/csv`
+    this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}?accept=text/csv`
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate`
 
     this.retrieve()

@@ -154,6 +154,10 @@
   background-color: var(--success-dark);
 }
 
+.action-button-disabled {
+  background-color: var(--danger);
+}
+
 .action-button-icon {
   margin-right: 0.5rem;
 }

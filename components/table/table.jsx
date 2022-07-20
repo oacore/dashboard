@@ -110,7 +110,7 @@ const InfiniteTable = ({
           />
         )}
         <div className={className}>
-          <Table ref={tableRef} {...restProps}>
+          <Table ref={tableRef}>
             <Header
               handleColumnOrderChange={handleColumnOrderChange}
               columnOrder={columnOrder}

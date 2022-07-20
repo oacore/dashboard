@@ -2,13 +2,11 @@ import { action } from 'mobx'
 
 import { Pages } from '../helpers/pages'
 
-const { API_URL } = process.env
-
 class Works extends Pages {
   constructor(baseUrl, options) {
     const url = `${baseUrl}/works`
     super(url, options)
-    this.contentExportUrl = `${API_URL}${url}?accept=text/csv`
+    this.contentExportUrl = `${process.env.API_URL}${url}?accept=text/csv`
   }
 
   @action

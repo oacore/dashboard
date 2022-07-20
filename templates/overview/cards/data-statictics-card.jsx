@@ -1,5 +1,4 @@
 import React from 'react'
-import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 import OverviewCard from './overview-card'
@@ -81,9 +80,7 @@ const DataStatisticsCard = ({
         <>
           <div className={styles.infoCardContent}>
             <div className={styles.infoBox}>
-              <Markdown
-                className={classNames.use(styles.subtitle, styles.metadata)}
-              >
+              <Markdown className={`${styles.subtitle} ${styles.metadata}`}>
                 {text.metadata.title}
               </Markdown>
               <NumericValue
