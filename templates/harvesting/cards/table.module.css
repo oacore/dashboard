@@ -63,6 +63,10 @@
   background-color: var(--success-dark);
 }
 
+.visibility-icon-dark {
+  background-color: var(--danger);
+}
+
 .action-column {
   cursor: pointer;
 }

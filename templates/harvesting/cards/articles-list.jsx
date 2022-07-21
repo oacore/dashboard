@@ -1,5 +1,6 @@
 import React from 'react'
 import { Icon } from '@oacore/design/lib/elements'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './table.module.css'
 import Article from './article'
@@ -75,7 +76,14 @@ const ArticlesList = ({
         />
         <Table.Column
           id="visibility"
-          getter={() => <Icon src="#eye" className={styles.visibilityIcon} />}
+          getter={(v) => (
+            <Icon
+              src={v.output?.disabled ? '#eye-off' : '#eye'}
+              className={classNames.use(styles.visibilityIcon, {
+                [styles.visibilityIconDark]: v.output?.disabled,
+              })}
+            />
+          )}
           className={styles.visibilityStatusColumn}
         />
 
