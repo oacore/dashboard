@@ -26,11 +26,12 @@ const TypeCard = ({
     onSetActiveArticle,
     activeArticle,
     changeArticleVisibility,
+    onReset,
   } = useIssues({ pages: issuesList })
 
   const toggleVisibleList = () => {
     setVisibleList(!visibleList)
-    if (!visibleList) loadMoreArticles({ initial: true })
+    if (!visibleList) onReset()
   }
 
   return (
@@ -66,7 +67,9 @@ const TypeCard = ({
         </div>
         <Markdown>{resolution}</Markdown>
         <div className={styles.typeCardActions}>
-          <Button variant="contained">{texts.issues.downloadAction} </Button>
+          <Button variant="contained" href={issuesList.downloadUrl}>
+            {texts.issues.downloadAction}
+          </Button>
           <Button
             variant="outlined"
             disabled={articlesLoading}

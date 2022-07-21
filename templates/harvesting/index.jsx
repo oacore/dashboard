@@ -6,7 +6,6 @@ import HarvestingStatusCard from './cards/harvesting-status-card'
 import TypesList from './cards/types-list'
 import useTypes from './hooks/use-types'
 
-import Actions from 'components/actions'
 import Title from 'components/title'
 import { Card, Button } from 'design'
 import texts from 'texts/issues'
@@ -22,6 +21,8 @@ const HarvestingPageTemplate = ({
   warningCount,
   metadataCount,
   fullTextCount,
+  downloadResults,
+  issues,
   ...restProps
 }) => {
   const defaultType = texts.actions.find(
@@ -81,7 +82,6 @@ const HarvestingPageTemplate = ({
                 {button.name}
               </Button>
             ))}
-            <Actions downloadUrl="#" />
           </div>
         </div>
         {issueList && (

@@ -29,34 +29,30 @@
 #                   on overview what variables could appear in them `message`
 #                   and `resolution` properties
 
-
 # OLD ONES
 # ==============================================================================
 #
 # We have to merge this ones with the bottom list
 
--
-  type: SSL_CERTIFICATE_ERROR
+- type: SSL_CERTIFICATE_ERROR
   title: SSL certificate error
   severity: DEBUG
   level: internal
--
-  type: EXTERNAL_UNKNOWN
+- type: EXTERNAL_UNKNOWN
   title: No full text was found due to unknown external reasons
   severity: DEBUG
+  resolution: No recommendation available for this issue.
   level: internal
   description: |
     We were unable to identify what kind of error happend during the harvesting.
     If this issue impacts a lot of records, please contact us.
-
 
 # Metadata Download
 # ==============================================================================
 #
 # Mostly affects the whole repository.
 
--
-  type: RESUMPTION_TOKEN_FAILURE
+- type: RESUMPTION_TOKEN_FAILURE
   matches: [OAI_ENDPOINT]
   severity: ERROR
   trigger: |
@@ -66,11 +62,10 @@
     The resumption token issued results in a failed request
 
     {{ url }}
-  resolution: ''
+  resolution: No recommendation available for this issue.
   details: [url]
 
--
-  type: INVALID_OAIPMH_ENDPOINT
+- type: INVALID_OAIPMH_ENDPOINT
   severity: ERROR
   trigger: |
     If the OAI-PMH harvest fails, and it is caused because of an incorrect
@@ -84,14 +79,12 @@
     You may update the OAI-PMH endpoint using the Repository Dashboard
   details: [oaiPmhEndpoint]
 
-
 # Metadata Extract
 # ==============================================================================
 #
 # Affects metadata
 
--
-  # this issue is EPrints specific only, we can safely software name here
+- # this issue is EPrints specific only, we can safely software name here
   type: GENERIC_OAI
   severity: WARNING
   trigger: |
@@ -104,8 +97,7 @@
     Review your documentation to update the OAI identifier
   details: [oai]
 
--
-  type: GENERIC_ATTACHMENT_URL
+- type: GENERIC_ATTACHMENT_URL
   matches: []
   severity: WARNING
   trigger: |
@@ -120,14 +112,12 @@
     Review the configuration for your handle.net persistent links
   details: [affectedUrl]
 
-
 # Document Download
 # ==============================================================================
 #
 # Affects fulltext
 
--
-  type: ROBOTS_URL_DISALLOWED
+- type: ROBOTS_URL_DISALLOWED
   matches: [ROBOTS]
   severity: ERROR
   title: URL blocked by `robots.txt` rule
@@ -141,8 +131,7 @@
     from a url
   details: [currentUrl]
 
--
-  type: ROBOTS_MAXIMUM_CRAWL_DELAY_EXCEEDED
+- type: ROBOTS_MAXIMUM_CRAWL_DELAY_EXCEEDED
   matches: []
   severity: ERROR
   title: Long crawl delay
@@ -157,8 +146,7 @@
     If a crawl delay is longer than {{ maximumCrawlDelayLimit }}ms
   details: [maximumCrawlDelayLimit, currentCrawlDelay]
 
--
-  type: ATTACHMENT_MALFORMED_URL
+- type: ATTACHMENT_MALFORMED_URL
   severity: ERROR
   trigger: |
     When attempting a download in Document Download task, if a URL does not
@@ -173,8 +161,7 @@
     details can be found at [should we write a guide or link elsewhere?]
   details: [currentUrl, sourceUrl]
 
--
-  type: ATTACHMENT_NOT_VALID
+- type: ATTACHMENT_NOT_VALID
   severity: ERROR
   trigger: |
     We check that a download is a pdf by checking the first 5 bytes contain
@@ -191,8 +178,7 @@
     opening it in Adobe Reader to validate the file.
   details: [currentUrl]
 
--
-  type: NO_VALID_FULLTEXT_LINKS_EXTRACTED
+- type: NO_VALID_FULLTEXT_LINKS_EXTRACTED
   matches: [NO_FULL_TEXT_LINKS]
   severity: WARNING
   trigger: |
@@ -205,12 +191,12 @@
     Ensure that dc:identifier contains a direct link to the full text. We only support the following file types: .pdf
   details: [currentUrl]
 
--
-  hidden: true
+- hidden: true
   type: NO_ATTACHMENT_FOUND_NO_REPORTED_FAILURES
   matches: [NON_EXISTENT_PAGE_ATTACHMENT]
   title: No attachment found, no other issues happend
   severity: DEBUG
+  resoltion: No full text was found due to unknown external reasons
   trigger: |
     This issue is triggered when no specific issue was detected and reported.
 
@@ -221,16 +207,16 @@
     It's an internal issue and we are already working on improving reporting
     of this kind of problem. Contact us if you have any questions.
 
--
-  hidden: true
+- hidden: true
   type: ATTACHMENT_PROCESSING_FAILURE
   matches: []
+  resolution: No full text was found due to unknown external reasons
   severity: ERROR
 
--
-  type: ATTACHMENT_ENCRYPTED
+- type: ATTACHMENT_ENCRYPTED
   matches: [ENCRYPTED_ATTACHMENT]
   severity: ERROR # or WARNING
+  resolution: No full text was found due to unknown external reasons
   trigger: |
     This issue is triggered when a pdf has DRM enabled.
 
@@ -253,8 +239,7 @@
     [https://helpx.adobe.com/uk/acrobat/using/securing-pdfs-passwords.html#remove_password_security]
   details: [currentUrl]
 
--
-  type: ATTACHMENT_TITLE_MISMATCH
+- type: ATTACHMENT_TITLE_MISMATCH
   severity: WARNING
   trigger: |
     We check that the pdf contains the title provided in the metadata. If the
@@ -271,8 +256,7 @@
 
     Ensure that the Metadata Title is the same as the document title
     or including a link to the full text in `dc:identifier`.
-  resolution: |
-      Neew new text resolution
+
   # should be moved to separate place or deleted
   extra-intructions: |
     Ensure that the Metadata Title is the same as the document title. For
@@ -292,8 +276,7 @@
     in `dc:identifier`.
   details: [currentUrl]
 
--
-  type: ATTACHMENT_EMBARGOED
+- type: ATTACHMENT_EMBARGOED
   matches: [RESTRICTED_ATTACHMENT]
   severity: WARNING
   trigger: |
@@ -304,11 +287,10 @@
 
     If the fulltext is intended to be embargoed or restricted in some way,
     no further action is required.
-  resolution: ''
+  resolution: No recommendation available for this issue.
   details: [currentUrl]
 
--
-  type: UNSUPPORTED_FILETYPE
+- type: UNSUPPORTED_FILETYPE
   severity: WARNING
   trigger: |
     We correctly extracted urls, but we didn’t find any supported file formats
@@ -320,8 +302,7 @@
     We are only able to harvest PDF documents.
   details: [currentUrl]
 
--
-  type: ATTACHMENT_NO_VALID_SEED_URLS_FOUND
+- type: ATTACHMENT_NO_VALID_SEED_URLS_FOUND
   matches: [NO_VALID_ATTACHMENT_DOWNLOAD_URLS]
   severity: WARNING
   trigger: |
@@ -335,8 +316,7 @@
     Consider linking directly to the fulltext from the metadata.
   details: []
 
--
-  type: ATTACHMENT_IO_EXCEPTION
+- type: ATTACHMENT_IO_EXCEPTION
   severity: ERROR
   trigger: |
     Temporary System Error
@@ -344,11 +324,10 @@
   description: |
     A network or server error occurred. We do not have any further information
     but we will attempt to download this document soon.
-  resolution: ''
+  resolution: No recommendation available for this issue.
   details: []
 
--
-  type: SLOW_NETWORK
+- type: SLOW_NETWORK
   severity: ERROR
   trigger: |
     If a document download takes longer than 20 seconds, we abort the download
@@ -358,11 +337,10 @@
     performance of your repository. We will try again later.
 
     {{ currentUrl }}
-  resolution: ''
+  resolution: No recommendation available for this issue.
   details: [currentUrl]
 
--
-  type: ATTACHMENT_URL_ERROR
+- type: ATTACHMENT_URL_ERROR
   matches: []
   severity: ERROR
   trigger: |
@@ -377,8 +355,7 @@
     check the page for any broken links and consider fixing it
   details: [sourceUrl, currentUrl]
 
--
-  type: UNSPECIFIED_NETWORK_ERROR
+- type: UNSPECIFIED_NETWORK_ERROR
   matches: []
   severity: ERROR
   trigger: |
@@ -392,8 +369,7 @@
     further
   details: [currentUrl]
 
--
-  type: UNSPECIFIED_DOWNLOAD_ERROR
+- type: UNSPECIFIED_DOWNLOAD_ERROR
   severity: ERROR
   trigger: |
     Unspecified download error
@@ -406,8 +382,7 @@
     further
   details: []
 
--
-  type: ATTACHMENT_SIZE_LIMIT_REACHED
+- type: ATTACHMENT_SIZE_LIMIT_REACHED
   matches: [ATTACHMENT_TOO_BIG]
   severity: ERROR
   trigger: |
@@ -419,8 +394,7 @@
     We are unable to support downloading files larger than 512&nbsp;MB
   details: [currentUrl]
 
--
-  type: ATTACHMENT_SAME_DOMAIN_POLICY_ENFORCED
+- type: ATTACHMENT_SAME_DOMAIN_POLICY_ENFORCED
   severity: ERROR
   trigger: |
     Download a file from another domain is forbidden due to the “Same Domain
@@ -430,44 +404,36 @@
     We enforce a policy where we restrict the download of fulltexts to the
     same domain as the OAI-PMH endpoint.
   resolution: |
-    [TDB]
-  details: []
+    No recommendation available for this issue.
+  details: [currentUrl]
 
--
-  type: LINK_REDIRECTED_TO_DISALLOWED_URL
+- type: LINK_REDIRECTED_TO_DISALLOWED_URL
   severity: ERROR
   trigger: |
     Download a file from another domain is forbidden due to the “Same Domain
     Policy”
-  title: LINK_REDIRECTED_TO_DISALLOWED_URL NEED NEW TEXT
-  description: |
-    We enforce a policy where we restrict the download of fulltexts to the
-    same domain as the OAI-PMH endpoint.
-  resolution: |
-    [TDB]
-  details: []
+  title: LINK_REDIRECTED_TO_DISALLOWED_URL 
 
--
-  type: POTENTIAL_LANGUAGE_MISMATCH
+  resolution: |
+    No recommendation available for this issue.
+  details: [currentUrl]
+
+- type: POTENTIAL_LANGUAGE_MISMATCH
   severity: ERROR
   trigger: |
     Download a file from another domain is forbidden due to the “Same Domain
     Policy”
-  title: POTENTIAL_LANGUAGE_MISMATCH NEED NEW TEXT
+  title: POTENTIAL_LANGUAGE_MISMATCH
   description: |
     We enforce a policy where we restrict the download of fulltexts to the
     same domain as the OAI-PMH endpoint.
   resolution: |
-    [TDB]
+    No recommendation available for this issue.
   details: []
--
-  type: UNPARSABLE_LANGUAGE
+- type: UNPARSABLE_LANGUAGE
   severity: ERROR
-  trigger: |
-    need to be added
-  title: UNPARSABLE_LANGUAGE  need to be added
-  description: |
-    need to be added
+  title: UNPARSABLE_LANGUAGE 
+  description: ''
   resolution: |
-    [TDB]
+    No recommendation available for this issue.
   details: []

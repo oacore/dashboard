@@ -44,11 +44,6 @@ const config = new RouteConfig([
     icon: 'sync',
   },
   {
-    test: /\/issues/,
-    path: 'issues',
-    icon: 'alert-circle',
-  },
-  {
     test: /\/content/,
     path: 'content',
     icon: 'file-document',

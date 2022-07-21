@@ -12,7 +12,6 @@ const useIssues = ({ pages }) => {
     async ({ initial = false }) => {
       if (!pages) return
       setLoading(true)
-
       const data = initial
         ? await pages.slice(0, 10)
         : await pages.slice(0, issues.length + 10)
@@ -79,6 +78,11 @@ const useIssues = ({ pages }) => {
     }
   }
 
+  const onReset = () => {
+    setIssues([])
+    loadMore({ initial: true })
+  }
+
   return {
     loadMore,
     loading,
@@ -86,7 +90,9 @@ const useIssues = ({ pages }) => {
     done: !pages ? true : pages.isLastPageLoaded,
     onSetActiveArticle,
     changeArticleVisibility,
+    setIssues,
     activeArticle,
+    onReset,
   }
 }
 
