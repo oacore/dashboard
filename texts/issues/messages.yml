@@ -66,7 +66,9 @@
     The resumption token issued results in a failed request
 
     {{ url }}
-  resolution: ''
+  resolution: |
+    This might be a temporary issue. If the issue persists, please test the
+    OAI-PMH configuration of your repository. 
   details: [url]
 
 -
@@ -272,7 +274,8 @@
     Ensure that the Metadata Title is the same as the document title
     or including a link to the full text in `dc:identifier`.
   resolution: |
-      Neew new text resolution
+    We used this as a security measure to not display wrong documents. If the 
+    issue is present in many documents, please get in touch with us.
   # should be moved to separate place or deleted
   extra-intructions: |
     Ensure that the Metadata Title is the same as the document title. For
@@ -304,7 +307,9 @@
 
     If the fulltext is intended to be embargoed or restricted in some way,
     no further action is required.
-  resolution: ''
+  resolution: |
+    No action needed. However, you might use this to check if your embargo
+    settings are valid. 
   details: [currentUrl]
 
 -
@@ -344,7 +349,9 @@
   description: |
     A network or server error occurred. We do not have any further information
     but we will attempt to download this document soon.
-  resolution: ''
+  resolution: |
+    No action needed, it is probably a temporary issue. If the issue persists 
+    there might be problems with your repository configuration.
   details: []
 
 -
@@ -358,7 +365,9 @@
     performance of your repository. We will try again later.
 
     {{ currentUrl }}
-  resolution: ''
+  resolution: |
+    No action needed, our system identified issues of speed with your repository, 
+    if the issue persists you might want to check your repository network configuration.
   details: [currentUrl]
 
 -
@@ -374,7 +383,7 @@
     We visited {{ currentUrl }}
     From this page: {{ sourceUrl }}
   resolution: |
-    check the page for any broken links and consider fixing it
+    Check the page for any broken links and consider fixing it.
   details: [sourceUrl, currentUrl]
 
 -
@@ -389,7 +398,7 @@
     reattempt the download soon.
   resolution: |
     If you see many of these issues, please contact us and we will investigate
-    further
+    further.
   details: [currentUrl]
 
 -
@@ -399,11 +408,11 @@
     Unspecified download error
   title: We were unable to find the full text
   description: |
-    We were unable to find the full text for this item. We were not able to
-    detect a specific reason why
+    We were unable to find the full text for this item. The issue was encountered 
+    while downloading the candidate document but we are not able to classify the issue further.
   resolution: |
     If you see many of these issues, please contact us and we will investigate
-    further
+    further.
   details: []
 
 -
@@ -430,7 +439,9 @@
     We enforce a policy where we restrict the download of fulltexts to the
     same domain as the OAI-PMH endpoint.
   resolution: |
-    [TDB]
+    This issue might relate to a misconfiguration on your repository. Please review
+    the url of the records, if everything is correct please get in touch with us to
+    ensure an exception is added.
   details: []
 
 -
@@ -439,35 +450,37 @@
   trigger: |
     Download a file from another domain is forbidden due to the “Same Domain
     Policy”
-  title: LINK_REDIRECTED_TO_DISALLOWED_URL NEED NEW TEXT
+  title: Link redirected to disallowed URL.
   description: |
     We enforce a policy where we restrict the download of fulltexts to the
     same domain as the OAI-PMH endpoint.
   resolution: |
-    [TDB]
+    This issue might relate to a misconfiguration on your repository's records. Please review
+    the url of the records, if everything is correct please get in touch with us to
+    ensure an exception is added.
   details: []
 
 -
   type: POTENTIAL_LANGUAGE_MISMATCH
   severity: ERROR
   trigger: |
-    Download a file from another domain is forbidden due to the “Same Domain
-    Policy”
-  title: POTENTIAL_LANGUAGE_MISMATCH NEED NEW TEXT
+    The language defined in the record's metadata mismatch the language of the document.
+  title: Potential language mismatch.
   description: |
-    We enforce a policy where we restrict the download of fulltexts to the
-    same domain as the OAI-PMH endpoint.
+    We use various signals to determine the language of a document and there is an inconsistency between 
+    your record language field and the one we recognise from the document.
   resolution: |
-    [TDB]
+    Please review your record's language and make sure it matches the document. 
   details: []
 -
   type: UNPARSABLE_LANGUAGE
   severity: ERROR
   trigger: |
-    need to be added
-  title: UNPARSABLE_LANGUAGE  need to be added
+    The language defined in the record's metadata doesn't match any language we support.
+  title: Unrecognised language
   description: |
-    need to be added
+    We use various signals to determine the language of a document and the one reported in the 
+    record metadata doesn't match the one's we recognise.
   resolution: |
-    [TDB]
+    Please check the language settings on your records.
   details: []
