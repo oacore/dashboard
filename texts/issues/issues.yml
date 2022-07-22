@@ -41,7 +41,7 @@ article:
     - title: Open in the repository
       key: outputUrl
     - title: Download
-      key: downloadLink
+      key: downloadUrl
   visibility:
     - title: Live in core
       disabled: false
