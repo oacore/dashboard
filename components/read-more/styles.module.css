@@ -1,0 +1,5 @@
+.toggle {
+  margin-left: 0.2rem;
+  color: var(--primary);
+  cursor: pointer;
+}

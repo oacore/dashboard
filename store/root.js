@@ -224,7 +224,7 @@ class Root extends Store {
   updateLogo = async (body) => {
     try {
       const url = `/data-providers/${this.dataProvider.id}/settings`
-      await apiRequest(url, {
+      await this.options.request(url, {
         method: 'POST',
         body,
       })

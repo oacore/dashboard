@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
+import { DataProviderLogo } from '@oacore/design/lib/elements'
 
 import { Container, AppBar, SideBar, Main } from '../layout'
 import activities from './activities'
@@ -27,9 +28,12 @@ const Application = observer(
           {isAuthenticated ? (
             <>
               {!!dataProvider?.logo && (
-                <div className={styles.repositoryLogo}>
-                  <img src={dataProvider.logo} alt={dataProvider.name} />
-                </div>
+                <DataProviderLogo
+                  size="sm"
+                  className={styles.repositoryLogo}
+                  imageSrc={dataProvider?.logo}
+                  alt={dataProvider.name}
+                />
               )}
               {dataProvider && <RepositorySelect value={dataProvider} />}
               <Logout />

@@ -6,8 +6,6 @@ import Title from '../components/title'
 
 import { IframeForm } from 'components/forms'
 
-const { IDP_URL } = process.env
-
 const Login = React.memo(() => {
   const router = useRouter()
   const [url, setUrl] = useState(null)
@@ -15,7 +13,7 @@ const Login = React.memo(() => {
   useEffect(() => {
     const searchParams = new URLSearchParams({
       reason: router.query.reason,
-      identity_provider_url: IDP_URL,
+      identity_provider_url: process.env.IDP_URL,
     })
 
     try {

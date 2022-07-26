@@ -1,0 +1,189 @@
+.issue-table {
+  grid-column: 1 / -1;
+  margin-top: 2rem;
+}
+
+.issue-table td,
+.issue-table th {
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.issue-table tbody::before {
+  display: block;
+  line-height: 2rem;
+  text-indent: -99999px;
+  content: '@';
+}
+
+.issue-table tr:nth-child(1) {
+  border-top: none;
+}
+
+.oai-column,
+.title-column,
+.authors-column,
+.publication-date-column,
+.update-date-column {
+  font-weight: 700;
+}
+
+.oai-column {
+  width: 5%;
+  min-width: 5rem;
+}
+
+.title-column {
+  width: 40%;
+  max-width: 5rem;
+}
+
+.authors-column {
+  width: 30%;
+  max-width: 5rem;
+}
+
+.publication-date-column {
+  width: 10%;
+}
+
+.update-date-column {
+  width: 10%;
+}
+
+.visibility-status-column {
+  width: 1%;
+}
+
+.visibility-icon {
+  padding: 0.2rem;
+  color: var(--white);
+  background-color: var(--success-dark);
+}
+
+.visibility-icon-dark {
+  background-color: var(--danger);
+}
+
+.action-column {
+  cursor: pointer;
+}
+
+.oai-cell {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  margin-top: 0.7rem;
+  margin-left: 0.2rem;
+  background-color: var(--gray-100);
+  border-radius: 5px;
+}
+
+.action-cell {
+  cursor: pointer;
+}
+
+.article {
+  margin: 0 auto;
+  animation: 0.5s bounce;
+}
+
+.article-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0 1rem 15.5vw;
+  background-color: #fffadd;
+}
+
+.article-header h2 {
+  max-width: 50vw;
+  margin-bottom: 0;
+  white-space: normal;
+}
+
+.wrapper {
+  max-width: 70vw;
+  margin: 1rem auto;
+}
+
+.box {
+  display: flex;
+  margin-bottom: var(--spacer);
+}
+
+.box-prop {
+  width: 7vw;
+  margin: 0;
+  font-weight: 500;
+  color: var(--primary);
+  text-align: right;
+}
+
+.box-caption {
+  max-width: 60vw;
+  margin: 0;
+  margin-left: 2rem;
+  white-space: normal;
+}
+
+.box-caption-oai,
+.box-caption-doi {
+  padding: 0 0.3rem;
+  border-radius: 5px;
+}
+
+.box-caption-oai {
+  color: var(--white);
+  background-color: var(--primary);
+}
+
+.box-caption-doi {
+  background-color: var(--gray-200);
+}
+
+.actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  color: var(--white);
+  background-color: var(--success-dark);
+}
+
+.action-button-disabled {
+  background-color: var(--danger);
+}
+
+.action-button-icon {
+  margin-right: 0.5rem;
+}
+
+.action-button-pure {
+  margin-right: 0.2rem;
+  margin-left: 1rem;
+  color: var(--gray-600);
+}
+
+.menu {
+  position: absolute;
+  top: 3rem;
+  right: 0;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

@@ -30,8 +30,10 @@ class Issues extends Store {
 
     // initialize pages per every issue type
     Object.keys(data.countByType || {}).forEach((type) => {
+      const downloadUrl = `${process.env.API_URL}${this.issuesUrl}?type=${type}&accept=text/csv`
       const pages = new Pages(this.issuesUrl, this.options)
       pages.type = type
+      pages.downloadUrl = downloadUrl
       this.issuesByType.set(type, pages)
     })
 

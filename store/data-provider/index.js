@@ -151,11 +151,15 @@ class DataProvider extends Resource {
 
   @action async retrieveLogo() {
     try {
-      const url = `/data-providers/${this.id}/logo`
-      const { data } = await apiRequest(url)
-      this.logo = data
+      const logoUrl = process.env.API_URL.replace(
+        '/internal',
+        `/data-providers/${this.id}/logo`
+      )
+      await apiRequest(logoUrl)
+
+      this.logo = logoUrl
     } catch (networkOrAccessError) {
-      // Ignore errors for this moment
+      this.logo = null
     }
   }
 

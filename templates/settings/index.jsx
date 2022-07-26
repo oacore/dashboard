@@ -144,14 +144,18 @@ const SettingsTemplate = ({
           />
         </FormShell>
       </Card>
-
+      <ChangePassword
+        className={styles.section}
+        email={userEmail}
+        tag="section"
+      />
       <Card
         className={classNames.use(styles.section).join(className)}
         tag="section"
       >
         <img src={oaiLogo} alt="Oai logo" />
         <Card.Title tag="h2">{content.mapping.title}</Card.Title>
-        <Card.Description tag="div" className={styles.description}>
+        <Card.Description className={styles.description}>
           <Markdown>{content.mapping.description}</Markdown>
         </Card.Description>
         {Object.keys(oaiMapping).length > 0 && (
@@ -164,11 +168,6 @@ const SettingsTemplate = ({
         )}
       </Card>
       <UploadSection logoUrl={dataProviderLogo} handleUpload={updateLogo} />
-      <ChangePassword
-        className={styles.section}
-        email={userEmail}
-        tag="section"
-      />
     </Tag>
   )
 }

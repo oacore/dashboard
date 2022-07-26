@@ -5,9 +5,9 @@ const config = [
     icon: 'view-dashboard',
   },
   {
-    id: 'issues',
-    path: 'issues',
-    icon: 'alert-circle',
+    id: 'harvesting',
+    path: 'harvesting',
+    icon: 'sync',
   },
   {
     id: 'content',

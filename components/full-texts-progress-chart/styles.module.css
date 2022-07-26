@@ -1,0 +1,29 @@
+.info-card-chart {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 110px 1fr;
+}
+
+.label {
+  margin-left: 0.5rem;
+  text-align: center;
+}
+
+/* stylelint-disable declaration-no-important */
+.info-chart {
+  max-width: 110px;
+  padding: 0;
+  margin: 0 !important;
+}
+
+/* White circle inside  */
+.info-chart::before {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 90px;
+  height: 90px;
+  content: '';
+  background-color: #fff;
+  border-radius: 50%;
+}

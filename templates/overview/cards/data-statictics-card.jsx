@@ -1,5 +1,4 @@
 import React from 'react'
-import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 import OverviewCard from './overview-card'
@@ -12,9 +11,9 @@ import NumericValue from 'components/numeric-value'
 import text from 'texts/harvesting'
 import Markdown from 'components/markdown'
 import COLORS from 'utils/colors'
-import PerformanceChart from 'components/performance-chart'
 import Actions from 'components/actions'
 import ActionButton from 'components/action-button'
+import FullTextsProgressChart from 'components/full-texts-progress-chart'
 
 const ActionsBar = ({ onSetActiveType, activeType }) => {
   const onButtonClick = (name) => {
@@ -35,30 +34,6 @@ const ActionsBar = ({ onSetActiveType, activeType }) => {
     </div>
   )
 }
-
-const FullTextsProgressChart = ({
-  value,
-  chartValues,
-  caption,
-  fullTextCount,
-}) => (
-  <div className={classNames.use(styles.infoCardChart, styles.infoBox)}>
-    <PerformanceChart
-      minHeight={110}
-      rounded
-      className={styles.infoChart}
-      values={chartValues}
-      value={value}
-      valueSize="extra-small"
-    />
-    <NumericValue
-      className={styles.label}
-      value={valueOrDefault(fullTextCount, 'Loading...')}
-      size="extra-small"
-      caption={caption}
-    />
-  </div>
-)
 
 const DataStatisticsCard = ({
   metadatadaHistory,
@@ -104,9 +79,7 @@ const DataStatisticsCard = ({
       </div>
       <div className={styles.infoCardContent}>
         <div className={styles.infoBox}>
-          <Markdown
-            className={classNames.use(styles.subtitle, styles.metadata)}
-          >
+          <Markdown className={`${styles.subtitle} ${styles.metadata}`}>
             {text.metadata.title}
           </Markdown>
           <NumericValue
@@ -119,6 +92,7 @@ const DataStatisticsCard = ({
           <FullTextsProgressChart
             fullTextCount={fullTextCount}
             chartValues={perfomanceChartValues}
+            className={styles.infoCardChart}
             caption={text.metadata.caption}
             value={valueOrDefault((fullTextCount / metadataCount) * 100, '🔁')}
           />

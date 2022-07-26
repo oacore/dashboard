@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import Column from '../column'
 import Sidebar from '../sidebar'
 import Action from '../action'
+import Details from '../details'
 
 const useTableConfig = (children) =>
   // recompute value only if children changes.
@@ -24,6 +25,7 @@ const useTableConfig = (children) =>
 
     return {
       sidebar: childrenArray.find((item) => item.type === Sidebar),
+      details: childrenArray.find((item) => item.type === Details),
       action: childrenArray.find((item) => item.type === Action),
       columnOrder,
       columns,

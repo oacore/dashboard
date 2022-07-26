@@ -17,6 +17,7 @@ module.exports = {
         },
       ],
     },
-    'postcss-extend': {},
+    'postcss-custom-media': {},
+    'postcss-extend-rule': {},
   },
 }

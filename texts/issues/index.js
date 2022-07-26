@@ -12,7 +12,15 @@ Object.values(sourceMessages).forEach((msg) => {
   })
 })
 
+const articleTemplate = Object.keys(issuesTab.article).reduce(
+  (a, key) =>
+    Object.assign(a, { [key]: Object.values(issuesTab.article[key]) }),
+  {}
+)
+
 export default {
   ...issuesTab,
+  actions: Object.values(issuesTab.actions),
+  article: articleTemplate,
   messages,
 }

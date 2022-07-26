@@ -8,6 +8,7 @@ const NumericValue = ({
   append,
   caption,
   diff,
+  title,
   notation = 'compact',
   compactDisplay,
   maximumFractionDigits = 2,
@@ -15,6 +16,7 @@ const NumericValue = ({
   ...htmlProps
 }) => (
   <Numeral {...htmlProps}>
+    <Numeral.Title>{title}</Numeral.Title>
     <Numeral.Value bold={bold}>
       {typeof value == 'number'
         ? formatNumber(value, {
@@ -24,7 +26,7 @@ const NumericValue = ({
           })
         : value}
     </Numeral.Value>
-    {append && <Numeral.Appendix bold={bold}>{append}</Numeral.Appendix>}{' '}
+    {append && <Numeral.Appendix bold={bold}>{append}</Numeral.Appendix>}
     {diff && <Numeral.Diff>{diff}</Numeral.Diff>}
     <Numeral.Caption>{caption}</Numeral.Caption>
   </Numeral>

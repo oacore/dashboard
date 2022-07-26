@@ -1,6 +1,7 @@
 .container {
   --numeral-value-sm-size: 2em;
   --numeral-value-ex-sm-size: 1.5em;
+  --title-value-md-size: 1.2em;
   --numeral-value-md-size: 3em;
   --numeral-value-lg-size: 4em;
   --numeral-value-size: var(--numeral-value-md-size);
@@ -9,8 +10,15 @@
   /* For the future */
 }
 
-.caption {
+.caption,
+.title {
   display: block;
+}
+
+.title {
+  margin-bottom: 0.5rem;
+  font-size: var(--title-value-md-size);
+  color: var(--gray-700);
 }
 
 .appendix {

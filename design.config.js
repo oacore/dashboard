@@ -1,6 +1,7 @@
 const path = require('path')
 
 const icons = [
+  'alert',
   'alert-outline',
   'alert-circle',
   'alert-circle-outline',
@@ -14,9 +15,12 @@ const icons = [
   'close',
   'close-circle-outline',
   'cog',
+  'comment-multiple',
   'dots-vertical',
   'download',
   'earth',
+  'eye',
+  'eye-off',
   'file-document',
   'file-alert',
   'file-check',
@@ -34,6 +38,7 @@ const icons = [
   'view-dashboard',
   'menu',
   'pencil',
+  'sync',
 ]
 
 const iconsRoot = path.join(

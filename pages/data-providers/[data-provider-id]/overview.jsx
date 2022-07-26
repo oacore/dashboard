@@ -30,5 +30,4 @@ const Overview = ({ store, ...props }) => (
     {...props}
   />
 )
-
 export default withGlobalStore(Overview)

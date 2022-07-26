@@ -5,10 +5,8 @@ import styles from './logout.module.css'
 
 import { withGlobalStore } from 'store'
 
-const { IDP_URL } = process.env
-
 const getLogoutUrl = (pathname) => {
-  const url = new URL('./logout', IDP_URL)
+  const url = new URL('./logout', process.env.IDP_URL)
   if (pathname != null) url.searchParams.set('continue', pathname)
   return url
 }
