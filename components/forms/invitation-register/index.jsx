@@ -5,13 +5,11 @@ import styles from './styles.module.css'
 
 import { Card } from 'design'
 
-const { IDP_URL } = process.env
-
 const InvitationRegister = ({ className, email, invitationCode, tag }) => {
   const searchParams = {
     ...(email != null ? { email } : {}),
     ...(invitationCode != null ? { invitationCode } : {}),
-    identity_provider_url: IDP_URL,
+    identity_provider_url: process.env.IDP_URL,
   }
 
   const search = new URLSearchParams(searchParams).toString()
