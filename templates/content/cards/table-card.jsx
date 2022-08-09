@@ -18,17 +18,17 @@ const SidebarContent = observer(
     changeVisibility,
     context: {
       id,
-      identifier: { oai, doi },
+      identifiers: { oai, doi },
       title,
-      author,
-      link,
+      authors,
+      links,
       disabled,
       lastUpdate,
     },
   }) => {
     const { Header, Body, Footer } = Table.Sidebar
-    const fullText = link.find((v) => v.type === 'download')
-    const displayPage = link.find((v) => v.type === 'display')
+    const fullText = links.find((v) => v.type === 'download')
+    const displayPage = links.find((v) => v.type === 'display')
     return (
       <>
         <Header
@@ -44,7 +44,7 @@ const SidebarContent = observer(
           <div>
             <b>{title}</b>
           </div>
-          <div>{author.map((a) => a.name).join(' ')}</div>
+          <div>{authors.map((a) => a.name).join(' ')}</div>
           <DetailList>
             <DetailList.Item name="Full text">
               <Icon
@@ -95,7 +95,7 @@ const TableCard = ({ works, changeVisibility, exportUrl, ...props }) => {
           display="OAI"
           order="any"
           getter={(v) => {
-            const { oai } = v.identifier
+            const { oai } = v.identifiers
             if (oai) return oai.split(':').pop()
             return '-'
           }}
@@ -111,7 +111,7 @@ const TableCard = ({ works, changeVisibility, exportUrl, ...props }) => {
           display="Authors"
           order="any"
           className={styles.authorsColumn}
-          getter={(v) => v.author.map((a) => a.name).join(' ')}
+          getter={(v) => v.authors.map((a) => a.name).join(' ')}
         />
         <Table.Column
           id="lastUpdate"
