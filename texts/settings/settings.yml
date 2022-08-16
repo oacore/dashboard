@@ -41,7 +41,7 @@ upload:
     change: Change
   deleteCaption: Are you sure you want to remove the logo?
   memberNote:
-    title: "**Join CORE Membership to get your logos promoted on CORE.**"
+    title: "Become a Supporting Member to get your logos promoted in CORE Search and across the CORE ecosystem."
     action:
       caption: Join CORE Membership
       url: '/membership'
