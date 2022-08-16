@@ -44,5 +44,5 @@ upload:
     title: "Become a Supporting Member to get your logos promoted in CORE Search and across the CORE ecosystem."
     action:
       caption: Join CORE Membership
-      url: '/membership'
+      url: 'https://core.ac.uk/membership'
 
