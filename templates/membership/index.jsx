@@ -25,6 +25,7 @@ const MembershipPageTemplate = ({
       <div className={styles.cards}>
         {textData.plans.cards.map((card) => (
           <MembershipCard
+            key={card.title}
             title={card.title}
             textData={textData}
             description={card.description}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
+import { Button } from '@oacore/design/lib/elements'
 
 import styles from './styles.module.css'
 import oaiLogo from './assets/oai_logo.svg'
@@ -15,7 +16,12 @@ import Upload from 'components/upload'
 import Title from 'components/title'
 import content from 'texts/settings'
 
-const UploadSection = ({ className, handleUpload, logoUrl }) => (
+const UploadSection = ({
+  className,
+  handleUpload,
+  logoUrl,
+  isStartingMember,
+}) => (
   <Card
     className={classNames.use(styles.section).join(className)}
     tag="section"
@@ -24,7 +30,19 @@ const UploadSection = ({ className, handleUpload, logoUrl }) => (
     <div className={styles.uploadContainer}>
       <Card.Description className={styles.uploadDescription} tag="div">
         <p> {content.upload.description}</p>
-        <Markdown>{content.upload.note}</Markdown>
+        {isStartingMember && (
+          <>
+            <Markdown className={styles.uploadNote}>
+              {content.upload.memberNote.title}
+            </Markdown>
+            <Button
+              href={content.upload.memberNote.action.url}
+              variant="contained"
+            >
+              {content.upload.memberNote.action.caption}
+            </Button>
+          </>
+        )}
       </Card.Description>
       <Upload
         deleteCaption={content.upload.deleteCaption}
@@ -48,12 +66,13 @@ const SettingsTemplate = ({
   updateLogo,
   inviteUser,
   className,
+  membershipPlan,
   tag: Tag = 'main',
   ...restProps
 }) => {
   const [formMessage, setFormMessage] = useState({})
   const organization = { name: dataProvider.institution }
-
+  const isStartingMember = membershipPlan.billing_type === 'starting'
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -167,7 +186,11 @@ const SettingsTemplate = ({
           />
         )}
       </Card>
-      <UploadSection logoUrl={dataProviderLogo} handleUpload={updateLogo} />
+      <UploadSection
+        isStartingMember={isStartingMember}
+        logoUrl={dataProviderLogo}
+        handleUpload={updateLogo}
+      />
     </Tag>
   )
 }

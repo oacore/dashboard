@@ -33,7 +33,6 @@ upload:
   description: |
         You can now upload your official logo to make it easier for users to identify your content.
         The logo will be displayed next to your content in searches, in the CORE reader and on your data provider’s page.
-  note: "**Note**: This option will be avalable soon."
   imageCaption: 100х100, png, jpg.
   buttonCaptions:
     save: Save
@@ -41,4 +40,9 @@ upload:
     upload: upload
     change: Change
   deleteCaption: Are you sure you want to remove the logo?
+  memberNote:
+    title: "**Join CORE Membership to get your logos promoted on CORE.**"
+    action:
+      caption: Join CORE Membership
+      url: '/membership'
 

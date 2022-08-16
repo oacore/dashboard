@@ -48,11 +48,19 @@
 
 .upload-container {
   display: flex;
-  max-width: 53ch;
+  gap: 2rem;
+  max-width: 100ch;
 }
 
 .upload-description {
-  margin: 1rem 3rem 0 1rem;
+  max-width: 40ch;
+  margin-top: 1rem;
+  margin-left: 1rem;
   line-height: 1.5rem;
   color: var(--gray-900);
+}
+
+.upload-note {
+  display: block;
+  margin-bottom: 1rem;
 }

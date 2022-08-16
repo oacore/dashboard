@@ -14,6 +14,7 @@ const Settings = ({ store, ...restProps }) => (
     mappingSubmit={store.updateOaiSettings}
     updateLogo={store.updateLogo}
     dataProviderLogo={store.dataProvider.logo}
+    membershipPlan={store.dataProvider.membershipPlan}
     {...restProps}
   />
 )
