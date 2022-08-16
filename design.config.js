@@ -1,6 +1,7 @@
 const path = require('path')
 
 const icons = [
+  'account-group',
   'alert',
   'alert-outline',
   'alert-circle',

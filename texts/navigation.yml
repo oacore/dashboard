@@ -11,6 +11,7 @@ items:
   plugins/discovery: Discovery Plugin
   plugins/recommender: Recommender Plugin
   statistics: Statistics
+  membership: Membership
   settings: Settings
 tooltips:
   plugins:

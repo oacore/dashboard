@@ -17,6 +17,29 @@ export const formatNumber = (
     ...restOptions,
   }).format(number)
 
+export const processTemplate = (template, context) =>
+  template.toString().replace(/\{\{\w+\}\}/g, (replacement) => {
+    const key = replacement.substr(2, replacement.length - 4)
+    if (Object.prototype.hasOwnProperty.call(context, key)) return context[key]
+    return replacement
+  })
+
+export const patchValue = (text, statistics) => {
+  const context = {}
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(statistics)) {
+    context[key] =
+      typeof value === 'number'
+        ? formatNumber(value, {
+            notation: 'compact',
+            compactDisplay: 'short',
+            maximumFractionDigits: 0,
+          })
+        : value
+  }
+  return processTemplate(text, context)
+}
+
 const dateTimeFormatCache = new Map()
 
 export const formatDate = (date, options = {}) => {
@@ -44,4 +67,5 @@ export default {
   formatNumber,
   formatDate,
   capitalize,
+  patchValue,
 }
