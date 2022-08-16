@@ -74,6 +74,11 @@ const config = new RouteConfig([
     ],
   },
   {
+    test: /\/membership/,
+    path: 'membership',
+    icon: 'account-group',
+  },
+  {
     test: /\/settings/,
     path: 'settings',
     icon: 'cog',

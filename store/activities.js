@@ -40,6 +40,11 @@ const config = [
     ],
   },
   {
+    id: 'membership',
+    path: 'membership',
+    icon: 'account-group',
+  },
+  {
     id: 'settings',
     path: 'settings',
     icon: 'cog',

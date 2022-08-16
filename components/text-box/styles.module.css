@@ -1,0 +1,17 @@
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  padding: 1.5rem;
+  background-color: var(--gray-100);
+}
+
+.box-text {
+  max-width: 80ch;
+  line-height: 2;
+}
+
+.box-button {
+  flex: 1;
+  text-align: right;
+}

@@ -1,8 +1,9 @@
-import { action, observable } from 'mobx'
+import { action, computed, observable } from 'mobx'
 
 import Resource from '../resource'
 import Works from './works'
 import DepositDates from './deposit-dates'
+import Membership from './membership'
 import DOI from './doi'
 import Issues from '../issues'
 import apiRequest from '../../api'
@@ -42,6 +43,10 @@ class DataProvider extends Resource {
 
   @observable logo = ''
 
+  @observable membership = {}
+
+  @observable allMembers = []
+
   @action retrieve() {
     super.retrieve().then(
       () => {
@@ -58,6 +63,7 @@ class DataProvider extends Resource {
         this.depositDates = new DepositDates(url, this.options)
         this.doi = new DOI(url, this.options)
         this.issues = new Issues(url, this.options)
+        this.allMembers = new Membership(url, this.options)
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {
@@ -104,6 +110,23 @@ class DataProvider extends Resource {
         this.plugins[plugin.type] = plugin
       })
     }
+  }
+
+  @computed
+  get membershipPlan() {
+    const plan = {}
+    const members = this.allMembers?.members
+    if (members && members.length > 0) {
+      const founded = members.find((member) => +member.repo_id === this.id)
+      if (!founded) {
+        Object.assign(plan, {
+          repo_id: this.id,
+          billing_type: 'starting',
+        })
+      }
+      Object.assign(plan, founded)
+    }
+    return plan
   }
 
   @action

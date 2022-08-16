@@ -1,0 +1,26 @@
+title: CORE Membership for organisations
+description: CORE is a mission-driven and not-for-profit endeavour and we rely on the generous support of our members to support and sustain the service.
+
+plans:
+  selected:
+    header: Current membership
+    card: You are {{title}} member
+  cards:
+    - title: Starting
+      description: Access to basic functionality of CORE services as they are.
+      default: true
+    - title: Supporting
+      description: Co-funds the maintenance of CORE services as they are.
+      action:
+        caption: Register interest
+        url: https://docs.google.com/forms/d/1gTuZnPyDJuDnSqaFVjtp8HOIzU5x9u8jhvMLFIGfrGs/edit
+    - title: Sustaining
+      description: Co-funds the maintenance of CORE services and their continuous improvement.
+      action:
+        caption: Register interest
+        url: https://docs.google.com/forms/d/1gTuZnPyDJuDnSqaFVjtp8HOIzU5x9u8jhvMLFIGfrGs/edit
+box:
+ text: Here you can find a comparison table with detailed information about each features. It can help you choose the most sutible membership plan for you.
+ action:
+  caption: Compare features
+  url: /membership#comparison-table
