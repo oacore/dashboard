@@ -7,7 +7,7 @@ harvesting-card-tooltip: The date when your repository was last harvested by COR
 issues-overview-card-tooltip: Issues relating to your repository that were detected by CORE whilst harvesting.
 issues:
   title: Harvesting issues
-  affected: records are affected by this issued
+  affected: records are affected by this issue
   recommendation-card-title: Recomendation
   download-action: Download in csv
   list-actions:

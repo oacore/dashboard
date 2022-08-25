@@ -13,12 +13,12 @@ plans:
       description: Co-funds the maintenance of CORE services as they are.
       action:
         caption: Register interest
-        url: https://docs.google.com/forms/d/1gTuZnPyDJuDnSqaFVjtp8HOIzU5x9u8jhvMLFIGfrGs/edit
+        url: https://docs.google.com/forms/d/e/1FAIpQLSfFJmMIspYfOEM5aOKG4FTZoK4qeqozyds47O75Wm4dJ1ta2w/viewform
     - title: Sustaining
       description: Co-funds the maintenance of CORE services and their continuous improvement.
       action:
         caption: Register interest
-        url: https://docs.google.com/forms/d/1gTuZnPyDJuDnSqaFVjtp8HOIzU5x9u8jhvMLFIGfrGs/edit
+        url: https://docs.google.com/forms/d/e/1FAIpQLSfFJmMIspYfOEM5aOKG4FTZoK4qeqozyds47O75Wm4dJ1ta2w/viewform
 box:
  text: Here you can find a comparison table with detailed information about each features. It can help you choose the most sutible membership plan for you.
  action:
