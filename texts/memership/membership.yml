@@ -4,7 +4,7 @@ description: CORE is a mission-driven and not-for-profit endeavour and we rely o
 plans:
   selected:
     header: Current membership
-    card: You are {{title}} member
+    card: You are a {{title}} member
   cards:
     - title: Starting
       description: Access to basic functionality of CORE services as they are.
@@ -23,4 +23,4 @@ box:
  text: Here you can find a comparison table with detailed information about each features. It can help you choose the most sutible membership plan for you.
  action:
   caption: Compare features
-  url: /membership#comparison-table
+  url: https://core.ac.uk/membership#comparison-table
