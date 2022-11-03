@@ -3,7 +3,7 @@ import React from 'react'
 import styles from '../styles.module.css'
 
 import { Card } from 'design'
-import { valueOrDefault, formatDate } from 'utils/helpers'
+import { valueOrDefault, formatDate, patchValueFull } from 'utils/helpers'
 import NumericValue from 'components/numeric-value'
 import FullTextsProgressChart from 'components/full-texts-progress-chart'
 import COLORS from 'utils/colors'
@@ -14,6 +14,7 @@ const HarvestingStatusCard = ({
   fullTextCount,
   lastHarvestingDate,
   metadataCount,
+  total,
 }) => (
   <Card>
     <Card.Title tag="h2">{texts.genInfo.title}</Card.Title>
@@ -49,10 +50,14 @@ const HarvestingStatusCard = ({
         value={valueOrDefault((fullTextCount / metadataCount) * 100, '🔁')}
       />
     </div>
-    {errorsCount && (
+    {errorsCount && total && (
       <p className={styles.errorsInfo}>
         Harvested with
-        <span className={styles.errorsCount}> {errorsCount}</span> errors
+        <span className={styles.errorsCount}>
+          {' '}
+          {patchValueFull('{{errorsCount}}', { errorsCount })}{' '}
+        </span>
+        issues affecting {patchValueFull('{{total}}', { total })} records
       </p>
     )}
   </Card>

@@ -40,6 +40,21 @@ export const patchValue = (text, statistics) => {
   return processTemplate(text, context)
 }
 
+// eslint-disable-next-line consistent-return
+export const patchValueFull = (text, statistics) => {
+  const context = {}
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(statistics)) {
+    context[key] =
+      typeof value === 'number'
+        ? formatNumber(value, {
+            compactDisplay: 'long',
+          })
+        : value
+    return processTemplate(text, context)
+  }
+}
+
 const dateTimeFormatCache = new Map()
 
 export const formatDate = (date, options = {}) => {
