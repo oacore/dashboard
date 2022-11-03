@@ -64,7 +64,7 @@
     {{ url }}
   resolution: |
     This might be a temporary issue. If the issue persists, please test the
-    OAI-PMH configuration of your repository. 
+    OAI-PMH configuration of your repository.
   details: [url]
 
 - type: INVALID_OAIPMH_ENDPOINT
@@ -253,13 +253,15 @@
     metadata title text is contained within the full text.
     An exact match is not required, but must be similar.
 
-    This error is common for scanned items where Optical Character
-    Recognition&nbsp;(OCR) has not been performed.
+    This issue is common and can be ignored for  scanned documents,
+    where Optical Character Recognition&nbsp;(OCR) has not been performed
+    and articles with special characters in their title.
 
-    Ensure that the Metadata Title is the same as the document title
-    or including a link to the full text in `dc:identifier`.
+    Ensure that the Metadata Title is the same as the document title or
+    include a link to the full text in `dc:identifier` (if you use Dublin Core)
+    or follow the RIOXX or OpenAIREv4.1
   resolution: |
-    We used this as a security measure to not display wrong documents. If the 
+    We used this as a security measure to not display wrong documents. If the
     issue is present in many documents, please get in touch with us.
   # should be moved to separate place or deleted
   extra-intructions: |
@@ -293,7 +295,7 @@
     no further action is required.
   resolution: |
     No action needed. However, you might use this to check if your embargo
-    settings are valid. 
+    settings are valid.
   details: [currentUrl]
 
 - type: UNSUPPORTED_FILETYPE
@@ -331,7 +333,7 @@
     A network or server error occurred. We do not have any further information
     but we will attempt to download this document soon.
   resolution: |
-    No action needed, it is probably a temporary issue. If the issue persists 
+    No action needed, it is probably a temporary issue. If the issue persists
     there might be problems with your repository configuration.
   details: []
 
@@ -346,7 +348,7 @@
 
     {{ currentUrl }}
   resolution: |
-    No action needed, our system identified issues of speed with your repository, 
+    No action needed, our system identified issues of speed with your repository,
     if the issue persists you might want to check your repository network configuration.
   details: [currentUrl]
 
@@ -385,7 +387,7 @@
     Unspecified download error
   title: We were unable to find the full text
   description: |
-    We were unable to find the full text for this item. The issue was encountered 
+    We were unable to find the full text for this item. The issue was encountered
     while downloading the candidate document but we are not able to classify the issue further.
   resolution: |
     If you see many of these issues, please contact us and we will investigate
@@ -440,10 +442,10 @@
     The language defined in the record's metadata mismatch the language of the document.
   title: Potential language mismatch.
   description: |
-    We use various signals to determine the language of a document and there is an inconsistency between 
+    We use various signals to determine the language of a document and there is an inconsistency between
     your record language field and the one we recognise from the document.
   resolution: |
-    Please review your record's language and make sure it matches the document. 
+    Please review your record's language and make sure it matches the document.
   details: []
 - type: UNPARSABLE_LANGUAGE
   severity: ERROR
@@ -451,7 +453,7 @@
     The language defined in the record's metadata doesn't match any language we support.
   title: Unrecognised language
   description: |
-    We use various signals to determine the language of a document and the one reported in the 
+    We use various signals to determine the language of a document and the one reported in the
     record metadata doesn't match the one's we recognise.
   resolution: |
     Please check the language settings on your records.

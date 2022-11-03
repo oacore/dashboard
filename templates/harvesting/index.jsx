@@ -21,6 +21,7 @@ const HarvestingPageTemplate = ({
   warningCount,
   metadataCount,
   fullTextCount,
+  total,
   downloadResults,
   issues,
   ...restProps
@@ -45,6 +46,7 @@ const HarvestingPageTemplate = ({
         lastHarvestingDate={harvestingStatus?.lastHarvestingDate || 0}
         fullTextCount={fullTextCount}
         errorsCount={errorsCount}
+        total={total}
       />
 
       <Card className={styles.issuesCard}>
