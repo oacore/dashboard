@@ -27,6 +27,7 @@ const isRouteWithoutStore = (pathname) =>
 class App extends NextApp {
   state = {
     isAuthorized: false,
+    acceptedTCVersion: false,
   }
 
   store = initStore()
@@ -147,6 +148,7 @@ class App extends NextApp {
   AppShell = () => {
     const { store } = this
     const { Component, pageProps, router } = this.props
+    // const { isAuthorized, acceptedTCVersion } = this.state
     const { isAuthorized } = this.state
     const pathname = router.asPath
     const variant =
@@ -170,6 +172,7 @@ class App extends NextApp {
         pathname={pathname}
         variant={variant}
         isAuthenticated
+        acceptedTCVersion={!store.user.acceptedTCVersion === 'None'}
       >
         <Component {...pageProps} />
       </Application>

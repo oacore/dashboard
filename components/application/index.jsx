@@ -5,6 +5,7 @@ import { DataProviderLogo } from '@oacore/design/lib/elements'
 import { Container, AppBar, SideBar, Main } from '../layout'
 import activities from './activities'
 import LoadingBar from './loading-bar'
+import TCVersion from './terms-condition'
 import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
@@ -18,10 +19,13 @@ const Application = observer(
     pathname,
     variant = 'public', // 'public' or 'internal'
     isAuthenticated = false,
+    // eslint-disable-next-line no-unused-vars
+    acceptedTCVersion = false,
     ...restProps
   }) => (
     <>
       <Head />
+      <TCVersion acceptedTCVersion />
       <Container variant={variant} {...restProps}>
         <LoadingBar fixed />
         <AppBar>
