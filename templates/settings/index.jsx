@@ -111,7 +111,7 @@ const SettingsTemplate = ({
         >
           <TextField
             id="settings-global-email"
-            label="Set your institutional name"
+            label={!organization.name && 'Set your institutional name'}
             name="name"
             defaultValue={organization.name}
             tag="p"
@@ -148,7 +148,7 @@ const SettingsTemplate = ({
         >
           <TextField
             id="settings-repository-name"
-            label="Name"
+            label={!dataProvider.name && 'Name'}
             name="name"
             defaultValue={dataProvider.name}
             tag="p"
