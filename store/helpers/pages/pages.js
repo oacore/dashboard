@@ -54,7 +54,7 @@ class Pages extends Store {
     const order = getOrder(this.columnOrder)
 
     const params = {
-      from: this.data.length / 100,
+      from: this.data.length >= 100 ? this.data.length / 100 : this.data.length,
       size: PAGE_SIZE,
     }
 
