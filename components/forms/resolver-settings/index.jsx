@@ -33,7 +33,7 @@ const ResolverSettingsForm = ({ oaiMapping, onSubmit, formMessage }) => {
           <TextField
             className={styles.mappingInput}
             id={field.name}
-            label={field.label}
+            label={!oaiMapping[field.name] && field.label}
             name={field.name}
             defaultValue={oaiMapping[field.name]}
             helper={field.helper}

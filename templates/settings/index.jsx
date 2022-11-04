@@ -155,7 +155,7 @@ const SettingsTemplate = ({
           />
           <TextField
             id="settings-repository-email"
-            label="Email"
+            label={!dataProvider.email && 'Email'}
             name="email"
             defaultValue={dataProvider.email}
             tag="p"
