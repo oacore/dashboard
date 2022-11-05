@@ -36,7 +36,6 @@ class Pages extends Store {
         throw error
       }
     }
-
     return this.data.slice(from, to)
   }
 
