@@ -51,7 +51,8 @@ class DataProvider extends Resource {
     super.retrieve().then(
       () => {
         this.reset()
-        this.retrieveStatistics()
+        // this.retrieveStatistics()
+        this.retrieveInternalStatistics()
         this.retrievePluginConfig()
         this.retrieveIrusStats()
         this.retrieveRioxxStats()
@@ -93,6 +94,22 @@ class DataProvider extends Resource {
         body,
         method: 'POST',
       })
+
+      Object.assign(this.statistics, data)
+    } catch (error) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action
+  async retrieveInternalStatistics() {
+    const url = new URL(
+      `/internal/data-providers/${this.id}/statistics`,
+      process.env.API_URL
+    ).href
+
+    try {
+      const { data } = await await apiRequest(url)
 
       Object.assign(this.statistics, data)
     } catch (error) {
