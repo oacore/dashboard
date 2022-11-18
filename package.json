@@ -48,6 +48,7 @@
     "d3-array": "^2.8.0",
     "d3-collection": "^1.0.7",
     "escape-string-regexp": "^4.0.0",
+    "html-react-parser": "^3.0.4",
     "mobx": "5.15.7",
     "mobx-react-lite": "2.2.2",
     "mustache": "^4.0.1",

@@ -1,14 +1,9 @@
 import React, { useState, useCallback } from 'react'
 
-import data, {
-  useFormAction,
-  useFormContext,
-  useNoteContext,
-  useSync,
-} from './data'
+import data, { useFormAction, useFormContext, useSync } from './data'
 
 import { Button } from 'design'
-import Markdown from 'components/markdown'
+// import Markdown from 'components/markdown'
 import Form from 'components/forms/request-premium'
 import { withGlobalStore } from 'store'
 
@@ -75,12 +70,7 @@ const FormController = ({ onSent, onCancel, ...formProps }) => {
   )
 }
 
-const PaymentRequiredNote = ({
-  store,
-  children,
-  template,
-  variant = 'button',
-}) => {
+const PaymentRequiredNote = ({ store, children, variant = 'button' }) => {
   const [formShown, toggleForm] = useState(variant === 'form')
   const [requestSent, toggleSent] = useState(false)
   const handleToggle = useCallback(() => toggleForm(!formShown), [formShown])
@@ -88,13 +78,14 @@ const PaymentRequiredNote = ({
     toggleForm(false)
     toggleSent(true)
   }, [])
-  const context = useNoteContext()
+  // TODO Need agree a new text
+  // const context = useNoteContext()
+  // {template && <Markdown>{template.render(context)}</Markdown>}
 
   useSync(store)
 
   return (
     <>
-      {template && <Markdown>{template.render(context)}</Markdown>}
       {children}
       <p hidden={formShown} style={{ marginBottom: 0 }}>
         <Button
@@ -103,7 +94,7 @@ const PaymentRequiredNote = ({
           onClick={handleToggle}
           disabled={requestSent}
         >
-          Request premium
+          Register interest
         </Button>{' '}
         {requestSent && getStatusText('success')}
       </p>

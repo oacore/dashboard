@@ -1,5 +1,6 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
+import Parser from 'html-react-parser'
 
 import styles from '../styles.module.css'
 
@@ -81,7 +82,7 @@ const CoverageCard = ({ doiCount, totalCount, enrichmentSize }) => (
           notation="standard"
           className={classNames.use(enrichmentSize > 0 && styles.enrichment)}
           tag="p"
-          title={texts.coverage.enrichmentLabelTooltip}
+          title={Parser(texts.coverage.enrichmentLabelTooltip)}
         />
       </div>
     </div>
