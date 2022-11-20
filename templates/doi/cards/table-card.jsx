@@ -27,14 +27,23 @@ const formatDOI = (entity) => {
   return originDoi
 }
 
-const TableCard = ({ pages, exportUrl }) => {
+const TableCard = ({ pages, exportUrl, membershipPlan }) => {
   const [tableProps, fetchData] = useDynamicTableData({
     pages,
     defaultSize: 5,
   })
   const hasData = useObserver(() => pages.data && pages.data.length > 0)
   const hasError = useObserver(() => !!pages.error)
-  const isExportDisabled = !hasData || hasError
+
+  // pages.error = null
+
+  const isBillingPlanApprove = useObserver(
+    () =>
+      membershipPlan.billing_type === 'sustaining' &&
+      membershipPlan.activated === '1'
+  )
+
+  const isExportDisabled = !hasData || hasError || !isBillingPlanApprove
 
   return (
     <Card className={styles.doiTableCard} tag="section">

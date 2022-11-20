@@ -14,6 +14,7 @@ const DoiTemplate = ({
   dataProviderName,
   doiRecords,
   totalCount,
+  membershipPlan,
   tag: Tag = 'main',
   ...restProps
 }) => (
@@ -27,7 +28,13 @@ const DoiTemplate = ({
       enrichmentSize={enrichmentSize}
     />
 
-    {doiRecords && <TableCard pages={doiRecords} exportUrl={doiUrl} />}
+    {doiRecords && (
+      <TableCard
+        pages={doiRecords}
+        exportUrl={doiUrl}
+        membershipPlan={membershipPlan}
+      />
+    )}
   </Tag>
 )
 

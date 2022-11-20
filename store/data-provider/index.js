@@ -139,6 +139,7 @@ class DataProvider extends Resource {
         Object.assign(plan, {
           repo_id: this.id,
           billing_type: 'starting',
+          activated: 0,
         })
       }
       Object.assign(plan, founded)
