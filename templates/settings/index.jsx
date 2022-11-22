@@ -163,11 +163,6 @@ const SettingsTemplate = ({
           />
         </FormShell>
       </Card>
-      <ChangePassword
-        className={styles.section}
-        email={userEmail}
-        tag="section"
-      />
       <Card
         className={classNames.use(styles.section).join(className)}
         tag="section"
@@ -190,6 +185,11 @@ const SettingsTemplate = ({
         isStartingMember={isStartingMember}
         logoUrl={dataProviderLogo}
         handleUpload={updateLogo}
+      />
+      <ChangePassword
+        className={styles.section}
+        email={userEmail}
+        tag="section"
       />
     </Tag>
   )
