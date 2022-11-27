@@ -18,17 +18,19 @@ const TermsConditionPopup = ({ store, ...passProps }) => {
   }
 
   const onClickDecline = () => {
-    // console.log('onClickDecline ')
+    const data = {
+      acceptedTCVersion: 0,
+    }
+    store.updateUser(data)
   }
   const onClickAccept = () => {
     const data = {
-      acceptedTCVersion: isChecked,
+      acceptedTCVersion: isChecked ? 2 : 1,
     }
     store.updateUser(data)
-    // console.log('onClickAccept ')
   }
 
-  const repositoryName = 'Kent Academic Repository'
+  const repositoryName = store?.dataProvider?.name ?? 'repository'
   return (
     <div className={styles.termsCondition}>
       <div className={styles.wrapper}>
@@ -57,10 +59,10 @@ const TermsConditionPopup = ({ store, ...passProps }) => {
             <br />
             <br />
             “On behalf of <b>{repositoryName}</b>, I give CORE permission to
-            harvest and use content from <b>{repositoryName}</b>
-            in line with the principles of the Budapest Open Access Initiative
-            definition of OA and the vision of the Confederation of Open Access
-            Repositories (COAR) as detailed below:
+            harvest and use content from <b>{repositoryName}</b> in line with
+            the principles of the Budapest Open Access Initiative definition of
+            OA and the vision of the Confederation of Open Access Repositories
+            (COAR) as detailed below:
             <br />
             <br />
             - “By “open access” to this literature, we mean its free

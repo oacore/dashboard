@@ -5,7 +5,7 @@ import { DataProviderLogo } from '@oacore/design/lib/elements'
 import { Container, AppBar, SideBar, Main } from '../layout'
 import activities from './activities'
 import LoadingBar from './loading-bar'
-import TCVersion from './terms-condition'
+import TermsConditionPopup from './terms-condition'
 import RepositorySelect from './repository-select'
 import ActivitySelect from './activity-select'
 import Head from './head'
@@ -25,7 +25,7 @@ const Application = observer(
   }) => (
     <>
       <Head />
-      <TCVersion acceptedTCVersion />
+      {isAuthenticated ? <TermsConditionPopup acceptedTCVersion /> : null}
       <Container variant={variant} {...restProps}>
         <LoadingBar fixed />
         <AppBar>
