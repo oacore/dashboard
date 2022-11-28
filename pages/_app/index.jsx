@@ -148,7 +148,6 @@ class App extends NextApp {
   AppShell = () => {
     const { store } = this
     const { Component, pageProps, router } = this.props
-    // const { isAuthorized, acceptedTCVersion } = this.state
     const { isAuthorized } = this.state
     const pathname = router.asPath
     const variant =
