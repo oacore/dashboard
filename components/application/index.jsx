@@ -19,13 +19,14 @@ const Application = observer(
     pathname,
     variant = 'public', // 'public' or 'internal'
     isAuthenticated = false,
-    // eslint-disable-next-line no-unused-vars
     acceptedTCVersion = 0,
     ...restProps
   }) => (
     <>
       <Head />
-      {isAuthenticated ? <TermsConditionPopup acceptedTCVersion /> : null}
+      {isAuthenticated ? (
+        <TermsConditionPopup acceptedTCVersion={acceptedTCVersion} />
+      ) : null}
       <Container variant={variant} {...restProps}>
         <LoadingBar fixed />
         <AppBar>
