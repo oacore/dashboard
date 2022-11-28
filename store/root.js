@@ -77,7 +77,7 @@ class Root extends Store {
 
   @observable depositDates = null
 
-  @observable acceptedTCVersion = null
+  @observable acceptedTCVersion = 0
 
   @observable requestsInProgress = 0
 
@@ -186,6 +186,10 @@ class Root extends Store {
         method: 'PATCH',
         body: patch,
       })
+
+      if (patch.acceptedTCVersion && Number.isInteger(patch.acceptedTCVersion))
+        this.user.acceptedTCVersion = patch.acceptedTCVersion
+
       Object.assign(this.dataProvider, data)
       return {
         message: 'User were updated successfully!',

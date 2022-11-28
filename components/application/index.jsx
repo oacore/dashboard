@@ -20,7 +20,7 @@ const Application = observer(
     variant = 'public', // 'public' or 'internal'
     isAuthenticated = false,
     // eslint-disable-next-line no-unused-vars
-    acceptedTCVersion = false,
+    acceptedTCVersion = 0,
     ...restProps
   }) => (
     <>
