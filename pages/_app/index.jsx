@@ -27,7 +27,7 @@ const isRouteWithoutStore = (pathname) =>
 class App extends NextApp {
   state = {
     isAuthorized: false,
-    // acceptedTCVersion: 0,
+    acceptedTCVersion: 0,
   }
 
   store = initStore()
