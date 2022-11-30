@@ -77,6 +77,8 @@ class Root extends Store {
 
   @observable depositDates = null
 
+  @observable acceptedTCVersion = 0
+
   @observable requestsInProgress = 0
 
   @computed
@@ -168,6 +170,29 @@ class Root extends Store {
       Object.assign(this.dataProvider, data)
       return {
         message: 'Settings were updated successfully!',
+      }
+    } catch (networkOrAccessError) {
+      return {
+        message: 'Something went wrong. Please try it again later!',
+      }
+    }
+  }
+
+  @action
+  updateUser = async (patch) => {
+    try {
+      const url = `/user`
+      const { data } = await this.options.request(url, {
+        method: 'PATCH',
+        body: patch,
+      })
+
+      if (patch.acceptedTCVersion && Number.isInteger(patch.acceptedTCVersion))
+        this.user.acceptedTCVersion = patch.acceptedTCVersion
+
+      Object.assign(this.dataProvider, data)
+      return {
+        message: 'User were updated successfully!',
       }
     } catch (networkOrAccessError) {
       return {
