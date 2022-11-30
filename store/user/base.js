@@ -5,7 +5,6 @@ import Resource from '../resource'
 const anonymousUser = {
   name: 'Anonymous',
   email: null,
-  acceptedTCVersion: 0,
 }
 
 class User extends Resource {
