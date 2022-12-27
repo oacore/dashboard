@@ -19,6 +19,7 @@ const DepositCompliance = ({ store: { dataProvider }, ...restProps }) => (
     }
     crossDepositLag={dataProvider?.depositDates?.crossDepositLag}
     countryCode={dataProvider?.location?.countryCode}
+    dataProviderData={dataProvider}
     {...restProps}
   />
 )
