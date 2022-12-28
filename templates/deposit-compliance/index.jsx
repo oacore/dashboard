@@ -3,15 +3,16 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 import {
-  TableCard,
-  PublicationsDatesCard,
-  DataOverviewCard,
-  CrossRepositoryCheckRedirectCard,
-  DepositTimeLagCard,
   CrossRepositoryCheckCard,
+  CrossRepositoryCheckRedirectCard,
+  DataOverviewCard,
+  DepositTimeLagCard,
+  PublicationsDatesCard,
+  TableCard,
 } from './cards'
+import placeholderImg from '../../components/upload/assets/introMembership.svg'
 
-import { Icon, Message, Link } from 'design'
+import { Button, Icon, Link, Message } from 'design'
 import Title from 'components/title'
 import Markdown from 'components/markdown'
 import { intro as texts } from 'texts/depositing'
@@ -22,13 +23,29 @@ const SUPPORT_EMAIL = decodeURIComponent(
 )
 
 const NotEnoughDataMessage = () => (
-  <Message>
-    <Icon src="#alert-outline" /> Your repository is not configured to expose
-    information on dates of deposit in a machine-readable format. For more
-    information check our{' '}
+  <Message className={styles.errorWrapper}>
+    <Icon className={styles.errorIcon} src="#alert-outline" /> Your repository
+    is not configured to expose information on dates of deposit in a
+    machine-readable format. For more information check our{' '}
     <Link href="https://core.ac.uk/ref-audit">guidelines</Link> and contact us
     at <Link href={SUPPORT_EMAIL_URL}>{SUPPORT_EMAIL}</Link>.
   </Message>
+)
+
+const FeaturePlaceholder = ({ dataProviderData }) => (
+  <div className={styles.placeholderWrapper}>
+    <img src={placeholderImg} alt="" />
+    <div className={styles.placeholderText}>
+      This feature available only for Sustaining member
+    </div>
+    <Button
+      className={styles.upgradeBtn}
+      variant="contained"
+      href={`/data-providers/${dataProviderData.id}/membership`}
+    >
+      Upgrade
+    </Button>
+  </div>
 )
 
 const RegionAlert = ({
@@ -46,6 +63,7 @@ const DepositComplianceTemplate = ({
   className,
   datesUrl,
   publicReleaseDatesPages,
+  dataProviderData,
   publicationDatesValidate,
   crossDepositLagCsvUrl,
   complianceLevel,
@@ -56,16 +74,25 @@ const DepositComplianceTemplate = ({
   countryCode,
   tag: Tag = 'main',
   ...restProps
-}) => (
-  <Tag className={[styles.container, className].join(' ')} {...restProps}>
-    {countryCode?.toLowerCase() !== 'gb' && (
-      <RegionAlert>{texts.regionWarning}</RegionAlert>
-    )}
-    <Title>{texts.title}</Title>
-    <Markdown>{texts.body}</Markdown>
-    {totalCount === 0 ? (
-      <NotEnoughDataMessage />
-    ) : (
+}) => {
+  function checkType(providerId) {
+    // eslint-disable-next-line array-callback-return,consistent-return
+    return dataProviderData?.allMembers?.members?.find((item) => {
+      if (Array.isArray(item.repo_id))
+        return item.repo_id.includes(providerId.toString())
+      return +item.repo_id === providerId
+    })
+  }
+
+  const memberType = checkType(dataProviderData.id)
+
+  const checkBillingType = memberType?.billing_type === 'sustaining'
+
+  const renderItem = () => {
+    if (totalCount === 0) return <NotEnoughDataMessage />
+    if (!checkBillingType)
+      return <FeaturePlaceholder dataProviderData={dataProviderData} />
+    return (
       <>
         <DataOverviewCard
           totalCount={totalCount}
@@ -96,8 +123,21 @@ const DepositComplianceTemplate = ({
           />
         )}
       </>
-    )}
-  </Tag>
-)
+    )
+  }
+
+  return (
+    <Tag className={[styles.container, className].join(' ')} {...restProps}>
+      <header className={styles.headerWrapper}>
+        <Title>{texts.title}</Title>
+        <Markdown className={styles.introBody}>{texts.body}</Markdown>
+      </header>
+      {countryCode?.toLowerCase() !== 'gb' && (
+        <RegionAlert>{texts.regionWarning}</RegionAlert>
+      )}
+      {renderItem()}
+    </Tag>
+  )
+}
 
 export default DepositComplianceTemplate
