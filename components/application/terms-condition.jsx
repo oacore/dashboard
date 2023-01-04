@@ -9,7 +9,7 @@ import { withGlobalStore } from 'store'
 const TermsConditionPopup = ({ store, ...passProps }) => {
   const { acceptedTCVersion } = passProps
 
-  if (!acceptedTCVersion || acceptedTCVersion > 0) return <></>
+  if (acceptedTCVersion > 0) return <></>
 
   const [isChecked, setIsChecked] = useSwitch(false)
 
