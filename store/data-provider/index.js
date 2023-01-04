@@ -51,8 +51,8 @@ class DataProvider extends Resource {
     super.retrieve().then(
       () => {
         this.reset()
-        // this.retrieveStatistics()
-        this.retrieveInternalStatistics()
+        this.retrieveStatistics()
+        //this.retrieveInternalStatistics()
         this.retrievePluginConfig()
         this.retrieveIrusStats()
         this.retrieveRioxxStats()
