@@ -52,7 +52,7 @@ class DataProvider extends Resource {
       () => {
         this.reset()
         this.retrieveStatistics()
-        //this.retrieveInternalStatistics()
+        // this.retrieveInternalStatistics()
         this.retrievePluginConfig()
         this.retrieveIrusStats()
         this.retrieveRioxxStats()
