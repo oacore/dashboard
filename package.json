@@ -64,7 +64,7 @@
     "webpack": "^4.44.2"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "scripts": {
     "dev": "next dev",
