@@ -21,6 +21,7 @@ module.exports = (api) => {
     ],
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-nullish-coalescing-operator',
   ]
 
   return {
