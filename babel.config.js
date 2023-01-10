@@ -21,7 +21,6 @@ module.exports = (api) => {
     ],
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-syntax-dynamic-import',
-    '@babel/plugin-transform-runtime',
   ]
 
   return {
