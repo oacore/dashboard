@@ -2,6 +2,7 @@ import React from 'react'
 
 import MembershipPageTemplate from 'templates/documentation/membership'
 import retrieveContent from 'content'
+// import {withGlobalStore} from "../../store";
 
 const ASSETS_BASE_URL = 'https://oacore.github.io/content/'
 
@@ -39,6 +40,6 @@ export async function getStaticProps({ previewData }) {
   }
 }
 
-const DatasetPage = ({ data }) => <MembershipPageTemplate {...data} />
+const MembershipPage = ({ data }) => <MembershipPageTemplate {...data} />
 
-export default DatasetPage
+export default MembershipPage
