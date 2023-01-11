@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MembershipPageTemplate = ({ meta, header, instruction }) => (
+const DocumentationMembershipPageTemplate = ({ meta, header, instruction }) => (
   <>
     {meta.title}
     {meta.tagline}
@@ -12,4 +12,4 @@ const MembershipPageTemplate = ({ meta, header, instruction }) => (
   </>
 )
 
-export default MembershipPageTemplate
+export default DocumentationMembershipPageTemplate

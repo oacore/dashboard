@@ -1,8 +1,7 @@
 import React from 'react'
 
-import MembershipPageTemplate from 'templates/documentation/membership'
+import DocumentationMembershipPageTemplate from 'templates/documentation/membership'
 import retrieveContent from 'content'
-// import {withGlobalStore} from "../../store";
 
 const ASSETS_BASE_URL = 'https://oacore.github.io/content/'
 
@@ -40,6 +39,8 @@ export async function getStaticProps({ previewData }) {
   }
 }
 
-const MembershipPage = ({ data }) => <MembershipPageTemplate {...data} />
+const MembershipDocumentationPage = ({ data }) => (
+  <DocumentationMembershipPageTemplate {...data} />
+)
 
-export default MembershipPage
+export default MembershipDocumentationPage
