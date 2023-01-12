@@ -186,7 +186,6 @@ class Root extends Store {
         method: 'PATCH',
         body: patch,
       })
-
       if (patch.acceptedTCVersion && Number.isInteger(patch.acceptedTCVersion))
         this.user.acceptedTCVersion = patch.acceptedTCVersion
 
