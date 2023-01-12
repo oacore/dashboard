@@ -76,7 +76,6 @@ const DepositComplianceTemplate = ({
   ...restProps
 }) => {
   function checkType(providerId) {
-    // eslint-disable-next-line array-callback-return,consistent-return
     return dataProviderData?.allMembers?.members?.find((item) => {
       if (Array.isArray(item.repo_id))
         return item.repo_id.includes(providerId.toString())
