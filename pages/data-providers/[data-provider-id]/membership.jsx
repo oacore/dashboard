@@ -3,9 +3,9 @@ import React from 'react'
 import MembershipPageTemplate from 'templates/membership'
 import { withGlobalStore } from 'store'
 
-const MembershipPage = ({ store: { dataProvider }, ...props }) => (
+const MembershipPage = ({ store: { organisation }, ...props }) => (
   <MembershipPageTemplate
-    membershipPlan={dataProvider.membershipPlan}
+    membershipPlan={organisation.billingPlan}
     {...props}
   />
 )

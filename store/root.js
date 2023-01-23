@@ -111,7 +111,7 @@ class Root extends Store {
     }
 
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
-    this.organisation.retrieve()
+    await this.organisation.retrieve()
   }
 
   @action changeDataProvider(id) {
