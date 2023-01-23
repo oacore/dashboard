@@ -36,7 +36,7 @@ const FeaturePlaceholder = ({ dataProviderData }) => (
   <div className={styles.placeholderWrapper}>
     <img src={placeholderImg} alt="" />
     <div className={styles.placeholderText}>
-      This feature available only for Sustaining member
+      This feature is available only for Sustaining member
     </div>
     <Button
       className={styles.upgradeBtn}
