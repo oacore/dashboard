@@ -25,22 +25,16 @@ const getSections = async ({ ref } = {}) => {
   return content
 }
 
-export async function getStaticProps({ previewData }) {
-  const ref = previewData?.ref
-  const sections = await getSections({ ref })
-  const data = {
-    ...sections,
-  }
+const MembershipDocumentationPage = () => {
+  let data = []
 
-  return {
-    props: {
-      data,
-    },
-  }
+  data = getSections()
+
+  // eslint-disable-next-line no-console
+  console.log(data)
+
+  return <DocumentationMembershipPageTemplate {...data} />
 }
 
-const MembershipDocumentationPage = ({ data }) => (
-  <DocumentationMembershipPageTemplate {...data} />
-)
-
 export default MembershipDocumentationPage
+// export default withGlobalStore(MembershipDocumentationPage)

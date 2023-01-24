@@ -1,6 +1,7 @@
 import { basename, extname } from 'path'
 
 import { loadAll as yaml } from 'js-yaml'
+// import yaml from 'js-yaml'
 import extractFrontMatter from 'front-matter'
 import { Octokit } from '@octokit/rest'
 import camelize from 'camelize'
