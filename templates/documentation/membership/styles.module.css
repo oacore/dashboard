@@ -1,0 +1,11 @@
+.membership {
+  margin: 0 5px;
+}
+
+.enabled {
+  color: var(--success-dark);
+}
+
+.disabled {
+  color: var(--gray-700);
+}

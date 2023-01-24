@@ -12,7 +12,7 @@ const setAssetsUrl = (object) =>
   })
 
 const getSections = async ({ ref } = {}) => {
-  const content = await retrieveContent('dataset', {
+  const content = await retrieveContent('docs-membership', {
     ref,
     transform: 'object',
   })
