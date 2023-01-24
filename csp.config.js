@@ -25,7 +25,11 @@ if (process.env.NODE_ENV !== 'production') {
   // Allow connection to the local hosts in development:
   // - local API is running on a different port
   // - `localhost` and `127.0.0.1` are not the same domain technically
-  config['connect-src'].push('localhost:* 127.0.0.1:*')
+  // - api.GitHub and raw.githubusercontent is for contentload
+  // config['connect-src'].push('localhost:* 127.0.0.1:*') // old config
+  config['connect-src'].push(
+    'localhost:* 127.0.0.1:* api.github.com:* raw.githubusercontent.com:*'
+  )
 }
 
 const policy = Object.entries(config)

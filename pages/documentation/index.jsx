@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import DocumentationMembershipPageTemplate from 'templates/documentation/membership'
 import retrieveContent from 'content'
@@ -26,15 +26,16 @@ const getSections = async ({ ref } = {}) => {
 }
 
 const MembershipDocumentationPage = () => {
-  let data = []
+  const [stateData, setStateData] = useState({})
 
-  data = getSections()
+  if (Object.getOwnPropertyNames(stateData).length === 0) {
+    getSections().then((val) => {
+      setStateData(val)
+    })
+    return <></>
+  }
 
-  // eslint-disable-next-line no-console
-  console.log(data)
-
-  return <DocumentationMembershipPageTemplate {...data} />
+  return <DocumentationMembershipPageTemplate {...stateData} />
 }
 
 export default MembershipDocumentationPage
-// export default withGlobalStore(MembershipDocumentationPage)

@@ -1,9 +1,8 @@
 import React from 'react'
 
-const DocumentationMembershipPageTemplate = ({ meta, header }) => (
+const DocumentationMembershipPageTemplate = ({ header }) => (
   <div>
-    DocumentationMembershipPageTemplate
-    {{ meta }} - {{ header }}
+    DocumentationMembershipPageTemplate <h2>{header.title}</h2>
   </div>
 )
 
