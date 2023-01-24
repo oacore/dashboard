@@ -1,7 +1,6 @@
 import { basename, extname } from 'path'
 
-import { loadAll as yaml } from 'js-yaml'
-// import yaml from 'js-yaml'
+import { loadAll } from 'js-yaml'
 import extractFrontMatter from 'front-matter'
 import { Octokit } from '@octokit/rest'
 import camelize from 'camelize'
@@ -61,7 +60,7 @@ const parseData = (entries) =>
       // Due to CMS preference of having `---` before and after actual content
       // we load multiple documents safely but take into account only
       // the first one
-      const [data] = yaml.loadAll(content)
+      const [data] = loadAll(content)
       return [id, data]
     }
 
