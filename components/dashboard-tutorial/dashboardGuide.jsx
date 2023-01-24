@@ -9,28 +9,26 @@ import thirdStep from '../upload/assets/images/stepThree.png'
 import forthStep from '../upload/assets/images/stepFour.png'
 import OnboardingGuideContent from './dashboardGuideContent'
 import useOnClickOutside from '../../utils/hooks/use-clickoutside'
-import useDashboardGuideStore from './dashboard-tutorial.store'
 import Markdown from '../markdown'
 
 import * as texts from 'texts/depositing'
 
-const DashboardGuide = ({ dataProviderData, modal, placement }) => {
+const DashboardGuide = ({ dataProviderData, modal, placement, tutorial }) => {
   const [shouldRender, setShouldRender] = useState(false)
   const modalRef = useRef(null)
-  const dashboardGuideStore = useDashboardGuideStore()
 
   useEffect(() => {
     const t = localStorage.getItem('onboardingDone')
-    setShouldRender(t === 'true')
+    if (t === null) setShouldRender(true)
   }, [shouldRender])
 
   const handleSkip = () => {
     localStorage.setItem('onboardingDone', 'true')
-    dashboardGuideStore.closeModal()
+    tutorial.closeModal()
   }
 
   const renderNext = () => {
-    if (dashboardGuideStore.currentStep !== 4) dashboardGuideStore.nextStep()
+    if (tutorial.currentStep !== 4) tutorial.nextStep()
     else handleSkip()
   }
 
@@ -48,33 +46,33 @@ const DashboardGuide = ({ dataProviderData, modal, placement }) => {
     window.location = `/data-providers/${dataProviderData.id}/settings?referrer=invite`
   }
 
-  return dashboardGuideStore.isModalOpen && !shouldRender ? (
+  return shouldRender ? (
     <div ref={modal}>
       <Modal
-        onClose={() => dashboardGuideStore.closeModal()}
+        onClose={() => tutorial.closeModal()}
         hideManually
         aria-label="modal"
         className={classNames.use(styles.smallModal, {
-          [styles.modal]: dashboardGuideStore.currentStep === 1,
+          [styles.modal]: tutorial.currentStep === 1,
           [styles[placement]]: placement,
         })}
       >
         <div
           className={classNames.use({
-            [styles.arrowNone]: dashboardGuideStore.currentStep === 1,
-            [styles.arrowBottom]: dashboardGuideStore.currentStep === 2,
-            [styles.arrow]: dashboardGuideStore.currentStep === 3 || 4,
+            [styles.arrowNone]: tutorial.currentStep === 1,
+            [styles.arrowBottom]: tutorial.currentStep === 2,
+            [styles.arrow]: tutorial.currentStep === 3 || 4,
           })}
         />
         <div ref={modalRef}>
-          {dashboardGuideStore.currentStep === 1 && (
+          {tutorial.currentStep === 1 && (
             <OnboardingGuideContent
               headerTitle={texts.dashboardGuide.mainTitle}
               page={1}
               from={4}
               hideLeftArrow
-              onNext={dashboardGuideStore.nextStep}
-              onPrev={dashboardGuideStore.prevStep}
+              onNext={() => tutorial.nextStep()}
+              onPrev={() => tutorial.prevStep()}
               content={
                 <div className={styles.modalWrapper}>
                   <div className={styles.modalBodyWrapper}>
@@ -109,7 +107,7 @@ const DashboardGuide = ({ dataProviderData, modal, placement }) => {
                   <Button
                     variant={texts.dashboardGuide.actions[1].ContinueVariant}
                     key={texts.dashboardGuide.actions[1].ContinueCaption}
-                    onClick={dashboardGuideStore.nextStep}
+                    onClick={() => tutorial.nextStep()}
                   >
                     {texts.dashboardGuide.actions[1].ContinueCaption}
                   </Button>
@@ -118,13 +116,13 @@ const DashboardGuide = ({ dataProviderData, modal, placement }) => {
             />
           )}
 
-          {dashboardGuideStore.currentStep === 2 && (
+          {tutorial.currentStep === 2 && (
             <OnboardingGuideContent
               customHeaderTitle={texts.dashboardGuide.uploadMainTitle}
               page={2}
               from={4}
-              onNext={dashboardGuideStore.nextStep}
-              onPrev={dashboardGuideStore.prevStep}
+              onNext={() => tutorial.nextStep()}
+              onPrev={() => tutorial.prevStep()}
               content={
                 <div className={styles.smallModalWrapper}>
                   <div className={styles.modalImageWrapper}>
@@ -160,13 +158,13 @@ const DashboardGuide = ({ dataProviderData, modal, placement }) => {
             />
           )}
 
-          {dashboardGuideStore.currentStep === 3 && (
+          {tutorial.currentStep === 3 && (
             <OnboardingGuideContent
               customHeaderTitle={texts.dashboardGuide.mappingMainTitle}
               page={3}
               from={4}
-              onNext={dashboardGuideStore.nextStep}
-              onPrev={dashboardGuideStore.prevStep}
+              onNext={() => tutorial.nextStep()}
+              onPrev={() => tutorial.prevStep()}
               content={
                 <div className={styles.smallModalWrapper}>
                   <div className={styles.modalImageWrapper}>
@@ -202,14 +200,14 @@ const DashboardGuide = ({ dataProviderData, modal, placement }) => {
             />
           )}
 
-          {dashboardGuideStore.currentStep === 4 && (
+          {tutorial.currentStep === 4 && (
             <OnboardingGuideContent
               customHeaderTitle={texts.dashboardGuide.inviteMainTitle}
               page={4}
               from={4}
               hideRightArrow
-              onNext={dashboardGuideStore.nextStep}
-              onPrev={dashboardGuideStore.prevStep}
+              onNext={() => tutorial.nextStep()}
+              onPrev={() => tutorial.prevStep()}
               content={
                 <div className={styles.smallModalWrapper}>
                   <div className={styles.modalImageWrapper}>

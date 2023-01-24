@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { observer } from 'mobx-react-lite'
 import { DataProviderLogo } from '@oacore/design/lib/elements'
 
-import { Container, AppBar, SideBar, Main } from '../layout'
+import { AppBar, Container, Main, SideBar } from '../layout'
 import activities from './activities'
 import LoadingBar from './loading-bar'
 import TermsConditionPopup from './terms-condition'
@@ -12,7 +12,6 @@ import Head from './head'
 import Logout from './logout'
 import styles from './styles.module.css'
 import DashboardGuide from '../dashboard-tutorial/dashboardGuide'
-import useDashboardGuideStore from '../dashboard-tutorial/dashboard-tutorial.store'
 import imagePlaceholder from '../upload/assets/imagePlaceholder.svg'
 
 const Application = observer(
@@ -23,10 +22,9 @@ const Application = observer(
     variant = 'public', // 'public' or 'internal'
     isAuthenticated = false,
     acceptedTCVersion = 0,
+    tutorial,
     ...restProps
   }) => {
-    const dashboardGuideStore = useDashboardGuideStore()
-
     const headerRef = useRef(null)
     const siderRef = useRef(null)
 
@@ -65,10 +63,11 @@ const Application = observer(
                 </>
               ) : null}
             </AppBar>
-            {dashboardGuideStore.currentStep === 2 && (
+            {tutorial && tutorial.currentStep === 2 && (
               <DashboardGuide
                 dataProviderData={dataProvider}
                 refElement={headerRef.current}
+                tutorial={tutorial}
                 placement="bottom"
               />
             )}
@@ -95,17 +94,19 @@ const Application = observer(
                 </SideBar>
               </>
             )}
-            {dashboardGuideStore.currentStep === 3 && (
+            {tutorial && tutorial.currentStep === 3 && (
               <DashboardGuide
                 dataProviderData={dataProvider}
                 refElement={siderRef.current}
+                tutorial={tutorial}
                 placement="left"
               />
             )}
-            {dashboardGuideStore.currentStep === 4 && (
+            {tutorial && tutorial.currentStep === 4 && (
               <DashboardGuide
                 dataProviderData={dataProvider}
                 refElement={siderRef.current}
+                tutorial={tutorial}
                 placement="left"
               />
             )}

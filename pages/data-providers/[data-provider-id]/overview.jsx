@@ -28,6 +28,7 @@ const Overview = ({ store, ...props }) => (
     viewStatistics={store.dataProvider?.irus}
     rioxxCompliance={store.dataProvider?.rioxx}
     dataProviderData={store.dataProvider}
+    tutorial={store.tutorial}
     {...props}
   />
 )
