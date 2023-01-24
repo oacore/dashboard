@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { DataProviderLogo } from '@oacore/design/lib/elements'
 
@@ -13,6 +13,7 @@ import Logout from './logout'
 import styles from './styles.module.css'
 import DashboardGuide from '../dashboard-tutorial/dashboardGuide'
 import imagePlaceholder from '../upload/assets/imagePlaceholder.svg'
+import restart from '../upload/assets/restart.svg'
 
 const Application = observer(
   ({
@@ -27,6 +28,21 @@ const Application = observer(
   }) => {
     const headerRef = useRef(null)
     const siderRef = useRef(null)
+    const [redirect, setRedirect] = useState(false)
+
+    const restartModal = () => {
+      setRedirect(true)
+      if (localStorage.getItem('onboardingDone') !== null) {
+        localStorage.removeItem('onboardingDone')
+        tutorial.currentStep = 1
+        tutorial.openModal()
+      }
+    }
+
+    useEffect(() => {
+      if (redirect)
+        window.location.pathname = `/data-providers/${dataProvider.id}/overview`
+    }, [redirect, dataProvider])
 
     return (
       <>
@@ -89,6 +105,19 @@ const Application = observer(
                             dataProviderId={dataProvider.id}
                           />
                         ))}
+                      {/* eslint-disable-next-line max-len */}
+                      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                      <div
+                        className={styles.restartButton}
+                        onClick={restartModal}
+                      >
+                        <img
+                          className={styles.restartIcon}
+                          alt="restart-icon"
+                          src={restart}
+                        />
+                        <span>Start tutorial</span>
+                      </div>
                     </ActivitySelect>
                   )}
                 </SideBar>

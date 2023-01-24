@@ -7,3 +7,21 @@
   height: 35px;
   margin-left: 1rem;
 }
+
+.restart-button {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--component-padding-y, 1rem) / 2);
+  margin-top: 1.5rem;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--gray-500);
+  cursor: pointer;
+}
+
+.restart-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.9rem;
+}
