@@ -12,14 +12,14 @@ repository:
 
 mapping:
   title: Register OAI mapping
-  description: This allows you to register a mapping between the OAI Prefix and the URL in your repository to which it should resolve. Once resolved and activated your OAI resolver willstart resolving your OAIs direct to your repository metadata page. Where not registered, we will resolw to the metadata page in CORE. To find out more see [OAI identifier documentation](https://core.ac.uk/documentation/oai-resolver).
+  description: This allows you to register a mapping between the OAI Prefix and the URL in your repository to which it should resolve. Once resolved and activated your OAI resolver will start resolving your OAIs directly to your repository metadata page. Where not registered, we will resolve to the metadata page in CORE. To find out more see [OAI identifier documentation](https://core.ac.uk/documentation/oai-resolver).
   form:
-    - title: "The first part of your repository’s OAI identificators until the colon:"
+    - title: "The first part of your repository’s OAI identifiers until the colon:"
       label: OAI Prefix
       name: oaiPrefix
       helper: "Example:oai:digital.lib.washington.edu"
       disabled: true
-    - title: "Mapping to your repositorie’s metadata page."
+    - title: "Mapping to your repository’s metadata page."
       label: URL Mapping
       name: urlMapping
       helper: "Example: digital.lib.washington.edu"
