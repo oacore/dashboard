@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { DataProviderLogo } from '@oacore/design/lib/elements'
+import { useRouter } from 'next/router'
 
 import { AppBar, Container, Main, SideBar } from '../layout'
 import activities from './activities'
@@ -29,6 +30,7 @@ const Application = observer(
     const headerRef = useRef(null)
     const siderRef = useRef(null)
     const [redirect, setRedirect] = useState(false)
+    const router = useRouter()
 
     const restartModal = () => {
       setRedirect(true)
@@ -40,8 +42,10 @@ const Application = observer(
     }
 
     useEffect(() => {
-      if (redirect)
-        window.location.pathname = `/data-providers/${dataProvider.id}/overview`
+      if (redirect) {
+        router.push(`/data-providers/${dataProvider.id}/overview`)
+        setRedirect(false)
+      }
     }, [redirect, dataProvider])
 
     return (
