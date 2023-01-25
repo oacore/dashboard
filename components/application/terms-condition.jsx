@@ -1,35 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './terms-condition.module.css'
 
-import { Button, Switch, useSwitch } from 'design'
+import { Button } from 'design'
 import { withGlobalStore } from 'store'
 
 const TermsConditionPopup = ({ store, ...passProps }) => {
   const { acceptedTCVersion } = passProps
-
-  if (!acceptedTCVersion || acceptedTCVersion > 0) return <></>
-
-  const [isChecked, setIsChecked] = useSwitch(false)
-
-  const toggleResolving = (e) => {
-    setIsChecked(e)
-  }
-
+  const [tcVersion, setTcVersion] = useState(acceptedTCVersion > 0)
   const onClickDecline = () => {
+    const data = {
+      acceptedTCVersion: -1,
+    }
+    store.updateUser(data)
+
+    const redirectUrl =
+      typeof window != 'undefined'
+        ? `${window.location.origin}/login?reason=logout`
+        : null
+    const url = new URL(`./logout?continue=${redirectUrl}`, process.env.IDP_URL)
+    window.location = url
+  }
+  const onClickAccept = () => {
     const data = {
       acceptedTCVersion: 1,
     }
     store.updateUser(data)
-  }
-  const onClickAccept = () => {
-    const data = {
-      acceptedTCVersion: isChecked ? 3 : 2,
-    }
-    store.updateUser(data)
+    setTcVersion(true)
   }
 
+  if (tcVersion) return <></>
   const repositoryName = store?.dataProvider?.name ?? 'repository'
   return (
     <div className={styles.termsCondition}>
@@ -86,14 +87,6 @@ const TermsConditionPopup = ({ store, ...passProps }) => {
             one. Users then need not know which archives exist or where they are
             located in order to find and make use of their contents.”
           </div>
-          <Switch
-            id="activated"
-            variant="small"
-            label="I agree to the Terms & Conditions"
-            className={styles.termsCheckbox}
-            onChange={toggleResolving}
-            checked={isChecked}
-          />
           <div className={styles.blockRight}>
             <Button
               className={classNames.use('button', styles.termsBtn).from(styles)}

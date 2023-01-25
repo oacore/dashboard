@@ -36,7 +36,7 @@ const FeaturePlaceholder = ({ dataProviderData }) => (
   <div className={styles.placeholderWrapper}>
     <img src={placeholderImg} alt="" />
     <div className={styles.placeholderText}>
-      This feature available only for Sustaining member
+      This feature is available only for Sustaining member
     </div>
     <Button
       className={styles.upgradeBtn}
@@ -72,6 +72,7 @@ const DepositComplianceTemplate = ({
   isRetrieveDepositDatesInProgress,
   crossDepositLag,
   countryCode,
+  billingPlan,
   tag: Tag = 'main',
   ...restProps
 }) => {
@@ -86,6 +87,9 @@ const DepositComplianceTemplate = ({
   const memberType = checkType(dataProviderData.id)
 
   const checkBillingType = memberType?.billing_type === 'sustaining'
+
+  // mergre conflict
+  //  const checkBillingType = billingPlan?.billingType === 'sustaining'
 
   const renderItem = () => {
     if (totalCount === 0) return <NotEnoughDataMessage />

@@ -4,7 +4,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import Pagination from './pagination'
 import styles from './styles.module.css'
 
-import { Button, Table } from 'design'
+import { Button, Table, ProgressSpinner } from 'design'
 
 const Footer = React.memo(
   ({
@@ -40,7 +40,13 @@ const Footer = React.memo(
                 variant={buttonVariant}
                 onClick={() => fetchData({ next: true })}
               >
-                {buttonText}
+                {!isLoading && buttonText}
+                {isLoading && (
+                  <>
+                    Loading...
+                    <ProgressSpinner />
+                  </>
+                )}
               </Button>
             )}
           </div>

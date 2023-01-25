@@ -129,7 +129,7 @@ class Root extends Store {
     }
 
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
-    this.organisation.retrieve()
+    await this.organisation.retrieve()
   }
 
   @action changeDataProvider(id) {
@@ -204,7 +204,6 @@ class Root extends Store {
         method: 'PATCH',
         body: patch,
       })
-
       if (patch.acceptedTCVersion && Number.isInteger(patch.acceptedTCVersion))
         this.user.acceptedTCVersion = patch.acceptedTCVersion
 
