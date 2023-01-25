@@ -177,6 +177,7 @@ class App extends NextApp {
         dataProvider={store.dataProvider}
         pathname={pathname}
         variant={variant}
+        tutorial={store.tutorial}
         isAuthenticated
         acceptedTCVersion={acceptedTCVersion}
       >

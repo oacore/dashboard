@@ -1,0 +1,41 @@
+
+  mainTitle: Welcome to the CORE Dashboard
+  title: Here you can access to the
+  services:
+    - title: statistics and information about the content harvested from your repository,
+    - title: all detected technical issues and suggestions for improving the efficiency of harvesting and the quality of metadata,
+    - title: content management, such as the ability to request reharvesting or manage take down requests,
+    - title: registering your OAI identifiers and set them to resolve to your repository,
+    - title: RIOXX metadata compliance checking,
+    - title: downloading statistics about content from your repository,
+    - title: installing the CORE Recommender and Discovery plugins for your repository.
+    - title: If you still have some question send us a request and we will be happy to get in touch with you.
+  request: If you still have some question [send us a request](https://core.ac.uk/about#contact) and we will be happy to get in touch with you
+  image: ../../components/upload/assets/images/stepFirst.png
+  actions:
+    - skipCaption: Skip tutorial
+      skipVariant: text
+    - ContinueCaption: Continue
+      ContinueVariant: contained
+  uploadMainTitle: Upload your logo
+  uploadText: Upload your logo to make your content associated with your institutional brand.
+  uploadActions:
+    - skipCaption: Skip tutorial
+      skipVariant: text
+    - ContinueCaption: Upload
+      ContinueVariant: contained
+  mappingMainTitle: OAI mapping
+  mappingText: Resolve your OAIs direct to your repository metadata page.
+  mappingActions:
+    - skipCaption: Skip tutorial
+      skipVariant: text
+    - ContinueCaption: Create
+      ContinueVariant: contained
+  inviteMainTitle: Invite colleagues
+  inviteText: Share access to the repository dashboard with your colleagues.
+  inviteActions:
+    - skipCaption: Close tutorial
+      skipVariant: text
+    - ContinueCaption: Invite
+      ContinueVariant: contained
+

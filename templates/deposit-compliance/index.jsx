@@ -76,7 +76,21 @@ const DepositComplianceTemplate = ({
   tag: Tag = 'main',
   ...restProps
 }) => {
-  const checkBillingType = billingPlan?.billingType === 'sustaining'
+  function checkType(providerId) {
+    return dataProviderData?.allMembers?.members?.find((item) => {
+      if (Array.isArray(item.repo_id))
+        return item.repo_id.includes(providerId.toString())
+      return +item.repo_id === providerId
+    })
+  }
+
+  const memberType = checkType(dataProviderData.id)
+
+  const checkBillingType = memberType?.billing_type === 'sustaining'
+
+  // mergre conflict
+  //  const checkBillingType = billingPlan?.billingType === 'sustaining'
+
   const renderItem = () => {
     if (totalCount === 0) return <NotEnoughDataMessage />
     if (!checkBillingType)

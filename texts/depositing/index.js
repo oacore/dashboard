@@ -2,6 +2,7 @@ import Template from '../template'
 import { paymentRequired } from '../billing'
 import overview from './overview.yml'
 import sourceChart from './chart.md'
+import dashboardGuide from './dashboard-guide.yml'
 import crossRepositoryCheck from './cross-repository-check'
 import sourceDataOverview from './data-overview.md'
 import introSrc from './intro.md'
@@ -50,6 +51,7 @@ export default {
   noData,
   publicationDates,
   paymentRequired,
+  dashboardGuide,
 }
 export {
   overview,
@@ -61,4 +63,5 @@ export {
   noData,
   publicationDates,
   paymentRequired,
+  dashboardGuide,
 }
