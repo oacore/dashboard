@@ -10,9 +10,10 @@ import {
   PublicationsDatesCard,
   TableCard,
 } from './cards'
-import placeholderImg from '../../components/upload/assets/introMembership.svg'
+import AccessPlaceholder from '../../components/access-placeholder/AccessPlaceholder'
+import { checkType } from '../../utils/helpers'
 
-import { Button, Icon, Link, Message } from 'design'
+import { Icon, Link, Message } from 'design'
 import Title from 'components/title'
 import Markdown from 'components/markdown'
 import { intro as texts } from 'texts/depositing'
@@ -30,22 +31,6 @@ const NotEnoughDataMessage = () => (
     <Link href="https://core.ac.uk/ref-audit">guidelines</Link> and contact us
     at <Link href={SUPPORT_EMAIL_URL}>{SUPPORT_EMAIL}</Link>.
   </Message>
-)
-
-const FeaturePlaceholder = ({ dataProviderData }) => (
-  <div className={styles.placeholderWrapper}>
-    <img src={placeholderImg} alt="" />
-    <div className={styles.placeholderText}>
-      This feature is available only for Sustaining member
-    </div>
-    <Button
-      className={styles.upgradeBtn}
-      variant="contained"
-      href={`/data-providers/${dataProviderData.id}/membership`}
-    >
-      Upgrade
-    </Button>
-  </div>
 )
 
 const RegionAlert = ({
@@ -76,25 +61,13 @@ const DepositComplianceTemplate = ({
   tag: Tag = 'main',
   ...restProps
 }) => {
-  function checkType(providerId) {
-    return dataProviderData?.allMembers?.members?.find((item) => {
-      if (Array.isArray(item.repo_id))
-        return item.repo_id.includes(providerId.toString())
-      return +item.repo_id === providerId
-    })
-  }
-
-  const memberType = checkType(dataProviderData.id)
-
+  const memberType = checkType(dataProviderData.id, dataProviderData)
   const checkBillingType = memberType?.billing_type === 'sustaining'
-
-  // mergre conflict
-  //  const checkBillingType = billingPlan?.billingType === 'sustaining'
 
   const renderItem = () => {
     if (totalCount === 0) return <NotEnoughDataMessage />
     if (!checkBillingType)
-      return <FeaturePlaceholder dataProviderData={dataProviderData} />
+      return <AccessPlaceholder dataProviderData={dataProviderData} />
     return (
       <>
         <DataOverviewCard
