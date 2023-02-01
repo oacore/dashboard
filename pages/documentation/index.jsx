@@ -6,9 +6,12 @@ import retrieveContent from 'content'
 const ASSETS_BASE_URL = 'https://oacore.github.io/content/'
 
 const setAssetsUrl = (object) =>
-  Object.entries(object).forEach(([key, value]) => {
-    if (typeof value === 'string' && value.includes('/images'))
-      object[key] = ASSETS_BASE_URL + value
+  Object.entries(object).forEach(([, value]) => {
+    if (value.images) {
+      Object.entries(value.images).forEach(([, item]) => {
+        item.file = ASSETS_BASE_URL + item.file
+      })
+    }
   })
 
 const getSections = async ({ ref } = {}) => {
@@ -18,8 +21,7 @@ const getSections = async ({ ref } = {}) => {
   })
 
   Object.values(content).forEach((section) => {
-    setAssetsUrl(section)
-    if (section.box) setAssetsUrl(section.box)
+    if (section.items) setAssetsUrl(section.items)
   })
 
   return content

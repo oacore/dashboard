@@ -14,7 +14,13 @@ const config = {
   'style-src': [SELF, "'unsafe-inline'"],
   // Google Analytics may transport data via image:
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-  'img-src': [SELF, PRODUCTION, 'data:', '*.google-analytics.com'],
+  'img-src': [
+    SELF,
+    PRODUCTION,
+    'data:',
+    '*.google-analytics.com',
+    'oacore.github.io',
+  ],
   'connect-src': [SELF, PRODUCTION, 'sentry.io', '*.google-analytics.com'],
 }
 
