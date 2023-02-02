@@ -2,35 +2,46 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
+import DocumentationNav from '../../membershipDocumentationNav'
+import Markdown from '../../../components/markdown'
 
 const DocumentationMembershipPageTemplate = ({ header, docs }) => (
-  <div>
-    <h2>{header.header1.title}</h2>
-    <p>{header.header1.caption}</p>
-    <br />
-    <h2>{header.header2.title}</h2>
-    <p>{header.header2.caption}</p>
-    <br />
-    <br />
-    {docs.items.map((item) => (
-      <div key={item.id}>
-        <h3>{item.title} </h3>
-
-        {item.membership.map((member) => (
-          <span
-            className={classNames
-              .use(styles.membership)
-              .join(member.status ? styles.enabled : styles.disabled)}
-          >
-            {member.name}
-          </span>
+  <div className={styles.documentationWrapper}>
+    <h2 className={styles.documentationHeader}>{header.header2.title}</h2>
+    <Markdown>{header.header2.caption}</Markdown>
+    <div className={styles.placement}>
+      <DocumentationNav />
+      <div className={styles.documentationInnerWrapper}>
+        {docs.items.map((item) => (
+          <div key={item.id} className={styles.documentationItem} id={item.id}>
+            <h3 className={styles.documentationItemTitle}>{item.title}</h3>
+            <div className={styles.typeWrapper}>
+              {item.membership.map((member) => (
+                <span
+                  className={classNames
+                    .use(styles.membership)
+                    .join(member.status ? styles.enabled : styles.disabled)}
+                >
+                  {member.name}
+                </span>
+              ))}
+            </div>
+            <Markdown>{item.description}</Markdown>
+            {item?.images?.map((img) => (
+              // eslint-disable-next-line jsx-a11y/img-redundant-alt
+              <img
+                className={classNames.use(styles.image, {
+                  [styles.logoBanner]: item.id === 'logo-banner',
+                  [styles.logoPersonalised]: item.id === 'personalised-banner',
+                })}
+                src={img.file}
+                alt="image"
+              />
+            ))}
+          </div>
         ))}
-
-        <p>{item.description}</p>
-        <br />
-        <br />
       </div>
-    ))}
+    </div>
   </div>
 )
 

@@ -6,6 +6,7 @@ import { withGlobalStore } from 'store'
 const MembershipPage = ({ store: { dataProvider }, ...props }) => (
   <MembershipPageTemplate
     membershipPlan={dataProvider.membershipPlan}
+    dataProviderId={dataProvider.id}
     {...props}
   />
 )

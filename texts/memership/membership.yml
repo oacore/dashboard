@@ -24,3 +24,44 @@ box:
  action:
   caption: Compare features
   url: https://core.ac.uk/membership#comparison-table
+navItems:
+  - item: CORE Dashboard
+    href: "#dashboard"
+  - item: CORE Discovery
+    href: "#discovery"
+  - item: CORE Search
+    href: "#search"
+  - item: CORE Recommender
+    href: "#recommender"
+  - item: General support
+    href: "#general_support"
+  - item: Download statistics
+    href: "#download-statistics"
+  - item: Repository Discovery Boost
+    href: "#repository-discovery-boost"
+  - item: Get your OAI identifiers resolved to your repository
+    href: "#OAI-identifiers"
+  - item: Logos for your papers
+    href: "#paper_logo"
+  - item: Logo banner
+    href: "#logos-papers"
+  - item: Personalised banner
+    href: "#personalised-banner"
+  - item: Board of Supporters
+    href: "#board-supporters"
+  - item: Technical support
+    href: "#technical-support"
+  - item: АPI use for your university
+    href: "#АPI-organisation"
+  - item: Unlimited and prioritised support
+    href: "#unlimited-support"
+  - item: CORE OA Compliance Dashboard
+    href: "#compliance-dashboard"
+  - item: Dataset use for your university
+    href: "#dataset-university"
+  - item: Repository health check
+    href: "#repository-health-check"
+  - item: Promoted / spotlight / featured articles
+    href: "#promoted-articles"
+  - item: Hosted or interview style blog post on mission-aligned activities
+    href: "#hosted-activities"
