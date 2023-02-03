@@ -32,9 +32,9 @@ const MembershipPageTemplate = ({
             textData={textData}
             description={card.description}
             action={card.action}
-            planName={membershipPlan.membership_plan_name}
+            planName={membershipPlan.billingType}
             isPlanActive={
-              membershipPlan.billing_type === card.title.toLowerCase()
+              membershipPlan.billingType === card.title.toLowerCase()
             }
           />
         ))}

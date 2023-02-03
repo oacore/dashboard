@@ -27,6 +27,8 @@ const Overview = ({ store, ...props }) => (
     warningCount={store.dataProvider?.issues?.aggregation?.warningsCount}
     viewStatistics={store.dataProvider?.irus}
     rioxxCompliance={store.dataProvider?.rioxx}
+    dataProviderData={store.dataProvider}
+    tutorial={store.tutorial}
     {...props}
   />
 )
