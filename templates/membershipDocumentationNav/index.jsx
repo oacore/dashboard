@@ -5,18 +5,18 @@ import textData from '../../texts/memership'
 import styles from './styles.module.css'
 import activeArrow from '../../components/upload/assets/activeArrow.svg'
 
-const DocumentationNav = () => {
+const DocumentationNav = ({ setHighlight }) => {
   const [activeItem, setActiveItem] = useState(null)
 
   const handleClick = (obj, item) => {
     setActiveItem(item)
+    setHighlight(+item)
     const element = document.getElementById(obj.href.replace('#', ''))
     if (element) {
       element?.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
       })
-      element.firstChild.classList.add(styles.highlight)
     }
   }
 

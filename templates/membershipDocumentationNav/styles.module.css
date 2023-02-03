@@ -31,17 +31,3 @@
   color: #b75400;
   background: #e0e0e0;
 }
-
-@keyframes highlight {
-  from {
-    color: #212121;
-  }
-
-  to {
-    color: #b75400;
-  }
-}
-
-.highlight {
-  animation: highlight 3s ease-in-out;
-}
