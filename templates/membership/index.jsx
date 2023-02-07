@@ -3,14 +3,16 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 import MembershipCard from './card'
+import MembershipDocumentationPage from '../../pages/documentation'
 
-import TextBox from 'components/text-box'
 import textData from 'texts/memership'
+import TextBox from 'components/text-box'
 
 const MembershipPageTemplate = ({
   membershipPlan,
   tag: Tag = 'main',
   className,
+  dataProviderId,
   ...restProps
 }) => (
   <Tag
@@ -43,6 +45,9 @@ const MembershipPageTemplate = ({
         buttonCaption={textData.box.action.caption}
         buttonUrl={textData.box.action.url}
       />
+    </article>
+    <article className={styles.content}>
+      <MembershipDocumentationPage dataProviderId={dataProviderId} />
     </article>
   </Tag>
 )
