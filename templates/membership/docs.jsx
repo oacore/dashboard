@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './styles.module.css'
-import DocumentationNav from '../../membershipDocumentationNav'
-import Markdown from '../../../components/markdown'
+import styles from './docs-styles.module.css'
+import DocumentationNav from '../membershipDocumentationNav'
+import Markdown from '../../components/markdown'
 
-const DocumentationMembershipPageTemplate = ({ header, docs }) => {
+const DocumentationBlockTemplate = ({ headerDashboard, docs }) => {
   const [highlight, setHighlight] = useState()
   return (
     <div className={styles.documentationWrapper}>
-      <h2 className={styles.documentationHeader}>{header.header2.title}</h2>
-      <Markdown>{header.header2.caption}</Markdown>
+      <h2 className={styles.documentationHeader}>
+        {headerDashboard.header2.title}
+      </h2>
+      <Markdown>{headerDashboard.header2.caption}</Markdown>
       <div className={styles.placement}>
         <DocumentationNav setHighlight={setHighlight} />
         <div className={styles.documentationInnerWrapper}>
@@ -39,7 +41,7 @@ const DocumentationMembershipPageTemplate = ({ header, docs }) => {
                   </span>
                 ))}
               </div>
-              <Markdown>{item.description}</Markdown>
+              <Markdown>{item.descriptionDashboard}</Markdown>
               {item?.images?.map((img) => (
                 // eslint-disable-next-line jsx-a11y/img-redundant-alt
                 <img
@@ -60,4 +62,4 @@ const DocumentationMembershipPageTemplate = ({ header, docs }) => {
   )
 }
 
-export default DocumentationMembershipPageTemplate
+export default DocumentationBlockTemplate
