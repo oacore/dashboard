@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './styles.module.css'
-import DocumentationNav from '../../membershipDocumentationNav'
-import Markdown from '../../../components/markdown'
+import styles from './docs-styles.module.css'
+import DocumentationNav from '../membershipDocumentationNav'
+import Markdown from '../../components/markdown'
 
-const DocumentationMembershipPageTemplate = ({ headerDashboard, docs }) => {
+const DocumentationBlockTemplate = ({ headerDashboard, docs }) => {
   const [highlight, setHighlight] = useState()
   return (
     <div className={styles.documentationWrapper}>
@@ -62,4 +62,4 @@ const DocumentationMembershipPageTemplate = ({ headerDashboard, docs }) => {
   )
 }
 
-export default DocumentationMembershipPageTemplate
+export default DocumentationBlockTemplate

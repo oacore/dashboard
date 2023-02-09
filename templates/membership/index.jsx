@@ -3,7 +3,8 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 import MembershipCard from './card'
-import MembershipDocumentationPage from '../../pages/documentation'
+// import MembershipDocumentationPage from '../../pages/documentation'
+import DocumentationBlockTemplate from './docs'
 
 import textData from 'texts/memership'
 import TextBox from 'components/text-box'
@@ -12,7 +13,8 @@ const MembershipPageTemplate = ({
   membershipPlan,
   tag: Tag = 'main',
   className,
-  dataProviderId,
+  headerDashboard,
+  docs,
   ...restProps
 }) => (
   <Tag
@@ -47,7 +49,10 @@ const MembershipPageTemplate = ({
       />
     </article>
     <article className={styles.content}>
-      <MembershipDocumentationPage dataProviderId={dataProviderId} />
+      <DocumentationBlockTemplate
+        headerDashboard={headerDashboard}
+        docs={docs}
+      />
     </article>
   </Tag>
 )
