@@ -12,8 +12,9 @@ const config = {
   // TODO: Move 'unsafe-inline' to development when the Next.js' bug is resolved
   // See more: https://github.com/vercel/next.js/issues/17445
   'style-src': [SELF, "'unsafe-inline'"],
-  // Google Analytics may transport data via image:
+  // - Google Analytics may transport data via image:
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
+  // - api.GitHub and raw.githubusercontent is for conten tload
   'img-src': [
     SELF,
     PRODUCTION,
@@ -21,7 +22,14 @@ const config = {
     '*.google-analytics.com',
     'oacore.github.io',
   ],
-  'connect-src': [SELF, PRODUCTION, 'sentry.io', '*.google-analytics.com'],
+  'connect-src': [
+    SELF,
+    PRODUCTION,
+    'sentry.io',
+    '*.google-analytics.com',
+    'api.github.com:*',
+    'raw.githubusercontent.com:*',
+  ],
 }
 
 if (process.env.NODE_ENV !== 'production') {
@@ -31,11 +39,8 @@ if (process.env.NODE_ENV !== 'production') {
   // Allow connection to the local hosts in development:
   // - local API is running on a different port
   // - `localhost` and `127.0.0.1` are not the same domain technically
-  // - api.GitHub and raw.githubusercontent is for contentload
   // config['connect-src'].push('localhost:* 127.0.0.1:*') // old config
-  config['connect-src'].push(
-    'localhost:* 127.0.0.1:* api.github.com:* raw.githubusercontent.com:*'
-  )
+  config['connect-src'].push('localhost:* 127.0.0.1:*')
 }
 
 const policy = Object.entries(config)
