@@ -34,7 +34,7 @@ if (process.env.NODE_ENV !== 'production') {
   // - api.GitHub and raw.githubusercontent is for contentload
   // config['connect-src'].push('localhost:* 127.0.0.1:*') // old config
   config['connect-src'].push(
-    'localhost:* 127.0.0.1:* api.github.com/* raw.githubusercontent.com/*'
+    'localhost:* 127.0.0.1:* api.github.com:* raw.githubusercontent.com:*'
   )
 }
 
