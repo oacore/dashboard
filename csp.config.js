@@ -14,7 +14,7 @@ const config = {
   'style-src': [SELF, "'unsafe-inline'"],
   // - Google Analytics may transport data via image:
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-  // - api.GitHub and raw.githubusercontent is for conten tload
+  // - api.GitHub and raw.githubusercontent is for content load
   'img-src': [
     SELF,
     PRODUCTION,
