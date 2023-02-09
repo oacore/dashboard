@@ -10,9 +10,9 @@ const DocumentationBlockTemplate = ({ headerDashboard, docs }) => {
   return (
     <div className={styles.documentationWrapper}>
       <h2 className={styles.documentationHeader}>
-        {headerDashboard.header2.title}
+        {headerDashboard.header.title}
       </h2>
-      <Markdown>{headerDashboard.header2.caption}</Markdown>
+      <Markdown>{headerDashboard.header.caption}</Markdown>
       <div className={styles.placement}>
         <DocumentationNav setHighlight={setHighlight} />
         <div className={styles.documentationInnerWrapper}>
