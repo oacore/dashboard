@@ -19,9 +19,12 @@ const MembershipPage = ({
           item.file = ASSETS_BASE_URL + item.file
         })
       }
-      if (value.description) {
+      if (value.descriptionDashboard) {
         const regex = /({{\w+}})/g
-        value.description = value.description.replace(regex, dataProvider.id)
+        value.descriptionDashboard = value.descriptionDashboard.replace(
+          regex,
+          dataProvider.id
+        )
       }
     })
   }
