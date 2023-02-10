@@ -34,7 +34,8 @@ const MembershipPage = ({
       ref,
       transform: 'object',
     })
-
+    // Remove header for About repo
+    delete content.headerAbout
     Object.values(content).forEach((section) => {
       if (section.items) setAssetsUrl(section.items)
     })

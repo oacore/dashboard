@@ -33,6 +33,7 @@ const DocumentationBlockTemplate = ({ headerDashboard, docs }) => {
               <div className={styles.typeWrapper}>
                 {item.membership.map((member) => (
                   <span
+                    key={member.name}
                     className={classNames
                       .use(styles.membership)
                       .join(member.status ? styles.enabled : styles.disabled)}
@@ -45,6 +46,7 @@ const DocumentationBlockTemplate = ({ headerDashboard, docs }) => {
               {item?.images?.map((img) => (
                 // eslint-disable-next-line jsx-a11y/img-redundant-alt
                 <img
+                  key={img.file}
                   className={classNames.use(styles.image, {
                     [styles.logoBanner]: item.id === 'logo-banner',
                     [styles.logoPersonalised]:
