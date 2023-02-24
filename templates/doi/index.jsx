@@ -3,7 +3,6 @@ import React from 'react'
 import styles from './styles.module.css'
 import { CoverageCard, TableCard } from './cards'
 import AccessPlaceholder from '../../components/access-placeholder/AccessPlaceholder'
-import { checkType } from '../../utils/helpers'
 
 import Title from 'components/title'
 
@@ -17,12 +16,11 @@ const DoiTemplate = ({
   doiRecords,
   totalCount,
   dataProviderData,
+  billingPlan,
   tag: Tag = 'main',
   ...restProps
 }) => {
-  const memberType = checkType(dataProviderData.id, dataProviderData)
-  const checkBillingType = memberType?.billing_type === 'sustaining'
-
+  const checkBillingType = billingPlan?.billingType === 'sustaining'
   return (
     <Tag className={[styles.container, className].join(' ')} {...restProps}>
       {checkBillingType ? (

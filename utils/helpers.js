@@ -74,13 +74,6 @@ export const formatDate = (date, options = {}) => {
   }
 }
 
-export const checkType = (providerId, data) =>
-  data?.allMembers?.members?.find((item) => {
-    if (Array.isArray(item.repo_id))
-      return item.repo_id.includes(providerId.toString())
-    return +item.repo_id === providerId
-  })
-
 export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
 
 export default {

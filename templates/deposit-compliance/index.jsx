@@ -11,7 +11,6 @@ import {
   TableCard,
 } from './cards'
 import AccessPlaceholder from '../../components/access-placeholder/AccessPlaceholder'
-import { checkType } from '../../utils/helpers'
 
 import { Icon, Link, Message } from 'design'
 import Title from 'components/title'
@@ -61,8 +60,7 @@ const DepositComplianceTemplate = ({
   tag: Tag = 'main',
   ...restProps
 }) => {
-  const memberType = checkType(dataProviderData.id, dataProviderData)
-  const checkBillingType = memberType?.billing_type === 'sustaining'
+  const checkBillingType = billingPlan?.billingType === 'sustaining'
 
   const renderItem = () => {
     if (totalCount === 0) return <NotEnoughDataMessage />
