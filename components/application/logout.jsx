@@ -13,7 +13,14 @@ const getLogoutUrl = (pathname) => {
 
 const Logout = ({ store }) => {
   if (!store.user) return null
-  const name = store.user.name || store.user.email
+
+  const renderName = () => {
+    const name = store.user.name || store.user.email
+    if (name === 'Anonymous') return store.user.email
+
+    return store.user.name
+  }
+
   const redirectUrl =
     typeof window != 'undefined'
       ? `${window.location.origin}/login?reason=logout`
@@ -21,8 +28,8 @@ const Logout = ({ store }) => {
 
   return (
     <AppBar.Item className={styles.container}>
-      <span className={styles.name} title={name}>
-        {name}
+      <span className={styles.name} title={renderName()}>
+        {renderName()}
       </span>{' '}
       <a href={getLogoutUrl(redirectUrl)}>Logout</a>
     </AppBar.Item>
