@@ -12,7 +12,7 @@ const HarvestingPage = ({ store: { dataProvider }, ...props }) => (
     warningCount={dataProvider?.issues?.aggregation?.warningsCount}
     metadataCount={dataProvider?.statistics?.countMetadata}
     fullTextCount={dataProvider?.statistics?.countFulltext}
-    total={dataProvider?.issues?.aggregation?.total}
+    total={dataProvider?.issues?.aggregation?.globalsCount}
     {...props}
   />
 )
