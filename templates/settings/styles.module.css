@@ -19,6 +19,7 @@
 
   & > button {
     flex: 0 0 auto;
+    width: 150px;
     margin-left: 1.5rem;
 
     @media (--screen-small-screen-width) {
@@ -34,6 +35,22 @@
   & > p {
     flex: 0 0 100%;
     margin-top: 0.5rem;
+  }
+}
+
+.remove-user {
+  & > button {
+    color: var(--primary);
+    background-color: var(--white);
+    box-shadow: none;
+  }
+}
+
+.invite-is-sent {
+  & > button {
+    color: var(--success);
+    background-color: var(--white);
+    box-shadow: none;
   }
 }
 

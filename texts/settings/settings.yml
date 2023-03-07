@@ -6,6 +6,7 @@ organisation:
 invite:
   title: Invite colleagues to the repository dashboard
   buttonCaption: Invite
+  listAccess: Colleagues that have access to the Dashboard
 
 repository:
   title: Repository settings

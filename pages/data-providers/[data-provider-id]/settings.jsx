@@ -11,6 +11,7 @@ const Settings = ({ store, ...restProps }) => (
     updateOrganization={store.updateOrganization}
     updateDataProvider={store.updateDataProvider}
     inviteUser={store.organisation.inviteUser}
+    organisationUserInvites={store.organisation.organisationUserInvites}
     mappingSubmit={store.updateOaiSettings}
     updateLogo={store.updateLogo}
     dataProviderLogo={store.dataProvider.logo}

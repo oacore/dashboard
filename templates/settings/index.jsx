@@ -68,6 +68,7 @@ const SettingsTemplate = forwardRef(
     mappingSubmit,
     updateLogo,
     inviteUser,
+    organisationUserInvites,
     className,
     membershipPlan,
     tag: Tag = 'main',
@@ -100,6 +101,14 @@ const SettingsTemplate = forwardRef(
       })
     }
 
+    const handleUserRemove = async (event) => {
+      event.preventDefault()
+      // const target = event.target.form || event.target
+      // console.log(target)
+      // const formData = new FormData(target)
+      // const data = Object.fromEntries(formData.entries())
+      // const scope = target.getAttribute('name')
+    }
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
     const inviteRef = useRef(null)
@@ -156,6 +165,28 @@ const SettingsTemplate = forwardRef(
                 tag="div"
               />
             </FormShell>
+            <Card.Title tag="h4">{content.invite.listAccess}</Card.Title>
+            {organisationUserInvites.map((item) => (
+              <FormShell
+                className={classNames.use(styles.invitationForm, {
+                  [styles.removeUser]: item.activated,
+                  [styles.inviteIsSent]: !item.activated,
+                })}
+                name={`user-control-${item.code}`}
+                buttonCaption={item.activated ? 'remove' : 'invite sent'}
+                isButtonVisible
+                onSubmit={handleUserRemove}
+              >
+                <TextField
+                  id={`user-invites-${item.email}`}
+                  size="small"
+                  name="email"
+                  tag="div"
+                  defaultValue={item.email}
+                  readOnly
+                />
+              </FormShell>
+            ))}
           </Card>
         </div>
         <Card
