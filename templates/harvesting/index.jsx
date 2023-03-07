@@ -24,6 +24,7 @@ const HarvestingPageTemplate = ({
   total,
   downloadResults,
   issues,
+  typesCount,
   ...restProps
 }) => {
   const defaultType = texts.actions.find(
@@ -45,7 +46,7 @@ const HarvestingPageTemplate = ({
         metadataCount={metadataCount}
         lastHarvestingDate={harvestingStatus?.lastHarvestingDate || 0}
         fullTextCount={fullTextCount}
-        errorsCount={errorsCount}
+        errorsCount={typesCount}
         total={total}
       />
 
