@@ -13,7 +13,6 @@
   }
 }
 
-.invite-control,
 .invitation-form {
   display: flex;
   flex-wrap: wrap;
@@ -39,10 +38,11 @@
   }
 }
 
-.invite-control {
-  color: var(--gray-500);
-}
+/* .invite-control { */
 
+/*  color: var(--gray-500); */
+
+/* } */
 .invite-status {
   width: 20px;
   line-height: 38px;
@@ -57,10 +57,6 @@
 
 .invite-activated {
   color: var(--success);
-}
-
-.hidden {
-  display: none;
 }
 
 .description {

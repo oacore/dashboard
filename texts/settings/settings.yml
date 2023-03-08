@@ -7,6 +7,11 @@ invite:
   title: Invite colleagues to the repository dashboard
   buttonCaption: Invite
   listAccess: Colleagues that have access to the Dashboard
+  confirmation:
+    title: Confirmation
+    content: |
+      Access to the dashboard account will be removed. Do you want to proceed
+      with this operation?
 
 repository:
   title: Repository settings

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import styles from './styles.module.css'
 import oaiLogo from './assets/oai_logo.svg'
 import { useScrollEffect } from '../../pages/_app/hooks'
+import ConfirmationDeleteInvite from './confirmation'
 
 import Markdown from 'components/markdown'
 import { Card, TextField } from 'design'
@@ -102,25 +103,6 @@ const SettingsTemplate = forwardRef(
       })
     }
 
-    const handleUserRemove = async (event) => {
-      event.preventDefault()
-      const target = event.target.form || event.target
-      const formData = new FormData(target)
-      const data = Object.fromEntries(formData.entries())
-      const scope = target.getAttribute('name')
-
-      const present = {
-        'invite-control': delInviter,
-      }[scope]
-
-      // console.log(present)
-
-      const result = await present(data)
-      setFormMessage({
-        ...formMessage,
-        [scope]: { type: result.type, text: result.message },
-      })
-    }
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
     const inviteRef = useRef(null)
@@ -179,22 +161,7 @@ const SettingsTemplate = forwardRef(
             </FormShell>
             <Card.Title tag="h4">{content.invite.listAccess}</Card.Title>
             {organisationUserInvites.map((item) => (
-              <FormShell
-                className={classNames.use(styles.inviteControl)}
-                name="invite-control"
-                buttonCaption="delete"
-                isButtonVisible
-                onSubmit={handleUserRemove}
-              >
-                <TextField
-                  id={`invite-${item.code}`}
-                  size="small"
-                  name="code"
-                  tag="div"
-                  defaultValue={item.code}
-                  readOnly
-                  className={styles.hidden}
-                />
+              <div className={classNames.use(styles.invitationForm)}>
                 <div
                   id={`invite-${item.email}`}
                   className={classNames.use(styles.inviteEmail)}
@@ -209,7 +176,13 @@ const SettingsTemplate = forwardRef(
                 >
                   {item.activated ? 'activated' : 'not activated'}
                 </div>
-              </FormShell>
+                <ConfirmationDeleteInvite
+                  text={content.invite.confirmation}
+                  email={item.email}
+                  code={item.code}
+                  submitConfirm={delInviter}
+                />
+              </div>
             ))}
           </Card>
         </div>
