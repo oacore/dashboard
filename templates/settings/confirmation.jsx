@@ -2,11 +2,11 @@ import React from 'react'
 import { Modal } from '@oacore/design'
 import { Button } from '@oacore/design/lib/elements'
 
-const ConfirmationDeleteInvite = ({ text, email, code, submitConfirm }) => {
+const ConfirmationDeleteInvite = ({ text, item, submitConfirm }) => {
   const [isModalActive, setModalActive] = React.useState(false)
 
   const handleUserRemove = () => {
-    submitConfirm(code)
+    submitConfirm(item)
     setModalActive(false)
   }
   // const handleUserRemove = async (event) => {
@@ -34,7 +34,7 @@ const ConfirmationDeleteInvite = ({ text, email, code, submitConfirm }) => {
       <Modal.Title id="modal-title-2">{text.title}</Modal.Title>
       <Modal.Content tag="p">
         {text.content}
-        <b>{email}</b>
+        <b>{item.email}</b>
       </Modal.Content>
       <Modal.Footer>
         <Button onClick={() => handleUserRemove()} variant="contained">

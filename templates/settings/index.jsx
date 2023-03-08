@@ -178,8 +178,7 @@ const SettingsTemplate = forwardRef(
                 </div>
                 <ConfirmationDeleteInvite
                   text={content.invite.confirmation}
-                  email={item.email}
-                  code={item.code}
+                  item={item}
                   submitConfirm={delInviter}
                 />
               </div>
