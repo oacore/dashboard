@@ -16,6 +16,7 @@
 .invitation-form {
   display: flex;
   flex-wrap: wrap;
+  color: var(--gray-500);
 
   & > button {
     flex: 0 0 auto;
@@ -46,12 +47,26 @@
   }
 }
 
-.invite-is-sent {
+.invite-sanded {
   & > button {
     color: var(--success);
     background-color: var(--white);
+
+    --button-background: var(--white);
     box-shadow: none;
+
+    &:hover {
+      background-color: var(--white);
+      box-shadow: 0 0 0 0;
+
+      --button-overlay: var(--white);
+      cursor: default;
+    }
   }
+}
+
+.hidden {
+  display: none;
 }
 
 .description {
