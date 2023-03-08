@@ -8,7 +8,7 @@ issues-overview-card-tooltip: Issues relating to your repository that were detec
 issues:
   title: Harvesting issues
   affected: records are affected by this issue
-  recommendation-card-title: Recomendation
+  recommendation-card-title: Recommendation
   download-action: Download in csv
   list-actions:
     show: See the list
