@@ -13,14 +13,14 @@
   }
 }
 
+.invite-control,
 .invitation-form {
   display: flex;
   flex-wrap: wrap;
-  color: var(--gray-500);
 
   & > button {
     flex: 0 0 auto;
-    width: 150px;
+    width: 180px;
     margin-left: 1.5rem;
 
     @media (--screen-small-screen-width) {
@@ -39,30 +39,24 @@
   }
 }
 
-.remove-user {
-  & > button {
-    color: var(--primary);
-    background-color: var(--white);
-    box-shadow: none;
-  }
+.invite-control {
+  color: var(--gray-500);
 }
 
-.invite-sanded {
-  & > button {
-    color: var(--success);
-    background-color: var(--white);
+.invite-status {
+  width: 20px;
+  line-height: 38px;
+  text-align: center;
+  text-transform: uppercase;
+}
 
-    --button-background: var(--white);
-    box-shadow: none;
+.invite-email {
+  width: 20px;
+  line-height: 38px;
+}
 
-    &:hover {
-      background-color: var(--white);
-      box-shadow: 0 0 0 0;
-
-      --button-overlay: var(--white);
-      cursor: default;
-    }
-  }
+.invite-activated {
+  color: var(--success);
 }
 
 .hidden {

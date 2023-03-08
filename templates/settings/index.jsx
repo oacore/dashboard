@@ -68,6 +68,7 @@ const SettingsTemplate = forwardRef(
     mappingSubmit,
     updateLogo,
     inviteUser,
+    delInviter,
     organisationUserInvites,
     className,
     membershipPlan,
@@ -103,11 +104,22 @@ const SettingsTemplate = forwardRef(
 
     const handleUserRemove = async (event) => {
       event.preventDefault()
-      // const target = event.target.form || event.target
-      // console.log(target)
-      // const formData = new FormData(target)
-      // const data = Object.fromEntries(formData.entries())
-      // const scope = target.getAttribute('name')
+      const target = event.target.form || event.target
+      const formData = new FormData(target)
+      const data = Object.fromEntries(formData.entries())
+      const scope = target.getAttribute('name')
+
+      const present = {
+        'invite-control': delInviter,
+      }[scope]
+
+      // console.log(present)
+
+      const result = await present(data)
+      setFormMessage({
+        ...formMessage,
+        [scope]: { type: result.type, text: result.message },
+      })
     }
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
@@ -168,23 +180,35 @@ const SettingsTemplate = forwardRef(
             <Card.Title tag="h4">{content.invite.listAccess}</Card.Title>
             {organisationUserInvites.map((item) => (
               <FormShell
-                className={classNames.use(styles.invitationForm, {
-                  [styles.removeUser]: item.activated,
-                  [styles.inviteIsSent]: !item.activated,
-                })}
-                name={`user-control-${item.code}`}
-                buttonCaption={item.activated ? 'remove' : 'invite sent'}
+                className={classNames.use(styles.inviteControl)}
+                name="invite-control"
+                buttonCaption="delete"
                 isButtonVisible
                 onSubmit={handleUserRemove}
               >
                 <TextField
-                  id={`user-invites-${item.email}`}
+                  id={`invite-${item.code}`}
                   size="small"
-                  name="email"
+                  name="code"
                   tag="div"
-                  defaultValue={item.email}
+                  defaultValue={item.code}
                   readOnly
+                  className={styles.hidden}
                 />
+                <div
+                  id={`invite-${item.email}`}
+                  className={classNames.use(styles.inviteEmail)}
+                >
+                  {item.email}
+                </div>
+                <div
+                  id={`invite-${item.activated}`}
+                  className={classNames.use(styles.inviteStatus, {
+                    [styles.inviteActivated]: item.activated,
+                  })}
+                >
+                  {item.activated ? 'activated' : 'not activated'}
+                </div>
               </FormShell>
             ))}
           </Card>
