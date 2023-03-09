@@ -2,6 +2,11 @@ import React from 'react'
 import { Modal } from '@oacore/design'
 import { Button } from '@oacore/design/lib/elements'
 
+import { patchValue } from '../../utils/helpers'
+import styles from './styles.module.css'
+
+import Markdown from 'components/markdown'
+
 const ConfirmationDeleteInvite = ({ text, item, submitConfirm }) => {
   const [isModalActive, setModalActive] = React.useState(false)
 
@@ -14,8 +19,9 @@ const ConfirmationDeleteInvite = ({ text, item, submitConfirm }) => {
     <Modal aria-labelledby="modal-title-2" hideManually>
       <Modal.Title id="modal-title-2">{text.title}</Modal.Title>
       <Modal.Content tag="p">
-        {text.content}
-        <b>{item.email}</b>
+        <Markdown className={styles.confirmationPopup}>
+          {patchValue(text.content, { email: item.email })}
+        </Markdown>
       </Modal.Content>
       <Modal.Footer>
         <Button onClick={() => handleUserRemove()} variant="contained">

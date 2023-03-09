@@ -10,8 +10,7 @@ invite:
   confirmation:
     title: Confirmation
     content: |
-      Access to the dashboard account will be removed. Do you want to proceed
-      with this operation?
+      Access to the dashboard will be removed to user <span>{{email}}</span>. Do you want to proceed?
 
 repository:
   title: Repository settings

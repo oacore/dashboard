@@ -44,6 +44,10 @@
   color: var(--gray-500);
 }
 
+.confirmation-popup span {
+  color: var(--primary);
+}
+
 .invite-status {
   width: 20px;
   line-height: 38px;
