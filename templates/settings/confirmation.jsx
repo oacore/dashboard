@@ -23,11 +23,11 @@ const ConfirmationDeleteInvite = ({ text, item, submitConfirm }) => {
           {patchValue(text.content, { email: item.email })}
         </Markdown>
       </Modal.Content>
-      <Modal.Footer>
+      <Modal.Footer className={styles.footer}>
         <Button onClick={() => handleUserRemove()} variant="contained">
           Yes
-        </Button>{' '}
-        <Button onClick={() => setModalActive(false)} variant="contained">
+        </Button>
+        <Button onClick={() => setModalActive(false)} variant="outlined ">
           No
         </Button>
       </Modal.Footer>
