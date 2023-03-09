@@ -20,7 +20,13 @@ const useRedirect = (
     else router.push(pathname, asPath)
   }, [])
 }
+const useScrollEffect = (myRef, enabled) => {
+  useEffect(() => {
+    if (!myRef?.current) return
+    setTimeout(() => {
+      myRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+  }, [myRef, enabled])
+}
 
-// Keeping default way to import hooks
-// eslint-disable-next-line import/prefer-default-export
-export { useRedirect }
+export { useRedirect, useScrollEffect }

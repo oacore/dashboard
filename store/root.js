@@ -77,6 +77,24 @@ class Root extends Store {
 
   @observable depositDates = null
 
+  @observable tutorial = {
+    currentStep: 1,
+    isModalOpen: false,
+    openModal() {
+      this.isModalOpen = true
+    },
+    closeModal() {
+      this.isModalOpen = false
+      this.currentStep = 0
+    },
+    nextStep() {
+      this.currentStep += 1
+    },
+    prevStep() {
+      this.currentStep -= 1
+    },
+  }
+
   @observable acceptedTCVersion = 0
 
   @observable requestsInProgress = 0
@@ -111,7 +129,7 @@ class Root extends Store {
     }
 
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
-    this.organisation.retrieve()
+    await this.organisation.retrieve()
   }
 
   @action changeDataProvider(id) {

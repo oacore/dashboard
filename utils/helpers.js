@@ -58,12 +58,19 @@ export const patchValueFull = (text, statistics) => {
 const dateTimeFormatCache = new Map()
 
 export const formatDate = (date, options = {}) => {
+  const textLoading = 'Loading...'
+  // TODO make 'now()-10' years ?
+  const period = 1362647499000
   const stringOptions = JSON.stringify(options)
   let dateTimeFormat = dateTimeFormatCache.get(stringOptions)
   if (!dateTimeFormat) {
     dateTimeFormat = new Intl.DateTimeFormat('en-GB', options)
     dateTimeFormatCache.set(stringOptions, dateTimeFormat)
   }
+
+  if (date === 0) return textLoading
+  const inputTimestamp = new Date(date).valueOf()
+  if (inputTimestamp < period) return textLoading
 
   try {
     return dateTimeFormat.format(new Date(date))

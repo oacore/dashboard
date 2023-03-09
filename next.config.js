@@ -83,6 +83,7 @@ const nextConfig = {
       'texts': path.join(__dirname, 'texts'),
       'modules': path.join(__dirname, 'modules'),
       'templates': path.join(__dirname, 'templates'),
+      'content': path.resolve(__dirname, 'content'),
       'utils': path.join(__dirname, 'utils'),
       'store': path.join(__dirname, 'store'),
       'api': path.join(__dirname, 'api'),

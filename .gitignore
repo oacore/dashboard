@@ -5,4 +5,6 @@ build
 node_modules
 public/design
 public/icons.svg
+/public/edit*
+/public/netlify-cms.config.*
 .idea

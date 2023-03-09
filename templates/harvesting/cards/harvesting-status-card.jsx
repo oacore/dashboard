@@ -57,7 +57,7 @@ const HarvestingStatusCard = ({
           {' '}
           {patchValueFull('{{errorsCount}}', { errorsCount })}{' '}
         </span>
-        issues affecting {patchValueFull('{{total}}', { total })} records
+        issue types affecting {patchValueFull('{{total}}', { total })} records
       </p>
     )}
   </Card>

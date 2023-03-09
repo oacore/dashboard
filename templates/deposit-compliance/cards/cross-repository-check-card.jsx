@@ -8,11 +8,17 @@ import { PaymentRequiredNote } from 'modules/billing'
 import * as texts from 'texts/depositing'
 import { formatNumber } from 'utils/helpers'
 
-const Content = ({ nonCompliantCount, differentCount, exportUrl }) => {
+const Content = ({
+  nonCompliantCount,
+  differentCount,
+  availableCount,
+  exportUrl,
+}) => {
   const templateName = differentCount > 0 ? 'success' : 'failure'
   const template = texts.crossRepositoryCheck[templateName]
   const text = template.render({
     nonCompliantCount: nonCompliantCount ? formatNumber(nonCompliantCount) : '',
+    availableCount: availableCount ? formatNumber(availableCount) : '',
     recordsInAnotherRepository: formatNumber(differentCount),
   })
 
@@ -41,6 +47,7 @@ const CrossRepositoryCheckCard = ({
       <Content
         nonCompliantCount={crossDepositLag.nonCompliantCount}
         differentCount={crossDepositLag.bonusCount}
+        availableCount={crossDepositLag.possibleBonusCount}
         exportUrl={crossDepositLagCsvUrl}
       />
     ) : (

@@ -3,7 +3,7 @@ import React from 'react'
 import { withGlobalStore } from 'store'
 import DoiTemplate from 'templates/doi'
 
-const DoiPage = ({ store: { dataProvider }, ...props }) => (
+const DoiPage = ({ store: { dataProvider, organisation }, ...props }) => (
   <DoiTemplate
     enrichmentSize={dataProvider?.doi?.enrichmentSize}
     doiUrl={dataProvider?.doi?.doiUrl}
@@ -15,7 +15,9 @@ const DoiPage = ({ store: { dataProvider }, ...props }) => (
     doiCount={dataProvider?.doi?.originCount}
     dataProviderName={dataProvider.name}
     doiRecords={dataProvider?.doi?.doiRecords}
-    totalCount={dataProvider?.statistics?.metadataCount}
+    dataProviderData={dataProvider}
+    totalCount={dataProvider?.statistics?.countMetadata}
+    billingPlan={organisation.billingPlan}
     {...props}
   />
 )

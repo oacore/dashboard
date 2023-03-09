@@ -3,12 +3,11 @@ import React from 'react'
 import OverviewCard from './overview-card'
 import styles from '../styles.module.css'
 
-import ExportButton from 'components/export-button'
 import Legend from 'components/legend'
 import Markdown from 'components/markdown'
 import * as texts from 'texts/overview'
 import PerformanceChart from 'components/performance-chart'
-import { valueOrDefault, formatNumber } from 'utils/helpers'
+import { formatNumber, valueOrDefault } from 'utils/helpers'
 import LinkButton from 'components/link-button'
 import COLORS from 'utils/colors'
 
@@ -19,9 +18,8 @@ const DoiCard = ({
   outputsCount,
   enrichmentSize,
   dataProviderId,
-  downloadUrl,
 }) => {
-  const { title, description, action, downloadAction, cardTooltip } = texts.doi
+  const { title, description, action, cardTooltip } = texts.doi
   const chartValues = [
     {
       name: 'Outputs have DOI',
@@ -40,11 +38,7 @@ const DoiCard = ({
     },
   ]
   return (
-    <OverviewCard
-      downloadUrl={downloadAction}
-      title={title}
-      tooltip={cardTooltip}
-    >
+    <OverviewCard title={title} tooltip={cardTooltip}>
       <div className={styles.doiCard}>
         <PerformanceChart
           caption={
@@ -66,16 +60,13 @@ const DoiCard = ({
           <Legend values={chartValues} />
           <div className={styles.doiCardActions}>
             <LinkButton
-              variant="text"
+              variant="contained"
               href="doi"
               dataProviderId={dataProviderId}
               className={styles.linkButton}
             >
               {action}
             </LinkButton>
-            <ExportButton href={downloadUrl} className={styles.linkButton}>
-              {downloadAction}
-            </ExportButton>
           </div>
         </div>
       </div>

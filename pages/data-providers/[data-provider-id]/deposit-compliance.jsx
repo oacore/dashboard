@@ -3,7 +3,10 @@ import React from 'react'
 import { withGlobalStore } from 'store'
 import DepositComplianceTemplate from 'templates/deposit-compliance'
 
-const DepositCompliance = ({ store: { dataProvider }, ...restProps }) => (
+const DepositCompliance = ({
+  store: { dataProvider, organisation },
+  ...restProps
+}) => (
   <DepositComplianceTemplate
     datesUrl={dataProvider?.depositDates?.datesUrl}
     publicReleaseDatesPages={dataProvider?.depositDates?.publicReleaseDates}
@@ -20,6 +23,7 @@ const DepositCompliance = ({ store: { dataProvider }, ...restProps }) => (
     crossDepositLag={dataProvider?.depositDates?.crossDepositLag}
     countryCode={dataProvider?.location?.countryCode}
     dataProviderData={dataProvider}
+    billingPlan={organisation.billingPlan}
     {...restProps}
   />
 )

@@ -3,14 +3,18 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 import MembershipCard from './card'
+// import MembershipDocumentationPage from '../../pages/documentation'
+import DocumentationBlockTemplate from './docs'
 
-import TextBox from 'components/text-box'
 import textData from 'texts/memership'
+import TextBox from 'components/text-box'
 
 const MembershipPageTemplate = ({
   membershipPlan,
   tag: Tag = 'main',
   className,
+  headerDashboard,
+  docs,
   ...restProps
 }) => (
   <Tag
@@ -30,9 +34,9 @@ const MembershipPageTemplate = ({
             textData={textData}
             description={card.description}
             action={card.action}
-            planName={membershipPlan.membership_plan_name}
+            planName={membershipPlan.billingType}
             isPlanActive={
-              membershipPlan.billing_type === card.title.toLowerCase()
+              membershipPlan.billingType === card.title.toLowerCase()
             }
           />
         ))}
@@ -42,6 +46,12 @@ const MembershipPageTemplate = ({
         description={textData.box.text}
         buttonCaption={textData.box.action.caption}
         buttonUrl={textData.box.action.url}
+      />
+    </article>
+    <article className={styles.content}>
+      <DocumentationBlockTemplate
+        headerDashboard={headerDashboard}
+        docs={docs}
       />
     </article>
   </Tag>

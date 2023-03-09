@@ -3,8 +3,6 @@ import { action, observable, computed } from 'mobx'
 import { Pages } from '../helpers/pages'
 import Store from '../store'
 
-const { API_URL } = process.env
-
 class DOI extends Store {
   @observable originCount = null
 
@@ -34,7 +32,7 @@ class DOI extends Store {
 
     const doiUrl = `${baseUrl}/doi`
     this.doiRecords = new Pages(doiUrl, this.options)
-    this.doiUrl = `${API_URL}${doiUrl}?accept=text/csv`
+    this.doiUrl = `${process.env.API_URL}${doiUrl}?accept=text/csv`
     this.statisticsUrl = `${baseUrl}/statistics/doi`
     this.retrieveStatistics()
   }
