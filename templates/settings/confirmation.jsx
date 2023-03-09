@@ -9,25 +9,6 @@ const ConfirmationDeleteInvite = ({ text, item, submitConfirm }) => {
     submitConfirm(item)
     setModalActive(false)
   }
-  // const handleUserRemove = async (event) => {
-  //   event.preventDefault()
-  // const target = event.target.form || event.target
-  // const formData = new FormData(target)
-  // const data = Object.fromEntries(formData.entries())
-  // const scope = target.getAttribute('name')
-  //
-  // const present = {
-  //   'invite-control': delInviter,
-  // }[scope]
-  //
-  // console.log(present)
-  //
-  // const result = await present(data)
-  // setFormMessage({
-  //   ...formMessage,
-  //   [scope]: { type: result.type, text: result.message },
-  // })
-  // }
 
   const modal = isModalActive ? (
     <Modal aria-labelledby="modal-title-2" hideManually>

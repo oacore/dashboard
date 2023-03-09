@@ -161,7 +161,7 @@ const SettingsTemplate = forwardRef(
             </FormShell>
             <Card.Title tag="h4">{content.invite.listAccess}</Card.Title>
             {organisationUserInvites.map((item) => (
-              <div className={classNames.use(styles.invitationForm)}>
+              <div className={classNames.use(styles.invitationUserDelete)}>
                 <div
                   id={`invite-${item.email}`}
                   className={classNames.use(styles.inviteEmail)}
