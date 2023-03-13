@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal } from '@oacore/design'
+import { Icon, Modal } from '@oacore/design'
 import { Button } from '@oacore/design/lib/elements'
 
 import { patchValue } from '../../utils/helpers'
@@ -36,9 +36,11 @@ const ConfirmationDeleteInvite = ({ text, item, submitConfirm }) => {
 
   return (
     <dev>
-      <Button variant="contained" onClick={() => setModalActive(true)}>
-        DELETE
-      </Button>
+      <Icon
+        src="#bin"
+        className={styles.btnDelete}
+        onClick={() => setModalActive(true)}
+      />
       {modal}
     </dev>
   )
