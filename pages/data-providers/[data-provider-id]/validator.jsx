@@ -3,11 +3,13 @@ import React from 'react'
 import { withGlobalStore } from '../../../store'
 import ValidatorPageTemplate from '../../../templates/validator'
 
-const ValidatorPage = ({ ...props }) => (
+const ValidatorPage = ({ store, ...props }) => (
   <ValidatorPageTemplate
-    // issuesByType={dataProvider?.issues?.issuesByType}
-    // errorsCount={dataProvider?.issues?.aggregation?.errorsCount}
-    // warningCount={dataProvider?.issues?.aggregation?.warningsCount}
+    rioxValidation={store.rioxValidation}
+    repositoryValidator={store.repositoryValidator}
+    validationResult={store.validationResult}
+    handleTextareaChange={store.handleTextareaChange}
+    recordValue={store.recordValue}
     {...props}
   />
 )

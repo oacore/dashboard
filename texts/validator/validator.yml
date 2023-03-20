@@ -18,66 +18,81 @@ issues:
   warningTitle: WARNINGS
   warningPlaceholder: No warnings found
 
+errorPlaceholder:
+  text: The record you are checking is not correct, please submit a record similar to the example provided, if you have any extra questions don’t hesitate to contact us.
+
 validations:
-  - type: ATTACHMENT_NO_VALID_DATA_FORMAT_FOUND
-    matches: [ NO_VALID_DATA_FORMAT ]
-    severity: WARNING
-    trigger: |
-      The metadata data format incorrect
-    title: LicenseRef
-    description: |
-      Attribute start_date is null. Value is empty. Value is not HTTP(S) URI start_date doesn't follow format YYYY-MM-DD
-    resolution: Attribute start_date should be a date in format YYYY-MM-DD. Value should be HTTP(S) URI
 
-  - type: ATTACHMENT_NO_VALID_FORMAT_FOUND
-    matches: [ NO_VALID_FORMAT ]
-    severity: WARNING
-    trigger: |
-      The format incorrect
-    title: Format
-    description: |
-      Format is not correct.
-    resolution: Possible format can be found here https://www.iana.org/assignments/media-types/media-types.xhtml
+    - type: ATTACHMENT_NO_VALID_DATA_FORMAT_FOUND
+      matches: [ NO_VALID_DATA_FORMAT ]
+      severity: ERROR
+      trigger: |
+        The metadata data format incorrect
+      title: LicenseRef
+      key: LicenseRef
+      description: |
+        Attribute start_date is null. Value is empty. Value is not HTTP(S) URI start_date doesn't follow format YYYY-MM-DD
+      recommendation-card-title: Recommendation
+      resolution: Attribute start_date should be a date in format YYYY-MM-DD. Value should be HTTP(S) URI
 
-  - type: ATTACHMENT_NO_VALID_LANGUAGE_FORMAT_FOUND
-    matches: [ NO_VALID_LANGUAGE_FORMAT ]
-    severity: WARNING
-    trigger: |
-      Language incorrect format
-    title: Language
-    description: |
-      Language doesn't conform to ISO 639-3.
-    resolution: Description of language format is here https://iso639-3.sil.org/
+    - type: ATTACHMENT_NO_VALID_FORMAT_FOUND
+      matches: [ NO_VALID_FORMAT ]
+      severity: ERROR
+      trigger: |
+        The format incorrect
+      title: Format
+      key: Format
+      description: |
+        Format is not correct.
+      recommendation-card-title: Recommendation
+      resolution: Possible format can be found here https://www.iana.org/assignments/media-types/media-types.xhtml
 
-  - type: HTTP(S)_URL_ERROR
-    severity: ERROR
-    trigger: |
-      HTTP(S) Error
-    title: Identifier
-    description: |
-      Identifier is not a HTTP(S) URI
-    resolution: |
-      Identifier should be HTTP(S) URI
+    - type: ATTACHMENT_NO_VALID_LANGUAGE_FORMAT_FOUND
+      matches: [ NO_VALID_LANGUAGE_FORMAT ]
+      severity: ERROR
+      trigger: |
+        Language incorrect format
+      title: Language
+      key: Language
+      description: |
+        Language doesn't conform to ISO 639-3.
+      recommendation-card-title: Recommendation
+      resolution: Description of language format is here https://iso639-3.sil.org/
 
-
-  - type: SOURCE_ERROR
-    severity: ERROR
-    trigger: |
-      Source Error
-    title: Source
-    description: |
-      Source isn't the unique 8-digit International Standard Serial Numbers (ISSN) or the 13 digit International Standard Book Number (ISBN13).
-    resolution: |
-      Source isn't the unique 8-digit International Standard Serial Numbers (ISSN) or the 13 digit International Standard Book Number (ISBN13).
+    - type: HTTP(S)_URL_ERROR
+      severity: ERROR
+      trigger: |
+        HTTP(S) Error
+      title: Identifier
+      key: Identifier
+      description: |
+        Identifier is not a HTTP(S) URI\
+      recommendation-card-title: Recommendation
+      resolution: |
+        Identifier should be HTTP(S) URI
 
 
+    - type: SOURCE_ERROR
+      severity: WARNING
+      trigger: |
+        Source Error
+      title: Source
+      key: Source
+      description: |
+        Source isn't the unique 8-digit International Standard Serial Numbers (ISSN) or the 13 digit International Standard Book Number (ISBN13).
+      recommendation-card-title: Recommendation
+      resolution: |
+        Source should be the unique 8-digit International Standard Serial Numbers (ISSN) or the 13 digit International Standard Book Number (ISBN13)
 
-  - type: DATE_ERROR
-    severity: ERROR
-    trigger: |
-      date Error
-    title: PublicationDate
-    description: |
-      Publication_date doesn't follow format YYYY-MM-DD
-    resolution: |
-      Publication_date should follow format YYYY-MM-DD
+
+    - type: DATE_ERROR
+      severity: WARNING
+      trigger: |
+        date Error
+      title: PublicationDate
+      key: PublicationDate
+      description: |
+        Publication_date doesn't follow format YYYY-MM-DD
+      recommendation-card-title: Recommendation
+      resolution: |
+        Publication_date should follow format YYYY-MM-DD

@@ -71,11 +71,34 @@
 
 .content-wrapper {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   padding: 2rem 1.2rem;
   margin-top: 2rem;
   background-color: var(--white);
+}
+
+.content-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-text {
+  max-width: 485px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--gray-800);
+  text-align: center;
+  letter-spacing: 0.0016em;
 }
 
 .issue-wrapper {
@@ -118,7 +141,7 @@
   color: #666;
 }
 
-.issue-count {
+.issue-count-red {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -130,7 +153,7 @@
   border-radius: 50%;
 }
 
-.issue-count-red {
+.issue-count {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,4 +194,17 @@
 .type-card-count {
   align-self: flex-start;
   padding: 0.4rem 0.5rem 0.3rem 0;
+}
+
+.card-icon-warning {
+  color: var(--warning);
+}
+
+.card-icon-error {
+  color: var(--danger-light);
+}
+
+.img {
+  width: 200px;
+  height: 150px;
 }
