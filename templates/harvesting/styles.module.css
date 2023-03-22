@@ -78,10 +78,6 @@
   grid-template-columns: repeat(auto-fit, minmax(var(--column-min-width), 1fr));
 }
 
-.validation-list-item {
-  margin: 24px 0;
-}
-
 .type-card-section {
   display: flex;
   flex-direction: column;
@@ -93,10 +89,6 @@
 .type-card-section:nth-child(1) {
   padding-right: 1rem;
   border-right: 1px dashed var(--primary);
-}
-
-.card-wrapper .type-card-header {
-  margin-bottom: 14px;
 }
 
 .type-card-header {
@@ -174,12 +166,4 @@
 
 .type-card-hidden {
   display: none;
-}
-
-.validation-card-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1.5rem;
-  background-color: var(--gray-100);
 }

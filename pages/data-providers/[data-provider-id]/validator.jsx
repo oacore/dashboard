@@ -1,15 +1,17 @@
 import React from 'react'
 
-import { withGlobalStore } from '../../../store'
 import ValidatorPageTemplate from '../../../templates/validator'
+
+import { withGlobalStore } from 'store'
 
 const ValidatorPage = ({ store, ...props }) => (
   <ValidatorPageTemplate
-    rioxValidation={store.rioxValidation}
-    repositoryValidator={store.repositoryValidator}
-    validationResult={store.validationResult}
-    handleTextareaChange={store.handleTextareaChange}
-    recordValue={store.recordValue}
+    rioxValidation={store.dataProvider.rioxValidation}
+    repositoryValidator={store.dataProvider.repositoryValidator}
+    validationResult={store.dataProvider.validationResult}
+    handleTextareaChange={store.dataProvider.handleTextareaChange}
+    recordValue={store.dataProvider.recordValue}
+    rioxxCompliance={store.dataProvider?.rioxx}
     {...props}
   />
 )

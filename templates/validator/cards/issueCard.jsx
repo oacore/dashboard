@@ -1,20 +1,27 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from '../../harvesting/styles.module.css'
+import styles from '../styles.module.css'
 import { Icon } from '../../../design'
 
-const IssueCard = ({ validationList }) => (
+const IssueCard = ({
+  validationList,
+  issueCount,
+  filteredWarning,
+  filteredIssue,
+  filterRepositoryIssueData,
+}) => (
   <ul>
     {validationList &&
-      validationList.map(
+      validationList?.map(
         ({
           title,
           description,
           resolution,
           severity,
           key,
-          recommendationCardTitle,
+          outputsCount,
+          elementName,
         }) => (
           <li key={key} className={styles.validationListItem}>
             <div className={styles.validationCardSection}>
@@ -22,24 +29,45 @@ const IssueCard = ({ validationList }) => (
                 <Icon
                   src="#alert"
                   className={classNames.use({
-                    [styles.cardIconWarning]: severity === 'WARNING',
-                    [styles.cardIconError]: severity === 'ERROR',
+                    [styles.cardIconWarning]: filteredWarning,
+                    [styles.cardIconError]:
+                      filteredIssue || filterRepositoryIssueData,
                   })}
                 />
-                <h3 className={styles.typeCardTitle}>{title}</h3>
+                <h3 className={styles.typeCardTitle}>
+                  {title || elementName || key}
+                </h3>
               </div>
-              <p>{description}</p>
+              <p>{description || `Missing element ${elementName || key}`}</p>
+              {issueCount && (
+                <div className={styles.countWrapper}>
+                  <div
+                    className={classNames.use(styles.count, {
+                      [styles.cardWarning]: severity === 'WARNING',
+                      [styles.cardError]: filterRepositoryIssueData,
+                    })}
+                  >
+                    {outputsCount.toLocaleString()}
+                  </div>
+                  <div
+                    className={classNames.use(styles.warningDescription, {
+                      [styles.cardWarningBackground]: severity === 'WARNING',
+                      [styles.cardErrorBackground]: filterRepositoryIssueData,
+                    })}
+                  >
+                    records are affected by this issue.
+                  </div>
+                </div>
+              )}
               <div className={styles.cardWrapper}>
                 <div className={styles.typeCardHeader}>
                   <Icon
                     src="#comment-multiple"
                     className={styles.cardIconComment}
                   />
-                  <h3 className={styles.typeCardTitle}>
-                    {recommendationCardTitle}
-                  </h3>
+                  <h3 className={styles.typeCardTitle}>Recommendation</h3>
                 </div>
-                <span>{resolution}</span>
+                <span>{resolution || `No recommendations yet`}</span>
               </div>
             </div>
           </li>

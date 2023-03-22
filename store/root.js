@@ -284,52 +284,6 @@ class Root extends Store {
       body: data,
     })
   }
-
-  @observable recordValue = ''
-
-  @observable myData = ''
-
-  @observable validationResult = {}
-
-  @action
-  handleTextareaChange = (event) => {
-    this.recordValue = event.target.value
-  }
-
-  @action
-  rioxValidation = async (id) => {
-    try {
-      const response = await fetch(
-        `${process.env.API_URL}/${id}/rioxx/validate`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ record: this.recordValue }),
-        }
-      )
-      const result = await response.json()
-      this.setValidationResult(result)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  @action
-  repositoryValidator = async (id) => {
-    const response = await fetch(
-      `${process.env.API_URL}/data-providers/${id}/rioxx/aggregation`
-    )
-    const data = await response.json()
-    this.myData = data
-    return data
-  }
-
-  @action
-  setValidationResult = (result) => {
-    this.validationResult = result
-  }
 }
 
 export default Root

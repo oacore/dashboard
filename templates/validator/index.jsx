@@ -3,15 +3,31 @@ import { classNames } from '@oacore/design/lib/utils'
 import { useRouter } from 'next/router'
 
 import { Button } from '../../../design'
-import moreInfo from '../../components/upload/assets/moreInfo.svg'
 import menu from '../../components/upload/assets/menu.svg'
 import styles from './styles.module.css'
-import ValidateCard from './cards/validateCard'
-import ComplianceCard from './cards/complianceCard'
-import IssueCard from './cards/issueCard'
-import error from '../../components/upload/assets/errorPlaceholder.svg'
+import RioxValidator from './RIoxValidator/RIoxValidator'
+import MyRepository from './MyReposiyory/myRepository'
+import { Icon, Link, Message } from '../../design'
 
 import texts from 'texts/validator'
+
+const TABS = {
+  myRepository: 'myRepositoryTab',
+  validation: 'validationTab',
+}
+
+const SUPPORT_EMAIL_URL = 'mailto:t%68%65t%65am%40core%2e%61c%2eu%6b'
+const SUPPORT_EMAIL = decodeURIComponent(
+  SUPPORT_EMAIL_URL.slice('mailto:'.length)
+)
+
+const NotEnoughDataMessage = () => (
+  <Message className={styles.dataErrorWrapper}>
+    <Icon className={styles.errorIcon} src="#alert-outline" /> Your repository
+    is not configured to expose RIOXX guidelines. For more information contact
+    us at <Link href={SUPPORT_EMAIL_URL}> {SUPPORT_EMAIL}</Link>.
+  </Message>
+)
 
 const ValidatorPageTemplate = ({
   tag: Tag = 'main',
@@ -27,6 +43,7 @@ const ValidatorPageTemplate = ({
   total,
   downloadResults,
   rioxValidation,
+  rioxxCompliance,
   repositoryValidator,
   validationResult,
   handleTextareaChange,
@@ -34,16 +51,22 @@ const ValidatorPageTemplate = ({
   issues,
   ...restProps
 }) => {
-  const [activeTab, setActiveTab] = useState('tab2')
+  const [activeTab, setActiveTab] = useState(TABS.validation)
   const [filteredWarning, setFilteredWarning] = useState([])
   const [filteredIssue, setFilteredIssue] = useState([])
+  const [repositoryData, setrepositoryData] = useState([])
+  const [filterRepositoryIssueData, setFilterRepositoryIssueData] = useState([])
 
   const router = useRouter()
 
   const id = router.query['data-provider-id']
 
-  const handleTabChange = (tab) => {
+  const handleTabChange = async (tab) => {
     setActiveTab(tab)
+    if (activeTab === TABS.validation) {
+      const data = await repositoryValidator(id)
+      setrepositoryData(data)
+    }
   }
 
   const handleValidateClick = () => {
@@ -66,7 +89,34 @@ const ValidatorPageTemplate = ({
         .map((issue) => issue.toLowerCase())
         .includes(item.key.toLowerCase())
     )
-    setFilteredIssue(list)
+
+    const requiredData = Object.keys(validationResult.missingRequiredData || {})
+    const foundData = list.map((item) => item.key.toLowerCase())
+    const mismatchedDataKeys = requiredData?.filter(
+      (key) => !foundData.includes(key.toLowerCase())
+    )
+    const mismatchedData = Object.fromEntries(
+      Object.entries(validationResult.missingRequiredData || {}).filter(
+        // eslint-disable-next-line no-unused-vars
+        ([key, _]) =>
+          mismatchedDataKeys.some(
+            (mismatchedKey) =>
+              mismatchedKey.localeCompare(key, undefined, {
+                sensitivity: 'accent',
+              }) === 0
+          )
+      )
+    )
+    const mismatchedArray = Object.entries(mismatchedData).map(
+      ([key, value]) => ({
+        key,
+        messages: value,
+      })
+    )
+
+    const finalData = [...list, ...mismatchedArray]
+
+    setFilteredIssue(finalData)
   }, [validationResult.missingRequiredData])
 
   useEffect(() => {
@@ -75,8 +125,64 @@ const ValidatorPageTemplate = ({
         .map((issue) => issue.toLowerCase())
         .includes(item.key.toLowerCase())
     )
-    setFilteredWarning(list)
+
+    const optionalData = Object.keys(validationResult.missingOptionalData || {})
+    const foundData = list.map((item) => item.key.toLowerCase())
+    const mismatchedDataKeys = optionalData?.filter(
+      (key) => !foundData.includes(key.toLowerCase())
+    )
+    const mismatchedData = Object.fromEntries(
+      Object.entries(validationResult.missingOptionalData || {}).filter(
+        // eslint-disable-next-line no-unused-vars
+        ([key, _]) =>
+          mismatchedDataKeys.some(
+            (mismatchedKey) =>
+              mismatchedKey.localeCompare(key, undefined, {
+                sensitivity: 'accent',
+              }) === 0
+          )
+      )
+    )
+    const mismatchedArray = Object.entries(mismatchedData).map(
+      ([key, value]) => ({
+        key,
+        messages: value,
+      })
+    )
+
+    const finalData = [...list, ...mismatchedArray]
+
+    setFilteredWarning(finalData)
   }, [validationResult.missingOptionalData])
+
+  useEffect(() => {
+    const repositoryList = issueList.filter((item) =>
+      repositoryData.missingTermsBasic?.find(
+        (issue) => item.key.toLowerCase() === issue.elementName.toLowerCase()
+      )
+    )
+
+    const updatedIssueList = repositoryList.map((obj) => {
+      const result = repositoryData.missingTermsBasic.find(
+        (element) => element.elementName.toLowerCase() === obj.key.toLowerCase()
+      )
+
+      return {
+        ...obj,
+        outputsCount: result.outputsCount,
+      }
+    })
+
+    const filteredData =
+      repositoryData.missingTermsBasic?.filter(
+        (item) =>
+          !updatedIssueList?.some(
+            (obj) => obj?.key?.toLowerCase() === item.elementName.toLowerCase()
+          )
+      ) ?? []
+
+    setFilterRepositoryIssueData([...updatedIssueList, ...filteredData])
+  }, [repositoryData.missingTermsBasic])
 
   return (
     <Tag
@@ -90,100 +196,46 @@ const ValidatorPageTemplate = ({
         </div>
         <p className={styles.description}>{texts.validator.description}</p>
       </header>
-      <div className={styles.validationField}>
-        <div className={styles.tabWrapper}>
-          <Button
-            className={classNames.use(styles.tab, {
-              [styles.activeTab]: activeTab === 'tab1',
-            })}
-            onClick={() => handleTabChange('tab1')}
-          >
-            {texts.validator.validator.actions[0].name}
-          </Button>
-          <Button
-            className={classNames.use(styles.tab, {
-              [styles.activeTab]: activeTab === 'tab2',
-            })}
-            onClick={() => handleTabChange('tab2')}
-          >
-            {texts.validator.validator.actions[1].name}
-          </Button>
-        </div>
-        {activeTab === 'tab1' && <ComplianceCard />}
-        {activeTab === 'tab2' && (
-          <ValidateCard
-            handleValidateClick={handleValidateClick}
-            validationResult={validationResult}
-            handleTextareaChange={handleTextareaChange}
-            recordValue={recordValue}
-          />
-        )}
-      </div>
-      <article
-        className={classNames.use(styles.contentWrapper, {
-          [styles.contentCenter]: validationResult?.parseFailed,
-        })}
-      >
-        {validationResult?.parseFailed ? (
-          <div className={styles.errorWrapper}>
-            <img className={styles.img} src={error} alt="" />
-            <p className={styles.errorText}>
-              {texts.validator.errorPlaceholder.text}
-            </p>
+      {rioxxCompliance != null && rioxxCompliance.totalCount > 0 ? (
+        <div className={styles.validationField}>
+          <div className={styles.tabWrapper}>
+            <Button
+              className={classNames.use(styles.tab, {
+                [styles.activeTab]: activeTab === TABS.myRepository,
+              })}
+              onClick={() => handleTabChange(TABS.myRepository)}
+            >
+              {texts.validator.validator.actions[0].name}
+            </Button>
+            <Button
+              className={classNames.use(styles.tab, {
+                [styles.activeTab]: activeTab === TABS.validation,
+              })}
+              onClick={() => handleTabChange(TABS.validation)}
+            >
+              {texts.validator.validator.actions[1].name}
+            </Button>
           </div>
-        ) : (
-          <>
-            <div className={styles.issueWrapper}>
-              <div className={styles.issueTitle}>
-                <div className={styles.innerWrapper}>
-                  <div className={styles.issueCount}>
-                    {filteredIssue.length}
-                  </div>
-                  <p className={styles.issueText}>
-                    {texts.validator.issues.issueTitle}
-                  </p>
-                </div>
-                <img className={styles.issueImage} src={moreInfo} alt="" />
-              </div>
-              {Object.keys(validationResult).length !== 0 &&
-              validationResult?.missingOptionalData.length === 0 ? (
-                <IssueCard
-                  data={validationResult?.missingOptionalData}
-                  validationList={filteredIssue}
-                />
-              ) : (
-                <div className={styles.issueDescription}>
-                  {texts.validator.issues.placeholder}
-                </div>
-              )}
-            </div>
-            <div className={styles.issueWrapper}>
-              <div className={styles.issueTitle}>
-                <div className={styles.innerWrapper}>
-                  <div className={styles.issueCountRed}>
-                    {filteredWarning.length}
-                  </div>
-                  <p className={styles.issueText}>
-                    {texts.validator.issues.warningTitle}
-                  </p>
-                </div>
-                <img className={styles.issueImage} src={moreInfo} alt="" />
-              </div>
-              {Object.keys(validationResult).length !== 0 &&
-              validationResult?.missingRequiredData.length === 0 ? (
-                <IssueCard
-                  data={validationResult?.missingRequiredData}
-                  validationList={filteredWarning}
-                />
-              ) : (
-                <div className={styles.issueDescription}>
-                  {texts.validator.issues.placeholder}
-                </div>
-              )}
-            </div>
-          </>
-        )}
-      </article>
+          {activeTab === TABS.myRepository && (
+            <MyRepository
+              filterRepositoryData={filterRepositoryIssueData}
+              filterRepositoryIssueData
+            />
+          )}
+          {activeTab === TABS.validation && (
+            <RioxValidator
+              handleValidateClick={handleValidateClick}
+              validationResult={validationResult}
+              handleTextareaChange={handleTextareaChange}
+              recordValue={recordValue}
+              filteredIssue={filteredIssue}
+              filteredWarning={filteredWarning}
+            />
+          )}
+        </div>
+      ) : (
+        <NotEnoughDataMessage />
+      )}
     </Tag>
   )
 }

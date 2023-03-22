@@ -32,7 +32,6 @@ validations:
       key: LicenseRef
       description: |
         Attribute start_date is null. Value is empty. Value is not HTTP(S) URI start_date doesn't follow format YYYY-MM-DD
-      recommendation-card-title: Recommendation
       resolution: Attribute start_date should be a date in format YYYY-MM-DD. Value should be HTTP(S) URI
 
     - type: ATTACHMENT_NO_VALID_FORMAT_FOUND
@@ -44,7 +43,6 @@ validations:
       key: Format
       description: |
         Format is not correct.
-      recommendation-card-title: Recommendation
       resolution: Possible format can be found here https://www.iana.org/assignments/media-types/media-types.xhtml
 
     - type: ATTACHMENT_NO_VALID_LANGUAGE_FORMAT_FOUND
@@ -56,7 +54,6 @@ validations:
       key: Language
       description: |
         Language doesn't conform to ISO 639-3.
-      recommendation-card-title: Recommendation
       resolution: Description of language format is here https://iso639-3.sil.org/
 
     - type: HTTP(S)_URL_ERROR
@@ -67,7 +64,6 @@ validations:
       key: Identifier
       description: |
         Identifier is not a HTTP(S) URI\
-      recommendation-card-title: Recommendation
       resolution: |
         Identifier should be HTTP(S) URI
 
@@ -80,7 +76,6 @@ validations:
       key: Source
       description: |
         Source isn't the unique 8-digit International Standard Serial Numbers (ISSN) or the 13 digit International Standard Book Number (ISBN13).
-      recommendation-card-title: Recommendation
       resolution: |
         Source should be the unique 8-digit International Standard Serial Numbers (ISSN) or the 13 digit International Standard Book Number (ISBN13)
 
@@ -93,6 +88,5 @@ validations:
       key: PublicationDate
       description: |
         Publication_date doesn't follow format YYYY-MM-DD
-      recommendation-card-title: Recommendation
       resolution: |
         Publication_date should follow format YYYY-MM-DD

@@ -5,7 +5,7 @@ import { Card } from '../../../design'
 
 const complianceCard = () => (
   <article className={styles.content}>
-    <Card.Title tag="h2">coming soon</Card.Title>
+    <Card.Title tag="h2">Coming soon</Card.Title>
   </article>
 )
 
