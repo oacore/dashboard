@@ -83,28 +83,27 @@ const ValidatorPageTemplate = ({
     [texts.actions]
   )
 
-  useEffect(() => {
-    const list = issueList.filter((item) =>
-      Object.keys(validationResult.missingRequiredData || {})
+  function filterList(list, missingData) {
+    const filteredList = list.filter((item) =>
+      Object.keys(missingData || {})
         .map((issue) => issue.toLowerCase())
         .includes(item.key.toLowerCase())
     )
 
-    const requiredData = Object.keys(validationResult.missingRequiredData || {})
-    const foundData = list.map((item) => item.key.toLowerCase())
-    const mismatchedDataKeys = requiredData?.filter(
+    const dataKeys = Object.keys(missingData || {})
+    const foundData = filteredList.map((item) => item.key.toLowerCase())
+    const mismatchedDataKeys = dataKeys?.filter(
       (key) => !foundData.includes(key.toLowerCase())
     )
     const mismatchedData = Object.fromEntries(
-      Object.entries(validationResult.missingRequiredData || {}).filter(
-        // eslint-disable-next-line no-unused-vars
-        ([key, _]) =>
-          mismatchedDataKeys.some(
-            (mismatchedKey) =>
-              mismatchedKey.localeCompare(key, undefined, {
-                sensitivity: 'accent',
-              }) === 0
-          )
+      // eslint-disable-next-line no-unused-vars
+      Object.entries(missingData || {}).filter(([key, _]) =>
+        mismatchedDataKeys.some(
+          (mismatchedKey) =>
+            mismatchedKey.localeCompare(key, undefined, {
+              sensitivity: 'accent',
+            }) === 0
+        )
       )
     )
     const mismatchedArray = Object.entries(mismatchedData).map(
@@ -114,44 +113,22 @@ const ValidatorPageTemplate = ({
       })
     )
 
-    const finalData = [...list, ...mismatchedArray]
+    return [...filteredList, ...mismatchedArray]
+  }
 
+  useEffect(() => {
+    const finalData = filterList(
+      issueList,
+      validationResult.missingRequiredData
+    )
     setFilteredIssue(finalData)
   }, [validationResult.missingRequiredData])
 
   useEffect(() => {
-    const list = warningList.filter((item) =>
-      Object.keys(validationResult.missingOptionalData || {})
-        .map((issue) => issue.toLowerCase())
-        .includes(item.key.toLowerCase())
+    const finalData = filterList(
+      warningList,
+      validationResult.missingOptionalData
     )
-
-    const optionalData = Object.keys(validationResult.missingOptionalData || {})
-    const foundData = list.map((item) => item.key.toLowerCase())
-    const mismatchedDataKeys = optionalData?.filter(
-      (key) => !foundData.includes(key.toLowerCase())
-    )
-    const mismatchedData = Object.fromEntries(
-      Object.entries(validationResult.missingOptionalData || {}).filter(
-        // eslint-disable-next-line no-unused-vars
-        ([key, _]) =>
-          mismatchedDataKeys.some(
-            (mismatchedKey) =>
-              mismatchedKey.localeCompare(key, undefined, {
-                sensitivity: 'accent',
-              }) === 0
-          )
-      )
-    )
-    const mismatchedArray = Object.entries(mismatchedData).map(
-      ([key, value]) => ({
-        key,
-        messages: value,
-      })
-    )
-
-    const finalData = [...list, ...mismatchedArray]
-
     setFilteredWarning(finalData)
   }, [validationResult.missingOptionalData])
 
