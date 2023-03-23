@@ -7,12 +7,18 @@ import styles from './styles.module.css'
 
 import Markdown from 'components/markdown'
 
-const ConfirmationDeleteInvite = ({ text, item, submitConfirm }) => {
+const ConfirmationDeleteInvite = ({
+  text,
+  item,
+  submitConfirm,
+  removeElement,
+}) => {
   const [isModalActive, setModalActive] = React.useState(false)
 
   const handleUserRemove = () => {
     submitConfirm(item)
     setModalActive(false)
+    removeElement(item.code)
   }
 
   const modal = isModalActive ? (
@@ -27,7 +33,7 @@ const ConfirmationDeleteInvite = ({ text, item, submitConfirm }) => {
         <Button onClick={() => handleUserRemove()} variant="contained">
           Yes
         </Button>
-        <Button onClick={() => setModalActive(false)} variant="outlined ">
+        <Button onClick={() => setModalActive(false)} variant="outlined">
           No
         </Button>
       </Modal.Footer>

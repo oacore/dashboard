@@ -78,6 +78,13 @@ const SettingsTemplate = forwardRef(
   }) => {
     const router = useRouter()
     const [formMessage, setFormMessage] = useState({})
+    const [inviteCodes, setInviteCodes] = useState(organisationUserInvites)
+
+    const removeElement = (code) => {
+      const newInviteCodes = inviteCodes.filter((item) => item.code !== code)
+      setInviteCodes(newInviteCodes)
+    }
+
     const organization = { name: dataProvider.institution }
     const isStartingMember = membershipPlan.billing_type === 'starting'
     const handleSubmit = async (event) => {
@@ -160,7 +167,7 @@ const SettingsTemplate = forwardRef(
               />
             </FormShell>
             <Card.Title tag="h4">{content.invite.listAccess}</Card.Title>
-            {organisationUserInvites.map((item) => (
+            {inviteCodes.map((item) => (
               <div className={classNames.use(styles.invitationUserDelete)}>
                 <div
                   id={`invite-${item.email}`}
@@ -180,6 +187,7 @@ const SettingsTemplate = forwardRef(
                   text={content.invite.confirmation}
                   item={item}
                   submitConfirm={delInviter}
+                  removeElement={removeElement}
                 />
               </div>
             ))}
