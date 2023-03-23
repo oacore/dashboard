@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { useRouter } from 'next/router'
 
-import { Button } from '../../../design'
 import menu from '../../components/upload/assets/menu.svg'
 import styles from './styles.module.css'
 import RioxValidator from './RIoxValidator/RIoxValidator'
 import MyRepository from './MyReposiyory/myRepository'
 import { Icon, Link, Message } from '../../design'
 
+import { Button } from 'design'
 import texts from 'texts/validator'
 
 const TABS = {
