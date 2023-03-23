@@ -23,7 +23,10 @@ const IssueCard = ({
           outputsCount,
           elementName,
         }) => (
-          <li key={key} className={styles.validationListItem}>
+          <li
+            key={title || elementName || key}
+            className={styles.validationListItem}
+          >
             <div className={styles.validationCardSection}>
               <div className={styles.typeCardHeader}>
                 <Icon
