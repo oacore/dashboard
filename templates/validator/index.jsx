@@ -197,6 +197,7 @@ const ValidatorPageTemplate = ({
             <MyRepository
               filterRepositoryData={filterRepositoryIssueData}
               filterRepositoryIssueData
+              repositoryData={repositoryData}
             />
           )}
           {activeTab === TABS.validation && (

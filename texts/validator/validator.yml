@@ -22,71 +22,89 @@ errorPlaceholder:
   text: The record you are checking is not correct, please submit a record similar to the example provided, if you have any extra questions don’t hesitate to contact us.
 
 validations:
-
-    - type: ATTACHMENT_NO_VALID_DATA_FORMAT_FOUND
-      matches: [ NO_VALID_DATA_FORMAT ]
-      severity: ERROR
-      trigger: |
-        The metadata data format incorrect
-      title: LicenseRef
+    - title: ali:license_ref
       key: LicenseRef
-      description: |
-        Attribute start_date is null. Value is empty. Value is not HTTP(S) URI start_date doesn't follow format YYYY-MM-DD
-      resolution: Attribute start_date should be a date in format YYYY-MM-DD. Value should be HTTP(S) URI
-
-    - type: ATTACHMENT_NO_VALID_FORMAT_FOUND
-      matches: [ NO_VALID_FORMAT ]
       severity: ERROR
-      trigger: |
-        The format incorrect
-      title: Format
-      key: Format
       description: |
-        Format is not correct.
-      resolution: Possible format can be found here https://www.iana.org/assignments/media-types/media-types.xhtml
+        Record is missing the field <ali:license_ref>
+      resolution: ali:license_ref field must contain an HTTP URI that points to the license term.
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#ali:license_ref
 
-    - type: ATTACHMENT_NO_VALID_LANGUAGE_FORMAT_FOUND
-      matches: [ NO_VALID_LANGUAGE_FORMAT ]
-      severity: ERROR
-      trigger: |
-        Language incorrect format
-      title: Language
-      key: Language
-      description: |
-        Language doesn't conform to ISO 639-3.
-      resolution: Description of language format is here https://iso639-3.sil.org/
-
-    - type: HTTP(S)_URL_ERROR
-      severity: ERROR
-      trigger: |
-        HTTP(S) Error
-      title: Identifier
+    - title: dc:identifier
       key: Identifier
+      severity: ERROR
       description: |
-        Identifier is not a HTTP(S) URI\
-      resolution: |
-        Identifier should be HTTP(S) URI
+        Record is missing the resource's persistent identifier.
+      resolution: dc:identifier must contain a persistent for the resource HTTP URI. It is recommended that the identifier points to the actual resource described in the record.
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#dc:identifier
 
-
-    - type: SOURCE_ERROR
-      severity: WARNING
-      trigger: |
-        Source Error
-      title: Source
-      key: Source
+    - title: dc:language
+      key: language
+      severity: ERROR
       description: |
-        Source isn't the unique 8-digit International Standard Serial Numbers (ISSN) or the 13 digit International Standard Book Number (ISBN13).
-      resolution: |
-        Source should be the unique 8-digit International Standard Serial Numbers (ISSN) or the 13 digit International Standard Book Number (ISBN13)
+        Record misses resource's primary language.
+      resolution: dc:language field must contain the language in which the content is presented.
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#dc:language
 
-
-    - type: DATE_ERROR
-      severity: WARNING
-      trigger: |
-        date Error
-      title: PublicationDate
-      key: PublicationDate
+    - title: dc:title
+      key: title
+      severity: ERROR
       description: |
-        Publication_date doesn't follow format YYYY-MM-DD
+        Record misses a title.
+      resolution: dc:title field must contain the title and any subtitles of the resource.
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#dc:title
+
+    - title: dcterms:dateAccepted
+      key: dateAccepted
+      severity: ERROR
+      description: |
+        Record misses the date the resource was accepted for publication or record has the date formatting wrong.
       resolution: |
-        Publication_date should follow format YYYY-MM-DD
+        Add the resource's acceptance date and follow the format: YYYY-MM-DD.
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#dcterms:dateAccepted
+
+    - title: rioxxterms:author
+      key: author
+      severity: ERROR
+      description: |
+        Record should have at least one author, i.e. person, organisation, service.
+      resolution: |
+        Order of names: last name, first name. Continue similarly for more authors. Field could take an id attribute, e.g. author's ORCID.
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#rioxxterms:author
+
+    - title: rioxxterms:project
+      key: project
+      severity: ERROR
+      description: |
+        Project ID, as issued by the funder, is missing.
+      resolution: |
+        An alphanumeric identifier must be available. This field can be combiner with funder name and id.
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#rioxxterms:project
+
+    - title: rioxxterms:type
+      key: type
+      severity: ERROR
+      description: |
+        Nature/genre of resource is missing.
+      resolution: |
+        Values can be: Book, Book chapter, Book edited, Conference Paper/Proceeding/Abstract, Journal Article/Review, Manual/Guide, Monograph, Policy briefing report, Technical Report, Technical Standard, Thesis, Other, Consultancy Report, Working paper
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#rioxxterms:type
+
+    - title: rioxxterms:version
+      key: version
+      severity: ERROR
+      description: |
+        Resource's version is missing.
+      resolution: |
+        Values can be: AO = Author's Original, SMUR = Submitted Manuscript Under Review, AM = Accepted Manuscript, P = Proof, VoR = Version of Record, CVoR = Corrected Version of Record, EVoR = Enhanced Version of Record, NA = Not Applicable (or Unknown).
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#rioxxterms:version
+
+    - title: rioxxterms:version_of_record
+      key: version_of_record
+      severity: ERROR
+      description: |
+        Record is missing a DOI or HTTP URI.
+      resolution: |
+        Use publisher's DOI or resource's persistent identifier, i.e. HTTP URI.
+      seeMoreLink: https://www.rioxx.net/profiles/v2-0-final/#rioxxterms:version_of_record
+

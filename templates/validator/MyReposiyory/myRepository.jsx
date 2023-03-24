@@ -6,9 +6,12 @@ import texts from '../../../texts/validator'
 import moreInfo from '../../../components/upload/assets/moreInfo.svg'
 import IssueCard from '../cards/issueCard'
 
-const MyRepository = ({ filterRepositoryData }) => (
+const MyRepository = ({ filterRepositoryData, repositoryData }) => (
   <>
-    <ComplianceCard />
+    <ComplianceCard
+      filterRepositoryData={filterRepositoryData}
+      repositoryData={repositoryData}
+    />
     <article className={styles.contentWrapper}>
       <div className={styles.issueWrapper}>
         <div className={styles.issueTitle}>

@@ -290,3 +290,8 @@
 .card-error-background {
   background: #f7dfdd;
 }
+
+.riox-info {
+  font-size: 1.2em;
+  color: var(--gray-700);
+}
