@@ -34,10 +34,9 @@ const UploadSection = ({
         <p> {content.upload.description}</p>
         {isStartingMember && (
           <>
-            {/* TODO needs show for specific type member */}
-            {/* <Markdown className={styles.uploadNote}> */}
-            {/*  {content.upload.memberNote.title} */}
-            {/* </Markdown> */}
+            <Markdown className={styles.uploadNote}>
+              {content.upload.memberNote.title}
+            </Markdown>
             <Button
               href={content.upload.memberNote.action.url}
               variant="contained"
