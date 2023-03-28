@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import styles from './styles.module.css'
 import oaiLogo from './assets/oai_logo.svg'
 import { useScrollEffect } from '../../pages/_app/hooks'
+import NotificationSystem from './cards/notification'
 
 import Markdown from 'components/markdown'
 import { Card, TextField } from 'design'
@@ -214,6 +215,7 @@ const SettingsTemplate = forwardRef(
             handleUpload={updateLogo}
           />
         </div>
+        <NotificationSystem />
         <ChangePassword
           className={styles.section}
           email={userEmail}

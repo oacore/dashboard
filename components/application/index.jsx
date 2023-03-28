@@ -15,6 +15,8 @@ import styles from './styles.module.css'
 import DashboardGuide from '../dashboard-tutorial/dashboardGuide'
 import imagePlaceholder from '../upload/assets/imagePlaceholder.svg'
 import restart from '../upload/assets/restart.svg'
+import notification from '../../templates/settings/assets/bell.svg'
+import NotificationPopUp from '../../templates/settings/cards/notificationPopUp'
 
 const Application = observer(
   ({
@@ -30,7 +32,12 @@ const Application = observer(
     const headerRef = useRef(null)
     const siderRef = useRef(null)
     const [redirect, setRedirect] = useState(false)
+    const [showNotification, setShowNotification] = useState(false)
     const router = useRouter()
+
+    const handleNotificationClick = () => {
+      setShowNotification(!showNotification)
+    }
 
     const restartModal = () => {
       setRedirect(true)
@@ -78,6 +85,13 @@ const Application = observer(
                       />
                     )}
                     {dataProvider && <RepositorySelect value={dataProvider} />}
+                    {/* eslint-disable-next-line max-len */}
+                    {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */}
+                    <img
+                      onClick={handleNotificationClick}
+                      src={notification}
+                      alt="bell"
+                    />
                     <Logout />
                   </>
                 </>
@@ -91,6 +105,7 @@ const Application = observer(
                 placement="bottom"
               />
             )}
+            {showNotification && <NotificationPopUp />}
           </div>
           <div ref={siderRef}>
             {variant === 'internal' && (

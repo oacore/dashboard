@@ -46,3 +46,33 @@ upload:
       caption: Join CORE Membership
       url: 'https://core.ac.uk/membership'
 
+notifications:
+  title: Email notifications
+  subAction: Turn off all notification
+  messages:
+    success: Harvesting has been successfully completed.
+    issue: Harvesting was not completed because of issues that required your actions.
+    duplicate: New potential duplicates of your records has been found.
+  actions:
+    - name: mark as read
+      action: All
+      variant: outlined
+    - name: Show all
+      action: ERROR
+      variant: text
+  types:
+    type: Harvesting
+    notifyOne: Notify me whenever harvesting has completed.
+    notifyTwo: Send me a Harvesting Report.
+    items:
+      month: Every month
+      quarter: Every 3 months
+      half: Every 6 months
+#  - type: Deduplication
+#    notify: Notify me whenever a new deduplication has completed.
+#    notifyTwo: Send me a Deduplication Report.
+#    items:
+#      month: Every month
+#      quarter: Every 3 months
+#      half: Every 6 months
+
