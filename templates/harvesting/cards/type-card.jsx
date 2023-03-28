@@ -55,7 +55,7 @@ const TypeCard = ({
             `${styles[`typeCardCount${type}`]}`
           )}
         >
-          <span>{count}</span> {texts.issues.affected}
+          <span>{count.toLocaleString()}</span> {texts.issues.affected}
         </div>
       </div>
       <div className={styles.typeCardSection}>
