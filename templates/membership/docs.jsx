@@ -43,19 +43,38 @@ const DocumentationBlockTemplate = ({ headerDashboard, docs }) => {
                 ))}
               </div>
               <Markdown>{item.descriptionDashboard}</Markdown>
-              {item?.images?.map((img) => (
-                // eslint-disable-next-line jsx-a11y/img-redundant-alt
-                <img
-                  key={img.file}
-                  className={classNames.use(styles.image, {
-                    [styles.logoBanner]: item.id === 'logo-banner',
-                    [styles.logoPersonalised]:
-                      item.id === 'personalised-banner',
-                  })}
-                  src={img.file}
-                  alt="image"
-                />
-              ))}
+              <div>
+                {item?.images?.map((img) => (
+                  <div className={styles.cardWrapper}>
+                    <div
+                      className={classNames.use({
+                        [styles.imgWrapper]: img.source,
+                      })}
+                    >
+                      {/* eslint-disable-next-line max-len */}
+                      {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                      <img
+                        key={img.file}
+                        className={classNames.use(styles.image, {
+                          [styles.logoBanner]: item.id === 'logo-banner',
+                          [styles.logoPersonalised]:
+                            item.id === 'personalised-banner',
+                          [styles.badgeImage]: img.source,
+                          [styles.badgeImageHeight]:
+                            img.source?.includes('square'),
+                        })}
+                        src={img.file}
+                        alt="image"
+                      />
+                    </div>
+                    {img.source && (
+                      <div className={styles.textAlignment}>
+                        <span className={styles.text}>{img.source}</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
