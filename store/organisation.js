@@ -11,7 +11,6 @@ class Organisation extends Resource {
   constructor(baseUrl, options) {
     super(baseUrl, options)
     this.urlOrganisation = `${baseUrl}`
-    this.listUserInvites()
   }
 
   @action

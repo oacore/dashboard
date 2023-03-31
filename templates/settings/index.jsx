@@ -82,6 +82,10 @@ const SettingsTemplate = forwardRef(
 
     const removeElement = (code) => {
       const newInviteCodes = inviteCodes.filter((item) => item.code !== code)
+      // eslint-disable-next-line no-param-reassign
+      organisationUserInvites = organisationUserInvites.filter(
+        (item) => item.code !== code
+      )
       setInviteCodes(newInviteCodes)
     }
 
@@ -168,6 +172,7 @@ const SettingsTemplate = forwardRef(
             </FormShell>
             <Card.Title tag="h4">{content.invite.listAccess}</Card.Title>
             {inviteCodes.map((item) => (
+              // {organisationUserInvites.map((item) => (
               <div className={classNames.use(styles.invitationUserDelete)}>
                 <div
                   id={`invite-${item.email}`}

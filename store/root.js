@@ -131,6 +131,7 @@ class Root extends Store {
     this.invitation = new Invitation(process.env.API_URL, this.options)
 
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
+    await this.organisation.listUserInvites()
     await this.organisation.retrieve()
   }
 
