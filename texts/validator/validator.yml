@@ -14,7 +14,7 @@ validator:
   subTitle:
     title: You can input a record XML (what is enclosed in the <rioxx>…</rioxx> tags).
     actions:
-     - text: Fully compliant
+     - text: Example 1 (fully compliant)
        value: |
          <rioxx
              xmlns="http://www.rioxx.net/schema/v3.0/rioxx/"
@@ -43,7 +43,7 @@ validator:
              <rioxxterms:version>AM</rioxxterms:version>
              <rioxxterms:version_of_record>http://dx.doi.org/10.1023/A:1013182429327</rioxxterms:version_of_record>
          </rioxx>
-     - text: Partially compliant
+     - text: Example 2 (partially compliant)
        value: |
          <rioxx
              xmlns="http://www.rioxx.net/schema/v3.0/rioxx/"
