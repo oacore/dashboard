@@ -166,8 +166,8 @@
 - type: ATTACHMENT_NOT_VALID
   severity: ERROR
   trigger: |
-    We check that a download is a pdf by checking the first 5 bytes contain
-    %pdf- If this is false, we set the PDF_NOT_VALID. In most cases, the issue
+    We check that a download is a pdf or a doc by checking the first 5 bytes of a file
+    If this fails, we set the PDF_NOT_VALID. In most cases, the issue
     is replaced by a more specific issue as this issue is always triggered
     when downloading HTML files.
   title: The downloaded file was not a valid validate
@@ -175,9 +175,9 @@
     We were unable to read the
     {currentUrl}
   resolution: |
-    We currently only support downloading pdf files. If the file is a pdf, it
-    may not conform to the pdf standard. We suggest recreating the file or
-    opening it in Adobe Reader to validate the file.
+    We currently only support downloading pdf and doc files. If the file is a pdf or a doc, it
+    may not conform to the standards that we support. We suggest recreating the file or
+    opening it in Adobe Reader or MS Word or equivalent to validate that the file is well-formed.
   details: [currentUrl]
 
 - type: NO_VALID_FULLTEXT_LINKS_EXTRACTED
@@ -190,7 +190,8 @@
   description: |
     We downloaded the metadata, but we were unable to find any full text links.
   resolution: |
-    Ensure that dc:identifier contains a direct link to the full text. We only support the following file types: .pdf
+    Ensure that dc:identifier contains a direct link to the full text.
+    We only support the following file types: .pdf, .doc, .docx
   details: [currentUrl]
 
 - hidden: true
@@ -218,7 +219,6 @@
 - type: ATTACHMENT_ENCRYPTED
   matches: [ENCRYPTED_ATTACHMENT]
   severity: ERROR # or WARNING
-  resolution: No full text was found due to unknown external reasons
   trigger: |
     This issue is triggered when a pdf has DRM enabled.
 
@@ -244,8 +244,8 @@
 - type: ATTACHMENT_TITLE_MISMATCH
   severity: WARNING
   trigger: |
-    We check that the pdf contains the title provided in the metadata. If the
-    first 50 lines of the pdf do not contain an exact match of the title
+    We check that the pdf or doc contains the title provided in the metadata. If the
+    first 50 lines of the file do not contain an exact match of the title
     **OR** is similar.
   title: Title in the metadata doesn't match the full text
   description: |
@@ -259,7 +259,7 @@
 
     Ensure that the Metadata Title is the same as the document title or
     include a link to the full text in `dc:identifier` (if you use Dublin Core)
-    or follow the RIOXX or OpenAIREv4.1
+    or follow the RIOXX or OpenAIREv4.1 specifications.
   resolution: |
     We used this as a security measure to not display wrong documents. If the
     issue is present in many documents, please get in touch with us.
@@ -314,10 +314,10 @@
   matches: [NO_VALID_ATTACHMENT_DOWNLOAD_URLS]
   severity: WARNING
   trigger: |
-    The downloaded metadata contained no urls
+    The downloaded metadata contained no urls.
   title: No download links found
   description: |
-    The metadata provided contained no urls so we are unable to find a full text
+    The metadata provided contained no urls so we are unable to find a full text.
   resolution: |
     Ensure dc:identifier contains a url to the full text.
     Ensure any links on the metadata contain correct urls to the fulltext.
@@ -340,7 +340,7 @@
 - type: SLOW_NETWORK
   severity: ERROR
   trigger: |
-    If a document download takes longer than 20 seconds, we abort the download
+    If a document download takes longer than 20 seconds, we abort the download.
   title: Slow Network
   description: |
     We aborted the download because it took too long. Please check the
@@ -416,9 +416,10 @@
     We enforce a policy where we restrict the download of fulltexts to the
     same domain as the OAI-PMH endpoint.
   resolution: |
-    This issue might relate to a misconfiguration on your repository. Please review
-    the url of the records, if everything is correct please get in touch with us to
-    ensure an exception is added.
+    It is perfectly normal to have external URLs in your repository metadata.
+    However, sometimes this issue might relate to a misconfiguration on your repository. Please review
+    the url of the records, if you are using multiple domains in your repository configuration, please
+    get in touch with us to ensure an exception is added.
   details: []
 
 - type: LINK_REDIRECTED_TO_DISALLOWED_URL

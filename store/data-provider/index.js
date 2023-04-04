@@ -47,6 +47,52 @@ class DataProvider extends Resource {
 
   @observable allMembers = []
 
+  @observable recordValue = ''
+
+  @observable myData = ''
+
+  @observable validationResult = {}
+
+  @action
+  handleTextareaChange = (input) => {
+    this.recordValue = input
+  }
+
+  @action
+  rioxValidation = async (id) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/${id}/rioxx/validate`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ record: this.recordValue }),
+        }
+      )
+      const result = await response.json()
+      this.setValidationResult(result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  @action
+  repositoryValidator = async (id) => {
+    const response = await fetch(
+      `${process.env.API_URL}/data-providers/${id}/rioxx/aggregation`
+    )
+    const data = await response.json()
+    this.myData = data
+    return data
+  }
+
+  @action
+  setValidationResult = (result) => {
+    this.validationResult = result
+  }
+
   @action retrieve() {
     super.retrieve().then(
       () => {
@@ -134,7 +180,16 @@ class DataProvider extends Resource {
     const plan = {}
     const members = this.allMembers?.members
     if (members && members.length > 0) {
-      const founded = members.find((member) => +member.repo_id === this.id)
+      const founded = members.find((member) => {
+        if (member.repo_id.toString() === this.id.toString()) return true
+
+        return !!(
+          Array.isArray(member.repo_id) &&
+          member.repo_id.find(
+            (element) => element.toString() === this.id.toString()
+          )
+        )
+      })
       if (!founded) {
         Object.assign(plan, {
           repo_id: this.id,

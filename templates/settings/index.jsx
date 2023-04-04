@@ -73,6 +73,7 @@ const SettingsTemplate = forwardRef(
     organisationUserInvites,
     className,
     membershipPlan,
+    stateData,
     tag: Tag = 'main',
     ...restProps
   }) => {
@@ -123,6 +124,8 @@ const SettingsTemplate = forwardRef(
       mapping: mappingRef,
       invite: inviteRef,
     }
+
+    const badgesData = stateData.docs?.items?.slice(-1)[0]
 
     useScrollEffect(scrollTarget[router.query.referrer])
 
@@ -253,6 +256,42 @@ const SettingsTemplate = forwardRef(
             logoUrl={dataProviderLogo}
             handleUpload={updateLogo}
           />
+        </div>
+        <div>
+          <Card
+            className={classNames.use(styles.section).join(className)}
+            tag="section"
+          >
+            <Card.Title tag="h2">{badgesData.title}</Card.Title>
+            <div className={styles.badgeContainer}>
+              <Card.Description className={styles.badgeDescription} tag="div">
+                <p>{badgesData.descriptionDashboard}</p>
+                <div>
+                  {badgesData.images?.map((img) => (
+                    <div className={styles.cardWrapper}>
+                      <div className={styles.imgWrapper}>
+                        {/* eslint-disable-next-line max-len */}
+                        {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                        <img
+                          key={img.file}
+                          className={classNames.use(styles.image, {
+                            [styles.badgeImage]: img.source,
+                            [styles.badgeImageHeight]:
+                              img.source?.includes('square'),
+                          })}
+                          src={img.file}
+                          alt="image"
+                        />
+                      </div>
+                      <div className={styles.textAlignment}>
+                        <span className={styles.text}>{img.source}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card.Description>
+            </div>
+          </Card>
         </div>
         <ChangePassword
           className={styles.section}

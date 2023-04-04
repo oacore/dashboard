@@ -10,6 +10,11 @@ const config = [
     icon: 'sync',
   },
   {
+    test: `validator`,
+    path: 'validator',
+    icon: 'sync',
+  },
+  {
     id: 'content',
     path: 'content',
     icon: 'file-document',
