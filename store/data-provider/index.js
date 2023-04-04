@@ -180,7 +180,16 @@ class DataProvider extends Resource {
     const plan = {}
     const members = this.allMembers?.members
     if (members && members.length > 0) {
-      const founded = members.find((member) => +member.repo_id === this.id)
+      const founded = members.find((member) => {
+        if (member.repo_id.toString() === this.id.toString()) return true
+
+        return !!(
+          Array.isArray(member.repo_id) &&
+          member.repo_id.find(
+            (element) => element.toString() === this.id.toString()
+          )
+        )
+      })
       if (!founded) {
         Object.assign(plan, {
           repo_id: this.id,
