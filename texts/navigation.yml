@@ -4,6 +4,7 @@ items:
   index: Overview
   harvesting: Harvesting
   data: Data
+  validator: Metadata validator
   content: Content
   deposit-compliance: OA compliance
   doi: DOI

@@ -44,6 +44,11 @@ const config = new RouteConfig([
     icon: 'sync',
   },
   {
+    test: /\/validator/,
+    path: 'validator',
+    icon: 'file-document',
+  },
+  {
     test: /\/content/,
     path: 'content',
     icon: 'file-document',
