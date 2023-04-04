@@ -3,10 +3,12 @@ import { classNames } from '@oacore/design/lib/utils'
 import { useRouter } from 'next/router'
 
 import menu from '../../components/upload/assets/menu.svg'
+import info from '../../components/upload/assets/info.svg'
 import styles from './styles.module.css'
 import RioxValidator from './RIoxValidator/RIoxValidator'
 import MyRepository from './MyReposiyory/myRepository'
 import { Icon, Link, Message } from '../../design'
+import Markdown from '../../components/markdown'
 
 import { Button } from 'design'
 import texts from 'texts/validator'
@@ -25,7 +27,11 @@ const NotEnoughDataMessage = () => (
   <Message className={styles.dataErrorWrapper}>
     <Icon className={styles.errorIcon} src="#alert-outline" /> Your repository
     is not configured to expose RIOXX guidelines. For more information contact
-    us at <Link href={SUPPORT_EMAIL_URL}> {SUPPORT_EMAIL}</Link>.
+    us at
+    <Link className={styles.link} href={SUPPORT_EMAIL_URL}>
+      {SUPPORT_EMAIL}
+    </Link>
+    .
   </Message>
 )
 
@@ -54,8 +60,12 @@ const ValidatorPageTemplate = ({
   const [activeTab, setActiveTab] = useState(TABS.validation)
   const [filteredWarning, setFilteredWarning] = useState([])
   const [filteredIssue, setFilteredIssue] = useState([])
-  const [repositoryData, setrepositoryData] = useState([])
-  const [filterRepositoryIssueData, setFilterRepositoryIssueData] = useState([])
+
+  // !!! WHEN RELEASE MY REPOSITORY UNCOMMENT !!!
+
+  // const [repositoryData, setrepositoryData] = useState([])
+  // eslint-disable-next-line max-len
+  // const [filterRepositoryIssueData, setFilterRepositoryIssueData] = useState([])
 
   const router = useRouter()
 
@@ -63,10 +73,12 @@ const ValidatorPageTemplate = ({
 
   const handleTabChange = async (tab) => {
     setActiveTab(tab)
-    if (activeTab === TABS.validation) {
-      const data = await repositoryValidator(id)
-      setrepositoryData(data)
-    }
+    // !!! WHEN RELEASE MY REPOSITORY UNCOMMENT !!!
+
+    // if (activeTab === TABS.validation) {
+    //   const data = await repositoryValidator(id)
+    //   setrepositoryData(data)
+    // }
   }
 
   const handleValidateClick = () => {
@@ -132,34 +144,38 @@ const ValidatorPageTemplate = ({
     setFilteredWarning(finalData)
   }, [validationResult.missingOptionalData])
 
-  useEffect(() => {
-    const repositoryList = issueList.filter((item) =>
-      repositoryData.missingTermsBasic?.find(
-        (issue) => item.key.toLowerCase() === issue.elementName.toLowerCase()
-      )
-    )
+  // !!! WHEN RELEASE MY REPOSITORY UNCOMMENT !!!
 
-    const updatedIssueList = repositoryList.map((obj) => {
-      const result = repositoryData.missingTermsBasic.find(
-        (element) => element.elementName.toLowerCase() === obj.key.toLowerCase()
-      )
-
-      return {
-        ...obj,
-        outputsCount: result.outputsCount,
-      }
-    })
-
-    const filteredData =
-      repositoryData.missingTermsBasic?.filter(
-        (item) =>
-          !updatedIssueList?.some(
-            (obj) => obj?.key?.toLowerCase() === item.elementName.toLowerCase()
-          )
-      ) ?? []
-
-    setFilterRepositoryIssueData([...updatedIssueList, ...filteredData])
-  }, [repositoryData.missingTermsBasic])
+  // useEffect(() => {
+  //   const repositoryList = issueList.filter((item) =>
+  //     repositoryData.missingTermsBasic?.find(
+  //       (issue) => item.key.toLowerCase() === issue.elementName.toLowerCase()
+  //     )
+  //   )
+  //
+  //   const updatedIssueList = repositoryList.map((obj) => {
+  //     const result = repositoryData.missingTermsBasic.find(
+  // eslint-disable-next-line max-len
+  //       (element) => element.elementName.toLowerCase() === obj.key.toLowerCase()
+  //     )
+  //
+  //     return {
+  //       ...obj,
+  //       outputsCount: result.outputsCount,
+  //     }
+  //   })
+  //
+  //   const filteredData =
+  //     repositoryData.missingTermsBasic?.filter(
+  //       (item) =>
+  //         !updatedIssueList?.some(
+  // eslint-disable-next-line max-len
+  //           (obj) => obj?.key?.toLowerCase() === item.elementName.toLowerCase()
+  //         )
+  //     ) ?? []
+  //
+  //   setFilterRepositoryIssueData([...updatedIssueList, ...filteredData])
+  // }, [repositoryData.missingTermsBasic])
 
   return (
     <Tag
@@ -174,43 +190,51 @@ const ValidatorPageTemplate = ({
         <p className={styles.description}>{texts.validator.description}</p>
       </header>
       {rioxxCompliance != null && rioxxCompliance.totalCount > 0 ? (
-        <div className={styles.validationField}>
-          <div className={styles.tabWrapper}>
-            <Button
-              className={classNames.use(styles.tab, {
-                [styles.activeTab]: activeTab === TABS.myRepository,
-              })}
-              onClick={() => handleTabChange(TABS.myRepository)}
-            >
-              {texts.validator.validator.actions[0].name}
-            </Button>
-            <Button
-              className={classNames.use(styles.tab, {
-                [styles.activeTab]: activeTab === TABS.validation,
-              })}
-              onClick={() => handleTabChange(TABS.validation)}
-            >
-              {texts.validator.validator.actions[1].name}
-            </Button>
+        <>
+          <Message className={styles.dataErrorWrapper}>
+            <img className={styles.infoIcon} src={info} alt="riox" />
+            <Markdown className={styles.infoText}>
+              {texts.validator.rioxInfo}
+            </Markdown>
+          </Message>
+          <div className={styles.validationField}>
+            <div className={styles.tabWrapper}>
+              <Button
+                className={classNames.use(styles.tab, {
+                  [styles.activeTab]: activeTab === TABS.myRepository,
+                })}
+                onClick={() => handleTabChange(TABS.myRepository)}
+              >
+                {texts.validator.validator.actions[0].name}
+              </Button>
+              <Button
+                className={classNames.use(styles.tab, {
+                  [styles.activeTab]: activeTab === TABS.validation,
+                })}
+                onClick={() => handleTabChange(TABS.validation)}
+              >
+                {texts.validator.validator.actions[1].name}
+              </Button>
+            </div>
+            {activeTab === TABS.myRepository && (
+              <MyRepository
+                // filterRepositoryData={filterRepositoryIssueData}
+                filterRepositoryIssueData
+                // repositoryData={repositoryData}
+              />
+            )}
+            {activeTab === TABS.validation && (
+              <RioxValidator
+                handleValidateClick={handleValidateClick}
+                validationResult={validationResult}
+                handleTextareaChange={handleTextareaChange}
+                recordValue={recordValue}
+                filteredIssue={filteredIssue}
+                filteredWarning={filteredWarning}
+              />
+            )}
           </div>
-          {activeTab === TABS.myRepository && (
-            <MyRepository
-              filterRepositoryData={filterRepositoryIssueData}
-              filterRepositoryIssueData
-              repositoryData={repositoryData}
-            />
-          )}
-          {activeTab === TABS.validation && (
-            <RioxValidator
-              handleValidateClick={handleValidateClick}
-              validationResult={validationResult}
-              handleTextareaChange={handleTextareaChange}
-              recordValue={recordValue}
-              filteredIssue={filteredIssue}
-              filteredWarning={filteredWarning}
-            />
-          )}
-        </div>
+        </>
       ) : (
         <NotEnoughDataMessage />
       )}

@@ -3,8 +3,8 @@ import React from 'react'
 import ComplianceCard from '../cards/complianceCard'
 import styles from '../styles.module.css'
 import texts from '../../../texts/validator'
-import moreInfo from '../../../components/upload/assets/moreInfo.svg'
-import IssueCard from '../cards/issueCard'
+import Actions from '../../../components/actions'
+import Markdown from '../../../components/markdown'
 
 const MyRepository = ({ filterRepositoryData, repositoryData }) => (
   <>
@@ -17,25 +17,34 @@ const MyRepository = ({ filterRepositoryData, repositoryData }) => (
         <div className={styles.issueTitle}>
           <div className={styles.innerWrapper}>
             <div className={styles.issueCount}>
-              {filterRepositoryData.length}
+              {/*  // !!! WHEN RELEASE MY REPOSITORY UNCOMMENT !!! */}
+              {/* {filterRepositoryData.length} */}0
             </div>
             <p className={styles.issueText}>
               {texts.validator.issues.issueTitle}
             </p>
           </div>
-          <img className={styles.issueImage} src={moreInfo} alt="" />
+          <Actions description={texts.validator.issueTooltip} />
         </div>
-        {filterRepositoryData.length !== 0 ? (
-          <IssueCard
-            issueCount
-            validationList={filterRepositoryData}
-            filterRepositoryIssueData
-          />
-        ) : (
-          <div className={styles.issueDescription}>
-            {texts.validator.issues.placeholder}
-          </div>
-        )}
+        {/*  // !!! WHEN RELEASE MY REPOSITORY UNCOMMENT !!! */}
+        {/* {filterRepositoryData.length !== 0 ? ( */}
+        {/*  <IssueCard */}
+        {/*    issueCount */}
+        {/*    validationList={filterRepositoryData} */}
+        {/*    filterRepositoryIssueData */}
+        {/*  /> */}
+        {/* ) : ( */}
+        {/*  <div className={styles.issueDescription}> */}
+        {/*    {texts.validator.issues.placeholder} */}
+        {/*  </div> */}
+        {/* )} */}
+
+        {/* TEMP */}
+        <Markdown className={styles.explainTextHeader}>
+          {texts.validator.issueTooltip}
+        </Markdown>
+        <p className={styles.explainText}>{texts.validator.issueDescription}</p>
+        {/* TEMP */}
       </div>
       <div className={styles.issueWrapper}>
         <div className={styles.issueTitle}>
@@ -45,9 +54,16 @@ const MyRepository = ({ filterRepositoryData, repositoryData }) => (
               {texts.validator.issues.warningTitle}
             </p>
           </div>
-          <img className={styles.issueImage} src={moreInfo} alt="" />
+          <Actions description={texts.validator.warningTooltip} />
         </div>
-        <div className={styles.issueDescription}>No warnings found yet</div>
+        {/* TEMP */}
+        <Markdown className={styles.explainTextHeader}>
+          {texts.validator.warningTooltip}
+        </Markdown>
+        <p className={styles.explainText}>
+          {texts.validator.warningDescription}
+        </p>
+        {/* TEMP */}
       </div>
     </article>
   </>

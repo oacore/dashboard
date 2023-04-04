@@ -12,11 +12,30 @@ const ValidateCard = ({
 }) => (
   <article className={styles.content}>
     <Card.Title tag="h2">{texts.validator.validator.title}</Card.Title>
+    <div className={styles.subTitleWrapper}>
+      <p className={styles.subTitle}>
+        {texts.validator.validator.subTitle.title}
+      </p>
+      <div className={styles.actionWrapper}>
+        {Object.values(texts.validator.validator.subTitle.actions).map(
+          (item) => (
+            <Button
+              onClick={() => {
+                handleTextareaChange(item.value)
+              }}
+              className={styles.linkButton}
+            >
+              {item.text}
+            </Button>
+          )
+        )}
+      </div>
+    </div>
     <textarea
       className={styles.textField}
       placeholder="Put your data here"
       value={recordValue}
-      onChange={handleTextareaChange}
+      onChange={(event) => handleTextareaChange(event.target.value)}
     />
     <div className={styles.inputButton}>
       <Button variant="contained" type="button" onClick={handleValidateClick}>

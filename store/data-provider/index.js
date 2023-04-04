@@ -54,8 +54,8 @@ class DataProvider extends Resource {
   @observable validationResult = {}
 
   @action
-  handleTextareaChange = (event) => {
-    this.recordValue = event.target.value
+  handleTextareaChange = (input) => {
+    this.recordValue = input
   }
 
   @action
