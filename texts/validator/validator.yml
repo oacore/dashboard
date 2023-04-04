@@ -14,10 +14,61 @@ validator:
   subTitle:
     title: You can input a record XML (what is enclosed in the <rioxx>…</rioxx> tags).
     actions:
-     - text: Fully compliant example
-       value: <rioxx xmlns:ali='http://ali.niso.org/2014/ali/1.0'  xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rioxxterms="http://www.rioxx.net/schema/v2.0/rioxxterms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ><ali:free_to_read></ali:free_to_read><dc:description>This paper provides an overview of the Open University&apos;s newly validated work based pre-registration nursing programme including the Library&apos;s involvement in the programme. The programme&apos;s educational philosophy, aims and objectives are outlined. The paper discusses the ways in which information literacy skills are being integrated into the programme to help the students develop the skills they need to deliver care based on current evidence, best practice and validated research.</dc:description><dc:format>application/pdf</dc:format><dc:identifier>http://oro.open.ac.uk/2/1/LIBARTVICEprints.pdf</dc:identifier><dc:language>en</dc:language><dc:source>1471-1834</dc:source><dc:title>Working in partnership to deliver an innovative pre-registration nursing programme</dc:title><rioxxterms:author>Thomas, Judy</rioxxterms:author><rioxxterms:author>Arrowsmith, Vickie</rioxxterms:author><rioxxterms:publication_date>2002-11</rioxxterms:publication_date><rioxxterms:type>Journal Article/Review</rioxxterms:type><rioxxterms:version>NA</rioxxterms:version><rioxxterms:version_of_record>http://dx.doi.org/10.1046/j.1471-1842.2002.00387.x</rioxxterms:version_of_record></rioxx>
-     - text: Example with issues
-       value: temp
+     - text: Fully compliant
+       value: |
+         <rioxx
+             xmlns="http://www.rioxx.net/schema/v3.0/rioxx/"
+             xmlns:ali="http://ali.niso.org/2014/ali/1.0"
+             xmlns:dc="http://purl.org/dc/elements/1.1/"
+             xmlns:dcterms="http://purl.org/dc/terms/"
+             xmlns:rioxxterms="http://docs.rioxx.net/schema/v3.0/rioxxterms/" xsi:schemaLocation="http://www.rioxx.net/schema/v3.0/rioxx/ http://www.rioxx.net/schema/v3.0/rioxx/rioxx.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <ali:free_to_read></ali:free_to_read>
+             <ali:license_ref start_date="2020-11-17">https://creativecommons.org/licenses/by/4.0</ali:license_ref>
+             <dc:description>A week-long intensive process of staff development and induction called Rapid Institutional Appraisal (RIA) was conducted in November 2000 in the Systems Discipline, Centre for Complexity and Change (CCC), at the Open University. We report the systemic roots and characteristics of the RIA as designed from traditions of soft systems methodology and rapid rural appraisal. Our experiences arising from our own use of RIA are described and the wider implications for organizational learning in a complex organization discussed. While acknowledging limitations with this RIA event, we argue that RIA offers a potential model for staff development for adaptive use in different contexts and on varying scales. The process builds on principles of "conversation" and "multiple perspectives" as the touchstone for establishing a purposeful community of practice.</dc:description>
+             <dc:format>application/pdf</dc:format>
+             <dc:identifier>http://oro.open.ac.uk/27/1/RIA_SPAR.pdf</dc:identifier>
+             <dc:language>en</dc:language>
+             <dc:source>1094-429X</dc:source>
+             <dc:title>Rapid institutional appraisal</dc:title>
+             <dcterms:dateAccepted>2022-03-04</dcterms:dateAccepted>
+             <rioxxterms:author uri="http://orcid.org/0000-0001-6986-6476" first-named-author="true">Armson, R.</rioxxterms:author>
+             <rioxxterms:project>https://handle.net/10378.1/1590366</rioxxterms:project>
+             <rioxxterms:author uri="http://orcid.org/0000-0001-9191-119X">Ison, R.L.</rioxxterms:author>
+             <rioxxterms:author uri="http://orcid.org/0000-0001-6986-6476">Short, L.</rioxxterms:author>
+             <rioxxterms:author uri="http://orcid.org/0000-0001-6986-6476">Ramage, M.</rioxxterms:author>
+             <rioxxterms:author uri="http://orcid.org/0000-0001-8644-9519">Reynolds, M.</rioxxterms:author>
+             <rioxxterms:publication_date>2001-12</rioxxterms:publication_date>
+             <rioxxterms:type uri="https://purl.org/coar/resource_type/c_6501">Journal Article/Review</rioxxterms:type>
+             <rioxxterms:version>AM</rioxxterms:version>
+             <rioxxterms:version_of_record>http://dx.doi.org/10.1023/A:1013182429327</rioxxterms:version_of_record>
+         </rioxx>
+     - text: Partially compliant
+       value: |
+         <rioxx
+             xmlns="http://www.rioxx.net/schema/v3.0/rioxx/"
+             xmlns:ali="http://ali.niso.org/2014/ali/1.0"
+             xmlns:dc="http://purl.org/dc/elements/1.1/"
+             xmlns:dcterms="http://purl.org/dc/terms/"
+             xmlns:rioxxterms="http://docs.rioxx.net/schema/v3.0/rioxxterms/" xsi:schemaLocation="http://www.rioxx.net/schema/v3.0/rioxx/ http://www.rioxx.net/schema/v3.0/rioxx/rioxx.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+             <ali:free_to_read></ali:free_to_read>
+             <dc:description>A week-long intensive process of staff development and induction called Rapid Institutional Appraisal (RIA) was conducted in November 2000 in the Systems Discipline, Centre for Complexity and Change (CCC), at the Open University. We report the systemic roots and characteristics of the RIA as designed from traditions of soft systems methodology and rapid rural appraisal. Our experiences arising from our own use of RIA are described and the wider implications for organizational learning in a complex organization discussed. While acknowledging limitations with this RIA event, we argue that RIA offers a potential model for staff development for adaptive use in different contexts and on varying scales. The process builds on principles of "conversation" and "multiple perspectives" as the touchstone for establishing a purposeful community of practice.</dc:description>
+             <dc:format>application/pdf</dc:format>
+             <dc:identifier>http://oro.open.ac.uk/27/1/RIA_SPAR.pdf</dc:identifier>
+             <dc:language>en</dc:language>
+             <dc:source>1094-429X</dc:source>
+             <dc:title>Rapid institutional appraisal</dc:title>
+             <rioxxterms:author>Armson, R.</rioxxterms:author>
+             <rioxxterms:author id="http://orcid.org/0000-0001-9191-119X">Ison, R.L.</rioxxterms:author>
+             <rioxxterms:author>Short, L.</rioxxterms:author>
+             <rioxxterms:author id="http://orcid.org/0000-0001-6986-6476">Ramage, M.</rioxxterms:author>
+             <rioxxterms:author id="http://orcid.org/0000-0001-8644-9519">Reynolds, M.</rioxxterms:author>
+             <rioxxterms:publication_date>2001-12</rioxxterms:publication_date>
+             <rioxxterms:type>Journal Article/Review</rioxxterms:type>
+             <rioxxterms:version>AM</rioxxterms:version>
+             <rioxxterms:version_of_record>http://dx.doi.org/10.1023/A:1013182429327</rioxxterms:version_of_record>
+         </rioxx>
   action: validate
 
 

@@ -44,7 +44,7 @@ const RioxValidator = ({
             <Message className={styles.dataErrorWrapper}>
               <img className={styles.infoIcon} src={info} alt="riox" />
               <p className={styles.versionText}>
-                This record uses the RIOXXv2/v3 application profile.
+                {`This record uses the RIOXX v${validationResult.rioxxVersion} application profile.`}
               </p>
             </Message>
           )}
