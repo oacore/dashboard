@@ -34,9 +34,9 @@ const MembershipPageTemplate = ({
             textData={textData}
             description={card.description}
             action={card.action}
-            planName={membershipPlan.billingType}
+            planName={membershipPlan.billing_type}
             isPlanActive={
-              membershipPlan.billingType === card.title.toLowerCase()
+              membershipPlan.billing_type === card.title.toLowerCase()
             }
           />
         ))}
