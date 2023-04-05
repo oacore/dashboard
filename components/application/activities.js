@@ -46,7 +46,7 @@ const config = new RouteConfig([
   {
     test: /\/validator/,
     path: 'validator',
-    icon: 'file-document',
+    icon: 'metadata-validator',
   },
   {
     test: /\/content/,
