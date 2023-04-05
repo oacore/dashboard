@@ -12,7 +12,7 @@ const config = [
   {
     test: `validator`,
     path: 'validator',
-    icon: 'sync',
+    icon: 'metadata-validator',
   },
   {
     id: 'content',

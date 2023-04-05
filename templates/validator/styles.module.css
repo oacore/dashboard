@@ -12,7 +12,6 @@
 .validator-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .menu {
@@ -20,7 +19,29 @@
 }
 
 .title {
+  margin-bottom: 0;
   font-weight: 400;
+}
+
+.temporary-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 53px;
+  height: 30px;
+  margin-left: 10px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  background: #8bc34a;
+  border-radius: 2px;
 }
 
 .description {

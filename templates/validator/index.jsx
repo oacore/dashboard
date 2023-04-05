@@ -2,12 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { useRouter } from 'next/router'
 
-import menu from '../../components/upload/assets/menu.svg'
 import info from '../../components/upload/assets/info.svg'
 import styles from './styles.module.css'
 import RioxValidator from './RIoxValidator/RIoxValidator'
 import MyRepository from './MyReposiyory/myRepository'
-import { Icon, Link, Message } from '../../design'
+import { Message } from '../../design'
 import Markdown from '../../components/markdown'
 
 import { Button } from 'design'
@@ -18,22 +17,24 @@ const TABS = {
   validation: 'validationTab',
 }
 
-const SUPPORT_EMAIL_URL = 'mailto:t%68%65t%65am%40core%2e%61c%2eu%6b'
-const SUPPORT_EMAIL = decodeURIComponent(
-  SUPPORT_EMAIL_URL.slice('mailto:'.length)
-)
+// const SUPPORT_EMAIL_URL = 'mailto:t%68%65t%65am%40core%2e%61c%2eu%6b'
+// const SUPPORT_EMAIL = decodeURIComponent(
+//   SUPPORT_EMAIL_URL.slice('mailto:'.length)
+// )
 
-const NotEnoughDataMessage = () => (
-  <Message className={styles.dataErrorWrapper}>
-    <Icon className={styles.errorIcon} src="#alert-outline" /> Your repository
-    is not configured to expose RIOXX guidelines. For more information contact
-    us at
-    <Link className={styles.link} href={SUPPORT_EMAIL_URL}>
-      {SUPPORT_EMAIL}
-    </Link>
-    .
-  </Message>
-)
+// const NotEnoughDataMessage = () => (
+//   <Message className={styles.dataErrorWrapper}>
+// eslint-disable-next-line max-len
+//     <Icon className={styles.errorIcon} src="#alert-outline" /> Your repository
+// eslint-disable-next-line max-len
+//     is not configured to expose RIOXX guidelines. For more information contact
+//     us at
+//     <Link className={styles.link} href={SUPPORT_EMAIL_URL}>
+//       {SUPPORT_EMAIL}
+//     </Link>
+//     .
+//   </Message>
+// )
 
 const ValidatorPageTemplate = ({
   tag: Tag = 'main',
@@ -184,60 +185,62 @@ const ValidatorPageTemplate = ({
     >
       <header className={styles.header}>
         <div className={styles.validatorHeader}>
-          <h1 className={styles.title}>{texts.validator.title}</h1>
-          <img className={styles.menu} src={menu} alt="" />
+          <div className={styles.temporaryWrapper}>
+            <h1 className={styles.title}>{texts.validator.title}</h1>
+            <div className={styles.beta}>BEAT</div>
+          </div>
         </div>
         <p className={styles.description}>{texts.validator.description}</p>
       </header>
-      {rioxxCompliance != null && rioxxCompliance.totalCount > 0 ? (
-        <>
-          <Message className={styles.dataErrorWrapper}>
-            <img className={styles.infoIcon} src={info} alt="riox" />
-            <Markdown className={styles.infoText}>
-              {texts.validator.rioxInfo}
-            </Markdown>
-          </Message>
-          <div className={styles.validationField}>
-            <div className={styles.tabWrapper}>
-              <Button
-                className={classNames.use(styles.tab, {
-                  [styles.activeTab]: activeTab === TABS.myRepository,
-                })}
-                onClick={() => handleTabChange(TABS.myRepository)}
-              >
-                {texts.validator.validator.actions[0].name}
-              </Button>
-              <Button
-                className={classNames.use(styles.tab, {
-                  [styles.activeTab]: activeTab === TABS.validation,
-                })}
-                onClick={() => handleTabChange(TABS.validation)}
-              >
-                {texts.validator.validator.actions[1].name}
-              </Button>
-            </div>
-            {activeTab === TABS.myRepository && (
-              <MyRepository
-                // filterRepositoryData={filterRepositoryIssueData}
-                filterRepositoryIssueData
-                // repositoryData={repositoryData}
-              />
-            )}
-            {activeTab === TABS.validation && (
-              <RioxValidator
-                handleValidateClick={handleValidateClick}
-                validationResult={validationResult}
-                handleTextareaChange={handleTextareaChange}
-                recordValue={recordValue}
-                filteredIssue={filteredIssue}
-                filteredWarning={filteredWarning}
-              />
-            )}
+      {/* {rioxxCompliance != null && rioxxCompliance.totalCount > 0 ? ( */}
+      <>
+        <Message className={styles.dataErrorWrapper}>
+          <img className={styles.infoIcon} src={info} alt="riox" />
+          <Markdown className={styles.infoText}>
+            {texts.validator.rioxInfo}
+          </Markdown>
+        </Message>
+        <div className={styles.validationField}>
+          <div className={styles.tabWrapper}>
+            <Button
+              className={classNames.use(styles.tab, {
+                [styles.activeTab]: activeTab === TABS.myRepository,
+              })}
+              onClick={() => handleTabChange(TABS.myRepository)}
+            >
+              {texts.validator.validator.actions[0].name}
+            </Button>
+            <Button
+              className={classNames.use(styles.tab, {
+                [styles.activeTab]: activeTab === TABS.validation,
+              })}
+              onClick={() => handleTabChange(TABS.validation)}
+            >
+              {texts.validator.validator.actions[1].name}
+            </Button>
           </div>
-        </>
-      ) : (
-        <NotEnoughDataMessage />
-      )}
+          {activeTab === TABS.myRepository && (
+            <MyRepository
+              // filterRepositoryData={filterRepositoryIssueData}
+              filterRepositoryIssueData
+              // repositoryData={repositoryData}
+            />
+          )}
+          {activeTab === TABS.validation && (
+            <RioxValidator
+              handleValidateClick={handleValidateClick}
+              validationResult={validationResult}
+              handleTextareaChange={handleTextareaChange}
+              recordValue={recordValue}
+              filteredIssue={filteredIssue}
+              filteredWarning={filteredWarning}
+            />
+          )}
+        </div>
+      </>
+      {/* ) : ( */}
+      {/*  <NotEnoughDataMessage /> */}
+      {/* )} */}
     </Tag>
   )
 }
