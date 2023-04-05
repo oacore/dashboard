@@ -187,7 +187,7 @@ const ValidatorPageTemplate = ({
         <div className={styles.validatorHeader}>
           <div className={styles.temporaryWrapper}>
             <h1 className={styles.title}>{texts.validator.title}</h1>
-            <div className={styles.beta}>BEAT</div>
+            <div className={styles.beta}>BETA</div>
           </div>
         </div>
         <p className={styles.description}>{texts.validator.description}</p>
