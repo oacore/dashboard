@@ -13,12 +13,14 @@
   }
 }
 
+.invitation-user-delete,
 .invitation-form {
   display: flex;
   flex-wrap: wrap;
 
   & > button {
     flex: 0 0 auto;
+    width: 180px;
     margin-left: 1.5rem;
 
     @media (--screen-small-screen-width) {
@@ -34,6 +36,43 @@
   & > p {
     flex: 0 0 100%;
     margin-top: 0.5rem;
+  }
+}
+
+.invitation-user-delete {
+  max-width: 50rem;
+  color: var(--gray-500);
+}
+
+.confirmation-popup span {
+  color: var(--primary);
+}
+
+.invite-status {
+  width: 20px;
+  line-height: 38px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.invite-email {
+  width: 20px;
+  line-height: 38px;
+}
+
+.invite-activated {
+  color: var(--success);
+}
+
+.btn-delete {
+  width: 2rem;
+  height: 38px;
+  fill: var(--white);
+
+  &:hover {
+    color: var(--gray-400);
+    cursor: pointer;
+    fill: var(--gray-400);
   }
 }
 
@@ -63,6 +102,17 @@
 .upload-note {
   display: block;
   margin-bottom: 1rem;
+}
+
+.footer {
+  display: flex;
+
+  /* flex-pack: end; */
+  justify-content: end;
+
+  & > button {
+    margin-left: 10px;
+  }
 }
 
 .badge-container {

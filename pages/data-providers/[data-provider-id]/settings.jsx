@@ -53,6 +53,8 @@ const Settings = ({ store, ...restProps }) => {
       inviteUser={store.organisation.inviteUser}
       mappingSubmit={store.updateOaiSettings}
       updateLogo={store.updateLogo}
+      organisationUserInvites={store.organisation.organisationUserInvites}
+      delInviter={store.invitation?.deleteInviteUser}
       dataProviderLogo={store.dataProvider.logo}
       membershipPlan={store.dataProvider.membershipPlan}
       stateData={stateData}

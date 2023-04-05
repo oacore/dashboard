@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import styles from './styles.module.css'
 import oaiLogo from './assets/oai_logo.svg'
 import { useScrollEffect } from '../../pages/_app/hooks'
+import ConfirmationDeleteInvite from './confirmation'
 
 import Markdown from 'components/markdown'
 import { Card, TextField } from 'design'
@@ -68,6 +69,8 @@ const SettingsTemplate = forwardRef(
     mappingSubmit,
     updateLogo,
     inviteUser,
+    delInviter,
+    organisationUserInvites,
     className,
     membershipPlan,
     stateData,
@@ -76,6 +79,17 @@ const SettingsTemplate = forwardRef(
   }) => {
     const router = useRouter()
     const [formMessage, setFormMessage] = useState({})
+    const [inviteCodes, setInviteCodes] = useState(organisationUserInvites)
+
+    const removeElement = (code) => {
+      const newInviteCodes = inviteCodes.filter((item) => item.code !== code)
+      // eslint-disable-next-line no-param-reassign
+      organisationUserInvites = organisationUserInvites.filter(
+        (item) => item.code !== code
+      )
+      setInviteCodes(newInviteCodes)
+    }
+
     const organization = { name: dataProvider.institution }
     const isStartingMember = membershipPlan.billing_type === 'starting'
     const handleSubmit = async (event) => {
@@ -159,6 +173,32 @@ const SettingsTemplate = forwardRef(
                 tag="div"
               />
             </FormShell>
+            <Card.Title tag="h4">{content.invite.listAccess}</Card.Title>
+            {inviteCodes.map((item) => (
+              // {organisationUserInvites.map((item) => (
+              <div className={classNames.use(styles.invitationUserDelete)}>
+                <div
+                  id={`invite-${item.email}`}
+                  className={classNames.use(styles.inviteEmail)}
+                >
+                  {item.email}
+                </div>
+                <div
+                  id={`invite-${item.activated}`}
+                  className={classNames.use(styles.inviteStatus, {
+                    [styles.inviteActivated]: item.activated,
+                  })}
+                >
+                  {item.activated ? 'activated' : 'not activated'}
+                </div>
+                <ConfirmationDeleteInvite
+                  text={content.invite.confirmation}
+                  item={item}
+                  submitConfirm={delInviter}
+                  removeElement={removeElement}
+                />
+              </div>
+            ))}
           </Card>
         </div>
         <Card
