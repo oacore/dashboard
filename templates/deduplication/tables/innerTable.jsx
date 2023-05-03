@@ -6,7 +6,7 @@ import { Message } from '../../../design'
 import styles from '../styles.module.css'
 import info from '../../../components/upload/assets/info.svg'
 import Markdown from '../../../components/markdown'
-import { deduplication } from '../../../texts/deduplication'
+import texts from '../../../texts/deduplication'
 import Table from '../../../components/table'
 import { formatDate } from '../../../utils/helpers'
 
@@ -15,8 +15,8 @@ const InnerTable = ({ combinedArray }) => (
     <Message className={styles.dataErrorWrapper}>
       <img className={styles.infoIcon} src={info} alt="description" />
       <Markdown className={styles.infoText}>
-        {/* {texts.deduplication.moreInfo.description} */}
-        {deduplication.deduplication.moreInfo.description}
+        {/* eslint-disable-next-line import/no-named-as-default-member */}
+        {texts.deduplication.moreInfo.description}
       </Markdown>
     </Message>
     <div>

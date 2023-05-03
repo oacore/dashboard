@@ -4,7 +4,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import styles from '../styles.module.css'
 import arrowLeft from '../../../components/upload/assets/ArrowLeft.svg'
 import { Button } from '../../../design'
-import { deduplication } from '../../../texts/deduplication'
+import texts from '../../../texts/deduplication'
 import lock from '../../../components/upload/assets/lock.svg'
 import InnerTable from '../tables/innerTable'
 import ComparisonTable from '../tables/comparisonTable'
@@ -28,10 +28,11 @@ const CompareDuplicates = ({
         onClick={handleButtonToggle}
         variant={compare ? 'contained' : 'outlined'}
       >
-        {/* texts */}
         {compare
-          ? deduplication.deduplication.moreInfo.action
-          : deduplication.deduplication.moreInfoComparison.action}
+          ? // eslint-disable-next-line import/no-named-as-default-member
+            texts.deduplication.moreInfo.action
+          : // eslint-disable-next-line import/no-named-as-default-member
+            texts.deduplication.moreInfoComparison.action}
       </Button>
     </div>
     <div>

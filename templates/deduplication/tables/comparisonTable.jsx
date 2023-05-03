@@ -4,7 +4,7 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import { Message } from '../../../design'
 import styles from '../styles.module.css'
-import { deduplication } from '../../../texts/deduplication'
+import texts from '../../../texts/deduplication'
 import Markdown from '../../../components/markdown'
 import Table from '../../../components/table'
 import { formatDate } from '../../../utils/helpers'
@@ -14,18 +14,18 @@ const ComparisonTable = ({ combinedArray }) => (
     <Message className={styles.dataComparisonWrapper}>
       <div className={styles.dataComparisonHeader}>
         <h3 className={styles.dataComparisonHeaderTitle}>
-          {/* text */}
-          {deduplication.deduplication.moreInfoComparison.title}
+          {/* eslint-disable-next-line import/no-named-as-default-member */}
+          {texts.deduplication.moreInfoComparison.title}
         </h3>
         <Markdown className={styles.dataComparisonHeaderText}>
-          {/* text */}
-          {deduplication.deduplication.moreInfoComparison.description}
+          {/* eslint-disable-next-line import/no-named-as-default-member */}
+          {texts.deduplication.moreInfoComparison.description}
         </Markdown>
       </div>
       <div className={styles.optionItems}>
         {Object.values(
-          // texts.deduplication.moreInfoComparison?.options || []
-          deduplication.deduplication.moreInfoComparison?.options || []
+          // eslint-disable-next-line import/no-named-as-default-member
+          texts.deduplication.moreInfoComparison?.options || []
         ).map((item, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <div className={styles.optionItem} key={index}>

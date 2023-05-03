@@ -9,7 +9,7 @@ import DeduplicationInfoCard from './cards/deduplicationInfo'
 import DeduplicationStatistics from './cards/deduplicationStatistics'
 import DeduplicationTableCard from './tables/deduplicationTables'
 
-import { deduplication } from 'texts/deduplication'
+import texts from 'texts/deduplication'
 
 const DeduplicationPageTemplate = ({
   tag: Tag = 'main',
@@ -61,16 +61,16 @@ const DeduplicationPageTemplate = ({
     >
       <header className={styles.header}>
         <div className={styles.validatorHeader}>
-          {/* text */}
-          <h1 className={styles.title}>{deduplication.deduplication.title}</h1>
+          {/* eslint-disable-next-line import/no-named-as-default-member */}
+          <h1 className={styles.title}>{texts.deduplication.title}</h1>
           <div className={styles.iconWrapper}>
             <img className={styles.menu} src={magnify} alt="" />
             <img className={styles.menu} src={menu} alt="" />
           </div>
         </div>
-        {/* text */}
         <p className={styles.description}>
-          {deduplication.deduplication.description}
+          {/* eslint-disable-next-line import/no-named-as-default-member */}
+          {texts.deduplication.description}
         </p>
       </header>
       <div className={styles.cardsWrapper}>
