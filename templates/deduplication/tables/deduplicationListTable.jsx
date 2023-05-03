@@ -17,7 +17,8 @@ const DeduplicationListTable = ({ handeAdditionalInfo, list }) => (
     <Table
       rowClick={handeAdditionalInfo}
       className={styles.issueTable}
-      // fetchData={() => console.log('hi')}
+      /* eslint-disable-next-line no-console */
+      fetchData={() => console.log('hi')}
       data={list}
       isHeaderClickable
       bla

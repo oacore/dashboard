@@ -39,7 +39,8 @@ const ComparisonTable = ({ combinedArray }) => (
       <Table
         // rowClick={handeAdditionalInfo}
         className={styles.issueTable}
-        // fetchData={() => console.log('hi')}
+        /* eslint-disable-next-line no-console */
+        fetchData={() => console.log('hi')}
         data={combinedArray}
         isHeaderClickable
         bla
