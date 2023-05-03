@@ -5,6 +5,7 @@ items:
   harvesting: Harvesting
   data: Data
   validator: Metadata validator
+  deduplication: Deduplication
   content: Content
   deposit-compliance: OA compliance
   doi: DOI

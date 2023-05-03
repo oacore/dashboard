@@ -15,6 +15,11 @@ const config = [
     icon: 'metadata-validator',
   },
   {
+    test: `deduplication`,
+    path: 'deduplication',
+    icon: 'sync',
+  },
+  {
     id: 'content',
     path: 'content',
     icon: 'file-document',

@@ -53,6 +53,14 @@ class DataProvider extends Resource {
 
   @observable validationResult = {}
 
+  @observable duplicateList = ''
+
+  @observable duplicateListDetails = ''
+
+  @observable outputData = ''
+
+  @observable workData = ''
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -85,6 +93,44 @@ class DataProvider extends Resource {
     )
     const data = await response.json()
     this.myData = data
+    return data
+  }
+
+  @action
+  deduplicationData = async (id) => {
+    const response = await fetch(
+      `${process.env.API_URL}/data-providers/${id}/duplicates`
+    )
+    const data = await response.json()
+    this.duplicateList = data
+    return data
+  }
+
+  @action
+  // work id
+  deduplicationInfo = async () => {
+    const response = await fetch(
+      `https://api.core.ac.uk/internal/versions/124647`
+    )
+    // const response = await fetch(`${process.env.API_URL}/versions/${workId}`)
+    const data = await response.json()
+    this.duplicateListDetails = data
+    return data
+  }
+
+  @action
+  outputsData = async (id) => {
+    const response = await fetch(`${process.env.API_URL}/outputs/${id}`)
+    const data = await response.json()
+    this.outputData = data
+    return data
+  }
+
+  @action
+  worksData = async (id) => {
+    const response = await fetch(`https://core.ac.uk/v3/works/${id}`)
+    const data = await response.json()
+    this.workData = data
     return data
   }
 

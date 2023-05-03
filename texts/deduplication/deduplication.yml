@@ -1,0 +1,77 @@
+title: Deduplication
+
+description: Our technology searches your repository to identify potential duplicates. Please note that it is not possible to delete or merge duplicates in your repository directly from the dashboard. However, you can either resolve duplicates in your repository manually with the help of this tool or download the identified duplicates in a .csv format and use it to clean your data using a script you develop.
+
+info:
+  title: General information
+  subTitle: Last successful deduplication
+  countTitle: Number of duplicates
+  description: Deduplication runs automatically every time after your repository is harvested. You can request to receive a notification whenever a new deduplication report is generated.
+  action: Get notifications
+
+statistics:
+  title: Detected duplicates in your platform by publication year
+  countTitle: Number of duplicates
+  subTitle: Publication year
+
+moreInfo:
+  action: Compare METADATA RECORDS
+  description: The below list contains the potential duplicates CORE identified. You can compare and review these potential duplicates and confirm them as duplicates or tell us that they are different. This will impact how CORE displays these articles in Search, API and other services. Specifically, by marking potential duplicates as different articles, these articles will be disassociated (they will not be part of the same **Work** entity).
+  tableTitle: Possible duplicates in your repositories
+
+moreInfoComparison:
+  action: Close comparison
+  title: Comparison tips
+  description: |
+    You can compare the metadata below between two outputs and mark them with next tags:
+  options:
+    - title: Duplicate
+      description: this means that two these articles exactly the same with the same metadata.
+    - title: Different version
+      description: by clicking on this button you can select correct versions for each article.
+    - title: Not the same article
+      description: this will remove connection between these articles and they will no longer be associate with each other in one Work entity.
+  tableTitle: Possible duplicates in your repositories
+
+comparison:
+  title: Comparison tips
+  subTitle: |
+    You can compare the metadata below between two outputs and mark them with next tags:
+  items:
+   - title: Duplicate
+     description: this means that two these articles exactly the same with the same metadata.
+   - title: Different version
+     description: by clicking on this button you can select correct versions for each article.
+   - title: Not the same article
+     description: this will remove connection between these articles and they will no longer be associate with each other in one Work entity.
+  buttons:
+    - title: Duplicate
+    - title: Different version
+    - title: Not the same article
+  modalData:
+    - title: Duplicate
+      description: This article will be marked as duplicate. Do you want to proceed?
+      buttons:
+        - title: YES
+        - title: NO
+    - title: Not the same article
+      description: This article will be marked as **not the same article.** Do you want to proceed?
+      buttons:
+        - title: YES
+        - title: NO
+    - title: Different version
+      description: |
+        Please indicate the version of articles:
+      options:
+        - title: AO = Author’s Original
+        - title: SMUR = Submitted Manuscript Under Review
+        - title: AM = Accepted Manuscript
+        - title: P = Proof
+        - title: VoR = Version of Record
+        - title: CVoR = Corrected Version of Record
+        - title: EVoR = Enhanced Version of Record
+        - title: NA = Not Applicable (or Unknown)
+        - title: Different  version (N/A)
+      buttons:
+        - title: CONFIRM
+        - title: CANCEL

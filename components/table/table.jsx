@@ -34,6 +34,7 @@ const InfiniteTable = ({
   buttonText,
   useExpandIcon = false,
   excludeFooter = false,
+  rowClick,
   ...restProps
 }) => {
   const tableRef = useRef(null)
@@ -80,6 +81,10 @@ const InfiniteTable = ({
   // to potentially have useCallback() call behind
   const useRowCallback = (handler) => (bodyHasCallbacks ? handler : null)
 
+  const rowAction = sidebar
+    ? useRowCallback(handleRowClick)
+    : useRowCallback(handleRowToggle)
+
   return (
     <div
       ref={containerRef}
@@ -118,11 +123,7 @@ const InfiniteTable = ({
               isHeaderClickable={isHeaderClickable}
             />
             <Body
-              handleRowClick={
-                sidebar
-                  ? useRowCallback(handleRowClick)
-                  : useRowCallback(handleRowToggle)
-              }
+              handleRowClick={rowClick || rowAction}
               handleDoubleRowClick={useRowCallback(handleDoubleRowClick)}
               columns={columns}
               isClickable={bodyHasCallbacks}
