@@ -57,7 +57,7 @@ class DataProvider extends Resource {
 
   @observable duplicateListDetails = ''
 
-  @observable outputData = ''
+  @observable outputData = []
 
   @observable workData = ''
 
@@ -107,12 +107,13 @@ class DataProvider extends Resource {
   }
 
   @action
-  // work id
-  deduplicationInfo = async () => {
-    const response = await fetch(
-      `https://api.core.ac.uk/internal/versions/124647`
-    )
-    // const response = await fetch(`${process.env.API_URL}/versions/${workId}`)
+  deduplicationInfo = async (workId) => {
+    const response = await fetch(`${process.env.API_URL}/versions/${workId}`)
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch: ${response.status} ${response.statusText}`
+      )
+    }
     const data = await response.json()
     this.duplicateListDetails = data
     return data
@@ -120,18 +121,38 @@ class DataProvider extends Resource {
 
   @action
   outputsData = async (id) => {
-    const response = await fetch(`${process.env.API_URL}/outputs/${id}`)
-    const data = await response.json()
+    const url = new URL(`/v3/outputs/${id}`, process.env.API_URL).href
+    const data = await apiRequest(url)
     this.outputData = data
     return data
   }
 
   @action
   worksData = async (id) => {
-    const response = await fetch(`https://core.ac.uk/v3/works/${id}`)
-    const data = await response.json()
+    const url = new URL(`/v3/works/${id}`, process.env.API_URL).href
+    const data = await apiRequest(url)
     this.workData = data
     return data
+  }
+
+  @action
+  // eslint-disable-next-line consistent-return
+  updateWork = async (workId, outputId, type) => {
+    try {
+      const url = `${process.env.API_URL}/versions/${workId}`
+      const body = { workId, outputId, type }
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   @action

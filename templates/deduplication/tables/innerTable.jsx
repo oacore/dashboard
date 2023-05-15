@@ -6,28 +6,24 @@ import { Message } from '../../../design'
 import styles from '../styles.module.css'
 import info from '../../../components/upload/assets/info.svg'
 import Markdown from '../../../components/markdown'
-import texts from '../../../texts/deduplication'
+import texts from '../../../texts/deduplication/deduplication.yml'
 import Table from '../../../components/table'
-import { formatDate } from '../../../utils/helpers'
 
 const InnerTable = ({ combinedArray }) => (
   <>
     <Message className={styles.dataErrorWrapper}>
       <img className={styles.infoIcon} src={info} alt="description" />
       <Markdown className={styles.infoText}>
-        {/* eslint-disable-next-line import/no-named-as-default-member */}
-        {texts.deduplication.moreInfo.description}
+        {texts.moreInfo.description}
       </Markdown>
     </Message>
     <div>
       <Table
-        // rowClick={handeAdditionalInfo}
         className={styles.issueTable}
-        /* eslint-disable-next-line no-console */
-        fetchData={() => console.log('hi')}
+        fetchData={() => {}}
+        hidePagination
         data={combinedArray}
         isHeaderClickable
-        bla
       >
         <Table.Column
           id="oai"
@@ -62,15 +58,7 @@ const InnerTable = ({ combinedArray }) => (
           id="publicationDate"
           display="Publication date"
           className={styles.publicationDateColumn}
-          getter={(v) => formatDate(v?.publicationDate)}
-        />
-        <Table.Column
-          id="updateDate"
-          display="Update date"
-          className={styles.updateDateColumn}
-          cellClassName={styles.dateCell}
-          // getter={(v) => (v.udpatedDate ? formatDate(udpatedDate) : '-')}
-          getter="-"
+          getter={(v) => v?.publicationDate}
         />
         <Table.Column
           id="visibility"

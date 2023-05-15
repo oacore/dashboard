@@ -33,6 +33,12 @@ moreInfoComparison:
       description: this will remove connection between these articles and they will no longer be associate with each other in one Work entity.
   tableTitle: Possible duplicates in your repositories
 
+actions:
+  - title: Open in the repository
+    key: outputUrl
+  - title: Download
+    key: downloadUrl
+
 comparison:
   title: Comparison tips
   subTitle: |
@@ -46,32 +52,48 @@ comparison:
      description: this will remove connection between these articles and they will no longer be associate with each other in one Work entity.
   buttons:
     - title: Duplicate
+      type: duplicate
     - title: Different version
+      type: other
     - title: Not the same article
+      type: notSameArticle
   modalData:
     - title: Duplicate
-      description: This article will be marked as duplicate. Do you want to proceed?
-      buttons:
-        - title: YES
-        - title: NO
-    - title: Not the same article
-      description: This article will be marked as **not the same article.** Do you want to proceed?
-      buttons:
-        - title: YES
-        - title: NO
+      index: 0
+      type: duplicate
+      description: This article will be marked as **duplicate.** Do you want to proceed?
+      confirm: YES
+      cancel: NO
     - title: Different version
+      index: 1
+      type: other
       description: |
         Please indicate the version of articles:
       options:
         - title: AO = Author’s Original
+          type: AO
         - title: SMUR = Submitted Manuscript Under Review
+          type: SMUR
         - title: AM = Accepted Manuscript
+          type: AM
         - title: P = Proof
+          type: P
         - title: VoR = Version of Record
+          type: VoR
         - title: CVoR = Corrected Version of Record
+          type: CVoR
         - title: EVoR = Enhanced Version of Record
+          type: EVoR
         - title: NA = Not Applicable (or Unknown)
+          type: NA
         - title: Different  version (N/A)
-      buttons:
-        - title: CONFIRM
-        - title: CANCEL
+          type: (N/A)
+      confirm: CONFIRM
+      cancel: CANCEL
+    - title: Not the same article
+      index: 2
+      type: notSameArticle
+      description: This article will be marked as **not the same article.** Do you want to proceed?
+      confirm: YES
+      cancel: NO
+

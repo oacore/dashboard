@@ -12,10 +12,12 @@ const DeduplicationTableCard = ({
   goBack,
   duplicateDataDetails,
   worksData,
+  showCompareView,
+  updateWork,
+  outputsData,
 }) => {
   const [list, setList] = useState([])
   const [compare, setCompare] = useState(true)
-  // eslint-disable-next-line no-unused-vars
   const [worksDataInfo, setWorksDataInfo] = useState([])
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const DeduplicationTableCard = ({
     Array.isArray(duplicateDataDetails) &&
     rowData?.duplicates?.map((obj, index) => ({
       ...obj,
-      ...rowData?.duplicates[index],
+      ...duplicateDataDetails[index],
     }))
 
   const handleWorksData = async (id) => {
@@ -48,7 +50,7 @@ const DeduplicationTableCard = ({
       className={styles.deduplicationTable}
       tag="section"
     >
-      {Object.keys(duplicateDataDetails).length === 0 ? (
+      {!showCompareView ? (
         <DeduplicationListTable
           list={list}
           handeAdditionalInfo={handeAdditionalInfo}
@@ -58,8 +60,12 @@ const DeduplicationTableCard = ({
           goBack={goBack}
           handleButtonToggle={handleButtonToggle}
           compare={compare}
+          setCompare={setCompare}
           rowData={rowData}
           combinedArray={combinedArray}
+          updateWork={updateWork}
+          outputsData={outputsData}
+          worksDataInfo={worksDataInfo}
         />
       )}
     </Card>

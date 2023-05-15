@@ -8,8 +8,7 @@ import magnify from '../../public/design/icons/magnify.svg'
 import DeduplicationInfoCard from './cards/deduplicationInfo'
 import DeduplicationStatistics from './cards/deduplicationStatistics'
 import DeduplicationTableCard from './tables/deduplicationTables'
-
-import texts from 'texts/deduplication'
+import texts from '../../texts/deduplication/deduplication.yml'
 
 const DeduplicationPageTemplate = ({
   tag: Tag = 'main',
@@ -18,6 +17,7 @@ const DeduplicationPageTemplate = ({
   deduplicationInfo,
   outputsData,
   worksData,
+  updateWork,
   ...restProps
 }) => {
   const router = useRouter()
@@ -25,6 +25,7 @@ const DeduplicationPageTemplate = ({
   const [duplicateData, setDuplicateData] = useState({})
   const [duplicateDataDetails, setDuplicateDataDetails] = useState({})
   const [rowData, setRowData] = useState()
+  const [showCompareView, setShowCompareView] = useState(false)
 
   const id = router.query['data-provider-id']
 
@@ -36,22 +37,15 @@ const DeduplicationPageTemplate = ({
     fetchData()
   }, [id])
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const data = await deduplicationData(id)
-  //     setDuplicateDataDetails(data)
-  //   }
-  //   fetchData()
-  // }, [id])
-
   const handeAdditionalInfo = async (row) => {
     const data = await deduplicationInfo(row.workId)
     setDuplicateDataDetails(data)
     setRowData(row)
+    setShowCompareView(true)
   }
 
   const goBack = () => {
-    setDuplicateDataDetails({})
+    setShowCompareView(false)
   }
 
   return (
@@ -61,17 +55,13 @@ const DeduplicationPageTemplate = ({
     >
       <header className={styles.header}>
         <div className={styles.validatorHeader}>
-          {/* eslint-disable-next-line import/no-named-as-default-member */}
-          <h1 className={styles.title}>{texts.deduplication.title}</h1>
+          <h1 className={styles.title}>{texts.title}</h1>
           <div className={styles.iconWrapper}>
             <img className={styles.menu} src={magnify} alt="" />
             <img className={styles.menu} src={menu} alt="" />
           </div>
         </div>
-        <p className={styles.description}>
-          {/* eslint-disable-next-line import/no-named-as-default-member */}
-          {texts.deduplication.description}
-        </p>
+        <p className={styles.description}>{texts.description}</p>
       </header>
       <div className={styles.cardsWrapper}>
         <DeduplicationInfoCard />
@@ -85,6 +75,9 @@ const DeduplicationPageTemplate = ({
         goBack={goBack}
         worksData={worksData}
         outputsData={outputsData}
+        updateWork={updateWork}
+        showCompareView={showCompareView}
+        setShowCompareView={setShowCompareView}
       />
     </Tag>
   )

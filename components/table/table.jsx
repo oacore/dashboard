@@ -25,6 +25,7 @@ const InfiniteTable = ({
   fetchData: fetchDataProp,
   data,
   size,
+  hidePagination,
   isLastPageLoaded,
   totalLength,
   isHeaderClickable,
@@ -142,6 +143,7 @@ const InfiniteTable = ({
                 isLoading={isLoading}
                 totalLength={totalLength}
                 size={size}
+                hidePagination={hidePagination}
                 {...restProps}
               >
                 {action}

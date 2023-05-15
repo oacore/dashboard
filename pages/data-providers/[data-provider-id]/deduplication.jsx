@@ -10,6 +10,7 @@ const DeduplicationPage = ({ store, ...props }) => (
     deduplicationInfo={store.dataProvider?.deduplicationInfo}
     outputsData={store.dataProvider?.outputsData}
     worksData={store.dataProvider?.worksData}
+    updateWork={store.dataProvider?.updateWork}
     {...props}
   />
 )
