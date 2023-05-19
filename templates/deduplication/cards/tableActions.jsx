@@ -11,6 +11,7 @@ const TableActions = ({
   worksDataInfo,
   outputsDataInfo,
   selectedRowData,
+  getDeduplicationInfo,
 }) => {
   const modalContent = texts.comparison.modalData
   const [currentModalData, setCurrentModalData] = useState()
@@ -56,6 +57,7 @@ const TableActions = ({
             onConfirm={() => handleModalConfirm(currentModalData)}
             onCancel={handleModalClose}
             updateWork={updateWork}
+            getDeduplicationInfo={getDeduplicationInfo}
             worksDataInfo={worksDataInfo}
             outputsDataInfo={outputsDataInfo}
           />

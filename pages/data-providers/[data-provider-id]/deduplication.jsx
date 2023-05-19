@@ -6,11 +6,17 @@ import { withGlobalStore } from 'store'
 
 const DeduplicationPage = ({ store, ...props }) => (
   <DeduplicationPageTemplate
-    deduplicationData={store.dataProvider?.deduplicationData}
-    deduplicationInfo={store.dataProvider?.deduplicationInfo}
-    outputsData={store.dataProvider?.outputsData}
-    worksData={store.dataProvider?.worksData}
+    getDeduplicationData={store.dataProvider?.getDeduplicationData}
+    duplicateList={store.dataProvider?.duplicateList}
+    getDeduplicationInfo={store.dataProvider?.getDeduplicationInfo}
+    duplicateListDetails={store.dataProvider?.duplicateListDetails}
+    getOutputsData={store.dataProvider?.getOutputsData}
+    outputData={store.dataProvider?.outputData}
+    getWorksData={store.dataProvider?.getWorksData}
+    workData={store.dataProvider?.workData}
     updateWork={store.dataProvider?.updateWork}
+    duplicatesUrl={store.dataProvider?.duplicatesUrl}
+    exportUrl={store.dataProvider?.works?.contentExportUrl}
     {...props}
   />
 )

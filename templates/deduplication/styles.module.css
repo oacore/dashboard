@@ -57,7 +57,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 60px;
+  margin-bottom: 38px;
 }
 
 .card-title {
@@ -159,9 +159,17 @@
   white-space: nowrap;
 }
 
+.issue-table td {
+  cursor: pointer;
+}
+
+.issue-table tr:hover {
+  background: #eee;
+}
+
 .issue-table tbody::before {
   display: block;
-  line-height: 2rem;
+  line-height: 1rem;
   text-indent: -99999px;
   content: '@';
 }
@@ -211,6 +219,23 @@
   width: 1%;
 }
 
+.action-button-pure {
+  margin-right: 0.2rem;
+  margin-left: 1rem;
+  color: var(--gray-600);
+}
+
+.issue-table tr {
+  position: relative;
+}
+
+.menu-button {
+  position: absolute;
+  top: 3rem;
+  right: 0;
+  z-index: 999;
+}
+
 .column-item {
   padding: 0 1.5em;
   margin: 0;
@@ -251,7 +276,6 @@
 }
 
 .oai-cell {
-  display: inline-block;
   padding: 0.2rem 0.5rem;
   margin-top: 0.7rem;
   margin-left: 0.2rem;
@@ -260,10 +284,21 @@
 }
 
 .duplicate-cell {
-  display: flex;
-  align-items: center;
-  width: 71px;
-  height: 14px;
+  width: max-content;
+  padding: 1px 8px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #212121;
+  text-align: center;
+  background: #f5bb95;
+  border-radius: 1px;
+}
+
+.duplicate-cell-inner {
+  width: 121px;
+  padding: 1px 8px;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -291,6 +326,7 @@
 }
 
 .compare-item {
+  position: relative;
   display: flex;
   align-items: center;
   height: 64px;
@@ -577,4 +613,13 @@
   background: #5a9216;
   border-radius: 2px 2px 0;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.visible-icon {
+  min-width: 24px;
+  height: 24px;
+  padding: 0.2rem;
+  margin-right: 9px;
+  color: var(--white);
+  background-color: var(--success-dark);
 }

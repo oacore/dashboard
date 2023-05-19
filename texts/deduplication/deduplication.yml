@@ -34,10 +34,10 @@ moreInfoComparison:
   tableTitle: Possible duplicates in your repositories
 
 actions:
+  - title: Open in the Core
+    key: coreUrl
   - title: Open in the repository
     key: outputUrl
-  - title: Download
-    key: downloadUrl
 
 comparison:
   title: Comparison tips

@@ -13,6 +13,7 @@ const ActionModal = ({
   buttonConfirm,
   buttonCancel,
   updateWork,
+  getDeduplicationInfo,
   worksDataInfo,
   outputsDataInfo,
   typeText,
@@ -26,6 +27,7 @@ const ActionModal = ({
   const handleConfirm = async (outputId, workId, type) => {
     onConfirm(selectedOption)
     await updateWork(outputId, workId, type)
+    await getDeduplicationInfo(outputId, workId, type)
   }
 
   return (

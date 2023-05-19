@@ -1,74 +1,84 @@
 import React, { useEffect, useState } from 'react'
+import { observer } from 'mobx-react-lite'
 
 import styles from '../styles.module.css'
 import { Card } from '../../../design'
 import DeduplicationListTable from './deduplicationListTable'
 import CompareDuplicates from '../cards/compareDuplicates'
 
-const DeduplicationTableCard = ({
-  duplicateData,
-  handeAdditionalInfo,
-  rowData,
-  goBack,
-  duplicateDataDetails,
-  worksData,
-  showCompareView,
-  updateWork,
-  outputsData,
-}) => {
-  const [list, setList] = useState([])
-  const [compare, setCompare] = useState(true)
-  const [worksDataInfo, setWorksDataInfo] = useState([])
+const DeduplicationTableCard = observer(
+  ({
+    duplicateData,
+    handeAdditionalInfo,
+    rowData,
+    goBack,
+    duplicateDataDetails,
+    getWorksData,
+    workData,
+    showCompareView,
+    updateWork,
+    getDeduplicationInfo,
+    getOutputsData,
+    outputData,
+    duplicatesUrl,
+    exportUrl,
+  }) => {
+    const [list, setList] = useState([])
+    const [compare, setCompare] = useState(true)
 
-  useEffect(() => {
-    if (duplicateData?.duplicateList) {
-      const values = Object.values(duplicateData.duplicateList)
-      setList(values)
-    } else setList([])
-  }, [duplicateData])
+    useEffect(() => {
+      if (duplicateData?.duplicateList) {
+        const values = Object.values(duplicateData.duplicateList)
+        setList(values)
+      } else setList([])
+    }, [duplicateData])
 
-  const combinedArray =
-    Array.isArray(duplicateDataDetails) &&
-    rowData?.duplicates?.map((obj, index) => ({
-      ...obj,
-      ...duplicateDataDetails[index],
-    }))
+    const combinedArray =
+      Array.isArray(duplicateDataDetails) &&
+      rowData?.duplicates?.map((obj, index) => ({
+        ...obj,
+        ...duplicateDataDetails[index],
+      }))
 
-  const handleWorksData = async (id) => {
-    const data = await worksData(id)
-    setWorksDataInfo(data)
+    const handleWorksData = async (id) => {
+      await getWorksData(id)
+    }
+
+    const handleButtonToggle = () => {
+      setCompare(!compare)
+      handleWorksData(rowData.workId)
+    }
+
+    return (
+      <Card
+        id="deposit-dates-card"
+        className={styles.deduplicationTable}
+        tag="section"
+      >
+        {!showCompareView ? (
+          <DeduplicationListTable
+            list={list}
+            handeAdditionalInfo={handeAdditionalInfo}
+            duplicatesUrl={duplicatesUrl}
+            exportUrl={exportUrl}
+          />
+        ) : (
+          <CompareDuplicates
+            goBack={goBack}
+            handleButtonToggle={handleButtonToggle}
+            compare={compare}
+            setCompare={setCompare}
+            rowData={rowData}
+            combinedArray={combinedArray}
+            updateWork={updateWork}
+            getDeduplicationInfo={getDeduplicationInfo}
+            getOutputsData={getOutputsData}
+            outputData={outputData}
+            worksDataInfo={workData}
+          />
+        )}
+      </Card>
+    )
   }
-
-  const handleButtonToggle = () => {
-    setCompare(!compare)
-    handleWorksData(rowData.workId)
-  }
-
-  return (
-    <Card
-      id="deposit-dates-card"
-      className={styles.deduplicationTable}
-      tag="section"
-    >
-      {!showCompareView ? (
-        <DeduplicationListTable
-          list={list}
-          handeAdditionalInfo={handeAdditionalInfo}
-        />
-      ) : (
-        <CompareDuplicates
-          goBack={goBack}
-          handleButtonToggle={handleButtonToggle}
-          compare={compare}
-          setCompare={setCompare}
-          rowData={rowData}
-          combinedArray={combinedArray}
-          updateWork={updateWork}
-          outputsData={outputsData}
-          worksDataInfo={worksDataInfo}
-        />
-      )}
-    </Card>
-  )
-}
+)
 export default DeduplicationTableCard
