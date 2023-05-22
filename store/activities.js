@@ -17,7 +17,7 @@ const config = [
   {
     test: `deduplication`,
     path: 'deduplication',
-    icon: 'sync',
+    icon: 'deduplication',
   },
   {
     id: 'content',

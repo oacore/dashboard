@@ -51,7 +51,7 @@ const config = new RouteConfig([
   {
     test: /\/deduplication/,
     path: 'deduplication',
-    icon: 'sync',
+    icon: 'deduplication',
   },
   {
     test: /\/content/,
