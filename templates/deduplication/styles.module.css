@@ -167,6 +167,10 @@
   background: #eee;
 }
 
+.issue-table tr button:hover {
+  background: transparent;
+}
+
 .issue-table tbody::before {
   display: block;
   line-height: 1rem;
@@ -191,6 +195,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.column-header-wrapper button {
+  padding: 2px;
+  background: transparent;
+}
+
+.column-header-wrapper button:hover,
+.column-header-wrapper button:active,
+.column-header-wrapper button:focus {
+  background: transparent;
 }
 
 .oai-column {
@@ -226,9 +241,14 @@
 }
 
 .action-button-pure {
-  margin-right: 0.2rem;
-  margin-left: 1rem;
-  color: var(--gray-600);
+  padding: 0;
+  color: #000;
+  background: transparent;
+}
+
+.action-button-pure:hover,
+.action-button-pure:active {
+  background: transparent;
 }
 
 .issue-table tr {
@@ -268,7 +288,6 @@
 
 .visibility-icon {
   padding: 0.2rem;
-  margin-right: 9px;
   color: var(--white);
   background-color: var(--success-dark);
 }
