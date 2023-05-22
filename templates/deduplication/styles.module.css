@@ -187,6 +187,12 @@
   font-weight: 700;
 }
 
+.column-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .oai-column {
   width: 5%;
   min-width: 5rem;

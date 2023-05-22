@@ -68,7 +68,7 @@ const DeduplicationPageTemplate = observer(
           <p className={styles.description}>{texts.description}</p>
         </header>
         <div className={styles.cardsWrapper}>
-          <DeduplicationInfoCard />
+          <DeduplicationInfoCard duplicateList={duplicateList} />
           <DeduplicationStatistics />
         </div>
         <DeduplicationTableCard

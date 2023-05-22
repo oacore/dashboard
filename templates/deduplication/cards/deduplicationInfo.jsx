@@ -6,7 +6,7 @@ import texts from '../../../texts/deduplication/deduplication.yml'
 
 import { Button, Card } from 'design'
 
-const DeduplicationInfoCard = () => (
+const DeduplicationInfoCard = ({ duplicateList }) => (
   <Card
     className={styles.deduplicationInfoCardWrapper}
     tag="section"
@@ -25,7 +25,7 @@ const DeduplicationInfoCard = () => (
       </div>
       <div className={styles.innerWrapper}>
         <span className={styles.subTitle}>{texts.info.countTitle}</span>
-        <span className={styles.text}>576</span>
+        <span className={styles.text}>{duplicateList.count}</span>
       </div>
     </div>
     <div className={styles.deduplicationFooter}>

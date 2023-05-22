@@ -57,8 +57,8 @@ const ActionModal = ({
           variant="contained"
           onClick={() =>
             handleConfirm(
-              worksDataInfo.data.id,
-              outputsDataInfo.data.id,
+              worksDataInfo?.data?.id,
+              outputsDataInfo?.data?.id,
               selectedOption || typeText
             )
           }

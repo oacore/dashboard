@@ -11,6 +11,7 @@ import TableActions from '../cards/tableActions'
 import CompareCard from '../cards/compareCard'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import Menu from '../../../components/menu'
+import Actions from '../../../components/actions'
 
 const ComparisonTable = observer(
   ({
@@ -60,10 +61,8 @@ const ComparisonTable = observer(
 
     const getBackgroundColor = (type) => {
       if (type === 'duplicate') return styles.duplicate
-      if (type === 'other') return styles.other
       if (type === 'notSameArticle') return styles.notSameArticle
-
-      return styles.default
+      return styles.other
     }
 
     return (
@@ -141,7 +140,12 @@ const ComparisonTable = observer(
             />
             <Table.Column
               id="count"
-              display="Duplicates"
+              display={
+                <div className={styles.columnHeaderWrapper}>
+                  <span>Duplicates</span>
+                  <Actions questionMark description="ok" />
+                </div>
+              }
               getter={(v) =>
                 v?.type ? (
                   <span
@@ -159,7 +163,12 @@ const ComparisonTable = observer(
             />
             <Table.Column
               id="publicationDate"
-              display="Publication date"
+              display={
+                <div className={styles.columnHeaderWrapper}>
+                  <span>Publication date</span>
+                  <Actions questionMark description="ok" />
+                </div>
+              }
               className={styles.publicationDateColumn}
               getter={(v) => v?.publicationDate}
             />

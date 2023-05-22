@@ -34,13 +34,14 @@ const TableActions = ({
   }
 
   useEffect(() => {
-    if (
-      selectedRowData.type &&
-      (selectedRowData.type === 'duplicate' ||
-        selectedRowData.type === 'notSameArticle')
-    )
-      setActiveButton(selectedRowData.type)
-    else setActiveButton('other')
+    if (selectedRowData && selectedRowData.type) {
+      if (
+        selectedRowData.type === 'duplicate' ||
+        selectedRowData.type === 'notSameArticle'
+      )
+        setActiveButton(selectedRowData.type)
+      else setActiveButton('other')
+    } else setActiveButton(undefined)
   }, [selectedRowData])
 
   return (
