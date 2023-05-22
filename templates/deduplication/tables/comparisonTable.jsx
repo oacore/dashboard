@@ -58,6 +58,14 @@ const ComparisonTable = observer(
       fetchData()
     }, [selectedRow.documentId])
 
+    const getBackgroundColor = (type) => {
+      if (type === 'duplicate') return styles.duplicate
+      if (type === 'other') return styles.other
+      if (type === 'notSameArticle') return styles.notSameArticle
+
+      return styles.default
+    }
+
     return (
       <>
         <Message className={styles.dataComparisonWrapper}>
@@ -135,7 +143,17 @@ const ComparisonTable = observer(
               id="count"
               display="Duplicates"
               getter={(v) =>
-                <span className={styles.duplicateCell}>{v?.type}</span> || '-'
+                v?.type ? (
+                  <span
+                    className={` ${
+                      styles.duplicateCellInner
+                    } ${getBackgroundColor(v?.type)}`}
+                  >
+                    {v?.type}
+                  </span>
+                ) : (
+                  <div className={styles.default}>Need to be reviewed</div>
+                )
               }
               className={styles.duplicateColumn}
             />

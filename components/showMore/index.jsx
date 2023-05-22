@@ -3,27 +3,24 @@ import { Button } from '@oacore/design/lib/elements'
 
 import styles from './styles.module.css'
 
-const ShowMoreText = ({ text }) => {
-  const [showFullText, setShowFullText] = useState(false)
+const ShowMoreText = ({ text, maxWords }) => {
+  const [showMore, setShowMore] = useState(false)
 
-  const toggleShowFullText = () => {
-    setShowFullText(!showFullText)
+  const toggleShowMore = () => {
+    setShowMore(!showMore)
   }
 
-  const maxLength = 30
-  let shortText = `${text.split(' ').slice(0, maxLength).join(' ')}...`
-  if (text.split(' ').length <= maxLength) shortText = text
+  const words = text.split(' ')
+  const truncatedWords = words.slice(0, maxWords)
 
-  const longText = text
+  if (words.length <= maxWords) return <div>{text}</div>
 
   return (
     <div>
-      {showFullText ? longText : shortText}
-      {text.length > maxLength && (
-        <Button className={styles.showMoreBtn} onClick={toggleShowFullText}>
-          {showFullText ? 'Show Less' : 'Show More'}
-        </Button>
-      )}
+      {showMore ? text : `${truncatedWords.join(' ')}...`}
+      <Button className={styles.showMoreBtn} onClick={toggleShowMore}>
+        {showMore ? 'Show less' : 'Show more'}
+      </Button>
     </div>
   )
 }

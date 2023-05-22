@@ -37,6 +37,14 @@ const InnerTable = observer(({ combinedArray }) => {
     else window.open(`https://api.core.ac.uk/oai/${oaiId}`, '_blank')
   }
 
+  const getBackgroundColor = (type) => {
+    if (type === 'duplicate') return styles.duplicate
+    if (type === 'other') return styles.other
+    if (type === 'notSameArticle') return styles.notSameArticle
+
+    return styles.default
+  }
+
   return (
     <>
       <Message className={styles.dataErrorWrapper}>
@@ -82,10 +90,19 @@ const InnerTable = observer(({ combinedArray }) => {
           />
           <Table.Column
             id="count"
-            display="Duplicates"
+            display="1221Duplicates"
             getter={(v) =>
-              <span className={styles.duplicateCellInner}>{v?.type}</span> ||
-              '-'
+              v?.type ? (
+                <span
+                  className={` ${
+                    styles.duplicateCellInner
+                  } ${getBackgroundColor(v?.type)}`}
+                >
+                  {v?.type}
+                </span>
+              ) : (
+                <div className={styles.default}>Need to be reviewed</div>
+              )
             }
             className={styles.duplicateColumn}
           />

@@ -284,7 +284,8 @@
 }
 
 .duplicate-cell {
-  width: max-content;
+  display: block;
+  width: 74px;
   padding: 1px 8px;
   font-size: 12px;
   font-style: normal;
@@ -297,6 +298,7 @@
 }
 
 .duplicate-cell-inner {
+  display: block;
   width: 121px;
   padding: 1px 8px;
   font-size: 12px;
@@ -305,7 +307,32 @@
   line-height: 16px;
   color: #212121;
   text-align: center;
+  border-radius: 1px;
+}
+
+.duplicate {
+  background: #fae2d2;
+}
+
+.other {
+  background: #a7bceb;
+}
+
+.not-same-article {
   background: #f5bb95;
+}
+
+.default {
+  display: block;
+  width: 121px;
+  padding: 1px 8px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #212121;
+  text-align: center;
+  background: #f5f5f5;
   border-radius: 1px;
 }
 
@@ -545,10 +572,8 @@
 }
 
 .compare-title-wrapper {
-  display: flex;
   padding: 16px;
   margin-bottom: 16px;
-  gap: 10px;
   background: #fef5ef;
 }
 

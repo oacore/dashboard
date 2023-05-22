@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Icon } from '@oacore/design/lib/elements'
 
 import styles from '../styles.module.css'
 import ShowMoreText from '../../../components/showMore'
@@ -52,10 +51,6 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
             <span className={styles.compareTitle}>
               {worksDataInfo?.data?.title}
             </span>
-            <div className={styles.liveCore}>
-              <Icon src="#eye" className={styles.visibilityIcon} />
-              LIVE IN CORE
-            </div>
           </div>
           <div className={styles.itemsWrapper}>
             <div className={styles.dataTitleWrapper}>
@@ -68,7 +63,7 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
             <div className={styles.itemWrapper}>
               {modifiedWorksData?.map((value) => (
                 <div key={value} className={styles.dataItem}>
-                  <ShowMoreText text={value || 'N/A'} />
+                  <ShowMoreText text={value || 'N/A'} maxWords={30} />
                 </div>
               ))}
             </div>
@@ -79,14 +74,10 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
             <span className={styles.compareTitle}>
               {outputsDataInfo?.data?.title}
             </span>
-            <div className={styles.liveCore}>
-              <Icon src="#eye" className={styles.visibilityIcon} />
-              LIVE IN CORE
-            </div>
           </div>
           {modifiedOutputsData?.map((value) => (
             <div key={value} className={styles.dataItem}>
-              <ShowMoreText text={value || 'N/A'} />
+              <ShowMoreText text={value || 'N/A'} maxWords={30} />
             </div>
           ))}
         </div>
