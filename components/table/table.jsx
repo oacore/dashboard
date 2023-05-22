@@ -36,6 +36,7 @@ const InfiniteTable = ({
   useExpandIcon = false,
   excludeFooter = false,
   rowClick,
+  rowActionProp,
   ...restProps
 }) => {
   const tableRef = useRef(null)
@@ -125,6 +126,7 @@ const InfiniteTable = ({
             />
             <Body
               handleRowClick={rowClick || rowAction}
+              rowActionProp={rowActionProp}
               handleDoubleRowClick={useRowCallback(handleDoubleRowClick)}
               columns={columns}
               isClickable={bodyHasCallbacks}

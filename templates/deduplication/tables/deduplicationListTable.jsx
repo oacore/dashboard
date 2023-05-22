@@ -54,6 +54,7 @@ const DeduplicationListTable = observer(
 
         <Table
           rowClick={(row) => handeAdditionalInfo(row)}
+          rowActionProp
           className={styles.issueTable}
           fetchData={() => setPage(page + 1)}
           data={records}
