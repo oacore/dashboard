@@ -29,7 +29,7 @@ const InnerTableHeader = ({
     setVisibleMenu(false)
     if (key === 'coreUrl')
       window.open(`https://core.ac.uk/works/${worksId}`, '_blank')
-    else window.open(`https://api.core.ac.uk/oai/${oaiId}`, '_blank')
+    else window.open(`${process.env.IDP_URL}/oai/${oaiId}`, '_blank')
   }
 
   return (

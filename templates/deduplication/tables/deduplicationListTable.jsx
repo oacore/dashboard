@@ -37,7 +37,7 @@ const DeduplicationListTable = observer(
       setVisibleMenu(false)
       if (key === 'coreUrl')
         window.open(`https://core.ac.uk/outputs/${outputsId}`, '_blank')
-      else window.open(`https://api.core.ac.uk/oai/${oaiId}`, '_blank')
+      else window.open(`${process.env.IDP_URL}/oai/${oaiId}`, '_blank')
     }
 
     useEffect(() => {
