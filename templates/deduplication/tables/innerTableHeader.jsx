@@ -56,9 +56,6 @@ const InnerTableHeader = ({
         <p className={classNames.use(styles.columnItem)}>
           {rowData?.authors.map((author) => author).join(' ')}
         </p>
-        <div className={classNames.use(styles.reviewItem)}>
-          <p>Need to be reviewed</p>
-        </div>
         <p className={classNames.use(styles.dateItem)}>
           {rowData?.publicationDate}
         </p>

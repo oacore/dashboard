@@ -7,6 +7,7 @@ import { withGlobalStore } from 'store'
 const DeduplicationPage = ({ store, ...props }) => (
   <DeduplicationPageTemplate
     getDeduplicationData={store.dataProvider?.getDeduplicationData}
+    harvestingStatus={store.dataProvider?.issues?.harvestingStatus}
     duplicateList={store.dataProvider?.duplicateList}
     getDeduplicationInfo={store.dataProvider?.getDeduplicationInfo}
     duplicateListDetails={store.dataProvider?.duplicateListDetails}

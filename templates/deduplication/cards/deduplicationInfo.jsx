@@ -3,10 +3,11 @@ import React from 'react'
 import styles from '../styles.module.css'
 import Actions from '../../../components/actions'
 import texts from '../../../texts/deduplication/deduplication.yml'
+import { formatDate, valueOrDefault } from '../../../utils/helpers'
 
 import { Button, Card } from 'design'
 
-const DeduplicationInfoCard = ({ duplicateList }) => (
+const DeduplicationInfoCard = ({ duplicateList, harvestingStatus }) => (
   <Card
     className={styles.deduplicationInfoCardWrapper}
     tag="section"
@@ -21,7 +22,12 @@ const DeduplicationInfoCard = ({ duplicateList }) => (
     <div className={styles.deduplicationBody}>
       <div className={styles.innerWrapper}>
         <span className={styles.subTitle}>{texts.info.subTitle}</span>
-        <span className={styles.text}>31.05.2021</span>
+        <span className={styles.text}>
+          {valueOrDefault(
+            formatDate(harvestingStatus?.lastHarvestingDate),
+            'Loading...'
+          )}
+        </span>
       </div>
       <div className={styles.innerWrapper}>
         <span className={styles.subTitle}>{texts.info.countTitle}</span>

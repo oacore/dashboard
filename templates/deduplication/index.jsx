@@ -19,6 +19,7 @@ const DeduplicationPageTemplate = observer(
     duplicateList,
     getDeduplicationInfo,
     duplicateListDetails,
+    harvestingStatus,
     getOutputsData,
     outputData,
     getWorksData,
@@ -68,7 +69,10 @@ const DeduplicationPageTemplate = observer(
           <p className={styles.description}>{texts.description}</p>
         </header>
         <div className={styles.cardsWrapper}>
-          <DeduplicationInfoCard duplicateList={duplicateList} />
+          <DeduplicationInfoCard
+            duplicateList={duplicateList}
+            harvestingStatus={harvestingStatus}
+          />
           <DeduplicationStatistics />
         </div>
         <DeduplicationTableCard
