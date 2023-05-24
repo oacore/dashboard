@@ -1,29 +1,34 @@
 import React from 'react'
 
 import styles from '../styles.module.css'
-import question from '../../../components/upload/assets/question.svg'
 import texts from '../../../texts/deduplication/deduplication.yml'
+import Actions from '../../../components/actions'
+import ExportButton from '../../../components/export-button'
 
 import { Card } from 'design'
 
-const DeduplicationStatistics = () => (
+const DeduplicationStatistics = ({ duplicateList, duplicatesUrl }) => (
   <Card
     className={styles.deduplicationStatisticsWrapper}
     tag="section"
     title={texts.info.title}
   >
-    <div className={styles.statisticsHeaderWrapper}>
+    <div className={styles.numberHeaderWrapper}>
       <Card.Title className={styles.cardTitle} tag="h2">
-        {texts.statistics.title}
+        {texts.info.countTitle}
       </Card.Title>
-      <img src={question} alt="question" />
+      <Actions className={styles.actionItem} description={texts.info.info} />
     </div>
-    <div className={styles.statisticsBody}>
-      <span className={styles.subTitle}>{texts.statistics.countTitle}</span>
-      <div className={styles.graph} />
-      <div className={styles.subTitleWrapper}>
-        <span className={styles.subTitle}>{texts.info.subTitle}</span>
-      </div>
+    <div className={styles.innerWrapper}>
+      <span className={styles.innerSubTitle}>{texts.info.subTitle}</span>
+      <span className={styles.text}>{duplicateList.count}</span>
+      <ExportButton
+        href={duplicatesUrl}
+        className={styles.footerButton}
+        variant="contained"
+      >
+        {texts.info.action}
+      </ExportButton>
     </div>
   </Card>
 )

@@ -68,7 +68,7 @@ const DeduplicationListTable = observer(
 
     return (
       <>
-        <div className={styles.headerWrapper}>
+        <div className={styles.mainHeaderWrapper}>
           <Card.Title tag="h2">List of duplicates</Card.Title>
           <Actions
             downloadUrl={duplicatesUrl}

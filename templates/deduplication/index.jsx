@@ -73,7 +73,10 @@ const DeduplicationPageTemplate = observer(
             duplicateList={duplicateList}
             harvestingStatus={harvestingStatus}
           />
-          <DeduplicationStatistics />
+          <DeduplicationStatistics
+            duplicateList={duplicateList}
+            duplicatesUrl={duplicatesUrl}
+          />
         </div>
         <DeduplicationTableCard
           duplicateData={duplicateList}

@@ -1,13 +1,12 @@
 import React from 'react'
 
 import styles from '../styles.module.css'
-import Actions from '../../../components/actions'
 import texts from '../../../texts/deduplication/deduplication.yml'
 import { formatDate, valueOrDefault } from '../../../utils/helpers'
 
-import { Button, Card } from 'design'
+import { Card } from 'design'
 
-const DeduplicationInfoCard = ({ duplicateList, harvestingStatus }) => (
+const DeduplicationInfoCard = ({ harvestingStatus }) => (
   <Card
     className={styles.deduplicationInfoCardWrapper}
     tag="section"
@@ -17,31 +16,18 @@ const DeduplicationInfoCard = ({ duplicateList, harvestingStatus }) => (
       <Card.Title className={styles.cardTitle} tag="h2">
         {texts.info.title}
       </Card.Title>
-      <Actions description={texts.info.info} />
     </div>
-    <div className={styles.deduplicationBody}>
-      <div className={styles.innerWrapper}>
-        <span className={styles.subTitle}>{texts.info.subTitle}</span>
-        <span className={styles.text}>
-          {valueOrDefault(
-            formatDate(harvestingStatus?.lastHarvestingDate),
-            'Loading...'
-          )}
-        </span>
-      </div>
-      <div className={styles.innerWrapper}>
-        <span className={styles.subTitle}>{texts.info.countTitle}</span>
-        <span className={styles.text}>{duplicateList.count}</span>
-      </div>
+    <div className={styles.innerWrapper}>
+      <span className={styles.text}>
+        {valueOrDefault(
+          formatDate(harvestingStatus?.lastHarvestingDate),
+          'Loading...'
+        )}
+      </span>
     </div>
-    <div className={styles.deduplicationFooter}>
-      <Card.Description className={styles.cardDescription}>
-        {texts.info.description}
-      </Card.Description>
-      <Button className={styles.footerButton} tag="a" variant="contained">
-        {texts.info.action}
-      </Button>
-    </div>
+    <Card.Description className={styles.cardDescription}>
+      {texts.info.description}
+    </Card.Description>
   </Card>
 )
 

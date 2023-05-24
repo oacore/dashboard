@@ -3,11 +3,11 @@ title: Deduplication
 description: Our technology searches your repository to identify potential duplicates. Please note that it is not possible to delete or merge duplicates in your repository directly from the dashboard. However, you can either resolve duplicates in your repository manually with the help of this tool or download the identified duplicates in a .csv format and use it to clean your data using a script you develop.
 
 info:
-  title: General information
-  subTitle: Last successful deduplication
+  title: Last successful deduplication
   countTitle: Number of duplicates
-  description: Deduplication runs automatically every time after your repository is harvested. You can request to receive a notification whenever a new deduplication report is generated.
-  action: Get notifications
+  subTitle: Please be aware that it is a list of possible duplicates, and you can review it.
+  description: Deduplication runs automatically every time after your repository is harvested.
+  action: DOWNLOAD
   info: We perform a deduplication task every time we complete the harvesting. We match the records using Locality Sensitive Hashing and in this tab you can compare and classify what we found. Having a duplicate record in your repository doesn’t necessarily mean that your repository hosts broken records, some records might point to different versions, in this page you will also be able to track this.
   listOfDuplicates: The list includes all the records we identified with at least matching duplicate in your repository. You can see the corresponding records and mark them by clicking on them.
 
