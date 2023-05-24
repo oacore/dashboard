@@ -8,6 +8,8 @@ info:
   countTitle: Number of duplicates
   description: Deduplication runs automatically every time after your repository is harvested. You can request to receive a notification whenever a new deduplication report is generated.
   action: Get notifications
+  info: We perform a deduplication task every time we complete the harvesting. We match the records using Locality Sensitive Hashing and in this tab you can compare and classify what we found. Having a duplicate record in your repository doesn’t necessarily mean that your repository hosts broken records, some records might point to different versions, in this page you will also be able to track this.
+  listOfDuplicates: The list includes all the records we identified with at least matching duplicate in your repository. You can see the corresponding records and mark them by clicking on them.
 
 statistics:
   title: Detected duplicates in your platform by publication year
@@ -18,6 +20,8 @@ moreInfo:
   action: Compare METADATA RECORDS
   description: The below list contains the potential duplicates CORE identified. You can compare and review these potential duplicates and confirm them as duplicates or tell us that they are different. This will impact how CORE displays these articles in Search, API and other services. Specifically, by marking potential duplicates as different articles, these articles will be disassociated (they will not be part of the same **Work** entity).
   tableTitle: Possible duplicates in your repositories
+  duplicates: This column contains the version classification of the paper. The paper can be marked as a duplicate, or as a version with the type defined by one of the possible values in the COAR version type vocabulary
+  publicationDate: The publication date coming from the repository metadata.
 
 moreInfoComparison:
   action: Close comparison

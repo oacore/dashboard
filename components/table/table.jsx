@@ -33,6 +33,9 @@ const InfiniteTable = ({
   defaultRowClick,
   buttonVariant,
   buttonText,
+  searchChange,
+  localSearch,
+  localSearchTerm,
   useExpandIcon = false,
   excludeFooter = false,
   rowClick,
@@ -112,8 +115,8 @@ const InfiniteTable = ({
             name="search"
             label="Search"
             placeholder="Any identifier, title, author..."
-            onChange={handleSearchChange}
-            value={searchTerm}
+            onChange={localSearch ? searchChange : handleSearchChange}
+            value={localSearch ? localSearchTerm : searchTerm}
           />
         )}
         <div className={className}>

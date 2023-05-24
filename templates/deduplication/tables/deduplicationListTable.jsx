@@ -17,6 +17,8 @@ const DeduplicationListTable = observer(
     const [records, setRecords] = useState([])
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
+    const [localSearchTerm, setLocalSearchTerm] = useState('')
+    const [searchResults, setSearchResults] = useState([])
 
     const handleClick = (e, rowDetail) => {
       e.preventDefault()
@@ -45,21 +47,47 @@ const DeduplicationListTable = observer(
       setRecords(newRecords)
     }, [page, list])
 
+    const searchChange = (event) => {
+      setLocalSearchTerm(event.target.value)
+    }
+
+    useEffect(() => {
+      const lowerSearchTerm = localSearchTerm.toLowerCase()
+      if (lowerSearchTerm) {
+        const filteredData = list.filter(
+          (record) =>
+            record.oai.toLowerCase().includes(lowerSearchTerm) ||
+            record.title.toLowerCase().includes(lowerSearchTerm) ||
+            record.authors.some((author) =>
+              author.toLowerCase().includes(lowerSearchTerm)
+            )
+        )
+        setSearchResults(filteredData)
+      } else setSearchResults(records)
+    }, [localSearchTerm, records, list])
+
     return (
       <>
         <div className={styles.headerWrapper}>
           <Card.Title tag="h2">List of duplicates</Card.Title>
-          <Actions downloadUrl={duplicatesUrl} description="temp" />
+          <Actions
+            downloadUrl={duplicatesUrl}
+            description={texts.info.listOfDuplicates}
+          />
         </div>
 
         <Table
           rowClick={(row) => handeAdditionalInfo(row)}
           rowActionProp
           className={styles.issueTable}
+          searchable
+          localSearch
+          searchChange={searchChange}
+          localSearchTerm={localSearchTerm}
           fetchData={() => setPage(page + 1)}
-          data={records}
+          data={searchResults}
           totalLength={list.length}
-          size={records.length}
+          size={searchResults.length}
           isHeaderClickable
         >
           <Table.Column

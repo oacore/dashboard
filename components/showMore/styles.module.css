@@ -1,6 +1,6 @@
 .show-more-btn {
   padding: 0;
-  margin-left: 1px;
+  margin-left: 4px;
 
   --button-overlay: unset;
 }

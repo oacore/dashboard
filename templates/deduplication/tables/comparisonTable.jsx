@@ -91,6 +91,7 @@ const ComparisonTable = observer(
           </div>
         </Message>
         <div>
+          <div className={styles.tableTitle}>{texts.moreInfo.tableTitle}</div>
           <Table
             className={styles.issueTable}
             fetchData={() => {}}
@@ -143,7 +144,10 @@ const ComparisonTable = observer(
               display={
                 <div className={styles.columnHeaderWrapper}>
                   <span>Duplicates</span>
-                  <Actions questionMark description="ok" />
+                  <Actions
+                    questionMark
+                    description={texts.moreInfo.duplicates}
+                  />
                 </div>
               }
               getter={(v) =>
@@ -166,7 +170,10 @@ const ComparisonTable = observer(
               display={
                 <div className={styles.columnHeaderWrapper}>
                   <span>Publication date</span>
-                  <Actions questionMark description="ok" />
+                  <Actions
+                    questionMark
+                    description={texts.moreInfo.publicationDate}
+                  />
                 </div>
               }
               className={styles.publicationDateColumn}

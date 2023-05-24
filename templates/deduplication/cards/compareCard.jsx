@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 import ShowMoreText from '../../../components/showMore'
@@ -44,43 +45,65 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
   }, [outputsDataInfo?.data])
 
   return (
-    <div className={styles.compareCardWrapperMain}>
-      <div className={styles.compareCardWrapper}>
-        <div className={styles.compareCardLeft}>
-          <div className={styles.compareTitleWrapperLeft}>
-            <span className={styles.compareTitle}>
-              {worksDataInfo?.data?.title}
-            </span>
+    <div className={styles.compareCardWrapper}>
+      <div className={styles.compareCardLeft}>
+        <div className={styles.compareTitleWrapperLeft}>
+          <span className={styles.compareTitle}>
+            <ShowMoreText
+              text={worksDataInfo?.data?.title || 'N/A'}
+              maxLetters={120}
+            />
+          </span>
+        </div>
+        <div className={styles.itemsWrapper}>
+          <div className={styles.dataTitleWrapper}>
+            {generatedTitle?.map((key) => (
+              <div className={styles.dataTitle} key={key}>
+                {key}
+              </div>
+            ))}
           </div>
-          <div className={styles.itemsWrapper}>
-            <div className={styles.dataTitleWrapper}>
-              {generatedTitle?.map((key) => (
-                <div className={styles.dataTitle} key={key}>
-                  {key}
-                </div>
-              ))}
-            </div>
-            <div className={styles.itemWrapper}>
-              {modifiedWorksData?.map((value) => (
-                <div key={value} className={styles.dataItem}>
-                  <ShowMoreText text={value || 'N/A'} maxWords={30} />
-                </div>
-              ))}
-            </div>
+          <div className={styles.itemWrapper}>
+            {modifiedWorksData?.map((value, index) => (
+              <div
+                key={value}
+                className={classNames.use(styles.dataItem, {
+                  [styles.height]: index === modifiedOutputsData.length - 1,
+                })}
+              >
+                <ShowMoreText
+                  text={value || 'N/A'}
+                  maxLetters={
+                    index === modifiedOutputsData.length - 1 ? 150 : 50
+                  }
+                />
+              </div>
+            ))}
           </div>
         </div>
-        <div className={styles.compareCardRight}>
-          <div className={styles.compareTitleWrapper}>
-            <span className={styles.compareTitle}>
-              {outputsDataInfo?.data?.title}
-            </span>
-          </div>
-          {modifiedOutputsData?.map((value) => (
-            <div key={value} className={styles.dataItem}>
-              <ShowMoreText text={value || 'N/A'} maxWords={30} />
-            </div>
-          ))}
+      </div>
+      <div className={styles.compareCardRight}>
+        <div className={styles.compareTitleWrapper}>
+          <span className={styles.compareTitle}>
+            <ShowMoreText
+              text={outputsDataInfo?.data?.title || 'N/A'}
+              maxLetters={120}
+            />
+          </span>
         </div>
+        {modifiedOutputsData?.map((value, index) => (
+          <div
+            key={value}
+            className={classNames.use(styles.dataItem, {
+              [styles.height]: index === modifiedOutputsData.length - 1,
+            })}
+          >
+            <ShowMoreText
+              text={value || 'N/A'}
+              maxLetters={index === modifiedOutputsData.length - 1 ? 150 : 50}
+            />
+          </div>
+        ))}
       </div>
     </div>
   )

@@ -39,7 +39,7 @@ const InnerTableHeader = ({
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
         <div onClick={onClick} className={styles.backWrapper}>
           <img src={arrowLeft} alt="" />
-          <div>Back</div>
+          <div className={styles.goBack}>Back</div>
         </div>
         <Button
           onClick={handleButtonToggle}

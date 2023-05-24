@@ -17,7 +17,7 @@ const DeduplicationInfoCard = ({ duplicateList, harvestingStatus }) => (
       <Card.Title className={styles.cardTitle} tag="h2">
         {texts.info.title}
       </Card.Title>
-      <Actions description="temp" />
+      <Actions description={texts.info.info} />
     </div>
     <div className={styles.deduplicationBody}>
       <div className={styles.innerWrapper}>
