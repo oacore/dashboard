@@ -26,8 +26,17 @@ const prepareHeaders = ({ headers: customHeaders, body }) => {
   }
   const contentHeaders =
     typeof body == 'object' && body != null
-      ? { 'Content-Type': 'application/json' }
-      : {}
+      ? {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        }
+      : {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        }
 
   return {
     ...defaultHeaders,
