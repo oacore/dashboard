@@ -10,9 +10,13 @@ const development = {
   IDP_URL: 'https://api-dev.core.ac.uk',
 }
 
+// const production = {
+//   API_URL: 'https://api02.core.ac.uk/internal',
+//   IDP_URL: 'https://api02.core.ac.uk',
+// }
 const production = {
-  API_URL: 'https://api02.core.ac.uk/internal',
-  IDP_URL: 'https://api02.core.ac.uk',
+  API_URL: 'https://api.core.ac.uk/internal',
+  IDP_URL: 'https://api.core.ac.uk',
 }
 
 const validate = (config) =>
