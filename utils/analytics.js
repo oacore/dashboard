@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactGA from 'react-ga4'
 
 const isProduction = process.env.NODE_ENV === 'production'
