@@ -12,10 +12,15 @@ if (isProduction && process.env.GA_TRACKING_CODE) {
 
 export const logPageView = (url = null) => {
   if (!isGAInitialized) return
+  const pathName =
+    window.location.pathname === '/'
+      ? 'dashboard.core.ac.uk'
+      : window.location.pathname
+
   ReactGA.send({
     hitType: 'pageview',
-    page: url || window.location.pathname,
-    title: window.location.pathname,
+    page: url || pathName,
+    title: pathName,
   })
 }
 
