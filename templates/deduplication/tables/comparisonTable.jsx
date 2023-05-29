@@ -12,6 +12,7 @@ import CompareCard from '../cards/compareCard'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import Menu from '../../../components/menu'
 import Actions from '../../../components/actions'
+import CompareWarning from '../cards/warningCard'
 
 const ComparisonTable = observer(
   ({
@@ -21,6 +22,8 @@ const ComparisonTable = observer(
     worksDataInfo,
     outputData,
     getDeduplicationInfo,
+    handleButtonToggle,
+    compare,
   }) => {
     const [selectedRow, setSelectedRow] = useState(combinedArray[0])
     const [visibleMenu, setVisibleMenu] = useState(false)
@@ -53,10 +56,7 @@ const ComparisonTable = observer(
     }
 
     useEffect(() => {
-      const fetchData = async () => {
-        await getOutputsData(selectedRow.documentId)
-      }
-      fetchData()
+      getOutputsData(selectedRow.documentId)
     }, [selectedRow.documentId])
 
     const getBackgroundColor = (type) => {
@@ -67,6 +67,7 @@ const ComparisonTable = observer(
 
     return (
       <>
+        <CompareWarning />
         <Message className={styles.dataComparisonWrapper}>
           <div className={styles.dataComparisonHeader}>
             <h3 className={styles.dataComparisonHeaderTitle}>
@@ -143,7 +144,7 @@ const ComparisonTable = observer(
               id="count"
               display={
                 <div className={styles.columnHeaderWrapper}>
-                  <span>Duplicates</span>
+                  <span>Status</span>
                   <Actions
                     questionMark
                     description={texts.moreInfo.duplicates}
@@ -223,6 +224,13 @@ const ComparisonTable = observer(
               )}
             />
           </Table>
+          <Button
+            onClick={handleButtonToggle}
+            variant={compare ? 'contained' : 'outlined'}
+            className={styles.compareToggler}
+          >
+            {compare ? texts.moreInfo.action : texts.moreInfoComparison.action}
+          </Button>
         </div>
         <CompareCard
           worksDataInfo={worksDataInfo}

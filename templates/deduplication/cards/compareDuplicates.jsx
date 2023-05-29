@@ -32,8 +32,13 @@ const CompareDuplicates = observer(
               handleButtonToggle={handleButtonToggle}
               compare={compare}
               rowData={rowData}
+              innerHeader
             />
-            <InnerTable combinedArray={combinedArray} />
+            <InnerTable
+              handleButtonToggle={handleButtonToggle}
+              compare={compare}
+              combinedArray={combinedArray}
+            />
           </>
         ) : (
           <>
@@ -50,6 +55,8 @@ const CompareDuplicates = observer(
               outputData={outputData}
               combinedArray={combinedArray}
               worksDataInfo={worksDataInfo}
+              handleButtonToggle={handleButtonToggle}
+              compare={compare}
             />
           </>
         )}

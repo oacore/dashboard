@@ -10,6 +10,7 @@ import DeduplicationInfoCard from './cards/deduplicationInfo'
 import DeduplicationStatistics from './cards/deduplicationStatistics'
 import DeduplicationTableCard from './tables/deduplicationTables'
 import texts from '../../texts/deduplication/deduplication.yml'
+import ShowMoreText from '../../components/showMore'
 
 const DeduplicationPageTemplate = observer(
   ({
@@ -37,10 +38,7 @@ const DeduplicationPageTemplate = observer(
     const id = router.query['data-provider-id']
 
     useEffect(() => {
-      async function fetchData() {
-        await getDeduplicationData(id)
-      }
-      fetchData()
+      getDeduplicationData(id)
     }, [id])
 
     const handeAdditionalInfo = async (row) => {
@@ -60,13 +58,20 @@ const DeduplicationPageTemplate = observer(
       >
         <header className={styles.header}>
           <div className={styles.validatorHeader}>
-            <h1 className={styles.title}>{texts.title}</h1>
+            <div className={styles.temporaryWrapper}>
+              <h1 className={styles.title}>{texts.title}</h1>
+              <div className={styles.beta}>BETA</div>
+            </div>
             <div className={styles.iconWrapper}>
               <img className={styles.menu} src={magnify} alt="" />
               <img className={styles.menu} src={menu} alt="" />
             </div>
           </div>
-          <p className={styles.description}>{texts.description}</p>
+          <ShowMoreText
+            className={styles.description}
+            text={texts.description || 'N/A'}
+            maxLetters={320}
+          />
         </header>
         <div className={styles.cardsWrapper}>
           <DeduplicationInfoCard

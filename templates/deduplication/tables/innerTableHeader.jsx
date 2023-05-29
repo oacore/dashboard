@@ -9,12 +9,7 @@ import texts from '../../../texts/deduplication/deduplication.yml'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import Menu from '../../../components/menu'
 
-const InnerTableHeader = ({
-  onClick,
-  handleButtonToggle,
-  compare,
-  rowData,
-}) => {
+const InnerTableHeader = ({ onClick, rowData, innerHeader }) => {
   const handleRedirect = (id) => {
     window.open(`https://core.ac.uk/works/${id}`, '_blank')
   }
@@ -41,13 +36,12 @@ const InnerTableHeader = ({
           <img src={arrowLeft} alt="" />
           <div className={styles.goBack}>Back</div>
         </div>
-        <Button
-          onClick={handleButtonToggle}
-          variant={compare ? 'contained' : 'outlined'}
-        >
-          {compare ? texts.moreInfo.action : texts.moreInfoComparison.action}
-        </Button>
       </div>
+      <p className={styles.tableTitle}>
+        {innerHeader
+          ? texts.moreInfoComparison.innerTableTitle
+          : texts.moreInfoComparison.deduplicationTitle}
+      </p>
       <div className={styles.compareItem}>
         <p className={classNames.use(styles.oaiItem)}>
           {rowData?.oai.split(':').pop()}

@@ -1,15 +1,15 @@
-title: Deduplication
+title: Find versions and near-duplicates
 
-description: Our technology searches your repository to identify potential duplicates. Please note that it is not possible to delete or merge duplicates in your repository directly from the dashboard. However, you can either resolve duplicates in your repository manually with the help of this tool or download the identified duplicates in a .csv format and use it to clean your data using a script you develop.
+description: Our technology searches your repository to identify different versions of your articles and potential duplicates within your repository. This can help you in managing and curating your repository content. We periodically detect near-duplicate records and versions and allow you to compare them side by side. This can help you improve your repository metadata and keep the repository clean. When investigating the detected matches, you can mark them either as duplicates, different version or not the same article. This advises CORE how to index them. Please note that it is not possible to delete or merge duplicates in your repository directly from this dashboard. However, you can use this tool to identify these potential issues and then resolve them in a way that is supported by your specific repository platform. Matches can be downloaded in a .csv format.
 
 info:
-  title: Last successful deduplication
-  countTitle: Number of duplicates
+  title: Last successful check
+  countTitle: Number of matches
   subTitle: Please be aware that it is a list of possible duplicates, and you can review it.
-  description: Deduplication runs automatically every time after your repository is harvested.
+  description: Detection of versions and near-duplicates runs automatically every time after your repository is harvested.
   action: DOWNLOAD
-  info: We perform a deduplication task every time we complete the harvesting. We match the records using Locality Sensitive Hashing and in this tab you can compare and classify what we found. Having a duplicate record in your repository doesn’t necessarily mean that your repository hosts broken records, some records might point to different versions, in this page you will also be able to track this.
-  listOfDuplicates: The list includes all the records we identified with at least matching duplicate in your repository. You can see the corresponding records and mark them by clicking on them.
+  info: We perform a check for versions and near-duplicates periodically, every time we complete the harvesting of your repository. We match records using a variant of locality sensitive hashing.
+  listOfDuplicates: The below list includes all the records in your repository for which we found at least one other match. Click on any of the records to inspect and compare it with all the other matching records.
 
 statistics:
   title: Detected duplicates in your platform by publication year
@@ -18,7 +18,10 @@ statistics:
 
 moreInfo:
   action: Compare METADATA RECORDS
-  description: The below list contains the potential duplicates CORE identified. You can compare and review these potential duplicates and confirm them as duplicates or tell us that they are different. This will impact how CORE displays these articles in Search, API and other services. Specifically, by marking potential duplicates as different articles, these articles will be disassociated (they will not be part of the same **Work** entity).
+  description: |
+    The below list contains the potential duplicates which CORE identified. You can compare them to this record and review how they differ. You can subsequently mark them as duplicates, different versions or advise us that they are different.
+
+    This will impact how CORE displays these articles in Search, API and other services. Specifically, by marking potential duplicates as different articles, these articles will be disassociated (they will not be part of the same **Work** entity).
   tableTitle: Possible duplicates in your repositories
   duplicates: This column contains the version classification of the paper. The paper can be marked as a duplicate, or as a version with the type defined by one of the possible values in the COAR version type vocabulary
   publicationDate: The publication date coming from the repository metadata.
@@ -36,9 +39,11 @@ moreInfoComparison:
     - title: Not the same article
       description: this will remove connection between these articles and they will no longer be associate with each other in one Work entity.
   tableTitle: Possible duplicates in your repositories
+  innerTableTitle: It seems that this record might have different versions or duplicates within the repository
+  deduplicationTitle: This is your master duplicate
 
 actions:
-  - title: Open in the Core
+  - title: Open in Core
     key: coreUrl
   - title: Open in the repository
     key: outputUrl

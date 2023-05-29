@@ -107,10 +107,14 @@ class DataProvider extends Resource {
       const response = await fetch(
         `${process.env.API_URL}/data-providers/${id}/duplicates`
       )
-      const data = await response.json()
-      this.setDuplicateList(data)
+
+      if (response.ok) {
+        const data = await response.json()
+        this.setDuplicateList(data)
+      } else throw new Error('Failed to fetch deduplication data')
     } catch (error) {
       console.error('Error fetching deduplication data:', error)
+      this.setDuplicateList([])
     }
   }
 
