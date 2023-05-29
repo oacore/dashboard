@@ -10,14 +10,16 @@ const development = {
   IDP_URL: 'https://api-dev.core.ac.uk',
 }
 
-// const production = {
-//   API_URL: 'https://api02.core.ac.uk/internal',
-//   IDP_URL: 'https://api02.core.ac.uk',
-// }
 const production = {
-  API_URL: 'https://api.core.ac.uk/internal',
-  IDP_URL: 'https://api.core.ac.uk',
+  API_URL: 'https://api02.core.ac.uk/internal',
+  IDP_URL: 'https://api02.core.ac.uk',
 }
+
+// In case if we have trouble with main API02
+// const production = {
+//   API_URL: 'https://api.core.ac.uk/internal',
+//   IDP_URL: 'https://api.core.ac.uk',
+// }
 
 const validate = (config) =>
   ['API_URL', 'IDP_URL', 'API_KEY'].forEach((param) => {
