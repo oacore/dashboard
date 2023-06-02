@@ -155,6 +155,7 @@ const InnerTable = observer(
                           onClick={(e) =>
                             handleToggleRedirect(e, key, v.documentId, v.oai)
                           }
+                          className={styles.togglerTitle}
                         >
                           {title}
                         </div>

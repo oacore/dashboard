@@ -65,6 +65,7 @@ const TableActions = ({
         </div>
       )}
       <div className={styles.compareWrapper}>
+        <div className={styles.buttonOptionsEmpty} />
         <div className={styles.buttonOptions}>
           {Object.values(texts.comparison?.buttons || []).map((item, index) => (
             // eslint-disable-next-line max-len

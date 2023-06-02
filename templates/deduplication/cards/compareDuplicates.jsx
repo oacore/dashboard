@@ -32,7 +32,6 @@ const CompareDuplicates = observer(
               handleButtonToggle={handleButtonToggle}
               compare={compare}
               rowData={rowData}
-              innerHeader
             />
             <InnerTable
               handleButtonToggle={handleButtonToggle}

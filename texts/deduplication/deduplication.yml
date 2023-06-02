@@ -52,6 +52,9 @@ comparison:
   title: Comparison tips
   subTitle: |
     You can compare the metadata below between two outputs and mark them with next tags:
+  referenceTitle: The reference article
+  compareItem: |
+    The record that the reference article is compared with:
   items:
    - title: Duplicate
      description: this means that two these articles exactly the same with the same metadata.

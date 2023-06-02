@@ -7,9 +7,10 @@ import arrowLeft from '../../../components/upload/assets/ArrowLeft.svg'
 import { Button } from '../../../design'
 import texts from '../../../texts/deduplication/deduplication.yml'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
+import gamepad from '../../../components/upload/assets/gamepad.svg'
 import Menu from '../../../components/menu'
 
-const InnerTableHeader = ({ onClick, rowData, innerHeader }) => {
+const InnerTableHeader = ({ onClick, rowData }) => {
   const handleRedirect = (id) => {
     window.open(`https://core.ac.uk/works/${id}`, '_blank')
   }
@@ -38,13 +39,11 @@ const InnerTableHeader = ({ onClick, rowData, innerHeader }) => {
         </div>
       </div>
       <p className={styles.tableTitle}>
-        {innerHeader
-          ? texts.moreInfoComparison.innerTableTitle
-          : texts.moreInfoComparison.deduplicationTitle}
+        {texts.moreInfoComparison.innerTableTitle}
       </p>
       <div className={styles.compareItem}>
-        <p className={classNames.use(styles.oaiItem)}>
-          {rowData?.oai.split(':').pop()}
+        <p className={styles.oaiItem}>
+          <img src={gamepad} alt="gamepad" />
         </p>
         <p className={classNames.use(styles.columnItem)}>{rowData?.title}</p>
         <p className={classNames.use(styles.columnItem)}>
@@ -75,6 +74,7 @@ const InnerTableHeader = ({ onClick, rowData, innerHeader }) => {
                   onClick={() =>
                     handleToggleRedirect(key, rowData.workId, rowData.oai)
                   }
+                  className={styles.togglerTitle}
                 >
                   {title}
                 </div>

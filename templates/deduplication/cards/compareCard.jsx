@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
+import { Button, Icon } from '@oacore/design/lib/elements'
 
 import styles from '../styles.module.css'
 import ShowMoreText from '../../../components/showMore'
+import info from '../../../components/upload/assets/info.svg'
+import oai from '../../../components/upload/assets/oai.svg'
+import { Message } from '../../../design'
+import texts from '../../../texts/deduplication/deduplication.yml'
 
 const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
   const [modifiedWorksData, setModifiedWorksData] = useState([])
@@ -13,6 +18,7 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
     'type',
     'Field of study',
     'DOI',
+    <img src={oai} alt="oai" />,
     'Publication date',
     'Deposited date',
     'Abstract',
@@ -24,6 +30,7 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
       worksDataInfo?.data?.documentType,
       worksDataInfo?.data?.fieldOfStudy,
       worksDataInfo?.data?.doi,
+      worksDataInfo?.data?.oai,
       worksDataInfo?.data?.publishedDate,
       worksDataInfo?.data?.depositedDate,
       worksDataInfo?.data?.abstract,
@@ -37,6 +44,7 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
       outputsDataInfo?.data?.documentType,
       outputsDataInfo?.data?.fieldOfStudy,
       outputsDataInfo?.data?.doi,
+      outputsDataInfo?.data?.oai,
       outputsDataInfo?.data?.publishedDate,
       outputsDataInfo?.data?.depositedDate,
       outputsDataInfo?.data?.abstract,
@@ -44,16 +52,37 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
     setModifiedOutputsData(generatedData)
   }, [outputsDataInfo?.data])
 
+  const handleWorksRedirect = (id) => {
+    window.open(`https://core.ac.uk/works/${id}`, '_blank')
+  }
+
+  const handleOutputsRedirect = (id) => {
+    window.open(`https://core.ac.uk/outputs/${id}`, '_blank')
+  }
+
   return (
     <div className={styles.compareCardWrapper}>
       <div className={styles.compareCardLeft}>
+        <Message className={styles.referenceTitleLeft}>
+          <img className={styles.referenceIcon} src={info} alt="riox" />
+          <p className={styles.referenceText}>
+            {texts.comparison.referenceTitle}
+          </p>
+        </Message>
         <div className={styles.compareTitleWrapperLeft}>
-          <span className={styles.compareTitle}>
+          <div className={styles.compareTitle}>
             <ShowMoreText
               text={worksDataInfo?.data?.title || 'N/A'}
               maxLetters={120}
             />
-          </span>
+          </div>
+          <Button
+            onClick={() => handleWorksRedirect(worksDataInfo?.data?.id)}
+            className={styles.visibilityIconButton}
+          >
+            <Icon src="#eye" className={styles.visibility} />
+            Live in CORE
+          </Button>
         </div>
         <div className={styles.itemsWrapper}>
           <div className={styles.dataTitleWrapper}>
@@ -83,13 +112,28 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
         </div>
       </div>
       <div className={styles.compareCardRight}>
+        <Message className={styles.referenceTitle}>
+          <img className={styles.referenceIcon} src={info} alt="riox" />
+          <p className={styles.referenceText}>
+            {`${texts.comparison.compareItem} ${outputsDataInfo?.data?.oai
+              .split(':')
+              .pop()}`}
+          </p>
+        </Message>
         <div className={styles.compareTitleWrapper}>
-          <span className={styles.compareTitle}>
+          <div className={styles.compareTitle}>
             <ShowMoreText
               text={outputsDataInfo?.data?.title || 'N/A'}
               maxLetters={120}
             />
-          </span>
+          </div>
+          <Button
+            onClick={() => handleOutputsRedirect(worksDataInfo?.data?.id)}
+            className={styles.visibilityIconButton}
+          >
+            <Icon src="#eye" className={styles.visibility} />
+            Live in CORE
+          </Button>
         </div>
         {modifiedOutputsData?.map((value, index) => (
           <div
