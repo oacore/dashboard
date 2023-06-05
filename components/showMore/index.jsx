@@ -10,9 +10,9 @@ const ShowMoreText = ({ text, maxLetters }) => {
     setShowMore(!showMore)
   }
 
-  const truncatedText = text.slice(0, maxLetters)
+  const truncatedText = text?.slice(0, maxLetters)
 
-  if (text.length <= maxLetters) return <div>{text}</div>
+  if (text?.length <= maxLetters) return <div>{text}</div>
 
   return (
     <div>

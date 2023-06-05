@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Icon } from '@oacore/design/lib/elements'
 import { observer } from 'mobx-react-lite'
 
@@ -9,11 +9,23 @@ import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import Menu from '../../../components/menu'
 import Actions from '../../../components/actions'
 import CompareWarning from '../cards/warningCard'
+import GuideCard from '../cards/guideCard'
 
 const InnerTable = observer(
   ({ combinedArray, handleButtonToggle, compare }) => {
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
+    const [showGuideModal, setShowGuideModal] = useState(false)
+
+    useEffect(() => {
+      const hasVisited = localStorage.getItem('hasSeenGuide')
+      if (!hasVisited) setShowGuideModal(true)
+    }, [])
+
+    const closeModal = () => {
+      setShowGuideModal(false)
+      localStorage.setItem('hasSeenGuide', true)
+    }
 
     const handleClick = (e, rowDetail) => {
       e.preventDefault()
@@ -173,6 +185,7 @@ const InnerTable = observer(
           >
             {compare ? texts.moreInfo.action : texts.moreInfoComparison.action}
           </Button>
+          {showGuideModal && <GuideCard onClose={closeModal} />}
         </div>
       </>
     )

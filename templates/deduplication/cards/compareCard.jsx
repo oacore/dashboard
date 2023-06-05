@@ -8,6 +8,7 @@ import info from '../../../components/upload/assets/info.svg'
 import oai from '../../../components/upload/assets/oai.svg'
 import { Message } from '../../../design'
 import texts from '../../../texts/deduplication/deduplication.yml'
+import Markdown from '../../../components/markdown'
 
 const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
   const [modifiedWorksData, setModifiedWorksData] = useState([])
@@ -52,6 +53,10 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
     setModifiedOutputsData(generatedData)
   }, [outputsDataInfo?.data])
 
+  const matchingElements = modifiedWorksData.filter(
+    (element, index) => element === modifiedOutputsData[index]
+  )
+
   const handleWorksRedirect = (id) => {
     window.open(`https://core.ac.uk/works/${id}`, '_blank')
   }
@@ -73,7 +78,7 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
           <div className={styles.compareTitle}>
             <ShowMoreText
               text={worksDataInfo?.data?.title || 'N/A'}
-              maxLetters={120}
+              maxLetters={100}
             />
           </div>
           <Button
@@ -86,8 +91,9 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
         </div>
         <div className={styles.itemsWrapper}>
           <div className={styles.dataTitleWrapper}>
-            {generatedTitle?.map((key) => (
-              <div className={styles.dataTitle} key={key}>
+            {generatedTitle?.map((key, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <div className={styles.dataTitle} key={index}>
                 {key}
               </div>
             ))}
@@ -98,6 +104,7 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
                 key={value}
                 className={classNames.use(styles.dataItem, {
                   [styles.height]: index === modifiedOutputsData.length - 1,
+                  [styles.matched]: !matchingElements.includes(value),
                 })}
               >
                 <ShowMoreText
@@ -114,17 +121,18 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
       <div className={styles.compareCardRight}>
         <Message className={styles.referenceTitle}>
           <img className={styles.referenceIcon} src={info} alt="riox" />
-          <p className={styles.referenceText}>
-            {`${texts.comparison.compareItem} ${outputsDataInfo?.data?.oai
-              .split(':')
-              .pop()}`}
-          </p>
+          <Markdown className={styles.referenceText}>
+            {texts.comparison.compareItem}
+          </Markdown>
+          <span className={styles.oaiTitle}>
+            {outputsDataInfo?.data?.oai.split(':').pop()}
+          </span>
         </Message>
         <div className={styles.compareTitleWrapper}>
           <div className={styles.compareTitle}>
             <ShowMoreText
               text={outputsDataInfo?.data?.title || 'N/A'}
-              maxLetters={120}
+              maxLetters={100}
             />
           </div>
           <Button
@@ -137,9 +145,11 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
         </div>
         {modifiedOutputsData?.map((value, index) => (
           <div
-            key={value}
+            /* eslint-disable-next-line react/no-array-index-key */
+            key={index}
             className={classNames.use(styles.dataItem, {
               [styles.height]: index === modifiedOutputsData.length - 1,
+              [styles.matched]: !matchingElements.includes(value),
             })}
           >
             <ShowMoreText
