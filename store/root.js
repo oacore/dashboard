@@ -4,6 +4,7 @@ import escapeString from 'escape-string-regexp'
 import Store from './store'
 import User from './user'
 import Organisation from './organisation'
+import Invitation from './invitation'
 import { AccessError, AuthorizationError, PaymentRequiredError } from './errors'
 import DataProvider from './data-provider'
 
@@ -127,8 +128,10 @@ class Root extends Store {
       if (!this.options.allowAnonymousAccess)
         throw new AuthorizationError('Anonymous users are not allowed')
     }
+    this.invitation = new Invitation(process.env.API_URL, this.options)
 
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
+    await this.organisation.listUserInvites()
     await this.organisation.retrieve()
   }
 

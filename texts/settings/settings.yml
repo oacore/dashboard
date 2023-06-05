@@ -6,6 +6,11 @@ organisation:
 invite:
   title: Invite colleagues to the repository dashboard
   buttonCaption: Invite
+  listAccess: Colleagues that have access to the Dashboard
+  confirmation:
+    title: Confirmation
+    content: |
+      Access to the dashboard will be removed to user <span>{{email}}</span>. Do you want to proceed?
 
 repository:
   title: Repository settings

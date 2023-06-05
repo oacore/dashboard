@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import styles from './styles.module.css'
 import oaiLogo from './assets/oai_logo.svg'
 import { useScrollEffect } from '../../pages/_app/hooks'
+import ConfirmationDeleteInvite from './confirmation'
 import NotificationSystem from './cards/notification'
 
 import Markdown from 'components/markdown'
@@ -69,13 +70,27 @@ const SettingsTemplate = forwardRef(
     mappingSubmit,
     updateLogo,
     inviteUser,
+    delInviter,
+    organisationUserInvites,
     className,
     membershipPlan,
+    stateData,
     tag: Tag = 'main',
     ...restProps
   }) => {
     const router = useRouter()
     const [formMessage, setFormMessage] = useState({})
+    const [inviteCodes, setInviteCodes] = useState(organisationUserInvites)
+
+    const removeElement = (code) => {
+      const newInviteCodes = inviteCodes.filter((item) => item.code !== code)
+      // eslint-disable-next-line no-param-reassign
+      organisationUserInvites = organisationUserInvites.filter(
+        (item) => item.code !== code
+      )
+      setInviteCodes(newInviteCodes)
+    }
+
     const organization = { name: dataProvider.institution }
     const isStartingMember = membershipPlan.billing_type === 'starting'
     const handleSubmit = async (event) => {
@@ -110,6 +125,8 @@ const SettingsTemplate = forwardRef(
       mapping: mappingRef,
       invite: inviteRef,
     }
+
+    const badgesData = stateData.docs?.items?.slice(-1)[0]
 
     useScrollEffect(scrollTarget[router.query.referrer])
 
@@ -157,6 +174,32 @@ const SettingsTemplate = forwardRef(
                 tag="div"
               />
             </FormShell>
+            <Card.Title tag="h4">{content.invite.listAccess}</Card.Title>
+            {inviteCodes.map((item) => (
+              // {organisationUserInvites.map((item) => (
+              <div className={classNames.use(styles.invitationUserDelete)}>
+                <div
+                  id={`invite-${item.email}`}
+                  className={classNames.use(styles.inviteEmail)}
+                >
+                  {item.email}
+                </div>
+                <div
+                  id={`invite-${item.activated}`}
+                  className={classNames.use(styles.inviteStatus, {
+                    [styles.inviteActivated]: item.activated,
+                  })}
+                >
+                  {item.activated ? 'activated' : 'not activated'}
+                </div>
+                <ConfirmationDeleteInvite
+                  text={content.invite.confirmation}
+                  item={item}
+                  submitConfirm={delInviter}
+                  removeElement={removeElement}
+                />
+              </div>
+            ))}
           </Card>
         </div>
         <Card
@@ -214,6 +257,42 @@ const SettingsTemplate = forwardRef(
             logoUrl={dataProviderLogo}
             handleUpload={updateLogo}
           />
+        </div>
+        <div>
+          <Card
+            className={classNames.use(styles.section).join(className)}
+            tag="section"
+          >
+            <Card.Title tag="h2">{badgesData.title}</Card.Title>
+            <div className={styles.badgeContainer}>
+              <Card.Description className={styles.badgeDescription} tag="div">
+                <p>{badgesData.descriptionDashboard}</p>
+                <div>
+                  {badgesData.images?.map((img) => (
+                    <div className={styles.badgeWrapper}>
+                      <div className={styles.imgWrapper}>
+                        {/* eslint-disable-next-line max-len */}
+                        {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                        <img
+                          key={img.file}
+                          className={classNames.use(styles.image, {
+                            [styles.badgeImage]: img.source,
+                            [styles.badgeImageHeight]:
+                              img.source?.includes('square'),
+                          })}
+                          src={img.file}
+                          alt="image"
+                        />
+                      </div>
+                      <div className={styles.textAlignment}>
+                        <span className={styles.text}>{img.source}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card.Description>
+            </div>
+          </Card>
         </div>
         <NotificationSystem />
         <ChangePassword

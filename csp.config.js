@@ -8,7 +8,7 @@ const PRODUCTION = '*.core.ac.uk core.ac.uk'
 
 const config = {
   'default-src': [SELF, PRODUCTION],
-  'script-src': [SELF, '*.google-analytics.com'],
+  'script-src': [SELF, '*.google-analytics.com', '*.googletagmanager.com'],
   // TODO: Move 'unsafe-inline' to development when the Next.js' bug is resolved
   // See more: https://github.com/vercel/next.js/issues/17445
   'style-src': [SELF, "'unsafe-inline'"],
@@ -21,6 +21,7 @@ const config = {
     'data:',
     '*.google-analytics.com',
     'oacore.github.io',
+    '*.googletagmanager.com',
   ],
   'connect-src': [
     SELF,
@@ -29,6 +30,7 @@ const config = {
     '*.google-analytics.com',
     'api.github.com:*',
     'raw.githubusercontent.com:*',
+    '*.googletagmanager.com',
   ],
 }
 

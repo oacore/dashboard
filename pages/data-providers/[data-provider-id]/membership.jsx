@@ -6,10 +6,7 @@ import retrieveContent from 'content'
 
 const ASSETS_BASE_URL = 'https://oacore.github.io/content/'
 
-const MembershipPage = ({
-  store: { dataProvider, organisation },
-  ...props
-}) => {
+const MembershipPage = ({ store: { dataProvider }, ...props }) => {
   const [stateData, setStateData] = useState({})
 
   const setAssetsUrl = (object) => {
@@ -51,7 +48,7 @@ const MembershipPage = ({
 
   return (
     <MembershipPageTemplate
-      membershipPlan={organisation.billingPlan}
+      membershipPlan={dataProvider.membershipPlan}
       {...props}
       {...stateData}
     />

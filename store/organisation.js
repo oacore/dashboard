@@ -1,9 +1,18 @@
-import { action } from 'mobx'
+import { action, observable } from 'mobx'
 
 import Resource from './resource'
 import { NotAcceptableError } from '../api/errors'
 
 class Organisation extends Resource {
+  @observable organisationUserInvites = []
+
+  @observable urlOrganisation = ''
+
+  constructor(baseUrl, options) {
+    super(baseUrl, options)
+    this.urlOrganisation = `${baseUrl}`
+  }
+
   @action
   inviteUser = async (data) => {
     const url = `${this.url}/invitation`
@@ -20,6 +29,13 @@ class Organisation extends Resource {
     }
 
     return { message: 'Invitation has been sent.' }
+  }
+
+  @action
+  listUserInvites = async () => {
+    const url = `${this.urlOrganisation}/invitation`
+    const { data } = await this.options.request(url)
+    this.organisationUserInvites = data
   }
 }
 
