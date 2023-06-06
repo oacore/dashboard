@@ -303,6 +303,7 @@
 }
 
 .column-item {
+  min-width: 40%;
   padding: 0 1.5em;
   margin: 0;
   overflow: hidden;
@@ -820,6 +821,14 @@
   background: #5a9216;
   border-radius: 2px 2px 0;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.visible-icon-wrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 5%;
+  margin-right: 24px;
 }
 
 .visible-icon {

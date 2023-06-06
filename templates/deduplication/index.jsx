@@ -28,12 +28,15 @@ const DeduplicationPageTemplate = observer(
     updateWork,
     duplicatesUrl,
     exportUrl,
+    billingPlan,
+    dataProviderData,
     ...restProps
   }) => {
     const router = useRouter()
 
     const [rowData, setRowData] = useState()
     const [showCompareView, setShowCompareView] = useState(false)
+    const [checkBillingType, setCheckBillingType] = useState(false)
 
     const id = router.query['data-provider-id']
 
@@ -46,6 +49,10 @@ const DeduplicationPageTemplate = observer(
       setRowData(row)
       setShowCompareView(true)
     }
+
+    useEffect(() => {
+      setCheckBillingType(billingPlan?.billingType === 'starting')
+    }, [billingPlan])
 
     const goBack = () => {
       setShowCompareView(false)
@@ -81,6 +88,7 @@ const DeduplicationPageTemplate = observer(
           <DeduplicationStatistics
             duplicateList={duplicateList}
             duplicatesUrl={duplicatesUrl}
+            checkBillingType={checkBillingType}
           />
         </div>
         <DeduplicationTableCard
@@ -99,6 +107,8 @@ const DeduplicationPageTemplate = observer(
           setShowCompareView={setShowCompareView}
           duplicatesUrl={duplicatesUrl}
           exportUrl={exportUrl}
+          checkBillingType={checkBillingType}
+          dataProviderData={dataProviderData}
         />
       </Tag>
     )

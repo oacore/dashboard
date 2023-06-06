@@ -18,6 +18,8 @@ const DeduplicationPage = ({ store, ...props }) => (
     updateWork={store.dataProvider?.updateWork}
     duplicatesUrl={store.dataProvider?.duplicatesUrl}
     exportUrl={store.dataProvider?.works?.contentExportUrl}
+    billingPlan={store.organisation.billingPlan}
+    dataProviderData={store.dataProvider}
     {...props}
   />
 )

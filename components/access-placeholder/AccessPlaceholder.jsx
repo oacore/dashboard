@@ -5,15 +5,24 @@ import styles from './styles.module.css'
 import placeholderImg from '../upload/assets/introMembership.svg'
 import { Button } from '../../design'
 
-const AccessPlaceholder = ({ dataProviderData, screenHeight }) => (
+const AccessPlaceholder = ({
+  dataProviderData,
+  screenHeight,
+  description,
+  customWidth,
+}) => (
   <div
     className={classNames.use(styles.placeholderWrapper, {
       [styles.height]: screenHeight,
     })}
   >
     <img src={placeholderImg} alt="" />
-    <div className={styles.placeholderText}>
-      This feature is available only for Sustaining member
+    <div
+      className={classNames.use(styles.placeholderText, {
+        [styles.customWidth]: customWidth,
+      })}
+    >
+      {description}
     </div>
     <Button
       className={styles.upgradeBtn}

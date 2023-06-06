@@ -7,7 +7,11 @@ import ExportButton from '../../../components/export-button'
 
 import { Card } from 'design'
 
-const DeduplicationStatistics = ({ duplicateList, duplicatesUrl }) => (
+const DeduplicationStatistics = ({
+  duplicateList,
+  duplicatesUrl,
+  checkBillingType,
+}) => (
   <Card
     className={styles.deduplicationStatisticsWrapper}
     tag="section"
@@ -22,13 +26,15 @@ const DeduplicationStatistics = ({ duplicateList, duplicatesUrl }) => (
     <div className={styles.innerWrapper}>
       <span className={styles.innerSubTitle}>{texts.info.subTitle}</span>
       <span className={styles.text}>{duplicateList.count}</span>
-      <ExportButton
-        href={duplicatesUrl}
-        className={styles.footerButton}
-        variant="contained"
-      >
-        {texts.info.action}
-      </ExportButton>
+      {!checkBillingType && (
+        <ExportButton
+          href={duplicatesUrl}
+          className={styles.footerButton}
+          variant="contained"
+        >
+          {texts.info.action}
+        </ExportButton>
+      )}
     </div>
   </Card>
 )

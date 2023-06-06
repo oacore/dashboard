@@ -22,6 +22,8 @@ const DeduplicationTableCard = observer(
     outputData,
     duplicatesUrl,
     exportUrl,
+    checkBillingType,
+    dataProviderData,
   }) => {
     const [list, setList] = useState([])
     const [compare, setCompare] = useState(true)
@@ -61,6 +63,8 @@ const DeduplicationTableCard = observer(
             handeAdditionalInfo={handeAdditionalInfo}
             duplicatesUrl={duplicatesUrl}
             exportUrl={exportUrl}
+            checkBillingType={checkBillingType}
+            dataProviderData={dataProviderData}
           />
         ) : (
           <CompareDuplicates

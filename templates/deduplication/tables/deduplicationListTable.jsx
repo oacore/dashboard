@@ -10,9 +10,16 @@ import Menu from '../../../components/menu'
 import texts from '../../../texts/deduplication/deduplication.yml'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import ExportButton from '../../../components/export-button'
+import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 
 const DeduplicationListTable = observer(
-  ({ handeAdditionalInfo, list, duplicatesUrl }) => {
+  ({
+    handeAdditionalInfo,
+    list,
+    duplicatesUrl,
+    checkBillingType,
+    dataProviderData,
+  }) => {
     const [page, setPage] = useState(0)
     const [records, setRecords] = useState([])
     const [visibleMenu, setVisibleMenu] = useState(false)
@@ -43,9 +50,15 @@ const DeduplicationListTable = observer(
     }
 
     useEffect(() => {
-      const newRecords = [...records, ...list.slice(page * 10, (page + 1) * 10)]
-      setRecords(newRecords)
-    }, [page, list])
+      if (checkBillingType) setRecords(list.slice(0, 5))
+      else {
+        const newRecords = [
+          ...records,
+          ...list.slice(page * 10, (page + 1) * 10),
+        ]
+        setRecords(newRecords)
+      }
+    }, [page, list, checkBillingType])
 
     const searchChange = (event) => {
       setLocalSearchTerm(event.target.value)
@@ -72,17 +85,20 @@ const DeduplicationListTable = observer(
           <Card.Title tag="h2">
             List of potential duplicates and alternative versions
           </Card.Title>
-          <Actions
-            downloadUrl={duplicatesUrl}
-            description={texts.info.listOfDuplicates}
-          />
+          {checkBillingType ? (
+            <Actions description={texts.info.listOfDuplicates} />
+          ) : (
+            <Actions
+              downloadUrl={duplicatesUrl}
+              description={texts.info.listOfDuplicates}
+            />
+          )}
         </div>
-
         <Table
           rowClick={(row) => handeAdditionalInfo(row)}
           rowActionProp
           className={styles.issueTable}
-          searchable
+          searchable={!checkBillingType}
           localSearch
           searchChange={searchChange}
           localSearchTerm={localSearchTerm}
@@ -91,6 +107,7 @@ const DeduplicationListTable = observer(
           totalLength={list.length}
           size={searchResults.length}
           isHeaderClickable
+          excludeFooter={checkBillingType}
         >
           <Table.Column
             id="oai"
@@ -185,6 +202,13 @@ const DeduplicationListTable = observer(
             <ExportButton href={duplicatesUrl}>download csv</ExportButton>
           </Table.Action>
         </Table>
+        {checkBillingType && (
+          <AccessPlaceholder
+            dataProviderData={dataProviderData}
+            customWidth
+            description="To see and download the full list of potential duplicates and alternative versions become our  Supporting or Sustaining member"
+          />
+        )}
       </>
     )
   }

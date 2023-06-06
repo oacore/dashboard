@@ -52,11 +52,13 @@ const InnerTableHeader = ({ onClick, rowData }) => {
         <p className={classNames.use(styles.dateItem)}>
           {rowData?.publicationDate}
         </p>
-        <Icon
-          onClick={() => handleRedirect(rowData.workId)}
-          src="#eye"
-          className={styles.visibleIcon}
-        />
+        <div className={styles.visibleIconWrapper}>
+          <Icon
+            onClick={() => handleRedirect(rowData.workId)}
+            src="#eye"
+            className={styles.visibleIcon}
+          />
+        </div>
         <div className={styles.actionButtonWrapper}>
           <Button className={styles.actionButtonPure} onClick={handleClick}>
             <img src={kababMenu} alt="kababMenu" />

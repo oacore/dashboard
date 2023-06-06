@@ -35,7 +35,11 @@ const DoiTemplate = ({
           {doiRecords && <TableCard pages={doiRecords} exportUrl={doiUrl} />}
         </>
       ) : (
-        <AccessPlaceholder dataProviderData={dataProviderData} screenHeight />
+        <AccessPlaceholder
+          dataProviderData={dataProviderData}
+          screenHeight
+          description="This feature is available only for Sustaining member"
+        />
       )}
     </Tag>
   )
