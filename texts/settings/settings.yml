@@ -59,12 +59,15 @@ notifications:
     issue: Harvesting was not completed because of issues that required your actions.
     duplicate: New potential duplicates of your records has been found.
   actions:
-    - name: mark as read
-      action: All
-      variant: outlined
-    - name: Show all
-      action: ERROR
-      variant: text
+    show:
+     name: Show all
+     second: Hide
+     action: ERROR
+     variant: text
+    read:
+     name: mark as read
+     action: All
+     variant: outlined
   types:
     type: Harvesting
     notifyOne: Notify me whenever harvesting has completed.

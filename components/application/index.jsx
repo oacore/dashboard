@@ -22,7 +22,12 @@ const Application = observer(
   ({
     children,
     dataProvider,
+    userID,
     pathname,
+    notificationsData,
+    seenNotification,
+    getNotificationsData,
+    seeAllNotifications,
     variant = 'public', // 'public' or 'internal'
     isAuthenticated = false,
     acceptedTCVersion = 0,
@@ -55,6 +60,8 @@ const Application = observer(
       }
     }, [redirect, dataProvider])
 
+    const displayedNotifications = notificationsData?.slice(0, 10)
+
     return (
       <>
         <Head>
@@ -85,13 +92,19 @@ const Application = observer(
                       />
                     )}
                     {dataProvider && <RepositorySelect value={dataProvider} />}
-                    {/* eslint-disable-next-line max-len */}
-                    {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */}
-                    <img
-                      onClick={handleNotificationClick}
-                      src={notification}
-                      alt="bell"
-                    />
+                    <div className={styles.bellWrapper}>
+                      {/* eslint-disable-next-line max-len */}
+                      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */}
+                      <img
+                        onClick={handleNotificationClick}
+                        src={notification}
+                        alt="bell"
+                      />
+
+                      <div className={styles.count}>
+                        {displayedNotifications.length}
+                      </div>
+                    </div>
                     <Logout />
                   </>
                 </>
@@ -105,7 +118,14 @@ const Application = observer(
                 placement="bottom"
               />
             )}
-            {showNotification && <NotificationPopUp />}
+            {showNotification && (
+              <NotificationPopUp
+                displayedNotifications={displayedNotifications}
+                seenNotification={seenNotification}
+                userID={userID}
+                seeAllNotifications={seeAllNotifications}
+              />
+            )}
           </div>
           <div ref={siderRef}>
             {variant === 'internal' && (

@@ -1,13 +1,13 @@
 import React from 'react'
 import NextApp from 'next/app'
 import { withRouter } from 'next/router'
+
 import '@oacore/design/lib/index.css'
 import './global.css'
-
+import { initStore, GlobalProvider } from 'store'
 import { UnauthorizedError } from 'api/errors'
 import { AuthorizationError, AccessError, NotFoundError } from 'store/errors'
 import { logPageView } from 'utils/analytics'
-import { initStore, GlobalProvider } from 'store'
 import Application from 'components/application'
 import { Sentry } from 'utils/sentry'
 
@@ -175,6 +175,11 @@ class App extends NextApp {
     return (
       <Application
         dataProvider={store.dataProvider}
+        userID={store.user.id}
+        notificationsData={store.notificationsData}
+        seenNotification={store.seenNotification}
+        getNotificationsData={store.getNotificationsData}
+        seeAllNotifications={store.seeAllNotifications}
         pathname={pathname}
         variant={variant}
         tutorial={store.tutorial}

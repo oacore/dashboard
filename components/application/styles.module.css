@@ -8,6 +8,29 @@
   margin-left: 1rem;
 }
 
+.bell-wrapper {
+  position: relative;
+}
+
+.count {
+  position: absolute;
+  bottom: 50%;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px;
+  color: #fff;
+  text-align: center;
+  background: #ff5f52;
+  border-radius: 100%;
+}
+
 .restart-button {
   display: flex;
   align-items: center;
