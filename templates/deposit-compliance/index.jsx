@@ -64,8 +64,14 @@ const DepositComplianceTemplate = ({
 
   const renderItem = () => {
     if (totalCount === 0) return <NotEnoughDataMessage />
-    if (!checkBillingType)
-      return <AccessPlaceholder dataProviderData={dataProviderData} />
+    if (!checkBillingType) {
+      return (
+        <AccessPlaceholder
+          dataProviderData={dataProviderData}
+          description="This feature is available only for Sustaining member"
+        />
+      )
+    }
     return (
       <>
         <DataOverviewCard

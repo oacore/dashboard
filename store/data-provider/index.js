@@ -53,6 +53,19 @@ class DataProvider extends Resource {
 
   @observable validationResult = {}
 
+  @observable duplicateList = {}
+
+  @observable duplicateListDetails = {}
+
+  @observable outputData = {}
+
+  @observable workData = {}
+
+  constructor(dataProviderInit, options) {
+    super(dataProviderInit, options)
+    this.duplicatesUrl = `${process.env.API_URL}/data-providers/${dataProviderInit.id}/duplicates?accept=text/csv`
+  }
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -86,6 +99,92 @@ class DataProvider extends Resource {
     const data = await response.json()
     this.myData = data
     return data
+  }
+
+  @action
+  getDeduplicationData = async (id) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${id}/duplicates`
+      )
+
+      if (response.ok) {
+        const data = await response.json()
+        this.setDuplicateList(data)
+      } else throw new Error('Failed to fetch deduplication data')
+    } catch (error) {
+      console.error('Error fetching deduplication data:', error)
+      this.setDuplicateList([])
+    }
+  }
+
+  setDuplicateList(data) {
+    this.duplicateList = data
+  }
+
+  @action
+  getDeduplicationInfo = async (workId) => {
+    try {
+      const response = await fetch(`${process.env.API_URL}/versions/${workId}`)
+      const data = await response.json()
+      this.setDuplicateListDetails(data)
+    } catch (error) {
+      console.error('Error fetching deduplication data:', error)
+    }
+  }
+
+  setDuplicateListDetails(data) {
+    this.duplicateListDetails = data
+  }
+
+  @action
+  getOutputsData = async (id) => {
+    try {
+      const url = new URL(`/v3/outputs/${id}`, process.env.API_URL).href
+      const data = await apiRequest(url)
+      this.setOutputData(data)
+    } catch (error) {
+      console.error('Error fetching deduplication data:', error)
+    }
+  }
+
+  setOutputData(data) {
+    this.outputData = data
+  }
+
+  @action
+  getWorksData = async (id) => {
+    try {
+      const url = new URL(`/v3/works/${id}`, process.env.API_URL).href
+      const data = await apiRequest(url)
+      this.setWorkData(data)
+    } catch (error) {
+      console.error('Error fetching deduplication data:', error)
+    }
+  }
+
+  setWorkData(data) {
+    this.workData = data
+  }
+
+  @action
+  // eslint-disable-next-line consistent-return
+  updateWork = async (workId, outputId, type) => {
+    try {
+      const url = `${process.env.API_URL}/versions/${workId}`
+      const body = { workId, outputId, type }
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   @action

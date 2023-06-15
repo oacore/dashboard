@@ -17,6 +17,10 @@
   text-align: center;
 }
 
+.custom-width {
+  width: 600px;
+}
+
 .upgrade-btn {
   text-transform: capitalize;
 }

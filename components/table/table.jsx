@@ -25,6 +25,7 @@ const InfiniteTable = ({
   fetchData: fetchDataProp,
   data,
   size,
+  hidePagination,
   isLastPageLoaded,
   totalLength,
   isHeaderClickable,
@@ -32,8 +33,13 @@ const InfiniteTable = ({
   defaultRowClick,
   buttonVariant,
   buttonText,
+  searchChange,
+  localSearch,
+  localSearchTerm,
   useExpandIcon = false,
   excludeFooter = false,
+  rowClick,
+  rowActionProp,
   ...restProps
 }) => {
   const tableRef = useRef(null)
@@ -80,6 +86,10 @@ const InfiniteTable = ({
   // to potentially have useCallback() call behind
   const useRowCallback = (handler) => (bodyHasCallbacks ? handler : null)
 
+  const rowAction = sidebar
+    ? useRowCallback(handleRowClick)
+    : useRowCallback(handleRowToggle)
+
   return (
     <div
       ref={containerRef}
@@ -105,8 +115,8 @@ const InfiniteTable = ({
             name="search"
             label="Search"
             placeholder="Any identifier, title, author..."
-            onChange={handleSearchChange}
-            value={searchTerm}
+            onChange={localSearch ? searchChange : handleSearchChange}
+            value={localSearch ? localSearchTerm : searchTerm}
           />
         )}
         <div className={className}>
@@ -118,11 +128,8 @@ const InfiniteTable = ({
               isHeaderClickable={isHeaderClickable}
             />
             <Body
-              handleRowClick={
-                sidebar
-                  ? useRowCallback(handleRowClick)
-                  : useRowCallback(handleRowToggle)
-              }
+              handleRowClick={rowClick || rowAction}
+              rowActionProp={rowActionProp}
               handleDoubleRowClick={useRowCallback(handleDoubleRowClick)}
               columns={columns}
               isClickable={bodyHasCallbacks}
@@ -141,6 +148,7 @@ const InfiniteTable = ({
                 isLoading={isLoading}
                 totalLength={totalLength}
                 size={size}
+                hidePagination={hidePagination}
                 {...restProps}
               >
                 {action}

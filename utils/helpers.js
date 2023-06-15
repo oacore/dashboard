@@ -59,7 +59,6 @@ const dateTimeFormatCache = new Map()
 
 export const formatDate = (date, options = {}) => {
   const textLoading = 'Loading...'
-  // TODO make 'now()-10' years ?
   const period = 1362647499000
   const stringOptions = JSON.stringify(options)
   let dateTimeFormat = dateTimeFormatCache.get(stringOptions)
@@ -73,12 +72,13 @@ export const formatDate = (date, options = {}) => {
   if (inputTimestamp < period) return textLoading
 
   try {
-    return dateTimeFormat.format(new Date(date))
+    if (date) return dateTimeFormat.format(new Date(date))
   } catch (error) {
     if (process.env.NODE_ENV === 'development')
       console.error('Date in invalid format', date, error)
     return date
   }
+  return date
 }
 
 export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)

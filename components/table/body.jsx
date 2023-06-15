@@ -13,6 +13,7 @@ const Body = React.memo(
     columns,
     details,
     expandedRowId,
+    rowActionProp,
   }) => (
     <Table.Body onDoubleClick={handleDoubleRowClick}>
       {data === null && (
@@ -21,18 +22,23 @@ const Body = React.memo(
         </Table.Row>
       )}
       {data !== null &&
-        data.map((row, index) => {
+        data?.map((row, index) => {
           const props = {
             id: row.id,
             index,
             context: row,
             columns,
             isClickable,
-            onClick: handleRowClick,
           }
           return (
             <Fragment key={row.id}>
-              <TableRow key={row.id} {...props} />
+              <TableRow
+                key={row.id}
+                {...props}
+                onClick={
+                  rowActionProp ? () => handleRowClick(row) : handleRowClick
+                }
+              />
               {details &&
                 React.cloneElement(details, {
                   context: expandedRowId,
@@ -42,7 +48,7 @@ const Body = React.memo(
             </Fragment>
           )
         })}
-      {data !== null && data.length === 0 && <NoDataFoundRow />}
+      {data !== null && data?.length === 0 && <NoDataFoundRow />}
     </Table.Body>
   )
 )

@@ -1,0 +1,12 @@
+.show-more-btn {
+  padding: 0;
+  margin-left: 4px;
+
+  --button-overlay: unset;
+}
+
+.show-more-btn:hover,
+.show-more-btn:visited,
+.show-more-btn:focus {
+  --button-overlay: unset;
+}
