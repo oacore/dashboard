@@ -11,8 +11,8 @@ const development = {
 }
 
 const production = {
-  API_URL: 'https://api-dev.core.ac.uk/internal',
-  IDP_URL: 'https://api-dev.core.ac.uk',
+  API_URL: 'https://api01.core.ac.uk/internal',
+  IDP_URL: 'https://api01.core.ac.uk',
 }
 
 // In case if we have trouble with main API02
