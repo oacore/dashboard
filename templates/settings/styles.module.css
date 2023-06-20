@@ -217,6 +217,13 @@
   border-radius: 100%;
 }
 
+.placeholder {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  border-radius: 100%;
+}
+
 .button-wrapper {
   display: flex;
   justify-content: flex-end;

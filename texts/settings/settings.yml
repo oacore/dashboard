@@ -65,7 +65,7 @@ notifications:
      action: ERROR
      variant: text
     read:
-     name: mark as read
+     name: mark all as read
      action: All
      variant: outlined
   types:

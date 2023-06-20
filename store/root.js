@@ -100,10 +100,6 @@ class Root extends Store {
 
   @observable requestsInProgress = 0
 
-  @observable notificationsData = []
-
-  @observable seenOneNotification = []
-
   @observable seenAll = []
 
   @computed
@@ -139,74 +135,6 @@ class Root extends Store {
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
     await this.organisation.listUserInvites()
     await this.organisation.retrieve()
-    await this.getNotificationsData(this.user.id)
-  }
-
-  @action
-  getNotificationsData = async (id) => {
-    try {
-      const response = await fetch(`${process.env.API_URL}/notifications/${id}`)
-      const data = await response.json()
-      this.setNotificationsData(data)
-    } catch (error) {
-      console.error('Error fetching deduplication data:', error)
-    }
-  }
-
-  @action
-  setNotificationsData(data) {
-    this.notificationsData = data
-  }
-
-  @action
-  seenNotification = async (id, notificationId) => {
-    try {
-      const response = await fetch(
-        `${process.env.API_URL}/notifications/${id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            notification_id: notificationId,
-          }),
-        }
-      )
-      const result = await response.json()
-      this.seenOneNotification(result)
-    } catch (error) {
-      console.error('Error fetching deduplication data:', error)
-    }
-  }
-
-  @action
-  setSeenOneNotification = (result) => {
-    this.seenOneNotification = result
-  }
-
-  @action
-  seeAllNotifications = async (id) => {
-    try {
-      const response = await fetch(
-        `${process.env.API_URL}/notifications/${id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      const result = await response.json()
-      this.setSeenAll(result)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  @action
-  setSeenAll = (result) => {
-    this.seenAll = result
   }
 
   @action changeDataProvider(id) {

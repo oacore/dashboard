@@ -17,6 +17,7 @@ import imagePlaceholder from '../upload/assets/imagePlaceholder.svg'
 import restart from '../upload/assets/restart.svg'
 import notification from '../../templates/settings/assets/bell.svg'
 import NotificationPopUp from '../../templates/settings/cards/notificationPopUp'
+import { useNotification } from './useNotification'
 
 const Application = observer(
   ({
@@ -24,9 +25,7 @@ const Application = observer(
     dataProvider,
     userID,
     pathname,
-    notificationsData,
-    seenNotification,
-    getNotificationsData,
+    user,
     seeAllNotifications,
     variant = 'public', // 'public' or 'internal'
     isAuthenticated = false,
@@ -39,11 +38,33 @@ const Application = observer(
     const [redirect, setRedirect] = useState(false)
     const [showNotification, setShowNotification] = useState(false)
     const router = useRouter()
-
-    const handleNotificationClick = () => {
+    const { notifications, refetch } = useNotification(userID)
+    const handleShowNotification = () => {
       setShowNotification(!showNotification)
     }
 
+    const closeNotification = () => {
+      setShowNotification(false)
+    }
+
+    const handleNotificationClick = async (id, notificationId) => {
+      try {
+        await fetch(`${process.env.API_URL}/notifications/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            notification_id: notificationId,
+          }),
+        })
+
+        await refetch(userID)
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err)
+      }
+    }
     const restartModal = () => {
       setRedirect(true)
       if (localStorage.getItem('onboardingDone') !== null) {
@@ -60,7 +81,11 @@ const Application = observer(
       }
     }, [redirect, dataProvider])
 
-    const displayedNotifications = notificationsData?.slice(0, 10)
+    const displayedNotifications = notifications?.slice(0, 10)
+
+    const unseenNotification = displayedNotifications.filter(
+      (item) => !item.notificationRead.readStatus
+    )
 
     return (
       <>
@@ -96,13 +121,13 @@ const Application = observer(
                       {/* eslint-disable-next-line max-len */}
                       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */}
                       <img
-                        onClick={handleNotificationClick}
+                        onClick={handleShowNotification}
                         src={notification}
                         alt="bell"
                       />
 
                       <div className={styles.count}>
-                        {displayedNotifications.length}
+                        {unseenNotification.length}
                       </div>
                     </div>
                     <Logout />
@@ -120,10 +145,12 @@ const Application = observer(
             )}
             {showNotification && (
               <NotificationPopUp
+                handleNotificationClick={handleNotificationClick}
                 displayedNotifications={displayedNotifications}
-                seenNotification={seenNotification}
                 userID={userID}
+                closeNotification={closeNotification}
                 seeAllNotifications={seeAllNotifications}
+                user={user}
               />
             )}
           </div>

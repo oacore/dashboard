@@ -176,9 +176,7 @@ class App extends NextApp {
       <Application
         dataProvider={store.dataProvider}
         userID={store.user.id}
-        notificationsData={store.notificationsData}
-        seenNotification={store.seenNotification}
-        getNotificationsData={store.getNotificationsData}
+        user={store.user}
         seeAllNotifications={store.seeAllNotifications}
         pathname={pathname}
         variant={variant}

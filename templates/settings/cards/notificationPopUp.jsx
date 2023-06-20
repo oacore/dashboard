@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 
 import content from '../../../texts/settings'
 import { Button, Card } from '../../../design'
@@ -8,10 +8,24 @@ import faillHarvesting from '../../../components/upload/assets/faillHarvesting.s
 
 const NotificationPopUp = ({
   displayedNotifications,
-  seenNotification,
-  seeAllNotifications,
   userID,
+  handleNotificationClick,
+  closeNotification,
 }) => {
+  const popupRef = useRef(null)
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target))
+        closeNotification()
+    }
+
+    document.addEventListener('click', handleOutsideClick)
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick)
+    }
+  }, [closeNotification])
   const renderMessage = (type) => {
     if (type === 'harvest-completed') {
       return (
@@ -53,40 +67,37 @@ const NotificationPopUp = ({
     return formattedDate.replace(/\//g, '.')
   }
 
-  const getAllNotifications = (userId, id) => {
-    seenNotification(userId, id)
-  }
-  const seeAll = (id) => {
-    seeAllNotifications(id)
-  }
-
   return (
-    <Card className={styles.popUp} tag="section">
-      {displayedNotifications?.map((item) => (
-        // eslint-disable-next-line max-len
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-        <div
-          className={styles.popUpItem}
-          onClick={() => getAllNotifications(userID, item.id)}
-        >
-          <p className={styles.popUpItemText}>{renderMessage(item.type)}</p>
-          <p className={styles.createdDate}>{formatDate(item.createdDate)}</p>
-          {!item?.notificationRead?.readStatus && (
-            <div className={styles.status} />
-          )}
+    <div ref={popupRef}>
+      <Card className={styles.popUp} tag="section">
+        {displayedNotifications?.map((item) => (
+          // eslint-disable-next-line max-len
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+          <div
+            className={styles.popUpItem}
+            onClick={() => handleNotificationClick(userID, item.id)}
+          >
+            <p className={styles.popUpItemText}>{renderMessage(item.type)}</p>
+            <p className={styles.createdDate}>{formatDate(item.createdDate)}</p>
+            {!item?.notificationRead?.readStatus ? (
+              <div className={styles.status} />
+            ) : (
+              <div className={styles.placeholder} />
+            )}
+          </div>
+        ))}
+        <div className={styles.buttonWrapper}>
+          <Button
+            key={content.notifications.actions.read.name}
+            onClick={() => handleNotificationClick(userID, 'all')}
+            variant={content.notifications.actions.read.variant}
+            className={styles.actionButton}
+          >
+            {content.notifications.actions.read.name}
+          </Button>
         </div>
-      ))}
-      <div className={styles.buttonWrapper}>
-        <Button
-          key={content.notifications.actions.read.name}
-          onClick={() => seeAll(userID)}
-          variant={content.notifications.actions.read.variant}
-          className={styles.actionButton}
-        >
-          {content.notifications.actions.read.name}
-        </Button>
-      </div>
-    </Card>
+      </Card>
+    </div>
   )
 }
 
