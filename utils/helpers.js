@@ -9,6 +9,21 @@ export const valueOrDefault = (value, defaultValue) =>
     ? defaultValue
     : value
 
+export const formatPercent = (number, precision = 2) =>
+  `${number.toFixed(precision)}%`
+
+export const getPercent = (
+  numberFirst,
+  numberSecond,
+  defaultValue,
+  precision = 2
+) => {
+  const result = (numberFirst / numberSecond) * 100
+  if (result.toString().length >= 4) return defaultValue
+
+  return `${result.toFixed(precision)}%`
+}
+
 export const formatNumber = (
   number,
   { locale = 'en-GB', ...restOptions } = {}
