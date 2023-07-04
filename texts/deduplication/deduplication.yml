@@ -17,7 +17,7 @@ statistics:
   subTitle: Publication year
 
 moreInfo:
-  action: Compare METADATA RECORDS
+  action: comparison
   description: |
     The below list contains the potential duplicates which CORE identified. You can compare them to this record and review how they differ. You can subsequently mark them as duplicates, different versions or advise us that they are different.
 
@@ -53,8 +53,14 @@ comparison:
   subTitle: |
     You can compare the metadata below between two outputs and mark them with next tags:
   referenceTitle: The reference article
+  version: Not available for works
+  reference: |
+    **The reference paper** is a research Works entity which represents a
+    research output irrespective of the repository it is stored in. This
+    is an abstract research works entity created for this paper by using
+    metadata from across CORE’s data providers.
   compareItem: |
-    The record that the reference article is compared with: **OAI**
+    The record that the reference article is compared with:
   items:
    - title: Duplicate
      description: this means that two these articles exactly the same with the same metadata.
@@ -69,13 +75,14 @@ comparison:
       type: other
     - title: Not the same article
       type: notSameArticle
-  modalData:
-    - title: Duplicate
-      index: 0
+  toggleButtons:
+    - title: To be removed
       type: duplicate
-      description: This article will be marked as **duplicate.** Do you want to proceed?
-      confirm: YES
-      cancel: NO
+      info: This indicates that one of the other presented records in the repository are the same as this record. You decided to mark this record as the one to be removed.
+    - title: Different from the reference paper
+      type: notSameArticle
+      info: This indicates that this record is not related to the reference paper. You decided to disassociate this record from the reference paper. This will remove the connection of this record from the reference Works entity.
+  toggleVersion:
     - title: Different version
       index: 1
       type: other
@@ -102,10 +109,56 @@ comparison:
           type: (N/A)
       confirm: CONFIRM
       cancel: CANCEL
-    - title: Not the same article
-      index: 2
+  toggleModalData:
+    - title: To be removed
+      index: 0
+      type: duplicate
+      description: This article will be marked as **“To be removed”**. Do you want to proceed?
+      confirm: YES
+      cancel: NO
+    - title: Different from the reference paper
+      index: 1
       type: notSameArticle
-      description: This article will be marked as **not the same article.** Do you want to proceed?
+      description: You decided to disassociate this record from the reference paper. This will **remove** the connection of this record from the reference Works entity. Do you want to proceed?
+      confirm: YES
+      cancel: NO
+  modalData:
+    - title: To be removed
+      index: 0
+      type: duplicate
+      description: This article will be marked as **"To be removed".** Do you want to proceed?
+      confirm: YES
+      cancel: NO
+#    - title: Different version
+#      index: 1
+#      type: other
+#      description: |
+#        Please indicate the version of articles:
+#      options:
+#        - title: AO = Author’s Original
+#          type: AO
+#        - title: SMUR = Submitted Manuscript Under Review
+#          type: SMUR
+#        - title: AM = Accepted Manuscript
+#          type: AM
+#        - title: P = Proof
+#          type: P
+#        - title: VoR = Version of Record
+#          type: VoR
+#        - title: CVoR = Corrected Version of Record
+#          type: CVoR
+#        - title: EVoR = Enhanced Version of Record
+#          type: EVoR
+#        - title: NA = Not Applicable (or Unknown)
+#          type: NA
+#        - title: Different  version (N/A)
+#          type: (N/A)
+#      confirm: CONFIRM
+#      cancel: CANCEL
+    - title: Different from the reference paper
+      index: 1
+      type: notSameArticle
+      description: You decided to disassociate this record from the reference paper. This will remove the connection of this record from the reference Works entity. Do you want to proceed?
       confirm: YES
       cancel: NO
 

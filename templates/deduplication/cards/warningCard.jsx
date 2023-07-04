@@ -16,7 +16,7 @@ const CompareWarning = () => {
     localStorage.setItem('visibleWarning', visibleWarning)
   }, [visibleWarning])
   return (
-    <>
+    <div>
       <div className={styles.tableTitleWrapper}>
         <div className={styles.tableTitle}>{texts.moreInfo.tableTitle}</div>
         {!visibleWarning && (
@@ -50,7 +50,7 @@ const CompareWarning = () => {
           </div>
         </Message>
       )}
-    </>
+    </div>
   )
 }
 

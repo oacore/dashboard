@@ -13,6 +13,7 @@ const DeduplicationPage = ({ store, ...props }) => (
     duplicateListDetails={store.dataProvider?.duplicateListDetails}
     getOutputsData={store.dataProvider?.getOutputsData}
     outputData={store.dataProvider?.outputData}
+    clearOutputsData={store.dataProvider?.clearOutputsData}
     getWorksData={store.dataProvider?.getWorksData}
     workData={store.dataProvider?.workData}
     updateWork={store.dataProvider?.updateWork}

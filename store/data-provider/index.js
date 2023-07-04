@@ -57,7 +57,7 @@ class DataProvider extends Resource {
 
   @observable duplicateListDetails = {}
 
-  @observable outputData = {}
+  @observable outputData = []
 
   @observable workData = {}
 
@@ -149,7 +149,12 @@ class DataProvider extends Resource {
   }
 
   setOutputData(data) {
-    this.outputData = data
+    this.outputData.push(data)
+  }
+
+  @action
+  clearOutputsData = () => {
+    this.outputData = []
   }
 
   @action

@@ -9,23 +9,21 @@ import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import Menu from '../../../components/menu'
 import Actions from '../../../components/actions'
 import CompareWarning from '../cards/warningCard'
-import GuideCard from '../cards/guideCard'
+import ComparisonTable from './comparisonTable'
 
 const InnerTable = observer(
-  ({ combinedArray, handleButtonToggle, compare }) => {
+  ({
+    combinedArray,
+    handleButtonToggle,
+    compare,
+    updateWork,
+    getOutputsData,
+    worksDataInfo,
+    outputData,
+    getDeduplicationInfo,
+  }) => {
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
-    const [showGuideModal, setShowGuideModal] = useState(false)
-
-    useEffect(() => {
-      const hasVisited = localStorage.getItem('hasSeenGuide')
-      if (!hasVisited) setShowGuideModal(true)
-    }, [])
-
-    const closeModal = () => {
-      setShowGuideModal(false)
-      localStorage.setItem('hasSeenGuide', true)
-    }
 
     const handleClick = (e, rowDetail) => {
       e.preventDefault()
@@ -55,9 +53,13 @@ const InnerTable = observer(
       return styles.other
     }
 
+    useEffect(() => {
+      handleButtonToggle()
+    }, [])
+
     return (
       <>
-        <div>
+        <div className={styles.contentWrapper}>
           <CompareWarning />
           <Table
             className={styles.issueTable}
@@ -178,14 +180,17 @@ const InnerTable = observer(
               )}
             />
           </Table>
-          <Button
-            onClick={handleButtonToggle}
-            variant={compare ? 'contained' : 'outlined'}
-            className={styles.compareToggler}
-          >
-            {compare ? texts.moreInfo.action : texts.moreInfoComparison.action}
-          </Button>
-          {showGuideModal && <GuideCard onClose={closeModal} />}
+          <div className={styles.compareToggler}>{texts.moreInfo.action}</div>
+          <ComparisonTable
+            updateWork={updateWork}
+            getDeduplicationInfo={getDeduplicationInfo}
+            getOutputsData={getOutputsData}
+            outputData={outputData}
+            combinedArray={combinedArray}
+            worksDataInfo={worksDataInfo}
+            handleButtonToggle={handleButtonToggle}
+            compare={compare}
+          />
         </div>
       </>
     )

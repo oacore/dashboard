@@ -30,6 +30,7 @@ const DeduplicationPageTemplate = observer(
     exportUrl,
     billingPlan,
     dataProviderData,
+    clearOutputsData,
     ...restProps
   }) => {
     const router = useRouter()
@@ -56,6 +57,7 @@ const DeduplicationPageTemplate = observer(
 
     const goBack = () => {
       setShowCompareView(false)
+      clearOutputsData()
     }
 
     return (
