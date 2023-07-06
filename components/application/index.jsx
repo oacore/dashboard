@@ -14,6 +14,7 @@ import Logout from './logout'
 import styles from './styles.module.css'
 import DashboardGuide from '../dashboard-tutorial/dashboardGuide'
 import imagePlaceholder from '../upload/assets/imagePlaceholder.svg'
+import repositoryIcon from '../upload/assets/repositoryIcon.svg'
 import restart from '../upload/assets/restart.svg'
 
 const Application = observer(
@@ -31,6 +32,12 @@ const Application = observer(
     const siderRef = useRef(null)
     const [redirect, setRedirect] = useState(false)
     const router = useRouter()
+
+    const navigateToPage = () => {
+      router.push(
+        `/data-providers/${dataProvider.id}/settings?referrer=uploadRef`
+      )
+    }
 
     const restartModal = () => {
       setRedirect(true)
@@ -62,24 +69,13 @@ const Application = observer(
             <AppBar>
               {isAuthenticated ? (
                 <>
-                  <>
-                    {dataProvider?.logo ? (
-                      <DataProviderLogo
-                        size="sm"
-                        className={styles.repositoryLogo}
-                        imageSrc={dataProvider?.logo}
-                        alt={dataProvider.name}
-                      />
-                    ) : (
-                      <img
-                        className={styles.repositoryLogoDefault}
-                        src={imagePlaceholder}
-                        alt=""
-                      />
-                    )}
-                    {dataProvider && <RepositorySelect value={dataProvider} />}
-                    <Logout />
-                  </>
+                  <img
+                    className={styles.repositoryLogo}
+                    src={repositoryIcon}
+                    alt=""
+                  />
+                  {dataProvider && <RepositorySelect value={dataProvider} />}
+                  <Logout />
                 </>
               ) : null}
             </AppBar>
@@ -97,6 +93,36 @@ const Application = observer(
               <>
                 <SideBar tag="nav">
                   <h2 className="sr-only">Navigate your data</h2>
+                  <>
+                    {/* eslint-disable-next-line max-len */}
+                    {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
+                    <div
+                      className={styles.logoWrapper}
+                      onClick={navigateToPage}
+                    >
+                      {dataProvider?.logo ? (
+                        <DataProviderLogo
+                          size="md"
+                          className={styles.repositoryLogoBig}
+                          imageSrc={dataProvider?.logo}
+                          alt={dataProvider.name}
+                        />
+                      ) : (
+                        <img
+                          className={styles.repositoryLogoBig}
+                          src={imagePlaceholder}
+                          alt=""
+                        />
+                      )}
+                    </div>
+                    {dataProvider?.institution ? (
+                      <p className={styles.institution}>
+                        {dataProvider?.institution}
+                      </p>
+                    ) : (
+                      ' '
+                    )}
+                  </>
                   {Boolean(dataProvider?.id) && (
                     <ActivitySelect>
                       {activities.routes
