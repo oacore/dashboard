@@ -7,11 +7,9 @@ import Legend from 'components/legend'
 import Markdown from 'components/markdown'
 import * as texts from 'texts/overview'
 import PerformanceChart from 'components/performance-chart'
-import { formatNumber, valueOrDefault } from 'utils/helpers'
+import { formatNumber, valueOrDefault, getPercent } from 'utils/helpers'
 import LinkButton from 'components/link-button'
 import COLORS from 'utils/colors'
-
-const formatPercent = (number, precision = 2) => `${number.toFixed(precision)}%`
 
 const DoiCard = ({
   doiCount,
@@ -52,7 +50,7 @@ const DoiCard = ({
           {enrichmentSize > 0 && (
             <Markdown>
               {description.render({
-                count: formatPercent((enrichmentSize / doiCount) * 100),
+                count: getPercent(enrichmentSize, doiCount, '...'),
               })}
             </Markdown>
           )}

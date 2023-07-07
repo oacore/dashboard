@@ -9,6 +9,21 @@ export const valueOrDefault = (value, defaultValue) =>
     ? defaultValue
     : value
 
+export const formatPercent = (number, precision = 2) =>
+  `${number.toFixed(precision)}%`
+
+export const getPercent = (
+  numberFirst,
+  numberSecond,
+  defaultValue,
+  precision = 2
+) => {
+  const result = (numberFirst / numberSecond) * 100
+  if (result.toString().length >= 4) return defaultValue
+
+  return `${result.toFixed(precision)}%`
+}
+
 export const formatNumber = (
   number,
   { locale = 'en-GB', ...restOptions } = {}
@@ -59,7 +74,6 @@ const dateTimeFormatCache = new Map()
 
 export const formatDate = (date, options = {}) => {
   const textLoading = 'Loading...'
-  // TODO make 'now()-10' years ?
   const period = 1362647499000
   const stringOptions = JSON.stringify(options)
   let dateTimeFormat = dateTimeFormatCache.get(stringOptions)
@@ -73,12 +87,13 @@ export const formatDate = (date, options = {}) => {
   if (inputTimestamp < period) return textLoading
 
   try {
-    return dateTimeFormat.format(new Date(date))
+    if (date) return dateTimeFormat.format(new Date(date))
   } catch (error) {
     if (process.env.NODE_ENV === 'development')
       console.error('Date in invalid format', date, error)
     return date
   }
+  return date
 }
 
 export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)

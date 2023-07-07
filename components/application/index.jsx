@@ -14,6 +14,7 @@ import Logout from './logout'
 import styles from './styles.module.css'
 import DashboardGuide from '../dashboard-tutorial/dashboardGuide'
 import imagePlaceholder from '../upload/assets/imagePlaceholder.svg'
+import repositoryIcon from '../upload/assets/repositoryIcon.svg'
 import restart from '../upload/assets/restart.svg'
 import notification from '../../templates/settings/assets/bell.svg'
 import NotificationPopUp from '../../templates/settings/cards/notificationPopUp'
@@ -47,6 +48,12 @@ const Application = observer(
       setShowNotification(false)
     }
 
+    const navigateToPage = () => {
+      router.push(
+        `/data-providers/${dataProvider.id}/settings?referrer=uploadRef`
+      )
+    }
+
     const handleNotificationClick = async (id, notificationId) => {
       try {
         await fetch(`${process.env.API_URL}/notifications/${id}`, {
@@ -65,6 +72,7 @@ const Application = observer(
         console.log(err)
       }
     }
+
     const restartModal = () => {
       setRedirect(true)
       if (localStorage.getItem('onboardingDone') !== null) {
@@ -102,20 +110,11 @@ const Application = observer(
               {isAuthenticated ? (
                 <>
                   <>
-                    {dataProvider?.logo ? (
-                      <DataProviderLogo
-                        size="sm"
-                        className={styles.repositoryLogo}
-                        imageSrc={dataProvider?.logo}
-                        alt={dataProvider.name}
-                      />
-                    ) : (
-                      <img
-                        className={styles.repositoryLogoDefault}
-                        src={imagePlaceholder}
-                        alt=""
-                      />
-                    )}
+                    <img
+                      className={styles.repositoryLogo}
+                      src={repositoryIcon}
+                      alt=""
+                    />
                     {dataProvider && <RepositorySelect value={dataProvider} />}
                     <div className={styles.bellWrapper}>
                       {/* eslint-disable-next-line max-len */}
@@ -159,6 +158,36 @@ const Application = observer(
               <>
                 <SideBar tag="nav">
                   <h2 className="sr-only">Navigate your data</h2>
+                  <>
+                    {/* eslint-disable-next-line max-len */}
+                    {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
+                    <div
+                      className={styles.logoWrapper}
+                      onClick={navigateToPage}
+                    >
+                      {dataProvider?.logo ? (
+                        <DataProviderLogo
+                          size="md"
+                          className={styles.repositoryLogoBig}
+                          imageSrc={dataProvider?.logo}
+                          alt={dataProvider.name}
+                        />
+                      ) : (
+                        <img
+                          className={styles.repositoryLogoBig}
+                          src={imagePlaceholder}
+                          alt=""
+                        />
+                      )}
+                    </div>
+                    {dataProvider?.institution ? (
+                      <p className={styles.institution}>
+                        {dataProvider?.institution}
+                      </p>
+                    ) : (
+                      ' '
+                    )}
+                  </>
                   {Boolean(dataProvider?.id) && (
                     <ActivitySelect>
                       {activities.routes

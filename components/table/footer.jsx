@@ -18,42 +18,44 @@ const Footer = React.memo(
     buttonText = 'Show more',
     buttonVariant = 'outlined',
     buttonClassName,
-  }) => (
-    <Table.Footer className={styles.footer}>
-      <Table.Row>
-        <Table.Cell colSpan={1000}>
-          <div className={styles.footerLeft}>{children}</div>
-          <div className={styles.footerRight}>
-            {isFirstPageLoaded && (
-              <Pagination
-                size={size}
-                total={totalLength}
-                isAllLoaded={isLastPageLoaded}
-              />
-            )}
-            {!isLastPageLoaded && (
-              <Button
-                disabled={isLoading}
-                className={classNames
-                  .use(styles.loadNextPage)
-                  .join(buttonClassName)}
-                variant={buttonVariant}
-                onClick={() => fetchData({ next: true })}
-              >
-                {!isLoading && buttonText}
-                {isLoading && (
-                  <>
-                    Loading...
-                    <ProgressSpinner />
-                  </>
-                )}
-              </Button>
-            )}
-          </div>
-        </Table.Cell>
-      </Table.Row>
-    </Table.Footer>
-  )
+    hidePagination,
+  }) =>
+    hidePagination ? null : (
+      <Table.Footer className={styles.footer}>
+        <Table.Row>
+          <Table.Cell colSpan={1000}>
+            <div className={styles.footerLeft}>{children}</div>
+            <div className={styles.footerRight}>
+              {isFirstPageLoaded && (
+                <Pagination
+                  size={size}
+                  total={totalLength}
+                  isAllLoaded={isLastPageLoaded}
+                />
+              )}
+              {!isLastPageLoaded && (
+                <Button
+                  disabled={isLoading}
+                  className={classNames
+                    .use(styles.loadNextPage)
+                    .join(buttonClassName)}
+                  variant={buttonVariant}
+                  onClick={() => fetchData({ next: true })}
+                >
+                  {!isLoading && buttonText}
+                  {isLoading && (
+                    <>
+                      Loading...
+                      <ProgressSpinner />
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+          </Table.Cell>
+        </Table.Row>
+      </Table.Footer>
+    )
 )
 
 export default Footer

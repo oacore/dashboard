@@ -49,6 +49,11 @@ const config = new RouteConfig([
     icon: 'metadata-validator',
   },
   {
+    test: /\/deduplication/,
+    path: 'deduplication',
+    icon: 'deduplication',
+  },
+  {
     test: /\/content/,
     path: 'content',
     icon: 'file-document',

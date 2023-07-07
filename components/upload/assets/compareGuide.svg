@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="248" height="90" viewBox="0 0 248 90" fill="none">
+<rect width="110" height="28" fill="#B75400"/>
+<rect y="32" width="110" height="12" fill="#EEEEEE"/>
+<rect y="48" width="110" height="11" fill="#EEEEEE"/>
+<rect y="63" width="110" height="11" fill="#FDD835"/>
+<rect y="78" width="110" height="12" fill="#EEEEEE"/>
+<rect x="138" width="110" height="28" fill="#B75400"/>
+<rect x="138" y="32" width="110" height="12" fill="#EEEEEE"/>
+<rect x="138" y="48" width="110" height="11" fill="#EEEEEE"/>
+<rect x="138" y="63" width="110" height="11" fill="#FDD835"/>
+<rect x="138" y="78" width="110" height="12" fill="#EEEEEE"/>
+<path d="M111 16L116 18.8868V13.1132L111 16ZM137 16L132 13.1132V18.8868L137 16ZM115.5 16.5H132.5V15.5H115.5V16.5Z" fill="#B75400"/>
+<path d="M111 38L116 40.8868V35.1132L111 38ZM137 38L132 35.1132V40.8868L137 38ZM115.5 38.5H132.5V37.5H115.5V38.5Z" fill="#B75400"/>
+<path d="M111 54L116 56.8868V51.1132L111 54ZM137 54L132 51.1132V56.8868L137 54ZM115.5 54.5H132.5V53.5H115.5V54.5Z" fill="#B75400"/>
+<path d="M111 69L116 71.8868V66.1132L111 69ZM137 69L132 66.1132V71.8868L137 69ZM115.5 69.5H132.5V68.5H115.5V69.5Z" fill="#B75400"/>
+<path d="M111 84L116 86.8868V81.1132L111 84ZM137 84L132 81.1132V86.8868L137 84ZM115.5 84.5H132.5V83.5H115.5V84.5Z" fill="#B75400"/>
+</svg>
