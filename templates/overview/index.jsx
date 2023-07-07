@@ -7,8 +7,6 @@ import { DataStatisticsCard, DoiCard, DepositingCard, IrusCard } from './cards'
 import RioxxCard from './cards/rioxx-card'
 import DashboardGuide from '../../components/dashboard-tutorial/dashboardGuide'
 
-import Title from 'components/title'
-
 const OverviewTemplate = observer(
   ({
     metadataCount,
@@ -58,11 +56,6 @@ const OverviewTemplate = observer(
         className={classNames.use(styles.container).join(className)}
         {...restProps}
       >
-        <div className={styles.header}>
-          <Title>{dataProviderName}</Title>
-          <p className={styles.subtitle}>{dataProviderInstitution}</p>
-        </div>
-
         <DataStatisticsCard
           metadatadaHistory={metadatadaHistory}
           metadataCount={metadataCount}
