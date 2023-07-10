@@ -173,15 +173,15 @@
   margin: 0 4px;
 }
 
-.left {
-  position: absolute;
-  top: 720px;
-  left: 375px;
-}
-
 .bottom {
   position: absolute;
   top: 235px;
+  left: 375px;
+}
+
+.left {
+  position: absolute;
+  top: 720px;
   left: 375px;
 }
 

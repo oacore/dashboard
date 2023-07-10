@@ -28,7 +28,7 @@ const Application = observer(
     tutorial,
     ...restProps
   }) => {
-    const headerRef = useRef(null)
+    const logoRef = useRef(null)
     const siderRef = useRef(null)
     const [redirect, setRedirect] = useState(false)
     const router = useRouter()
@@ -55,6 +55,11 @@ const Application = observer(
       }
     }, [redirect, dataProvider])
 
+    const truncate = (str, maxLength) => {
+      if (str.length <= maxLength) return str
+      return `${str.substring(0, maxLength)}...`
+    }
+
     return (
       <>
         <Head>
@@ -65,7 +70,7 @@ const Application = observer(
         ) : null}
         <Container variant={variant} {...restProps}>
           <LoadingBar fixed />
-          <div ref={headerRef}>
+          <div>
             <AppBar>
               {isAuthenticated ? (
                 <>
@@ -82,7 +87,7 @@ const Application = observer(
             {tutorial && tutorial.currentStep === 2 && (
               <DashboardGuide
                 dataProviderData={dataProvider}
-                refElement={headerRef.current}
+                refElement={logoRef.current}
                 tutorial={tutorial}
                 placement="bottom"
               />
@@ -99,6 +104,7 @@ const Application = observer(
                     <div
                       className={styles.logoWrapper}
                       onClick={navigateToPage}
+                      ref={logoRef}
                     >
                       {dataProvider?.logo ? (
                         <DataProviderLogo
@@ -115,8 +121,11 @@ const Application = observer(
                       )}
                     </div>
                     {dataProvider?.institution ? (
-                      <p className={styles.institution}>
-                        {dataProvider?.institution}
+                      <p
+                        title={dataProvider?.institution}
+                        className={styles.institution}
+                      >
+                        {truncate(dataProvider?.institution, 18)}
                       </p>
                     ) : (
                       ' '
