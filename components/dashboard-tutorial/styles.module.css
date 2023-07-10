@@ -175,14 +175,14 @@
 
 .left {
   position: absolute;
-  top: 490px;
+  top: 720px;
   left: 375px;
 }
 
 .bottom {
   position: absolute;
-  top: 273px;
-  left: 302px;
+  top: 235px;
+  left: 375px;
 }
 
 @media (max-width: 728px) {

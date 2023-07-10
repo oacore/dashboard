@@ -18,15 +18,22 @@
 .repository-logo-big {
   width: 81px;
   height: 81px;
+  border-width: 3px;
+}
+
+.data-provider .data-provider-image {
+  width: 62px;
+  height: 62px;
 }
 
 .institution {
+  padding: 0 8px;
   margin: 10px 0 2px;
-  font-size: 16px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 500;
   line-height: 24px;
-  color: #424242;
+  color: #000;
   text-align: center;
   letter-spacing: 0.024px;
 }

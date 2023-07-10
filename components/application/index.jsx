@@ -102,8 +102,7 @@ const Application = observer(
                     >
                       {dataProvider?.logo ? (
                         <DataProviderLogo
-                          size="md"
-                          className={styles.repositoryLogoBig}
+                          size="ml"
                           imageSrc={dataProvider?.logo}
                           alt={dataProvider.name}
                         />
