@@ -60,7 +60,8 @@ const DashboardGuide = ({ dataProviderData, modal, placement, tutorial }) => {
         <div
           className={classNames.use({
             [styles.arrowNone]: tutorial.currentStep === 1,
-            [styles.arrow]: tutorial.currentStep === 2 || 3 || 4,
+            [styles.arrowBottom]: tutorial.currentStep === 2,
+            [styles.arrow]: tutorial.currentStep === 3 || 4,
           })}
         />
         <div ref={modalRef}>
