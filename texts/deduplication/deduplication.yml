@@ -25,6 +25,17 @@ moreInfo:
   tableTitle: Possible duplicates in your repositories
   duplicates: This column contains the version classification of the paper. The paper can be marked as a duplicate, or as a version with the type defined by one of the possible values in the COAR version type vocabulary
   publicationDate: The publication date coming from the repository metadata.
+  show: Show description
+  hide: Hide description
+
+helpInfo:
+  actionBtn: Hide tips
+  description: |
+    The items below show the potential duplicates our system recognises. You can go through them and mark them in our system.
+
+    The next time your repository is harvested the list will be updated to reflect your edits.
+  show: Show tips
+  hide: Hide tips
 
 moreInfoComparison:
   action: Close comparison
@@ -129,32 +140,6 @@ comparison:
       description: This article will be marked as **"To be removed".** Do you want to proceed?
       confirm: YES
       cancel: NO
-#    - title: Different version
-#      index: 1
-#      type: other
-#      description: |
-#        Please indicate the version of articles:
-#      options:
-#        - title: AO = Author’s Original
-#          type: AO
-#        - title: SMUR = Submitted Manuscript Under Review
-#          type: SMUR
-#        - title: AM = Accepted Manuscript
-#          type: AM
-#        - title: P = Proof
-#          type: P
-#        - title: VoR = Version of Record
-#          type: VoR
-#        - title: CVoR = Corrected Version of Record
-#          type: CVoR
-#        - title: EVoR = Enhanced Version of Record
-#          type: EVoR
-#        - title: NA = Not Applicable (or Unknown)
-#          type: NA
-#        - title: Different  version (N/A)
-#          type: (N/A)
-#      confirm: CONFIRM
-#      cancel: CANCEL
     - title: Different from the reference paper
       index: 1
       type: notSameArticle

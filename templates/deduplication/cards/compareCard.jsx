@@ -16,6 +16,8 @@ import Markdown from '../../../components/markdown'
 import TogglePanel from '../../../components/toggle-panel/togglePanel'
 import Actions from '../../../components/actions'
 import ActionModal from './tableActionModal'
+import togglerArrow from '../../../components/upload/assets/togglerArrow.svg'
+import check from '../../../components/upload/assets/check.svg'
 
 const generatedTitle = [
   <div className={styles.metadataTitle}>Metadata title</div>,
@@ -40,8 +42,14 @@ const CompareCard = ({
   const modalContent = texts.comparison.modalData
   const [modifiedWorksData, setModifiedWorksData] = useState([])
   const [currentModalData, setCurrentModalData] = useState()
-  const [activeButton, setActiveButton] = useState()
-  const [selectedType, setSelectedType] = useState()
+  const [activeButtons, setActiveButtons] = useState(() => {
+    const storedActiveButtons = localStorage.getItem('activeButtons')
+    return storedActiveButtons ? JSON.parse(storedActiveButtons) : {}
+  })
+  const [selectedTypes, setSelectedTypes] = useState(() => {
+    const storedSelectedTypes = localStorage.getItem('selectedTypes')
+    return storedSelectedTypes ? JSON.parse(storedSelectedTypes) : {}
+  })
 
   useEffect(() => {
     const generatedData = [
@@ -83,18 +91,56 @@ const CompareCard = ({
 
   const handleModalConfirm = (modalData) => {
     handleModalClose()
-    setActiveButton(modalData.type)
-    setSelectedType(null)
+    const updatedActiveButtons = {
+      ...activeButtons,
+      [modalData.id]: modalData.type,
+    }
+    setActiveButtons(updatedActiveButtons)
+    localStorage.setItem('activeButtons', JSON.stringify(updatedActiveButtons))
+
+    if (Object.keys(updatedActiveButtons).length > 0) {
+      setSelectedTypes((prevSelectedTypes) => {
+        const updatedSelectedTypes = { ...prevSelectedTypes }
+        delete updatedSelectedTypes[modalData.id]
+        return updatedSelectedTypes
+      })
+      localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
+    }
   }
 
-  const handleTypeSave = async (outputId, workId, type) => {
-    await updateWork(outputId, workId, type)
-    await getDeduplicationInfo(outputId, workId, type)
-    setSelectedType(type)
-    setActiveButton(null)
+  const handleTypeSave = async (workId, outputId, type) => {
+    await updateWork(workId, outputId, type)
+    await getDeduplicationInfo(workId, outputId, type)
+
+    setActiveButtons((prevActiveButtons) => {
+      const updatedActiveButtons = { ...prevActiveButtons }
+      delete updatedActiveButtons[outputId]
+      return updatedActiveButtons
+    })
+    localStorage.setItem('activeButtons', JSON.stringify(activeButtons))
+
+    setSelectedTypes((prevSelectedTypes) => ({
+      ...prevSelectedTypes,
+      [outputId]: type,
+    }))
+    localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
   }
 
   const isMatching = (value) => modifiedWorksData.includes(value)
+
+  useEffect(() => {
+    localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
+  }, [selectedTypes])
+
+  useEffect(() => {
+    localStorage.setItem('activeButtons', JSON.stringify(activeButtons))
+  }, [activeButtons])
+
+  function findTitlesBySelectedTypes(data, types) {
+    return data
+      .filter((item) => types?.includes(item.type))
+      .map((item) => item.title)
+  }
 
   return (
     <div className={styles.compareCardWrapper}>
@@ -126,7 +172,6 @@ const CompareCard = ({
             />
           </div>
         )}
-
         <Carousel
           draggable
           slidesToShow={3}
@@ -161,7 +206,7 @@ const CompareCard = ({
             <div className={styles.compareTitleWrapperLeft}>
               <div className={styles.compareTitle}>
                 <ShowMoreText
-                  text={worksDataInfo?.data?.title || 'N/A'}
+                  text={worksDataInfo?.data?.title}
                   maxLetters={100}
                 />
               </div>
@@ -184,7 +229,7 @@ const CompareCard = ({
                     })}
                   >
                     <ShowMoreText
-                      text={value || 'N/A'}
+                      text={value}
                       maxLetters={
                         index === modifiedWorksData.length - 1 ? 150 : 50
                       }
@@ -194,7 +239,7 @@ const CompareCard = ({
                 <div className={styles.dataItem}>
                   {texts.comparison.version}
                 </div>
-                <Markdown className={styles.dataItem}>
+                <Markdown className={styles.dataItemReference}>
                   {texts.comparison.reference}
                 </Markdown>
               </div>
@@ -213,10 +258,7 @@ const CompareCard = ({
               </Message>
               <div className={styles.compareTitleWrapper}>
                 <div className={styles.compareTitle}>
-                  <ShowMoreText
-                    text={item?.data?.title || 'N/A'}
-                    maxLetters={100}
-                  />
+                  <ShowMoreText text={item?.data?.title} maxLetters={100} />
                 </div>
                 <div className={styles.redirectButtonWrapper}>
                   <Button
@@ -250,11 +292,9 @@ const CompareCard = ({
                   })}
                 >
                   <ShowMoreText
-                    text={
-                      item?.data?.authors
-                        ?.map((author) => author.name)
-                        .join(', ') || 'N/A'
-                    }
+                    text={item?.data?.authors
+                      ?.map((author) => author.name)
+                      .join(', ')}
                     maxLetters={50}
                   />
                 </div>
@@ -264,7 +304,7 @@ const CompareCard = ({
                   })}
                 >
                   <ShowMoreText
-                    text={item?.data?.documentType || 'N/A'}
+                    text={item?.data?.documentType}
                     maxLetters={50}
                   />
                 </div>
@@ -274,7 +314,7 @@ const CompareCard = ({
                   })}
                 >
                   <ShowMoreText
-                    text={item?.data?.fieldOfStudy || 'N/A'}
+                    text={item?.data?.fieldOfStudy}
                     maxLetters={50}
                   />
                 </div>
@@ -283,20 +323,14 @@ const CompareCard = ({
                     [styles.matched]: !isMatching(item?.data?.doi),
                   })}
                 >
-                  <ShowMoreText
-                    text={item?.data?.doi || 'N/A'}
-                    maxLetters={50}
-                  />
+                  <ShowMoreText text={item?.data?.doi} maxLetters={50} />
                 </div>
                 <div
                   className={classNames.use(styles.outputItem, {
                     [styles.matched]: !isMatching(item?.data?.oai),
                   })}
                 >
-                  <ShowMoreText
-                    text={item?.data?.oai || 'N/A'}
-                    maxLetters={50}
-                  />
+                  <ShowMoreText text={item?.data?.oai} maxLetters={50} />
                 </div>
                 <div
                   className={classNames.use(styles.outputItem, {
@@ -304,7 +338,7 @@ const CompareCard = ({
                   })}
                 >
                   <ShowMoreText
-                    text={item?.data?.publishedDate || 'N/A'}
+                    text={item?.data?.publishedDate}
                     maxLetters={50}
                   />
                 </div>
@@ -314,7 +348,7 @@ const CompareCard = ({
                   })}
                 >
                   <ShowMoreText
-                    text={item?.data?.depositedDate || 'N/A'}
+                    text={item?.data?.depositedDate}
                     maxLetters={50}
                   />
                 </div>
@@ -323,13 +357,33 @@ const CompareCard = ({
                     [styles.matched]: !isMatching(item?.data?.abstract),
                   })}
                 >
-                  <ShowMoreText
-                    text={item?.data?.abstract || 'N/A'}
-                    maxLetters={150}
-                  />
+                  <ShowMoreText text={item?.data?.abstract} maxLetters={150} />
                 </div>
                 <TogglePanel
-                  title="Please indicate the version of articles:"
+                  title={
+                    <div
+                      className={classNames.use(styles.togglePanelTitle, {
+                        [styles.togglePanelTitleActive]:
+                          selectedTypes[item?.data.id],
+                      })}
+                    >
+                      {selectedTypes[item?.data.id]
+                        ? findTitlesBySelectedTypes(
+                            Object.values(
+                              texts.comparison.toggleVersion[0]?.options
+                            ),
+                            selectedTypes[item?.data.id]
+                          )
+                        : 'Please indicate the version of articles:'}
+                      {selectedTypes[item?.data.id] ? (
+                        <img src={check} alt="check" />
+                      ) : (
+                        <div className={styles.svgWrapper}>
+                          <img src={togglerArrow} alt="togglerArrow" />
+                        </div>
+                      )}
+                    </div>
+                  }
                   className={styles.actionButtonPannel}
                   content={
                     <div className={styles.actionButtons}>
@@ -347,7 +401,8 @@ const CompareCard = ({
                             )
                           }
                           className={classNames.use(styles.optionButton, {
-                            [styles.clicked]: selectedType === option.type,
+                            [styles.clicked]:
+                              selectedTypes[item?.data.id] === option.type,
                           })}
                         >
                           <div>{option.title}</div>
@@ -357,7 +412,28 @@ const CompareCard = ({
                   }
                 />
                 <TogglePanel
-                  title="Mark this paper as"
+                  title={
+                    <div
+                      className={classNames.use(styles.togglePanelTitle, {
+                        [styles.togglePanelTitleActive]:
+                          activeButtons[item.data.id],
+                      })}
+                    >
+                      {activeButtons[item.data.id]
+                        ? findTitlesBySelectedTypes(
+                            Object.values(modalContent),
+                            activeButtons[item.data.id]
+                          )
+                        : 'Mark this paper as'}
+                      {activeButtons[item.data.id] ? (
+                        <img src={check} alt="check" />
+                      ) : (
+                        <div className={styles.svgWrapper}>
+                          <img src={togglerArrow} alt="togglerArrow" />
+                        </div>
+                      )}
+                    </div>
+                  }
                   content={
                     <div className={styles.actionButtons}>
                       {Object.values(texts.comparison.toggleButtons).map(
@@ -367,7 +443,224 @@ const CompareCard = ({
                           <div
                             onClick={() => handleModalOpen(item.data.id, index)}
                             className={classNames.use(styles.actionButton, {
-                              [styles.clicked]: activeButton === button.type,
+                              [styles.clicked]:
+                                activeButtons[item.data.id] === button.type,
+                            })}
+                          >
+                            <div>{button.title}</div>
+                            <Actions
+                              className={styles.actionIcon}
+                              description={button.info}
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  }
+                />
+              </div>
+            </div>
+          ))}
+          {outputsDataInfo.map((item) => (
+            <div className={styles.compareCardRight}>
+              <Message className={styles.referenceTitle}>
+                <img className={styles.referenceIcon} src={info} alt="riox" />
+                <Markdown className={styles.referenceText}>
+                  {texts.comparison.compareItem}
+                </Markdown>
+                <span className={styles.oaiTitle}>
+                  {item?.data?.oai.split(':').pop()}
+                </span>
+              </Message>
+              <div className={styles.compareTitleWrapper}>
+                <div className={styles.compareTitle}>
+                  <ShowMoreText text={item?.data?.title} maxLetters={100} />
+                </div>
+                <div className={styles.redirectButtonWrapper}>
+                  <Button
+                    onClick={() => handleOutputsRedirect(item?.data?.id)}
+                    className={styles.visibilityIconButton}
+                  >
+                    <Icon src="#eye" className={styles.visibility} />
+                    Live in CORE
+                  </Button>
+                  <Button
+                    onClick={() => handleRepositoryRedirect(item?.data?.oai)}
+                    className={styles.visibilityIconButton}
+                  >
+                    <img
+                      src={redirect}
+                      alt="redirect"
+                      className={styles.redirectImg}
+                    />
+                    Open in the repository
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <div
+                  className={classNames.use(styles.dataItemAuthors, {
+                    [styles.matched]: !isMatching(
+                      item?.data?.authors
+                        ?.map((author) => author.name)
+                        .join(', ')
+                    ),
+                  })}
+                >
+                  <ShowMoreText
+                    text={item?.data?.authors
+                      ?.map((author) => author.name)
+                      .join(', ')}
+                    maxLetters={50}
+                  />
+                </div>
+                <div
+                  className={classNames.use(styles.outputItem, {
+                    [styles.matched]: !isMatching(item?.data?.documentType),
+                  })}
+                >
+                  <ShowMoreText
+                    text={item?.data?.documentType}
+                    maxLetters={50}
+                  />
+                </div>
+                <div
+                  className={classNames.use(styles.outputItem, {
+                    [styles.matched]: !isMatching(item?.data?.fieldOfStudy),
+                  })}
+                >
+                  <ShowMoreText
+                    text={item?.data?.fieldOfStudy}
+                    maxLetters={50}
+                  />
+                </div>
+                <div
+                  className={classNames.use(styles.outputItem, {
+                    [styles.matched]: !isMatching(item?.data?.doi),
+                  })}
+                >
+                  <ShowMoreText text={item?.data?.doi} maxLetters={50} />
+                </div>
+                <div
+                  className={classNames.use(styles.outputItem, {
+                    [styles.matched]: !isMatching(item?.data?.oai),
+                  })}
+                >
+                  <ShowMoreText text={item?.data?.oai} maxLetters={50} />
+                </div>
+                <div
+                  className={classNames.use(styles.outputItem, {
+                    [styles.matched]: !isMatching(item?.data?.publishedDate),
+                  })}
+                >
+                  <ShowMoreText
+                    text={item?.data?.publishedDate}
+                    maxLetters={50}
+                  />
+                </div>
+                <div
+                  className={classNames.use(styles.outputItem, {
+                    [styles.matched]: !isMatching(item?.data?.depositedDate),
+                  })}
+                >
+                  <ShowMoreText
+                    text={item?.data?.depositedDate}
+                    maxLetters={50}
+                  />
+                </div>
+                <div
+                  className={classNames.use(styles.heightOutput, {
+                    [styles.matched]: !isMatching(item?.data?.abstract),
+                  })}
+                >
+                  <ShowMoreText text={item?.data?.abstract} maxLetters={150} />
+                </div>
+                <TogglePanel
+                  title={
+                    <div
+                      className={classNames.use(styles.togglePanelTitle, {
+                        [styles.togglePanelTitleActive]:
+                          selectedTypes[item?.data.id],
+                      })}
+                    >
+                      {selectedTypes[item?.data.id]
+                        ? findTitlesBySelectedTypes(
+                            Object.values(
+                              texts.comparison.toggleVersion[0]?.options
+                            ),
+                            selectedTypes[item?.data.id]
+                          )
+                        : 'Please indicate the version of articles:'}
+                      {selectedTypes[item?.data.id] ? (
+                        <img src={check} alt="check" />
+                      ) : (
+                        <div className={styles.svgWrapper}>
+                          <img src={togglerArrow} alt="togglerArrow" />
+                        </div>
+                      )}
+                    </div>
+                  }
+                  className={styles.actionButtonPannel}
+                  content={
+                    <div className={styles.actionButtons}>
+                      {Object.values(
+                        texts.comparison.toggleVersion[0]?.options
+                      ).map((option) => (
+                        // eslint-disable-next-line max-len
+                        // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+                        <div
+                          onClick={() =>
+                            handleTypeSave(
+                              worksDataInfo?.data?.id,
+                              item?.data.id,
+                              option.type
+                            )
+                          }
+                          className={classNames.use(styles.optionButton, {
+                            [styles.clicked]:
+                              selectedTypes[item?.data.id] === option.type,
+                          })}
+                        >
+                          <div>{option.title}</div>
+                        </div>
+                      ))}
+                    </div>
+                  }
+                />
+                <TogglePanel
+                  title={
+                    <div
+                      className={classNames.use(styles.togglePanelTitle, {
+                        [styles.togglePanelTitleActive]:
+                          activeButtons[item.data.id],
+                      })}
+                    >
+                      {activeButtons[item.data.id]
+                        ? findTitlesBySelectedTypes(
+                            Object.values(modalContent),
+                            activeButtons[item.data.id]
+                          )
+                        : 'Mark this paper as'}
+                      {activeButtons[item.data.id] ? (
+                        <img src={check} alt="check" />
+                      ) : (
+                        <div className={styles.svgWrapper}>
+                          <img src={togglerArrow} alt="togglerArrow" />
+                        </div>
+                      )}
+                    </div>
+                  }
+                  content={
+                    <div className={styles.actionButtons}>
+                      {Object.values(texts.comparison.toggleButtons).map(
+                        (button, index) => (
+                          // eslint-disable-next-line max-len
+                          // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+                          <div
+                            onClick={() => handleModalOpen(item.data.id, index)}
+                            className={classNames.use(styles.actionButton, {
+                              [styles.clicked]:
+                                activeButtons[item.data.id] === button.type,
                             })}
                           >
                             <div>{button.title}</div>

@@ -24,6 +24,13 @@ const InnerTable = observer(
   }) => {
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
+    const [visibleWarning, setVisibleWarning] = useState(
+      localStorage.getItem('visibleWarning') === 'true'
+    )
+
+    useEffect(() => {
+      localStorage.setItem('visibleWarning', visibleWarning)
+    }, [visibleWarning])
 
     const handleClick = (e, rowDetail) => {
       e.preventDefault()
@@ -60,7 +67,14 @@ const InnerTable = observer(
     return (
       <>
         <div className={styles.contentWrapper}>
-          <CompareWarning />
+          <CompareWarning
+            title={texts.moreInfo.tableTitle}
+            show={texts.moreInfo.show}
+            hide={texts.moreInfo.hide}
+            description={texts.moreInfo.description}
+            setText={setVisibleWarning}
+            activeText={visibleWarning}
+          />
           <Table
             className={styles.issueTable}
             fetchData={() => {}}

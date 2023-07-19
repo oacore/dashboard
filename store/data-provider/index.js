@@ -142,14 +142,14 @@ class DataProvider extends Resource {
     try {
       const url = new URL(`/v3/outputs/${id}`, process.env.API_URL).href
       const data = await apiRequest(url)
-      this.setOutputData(data)
+      this.setOutputData([...this.outputData, data])
     } catch (error) {
       console.error('Error fetching deduplication data:', error)
     }
   }
 
   setOutputData(data) {
-    this.outputData.push(data)
+    this.outputData = data
   }
 
   @action
