@@ -14,6 +14,7 @@ import Logout from './logout'
 import styles from './styles.module.css'
 import DashboardGuide from '../dashboard-tutorial/dashboardGuide'
 import imagePlaceholder from '../upload/assets/imagePlaceholder.svg'
+import repositoryIcon from '../upload/assets/repositoryIcon.svg'
 import restart from '../upload/assets/restart.svg'
 
 const Application = observer(
@@ -27,10 +28,16 @@ const Application = observer(
     tutorial,
     ...restProps
   }) => {
-    const headerRef = useRef(null)
+    const logoRef = useRef(null)
     const siderRef = useRef(null)
     const [redirect, setRedirect] = useState(false)
     const router = useRouter()
+
+    const navigateToPage = () => {
+      router.push(
+        `/data-providers/${dataProvider.id}/settings?referrer=uploadRef`
+      )
+    }
 
     const restartModal = () => {
       setRedirect(true)
@@ -48,6 +55,11 @@ const Application = observer(
       }
     }, [redirect, dataProvider])
 
+    const truncate = (str, maxLength) => {
+      if (str.length <= maxLength) return str
+      return `${str.substring(0, maxLength)}...`
+    }
+
     return (
       <>
         <Head>
@@ -58,35 +70,24 @@ const Application = observer(
         ) : null}
         <Container variant={variant} {...restProps}>
           <LoadingBar fixed />
-          <div ref={headerRef}>
+          <div>
             <AppBar>
               {isAuthenticated ? (
                 <>
-                  <>
-                    {dataProvider?.logo ? (
-                      <DataProviderLogo
-                        size="sm"
-                        className={styles.repositoryLogo}
-                        imageSrc={dataProvider?.logo}
-                        alt={dataProvider.name}
-                      />
-                    ) : (
-                      <img
-                        className={styles.repositoryLogoDefault}
-                        src={imagePlaceholder}
-                        alt=""
-                      />
-                    )}
-                    {dataProvider && <RepositorySelect value={dataProvider} />}
-                    <Logout />
-                  </>
+                  <img
+                    className={styles.repositoryLogo}
+                    src={repositoryIcon}
+                    alt=""
+                  />
+                  {dataProvider && <RepositorySelect value={dataProvider} />}
+                  <Logout />
                 </>
               ) : null}
             </AppBar>
             {tutorial && tutorial.currentStep === 2 && (
               <DashboardGuide
                 dataProviderData={dataProvider}
-                refElement={headerRef.current}
+                refElement={logoRef.current}
                 tutorial={tutorial}
                 placement="bottom"
               />
@@ -97,6 +98,39 @@ const Application = observer(
               <>
                 <SideBar tag="nav">
                   <h2 className="sr-only">Navigate your data</h2>
+                  <>
+                    {/* eslint-disable-next-line max-len */}
+                    {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
+                    <div
+                      className={styles.logoWrapper}
+                      onClick={navigateToPage}
+                      ref={logoRef}
+                    >
+                      {dataProvider?.logo ? (
+                        <DataProviderLogo
+                          size="ml"
+                          imageSrc={dataProvider?.logo}
+                          alt={dataProvider.name}
+                        />
+                      ) : (
+                        <img
+                          className={styles.repositoryLogoBig}
+                          src={imagePlaceholder}
+                          alt=""
+                        />
+                      )}
+                    </div>
+                    {dataProvider?.institution ? (
+                      <p
+                        title={dataProvider?.institution}
+                        className={styles.institution}
+                      >
+                        {truncate(dataProvider?.institution, 18)}
+                      </p>
+                    ) : (
+                      ' '
+                    )}
+                  </>
                   {Boolean(dataProvider?.id) && (
                     <ActivitySelect>
                       {activities.routes

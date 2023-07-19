@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from 'react'
+import React, { forwardRef, useRef, useState, useEffect } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { Button } from '@oacore/design/lib/elements'
 import { useRouter } from 'next/router'
@@ -118,6 +118,11 @@ const SettingsTemplate = forwardRef(
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
     const inviteRef = useRef(null)
+
+    useEffect(() => {
+      if (uploadRef.current)
+        uploadRef.current.scrollIntoView({ behavior: 'smooth' })
+    }, [])
 
     const scrollTarget = {
       upload: uploadRef,
