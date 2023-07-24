@@ -57,7 +57,7 @@ const CompareCard = ({
       worksDataInfo?.data?.documentType,
       worksDataInfo?.data?.fieldOfStudy,
       worksDataInfo?.data?.doi,
-      worksDataInfo?.data?.oaiIds[0],
+      worksDataInfo?.data?.oaiIds,
       worksDataInfo?.data?.publishedDate,
       worksDataInfo?.data?.depositedDate,
       worksDataInfo?.data?.abstract,
@@ -228,12 +228,21 @@ const CompareCard = ({
                       [styles.authorHeight]: index === 0,
                     })}
                   >
-                    <ShowMoreText
-                      text={value}
-                      maxLetters={
-                        index === modifiedWorksData.length - 1 ? 150 : 50
-                      }
-                    />
+                    {Array.isArray(value) ? (
+                      <span title={value.slice(1).join(', ')}>
+                        {value[0]}{' '}
+                        <span className={styles.count}>
+                          +{value.length - 1}
+                        </span>
+                      </span>
+                    ) : (
+                      <ShowMoreText
+                        text={value}
+                        maxLetters={
+                          index === modifiedWorksData.length - 1 ? 150 : 50
+                        }
+                      />
+                    )}
                   </div>
                 ))}
                 <div className={styles.dataItem}>
