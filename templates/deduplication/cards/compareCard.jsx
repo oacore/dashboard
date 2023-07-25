@@ -136,7 +136,7 @@ const CompareCard = ({ worksDataInfo, outputsDataInfo }) => {
             />
           </div>
           <Button
-            onClick={() => handleOutputsRedirect(worksDataInfo?.data?.id)}
+            onClick={() => handleOutputsRedirect(outputsDataInfo?.data?.id)}
             className={styles.visibilityIconButton}
           >
             <Icon src="#eye" className={styles.visibility} />
