@@ -334,8 +334,9 @@
   width: 40%;
   min-height: 32px;
   padding: 0.2rem;
-  font-size: 8px;
+  font-size: 10px;
   color: var(--white);
+  text-transform: capitalize;
   background-color: var(--success-dark);
 }
 

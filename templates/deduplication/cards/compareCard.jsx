@@ -51,13 +51,15 @@ const CompareCard = ({
     return storedSelectedTypes ? JSON.parse(storedSelectedTypes) : {}
   })
 
+  // REDO
   useEffect(() => {
     const generatedData = [
       worksDataInfo?.data?.authors?.map((author) => author.name).join(', '),
       worksDataInfo?.data?.documentType,
       worksDataInfo?.data?.fieldOfStudy,
       worksDataInfo?.data?.doi,
-      worksDataInfo?.data?.oaiIds,
+      // worksDataInfo?.data?.oaiIds,
+      worksDataInfo?.data?.oaiIds[0],
       worksDataInfo?.data?.publishedDate,
       worksDataInfo?.data?.depositedDate,
       worksDataInfo?.data?.abstract,
@@ -126,7 +128,8 @@ const CompareCard = ({
     localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
   }
 
-  const isMatching = (value) => value && modifiedWorksData.includes(value)
+  const isMatching = (value) =>
+    value?.toLowerCase() && modifiedWorksData.includes(value?.toLowerCase())
 
   useEffect(() => {
     localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
@@ -220,7 +223,7 @@ const CompareCard = ({
                   className={styles.visibilityIconButton}
                 >
                   <Icon src="#eye" className={styles.visibility} />
-                  Live in CORE
+                  <span>Live in CORE</span>
                 </Button>
                 <div className={styles.visibilityPlaceHolder} />
               </div>
@@ -235,23 +238,33 @@ const CompareCard = ({
                       [styles.authorHeight]: index === 0,
                     })}
                   >
-                    {Array.isArray(value) ? (
-                      <span title={value.slice(1).join(', ')}>
-                        {value[0].length > 35
-                          ? `${value[0].slice(0, 35)}...`
-                          : value[0]}{' '}
-                        <span className={styles.count}>
-                          +{value.length - 1}
-                        </span>
-                      </span>
-                    ) : (
-                      <ShowMoreText
-                        text={value}
-                        maxLetters={
-                          index === modifiedWorksData.length - 1 ? 150 : 50
-                        }
-                      />
-                    )}
+                    {/* REDU */}
+                    {/*    {Array.isArray(value) ? ( */}
+                    {/*      <span title={value.slice(1).join(', ')}> */}
+                    {/*        {value[0].length > 35 */}
+                    {/*          ? `${value[0].slice(0, 35)}...` */}
+                    {/*          : value[0]}{' '} */}
+                    {/*        <span className={styles.count}> */}
+                    {/*          +{value.length - 1} */}
+                    {/*        </span> */}
+                    {/*      </span> */}
+                    {/*    ) : ( */}
+                    {/*      <ShowMoreText */}
+                    {/*        text={value} */}
+                    {/*        maxLetters={ */}
+                    {/* eslint-disable-next-line max-len */}
+                    {/*          index === modifiedWorksData.length - 1 ? 150 : 50 */}
+                    {/*        } */}
+                    {/*      /> */}
+                    {/*    )} */}
+                    {/*  </div> */}
+                    {/* ))} */}
+                    <ShowMoreText
+                      text={value}
+                      maxLetters={
+                        index === modifiedWorksData.length - 1 ? 150 : 50
+                      }
+                    />
                   </div>
                 ))}
                 <div className={styles.dataItem}>
@@ -284,7 +297,7 @@ const CompareCard = ({
                     className={styles.visibilityIconButton}
                   >
                     <Icon src="#eye" className={styles.visibility} />
-                    Live in CORE
+                    <span>Live in CORE</span>
                   </Button>
                   <Button
                     onClick={() => handleRepositoryRedirect(item?.data?.oai)}
@@ -295,7 +308,7 @@ const CompareCard = ({
                       alt="redirect"
                       className={styles.redirectImg}
                     />
-                    Open in the repository
+                    <span>Open in the repository</span>
                   </Button>
                 </div>
               </div>
