@@ -63,7 +63,7 @@ comparison:
   title: Comparison tips
   subTitle: |
     You can compare the metadata below between two outputs and mark them with next tags:
-  referenceTitle: The reference article
+  referenceTitle: The reference paper
   version: Not available for works
   reference: |
     **The reference paper** is a research Works entity which represents a
@@ -71,7 +71,7 @@ comparison:
     is an abstract research works entity created for this paper by using
     metadata from across CORE’s data providers.
   compareItem: |
-    The record that the reference article is compared with:
+    The record that the reference paper is compared with:
   items:
    - title: Duplicate
      description: this means that two these articles exactly the same with the same metadata.

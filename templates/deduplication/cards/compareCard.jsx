@@ -21,11 +21,11 @@ import check from '../../../components/upload/assets/check.svg'
 
 const generatedTitle = [
   <div className={styles.metadataTitle}>Metadata title</div>,
-  <div className={styles.mainTitle}>title</div>,
-  <div className={styles.authorTitle}>author</div>,
-  'type',
-  'Field of study',
-  'DOI',
+  <div className={styles.mainTitle}>Title</div>,
+  <div className={styles.authorTitle}>Author</div>,
+  <div className={styles.columnItemTitle}>Type</div>,
+  <div className={styles.columnItemTitle}>Field of study</div>,
+  <div className={styles.columnItemTitle}>DOI</div>,
   <img src={oai} alt="oai" />,
   'Publication date',
   'Deposited date',
@@ -126,7 +126,7 @@ const CompareCard = ({
     localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
   }
 
-  const isMatching = (value) => modifiedWorksData.includes(value)
+  const isMatching = (value) => value && modifiedWorksData.includes(value)
 
   useEffect(() => {
     localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
@@ -136,10 +136,14 @@ const CompareCard = ({
     localStorage.setItem('activeButtons', JSON.stringify(activeButtons))
   }, [activeButtons])
 
-  function findTitlesBySelectedTypes(data, types) {
+  function findTitlesBySelectedTypes(data, singleType) {
     return data
-      .filter((item) => types?.includes(item.type))
-      .map((item) => item.title)
+      .filter((item) => item.type === singleType)
+      .map((item) => {
+        const title =
+          item.title.length > 35 ? `${item.title.slice(0, 35)}...` : item.title
+        return title
+      })
   }
 
   return (
@@ -175,7 +179,7 @@ const CompareCard = ({
         <Carousel
           draggable
           slidesToShow={3}
-          infinite
+          infinite={false}
           autoplay={false}
           prevArrow={
             <div>
@@ -210,13 +214,16 @@ const CompareCard = ({
                   maxLetters={100}
                 />
               </div>
-              <Button
-                onClick={() => handleWorksRedirect(worksDataInfo?.data?.id)}
-                className={styles.visibilityIconButton}
-              >
-                <Icon src="#eye" className={styles.visibility} />
-                Live in CORE
-              </Button>
+              <div className={styles.redirectButtonWrapper}>
+                <Button
+                  onClick={() => handleWorksRedirect(worksDataInfo?.data?.id)}
+                  className={styles.visibilityIconButton}
+                >
+                  <Icon src="#eye" className={styles.visibility} />
+                  Live in CORE
+                </Button>
+                <div className={styles.visibilityPlaceHolder} />
+              </div>
             </div>
             <div className={styles.itemsWrapper}>
               <div className={styles.itemWrapper}>
@@ -230,7 +237,9 @@ const CompareCard = ({
                   >
                     {Array.isArray(value) ? (
                       <span title={value.slice(1).join(', ')}>
-                        {value[0]}{' '}
+                        {value[0].length > 35
+                          ? `${value[0].slice(0, 35)}...`
+                          : value[0]}{' '}
                         <span className={styles.count}>
                           +{value.length - 1}
                         </span>
@@ -258,12 +267,12 @@ const CompareCard = ({
             <div className={styles.compareCardRight}>
               <Message className={styles.referenceTitle}>
                 <img className={styles.referenceIcon} src={info} alt="riox" />
-                <Markdown className={styles.referenceText}>
+                <div className={styles.referenceText}>
                   {texts.comparison.compareItem}
-                </Markdown>
-                <span className={styles.oaiTitle}>
-                  {item?.data?.oai.split(':').pop()}
-                </span>
+                  <span className={styles.oaiTitle}>
+                    OAI {item?.data?.oai.split(':').pop()}
+                  </span>
+                </div>
               </Message>
               <div className={styles.compareTitleWrapper}>
                 <div className={styles.compareTitle}>

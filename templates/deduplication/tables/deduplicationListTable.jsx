@@ -157,7 +157,7 @@ const DeduplicationListTable = observer(
           />
           <Table.Column
             id="count"
-            display="Duplicates"
+            display="Matches"
             getter={(v) =>
               (
                 <span

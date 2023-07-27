@@ -3,9 +3,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import { useRouter } from 'next/router'
 import { observer } from 'mobx-react-lite'
 
-import menu from '../../components/upload/assets/menu.svg'
 import styles from './styles.module.css'
-import magnify from '../../public/design/icons/magnify.svg'
 import DeduplicationInfoCard from './cards/deduplicationInfo'
 import DeduplicationStatistics from './cards/deduplicationStatistics'
 import DeduplicationTableCard from './tables/deduplicationTables'
@@ -66,15 +64,9 @@ const DeduplicationPageTemplate = observer(
         {...restProps}
       >
         <header className={styles.header}>
-          <div className={styles.validatorHeader}>
-            <div className={styles.temporaryWrapper}>
-              <h1 className={styles.title}>{texts.title}</h1>
-              <div className={styles.beta}>BETA</div>
-            </div>
-            <div className={styles.iconWrapper}>
-              <img className={styles.menu} src={magnify} alt="" />
-              <img className={styles.menu} src={menu} alt="" />
-            </div>
+          <div className={styles.temporaryWrapper}>
+            <h1 className={styles.title}>{texts.title}</h1>
+            <div className={styles.beta}>BETA</div>
           </div>
           <ShowMoreText
             className={styles.description}
