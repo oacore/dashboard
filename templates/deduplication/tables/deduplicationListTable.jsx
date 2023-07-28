@@ -11,6 +11,7 @@ import texts from '../../../texts/deduplication/deduplication.yml'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import ExportButton from '../../../components/export-button'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
+import CompareWarning from '../cards/warningCard'
 
 const DeduplicationListTable = observer(
   ({
@@ -26,6 +27,13 @@ const DeduplicationListTable = observer(
     const [selectedRowData, setSelectedRowData] = useState(null)
     const [localSearchTerm, setLocalSearchTerm] = useState('')
     const [searchResults, setSearchResults] = useState([])
+    const [visibleHelp, setVisibleHelp] = useState(
+      localStorage.getItem('visibleHelp') === 'true'
+    )
+
+    useEffect(() => {
+      localStorage.setItem('visibleHelp', visibleHelp)
+    }, [visibleHelp])
 
     const handleClick = (e, rowDetail) => {
       e.preventDefault()
@@ -94,6 +102,17 @@ const DeduplicationListTable = observer(
             />
           )}
         </div>
+        <div className={styles.itemCountIndicator}>
+          We have found <span className={styles.itemCount}>{list.length}</span>{' '}
+          items. Review and download them below.
+        </div>
+        <CompareWarning
+          show={texts.helpInfo.show}
+          hide={texts.helpInfo.hide}
+          description={texts.helpInfo.description}
+          setText={setVisibleHelp}
+          activeText={visibleHelp}
+        />
         <Table
           rowClick={(row) => handeAdditionalInfo(row)}
           rowActionProp
@@ -138,7 +157,7 @@ const DeduplicationListTable = observer(
           />
           <Table.Column
             id="count"
-            display="Duplicates"
+            display="Matches"
             getter={(v) =>
               (
                 <span

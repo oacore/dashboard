@@ -12,7 +12,8 @@ const ShowMoreText = ({ text, maxLetters }) => {
 
   const truncatedText = text?.slice(0, maxLetters)
 
-  if (text?.length <= maxLetters) return <div>{text}</div>
+  if (!text) return <div className={styles.notAvaliable}>Not available</div>
+  if (text.length <= maxLetters) return <div>{text}</div>
 
   return (
     <div>

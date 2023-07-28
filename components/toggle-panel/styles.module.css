@@ -1,0 +1,15 @@
+.rotate {
+  transform: rotate(180deg);
+}
+
+.toggle-arrow {
+  transition: 0.3s ease-out;
+}
+
+.toggle-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 24px;
+  gap: 20px;
+}

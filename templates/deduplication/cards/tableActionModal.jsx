@@ -15,8 +15,8 @@ const ActionModal = ({
   updateWork,
   getDeduplicationInfo,
   worksDataInfo,
-  outputsDataInfo,
   typeText,
+  itemId,
 }) => {
   const [selectedOption, setSelectedOption] = useState('')
 
@@ -58,7 +58,7 @@ const ActionModal = ({
           onClick={() =>
             handleConfirm(
               worksDataInfo?.data?.id,
-              outputsDataInfo?.data?.id,
+              itemId,
               selectedOption || typeText
             )
           }

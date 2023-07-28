@@ -4,6 +4,7 @@ import styles from '../styles.module.css'
 import texts from '../../../texts/deduplication/deduplication.yml'
 import Actions from '../../../components/actions'
 import ExportButton from '../../../components/export-button'
+import { formatNumber } from '../../../utils/helpers'
 
 import { Card } from 'design'
 
@@ -25,7 +26,7 @@ const DeduplicationStatistics = ({
     </div>
     <div className={styles.innerWrapper}>
       <span className={styles.innerSubTitle}>{texts.info.subTitle}</span>
-      <span className={styles.text}>{duplicateList.count}</span>
+      <span className={styles.text}>{formatNumber(duplicateList.count)}</span>
       {!checkBillingType && (
         <ExportButton
           href={duplicatesUrl}
