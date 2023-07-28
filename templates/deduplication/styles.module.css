@@ -821,6 +821,7 @@
   min-height: 82px;
   padding: 1rem;
   color: var(--gray-900);
+  user-select: text;
   border: 1px solid var(--danger-dark);
   border-radius: 2px;
 }
@@ -831,6 +832,7 @@
   min-height: 82px;
   padding: 1rem;
   color: var(--gray-900);
+  user-select: text;
   border: 1px solid var(--danger-dark);
   border-radius: 2px;
 }
@@ -875,6 +877,7 @@
 
 .compare-title {
   min-height: 96px;
+  user-select: text;
 }
 
 .items-wrapper {
@@ -917,6 +920,7 @@
   min-height: 40px;
   padding: 6px 16px;
   margin-bottom: 14px;
+  user-select: text;
   background: #f5f5f5;
 }
 
@@ -925,6 +929,7 @@
   min-height: 40px;
   padding: 6px 16px;
   margin-bottom: 0;
+  user-select: text;
   background: #f5f5f5;
 }
 
@@ -940,6 +945,7 @@
   min-height: 40px;
   padding: 6px 16px;
   margin-bottom: 14px;
+  user-select: text;
   background: #e8f3db;
 }
 
@@ -948,6 +954,7 @@
   min-height: 63px;
   padding: 6px 16px;
   margin-bottom: 14px;
+  user-select: text;
   background: #e8f3db;
 }
 
@@ -985,6 +992,7 @@
   min-height: 135px;
   padding: 6px 16px;
   margin-bottom: 14px;
+  user-select: text;
   background: #e8f3db;
 }
 
