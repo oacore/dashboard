@@ -18,6 +18,7 @@ import Actions from '../../../components/actions'
 import ActionModal from './tableActionModal'
 import togglerArrow from '../../../components/upload/assets/togglerArrow.svg'
 import check from '../../../components/upload/assets/check.svg'
+import { isFalsy } from '../../../utils/helpers'
 
 const generatedTitle = [
   <div className={styles.metadataTitle}>Metadata title</div>,
@@ -130,9 +131,27 @@ const CompareCard = ({
     localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
   }
 
-  const isMatching = (value, arrayIndex) =>
-    value?.toLowerCase() &&
-    modifiedWorksData[arrayIndex]?.includes(value?.toLowerCase())
+  function compareNames(string, index) {
+    const getSortedNames = (str) =>
+      str
+        ?.split(',')
+        .map((name) => name.trim().toLowerCase())
+        .sort()
+
+    const sortedNames1 = getSortedNames(string)
+    const sortedNames2 = getSortedNames(modifiedWorksData[index])
+
+    return JSON.stringify(sortedNames1) === JSON.stringify(sortedNames2)
+  }
+  const isMatching = (value, arrayIndex) => {
+    if (isFalsy(value) && isFalsy(modifiedWorksData[arrayIndex]))
+      return isFalsy(value) === isFalsy(modifiedWorksData[arrayIndex])
+
+    return (
+      value?.toLowerCase() &&
+      modifiedWorksData[arrayIndex]?.includes(value?.toLowerCase())
+    )
+  }
 
   useEffect(() => {
     localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
@@ -360,7 +379,7 @@ const CompareCard = ({
               <div>
                 <div
                   className={classNames.use(styles.dataItemAuthors, {
-                    [styles.matched]: !isMatching(
+                    [styles.matched]: !compareNames(
                       item?.data?.authors
                         ?.map((author) => author.name)
                         .join(', '),
