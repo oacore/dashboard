@@ -14,11 +14,7 @@ const TogglePanel = ({ className, title, content }) => {
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
     <div className={`toggle-panel ${className}`} onClick={togglePanel}>
       {title}
-      {isOpen && (
-        // eslint-disable-next-line max-len
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-        <div className={styles.toggleContent}>{content}</div>
-      )}
+      {isOpen && <div className={styles.toggleContent}>{content}</div>}
     </div>
   )
 }

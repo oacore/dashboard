@@ -194,7 +194,6 @@ const InnerTable = observer(
               )}
             />
           </Table>
-          <div className={styles.compareToggler}>{texts.moreInfo.action}</div>
           <ComparisonTable
             updateWork={updateWork}
             getDeduplicationInfo={getDeduplicationInfo}

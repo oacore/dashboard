@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { Button, Icon } from '@oacore/design/lib/elements'
 import { Carousel } from '@oacore/design/lib'
@@ -50,16 +50,18 @@ const CompareCard = ({
     const storedSelectedTypes = localStorage.getItem('selectedTypes')
     return storedSelectedTypes ? JSON.parse(storedSelectedTypes) : {}
   })
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [popupContent, setPopupContent] = useState('')
 
-  // REDO
+  const popupRef = useRef(null)
+
   useEffect(() => {
     const generatedData = [
       worksDataInfo?.data?.authors?.map((author) => author.name).join(', '),
       worksDataInfo?.data?.documentType,
       worksDataInfo?.data?.fieldOfStudy,
       worksDataInfo?.data?.doi,
-      // worksDataInfo?.data?.oaiIds,
-      worksDataInfo?.data?.oaiIds[0],
+      worksDataInfo?.data?.oaiIds,
       worksDataInfo?.data?.publishedDate,
       worksDataInfo?.data?.depositedDate,
       worksDataInfo?.data?.abstract,
@@ -128,8 +130,9 @@ const CompareCard = ({
     localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
   }
 
-  const isMatching = (value) =>
-    value?.toLowerCase() && modifiedWorksData.includes(value?.toLowerCase())
+  const isMatching = (value, arrayIndex) =>
+    value?.toLowerCase() &&
+    modifiedWorksData[arrayIndex]?.includes(value?.toLowerCase())
 
   useEffect(() => {
     localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
@@ -148,6 +151,33 @@ const CompareCard = ({
         return title
       })
   }
+
+  const handlePopupOpen = (content) => {
+    setIsPopupOpen(true)
+    setPopupContent(content)
+  }
+
+  const handlePopupClose = () => {
+    setIsPopupOpen(false)
+    setPopupContent('')
+  }
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target) &&
+        isPopupOpen
+      )
+        handlePopupClose()
+    }
+
+    document.addEventListener('click', handleOutsideClick)
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick)
+    }
+  }, [isPopupOpen])
 
   return (
     <div className={styles.compareCardWrapper}>
@@ -236,35 +266,50 @@ const CompareCard = ({
                     className={classNames.use(styles.dataItem, {
                       [styles.height]: index === modifiedWorksData.length - 1,
                       [styles.authorHeight]: index === 0,
+                      [styles.relativeParent]: Array.isArray(value),
                     })}
                   >
-                    {/* REDU */}
-                    {/*    {Array.isArray(value) ? ( */}
-                    {/*      <span title={value.slice(1).join(', ')}> */}
-                    {/*        {value[0].length > 35 */}
-                    {/*          ? `${value[0].slice(0, 35)}...` */}
-                    {/*          : value[0]}{' '} */}
-                    {/*        <span className={styles.count}> */}
-                    {/*          +{value.length - 1} */}
-                    {/*        </span> */}
-                    {/*      </span> */}
-                    {/*    ) : ( */}
-                    {/*      <ShowMoreText */}
-                    {/*        text={value} */}
-                    {/*        maxLetters={ */}
-                    {/* eslint-disable-next-line max-len */}
-                    {/*          index === modifiedWorksData.length - 1 ? 150 : 50 */}
-                    {/*        } */}
-                    {/*      /> */}
-                    {/*    )} */}
-                    {/*  </div> */}
-                    {/* ))} */}
-                    <ShowMoreText
-                      text={value}
-                      maxLetters={
-                        index === modifiedWorksData.length - 1 ? 150 : 50
-                      }
-                    />
+                    {Array.isArray(value) ? (
+                      // eslint-disable-next-line max-len
+                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+                      <span
+                        className={styles.popupTrigger}
+                        onClick={() =>
+                          handlePopupOpen(value.slice(1).join(', '))
+                        }
+                      >
+                        {value[0].length > 35
+                          ? `${value[0].slice(0, 35)}...`
+                          : value[0]}{' '}
+                        <span className={styles.count}>
+                          +{value.length - 1}
+                        </span>
+                        {isPopupOpen && (
+                          <div className={styles.popup} ref={popupRef}>
+                            <div className={styles.popupContent}>
+                              {popupContent}
+                            </div>
+                            <Button
+                              className={styles.closeButton}
+                              variant="outlined"
+                              onClick={(event) => {
+                                event.stopPropagation()
+                                handlePopupClose()
+                              }}
+                            >
+                              Close
+                            </Button>
+                          </div>
+                        )}
+                      </span>
+                    ) : (
+                      <ShowMoreText
+                        text={value}
+                        maxLetters={
+                          index === modifiedWorksData.length - 1 ? 150 : 50
+                        }
+                      />
+                    )}
                   </div>
                 ))}
                 <div className={styles.dataItem}>
@@ -318,7 +363,8 @@ const CompareCard = ({
                     [styles.matched]: !isMatching(
                       item?.data?.authors
                         ?.map((author) => author.name)
-                        .join(', ')
+                        .join(', '),
+                      0
                     ),
                   })}
                 >
@@ -331,7 +377,7 @@ const CompareCard = ({
                 </div>
                 <div
                   className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.documentType),
+                    [styles.matched]: !isMatching(item?.data?.documentType, 1),
                   })}
                 >
                   <ShowMoreText
@@ -341,7 +387,7 @@ const CompareCard = ({
                 </div>
                 <div
                   className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.fieldOfStudy),
+                    [styles.matched]: !isMatching(item?.data?.fieldOfStudy, 2),
                   })}
                 >
                   <ShowMoreText
@@ -351,21 +397,21 @@ const CompareCard = ({
                 </div>
                 <div
                   className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.doi),
+                    [styles.matched]: !isMatching(item?.data?.doi, 3),
                   })}
                 >
                   <ShowMoreText text={item?.data?.doi} maxLetters={50} />
                 </div>
                 <div
                   className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.oai),
+                    [styles.matched]: !isMatching(item?.data?.oai, 4),
                   })}
                 >
                   <ShowMoreText text={item?.data?.oai} maxLetters={50} />
                 </div>
                 <div
                   className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.publishedDate),
+                    [styles.matched]: !isMatching(item?.data?.publishedDate, 5),
                   })}
                 >
                   <ShowMoreText
@@ -375,7 +421,7 @@ const CompareCard = ({
                 </div>
                 <div
                   className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.depositedDate),
+                    [styles.matched]: !isMatching(item?.data?.depositedDate, 6),
                   })}
                 >
                   <ShowMoreText
@@ -385,7 +431,7 @@ const CompareCard = ({
                 </div>
                 <div
                   className={classNames.use(styles.heightOutput, {
-                    [styles.matched]: !isMatching(item?.data?.abstract),
+                    [styles.matched]: !isMatching(item?.data?.abstract, 7),
                   })}
                 >
                   <ShowMoreText text={item?.data?.abstract} maxLetters={150} />
