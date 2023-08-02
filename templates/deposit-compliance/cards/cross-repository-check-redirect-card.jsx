@@ -4,7 +4,7 @@ import styles from '../styles.module.css'
 
 import { Button, Card } from 'design'
 import * as texts from 'texts/depositing'
-import NumericValue from 'components/numeric-value'
+import NumericValue, { formatNumber } from 'components/numeric-value'
 import { valueOrDefault } from 'utils/helpers'
 
 const CrossRepositoryCheckRedirectCard = ({ possibleBonusCount }) => (
@@ -15,7 +15,7 @@ const CrossRepositoryCheckRedirectCard = ({ possibleBonusCount }) => (
   >
     <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
     <NumericValue
-      value={valueOrDefault(possibleBonusCount, 'Loading...')}
+      value={valueOrDefault(formatNumber(possibleBonusCount), 'Loading...')}
       caption="outputs match"
       className={styles.outputsMatch}
     />

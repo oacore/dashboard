@@ -9,7 +9,6 @@
     - title: RIOXX metadata compliance checking,
     - title: downloading statistics about content from your repository,
     - title: installing the CORE Recommender and Discovery plugins for your repository.
-    - title: If you still have some question send us a request and we will be happy to get in touch with you.
   request: If you still have some question [send us a request](https://core.ac.uk/about#contact) and we will be happy to get in touch with you
   image: ../../components/upload/assets/images/stepFirst.png
   actions:

@@ -41,6 +41,12 @@ navItems:
     href: "#repository-discovery-boost"
   - item: Get your OAI identifiers resolved to your repository
     href: "#OAI-identifiers"
+  - item: RIOXX metadata validator
+    href: "#rioxx-validator"
+  - item: Versions and duplicates detection
+    href: "#versions-duplicates"
+  - item: Monitor RIOXX compliance
+    href: "#rioxx-compliance"
   - item: Logos for your papers
     href: "#paper_logo"
   - item: Logo banner

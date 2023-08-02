@@ -57,7 +57,7 @@ class DataProvider extends Resource {
 
   @observable duplicateListDetails = {}
 
-  @observable outputData = {}
+  @observable outputData = []
 
   @observable workData = {}
 
@@ -142,7 +142,7 @@ class DataProvider extends Resource {
     try {
       const url = new URL(`/v3/outputs/${id}`, process.env.API_URL).href
       const data = await apiRequest(url)
-      this.setOutputData(data)
+      this.setOutputData([...this.outputData, data])
     } catch (error) {
       console.error('Error fetching deduplication data:', error)
     }
@@ -150,6 +150,11 @@ class DataProvider extends Resource {
 
   setOutputData(data) {
     this.outputData = data
+  }
+
+  @action
+  clearOutputsData = () => {
+    this.outputData = []
   }
 
   @action

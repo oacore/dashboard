@@ -58,7 +58,7 @@
 
 .arrow {
   position: absolute;
-  top: 20%;
+  top: 59%;
   left: -38px;
   width: 0;
   height: 0;
@@ -70,14 +70,14 @@
 
 .arrow-bottom {
   position: absolute;
-  top: -38px;
-  left: 20%;
+  top: 18%;
+  left: -38px;
   width: 0;
   height: 0;
   border-color: transparent;
   border-style: solid;
   border-width: 20px;
-  border-bottom-color: #fff;
+  border-right-color: #fff;
 }
 
 .arrow-none {
@@ -173,16 +173,16 @@
   margin: 0 4px;
 }
 
-.left {
+.bottom {
   position: absolute;
-  top: 490px;
+  top: 235px;
   left: 375px;
 }
 
-.bottom {
+.left {
   position: absolute;
-  top: 273px;
-  left: 302px;
+  top: 650px;
+  left: 375px;
 }
 
 @media (max-width: 728px) {

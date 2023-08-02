@@ -77,7 +77,7 @@ const CoverageCard = ({ doiCount, totalCount, enrichmentSize }) => (
       </div>
       <div>
         <NumericValue
-          value={valueOrDefault(enrichmentSize, 'Loading...')}
+          value={valueOrDefault(formatNumber(enrichmentSize), 'Loading...')}
           caption={texts.coverage.enrichmentLabel}
           notation="standard"
           className={classNames.use(enrichmentSize > 0 && styles.enrichment)}

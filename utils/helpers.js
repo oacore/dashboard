@@ -98,6 +98,8 @@ export const formatDate = (date, options = {}) => {
 
 export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
 
+export const isFalsy = (value) => !value
+
 export default {
   range,
   valueOrDefault,
@@ -105,4 +107,5 @@ export default {
   formatDate,
   capitalize,
   patchValue,
+  isFalsy,
 }
