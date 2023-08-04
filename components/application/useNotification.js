@@ -6,6 +6,8 @@ export const useNotification = (userID) => {
 
   const getNotifications = useCallback(async (id) => {
     try {
+      if (!id) return
+
       const response = await fetch(`${process.env.API_URL}/notifications/${id}`)
       const data = await response.json()
       setNotifications(data)

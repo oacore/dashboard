@@ -66,7 +66,7 @@ const Application = observer(
           }),
         })
 
-        await refetch(userID)
+        await refetch(id)
       } catch (err) {
         // eslint-disable-next-line no-console
         console.log(err)
@@ -92,7 +92,7 @@ const Application = observer(
     const displayedNotifications = notifications?.slice(0, 10)
 
     const unseenNotification = displayedNotifications.filter(
-      (item) => !item.notificationRead.readStatus
+      (item) => !item.notificationRead?.readStatus
     )
 
     const truncate = (str, maxLength) => {
@@ -129,10 +129,11 @@ const Application = observer(
                         src={notification}
                         alt="bell"
                       />
-
-                      <div className={styles.count}>
-                        {unseenNotification.length}
-                      </div>
+                      {unseenNotification.length > 0 && (
+                        <div className={styles.count}>
+                          {unseenNotification.length}
+                        </div>
+                      )}
                     </div>
                     <Logout />
                   </>
