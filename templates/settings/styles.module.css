@@ -195,6 +195,11 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.pop-up-item:hover {
+  text-decoration: underline;
 }
 
 .pop-up-item-text {

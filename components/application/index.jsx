@@ -54,7 +54,11 @@ const Application = observer(
       )
     }
 
-    const handleNotificationClick = async (id, notificationId) => {
+    const handleNotificationClick = async (
+      id,
+      notificationId,
+      dataProviderId
+    ) => {
       try {
         await fetch(`${process.env.API_URL}/notifications/${id}`, {
           method: 'PATCH',
@@ -67,6 +71,8 @@ const Application = observer(
         })
 
         await refetch(id)
+        router.push(`/data-providers/${dataProviderId}/harvesting`)
+        setShowNotification(false)
       } catch (err) {
         // eslint-disable-next-line no-console
         console.log(err)
@@ -156,6 +162,7 @@ const Application = observer(
                 closeNotification={closeNotification}
                 seeAllNotifications={seeAllNotifications}
                 user={user}
+                dataProviderId={dataProvider.id}
               />
             )}
           </div>

@@ -11,6 +11,7 @@ const NotificationPopUp = ({
   userID,
   handleNotificationClick,
   closeNotification,
+  dataProviderId,
 }) => {
   const popupRef = useRef(null)
 
@@ -75,7 +76,9 @@ const NotificationPopUp = ({
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
           <div
             className={styles.popUpItem}
-            onClick={() => handleNotificationClick(userID, item.id)}
+            onClick={() =>
+              handleNotificationClick(userID, item.id, dataProviderId)
+            }
           >
             <p className={styles.popUpItemText}>{renderMessage(item.type)}</p>
             <p className={styles.createdDate}>{formatDate(item.createdDate)}</p>
