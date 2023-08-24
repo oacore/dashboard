@@ -17,6 +17,7 @@ const DeduplicationListTable = observer(
   ({
     handeAdditionalInfo,
     list,
+    duplicateData,
     duplicatesUrl,
     checkBillingType,
     dataProviderData,
@@ -103,8 +104,9 @@ const DeduplicationListTable = observer(
           )}
         </div>
         <div className={styles.itemCountIndicator}>
-          We have found <span className={styles.itemCount}>{list.length}</span>{' '}
-          items. Review and download them below.
+          We have found{' '}
+          <span className={styles.itemCount}>{duplicateData.count}</span> items.
+          Review and download them below.
         </div>
         <CompareWarning
           show={texts.helpInfo.show}
