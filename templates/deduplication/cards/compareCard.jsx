@@ -228,36 +228,12 @@ const CompareCard = ({
             />
           </div>
         )}
-        <Carousel
-          draggable
-          slidesToShow={3}
-          infinite={false}
-          autoplay={false}
-          prevArrow={
-            <div>
-              <img
-                className={styles.arrowLeft}
-                src={carouselArrowLeft}
-                alt="carouselArrowLeft"
-              />
-            </div>
-          }
-          nextArrow={
-            <div>
-              <img
-                className={styles.arrowRight}
-                src={carouselArrowRight}
-                alt="carouselArrowRight"
-              />
-            </div>
-          }
-        >
+        <div className={styles.compareContainer}>
           <div className={styles.compareCardLeft}>
             <Message className={styles.referenceTitleLeft}>
-              <img className={styles.referenceIcon} src={info} alt="riox" />
-              <p className={styles.referenceText}>
-                {texts.comparison.referenceTitle}
-              </p>
+              <Markdown className={styles.dataItemReference}>
+                {texts.comparison.reference}
+              </Markdown>
             </Message>
             <div className={styles.compareTitleWrapperLeft}>
               <div className={styles.compareTitle}>
@@ -334,230 +310,277 @@ const CompareCard = ({
                 <div className={styles.dataItem}>
                   {texts.comparison.version}
                 </div>
-                <Markdown className={styles.dataItemReference}>
-                  {texts.comparison.reference}
-                </Markdown>
               </div>
             </div>
           </div>
-          {outputsDataInfo.map((item) => (
-            <div className={styles.compareCardRight}>
-              <Message className={styles.referenceTitle}>
-                <img className={styles.referenceIcon} src={info} alt="riox" />
-                <div className={styles.referenceText}>
-                  {texts.comparison.compareItem}
-                  <span className={styles.oaiTitle}>
-                    OAI {item?.data?.oai.split(':').pop()}
-                  </span>
+          <div className={styles.carouselContainer}>
+            <Carousel
+              draggable
+              slidesToShow={2}
+              infinite={false}
+              autoplay={false}
+              prevArrow={
+                <div>
+                  <img
+                    className={styles.arrowLeft}
+                    src={carouselArrowLeft}
+                    alt="carouselArrowLeft"
+                  />
                 </div>
-              </Message>
-              <div className={styles.compareTitleWrapper}>
-                <div className={styles.compareTitle}>
-                  <ShowMoreText text={item?.data?.title} maxLetters={100} />
+              }
+              nextArrow={
+                <div>
+                  <img
+                    className={styles.arrowRight}
+                    src={carouselArrowRight}
+                    alt="carouselArrowRight"
+                  />
                 </div>
-                <div className={styles.redirectButtonWrapper}>
-                  <Button
-                    onClick={() => handleOutputsRedirect(item?.data?.id)}
-                    className={styles.visibilityIconButton}
-                  >
-                    <Icon src="#eye" className={styles.visibility} />
-                    <span>Live in CORE</span>
-                  </Button>
-                  <Button
-                    onClick={() => handleRepositoryRedirect(item?.data?.oai)}
-                    className={styles.visibilityIconButton}
-                  >
+              }
+            >
+              {outputsDataInfo.map((item) => (
+                <div className={styles.compareCardRight}>
+                  <Message className={styles.referenceTitle}>
                     <img
-                      src={redirect}
-                      alt="redirect"
-                      className={styles.redirectImg}
+                      className={styles.referenceIcon}
+                      src={info}
+                      alt="riox"
                     />
-                    <span>Open in the repository</span>
-                  </Button>
-                </div>
-              </div>
-              <div>
-                <div
-                  className={classNames.use(styles.dataItemAuthors, {
-                    [styles.matched]: !compareNames(
-                      item?.data?.authors
-                        ?.map((author) => author.name)
-                        .join(', '),
-                      0
-                    ),
-                  })}
-                >
-                  <ShowMoreText
-                    text={item?.data?.authors
-                      ?.map((author) => author.name)
-                      .join(', ')}
-                    maxLetters={50}
-                  />
-                </div>
-                <div
-                  className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.documentType, 1),
-                  })}
-                >
-                  <ShowMoreText
-                    text={item?.data?.documentType}
-                    maxLetters={50}
-                  />
-                </div>
-                <div
-                  className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.fieldOfStudy, 2),
-                  })}
-                >
-                  <ShowMoreText
-                    text={item?.data?.fieldOfStudy}
-                    maxLetters={50}
-                  />
-                </div>
-                <div
-                  className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.doi, 3),
-                  })}
-                >
-                  <ShowMoreText text={item?.data?.doi} maxLetters={50} />
-                </div>
-                <div
-                  className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.oai, 4),
-                  })}
-                >
-                  <ShowMoreText text={item?.data?.oai} maxLetters={50} />
-                </div>
-                <div
-                  className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.publishedDate, 5),
-                  })}
-                >
-                  <ShowMoreText
-                    text={item?.data?.publishedDate}
-                    maxLetters={50}
-                  />
-                </div>
-                <div
-                  className={classNames.use(styles.outputItem, {
-                    [styles.matched]: !isMatching(item?.data?.depositedDate, 6),
-                  })}
-                >
-                  <ShowMoreText
-                    text={item?.data?.depositedDate}
-                    maxLetters={50}
-                  />
-                </div>
-                <div
-                  className={classNames.use(styles.heightOutput, {
-                    [styles.matched]: !isMatching(item?.data?.abstract, 7),
-                  })}
-                >
-                  <ShowMoreText text={item?.data?.abstract} maxLetters={150} />
-                </div>
-                <TogglePanel
-                  title={
+                    <div className={styles.referenceText}>
+                      {texts.comparison.compareItem}
+                      <span className={styles.oaiTitle}>
+                        OAI {item?.data?.oai.split(':').pop()}
+                      </span>
+                    </div>
+                  </Message>
+                  <div className={styles.compareTitleWrapper}>
+                    <div className={styles.compareTitle}>
+                      <ShowMoreText text={item?.data?.title} maxLetters={100} />
+                    </div>
+                    <div className={styles.redirectButtonWrapper}>
+                      <Button
+                        onClick={() => handleOutputsRedirect(item?.data?.id)}
+                        className={styles.visibilityIconButton}
+                      >
+                        <Icon src="#eye" className={styles.visibility} />
+                        <span>Live in CORE</span>
+                      </Button>
+                      <Button
+                        onClick={() =>
+                          handleRepositoryRedirect(item?.data?.oai)
+                        }
+                        className={styles.visibilityIconButton}
+                      >
+                        <img
+                          src={redirect}
+                          alt="redirect"
+                          className={styles.redirectImg}
+                        />
+                        <span>Open in the repository</span>
+                      </Button>
+                    </div>
+                  </div>
+                  <div>
                     <div
-                      className={classNames.use(styles.togglePanelTitle, {
-                        [styles.togglePanelTitleActive]:
-                          selectedTypes[item?.data.id],
+                      className={classNames.use(styles.dataItemAuthors, {
+                        [styles.matched]: !compareNames(
+                          item?.data?.authors
+                            ?.map((author) => author.name)
+                            .join(', '),
+                          0
+                        ),
                       })}
                     >
-                      {selectedTypes[item?.data.id]
-                        ? findTitlesBySelectedTypes(
-                            Object.values(
-                              texts.comparison.toggleVersion[0]?.options
-                            ),
-                            selectedTypes[item?.data.id]
-                          )
-                        : 'Please indicate the version of articles:'}
-                      {selectedTypes[item?.data.id] ? (
-                        <img src={check} alt="check" />
-                      ) : (
-                        <div className={styles.svgWrapper}>
-                          <img src={togglerArrow} alt="togglerArrow" />
-                        </div>
-                      )}
+                      <ShowMoreText
+                        text={item?.data?.authors
+                          ?.map((author) => author.name)
+                          .join(', ')}
+                        maxLetters={50}
+                      />
                     </div>
-                  }
-                  className={styles.actionButtonPannel}
-                  content={
-                    <div className={styles.actionButtons}>
-                      {Object.values(
-                        texts.comparison.toggleVersion[0]?.options
-                      ).map((option) => (
-                        // eslint-disable-next-line max-len
-                        // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+                    <div
+                      className={classNames.use(styles.outputItem, {
+                        [styles.matched]: !isMatching(
+                          item?.data?.documentType,
+                          1
+                        ),
+                      })}
+                    >
+                      <ShowMoreText
+                        text={item?.data?.documentType}
+                        maxLetters={50}
+                      />
+                    </div>
+                    <div
+                      className={classNames.use(styles.outputItem, {
+                        [styles.matched]: !isMatching(
+                          item?.data?.fieldOfStudy,
+                          2
+                        ),
+                      })}
+                    >
+                      <ShowMoreText
+                        text={item?.data?.fieldOfStudy}
+                        maxLetters={50}
+                      />
+                    </div>
+                    <div
+                      className={classNames.use(styles.outputItem, {
+                        [styles.matched]: !isMatching(item?.data?.doi, 3),
+                      })}
+                    >
+                      <ShowMoreText text={item?.data?.doi} maxLetters={50} />
+                    </div>
+                    <div
+                      className={classNames.use(styles.outputItem, {
+                        [styles.matched]: !isMatching(item?.data?.oai, 4),
+                      })}
+                    >
+                      <ShowMoreText text={item?.data?.oai} maxLetters={50} />
+                    </div>
+                    <div
+                      className={classNames.use(styles.outputItem, {
+                        [styles.matched]: !isMatching(
+                          item?.data?.publishedDate,
+                          5
+                        ),
+                      })}
+                    >
+                      <ShowMoreText
+                        text={item?.data?.publishedDate}
+                        maxLetters={50}
+                      />
+                    </div>
+                    <div
+                      className={classNames.use(styles.outputItem, {
+                        [styles.matched]: !isMatching(
+                          item?.data?.depositedDate,
+                          6
+                        ),
+                      })}
+                    >
+                      <ShowMoreText
+                        text={item?.data?.depositedDate}
+                        maxLetters={50}
+                      />
+                    </div>
+                    <div
+                      className={classNames.use(styles.heightOutput, {
+                        [styles.matched]: !isMatching(item?.data?.abstract, 7),
+                      })}
+                    >
+                      <ShowMoreText
+                        text={item?.data?.abstract}
+                        maxLetters={150}
+                      />
+                    </div>
+                    <TogglePanel
+                      title={
                         <div
-                          onClick={() =>
-                            handleTypeSave(
-                              worksDataInfo?.data?.id,
-                              item?.data.id,
-                              option.type
-                            )
-                          }
-                          className={classNames.use(styles.optionButton, {
-                            [styles.clicked]:
-                              selectedTypes[item?.data.id] === option.type,
+                          className={classNames.use(styles.togglePanelTitle, {
+                            [styles.togglePanelTitleActive]:
+                              selectedTypes[item?.data.id],
                           })}
                         >
-                          <div>{option.title}</div>
+                          {selectedTypes[item?.data.id]
+                            ? findTitlesBySelectedTypes(
+                                Object.values(
+                                  texts.comparison.toggleVersion[0]?.options
+                                ),
+                                selectedTypes[item?.data.id]
+                              )
+                            : 'Please indicate the version of articles:'}
+                          {selectedTypes[item?.data.id] ? (
+                            <img src={check} alt="check" />
+                          ) : (
+                            <div className={styles.svgWrapper}>
+                              <img src={togglerArrow} alt="togglerArrow" />
+                            </div>
+                          )}
                         </div>
-                      ))}
-                    </div>
-                  }
-                />
-                <TogglePanel
-                  title={
-                    <div
-                      className={classNames.use(styles.togglePanelTitle, {
-                        [styles.togglePanelTitleActive]:
-                          activeButtons[item.data.id],
-                      })}
-                    >
-                      {activeButtons[item.data.id]
-                        ? findTitlesBySelectedTypes(
-                            Object.values(modalContent),
-                            activeButtons[item.data.id]
-                          )
-                        : 'Mark this paper as'}
-                      {activeButtons[item.data.id] ? (
-                        <img src={check} alt="check" />
-                      ) : (
-                        <div className={styles.svgWrapper}>
-                          <img src={togglerArrow} alt="togglerArrow" />
+                      }
+                      className={styles.actionButtonPannel}
+                      content={
+                        <div className={styles.actionButtons}>
+                          {Object.values(
+                            texts.comparison.toggleVersion[0]?.options
+                          ).map((option) => (
+                            // eslint-disable-next-line max-len
+                            // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+                            <div
+                              onClick={() =>
+                                handleTypeSave(
+                                  worksDataInfo?.data?.id,
+                                  item?.data.id,
+                                  option.type
+                                )
+                              }
+                              className={classNames.use(styles.optionButton, {
+                                [styles.clicked]:
+                                  selectedTypes[item?.data.id] === option.type,
+                              })}
+                            >
+                              <div>{option.title}</div>
+                            </div>
+                          ))}
                         </div>
-                      )}
-                    </div>
-                  }
-                  content={
-                    <div className={styles.actionButtons}>
-                      {Object.values(texts.comparison.toggleButtons).map(
-                        (button, index) => (
-                          // eslint-disable-next-line max-len
-                          // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
-                          <div
-                            onClick={() => handleModalOpen(item.data.id, index)}
-                            className={classNames.use(styles.actionButton, {
-                              [styles.clicked]:
-                                activeButtons[item.data.id] === button.type,
-                            })}
-                          >
-                            <div>{button.title}</div>
-                            <Actions
-                              className={styles.actionIcon}
-                              description={button.info}
-                            />
-                          </div>
-                        )
-                      )}
-                    </div>
-                  }
-                />
-              </div>
-            </div>
-          ))}
-        </Carousel>
+                      }
+                    />
+                    <TogglePanel
+                      title={
+                        <div
+                          className={classNames.use(styles.togglePanelTitle, {
+                            [styles.togglePanelTitleActive]:
+                              activeButtons[item.data.id],
+                          })}
+                        >
+                          {activeButtons[item.data.id]
+                            ? findTitlesBySelectedTypes(
+                                Object.values(modalContent),
+                                activeButtons[item.data.id]
+                              )
+                            : 'Mark this paper as'}
+                          {activeButtons[item.data.id] ? (
+                            <img src={check} alt="check" />
+                          ) : (
+                            <div className={styles.svgWrapper}>
+                              <img src={togglerArrow} alt="togglerArrow" />
+                            </div>
+                          )}
+                        </div>
+                      }
+                      content={
+                        <div className={styles.actionButtons}>
+                          {Object.values(texts.comparison.toggleButtons).map(
+                            (button, index) => (
+                              // eslint-disable-next-line max-len
+                              // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+                              <div
+                                onClick={() =>
+                                  handleModalOpen(item.data.id, index)
+                                }
+                                className={classNames.use(styles.actionButton, {
+                                  [styles.clicked]:
+                                    activeButtons[item.data.id] === button.type,
+                                })}
+                              >
+                                <div>{button.title}</div>
+                                <Actions
+                                  className={styles.actionIcon}
+                                  description={button.info}
+                                />
+                              </div>
+                            )
+                          )}
+                        </div>
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
+            </Carousel>
+          </div>
+        </div>
       </section>
     </div>
   )

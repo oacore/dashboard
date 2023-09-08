@@ -744,6 +744,7 @@
 .carousel-wrapper {
   position: relative;
   width: calc(100% - 186px);
+  overflow: hidden;
 }
 
 .carousel-wrapper ul {
@@ -751,6 +752,7 @@
   left: 50%;
   width: 100%;
   margin: unset;
+  overflow-y: hidden;
   transform: translate(-50%, 0);
 }
 
@@ -780,6 +782,7 @@
   position: absolute;
   top: 100%;
   right: 0;
+  z-index: 2;
   transform: translate(-50%, -100%);
 }
 
@@ -791,7 +794,10 @@
 }
 
 .compare-card-left {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 33%;
   padding-right: 14px;
   margin-bottom: 20px;
 }
@@ -930,7 +936,6 @@
   padding: 6px 16px;
   margin-bottom: 0;
   user-select: text;
-  background: #f5f5f5;
 }
 
 .count {
@@ -1190,4 +1195,13 @@
 
 .action-button:hover {
   background: #f5f5f5;
+}
+
+.compare-container {
+  display: flex;
+}
+
+.carousel-container {
+  flex-grow: 1;
+  overflow-x: auto;
 }
