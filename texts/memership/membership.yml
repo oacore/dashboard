@@ -34,7 +34,7 @@ navItems:
   - item: CORE Recommender
     href: "#recommender"
   - item: General support
-    href: "#general_support"
+    href: "#general-support"
   - item: Download statistics
     href: "#download-statistics"
   - item: Repository Discovery Boost
@@ -48,9 +48,9 @@ navItems:
   - item: Monitor RIOXX compliance
     href: "#rioxx-compliance"
   - item: Logos for your papers
-    href: "#paper_logo"
-  - item: Logo banner
     href: "#logos-papers"
+  - item: Logo banner
+    href: "#logo-banner"
   - item: Personalised banner
     href: "#personalised-banner"
   - item: Board of Supporters
