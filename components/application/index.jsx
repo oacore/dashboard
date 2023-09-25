@@ -121,28 +121,43 @@ const Application = observer(
               {isAuthenticated ? (
                 <>
                   <>
-                    <img
-                      className={styles.repositoryLogo}
-                      src={repositoryIcon}
-                      alt=""
-                    />
-                    {dataProvider && <RepositorySelect value={dataProvider} />}
-                    <div className={styles.bellWrapper}>
-                      {/* eslint-disable-next-line max-len */}
-                      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */}
+                    <>
                       <img
-                        onClick={handleShowNotification}
-                        src={notification}
-                        alt="bell"
+                        className={styles.repositoryLogo}
+                        src={repositoryIcon}
+                        alt=""
                       />
-                      {unseenNotification.length > 0 && (
-                        <div className={styles.count}>
-                          {unseenNotification.length}
-                        </div>
+                      {dataProvider && (
+                        <RepositorySelect value={dataProvider} />
                       )}
-                    </div>
-                    <Logout />
+                      <div className={styles.bellWrapper}>
+                        {/* eslint-disable-next-line max-len */}
+                        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */}
+                        <img
+                          onClick={handleShowNotification}
+                          src={notification}
+                          alt="bell"
+                        />
+                        {unseenNotification.length > 0 && (
+                          <div className={styles.count}>
+                            {unseenNotification.length}
+                          </div>
+                        )}
+                      </div>
+                      <Logout />
+                    </>
                   </>
+                  {showNotification && (
+                    <NotificationPopUp
+                      handleNotificationClick={handleNotificationClick}
+                      displayedNotifications={displayedNotifications}
+                      userID={userID}
+                      closeNotification={closeNotification}
+                      seeAllNotifications={seeAllNotifications}
+                      user={user}
+                      dataProviderId={dataProvider.id}
+                    />
+                  )}
                 </>
               ) : null}
             </AppBar>
@@ -152,17 +167,6 @@ const Application = observer(
                 refElement={logoRef.current}
                 tutorial={tutorial}
                 placement="bottom"
-              />
-            )}
-            {showNotification && (
-              <NotificationPopUp
-                handleNotificationClick={handleNotificationClick}
-                displayedNotifications={displayedNotifications}
-                userID={userID}
-                closeNotification={closeNotification}
-                seeAllNotifications={seeAllNotifications}
-                user={user}
-                dataProviderId={dataProvider.id}
               />
             )}
           </div>
