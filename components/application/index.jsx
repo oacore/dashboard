@@ -143,21 +143,21 @@ const Application = observer(
                             {unseenNotification.length}
                           </div>
                         )}
+                        {showNotification && (
+                          <NotificationPopUp
+                            handleNotificationClick={handleNotificationClick}
+                            displayedNotifications={displayedNotifications}
+                            userID={userID}
+                            closeNotification={closeNotification}
+                            seeAllNotifications={seeAllNotifications}
+                            user={user}
+                            dataProviderId={dataProvider.id}
+                          />
+                        )}
                       </div>
                       <Logout />
                     </>
                   </>
-                  {showNotification && (
-                    <NotificationPopUp
-                      handleNotificationClick={handleNotificationClick}
-                      displayedNotifications={displayedNotifications}
-                      userID={userID}
-                      closeNotification={closeNotification}
-                      seeAllNotifications={seeAllNotifications}
-                      user={user}
-                      dataProviderId={dataProvider.id}
-                    />
-                  )}
                 </>
               ) : null}
             </AppBar>
