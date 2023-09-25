@@ -1,6 +1,6 @@
 ---
 title: Open Access compliance
-region-warning: The section is specific to United Kingdom repositories.
+region-warning: This section is not specific to your country
 ---
 
 We are now working on tools to provide OA compliance checking according to other policies. If you are interested in us helping

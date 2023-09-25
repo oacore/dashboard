@@ -60,6 +60,7 @@ const DeduplicationTableCard = observer(
         {!showCompareView ? (
           <DeduplicationListTable
             list={list}
+            duplicateData={duplicateData}
             handeAdditionalInfo={handeAdditionalInfo}
             duplicatesUrl={duplicatesUrl}
             exportUrl={exportUrl}
