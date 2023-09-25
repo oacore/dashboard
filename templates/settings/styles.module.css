@@ -104,6 +104,140 @@
   margin-bottom: 1rem;
 }
 
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.notification-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-text {
+  margin-left: 4px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  color: #b75400;
+  letter-spacing: 0.0125em;
+}
+
+.card-wrapper {
+  width: 50%;
+  padding: 24px 0;
+  border-top: 1px solid #b75400;
+  border-bottom: 1px solid #b75400;
+}
+
+.type-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.toggler {
+  margin-bottom: 16px;
+}
+
+.notification-type-text {
+  margin-left: 15px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #424242;
+}
+
+.option-wrapper {
+  margin-left: 40px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+}
+
+.option:not(:last-child) {
+  margin-bottom: 24px;
+}
+
+.harvesting-type {
+  margin-left: 14px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #424242;
+  letter-spacing: 0.003em;
+}
+
+.pop-up {
+  position: absolute;
+  right: 15%;
+  z-index: 1;
+  width: max-content;
+  height: max-content;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pop-up-text {
+  margin-left: 14px;
+}
+
+.pop-up-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.pop-up-item:hover {
+  text-decoration: underline;
+}
+
+.pop-up-item-text {
+  margin-bottom: unset;
+}
+
+.created-date {
+  margin: 0 6px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #666;
+}
+
+.status {
+  width: 6px;
+  height: 6px;
+  background: #ff5f52;
+  border-radius: 100%;
+}
+
+.placeholder {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  border-radius: 100%;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-button-show {
+  margin-right: 8px;
+}
+
 .footer {
   display: flex;
 
@@ -127,7 +261,7 @@
   color: var(--gray-900);
 }
 
-.card-wrapper {
+.badge-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;

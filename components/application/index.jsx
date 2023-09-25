@@ -16,12 +16,18 @@ import DashboardGuide from '../dashboard-tutorial/dashboardGuide'
 import imagePlaceholder from '../upload/assets/imagePlaceholder.svg'
 import repositoryIcon from '../upload/assets/repositoryIcon.svg'
 import restart from '../upload/assets/restart.svg'
+import notification from '../../templates/settings/assets/bell.svg'
+import NotificationPopUp from '../../templates/settings/cards/notificationPopUp'
+import { useNotification } from './useNotification'
 
 const Application = observer(
   ({
     children,
     dataProvider,
+    userID,
     pathname,
+    user,
+    seeAllNotifications,
     variant = 'public', // 'public' or 'internal'
     isAuthenticated = false,
     acceptedTCVersion = 0,
@@ -31,12 +37,46 @@ const Application = observer(
     const logoRef = useRef(null)
     const siderRef = useRef(null)
     const [redirect, setRedirect] = useState(false)
+    const [showNotification, setShowNotification] = useState(false)
     const router = useRouter()
+    const { notifications, refetch } = useNotification(userID)
+    const handleShowNotification = () => {
+      setShowNotification(!showNotification)
+    }
+
+    const closeNotification = () => {
+      setShowNotification(false)
+    }
 
     const navigateToPage = () => {
       router.push(
         `/data-providers/${dataProvider.id}/settings?referrer=uploadRef`
       )
+    }
+
+    const handleNotificationClick = async (
+      id,
+      notificationId,
+      dataProviderId
+    ) => {
+      try {
+        await fetch(`${process.env.API_URL}/notifications/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            notification_id: notificationId,
+          }),
+        })
+
+        await refetch(id)
+        router.push(`/data-providers/${dataProviderId}/harvesting`)
+        setShowNotification(false)
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err)
+      }
     }
 
     const restartModal = () => {
@@ -54,6 +94,12 @@ const Application = observer(
         setRedirect(false)
       }
     }, [redirect, dataProvider])
+
+    const displayedNotifications = notifications?.slice(0, 10)
+
+    const unseenNotification = displayedNotifications.filter(
+      (item) => !item.notificationRead?.readStatus
+    )
 
     const truncate = (str, maxLength) => {
       if (str.length <= maxLength) return str
@@ -74,13 +120,29 @@ const Application = observer(
             <AppBar>
               {isAuthenticated ? (
                 <>
-                  <img
-                    className={styles.repositoryLogo}
-                    src={repositoryIcon}
-                    alt=""
-                  />
-                  {dataProvider && <RepositorySelect value={dataProvider} />}
-                  <Logout />
+                  <>
+                    <img
+                      className={styles.repositoryLogo}
+                      src={repositoryIcon}
+                      alt=""
+                    />
+                    {dataProvider && <RepositorySelect value={dataProvider} />}
+                    <div className={styles.bellWrapper}>
+                      {/* eslint-disable-next-line max-len */}
+                      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */}
+                      <img
+                        onClick={handleShowNotification}
+                        src={notification}
+                        alt="bell"
+                      />
+                      {unseenNotification.length > 0 && (
+                        <div className={styles.count}>
+                          {unseenNotification.length}
+                        </div>
+                      )}
+                    </div>
+                    <Logout />
+                  </>
                 </>
               ) : null}
             </AppBar>
@@ -90,6 +152,17 @@ const Application = observer(
                 refElement={logoRef.current}
                 tutorial={tutorial}
                 placement="bottom"
+              />
+            )}
+            {showNotification && (
+              <NotificationPopUp
+                handleNotificationClick={handleNotificationClick}
+                displayedNotifications={displayedNotifications}
+                userID={userID}
+                closeNotification={closeNotification}
+                seeAllNotifications={seeAllNotifications}
+                user={user}
+                dataProviderId={dataProvider.id}
               />
             )}
           </div>

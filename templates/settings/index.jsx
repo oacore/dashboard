@@ -273,7 +273,7 @@ const SettingsTemplate = forwardRef(
                 <p>{badgesData.descriptionDashboard}</p>
                 <div>
                   {badgesData.images?.map((img) => (
-                    <div className={styles.cardWrapper}>
+                    <div className={styles.badgeWrapper}>
                       <div className={styles.imgWrapper}>
                         {/* eslint-disable-next-line max-len */}
                         {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
@@ -298,6 +298,7 @@ const SettingsTemplate = forwardRef(
             </div>
           </Card>
         </div>
+        {/* <NotificationSystem /> */}
         <ChangePassword
           className={styles.section}
           email={userEmail}

@@ -100,6 +100,8 @@ class Root extends Store {
 
   @observable requestsInProgress = 0
 
+  @observable seenAll = []
+
   @computed
   get isLoading() {
     return this.requestsInProgress > 0

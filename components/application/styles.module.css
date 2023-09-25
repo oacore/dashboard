@@ -8,6 +8,30 @@
   margin-left: 1rem;
 }
 
+.bell-wrapper {
+  position: relative;
+  margin: 0 15px;
+}
+
+.count {
+  position: absolute;
+  bottom: 50%;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px;
+  color: #fff;
+  text-align: center;
+  background: #ff5f52;
+  border-radius: 100%;
+}
+
 .logo-wrapper {
   display: flex;
   align-items: center;
