@@ -177,8 +177,8 @@
 
 .pop-up {
   position: absolute;
-  top: 56px;
-  right: 290px;
+  top: 40px;
+  right: 0;
   z-index: 1;
   width: max-content;
   height: max-content;
