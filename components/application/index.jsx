@@ -147,6 +147,7 @@ const Application = observer(
                           <NotificationPopUp
                             handleNotificationClick={handleNotificationClick}
                             displayedNotifications={displayedNotifications}
+                            notifications={notifications}
                             userID={userID}
                             closeNotification={closeNotification}
                             seeAllNotifications={seeAllNotifications}

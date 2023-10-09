@@ -68,6 +68,12 @@ notifications:
      name: mark all as read
      action: All
      variant: outlined
+  noNotifications:
+    title: You have no new notifications.
+    description: Here you will see notifications about events in your repository.
+    action:
+      title: OK
+      variant: outlined
   types:
     type: Harvesting
     notifyOne: Notify me whenever harvesting has completed.
