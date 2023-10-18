@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 
+import BadgesPageTemplate from '../../../templates/settings/badges'
 import retrieveContent from '../../../content'
 
 import { withGlobalStore } from 'store'
-import SettingsTemplate from 'templates/settings'
 
 const ASSETS_BASE_URL = 'https://oacore.github.io/content/'
-
-const Settings = ({ store, ...restProps }) => {
+const BadgesPage = ({ store, ...restProps }) => {
   const [stateData, setStateData] = useState({})
 
   const setAssetsUrl = (object) => {
@@ -42,25 +41,6 @@ const Settings = ({ store, ...restProps }) => {
     })
     return <></>
   }
-
-  return (
-    <SettingsTemplate
-      userEmail={store.user.email}
-      dataProvider={store.dataProvider}
-      oaiMapping={store.dataProvider.oaiMapping}
-      updateOrganization={store.updateOrganization}
-      updateDataProvider={store.updateDataProvider}
-      inviteUser={store.organisation.inviteUser}
-      mappingSubmit={store.updateOaiSettings}
-      updateLogo={store.updateLogo}
-      organisationUserInvites={store.organisation.organisationUserInvites}
-      delInviter={store.invitation?.deleteInviteUser}
-      dataProviderLogo={store.dataProvider.logo}
-      membershipPlan={store.dataProvider.membershipPlan}
-      stateData={stateData}
-      {...restProps}
-    />
-  )
+  return <BadgesPageTemplate stateData={stateData} {...restProps} />
 }
-
-export default withGlobalStore(Settings)
+export default withGlobalStore(BadgesPage)

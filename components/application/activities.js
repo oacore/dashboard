@@ -72,16 +72,6 @@ const config = new RouteConfig([
     test: /\/plugins/,
     path: 'plugins',
     icon: 'puzzle',
-    children: [
-      {
-        test: /\/discovery/,
-        path: 'discovery',
-      },
-      {
-        test: /\/recommender/,
-        path: 'recommender',
-      },
-    ],
   },
   {
     test: /\/membership/,
@@ -92,6 +82,32 @@ const config = new RouteConfig([
     test: /\/settings/,
     path: 'settings',
     icon: 'cog',
+    children: [
+      {
+        test: /\/discovery/,
+        path: 'general',
+        id: 'general',
+        value: 'General',
+      },
+      {
+        test: /\/recommender/,
+        path: 'repository',
+        id: 'repository',
+        value: 'Repository',
+      },
+      // {
+      //   test: /\/notifications/,
+      //   path: 'notifications',
+      //   id: 'notifications',
+      //   value: 'Notifications',
+      // },
+      {
+        test: /\/badges/,
+        path: 'badges',
+        id: 'badges',
+        value: 'CORE badges',
+      },
+    ],
   },
 ])
 

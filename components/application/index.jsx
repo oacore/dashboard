@@ -38,6 +38,7 @@ const Application = observer(
     const siderRef = useRef(null)
     const [redirect, setRedirect] = useState(false)
     const [showNotification, setShowNotification] = useState(false)
+    const [showSubMenu, setShowSubMenu] = useState(false)
     const router = useRouter()
     const { notifications, refetch } = useNotification(userID)
     const handleShowNotification = () => {
@@ -213,12 +214,16 @@ const Application = observer(
                     <ActivitySelect>
                       {activities.routes
                         .filter((activity) => activity.parent == null)
-                        .map(({ path, test }) => (
+                        // eslint-disable-next-line no-shadow
+                        .map(({ path, test, children }) => (
                           <ActivitySelect.Option
                             key={path}
                             value={path}
                             selected={test(pathname)}
                             dataProviderId={dataProvider.id}
+                            subMenu={children}
+                            showSubMenu={showSubMenu}
+                            setShowSubMenu={setShowSubMenu}
                           />
                         ))}
                       {/* eslint-disable-next-line max-len */}

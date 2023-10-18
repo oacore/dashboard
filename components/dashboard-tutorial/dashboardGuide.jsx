@@ -35,15 +35,15 @@ const DashboardGuide = ({ dataProviderData, modal, placement, tutorial }) => {
   useOnClickOutside(modalRef, renderNext)
 
   const navigateToPage = () => {
-    window.location = `/data-providers/${dataProviderData.id}/settings?referrer=upload`
+    window.location = `/data-providers/${dataProviderData.id}/repository?referrer=upload`
   }
 
   const navigateToMapping = () => {
-    window.location = `/data-providers/${dataProviderData.id}/settings?referrer=mapping`
+    window.location = `/data-providers/${dataProviderData.id}/repository?referrer=mapping`
   }
 
   const navigateToInvite = () => {
-    window.location = `/data-providers/${dataProviderData.id}/settings?referrer=invite`
+    window.location = `/data-providers/${dataProviderData.id}/general?referrer=invite`
   }
 
   return shouldRender ? (

@@ -24,13 +24,17 @@ const ChangePassword = ({ className, email, token, tag }) => {
       ) : (
         <Card.Title tag="h2">Reset password</Card.Title>
       )}
-
-      <IframeForm
-        id="reset-password-form"
-        className={styles.changePasswordIframe}
-        title="Password change form"
-        src={`/secure/reset.html?${search}`}
-      />
+      <div className={styles.formWrapper}>
+        <div className={styles.formInnerWrapper}>
+          <IframeForm
+            id="reset-password-form"
+            className={styles.changePasswordIframe}
+            title="Password change form"
+            src={`/secure/reset.html?${search}`}
+          />
+        </div>
+        <div className={styles.mainWarningWrapper} />
+      </div>
     </Card>
   )
 }
