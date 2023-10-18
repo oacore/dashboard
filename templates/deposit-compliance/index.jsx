@@ -63,7 +63,7 @@ const DepositComplianceTemplate = ({
   const checkBillingType = billingPlan?.billingType === 'sustaining'
 
   const renderItem = () => {
-    if (totalCount === 0) return <NotEnoughDataMessage />
+    if (totalCount === 0 && checkBillingType) return <NotEnoughDataMessage />
     if (!checkBillingType) {
       return (
         <AccessPlaceholder
