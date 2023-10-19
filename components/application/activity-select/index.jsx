@@ -38,6 +38,10 @@ const ActivitySelectOption = ({
     setSelectedSubMenu(item.id)
   }
 
+  const redirectClick = () => {
+    setShowSubMenu(false)
+  }
+
   return subMenu ? (
     <div>
       {/* eslint-disable-next-line max-len */}
@@ -96,32 +100,36 @@ const ActivitySelectOption = ({
       )}
     </div>
   ) : (
-    <div>
-      <Link
-        href={path.join('/data-providers/[data-provider-id]', value)}
-        as={path.join('/data-providers', String(dataProviderId), value)}
-        passHref
-      >
-        <Drawer.Item
-          className={styles[value]}
-          active={selected}
-          title={navigation.tooltips[value]}
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+    <div onClick={redirectClick}>
+      <div>
+        <Link
+          href={path.join('/data-providers/[data-provider-id]', value)}
+          as={path.join('/data-providers', String(dataProviderId), value)}
+          passHref
         >
-          <div className={styles.itemWrapper}>
-            {children || (
-              <>
-                <Icon
-                  className={styles.itemIcon}
-                  src={toIcon(value)}
-                  alt=""
-                  aria-hidden
-                />
-                {navigation.items[value]}
-              </>
-            )}
-          </div>
-        </Drawer.Item>
-      </Link>
+          <Drawer.Item
+            className={styles[value]}
+            active={selected}
+            title={navigation.tooltips[value]}
+          >
+            <div className={styles.itemWrapper}>
+              {children || (
+                <>
+                  <Icon
+                    className={styles.itemIcon}
+                    src={toIcon(value)}
+                    alt=""
+                    aria-hidden
+                  />
+                  {navigation.items[value]}
+                </>
+              )}
+            </div>
+          </Drawer.Item>
+        </Link>
+      </div>
     </div>
   )
 }

@@ -51,7 +51,7 @@ const Application = observer(
 
     const navigateToPage = () => {
       router.push(
-        `/data-providers/${dataProvider.id}/settings?referrer=uploadRef`
+        `/data-providers/${dataProvider.id}/repository?referrer=upload`
       )
     }
 

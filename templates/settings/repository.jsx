@@ -189,6 +189,23 @@ const RepositoryPageTemplate = observer(
       setRepositoryName(event.target.value)
     }
 
+    const renderRORWarning = () => {
+      if (
+        globalStore.organisation.rorId &&
+        globalStore.dataProvider.rorGlobalId &&
+        globalStore.organisation.rorId !== globalStore.dataProvider.rorGlobalId
+      ) {
+        return (
+          <div className={styles.warningWrapper}>
+            <img src={warning} alt="" />
+            The ROR ID for your organisation is different from the ROR ID for
+            your repository.
+          </div>
+        )
+      }
+      return null
+    }
+
     return (
       <Tag
         className={classNames.use(styles.container, className)}
@@ -274,11 +291,7 @@ const RepositoryPageTemplate = observer(
               </form>
             </div>
             <div className={styles.mainWarningWrapper}>
-              <div className={styles.warningWrapper}>
-                <img src={warning} alt="" />
-                The ROR ID for your organisation is different from the ROR ID
-                for your repository.
-              </div>
+              {renderRORWarning()}
             </div>
           </div>
           <Markdown className={styles.rorDescription}>
