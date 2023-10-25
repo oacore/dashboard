@@ -5,6 +5,7 @@ import styles from './styles.module.css'
 import HarvestingStatusCard from './cards/harvesting-status-card'
 import TypesList from './cards/types-list'
 import useTypes from './hooks/use-types'
+import HarvestingProgressCard from './cards/harvesting-progress'
 
 import Title from 'components/title'
 import { Card, Button } from 'design'
@@ -42,13 +43,16 @@ const HarvestingPageTemplate = ({
       {...restProps}
     >
       <Title hidden>{texts.title}</Title>
-      <HarvestingStatusCard
-        metadataCount={metadataCount}
-        lastHarvestingDate={harvestingStatus?.lastHarvestingDate || 0}
-        fullTextCount={fullTextCount}
-        errorsCount={typesCount}
-        total={total}
-      />
+      <div className={styles.harvestingWrapper}>
+        <HarvestingStatusCard
+          metadataCount={metadataCount}
+          lastHarvestingDate={harvestingStatus?.lastHarvestingDate || 0}
+          fullTextCount={fullTextCount}
+          errorsCount={typesCount}
+          total={total}
+        />
+        <HarvestingProgressCard />
+      </div>
 
       <Card className={styles.issuesCard}>
         <div className={styles.issuesCardHeader}>

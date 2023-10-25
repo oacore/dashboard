@@ -51,3 +51,9 @@ article:
       disabled: true
       icon: eye-off
       extraText: Click to enable
+
+progress:
+  title: Harvesting status
+  subTitle: Last sent request
+  description: CORE performs harvesting periodically. The frequency depends on a range of criteria including how often your repository is updated, its size and membership status. If there were issues with harvesting your repository which you feel have now been fixed, you may request re-harvesting.
+  action: Request
