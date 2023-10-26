@@ -106,3 +106,5 @@ const useNoteContext = () =>
 
 export default emailContext
 export { useFormAction, useFormContext, useNoteContext, useSync }
+export const { organisationId } = emailContext
+export { globalContext }

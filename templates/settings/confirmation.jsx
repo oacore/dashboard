@@ -41,14 +41,14 @@ const ConfirmationDeleteInvite = ({
   ) : null
 
   return (
-    <dev>
+    <div>
       <Icon
         src="#bin"
         className={styles.btnDelete}
         onClick={() => setModalActive(true)}
       />
       {modal}
-    </dev>
+    </div>
   )
 }
 

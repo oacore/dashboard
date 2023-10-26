@@ -10,3 +10,22 @@
 .email {
   color: var(--primary);
 }
+
+.form-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 20px;
+}
+
+.form-inner-wrapper {
+  flex: 1;
+}
+
+.form-inner-wrapper .change-password-iframe {
+  max-width: unset;
+}
+
+.main-warning-wrapper {
+  flex: 1;
+}

@@ -15,6 +15,10 @@ class DataProvider extends Resource {
 
   @observable name = ''
 
+  @observable rorGlobalName = ''
+
+  @observable rorGlobalId = ''
+
   @observable irus = null
 
   @observable rioxx = null
@@ -150,6 +154,16 @@ class DataProvider extends Resource {
 
   setOutputData(data) {
     this.outputData = data
+  }
+
+  @action
+  setGlobalRorName = (value) => {
+    this.rorGlobalName = value
+  }
+
+  @action
+  setGlobalRorId = (value) => {
+    this.rorGlobalId = value
   }
 
   @action

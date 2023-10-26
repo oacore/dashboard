@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 
-import MembershipPageTemplate from 'templates/membership'
+import DocumentationPageTemplate from '../../../templates/membership/documentation'
+
 import { withGlobalStore } from 'store'
 import retrieveContent from 'content'
 
 const ASSETS_BASE_URL = 'https://oacore.github.io/content/'
 
-const MembershipPage = ({ store: { dataProvider }, ...props }) => {
+const DocumentationPage = ({ store: { dataProvider }, ...props }) => {
   const [stateData, setStateData] = useState({})
 
   const setAssetsUrl = (object) => {
@@ -47,7 +48,7 @@ const MembershipPage = ({ store: { dataProvider }, ...props }) => {
   }
 
   return (
-    <MembershipPageTemplate
+    <DocumentationPageTemplate
       membershipPlan={dataProvider.membershipPlan}
       {...props}
       {...stateData}
@@ -55,4 +56,4 @@ const MembershipPage = ({ store: { dataProvider }, ...props }) => {
   )
 }
 
-export default withGlobalStore(MembershipPage)
+export default withGlobalStore(DocumentationPage)

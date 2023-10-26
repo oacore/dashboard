@@ -29,6 +29,7 @@ const config = {
     'sentry.io',
     '*.google-analytics.com',
     'api.github.com:*',
+    '*.ror.org',
     'raw.githubusercontent.com:*',
     '*.googletagmanager.com',
   ],
