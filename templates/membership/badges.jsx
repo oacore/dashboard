@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { observer } from 'mobx-react-lite'
 
 import { Card } from '../../design'
-import styles from './styles.module.css'
+import styles from '../settings/styles.module.css'
 import { useScrollEffect } from '../../pages/_app/hooks'
 
 const BadgesPageTemplate = observer(

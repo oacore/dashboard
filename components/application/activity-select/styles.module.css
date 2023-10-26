@@ -114,6 +114,10 @@
 }
 
 .setting-item-wrapper {
+  padding-bottom: 5px;
+}
+
+.setting-item-wrapper-border {
   width: 100%;
   padding-top: 10px;
   border-top: 1px solid var(--gray-300);

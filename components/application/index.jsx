@@ -38,9 +38,15 @@ const Application = observer(
     const siderRef = useRef(null)
     const [redirect, setRedirect] = useState(false)
     const [showNotification, setShowNotification] = useState(false)
-    const [showSubMenu, setShowSubMenu] = useState(false)
     const router = useRouter()
     const { notifications, refetch } = useNotification(userID)
+    const [showSubMenuState, setShowSubMenuState] = useState({})
+    const handleShowSubMenu = (key) => {
+      setShowSubMenuState((prevState) => ({
+        ...prevState,
+        [key]: !prevState[key] || false,
+      }))
+    }
     const handleShowNotification = () => {
       setShowNotification(!showNotification)
     }
@@ -222,8 +228,9 @@ const Application = observer(
                             selected={test(pathname)}
                             dataProviderId={dataProvider.id}
                             subMenu={children}
-                            showSubMenu={showSubMenu}
-                            setShowSubMenu={setShowSubMenu}
+                            showSubMenu={showSubMenuState[path] || false}
+                            setShowSubMenu={() => handleShowSubMenu(path)}
+                            setShowSubMenuState={setShowSubMenuState}
                           />
                         ))}
                       {/* eslint-disable-next-line max-len */}

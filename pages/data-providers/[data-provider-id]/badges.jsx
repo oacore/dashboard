@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import BadgesPageTemplate from '../../../templates/settings/badges'
+import BadgesPageTemplate from '../../../templates/membership/badges'
 import retrieveContent from '../../../content'
 
 import { withGlobalStore } from 'store'

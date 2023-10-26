@@ -50,6 +50,16 @@ const GeneralPageTemplate = observer(
     const [isNameOpen, setNameIsOpen] = useState(false)
     const [isIdOpen, setIdIsOpen] = useState(false)
 
+    const [showAllInvites, setShowAllInvites] = useState(false)
+
+    const displayedInviteCodes = showAllInvites
+      ? inviteCodes
+      : inviteCodes.slice(0, 5)
+
+    const toggleShowAllInvites = () => {
+      setShowAllInvites(!showAllInvites)
+    }
+
     useEffect(() => {
       fetch(`https://api.ror.org/organizations?query=${rorId}`)
         .then((response) => response.json())
@@ -270,31 +280,44 @@ const GeneralPageTemplate = observer(
                   />
                 </FormShell>
                 <Card.Title tag="h4">{content.invite.listAccess}</Card.Title>
-                {inviteCodes.map((item) => (
-                  // {organisationUserInvites.map((item) => (
-                  <div className={classNames.use(styles.invitationUserDelete)}>
+                <>
+                  {displayedInviteCodes.map((item) => (
+                    // {organisationUserInvites.map((item) => (
                     <div
-                      id={`invite-${item.email}`}
-                      className={classNames.use(styles.inviteEmail)}
+                      className={classNames.use(styles.invitationUserDelete)}
                     >
-                      {item.email}
+                      <div
+                        id={`invite-${item.email}`}
+                        className={classNames.use(styles.inviteEmail)}
+                      >
+                        {item.email}
+                      </div>
+                      <div
+                        id={`invite-${item.activated}`}
+                        className={classNames.use(styles.inviteStatus, {
+                          [styles.inviteActivated]: item.activated,
+                        })}
+                      >
+                        {item.activated ? 'activated' : 'not activated'}
+                      </div>
+                      <ConfirmationDeleteInvite
+                        text={content.invite.confirmation}
+                        item={item}
+                        submitConfirm={delInviter}
+                        removeElement={removeElement}
+                      />
                     </div>
-                    <div
-                      id={`invite-${item.activated}`}
-                      className={classNames.use(styles.inviteStatus, {
-                        [styles.inviteActivated]: item.activated,
-                      })}
+                  ))}
+                  {inviteCodes.length > 5 && (
+                    <Button
+                      className={styles.showBtn}
+                      variant="outlined"
+                      onClick={toggleShowAllInvites}
                     >
-                      {item.activated ? 'activated' : 'not activated'}
-                    </div>
-                    <ConfirmationDeleteInvite
-                      text={content.invite.confirmation}
-                      item={item}
-                      submitConfirm={delInviter}
-                      removeElement={removeElement}
-                    />
-                  </div>
-                ))}
+                      {showAllInvites ? 'Show Less' : 'Show More'}
+                    </Button>
+                  )}
+                </>
               </div>
               <div className={styles.mainWarningWrapper} />
             </div>

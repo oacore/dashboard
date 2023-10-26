@@ -29,8 +29,8 @@ const UploadSection = ({
   >
     <Card.Title tag="h2">{content.upload.title}</Card.Title>
     <div className={styles.uploadContainer}>
-      <Card.Description className={styles.uploadDescription} tag="div">
-        {isStartingMember && (
+      {isStartingMember && (
+        <Card.Description className={styles.uploadDescription} tag="div">
           <>
             <Markdown className={styles.uploadNote}>
               {content.upload.memberNote.title}
@@ -42,8 +42,8 @@ const UploadSection = ({
               {content.upload.memberNote.action.caption}
             </Button>
           </>
-        )}
-      </Card.Description>
+        </Card.Description>
+      )}
       <div className={styles.uploadWrapper}>
         <div className={styles.uploadText}>
           <Markdown>{content.upload.description}</Markdown>

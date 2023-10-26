@@ -43,7 +43,7 @@ const DashboardGuide = ({ dataProviderData, modal, placement, tutorial }) => {
   }
 
   const navigateToInvite = () => {
-    window.location = `/data-providers/${dataProviderData.id}/general?referrer=invite`
+    window.location = `/data-providers/${dataProviderData.id}/organisational?referrer=invite`
   }
 
   return shouldRender ? (

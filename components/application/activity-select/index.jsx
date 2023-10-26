@@ -26,12 +26,14 @@ const ActivitySelectOption = ({
   dataProviderId,
   showSubMenu,
   setShowSubMenu,
+  setShowSubMenuState,
 }) => {
   const [selectedSubMenu, setSelectedSubMenu] = useState(null)
   const router = useRouter()
 
   const handleSubMenu = () => {
     setShowSubMenu(!showSubMenu)
+    setSelectedSubMenu(null)
   }
 
   const handleSubMenuClick = (item) => {
@@ -39,7 +41,7 @@ const ActivitySelectOption = ({
   }
 
   const redirectClick = () => {
-    setShowSubMenu(false)
+    setShowSubMenuState(false)
   }
 
   return subMenu ? (
@@ -51,7 +53,11 @@ const ActivitySelectOption = ({
           className={styles.settingsMenuItem}
           title={navigation.tooltips[value]}
         >
-          <div className={styles.settingItemWrapper}>
+          <div
+            className={classNames.use(styles.settingItemWrapper, {
+              [styles.settingItemWrapperBorder]: value === 'settings',
+            })}
+          >
             {children || (
               <div className={styles.menuItem}>
                 <div>
@@ -82,6 +88,7 @@ const ActivitySelectOption = ({
               href={path.join('/data-providers/[data-provider-id]', item.id)}
               as={path.join('/data-providers', String(dataProviderId), item.id)}
               passHref
+              key={item.id}
             >
               {/* eslint-disable-next-line max-len */}
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
