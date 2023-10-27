@@ -1,0 +1,148 @@
+.label-box {
+  margin-top: 24px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--gray-600);
+  text-align: left;
+  letter-spacing: 0.0016em;
+}
+
+.checkbox {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  background: #fff;
+  border: 2px var(--gray-600) solid;
+  border-radius: 2px;
+}
+
+.label {
+  display: grid;
+}
+
+.disabled {
+  display: none;
+}
+
+.radio-top-label {
+  margin-bottom: 10px;
+}
+
+.radio-form-check {
+  margin-bottom: 5px;
+}
+
+.radio-label {
+  margin-left: 8px;
+}
+
+/* styles.module.css */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label {
+  margin-left: 16px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #424242;
+  letter-spacing: 0.042px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.custom-checkbox.checked {
+  background-color: #b75400;
+}
+
+.checkbox-input {
+  display: none;
+}
+
+.checkmark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-weight: 800;
+  color: #fff;
+  visibility: hidden;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-input:checked + .custom-checkbox {
+  background-color: #b75400;
+}
+
+.checkbox-input:checked + .custom-checkbox .checkmark {
+  visibility: visible;
+}
+
+.radio-input {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  transition: border-color 0.3s, background-color 0.3s;
+  appearance: none;
+}
+
+.radio-input:checked {
+  background: #fff;
+  border-color: #b75400;
+}
+
+.radio-input:checked::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  content: '';
+  background: #b75400;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  transform: translate(-50%, -50%);
+}
+
+.notification-type-text {
+  margin-left: 15px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #424242;
+}
+
+.option-wrapper {
+  margin-left: 40px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+}
+
+.option:not(:last-child) {
+  margin-bottom: 24px;
+}

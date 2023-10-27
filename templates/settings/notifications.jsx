@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { Card, Switch, useSwitch } from '../../design'
+import { Card } from '../../design'
 import styles from './styles.module.css'
 import content from '../../texts/settings'
 import notification from './assets/notification.svg'
+import Notification from './cards/notification'
 
 const NotificationsPageTemplate = () => {
-  const [checked, setChecked] = useSwitch(false)
+  const [switches, setSwitches] = useState({
+    harvestingSwitch: false,
+    deduplicationSwitch: false,
+  })
 
-  const toggleResolving = () => {
-    setChecked(!checked)
+  const toggleSwitch = (switchName) => {
+    setSwitches((prevSwitches) => ({
+      ...prevSwitches,
+      [switchName]: !prevSwitches[switchName],
+    }))
   }
 
   return (
@@ -26,36 +33,42 @@ const NotificationsPageTemplate = () => {
             </span>
           </div>
         </div>
-        <div className={styles.notificationContainer}>
-          <Switch
-            className={styles.toggler}
-            // id="activated"
-            checked={checked}
-            onChange={toggleResolving}
-            label={content.notifications.types.type}
+        <span className={styles.headerSubTitle}>
+          {content.notifications.subTitle}
+        </span>
+        <div className={styles.mainWrapper}>
+          <Notification
+            label={
+              <span className={styles.switchTitle}>
+                {content.notifications.types.harvesting.type}
+              </span>
+            }
+            title={content.notifications.types.harvesting.notifyOne}
+            subTitle={content.notifications.types.harvesting.notifyTwo}
+            options={Object?.values(
+              content.notifications.types.harvesting.items
+            )}
+            checked={switches.harvestingSwitch}
+            onChange={() => toggleSwitch('harvestingSwitch')}
+            id="harvesting"
+            name="harvestingOptions"
           />
-          <div className={styles.cardWrapper}>
-            <div className={styles.typeWrapper}>
-              <input type="checkbox" />
-              <span className={styles.notificationTypeText}>
-                {content.notifications.types.notifyOne}
+          <Notification
+            label={
+              <span className={styles.switchTitle}>
+                {content.notifications.types.deduplication.type}
               </span>
-            </div>
-            <div className={styles.typeWrapper}>
-              <input type="checkbox" />
-              <span className={styles.notificationTypeText}>
-                {content.notifications.types.notifyTwo}
-              </span>
-            </div>
-            <div className={styles.optionWrapper}>
-              {Object.values(content.notifications.types.items).map((item) => (
-                <div className={styles.option}>
-                  <input type="radio" />
-                  <span className={styles.notificationTypeText}>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+            }
+            title={content.notifications.types.deduplication.notifyOne}
+            subTitle={content.notifications.types.deduplication.notifyTwo}
+            options={Object?.values(
+              content.notifications.types.deduplication.items
+            )}
+            checked={switches.deduplicationSwitch}
+            onChange={() => toggleSwitch('deduplicationSwitch')}
+            id="deduplication"
+            name="deduplicationOptions"
+          />
         </div>
       </Card>
     </>

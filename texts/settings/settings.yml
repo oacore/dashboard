@@ -56,6 +56,8 @@ upload:
 notifications:
   title: Email notifications
   subAction: Turn off all notification
+  subTitle: |
+    Email me about updates in the next topics:
   messages:
     success: Harvesting has been successfully completed.
     issue: Harvesting was not completed because of issues that required your actions.
@@ -77,18 +79,20 @@ notifications:
       title: OK
       variant: outlined
   types:
-    type: Harvesting
-    notifyOne: Notify me whenever harvesting has completed.
-    notifyTwo: Send me a Harvesting Report.
-    items:
-      month: Every month
-      quarter: Every 3 months
-      half: Every 6 months
-#  - type: Deduplication
-#    notify: Notify me whenever a new deduplication has completed.
-#    notifyTwo: Send me a Deduplication Report.
-#    items:
-#      month: Every month
-#      quarter: Every 3 months
-#      half: Every 6 months
+    harvesting:
+      type: Harvesting
+      notifyOne: Notify me when harvesting process completed.
+      notifyTwo: Send me a Harvesting Report email.
+      items:
+        month: Every month
+        quarter: Every 3 months
+        half: Every 6 months
+    deduplication:
+      type: Deduplication
+      notifyOne: Notify me whenever a new deduplication has completed.
+      notifyTwo: Send me a Deduplication Report.
+      items:
+        month: Every month
+        quarter: Every 3 months
+        half: Every 6 months
 
