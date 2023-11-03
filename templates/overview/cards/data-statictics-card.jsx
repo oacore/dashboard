@@ -109,7 +109,7 @@ const DataStatisticsCard = ({
           }))}
         />
       ) : (
-        <p>No compliance-aggregate for repository</p>
+        <p>There is not enough historical data to display on a chart.</p>
       )}
     </OverviewCard>
   )
