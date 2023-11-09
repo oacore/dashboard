@@ -134,9 +134,13 @@
   width: 23px;
   height: 23px;
   margin-right: 8px;
-  background: #b75400;
+  background: #fff;
   border: 2px solid #b75400;
   border-radius: 50%;
+}
+
+.progress-circle-active {
+  background: #b75400;
 }
 
 .progress-text {
@@ -144,8 +148,12 @@
   font-style: normal;
   font-weight: 500;
   line-height: 24px;
-  color: #212121;
+  color: #9e9e9e;
   letter-spacing: 0.024px;
+}
+
+.progress-text-active {
+  color: #212121;
 }
 
 .issues-card {

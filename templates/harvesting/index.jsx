@@ -51,7 +51,7 @@ const HarvestingPageTemplate = ({
           errorsCount={typesCount}
           total={total}
         />
-        <HarvestingProgressCard />
+        <HarvestingProgressCard harvestingStatus={harvestingStatus} />
       </div>
 
       <Card className={styles.issuesCard}>
