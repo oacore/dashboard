@@ -1,10 +1,8 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from './styles.module.css'
+import styles from '../settings/styles.module.css'
 import MembershipCard from './card'
-// import MembershipDocumentationPage from '../../pages/documentation'
-import DocumentationBlockTemplate from './docs'
 
 import textData from 'texts/memership'
 import TextBox from 'components/text-box'
@@ -18,12 +16,12 @@ const MembershipPageTemplate = ({
   ...restProps
 }) => (
   <Tag
-    className={classNames.use(styles.container).join(className)}
+    className={classNames.use(styles.memberContainer).join(className)}
     {...restProps}
   >
     <header className={styles.header}>
       <h1 className={styles.title}>{textData.title}</h1>
-      <p className={styles.description}>{textData.description}</p>
+      <p className={styles.memberDescription}>{textData.description}</p>
     </header>
     <article className={styles.content}>
       <div className={styles.cards}>
@@ -46,12 +44,6 @@ const MembershipPageTemplate = ({
         description={textData.box.text}
         buttonCaption={textData.box.action.caption}
         buttonUrl={textData.box.action.url}
-      />
-    </article>
-    <article className={styles.content}>
-      <DocumentationBlockTemplate
-        headerDashboard={headerDashboard}
-        docs={docs}
       />
     </article>
   </Tag>

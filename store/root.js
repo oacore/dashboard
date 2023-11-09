@@ -108,6 +108,11 @@ class Root extends Store {
   }
 
   @computed
+  get organisationId() {
+    return this.organisation ? this.organisation.id : ''
+  }
+
+  @computed
   get dataProviders() {
     // The current data provider can be loaded asynchronously to the user's
     // ones. Hence, we filter to remove this possible duplicate
@@ -127,11 +132,10 @@ class Root extends Store {
     try {
       await this.user.retrieve()
     } catch (unauthorizedError) {
-      if (!this.options.allowAnonymousAccess)
+      if (!this?.options?.allowAnonymousAccess)
         throw new AuthorizationError('Anonymous users are not allowed')
     }
     this.invitation = new Invitation(process.env.API_URL, this.options)
-
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
     await this.organisation.listUserInvites()
     await this.organisation.retrieve()
@@ -158,6 +162,7 @@ class Root extends Store {
     }
 
     const dataProviderInit = this.findDataProvider(id)
+
     this.dataProvider = new DataProvider(dataProviderInit, {
       ...this.options,
       prefetch: true,
@@ -185,14 +190,21 @@ class Root extends Store {
   @action
   updateDataProvider = async (patch) => {
     try {
+      const { ...body } = patch
+
       const url = `/data-providers/${this.dataProvider.id}`
       const { data } = await this.options.request(url, {
         method: 'PATCH',
-        body: patch,
+        body,
       })
       Object.assign(this.dataProvider, data)
       return {
         message: 'Settings were updated successfully!',
+        data: {
+          ror_id: data.ror_id,
+          rorName: data.rorName,
+          name: data.name,
+        },
       }
     } catch (networkOrAccessError) {
       return {
@@ -224,11 +236,30 @@ class Root extends Store {
   }
 
   @action
-  updateOrganization = (patch) => {
-    const { name: institution } = patch
-    return this.updateDataProvider({ institution })
+  updateOrganization = async (patch) => {
+    try {
+      const { ...body } = patch
 
-    // TODO: Should be a method without cross-call to another method
+      const url = `/organisations/${this.organisationId}`
+      const { data } = await this.options.request(url, {
+        method: 'PATCH',
+        body,
+      })
+      Object.assign(this.organisation, data)
+
+      return {
+        message: 'Settings were updated successfully!',
+        data: {
+          ror_id: data.ror_id,
+          rorName: data.rorName,
+          name: data.name,
+        },
+      }
+    } catch (networkOrAccessError) {
+      return {
+        message: 'Something went wrong. Please try again later!',
+      }
+    }
   }
 
   async sendContactRequest(data) {

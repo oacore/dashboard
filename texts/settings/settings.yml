@@ -1,7 +1,8 @@
-title: Settings
+title: Organisational settings
 
 organisation:
   title: Your organisation
+  rordescription: A ROR id is an identifier for the organisation connected with the repository. To search for ROR ids you can head to [https://ror.org/](https://ror.org)
 
 invite:
   title: Invite colleagues to the repository dashboard
@@ -13,7 +14,7 @@ invite:
       Access to the dashboard will be removed to user <span>{{email}}</span>. Do you want to proceed?
 
 repository:
-  title: Repository settings
+  title: Your repository
 
 mapping:
   title: Register OAI mapping
@@ -36,8 +37,9 @@ mapping:
 upload:
   title: Upload logo
   description: |
-        You can now upload your official logo to make it easier for users to identify your content.
-        The logo will be displayed next to your content in searches, in the CORE reader and on your data provider’s page.
+    You can now upload your official logo to make it easier for users to identify your content. The logo will be displayed next to your content in searches, in the CORE reader and on your data provider’s page.
+
+    **Note**: This option available only for Supporting and Sustaining members
   imageCaption: 100х100, png, jpg.
   buttonCaptions:
     save: Save
@@ -46,9 +48,9 @@ upload:
     change: Change
   deleteCaption: Are you sure you want to remove the logo?
   memberNote:
-    title: "Become a Supporting Member to get your logos promoted in CORE Search and across the CORE ecosystem."
+    title: Become a Supporting Member to get your logos promoted in CORE Search and across the CORE ecosystem.
     action:
-      caption: Join CORE Membership
+      caption: Become a Supporting Member
       url: 'https://core.ac.uk/membership'
 
 notifications:

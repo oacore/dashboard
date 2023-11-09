@@ -40,6 +40,13 @@ const Application = observer(
     const [showNotification, setShowNotification] = useState(false)
     const router = useRouter()
     const { notifications, refetch } = useNotification(userID)
+    const [showSubMenuState, setShowSubMenuState] = useState({})
+    const handleShowSubMenu = (key) => {
+      setShowSubMenuState((prevState) => ({
+        ...prevState,
+        [key]: !prevState[key] || false,
+      }))
+    }
     const handleShowNotification = () => {
       setShowNotification(!showNotification)
     }
@@ -50,7 +57,7 @@ const Application = observer(
 
     const navigateToPage = () => {
       router.push(
-        `/data-providers/${dataProvider.id}/settings?referrer=uploadRef`
+        `/data-providers/${dataProvider.id}/repository?referrer=upload`
       )
     }
 
@@ -213,12 +220,17 @@ const Application = observer(
                     <ActivitySelect>
                       {activities.routes
                         .filter((activity) => activity.parent == null)
-                        .map(({ path, test }) => (
+                        // eslint-disable-next-line no-shadow
+                        .map(({ path, test, children }) => (
                           <ActivitySelect.Option
                             key={path}
                             value={path}
                             selected={test(pathname)}
                             dataProviderId={dataProvider.id}
+                            subMenu={children}
+                            showSubMenu={showSubMenuState[path] || false}
+                            setShowSubMenu={() => handleShowSubMenu(path)}
+                            setShowSubMenuState={setShowSubMenuState}
                           />
                         ))}
                       {/* eslint-disable-next-line max-len */}
