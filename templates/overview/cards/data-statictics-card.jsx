@@ -70,7 +70,7 @@ const DataStatisticsCard = ({
     <OverviewCard className={styles.infoCard} {...restProps}>
       <div className={styles.cardHeader}>
         <Card.Title tag="h2">{text.title}</Card.Title>
-        {barChartValues.length > 5 && (
+        {barChartValues.length >= 2 && (
           <ActionsBar
             activeType={activeType}
             onSetActiveType={onSetActiveType}
@@ -98,7 +98,7 @@ const DataStatisticsCard = ({
           />
         )}
       </div>
-      {barChartValues.length > 5 ? (
+      {barChartValues.length >= 2 ? (
         <AreaChart
           data={barChartValues.map(({ date, value }) => ({
             'name': formatDate(date, {
