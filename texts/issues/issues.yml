@@ -57,3 +57,19 @@ progress:
   subTitle: Last sent request
   description: CORE performs harvesting periodically. The frequency depends on a range of criteria including how often your repository is updated, its size and membership status. If there were issues with harvesting your repository which you feel have now been fixed, you may request re-harvesting.
   action: Request
+
+type:
+  scheduled:
+    title: Scheduled
+    tooltip: Your request for reharvesting has been submitted. Our team will review the request and submit your repository for reharvesting. After this status will change to “In progress”
+    success: Thank you for the request, a member of our team will look into it and schedule a new harvesting manually if needed.
+  progress:
+    title: In progress
+    tooltip: Your repository is harvesting now. This process can take 1-2 weeks (depends on size of your repository). After harvesting completed status will changed to finished.
+    success: Thank you for the request, our recommendation is to wait until completion of the current harvesting process. Please allow up to a week, if there is still an issue [contact us]() or send another harvesting request.
+  finished:
+    title: Finished
+    tooltip: Reharvesting of your repository is finished.
+    success: Thank you for the request. The latest harvesting has completed and it might take a few days for the changes to propagate to the dashboard. Please allow a few days. If you still have an issue [contact us]() or send another harvesting request
+  error:
+    success: We are currently unable to process your request, please [contact us]() if you have any issue.

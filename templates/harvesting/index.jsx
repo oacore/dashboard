@@ -24,6 +24,7 @@ const HarvestingPageTemplate = ({
   fullTextCount,
   total,
   downloadResults,
+  sendHarvestingRequest,
   issues,
   typesCount,
   ...restProps
@@ -51,7 +52,10 @@ const HarvestingPageTemplate = ({
           errorsCount={typesCount}
           total={total}
         />
-        <HarvestingProgressCard harvestingStatus={harvestingStatus} />
+        <HarvestingProgressCard
+          harvestingStatus={harvestingStatus}
+          sendHarvestingRequest={sendHarvestingRequest}
+        />
       </div>
 
       <Card className={styles.issuesCard}>
