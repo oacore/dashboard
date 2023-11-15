@@ -323,14 +323,10 @@ class Root extends Store {
 
   @action
   sendHarvestingRequest = async () => {
-    try {
-      const url = `/data-providers/${this.dataProvider.id}/harvesting/request`
-      await this.request(url, {
-        method: 'POST',
-      })
-    } catch (networkOrAccessError) {
-      console.error('Error sending harvesting request:', networkOrAccessError)
-    }
+    const url = `/data-providers/${this.dataProvider.id}/f/request`
+    await this.request(url, {
+      method: 'POST',
+    })
   }
 }
 
