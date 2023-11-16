@@ -323,7 +323,7 @@ class Root extends Store {
 
   @action
   sendHarvestingRequest = async () => {
-    const url = `/data-providers/${this.dataProvider.id}/f/request`
+    const url = `/data-providers/${this.dataProvider.id}/harvesting/request`
     await this.request(url, {
       method: 'POST',
     })
