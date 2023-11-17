@@ -1,78 +1,203 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
 
 import { Card } from '../../design'
 import styles from './styles.module.css'
 import content from '../../texts/settings'
 import notification from './assets/notification.svg'
-import Notification from './cards/notification'
+import HarvestingNotification from './cards/harvestingNotification'
+import DeduplicationNotification from './cards/dedupliactionNotifications'
 
-const NotificationsPageTemplate = () => {
-  const [switches, setSwitches] = useState({
-    harvestingSwitch: false,
-    deduplicationSwitch: false,
-  })
+const NotificationsPageTemplate = observer(
+  ({
+    updateNotifications,
+    userId,
+    organisationId,
+    dataProviderId,
+    deleteNotifications,
+    getNotifications,
+    harvestNotifications,
+    deduplicationNotifications,
+  }) => {
+    const [harvestingSwitch, setHarvestingSwitch] = useState(false)
 
-  const toggleSwitch = (switchName) => {
-    setSwitches((prevSwitches) => ({
-      ...prevSwitches,
-      [switchName]: !prevSwitches[switchName],
-    }))
-  }
+    const [deduplicationSwitch, setDeduplicationSwitch] = useState(false)
 
-  return (
-    <>
-      {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
-      <h1 className={styles.settingCardTitle} />
-      <Card className={styles.section} tag="section">
-        <div className={styles.headerWrapper}>
-          <Card.Title tag="h2">{content.notifications.title}</Card.Title>
-          <div className={styles.notificationWrapper}>
-            <img src={notification} alt={content.notifications.title} />
-            <span className={styles.notificationText}>
-              {content.notifications.subAction}
-            </span>
+    const handleHarvestingOptionDelete = async () => {
+      await deleteNotifications(
+        {
+          organisationId,
+          userId,
+          type: 'harvest-completed',
+        },
+        'harvest-completed'
+      )
+      setHarvestingSwitch(false)
+    }
+
+    const handleDeduplicationOptionDelete = async () => {
+      await deleteNotifications(
+        {
+          organisationId,
+          userId,
+          type: 'deduplication-completed',
+        },
+        'deduplication-completed'
+      )
+      setDeduplicationSwitch(false)
+    }
+
+    const handleDelete = () => {
+      handleHarvestingOptionDelete()
+      handleDeduplicationOptionDelete()
+    }
+
+    const toggleHarvestingSwitch = () => {
+      setHarvestingSwitch((prevSwitch) => {
+        const newSwitch = !prevSwitch
+        if (!newSwitch) handleHarvestingOptionDelete()
+        return newSwitch
+      })
+    }
+
+    const toggleDeduplicationSwitch = () => {
+      setDeduplicationSwitch((prevSwitch) => {
+        const newSwitch = !prevSwitch
+        if (!newSwitch) handleDeduplicationOptionDelete()
+        return newSwitch
+      })
+    }
+
+    const handleHarvestingOptionChange = async (newSelectedOption) => {
+      await updateNotifications(
+        {
+          organisationId,
+          type: 'harvest-completed',
+          datetimeInterval: newSelectedOption,
+        },
+        'harvest-completed'
+      )
+    }
+
+    const handleDeduplicationOptionChange = async (newSelectedOption) => {
+      await updateNotifications(
+        {
+          organisationId,
+          userId,
+          type: 'deduplication-completed',
+          datetimeInterval: newSelectedOption,
+        },
+        'deduplication-completed'
+      )
+    }
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          await getNotifications(userId, organisationId, 'harvest-completed')
+        } catch (error) {
+          console.error('Error fetching notifications:', error)
+        }
+      }
+
+      fetchData()
+    }, [])
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          await getNotifications(
+            userId,
+            organisationId,
+            'deduplication-completed'
+          )
+        } catch (error) {
+          console.error('Error fetching notifications:', error)
+        }
+      }
+
+      fetchData()
+    }, [])
+
+    useEffect(() => {
+      setHarvestingSwitch(
+        harvestNotifications?.data[0]?.type === 'harvest-completed'
+      )
+    }, [harvestNotifications])
+
+    useEffect(() => {
+      setDeduplicationSwitch(
+        deduplicationNotifications?.data[0]?.type === 'deduplication-completed'
+      )
+    }, [deduplicationNotifications])
+
+    return (
+      <>
+        {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
+        <h1 className={styles.settingCardTitle} />
+        <Card className={styles.section} tag="section">
+          <div className={styles.headerWrapper}>
+            <Card.Title tag="h2">{content.notifications.title}</Card.Title>
+            {/* eslint-disable-next-line max-len */}
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+            <div onClick={handleDelete} className={styles.notificationWrapper}>
+              <img src={notification} alt={content.notifications.title} />
+              <span className={styles.notificationText}>
+                {content.notifications.subAction}
+              </span>
+            </div>
           </div>
-        </div>
-        <span className={styles.headerSubTitle}>
-          {content.notifications.subTitle}
-        </span>
-        <div className={styles.mainWrapper}>
-          <Notification
-            label={
-              <span className={styles.switchTitle}>
-                {content.notifications.types.harvesting.type}
-              </span>
-            }
-            title={content.notifications.types.harvesting.notifyOne}
-            subTitle={content.notifications.types.harvesting.notifyTwo}
-            options={Object?.values(
-              content.notifications.types.harvesting.items
-            )}
-            checked={switches.harvestingSwitch}
-            onChange={() => toggleSwitch('harvestingSwitch')}
-            id="harvesting"
-            name="harvestingOptions"
-          />
-          <Notification
-            label={
-              <span className={styles.switchTitle}>
-                {content.notifications.types.deduplication.type}
-              </span>
-            }
-            title={content.notifications.types.deduplication.notifyOne}
-            subTitle={content.notifications.types.deduplication.notifyTwo}
-            options={Object?.values(
-              content.notifications.types.deduplication.items
-            )}
-            checked={switches.deduplicationSwitch}
-            onChange={() => toggleSwitch('deduplicationSwitch')}
-            id="deduplication"
-            name="deduplicationOptions"
-          />
-        </div>
-      </Card>
-    </>
-  )
-}
+          <span className={styles.headerSubTitle}>
+            {content.notifications.subTitle}
+          </span>
+          <div className={styles.mainWrapper}>
+            <HarvestingNotification
+              label={
+                <span className={styles.switchTitle}>
+                  {content.notifications.types.harvesting.type}
+                </span>
+              }
+              title={content.notifications.types.harvesting.notifyOne}
+              subTitle={content.notifications.types.harvesting.notifyTwo}
+              options={Object?.values(
+                content.notifications.types.harvesting.radio
+              )}
+              checked={harvestingSwitch}
+              onChange={toggleHarvestingSwitch}
+              id="harvesting"
+              name="harvesting"
+              updateNotifications={updateNotifications}
+              handleOptionChange={handleHarvestingOptionChange}
+              dataProviderId={dataProviderId}
+              harvestNotifications={harvestNotifications}
+              deduplicationNotifications={deduplicationNotifications}
+            />
+            <DeduplicationNotification
+              label={
+                <span className={styles.switchTitle}>
+                  {content.notifications.types.deduplication.type}
+                </span>
+              }
+              title={content.notifications.types.deduplication.notifyOne}
+              subTitle={content.notifications.types.deduplication.notifyTwo}
+              options={Object?.values(
+                content.notifications.types.deduplication.radio
+              )}
+              checked={deduplicationSwitch}
+              onChange={toggleDeduplicationSwitch}
+              id="deduplication"
+              name="deduplication"
+              updateNotifications={updateNotifications}
+              handleOptionChange={handleDeduplicationOptionChange}
+              dataProviderId={dataProviderId}
+              harvestNotifications={harvestNotifications}
+              deduplicationNotifications={deduplicationNotifications}
+            />
+          </div>
+        </Card>
+      </>
+    )
+  }
+)
 
 export default NotificationsPageTemplate

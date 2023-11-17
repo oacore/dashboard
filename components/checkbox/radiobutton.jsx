@@ -1,21 +1,50 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 
-function RadioGroup({ options, selectedOption, onChange, name }) {
+const RadioGroup = ({
+  options,
+  onChange,
+  name,
+  checkedStatus,
+  notificationData,
+}) => {
+  const [selectedOption, setSelectedOption] = useState(false)
+
+  const handleRadioChange = (e) => {
+    setSelectedOption(e.currentTarget.value)
+    onChange(e.currentTarget.value)
+  }
+
+  useEffect(() => {
+    setSelectedOption(notificationData?.data[0]?.datetimeInterval)
+  }, [notificationData])
+
   return (
     <div className={styles.optionWrapper}>
       {options.map((item) => (
-        <div className={styles.option} key={item}>
-          <input
-            className={styles.radioInput}
-            name={name}
-            type="radio"
-            value={item}
-            checked={selectedOption === item}
-            onChange={() => onChange(item)}
-          />
-          <span className={styles.notificationTypeText}>{item}</span>
+        <div className={styles.option} key={item.key}>
+          {checkedStatus ? (
+            <input
+              className={classNames.use(styles.radioInput, {
+                [styles.checked]: checkedStatus,
+              })}
+              name={name}
+              type="radio"
+              value={item.key}
+              checked={selectedOption === item.key}
+              onChange={handleRadioChange}
+            />
+          ) : (
+            <input
+              disabled={!checkedStatus}
+              className={styles.radioInput}
+              name={name}
+              type="radio"
+            />
+          )}
+          <span className={styles.notificationTypeText}>{item.title}</span>
         </div>
       ))}
     </div>

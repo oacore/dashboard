@@ -74,7 +74,7 @@ notifications:
      variant: outlined
   noNotifications:
     title: You have no new notifications.
-    description: Here you will see notifications about events in your repository.
+    description: Here you will see TABS.validation about events in your repository.
     action:
       title: OK
       variant: outlined
@@ -83,16 +83,21 @@ notifications:
       type: Harvesting
       notifyOne: Notify me when harvesting process completed.
       notifyTwo: Send me a Harvesting Report email.
-      items:
-        month: Every month
-        quarter: Every 3 months
-        half: Every 6 months
+      radio:
+        - title: Every month
+          key: every month
+        - title: Every 3 months
+          key: 3 month
+        - title: Every 6 months
+          key: 6 month
     deduplication:
       type: Deduplication
       notifyOne: Notify me whenever a new deduplication has completed.
       notifyTwo: Send me a Deduplication Report.
-      items:
-        month: Every month
-        quarter: Every 3 months
-        half: Every 6 months
-
+      radio:
+        - title: Every month
+          key: every month
+        - title: Every 3 months
+          key: 3 month
+        - title: Every 6 months
+          key: 6 month

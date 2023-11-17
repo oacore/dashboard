@@ -70,7 +70,7 @@
   transition: background-color 0.3s;
 }
 
-.custom-checkbox.checked {
+.checked {
   background-color: #b75400;
 }
 
