@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react-lite'
+import { useRouter } from 'next/router'
 
 import styles from './styles.module.css'
 import { DataStatisticsCard, DoiCard, DepositingCard, IrusCard } from './cards'
 import RioxxCard from './cards/rioxx-card'
 import DashboardGuide from '../../components/dashboard-tutorial/dashboardGuide'
+import NotificationGuide from '../settings/cards/notificationGuide'
 
 const OverviewTemplate = observer(
   ({
@@ -31,9 +33,25 @@ const OverviewTemplate = observer(
     dataProviderData,
     tag: Tag = 'main',
     tutorial,
+    notificationGuide,
     ...restProps
   }) => {
+    const router = useRouter()
     const [shouldRender, setShouldRender] = useState(false)
+    const [hasNotificationGuideBeenShown, setNotificationGuideShown] = useState(
+      localStorage.getItem('notificationGuideShown') === 'true'
+    )
+
+    const handleButtonClick = () => {
+      setNotificationGuideShown(true)
+      localStorage.setItem('notificationGuideShown', 'true')
+      router.push(`/data-providers/${dataProviderData.id}/notifications`)
+      notificationGuide.closeModal()
+    }
+
+    useEffect(() => {
+      if (hasNotificationGuideBeenShown) notificationGuide.closeModal()
+    }, [hasNotificationGuideBeenShown])
 
     useEffect(() => {
       const t = localStorage.getItem('onboardingDone')
@@ -71,6 +89,13 @@ const OverviewTemplate = observer(
             tutorial={tutorial}
             dataProviderData={dataProviderData}
             modal={modal}
+          />
+        )}
+        {!hasNotificationGuideBeenShown && (
+          <NotificationGuide
+            dataProviderData={dataProviderData}
+            notificationGuide={notificationGuide}
+            handleButtonClick={handleButtonClick}
           />
         )}
         <DepositingCard

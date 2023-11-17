@@ -578,3 +578,43 @@
 .plan-active {
   color: var(--success-dark);
 }
+
+.notification-guide-inner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.notification-title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  color: #212121;
+  letter-spacing: 0.01px;
+}
+
+.notification-description {
+  margin: 24px 0;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #212121;
+  letter-spacing: 0.026px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-button:first-child {
+  margin-right: 8px;
+}
+
+.action-button {
+  text-transform: capitalize;
+}

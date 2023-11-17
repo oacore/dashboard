@@ -103,6 +103,16 @@ class Root extends Store {
     },
   }
 
+  @observable notificationGuide = {
+    isModalOpen: false,
+    openModal() {
+      this.isModalOpen = true
+    },
+    closeModal() {
+      this.isModalOpen = false
+    },
+  }
+
   @observable acceptedTCVersion = 0
 
   @observable requestsInProgress = 0

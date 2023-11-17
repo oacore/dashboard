@@ -101,3 +101,12 @@ notifications:
           key: 3 month
         - title: Every 6 months
           key: 6 month
+
+notificationGuide:
+  title: Enable notifications now and stay in the loop with all updates.
+  description: To ensure you're always informed about the latest updates concerning your repository, we'll send you email notifications. You have the freedom to customise the type and frequency of notifications in your settings.
+  actions:
+    - title: Disable notification
+      type: text
+    - title: Enable notification
+      type: contained
