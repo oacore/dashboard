@@ -1,9 +1,10 @@
 import React from 'react'
 import { Switch } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
 import RadioGroup from '../../../components/checkbox/radiobutton'
 import styles from '../styles.module.css'
-import harvesting from '../../../components/upload/images/harvestingStatus.png'
+import harvesting from '../../../components/upload/images/harvestingStatus.svg'
 
 const HarvestingNotification = ({
   label,
@@ -17,16 +18,24 @@ const HarvestingNotification = ({
   handleOptionChange,
   dataProviderId,
   harvestNotifications,
+  updateNotificationsPending,
+  harvestingNotificationsPending,
 }) => (
   <>
     <div className={styles.notificationContainer}>
-      <Switch
-        className={styles.toggler}
-        id={id}
-        checked={checked}
-        onChange={onChange}
-        label={label}
-      />
+      <div
+        className={classNames.use({
+          [styles.disabled]: harvestingNotificationsPending,
+        })}
+      >
+        <Switch
+          className={styles.toggler}
+          id={id}
+          checked={checked}
+          onChange={harvestingNotificationsPending ? null : onChange}
+          label={label}
+        />
+      </div>
       <span className={styles.togglerText}>{title}</span>
       <div className={styles.cardWrapper}>
         <div>
@@ -38,6 +47,7 @@ const HarvestingNotification = ({
             dataProviderId={dataProviderId}
             checkedStatus={checked}
             notificationData={harvestNotifications}
+            updateNotificationsPending={updateNotificationsPending}
           />
         </div>
         <div>

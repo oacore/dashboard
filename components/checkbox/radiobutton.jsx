@@ -9,6 +9,7 @@ const RadioGroup = ({
   name,
   checkedStatus,
   notificationData,
+  updateNotificationsPending,
 }) => {
   const [selectedOption, setSelectedOption] = useState(null)
 
@@ -41,10 +42,11 @@ const RadioGroup = ({
               value={item.key}
               checked={selectedOption === item.key}
               onChange={handleRadioChange}
+              disabled={updateNotificationsPending}
             />
           ) : (
             <input
-              disabled={!checkedStatus}
+              disabled={!checkedStatus || updateNotificationsPending}
               className={styles.radioInput}
               name={name}
               type="radio"

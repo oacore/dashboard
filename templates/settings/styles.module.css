@@ -628,3 +628,7 @@
 .action-button {
   text-transform: capitalize;
 }
+
+.disabled {
+  cursor: not-allowed;
+}

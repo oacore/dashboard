@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import { classNames } from '@oacore/design/lib/utils'
 
 import { Card } from '../../design'
 import styles from './styles.module.css'
@@ -24,28 +25,50 @@ const NotificationsPageTemplate = observer(
 
     const [deduplicationSwitch, setDeduplicationSwitch] = useState(false)
 
+    const [harvestingNotificationsPending, setHarvestingNotificationsPending] =
+      useState(false)
+
+    const [
+      deduplicationNotificationsPending,
+      setDeduplicationNotificationsPending,
+    ] = useState(false)
+
     const handleHarvestingOptionDelete = async () => {
-      await deleteNotifications(
-        {
-          organisationId,
-          userId,
-          type: 'harvest-completed',
-        },
-        'harvest-completed'
-      )
-      setHarvestingSwitch(false)
+      setHarvestingNotificationsPending(true)
+      try {
+        await deleteNotifications(
+          {
+            organisationId,
+            userId,
+            type: 'harvest-completed',
+          },
+          'harvest-completed'
+        )
+        setHarvestingSwitch(false)
+      } catch (error) {
+        console.error('Error deleting notifications:', error)
+      } finally {
+        setHarvestingNotificationsPending(false)
+      }
     }
 
     const handleDeduplicationOptionDelete = async () => {
-      await deleteNotifications(
-        {
-          organisationId,
-          userId,
-          type: 'deduplication-completed',
-        },
-        'deduplication-completed'
-      )
-      setDeduplicationSwitch(false)
+      setDeduplicationNotificationsPending(true)
+      try {
+        await deleteNotifications(
+          {
+            organisationId,
+            userId,
+            type: 'deduplication-completed',
+          },
+          'deduplication-completed'
+        )
+        setDeduplicationSwitch(false)
+      } catch (error) {
+        console.error('Error deleting notifications:', error)
+      } finally {
+        setDeduplicationNotificationsPending(false)
+      }
     }
 
     const handleDelete = () => {
@@ -54,26 +77,39 @@ const NotificationsPageTemplate = observer(
     }
 
     const handleHarvestingOptionChange = async (newSelectedOption) => {
-      await updateNotifications(
-        {
-          organisationId,
-          type: 'harvest-completed',
-          datetimeInterval: newSelectedOption,
-        },
-        'harvest-completed'
-      )
+      setHarvestingNotificationsPending(true)
+      try {
+        await updateNotifications(
+          {
+            organisationId,
+            type: 'harvest-completed',
+            datetimeInterval: newSelectedOption,
+          },
+          'harvest-completed'
+        )
+      } catch (error) {
+        console.error('Error updating notifications:', error)
+      } finally {
+        setHarvestingNotificationsPending(false)
+      }
     }
 
     const handleDeduplicationOptionChange = async (newSelectedOption) => {
-      await updateNotifications(
-        {
-          organisationId,
-          userId,
-          type: 'deduplication-completed',
-          datetimeInterval: newSelectedOption,
-        },
-        'deduplication-completed'
-      )
+      setDeduplicationNotificationsPending(true)
+      try {
+        await updateNotifications(
+          {
+            organisationId,
+            type: 'deduplication-completed',
+            datetimeInterval: newSelectedOption,
+          },
+          'deduplication-completed'
+        )
+      } catch (error) {
+        console.error('Error updating notifications:', error)
+      } finally {
+        setDeduplicationNotificationsPending(false)
+      }
     }
 
     const toggleHarvestingSwitch = () => {
@@ -153,11 +189,26 @@ const NotificationsPageTemplate = observer(
               // eslint-disable-next-line max-len
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
               <div
-                onClick={handleDelete}
-                className={styles.notificationWrapper}
+                onClick={
+                  harvestingNotificationsPending ||
+                  deduplicationNotificationsPending
+                    ? null
+                    : handleDelete
+                }
+                className={classNames.use(styles.notificationWrapper, {
+                  [styles.disabled]:
+                    harvestingNotificationsPending ||
+                    deduplicationNotificationsPending,
+                })}
               >
                 <img src={notification} alt={content.notifications.title} />
-                <span className={styles.notificationText}>
+                <span
+                  className={classNames.use(styles.notificationText, {
+                    [styles.disabled]:
+                      harvestingNotificationsPending ||
+                      deduplicationNotificationsPending,
+                  })}
+                >
                   {content.notifications.subAction}
                 </span>
               </div>
@@ -194,6 +245,8 @@ const NotificationsPageTemplate = observer(
               dataProviderId={dataProviderId}
               harvestNotifications={harvestNotifications}
               deduplicationNotifications={deduplicationNotifications}
+              updateNotificationsPending={harvestingNotificationsPending}
+              harvestingNotificationsPending={harvestingNotificationsPending}
             />
             <DeduplicationNotification
               label={
@@ -215,6 +268,10 @@ const NotificationsPageTemplate = observer(
               dataProviderId={dataProviderId}
               harvestNotifications={harvestNotifications}
               deduplicationNotifications={deduplicationNotifications}
+              updateNotificationsPending={deduplicationNotificationsPending}
+              deduplicationNotificationsPending={
+                deduplicationNotificationsPending
+              }
             />
           </div>
         </Card>
