@@ -10,7 +10,13 @@ const RadioGroup = ({
   checkedStatus,
   notificationData,
 }) => {
-  const [selectedOption, setSelectedOption] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
+
+  useEffect(() => {
+    setSelectedOption(
+      notificationData?.data[0]?.datetimeInterval || options[0].key
+    )
+  }, [notificationData, options])
 
   const handleRadioChange = (e) => {
     setSelectedOption(e.currentTarget.value)

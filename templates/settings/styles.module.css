@@ -176,6 +176,16 @@
   cursor: pointer;
 }
 
+.notification-text-disable {
+  margin-left: 4px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  color: #9e9e9e;
+  letter-spacing: 0.0125em;
+  cursor: pointer;
+}
+
 .card-wrapper {
   display: flex;
   justify-content: space-between;

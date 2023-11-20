@@ -5,6 +5,7 @@ import { Card } from '../../design'
 import styles from './styles.module.css'
 import content from '../../texts/settings'
 import notification from './assets/notification.svg'
+import notificationsOff from './assets/notificationsOffs.svg'
 import HarvestingNotification from './cards/harvestingNotification'
 import DeduplicationNotification from './cards/dedupliactionNotifications'
 
@@ -52,22 +53,6 @@ const NotificationsPageTemplate = observer(
       handleDeduplicationOptionDelete()
     }
 
-    const toggleHarvestingSwitch = () => {
-      setHarvestingSwitch((prevSwitch) => {
-        const newSwitch = !prevSwitch
-        if (!newSwitch) handleHarvestingOptionDelete()
-        return newSwitch
-      })
-    }
-
-    const toggleDeduplicationSwitch = () => {
-      setDeduplicationSwitch((prevSwitch) => {
-        const newSwitch = !prevSwitch
-        if (!newSwitch) handleDeduplicationOptionDelete()
-        return newSwitch
-      })
-    }
-
     const handleHarvestingOptionChange = async (newSelectedOption) => {
       await updateNotifications(
         {
@@ -89,6 +74,32 @@ const NotificationsPageTemplate = observer(
         },
         'deduplication-completed'
       )
+    }
+
+    const toggleHarvestingSwitch = () => {
+      setHarvestingSwitch((prevSwitch) => {
+        const newSwitch = !prevSwitch
+        if (newSwitch) {
+          handleHarvestingOptionChange(
+            content.notifications.types.harvesting.radio[0].key
+          )
+        } else handleHarvestingOptionDelete()
+
+        return newSwitch
+      })
+    }
+
+    const toggleDeduplicationSwitch = () => {
+      setDeduplicationSwitch((prevSwitch) => {
+        const newSwitch = !prevSwitch
+        if (newSwitch) {
+          handleDeduplicationOptionChange(
+            content.notifications.types.deduplication.radio[0].key
+          )
+        } else handleDeduplicationOptionDelete()
+
+        return newSwitch
+      })
     }
 
     useEffect(() => {
@@ -138,14 +149,26 @@ const NotificationsPageTemplate = observer(
         <Card className={styles.section} tag="section">
           <div className={styles.headerWrapper}>
             <Card.Title tag="h2">{content.notifications.title}</Card.Title>
-            {/* eslint-disable-next-line max-len */}
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-            <div onClick={handleDelete} className={styles.notificationWrapper}>
-              <img src={notification} alt={content.notifications.title} />
-              <span className={styles.notificationText}>
-                {content.notifications.subAction}
-              </span>
-            </div>
+            {harvestingSwitch || deduplicationSwitch ? (
+              // eslint-disable-next-line max-len
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+              <div
+                onClick={handleDelete}
+                className={styles.notificationWrapper}
+              >
+                <img src={notification} alt={content.notifications.title} />
+                <span className={styles.notificationText}>
+                  {content.notifications.subAction}
+                </span>
+              </div>
+            ) : (
+              <div className={styles.notificationWrapper}>
+                <img src={notificationsOff} alt={content.notifications.title} />
+                <span className={styles.notificationTextDisable}>
+                  {content.notifications.subActionDisabled}
+                </span>
+              </div>
+            )}
           </div>
           <span className={styles.headerSubTitle}>
             {content.notifications.subTitle}
