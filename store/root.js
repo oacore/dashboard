@@ -29,8 +29,11 @@ class Root extends Store {
           .finally(() => {
             if (attemptCount < 2) this.requestsInProgress -= 1
           })
-          .then((response) =>
-            response.status === 202 && attemptCount < REPEATED_REQUEST_LIMIT
+          .then((response) => {
+            if (options.skipStatusCheck) return response
+
+            return response.status === 202 &&
+              attemptCount < REPEATED_REQUEST_LIMIT
               ? new Promise((resolve, reject) => {
                   const repeatedRequest = () =>
                     requestContinuously(url, options).then(resolve, reject)
@@ -40,7 +43,7 @@ class Root extends Store {
                   )
                 })
               : response
-          )
+          })
       }
 
       return requestContinuously().catch((error) => {
@@ -362,14 +365,11 @@ class Root extends Store {
   updateNotifications = async (body, notificationType) => {
     try {
       const url = `${process.env.API_URL}/user/${this.user.id}/settings`
-      await apiRequest(url, {
+      await this.options.request(url, {
+        skipStatusCheck: true,
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
+        body,
       })
-
       await this.getNotifications(
         body.userId,
         body.organisationId,
@@ -384,13 +384,11 @@ class Root extends Store {
   @action
   deleteNotifications = async (body, notificationType) => {
     try {
-      const url = `/user/${this.user.id}/settings`
-      await apiRequest(url, {
+      const url = `${process.env.API_URL}/user/${this.user.id}/settings`
+      await this.options.request(url, {
+        skipStatusCheck: true,
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
+        body,
       })
 
       await this.getNotifications(

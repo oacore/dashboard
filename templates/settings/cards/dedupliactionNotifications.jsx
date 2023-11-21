@@ -1,6 +1,5 @@
 import React from 'react'
 import { Switch } from '@oacore/design'
-import { classNames } from '@oacore/design/lib/utils'
 
 import RadioGroup from '../../../components/checkbox/radiobutton'
 import styles from '../styles.module.css'
@@ -18,21 +17,22 @@ const DeduplicationNotification = ({
   handleOptionChange,
   dataProviderId,
   deduplicationNotifications,
-  updateNotificationsPending,
-  deduplicationNotificationsPending,
+  // updateNotificationsPending,
+  // deduplicationNotificationsPending,
 }) => (
   <>
     <div className={styles.notificationContainer}>
       <div
-        className={classNames.use({
-          [styles.disabled]: deduplicationNotificationsPending,
-        })}
+      // className={classNames.use({
+      //   [styles.disabled]: deduplicationNotificationsPending,
+      // })}
       >
         <Switch
           className={styles.toggler}
           id={id}
           checked={checked}
-          onChange={deduplicationNotificationsPending ? null : onChange}
+          onChange={onChange}
+          // onChange={deduplicationNotificationsPending ? null : onChange}
           label={label}
         />
       </div>
@@ -47,7 +47,7 @@ const DeduplicationNotification = ({
             dataProviderId={dataProviderId}
             checkedStatus={checked}
             notificationData={deduplicationNotifications}
-            updateNotificationsPending={updateNotificationsPending}
+            // updateNotificationsPending={updateNotificationsPending}
           />
         </div>
         <div>

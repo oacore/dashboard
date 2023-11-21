@@ -9,7 +9,7 @@ const RadioGroup = ({
   name,
   checkedStatus,
   notificationData,
-  updateNotificationsPending,
+  // updateNotificationsPending,
 }) => {
   const [selectedOption, setSelectedOption] = useState(null)
 
@@ -23,10 +23,6 @@ const RadioGroup = ({
     setSelectedOption(e.currentTarget.value)
     onChange(e.currentTarget.value)
   }
-
-  useEffect(() => {
-    setSelectedOption(notificationData?.data[0]?.datetimeInterval)
-  }, [notificationData])
 
   return (
     <div className={styles.optionWrapper}>
@@ -42,11 +38,11 @@ const RadioGroup = ({
               value={item.key}
               checked={selectedOption === item.key}
               onChange={handleRadioChange}
-              disabled={updateNotificationsPending}
+              // disabled={updateNotificationsPending}
             />
           ) : (
             <input
-              disabled={!checkedStatus || updateNotificationsPending}
+              disabled={!checkedStatus}
               className={styles.radioInput}
               name={name}
               type="radio"

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { classNames } from '@oacore/design/lib/utils'
 
 import { Card } from '../../design'
 import styles from './styles.module.css'
@@ -25,16 +24,17 @@ const NotificationsPageTemplate = observer(
 
     const [deduplicationSwitch, setDeduplicationSwitch] = useState(false)
 
-    const [harvestingNotificationsPending, setHarvestingNotificationsPending] =
-      useState(false)
-
-    const [
-      deduplicationNotificationsPending,
-      setDeduplicationNotificationsPending,
-    ] = useState(false)
+    // eslint-disable-next-line max-len
+    // const [harvestingNotificationsPending, setHarvestingNotificationsPending] =
+    //   useState(false)
+    //
+    // const [
+    //   deduplicationNotificationsPending,
+    //   setDeduplicationNotificationsPending,
+    // ] = useState(false)
 
     const handleHarvestingOptionDelete = async () => {
-      setHarvestingNotificationsPending(true)
+      // setHarvestingNotificationsPending(true)
       try {
         await deleteNotifications(
           {
@@ -48,12 +48,12 @@ const NotificationsPageTemplate = observer(
       } catch (error) {
         console.error('Error deleting notifications:', error)
       } finally {
-        setHarvestingNotificationsPending(false)
+        // setHarvestingNotificationsPending(false)
       }
     }
 
     const handleDeduplicationOptionDelete = async () => {
-      setDeduplicationNotificationsPending(true)
+      // setDeduplicationNotificationsPending(true)
       try {
         await deleteNotifications(
           {
@@ -67,7 +67,7 @@ const NotificationsPageTemplate = observer(
       } catch (error) {
         console.error('Error deleting notifications:', error)
       } finally {
-        setDeduplicationNotificationsPending(false)
+        // setDeduplicationNotificationsPending(false)
       }
     }
 
@@ -77,7 +77,7 @@ const NotificationsPageTemplate = observer(
     }
 
     const handleHarvestingOptionChange = async (newSelectedOption) => {
-      setHarvestingNotificationsPending(true)
+      // setHarvestingNotificationsPending(true)
       try {
         await updateNotifications(
           {
@@ -90,12 +90,12 @@ const NotificationsPageTemplate = observer(
       } catch (error) {
         console.error('Error updating notifications:', error)
       } finally {
-        setHarvestingNotificationsPending(false)
+        // setHarvestingNotificationsPending(false)
       }
     }
 
     const handleDeduplicationOptionChange = async (newSelectedOption) => {
-      setDeduplicationNotificationsPending(true)
+      // setDeduplicationNotificationsPending(true)
       try {
         await updateNotifications(
           {
@@ -108,7 +108,7 @@ const NotificationsPageTemplate = observer(
       } catch (error) {
         console.error('Error updating notifications:', error)
       } finally {
-        setDeduplicationNotificationsPending(false)
+        // setDeduplicationNotificationsPending(false)
       }
     }
 
@@ -189,25 +189,28 @@ const NotificationsPageTemplate = observer(
               // eslint-disable-next-line max-len
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
               <div
-                onClick={
-                  harvestingNotificationsPending ||
-                  deduplicationNotificationsPending
-                    ? null
-                    : handleDelete
-                }
-                className={classNames.use(styles.notificationWrapper, {
-                  [styles.disabled]:
-                    harvestingNotificationsPending ||
-                    deduplicationNotificationsPending,
-                })}
+                onClick={handleDelete}
+                // onClick={
+                //   harvestingNotificationsPending ||
+                //   deduplicationNotificationsPending
+                //     ? null
+                //     : handleDelete
+                // }
+                className={styles.notificationWrapper}
+                // className={classNames.use(styles.notificationWrapper, {
+                //   [styles.disabled]:
+                //   harvestingNotificationsPending ||
+                //   deduplicationNotificationsPending,
+                // })}
               >
                 <img src={notification} alt={content.notifications.title} />
                 <span
-                  className={classNames.use(styles.notificationText, {
-                    [styles.disabled]:
-                      harvestingNotificationsPending ||
-                      deduplicationNotificationsPending,
-                  })}
+                  className={styles.notificationText}
+                  // className={classNames.use(styles.notificationText, {
+                  //   [styles.disabled]:
+                  //   harvestingNotificationsPending ||
+                  //   deduplicationNotificationsPending,
+                  // })}
                 >
                   {content.notifications.subAction}
                 </span>
@@ -245,8 +248,8 @@ const NotificationsPageTemplate = observer(
               dataProviderId={dataProviderId}
               harvestNotifications={harvestNotifications}
               deduplicationNotifications={deduplicationNotifications}
-              updateNotificationsPending={harvestingNotificationsPending}
-              harvestingNotificationsPending={harvestingNotificationsPending}
+              // updateNotificationsPending={harvestingNotificationsPending}
+              // harvestingNotificationsPending={harvestingNotificationsPending}
             />
             <DeduplicationNotification
               label={
@@ -268,10 +271,10 @@ const NotificationsPageTemplate = observer(
               dataProviderId={dataProviderId}
               harvestNotifications={harvestNotifications}
               deduplicationNotifications={deduplicationNotifications}
-              updateNotificationsPending={deduplicationNotificationsPending}
-              deduplicationNotificationsPending={
-                deduplicationNotificationsPending
-              }
+              // updateNotificationsPending={deduplicationNotificationsPending}
+              // deduplicationNotificationsPending={
+              //   deduplicationNotificationsPending
+              // }
             />
           </div>
         </Card>
