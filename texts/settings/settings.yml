@@ -108,7 +108,7 @@ notifications:
           key: every time
 
 notificationGuide:
-  title: Enable notifications now and stay in the loop with all updates.
+  title: Enable notifications for your repository
   description: |
     To ensure you're always informed about the latest updates concerning your repository, we'll send you email notifications. You have the freedom to customise the type and frequency of notifications in your settings.
 
