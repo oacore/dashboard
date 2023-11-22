@@ -16,6 +16,7 @@ import DropdownInput from '../../components/input-select/input-select'
 import warning from './assets/warning.svg'
 import { GlobalContext } from '../../store'
 import infoGreen from '../../components/upload/assets/infoGreen.svg'
+import AccessUsers from './accessUsers'
 
 const UploadSection = ({
   className,
@@ -338,6 +339,56 @@ const RepositoryPageTemplate = observer(
               <div className={styles.mainWarningWrapper} />
             </div>
           </Card>
+        </div>
+        <div className={styles.apiAccess}>
+          <AccessUsers
+            title={content.accessUsers.title}
+            subTitle={content.accessUsers.link}
+            userNames="Anna Porter"
+            userEmail="anna.institution@gmail.com"
+            subDescription={content.accessUsers.subTitle}
+            description={
+              'We live in an age of science. Science has made us civilized. Every\n' +
+              '              progress in human civilization is the gift of science. Science has\n' +
+              '              solved our problem of getting basic needs. It has helped us to\n' +
+              '              grow more food. It has given us comfortable shelter. Science has\n' +
+              '              given us clothes. Science has made the world small. The train,\n' +
+              '              aircraft, car, and other speedy transport take us from one place\n' +
+              '              to another within a short time. Science has brought about a\n' +
+              '              revolution in the field of communication. We can talk to a friend\n' +
+              '              living in a distant country. The field of entertainment is filled\n' +
+              '              with cinema. TV., radio, video, etc. The gifts of science medicine\n' +
+              '              and surgery are considered to be untold blessings. Science can\n' +
+              '              diagnose hidden diseases. It has been able to prevent most fatal\n' +
+              '              diseases. Science has done something beyond our imagination in the\n' +
+              '              field of space research.'
+            }
+          />
+        </div>
+        <div className={styles.dataSetAccess}>
+          <AccessUsers
+            title={content.accessDataUsers.title}
+            subTitle={content.accessDataUsers.link}
+            userNames="Anna Porter"
+            userEmail="anna.institution@gmail.com"
+            subDescription={content.accessDataUsers.subTitle}
+            description={
+              'We live in an age of science. Science has made us civilized. Every\n' +
+              '              progress in human civilization is the gift of science. Science has\n' +
+              '              solved our problem of getting basic needs. It has helped us to\n' +
+              '              grow more food. It has given us comfortable shelter. Science has\n' +
+              '              given us clothes. Science has made the world small. The train,\n' +
+              '              aircraft, car, and other speedy transport take us from one place\n' +
+              '              to another within a short time. Science has brought about a\n' +
+              '              revolution in the field of communication. We can talk to a friend\n' +
+              '              living in a distant country. The field of entertainment is filled\n' +
+              '              with cinema. TV., radio, video, etc. The gifts of science medicine\n' +
+              '              and surgery are considered to be untold blessings. Science can\n' +
+              '              diagnose hidden diseases. It has been able to prevent most fatal\n' +
+              '              diseases. Science has done something beyond our imagination in the\n' +
+              '              field of space research.'
+            }
+          />
         </div>
         <div ref={uploadRef}>
           <UploadSection

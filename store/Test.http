@@ -1,0 +1,14 @@
+GET https://api-dev.core.ac.uk/internal/user/585/settings/1122/harvest-completed
+Host: api-dev.core.ac.uk
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/119.0
+Accept: application/json
+Accept-Language: en-GB,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: http://localhost:3008/
+Authorization: Bearer searchdev-fd3f968202bc4ecb9e1845
+Origin: http://localhost:3008
+Connection: keep-alive
+Cookie: API_SESSION_ID_DEV=6abo4pg9ml5qaocvrp42824tf8; AUTH_TOKEN_DEV=Uk9qcnlIZ0RZQzE4bjY3NXVQdnFaeFI0MHNyQTJjVjE0aUZvOVU4OEg0THRaQ2I1ZXVOclc4SlFDNElyaWFKc2xvOGU3c0xxZS9SZVBNaUd4RmtjQkE9PTpvQk9QZXA1VDV3N3RqU3VISWpIdWtBREMrdDBva0s4LzNYTGJWZis5SVRLN0hKR2V3VlpiWXBvUDAxbjNPVE40THA4QnZnYWxReVpNYmVRZGZZUzVUdz09
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: cross-site
