@@ -30,6 +30,8 @@ const Overview = ({ store, ...props }) => (
     dataProviderData={store.dataProvider}
     tutorial={store.tutorial}
     notificationGuide={store.notificationGuide}
+    updateNotifications={store.updateNotifications}
+    organisationId={store.organisationId}
     {...props}
   />
 )

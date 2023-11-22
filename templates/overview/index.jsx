@@ -34,6 +34,8 @@ const OverviewTemplate = observer(
     tag: Tag = 'main',
     tutorial,
     notificationGuide,
+    updateNotifications,
+    organisationId,
     ...restProps
   }) => {
     const router = useRouter()
@@ -42,7 +44,31 @@ const OverviewTemplate = observer(
       localStorage.getItem('notificationGuideShown') === 'true'
     )
 
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
+      setNotificationGuideShown(true)
+      localStorage.setItem('notificationGuideShown', 'true')
+      await Promise.all([
+        updateNotifications(
+          {
+            organisationId,
+            type: 'harvest-completed',
+            datetimeInterval: 'every month',
+          },
+          'harvest-completed'
+        ),
+        updateNotifications(
+          {
+            organisationId,
+            type: 'deduplication-completed',
+            datetimeInterval: 'every month',
+          },
+          'deduplication-completed'
+        ),
+      ])
+      notificationGuide.closeModal()
+    }
+
+    const handleButtonClose = async () => {
       setNotificationGuideShown(true)
       localStorage.setItem('notificationGuideShown', 'true')
       router.push(`/data-providers/${dataProviderData.id}/notifications`)
@@ -96,6 +122,7 @@ const OverviewTemplate = observer(
             dataProviderData={dataProviderData}
             notificationGuide={notificationGuide}
             handleButtonClick={handleButtonClick}
+            handleButtonClose={handleButtonClose}
           />
         )}
         <DepositingCard

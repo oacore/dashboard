@@ -109,9 +109,14 @@ notifications:
 
 notificationGuide:
   title: Enable notifications now and stay in the loop with all updates.
-  description: To ensure you're always informed about the latest updates concerning your repository, we'll send you email notifications. You have the freedom to customise the type and frequency of notifications in your settings.
+  description: |
+    To ensure you're always informed about the latest updates concerning your repository, we'll send you email notifications. You have the freedom to customise the type and frequency of notifications in your settings.
+
+    We promise that by enabling the notifications in the dashboard we won’t spam you with non-informative content but we will provide you email notifications on events happening in your repository life with CORE.
   actions:
-    - title: Disable notification
+    offAction:
+      title: Disable notification
       type: text
-    - title: Enable notification
+    onAction:
+      title: Enable notification
       type: contained
