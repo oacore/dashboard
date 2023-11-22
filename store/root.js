@@ -30,7 +30,8 @@ class Root extends Store {
             if (attemptCount < 2) this.requestsInProgress -= 1
           })
           .then((response) => {
-            if (options.skipStatusCheck) return response
+            if (options.skipStatusCheck || response.status === 201)
+              return response
 
             return response.status === 202 &&
               attemptCount < REPEATED_REQUEST_LIMIT
@@ -307,6 +308,7 @@ class Root extends Store {
     try {
       const url = `/data-providers/${this.dataProvider.id}/oairesolver/settings`
       await this.options.request(url, {
+        skipStatusCheck: true,
         method: 'PATCH',
         body: {
           ...body,
@@ -315,6 +317,8 @@ class Root extends Store {
       })
 
       Object.assign(this.dataProvider.oaiMapping, body)
+
+      await this.dataProvider.retrieveOaiMapping()
 
       return {
         type: 'success',
@@ -348,9 +352,7 @@ class Root extends Store {
   getNotifications = async (userId, organisationId, type) => {
     try {
       const url = `/user/${this.user.id}/settings/${this.organisation.id}/${type}`
-      const response = await this.options.request(url, {
-        method: 'GET',
-      })
+      const response = await this.options.request(url)
 
       if (type === 'harvest-completed') this.setHarvestNotifications(response)
       else if (type === 'deduplication-completed')

@@ -58,7 +58,7 @@ notifications:
   subAction: Turn off all notification
   subActionDisabled: All notifications turned off
   subTitle: |
-    Email me about updates in the next topics:
+    Email me about updates on the following topics:
   messages:
     success: Harvesting has been successfully completed.
     issue: Harvesting was not completed because of issues that required your actions.
@@ -82,7 +82,7 @@ notifications:
   types:
     harvesting:
       type: Harvesting
-      notifyOne: Notify me when harvesting process completed.
+      notifyOne: Notify me of the harvesting status for my repository.
       notifyTwo: Send me a Harvesting Report email.
       radio:
         - title: Every month
@@ -91,9 +91,11 @@ notifications:
           key: 3 month
         - title: Every 6 months
           key: 6 month
+        - title: Every time when harvesting finished
+          key: every time
     deduplication:
       type: Deduplication
-      notifyOne: Notify me whenever a new deduplication has completed.
+      notifyOne: Notify me of duplicate records found in my repository.
       notifyTwo: Send me a Deduplication Report.
       radio:
         - title: Every month
@@ -102,6 +104,8 @@ notifications:
           key: 3 month
         - title: Every 6 months
           key: 6 month
+        - title: Every time when deduplication finished
+          key: every time
 
 notificationGuide:
   title: Enable notifications now and stay in the loop with all updates.

@@ -138,6 +138,11 @@ const NotificationsPageTemplate = observer(
       })
     }
 
+    const handleToggle = () => {
+      toggleHarvestingSwitch()
+      toggleDeduplicationSwitch()
+    }
+
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -216,7 +221,12 @@ const NotificationsPageTemplate = observer(
                 </span>
               </div>
             ) : (
-              <div className={styles.notificationWrapper}>
+              // eslint-disable-next-line max-len
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+              <div
+                onClick={handleToggle}
+                className={styles.notificationWrapper}
+              >
                 <img src={notificationsOff} alt={content.notifications.title} />
                 <span className={styles.notificationTextDisable}>
                   {content.notifications.subActionDisabled}

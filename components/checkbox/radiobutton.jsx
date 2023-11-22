@@ -36,7 +36,7 @@ const RadioGroup = ({
               name={name}
               type="radio"
               value={item.key}
-              checked={selectedOption === item.key}
+              checked={notificationData ? selectedOption === item.key : false}
               onChange={handleRadioChange}
               // disabled={updateNotificationsPending}
             />

@@ -13,7 +13,6 @@ const HarvestingNotification = ({
   onChange,
   id,
   name,
-  selectedOption,
   handleOptionChange,
   dataProviderId,
   harvestNotifications,
@@ -41,7 +40,6 @@ const HarvestingNotification = ({
         <div>
           <RadioGroup
             onChange={handleOptionChange}
-            selectedOption={selectedOption}
             options={options}
             name={name}
             dataProviderId={dataProviderId}
