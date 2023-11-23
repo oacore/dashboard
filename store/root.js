@@ -316,9 +316,9 @@ class Root extends Store {
         },
       })
 
-      Object.assign(this.dataProvider.oaiMapping, body)
-
       await this.dataProvider.retrieveOaiMapping()
+
+      Object.assign(this.dataProvider.oaiMapping, body)
 
       return {
         type: 'success',

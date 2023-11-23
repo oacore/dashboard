@@ -32,17 +32,27 @@ const RadioGroup = ({
             <input
               className={classNames.use(styles.radioInput, {
                 [styles.checked]: checkedStatus,
+                [styles.disabledCursor]:
+                  updateNotificationsPending || !notificationData,
               })}
               name={name}
               type="radio"
               value={item.key}
               checked={notificationData ? selectedOption === item.key : false}
               onChange={handleRadioChange}
-              disabled={updateNotificationsPending}
+              disabled={
+                !checkedStatus ||
+                updateNotificationsPending ||
+                !notificationData
+              }
             />
           ) : (
             <input
-              disabled={!checkedStatus}
+              disabled={
+                !checkedStatus ||
+                updateNotificationsPending ||
+                !notificationData
+              }
               className={styles.radioInput}
               name={name}
               type="radio"
