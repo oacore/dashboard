@@ -24,15 +24,19 @@ const HarvestingNotification = ({
     <div className={styles.notificationContainer}>
       <div
         className={classNames.use({
-          [styles.disabled]: harvestingNotificationsPending,
+          [styles.disabled]:
+            harvestingNotificationsPending || !harvestNotifications,
         })}
       >
         <Switch
           className={styles.toggler}
           id={id}
           checked={checked}
-          // onChange={onChange}
-          onChange={harvestingNotificationsPending ? null : onChange}
+          onChange={
+            harvestingNotificationsPending || !harvestNotifications
+              ? null
+              : onChange
+          }
           label={label}
         />
       </div>

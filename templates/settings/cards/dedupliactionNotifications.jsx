@@ -25,15 +25,19 @@ const DeduplicationNotification = ({
     <div className={styles.notificationContainer}>
       <div
         className={classNames.use({
-          [styles.disabled]: deduplicationNotificationsPending,
+          [styles.disabled]:
+            deduplicationNotificationsPending || !deduplicationNotifications,
         })}
       >
         <Switch
           className={styles.toggler}
           id={id}
           checked={checked}
-          // onChange={onChange}
-          onChange={deduplicationNotificationsPending ? null : onChange}
+          onChange={
+            deduplicationNotificationsPending || !deduplicationNotifications
+              ? null
+              : onChange
+          }
           label={label}
         />
       </div>

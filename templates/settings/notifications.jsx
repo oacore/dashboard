@@ -195,14 +195,12 @@ const NotificationsPageTemplate = observer(
               // eslint-disable-next-line max-len
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
               <div
-                // onClick={handleDelete}
                 onClick={
                   harvestingNotificationsPending ||
                   deduplicationNotificationsPending
                     ? null
                     : handleDelete
                 }
-                // className={styles.notificationWrapper}
                 className={classNames.use(styles.notificationWrapper, {
                   [styles.disabled]:
                     harvestingNotificationsPending ||
@@ -211,7 +209,6 @@ const NotificationsPageTemplate = observer(
               >
                 <img src={notification} alt={content.notifications.title} />
                 <span
-                  // className={styles.notificationText}
                   className={classNames.use(styles.notificationText, {
                     [styles.disabled]:
                       harvestingNotificationsPending ||
@@ -226,7 +223,6 @@ const NotificationsPageTemplate = observer(
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
               <div
                 onClick={handleToggle}
-                // className={styles.notificationWrapper}
                 className={classNames.use(styles.notificationWrapper, {
                   [styles.disabled]:
                     harvestingNotificationsPending ||

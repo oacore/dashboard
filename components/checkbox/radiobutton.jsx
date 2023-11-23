@@ -33,7 +33,9 @@ const RadioGroup = ({
               className={classNames.use(styles.radioInput, {
                 [styles.checked]: checkedStatus,
                 [styles.disabledCursor]:
-                  updateNotificationsPending || !notificationData,
+                  !checkedStatus ||
+                  updateNotificationsPending ||
+                  notificationData?.data.length < 1,
               })}
               name={name}
               type="radio"
@@ -43,7 +45,7 @@ const RadioGroup = ({
               disabled={
                 !checkedStatus ||
                 updateNotificationsPending ||
-                !notificationData
+                notificationData?.data.length < 1
               }
             />
           ) : (
@@ -51,7 +53,7 @@ const RadioGroup = ({
               disabled={
                 !checkedStatus ||
                 updateNotificationsPending ||
-                !notificationData
+                notificationData?.data.length < 1
               }
               className={styles.radioInput}
               name={name}
