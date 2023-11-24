@@ -33,6 +33,9 @@ const DeduplicationNotification = ({
           className={styles.toggler}
           id={id}
           checked={checked}
+          nonActive={
+            deduplicationNotificationsPending || !deduplicationNotifications
+          }
           onChange={
             deduplicationNotificationsPending || !deduplicationNotifications
               ? null

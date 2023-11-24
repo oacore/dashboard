@@ -32,6 +32,7 @@ const HarvestingNotification = ({
           className={styles.toggler}
           id={id}
           checked={checked}
+          nonActive={harvestingNotificationsPending || !harvestNotifications}
           onChange={
             harvestingNotificationsPending || !harvestNotifications
               ? null
