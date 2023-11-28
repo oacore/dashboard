@@ -56,14 +56,14 @@ const OverviewTemplate = observer(
           },
           'harvest-completed'
         ),
-        updateNotifications(
-          {
-            organisationId,
-            type: 'deduplication-completed',
-            datetimeInterval: 'every month',
-          },
-          'deduplication-completed'
-        ),
+        // updateNotifications(
+        //   {
+        //     organisationId,
+        //     type: 'deduplication-completed',
+        //     datetimeInterval: 'every month',
+        //   },
+        //   'deduplication-completed'
+        // ),
       ])
       notificationGuide.closeModal()
     }
