@@ -18,7 +18,7 @@ class Root extends Store {
   static defaultOptions = {
     allowAnonymousAccess: false,
 
-    request(url, options) {
+    request(url, options = {}) {
       let attemptCount = 0
 
       const requestContinuously = () => {
@@ -29,15 +29,22 @@ class Root extends Store {
           .finally(() => {
             if (attemptCount < 2) this.requestsInProgress -= 1
           })
-          .then((response) =>
-            response.status === 202 && attemptCount < REPEATED_REQUEST_LIMIT
+          .then((response) => {
+            if (options.skipStatusCheck || response.status === 201)
+              return response
+
+            return response.status === 202 &&
+              attemptCount < REPEATED_REQUEST_LIMIT
               ? new Promise((resolve, reject) => {
                   const repeatedRequest = () =>
                     requestContinuously(url, options).then(resolve, reject)
-                  setTimeout(repeatedRequest, REPEATED_REQUEST_TIMEOUT)
+                  setTimeout(
+                    repeatedRequest,
+                    options.additionalTimeout || REPEATED_REQUEST_TIMEOUT
+                  )
                 })
               : response
-          )
+          })
       }
 
       return requestContinuously().catch((error) => {
@@ -277,12 +284,15 @@ class Root extends Store {
     try {
       const url = `/data-providers/${this.dataProvider.id}/oairesolver/settings`
       await this.options.request(url, {
+        skipStatusCheck: true,
         method: 'PATCH',
         body: {
           ...body,
           activated: Boolean(body.activated) || false,
         },
       })
+
+      await this.dataProvider.retrieveOaiMapping()
 
       Object.assign(this.dataProvider.oaiMapping, body)
 
