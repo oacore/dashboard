@@ -3,7 +3,6 @@ import React from 'react'
 
 import { Card } from '../../design'
 import styles from './styles.module.css'
-import Markdown from '../../components/markdown'
 
 const AccessUsers = ({
   className,
@@ -19,7 +18,7 @@ const AccessUsers = ({
     <div className={styles.formWrapper}>
       <div className={styles.formInnerWrapper}>
         <Card.Title tag="h2">{title}</Card.Title>
-        <Markdown className={styles.info}>{subTitle}</Markdown>
+        {subTitle}
         <div className={styles.userMainWrapper}>
           {userData?.map((item) => (
             <div className={styles.userWrapper}>

@@ -13,6 +13,7 @@ import Markdown from '../../components/markdown'
 import ConfirmationDeleteInvite from './confirmation'
 import { useScrollEffect } from '../../pages/_app/hooks'
 import { GlobalContext } from '../../store'
+import AccessUsers from './accessUsers'
 
 import { ChangePassword, FormShell } from 'components/forms'
 
@@ -26,6 +27,10 @@ const GeneralPageTemplate = observer(
     delInviter,
     init,
     status,
+    apiUserData,
+    datasetUserData,
+    fetchApiUsers,
+    fetchDatasetUsers,
     tag: Tag = 'main',
     ...restProps
   }) => {
@@ -322,6 +327,50 @@ const GeneralPageTemplate = observer(
               <div className={styles.mainWarningWrapper} />
             </div>
           </Card>
+        </div>
+        <div className={styles.apiAccess}>
+          <AccessUsers
+            title={content.accessUsers.title}
+            subTitle={
+              <div>
+                {`There are `}
+                <span className={styles.highlite}>{apiUserData.length}</span>
+                {` people at your organisation registered for `}
+                <a
+                  href="https://core.ac.uk/services/api"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  CORE API
+                </a>
+              </div>
+            }
+            subDescription={content.accessUsers.subTitle}
+            userData={apiUserData}
+          />
+        </div>
+        <div className={styles.dataSetAccess}>
+          <AccessUsers
+            title={content.accessDataUsers.title}
+            subTitle={
+              <div>
+                {`There are `}
+                <span className={styles.highlite}>
+                  {datasetUserData.length}
+                </span>
+                {` people at your organisation registered for `}
+                <a
+                  href="https://core.ac.uk/services/dataset"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  CORE Dataset
+                </a>
+              </div>
+            }
+            subDescription={content.accessDataUsers.subTitle}
+            userData={datasetUserData}
+          />
         </div>
         <ChangePassword
           className={styles.section}

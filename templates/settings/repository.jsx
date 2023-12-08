@@ -16,7 +16,6 @@ import DropdownInput from '../../components/input-select/input-select'
 import warning from './assets/warning.svg'
 import { GlobalContext } from '../../store'
 import infoGreen from '../../components/upload/assets/infoGreen.svg'
-import AccessUsers from './accessUsers'
 
 const UploadSection = ({
   className,
@@ -71,14 +70,10 @@ const RepositoryPageTemplate = observer(
     updateOrganization,
     updateLogo,
     oaiMapping,
-    apiUserData,
-    datasetUserData,
     mappingSubmit,
     dataProvider,
     setGlobalRorName,
     setGlobalRorId,
-    fetchApiUsers,
-    fetchDatasetUsers,
     init,
     status,
     tag: Tag = 'main',
@@ -343,22 +338,6 @@ const RepositoryPageTemplate = observer(
               <div className={styles.mainWarningWrapper} />
             </div>
           </Card>
-        </div>
-        <div className={styles.apiAccess}>
-          <AccessUsers
-            title={content.accessUsers.title}
-            subTitle={`There are ${apiUserData.length} people at your organisation registered for [CORE API](https://core.ac.uk/services/api)`}
-            subDescription={content.accessUsers.subTitle}
-            userData={apiUserData}
-          />
-        </div>
-        <div className={styles.dataSetAccess}>
-          <AccessUsers
-            title={content.accessDataUsers.title}
-            subTitle={`There are ${datasetUserData.length} people at your organisation registered for [CORE Dataset](https://core.ac.uk/services/dataset)`}
-            subDescription={content.accessDataUsers.subTitle}
-            userData={datasetUserData}
-          />
         </div>
         <div ref={uploadRef}>
           <UploadSection

@@ -11,6 +11,10 @@ const GeneralPage = ({ store, ...restProps }) => (
     inviteUser={store.organisation.inviteUser}
     delInviter={store.invitation?.deleteInviteUser}
     organisationUserInvites={store.organisation.organisationUserInvites}
+    apiUserData={store.dataProvider.apiUserData}
+    datasetUserData={store.dataProvider.datasetUserData}
+    fetchApiUsers={store.dataProvider.fetchApiUsers}
+    fetchDatasetUsers={store.dataProvider.fetchDatasetUsers}
     {...restProps}
   />
 )
