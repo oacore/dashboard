@@ -9,10 +9,8 @@ const AccessUsers = ({
   className,
   title,
   subTitle,
-  userNames,
-  userEmail,
   subDescription,
-  description,
+  userData,
 }) => (
   <Card
     className={classNames.use(styles.section).join(className)}
@@ -23,22 +21,22 @@ const AccessUsers = ({
         <Card.Title tag="h2">{title}</Card.Title>
         <Markdown className={styles.info}>{subTitle}</Markdown>
         <div className={styles.userMainWrapper}>
-          <div className={styles.userWrapper}>
-            <div className={styles.user}>
-              <div className={styles.userName}>{userNames}</div>
-              <div className={styles.userName}>{userEmail}</div>
+          {userData?.map((item) => (
+            <div className={styles.userWrapper}>
+              <div className={styles.user}>
+                <div className={styles.userName}>
+                  {item.person ? item.person : `Not available.`}
+                </div>
+                <div className={styles.userName}>
+                  {item.email ? item.email : `Not available.`}
+                </div>
+              </div>
+              <p className={styles.subTitle}>{subDescription}</p>
+              <div className={styles.additionalInfo}>
+                {item.description ? item.description : `Not available.`}
+              </div>
             </div>
-            <p className={styles.subTitle}>{subDescription}</p>
-            <div className={styles.additionalInfo}>{description}</div>
-          </div>
-          <div className={styles.userWrapper}>
-            <div className={styles.user}>
-              <div className={styles.userName}>{userNames}</div>
-              <div className={styles.userName}>{userEmail}</div>
-            </div>
-            <p className={styles.subTitle}>{subDescription}</p>
-            <div className={styles.additionalInfo}>{description}</div>
-          </div>
+          ))}
         </div>
       </div>
       <div className={styles.mainWarningWrapper} />
