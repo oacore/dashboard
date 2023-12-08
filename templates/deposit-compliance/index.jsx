@@ -20,7 +20,7 @@ import { intro as texts } from 'texts/depositing'
 const NotEnoughDataMessage = () => (
   <Message className={styles.errorWrapper}>
     <Icon className={styles.errorIcon} src="#alert-outline" /> Check our{' '}
-    <Link href="https://core.ac.uk/ref-audit">guidelines</Link> enable the
+    <Link href="https://core.ac.uk/ref-audit">guidelines</Link> and enable the
     required support and then notify us once ready, so that we can initiate
     collecting this information from your repository.
   </Message>
