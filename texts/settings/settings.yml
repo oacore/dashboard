@@ -92,3 +92,11 @@ notifications:
 #      quarter: Every 3 months
 #      half: Every 6 months
 
+accessUsers:
+    title: API access
+    subTitle: Use case in which CORE data use
+    link: There are 2 people at your organisation registered for [CORE API](/services/api)
+accessDataUsers :
+    title: Dataset access
+    subTitle: Use case in which CORE data use
+    link: There are 3 people at your organisation registered for [CORE Dataset](services/dataset)
