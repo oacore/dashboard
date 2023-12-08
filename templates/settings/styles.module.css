@@ -564,32 +564,32 @@
 
 .user {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 24px;
 }
 
 .user-name {
-  border-radius: 2px;
-  background: #f5f5f5;
-  color: #212121;
+  width: 50%;
+  padding: 8px 12px;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 24px;
+  color: #212121;
   letter-spacing: 0.026px;
-  width: 50%;
-  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 2px;
 }
 
 .sub-title {
-  color: #212121;
+  margin: 14px 0 8px;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
+  color: #212121;
   letter-spacing: 0.04px;
-  margin: 14px 0 8px;
 }
 
 .info {
@@ -597,13 +597,13 @@
 }
 
 .additional-info {
-  color: #666;
+  padding: 15px 14px;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
+  color: #666;
   letter-spacing: 0.042px;
-  padding: 15px 14px;
-  border-radius: 2px;
   border: 1px solid #e0e0e0;
+  border-radius: 2px;
 }
