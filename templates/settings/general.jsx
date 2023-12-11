@@ -56,6 +56,8 @@ const GeneralPageTemplate = observer(
     const [isIdOpen, setIdIsOpen] = useState(false)
 
     const [showAllInvites, setShowAllInvites] = useState(false)
+    const [showFullApiList, setShowFullApiList] = useState(false)
+    const [showFullDatasetList, setShowFullDatasetList] = useState(false)
 
     const displayedInviteCodes = showAllInvites
       ? inviteCodes
@@ -63,6 +65,13 @@ const GeneralPageTemplate = observer(
 
     const toggleShowAllInvites = () => {
       setShowAllInvites(!showAllInvites)
+    }
+
+    const toggleApiList = () => {
+      setShowFullApiList(!showFullApiList)
+    }
+    const toggleDatasetList = () => {
+      setShowFullDatasetList(!showFullDatasetList)
     }
 
     useEffect(() => {
@@ -347,6 +356,8 @@ const GeneralPageTemplate = observer(
             }
             subDescription={content.accessUsers.subTitle}
             userData={apiUserData}
+            toggleShowFullList={toggleApiList}
+            showFullList={showFullApiList}
           />
         </div>
         <div className={styles.dataSetAccess}>
@@ -370,6 +381,8 @@ const GeneralPageTemplate = observer(
             }
             subDescription={content.accessDataUsers.subTitle}
             userData={datasetUserData}
+            toggleShowFullList={toggleDatasetList}
+            showFullList={showFullDatasetList}
           />
         </div>
         <ChangePassword
