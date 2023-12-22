@@ -2,7 +2,7 @@ title: RIOXX metadata validator
 
 description: This metadata validator helps you to assess how well your metadata comply with RIOXX and provide recommendations on improving this compliance.
 
-rioxInfo: The validator works for both [RIOXX v2](https://www.rioxx.net/profiles/v2-0-rc-2/) and [RIOXX v3](https://rioxx.net/profiles/v3-0-final/). You can input a sample RIOXX record into the below text field to see how it complies with RIOXX. Where issues are detected, we provide recommendations to help you improve your metadata quality.  While we are encouraging everybody to migrate to RIOXXv3, keep in mind that RIOXX v3 is as of 1st April 2023 still in the Release Candidate 1 version and some of the recommendations might change when the final version is released.
+rioxInfo: The validator works for both [RIOXX v2](https://www.rioxx.net/profiles/v2-0-rc-2/) and [RIOXX v3](https://rioxx.net/profiles/v3-0-final/). You can input a sample Rioxx record into the below text field to see how it complies with it. Where issues are detected, we provide recommendations to help you improve your metadata quality. We recommend all repositories to migrate to [RIOXX v3](https://rioxx.net/profiles/v3-0-final/) as it provides a wide range of [benefits](https://core.ac.uk/documentations#rioxx) over the previous version.
 
 validator:
   actions:
