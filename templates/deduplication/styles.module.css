@@ -192,11 +192,11 @@
 
 .spinner-text {
   margin: 0 0 0 14px;
-  color: #666;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
+  color: #666;
   letter-spacing: 0.021px;
 }
 
@@ -1231,6 +1231,6 @@
 
 .carousel-container {
   flex-grow: 1;
-  overflow-x: auto;
   width: 67%;
+  overflow-x: auto;
 }
