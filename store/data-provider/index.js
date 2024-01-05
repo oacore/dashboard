@@ -15,6 +15,10 @@ class DataProvider extends Resource {
 
   @observable name = ''
 
+  @observable rorGlobalName = ''
+
+  @observable rorGlobalId = ''
+
   @observable irus = null
 
   @observable rioxx = null
@@ -40,6 +44,10 @@ class DataProvider extends Resource {
   @observable location = {}
 
   @observable oaiMapping = {}
+
+  @observable apiUserData = []
+
+  @observable datasetUserData = []
 
   @observable logo = ''
 
@@ -153,6 +161,16 @@ class DataProvider extends Resource {
   }
 
   @action
+  setGlobalRorName = (value) => {
+    this.rorGlobalName = value
+  }
+
+  @action
+  setGlobalRorId = (value) => {
+    this.rorGlobalId = value
+  }
+
+  @action
   clearOutputsData = () => {
     this.outputData = []
   }
@@ -207,6 +225,8 @@ class DataProvider extends Resource {
         this.retrieveIrusStats()
         this.retrieveRioxxStats()
         this.retrieveOaiMapping()
+        this.fetchApiUsers()
+        this.fetchDatasetUsers()
         this.retrieveLogo()
 
         const url = `/data-providers/${this.id}`
@@ -359,6 +379,26 @@ class DataProvider extends Resource {
       this.logo = logoUrl
     } catch (networkOrAccessError) {
       this.logo = null
+    }
+  }
+
+  @action async fetchApiUsers() {
+    try {
+      const url = `/settings/access_api_key`
+      const { data } = await apiRequest(url)
+      this.apiUserData = data
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action async fetchDatasetUsers() {
+    try {
+      const url = `/settings/access_dataset`
+      const { data } = await apiRequest(url)
+      this.datasetUserData = data
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
     }
   }
 

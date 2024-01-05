@@ -27,7 +27,7 @@ const AccessPlaceholder = ({
     <Button
       className={styles.upgradeBtn}
       variant="contained"
-      href={`/data-providers/${dataProviderData.id}/membership`}
+      href={`/data-providers/${dataProviderData.id}/membership-type`}
     >
       Upgrade
     </Button>

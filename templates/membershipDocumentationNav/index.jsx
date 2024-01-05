@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import { classNames } from '@oacore/design/lib/utils'
 
 import textData from '../../texts/memership'
@@ -8,12 +9,19 @@ import activeArrow from '../../components/upload/assets/activeArrow.svg'
 const DocumentationNav = ({ setHighlight }) => {
   const [activeItem, setActiveItem] = useState(null)
 
+  const router = useRouter()
+  const headerHeight = 56
+
   const handleClick = (obj, item) => {
+    router.push(`${obj.href}`)
     setActiveItem(item)
     setHighlight(+item)
     const element = document.getElementById(obj.href.replace('#', ''))
     if (element) {
-      element?.scrollIntoView({
+      const rect = element.getBoundingClientRect()
+
+      window.scrollTo({
+        top: rect.top + window.scrollY - headerHeight,
         behavior: 'smooth',
         block: 'center',
       })

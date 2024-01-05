@@ -72,26 +72,56 @@ const config = new RouteConfig([
     test: /\/plugins/,
     path: 'plugins',
     icon: 'puzzle',
-    children: [
-      {
-        test: /\/discovery/,
-        path: 'discovery',
-      },
-      {
-        test: /\/recommender/,
-        path: 'recommender',
-      },
-    ],
   },
   {
     test: /\/membership/,
     path: 'membership',
     icon: 'account-group',
+    children: [
+      {
+        test: /\/discovery/,
+        path: 'membership-type',
+        id: 'membership-type',
+        value: 'My membership',
+      },
+      {
+        test: /\/recommender/,
+        path: 'documentation',
+        id: 'documentation',
+        value: 'Documentation',
+      },
+      {
+        test: /\/badges/,
+        path: 'badges',
+        id: 'badges',
+        value: 'CORE badges',
+      },
+    ],
   },
   {
     test: /\/settings/,
     path: 'settings',
     icon: 'cog',
+    children: [
+      {
+        test: /\/discovery/,
+        path: 'organisational',
+        id: 'organisational',
+        value: 'Organisational',
+      },
+      {
+        test: /\/recommender/,
+        path: 'repository',
+        id: 'repository',
+        value: 'Repository',
+      },
+      // {
+      //   test: /\/notifications/,
+      //   path: 'notifications',
+      //   id: 'notifications',
+      //   value: 'Notifications',
+      // },
+    ],
   },
 ])
 

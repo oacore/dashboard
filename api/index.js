@@ -23,6 +23,8 @@ const prepareHeaders = ({ headers: customHeaders, body }) => {
   const defaultHeaders = {
     Accept: 'application/json',
     Authorization: `Bearer ${process.env.API_KEY}`,
+    'Cache-Control': 'no-store',
+    'x-custom-dashboard-header': 'true'
   }
   const contentHeaders =
     typeof body == 'object' && body != null

@@ -18,7 +18,7 @@ class Root extends Store {
   static defaultOptions = {
     allowAnonymousAccess: false,
 
-    request(url, options) {
+    request(url, options = {}) {
       let attemptCount = 0
 
       const requestContinuously = () => {
@@ -29,15 +29,22 @@ class Root extends Store {
           .finally(() => {
             if (attemptCount < 2) this.requestsInProgress -= 1
           })
-          .then((response) =>
-            response.status === 202 && attemptCount < REPEATED_REQUEST_LIMIT
+          .then((response) => {
+            if (options.skipStatusCheck || response.status === 201)
+              return response
+
+            return response.status === 202 &&
+              attemptCount < REPEATED_REQUEST_LIMIT
               ? new Promise((resolve, reject) => {
                   const repeatedRequest = () =>
                     requestContinuously(url, options).then(resolve, reject)
-                  setTimeout(repeatedRequest, REPEATED_REQUEST_TIMEOUT)
+                  setTimeout(
+                    repeatedRequest,
+                    options.additionalTimeout || REPEATED_REQUEST_TIMEOUT
+                  )
                 })
               : response
-          )
+          })
       }
 
       return requestContinuously().catch((error) => {
@@ -100,9 +107,16 @@ class Root extends Store {
 
   @observable requestsInProgress = 0
 
+  @observable seenAll = []
+
   @computed
   get isLoading() {
     return this.requestsInProgress > 0
+  }
+
+  @computed
+  get organisationId() {
+    return this.organisation ? this.organisation.id : ''
   }
 
   @computed
@@ -125,11 +139,10 @@ class Root extends Store {
     try {
       await this.user.retrieve()
     } catch (unauthorizedError) {
-      if (!this.options.allowAnonymousAccess)
+      if (!this?.options?.allowAnonymousAccess)
         throw new AuthorizationError('Anonymous users are not allowed')
     }
     this.invitation = new Invitation(process.env.API_URL, this.options)
-
     this.organisation = new Organisation(this.user.affiliationUrl, this.options)
     await this.organisation.listUserInvites()
     await this.organisation.retrieve()
@@ -156,6 +169,7 @@ class Root extends Store {
     }
 
     const dataProviderInit = this.findDataProvider(id)
+
     this.dataProvider = new DataProvider(dataProviderInit, {
       ...this.options,
       prefetch: true,
@@ -183,14 +197,21 @@ class Root extends Store {
   @action
   updateDataProvider = async (patch) => {
     try {
+      const { ...body } = patch
+
       const url = `/data-providers/${this.dataProvider.id}`
       const { data } = await this.options.request(url, {
         method: 'PATCH',
-        body: patch,
+        body,
       })
       Object.assign(this.dataProvider, data)
       return {
         message: 'Settings were updated successfully!',
+        data: {
+          ror_id: data.ror_id,
+          rorName: data.rorName,
+          name: data.name,
+        },
       }
     } catch (networkOrAccessError) {
       return {
@@ -222,11 +243,30 @@ class Root extends Store {
   }
 
   @action
-  updateOrganization = (patch) => {
-    const { name: institution } = patch
-    return this.updateDataProvider({ institution })
+  updateOrganization = async (patch) => {
+    try {
+      const { ...body } = patch
 
-    // TODO: Should be a method without cross-call to another method
+      const url = `/organisations/${this.organisationId}`
+      const { data } = await this.options.request(url, {
+        method: 'PATCH',
+        body,
+      })
+      Object.assign(this.organisation, data)
+
+      return {
+        message: 'Settings were updated successfully!',
+        data: {
+          ror_id: data.ror_id,
+          rorName: data.rorName,
+          name: data.name,
+        },
+      }
+    } catch (networkOrAccessError) {
+      return {
+        message: 'Something went wrong. Please try again later!',
+      }
+    }
   }
 
   async sendContactRequest(data) {
@@ -244,12 +284,15 @@ class Root extends Store {
     try {
       const url = `/data-providers/${this.dataProvider.id}/oairesolver/settings`
       await this.options.request(url, {
+        skipStatusCheck: true,
         method: 'PATCH',
         body: {
           ...body,
           activated: Boolean(body.activated) || false,
         },
       })
+
+      await this.dataProvider.retrieveOaiMapping()
 
       Object.assign(this.dataProvider.oaiMapping, body)
 
