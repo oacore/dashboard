@@ -96,6 +96,10 @@
   padding: 0;
 }
 
+.text-spacer {
+  margin-left: 8px;
+}
+
 .deduplication-statistics-wrapper {
   width: 50%;
   margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
@@ -174,6 +178,26 @@
   font-style: normal;
   font-weight: 500;
   color: #212121;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+}
+
+.spinner-text {
+  margin: 0 0 0 14px;
+  color: #666;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  letter-spacing: 0.021px;
 }
 
 .issue-table {
@@ -540,6 +564,10 @@
   color: #212121;
 }
 
+.info-text ul {
+  list-style-type: disc;
+}
+
 .hide-button-wrapper {
   display: flex;
   justify-content: flex-end;
@@ -750,7 +778,7 @@
 .carousel-wrapper ul {
   top: unset;
   left: 50%;
-  width: 100%;
+  width: 70%;
   margin: unset;
   overflow-y: hidden;
   transform: translate(-50%, 0);
@@ -781,15 +809,15 @@
 .arrow-left {
   position: absolute;
   top: 100%;
-  right: 0;
+  left: 100%;
   z-index: 2;
-  transform: translate(-50%, -100%);
+  transform: translate(50%, -100%);
 }
 
 .arrow-right {
   position: absolute;
   top: 100%;
-  right: 0;
+  right: 100%;
   transform: translate(-50%, -100%);
 }
 
@@ -1204,4 +1232,5 @@
 .carousel-container {
   flex-grow: 1;
   overflow-x: auto;
+  width: 67%;
 }

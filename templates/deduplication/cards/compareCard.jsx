@@ -231,9 +231,20 @@ const CompareCard = ({
         <div className={styles.compareContainer}>
           <div className={styles.compareCardLeft}>
             <Message className={styles.referenceTitleLeft}>
-              <Markdown className={styles.dataItemReference}>
-                {texts.comparison.reference}
-              </Markdown>
+              <Actions
+                hoverIcon={
+                  <img className={styles.referenceIcon} src={info} alt="riox" />
+                }
+                className={styles.actionItem}
+                description={
+                  <Markdown className={styles.dataItemReference}>
+                    {texts.comparison.reference}
+                  </Markdown>
+                }
+              />
+              <div className={styles.textSpacer}>
+                <b>The reference paper</b>
+              </div>
             </Message>
             <div className={styles.compareTitleWrapperLeft}>
               <div className={styles.compareTitle}>
@@ -568,6 +579,12 @@ const CompareCard = ({
                                 <Actions
                                   className={styles.actionIcon}
                                   description={button.info}
+                                  hoverIcon={
+                                    <Icon
+                                      src="#alert-circle-outline"
+                                      style={{ color: '#757575' }}
+                                    />
+                                  }
                                 />
                               </div>
                             )

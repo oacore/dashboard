@@ -1,5 +1,6 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
+import { Icon } from '@oacore/design'
 
 import styles from '../styles.module.css'
 
@@ -20,7 +21,13 @@ const OverviewCard = ({
   >
     <div className={styles.cardHeader}>
       <Card.Title tag="h2">{title}</Card.Title>
-      <Actions downloadUrl={downloadUrl} description={tooltip} />
+      <Actions
+        downloadUrl={downloadUrl}
+        description={tooltip}
+        hoverIcon={
+          <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+        }
+      />
     </div>
     {children}
   </Card>
