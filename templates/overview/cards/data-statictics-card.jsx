@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import OverviewCard from './overview-card'
@@ -30,7 +31,12 @@ const ActionsBar = ({ onSetActiveType, activeType }) => {
           active={activeType === name}
         />
       ))}
-      <Actions description={text.cardTooltip} />
+      <Actions
+        description={text.cardTooltip}
+        hoverIcon={
+          <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+        }
+      />
     </div>
   )
 }

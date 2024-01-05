@@ -96,6 +96,10 @@
   padding: 0;
 }
 
+.text-spacer {
+  margin-left: 8px;
+}
+
 .deduplication-statistics-wrapper {
   width: 50%;
   margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
@@ -174,6 +178,26 @@
   font-style: normal;
   font-weight: 500;
   color: #212121;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+}
+
+.spinner-text {
+  margin: 0 0 0 14px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #666;
+  letter-spacing: 0.021px;
 }
 
 .issue-table {
@@ -540,6 +564,10 @@
   color: #212121;
 }
 
+.info-text ul {
+  list-style-type: disc;
+}
+
 .hide-button-wrapper {
   display: flex;
   justify-content: flex-end;
@@ -744,13 +772,15 @@
 .carousel-wrapper {
   position: relative;
   width: calc(100% - 186px);
+  overflow: hidden;
 }
 
 .carousel-wrapper ul {
   top: unset;
   left: 50%;
-  width: 100%;
+  width: 70%;
   margin: unset;
+  overflow-y: hidden;
   transform: translate(-50%, 0);
 }
 
@@ -779,19 +809,23 @@
 .arrow-left {
   position: absolute;
   top: 100%;
-  right: 0;
-  transform: translate(-50%, -100%);
+  left: 100%;
+  z-index: 2;
+  transform: translate(50%, -100%);
 }
 
 .arrow-right {
   position: absolute;
   top: 100%;
-  right: 0;
+  right: 100%;
   transform: translate(-50%, -100%);
 }
 
 .compare-card-left {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 33%;
   padding-right: 14px;
   margin-bottom: 20px;
 }
@@ -930,7 +964,6 @@
   padding: 6px 16px;
   margin-bottom: 0;
   user-select: text;
-  background: #f5f5f5;
 }
 
 .count {
@@ -1190,4 +1223,14 @@
 
 .action-button:hover {
   background: #f5f5f5;
+}
+
+.compare-container {
+  display: flex;
+}
+
+.carousel-container {
+  flex-grow: 1;
+  width: 67%;
+  overflow-x: auto;
 }

@@ -10,6 +10,7 @@ import Menu from '../../../components/menu'
 import Actions from '../../../components/actions'
 import CompareWarning from '../cards/warningCard'
 import ComparisonTable from './comparisonTable'
+import questionInfo from '../../../components/upload/assets/questionInfo.svg'
 
 const InnerTable = observer(
   ({
@@ -115,8 +116,8 @@ const InnerTable = observer(
                 <div className={styles.columnHeaderWrapper}>
                   <span>Status</span>
                   <Actions
-                    questionMark
                     description={texts.moreInfo.duplicates}
+                    hoverIcon={<img src={questionInfo} alt="questionInfo" />}
                   />
                 </div>
               }
@@ -141,7 +142,7 @@ const InnerTable = observer(
                 <div className={styles.columnHeaderWrapper}>
                   <span>Publication date</span>
                   <Actions
-                    questionMark
+                    hoverIcon={<img src={questionInfo} alt="questionInfo" />}
                     description={texts.moreInfo.publicationDate}
                   />
                 </div>
