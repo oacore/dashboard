@@ -36,6 +36,7 @@ const DeduplicationPageTemplate = observer(
     const [rowData, setRowData] = useState()
     const [showCompareView, setShowCompareView] = useState(false)
     const [checkBillingType, setCheckBillingType] = useState(false)
+    const [showMore, setShowMore] = useState(false)
 
     const id = router.query['data-provider-id']
 
@@ -58,6 +59,10 @@ const DeduplicationPageTemplate = observer(
       clearOutputsData()
     }
 
+    const toggleShowMore = () => {
+      setShowMore(!showMore)
+    }
+
     return (
       <Tag
         className={classNames.use(styles.container).join(className)}
@@ -72,6 +77,8 @@ const DeduplicationPageTemplate = observer(
             className={styles.description}
             text={texts.description || 'N/A'}
             maxLetters={320}
+            showMore={showMore}
+            toggleShowMore={toggleShowMore}
           />
         </header>
         <div className={styles.cardsWrapper}>

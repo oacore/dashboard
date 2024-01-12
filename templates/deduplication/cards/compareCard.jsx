@@ -54,6 +54,8 @@ const CompareCard = ({
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [popupContent, setPopupContent] = useState('')
 
+  const [showMore, setShowMore] = useState(false)
+
   const popupRef = useRef(null)
 
   useEffect(() => {
@@ -181,6 +183,10 @@ const CompareCard = ({
     setPopupContent('')
   }
 
+  const toggleShowMore = () => {
+    setShowMore(!showMore)
+  }
+
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (
@@ -251,6 +257,8 @@ const CompareCard = ({
                 <ShowMoreText
                   text={worksDataInfo?.data?.title}
                   maxLetters={100}
+                  showMore={showMore}
+                  toggleShowMore={toggleShowMore}
                 />
               </div>
               <div className={styles.redirectButtonWrapper}>
@@ -311,6 +319,8 @@ const CompareCard = ({
                     ) : (
                       <ShowMoreText
                         text={value}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
                         maxLetters={
                           index === modifiedWorksData.length - 1 ? 150 : 50
                         }
@@ -366,7 +376,12 @@ const CompareCard = ({
                   </Message>
                   <div className={styles.compareTitleWrapper}>
                     <div className={styles.compareTitle}>
-                      <ShowMoreText text={item?.data?.title} maxLetters={100} />
+                      <ShowMoreText
+                        text={item?.data?.title}
+                        maxLetters={100}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
+                      />
                     </div>
                     <div className={styles.redirectButtonWrapper}>
                       <Button
@@ -407,6 +422,8 @@ const CompareCard = ({
                           ?.map((author) => author.name)
                           .join(', ')}
                         maxLetters={50}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
                       />
                     </div>
                     <div
@@ -420,6 +437,8 @@ const CompareCard = ({
                       <ShowMoreText
                         text={item?.data?.documentType}
                         maxLetters={50}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
                       />
                     </div>
                     <div
@@ -433,6 +452,8 @@ const CompareCard = ({
                       <ShowMoreText
                         text={item?.data?.fieldOfStudy}
                         maxLetters={50}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
                       />
                     </div>
                     <div
@@ -440,14 +461,24 @@ const CompareCard = ({
                         [styles.matched]: !isMatching(item?.data?.doi, 3),
                       })}
                     >
-                      <ShowMoreText text={item?.data?.doi} maxLetters={50} />
+                      <ShowMoreText
+                        text={item?.data?.doi}
+                        maxLetters={50}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
+                      />
                     </div>
                     <div
                       className={classNames.use(styles.outputItem, {
                         [styles.matched]: !isMatching(item?.data?.oai, 4),
                       })}
                     >
-                      <ShowMoreText text={item?.data?.oai} maxLetters={50} />
+                      <ShowMoreText
+                        text={item?.data?.oai}
+                        maxLetters={50}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
+                      />
                     </div>
                     <div
                       className={classNames.use(styles.outputItem, {
@@ -460,6 +491,8 @@ const CompareCard = ({
                       <ShowMoreText
                         text={item?.data?.publishedDate}
                         maxLetters={50}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
                       />
                     </div>
                     <div
@@ -473,6 +506,8 @@ const CompareCard = ({
                       <ShowMoreText
                         text={item?.data?.depositedDate}
                         maxLetters={50}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
                       />
                     </div>
                     <div
@@ -483,6 +518,8 @@ const CompareCard = ({
                       <ShowMoreText
                         text={item?.data?.abstract}
                         maxLetters={150}
+                        showMore={showMore}
+                        toggleShowMore={toggleShowMore}
                       />
                     </div>
                     <TogglePanel
