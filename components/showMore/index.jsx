@@ -1,15 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from '@oacore/design/lib/elements'
 
 import styles from './styles.module.css'
 
-const ShowMoreText = ({ text, maxLetters }) => {
-  const [showMore, setShowMore] = useState(false)
-
-  const toggleShowMore = () => {
-    setShowMore(!showMore)
-  }
-
+const ShowMoreText = ({ text, maxLetters, showMore, toggleShowMore }) => {
   const truncatedText = text?.slice(0, maxLetters)
 
   if (!text) return <div className={styles.notAvaliable}>Not available</div>

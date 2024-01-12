@@ -358,9 +358,10 @@
   width: 40%;
   min-height: 32px;
   padding: 0.2rem;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--white);
   text-transform: capitalize;
+  letter-spacing: 0;
   background-color: var(--success-dark);
 }
 
@@ -1042,7 +1043,7 @@
 
 .height {
   width: 100%;
-  min-height: 135px;
+  min-height: 80px;
   padding: 6px 16px;
   margin-bottom: 14px;
 }
@@ -1053,7 +1054,7 @@
 
 .height-output {
   width: 100%;
-  min-height: 135px;
+  min-height: 80px;
   padding: 6px 16px;
   margin-bottom: 14px;
   user-select: text;
