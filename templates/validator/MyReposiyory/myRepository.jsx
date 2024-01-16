@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from '@oacore/design'
 
 import ComplianceCard from '../cards/complianceCard'
 import styles from '../styles.module.css'
@@ -24,7 +25,12 @@ const MyRepository = ({ filterRepositoryData, repositoryData }) => (
               {texts.validator.issues.issueTitle}
             </p>
           </div>
-          <Actions description={texts.validator.issueTooltip} />
+          <Actions
+            description={texts.validator.issueTooltip}
+            hoverIcon={
+              <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+            }
+          />
         </div>
         {/*  // !!! WHEN RELEASE MY REPOSITORY UNCOMMENT !!! */}
         {/* {filterRepositoryData.length !== 0 ? ( */}
@@ -54,7 +60,12 @@ const MyRepository = ({ filterRepositoryData, repositoryData }) => (
               {texts.validator.issues.warningTitle}
             </p>
           </div>
-          <Actions description={texts.validator.warningTooltip} />
+          <Actions
+            description={texts.validator.warningTooltip}
+            hoverIcon={
+              <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+            }
+          />
         </div>
         {/* TEMP */}
         <Markdown className={styles.explainTextHeader}>

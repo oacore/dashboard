@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import texts from '../../../texts/deduplication/deduplication.yml'
@@ -6,7 +7,7 @@ import Actions from '../../../components/actions'
 import ExportButton from '../../../components/export-button'
 import { formatNumber } from '../../../utils/helpers'
 
-import { Card } from 'design'
+import { ProgressSpinner, Card } from 'design'
 
 const DeduplicationStatistics = ({
   duplicateList,
@@ -22,11 +23,26 @@ const DeduplicationStatistics = ({
       <Card.Title className={styles.cardTitle} tag="h2">
         {texts.info.countTitle}
       </Card.Title>
-      <Actions className={styles.actionItem} description={texts.info.info} />
+      <Actions
+        className={styles.actionItem}
+        description={texts.info.info}
+        hoverIcon={
+          <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+        }
+      />
     </div>
     <div className={styles.innerWrapper}>
       <span className={styles.innerSubTitle}>{texts.info.subTitle}</span>
-      <span className={styles.text}>{formatNumber(duplicateList.count)}</span>
+      {duplicateList.count ? (
+        <span className={styles.text}>{formatNumber(duplicateList.count)}</span>
+      ) : (
+        <div className={styles.spinnerWrapper}>
+          <ProgressSpinner className={styles.spinner} />
+          <p className={styles.spinnerText}>
+            This may take a while, longer for larger repositories ...
+          </p>
+        </div>
+      )}
       {!checkBillingType && (
         <ExportButton
           href={duplicatesUrl}

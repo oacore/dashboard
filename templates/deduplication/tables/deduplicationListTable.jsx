@@ -95,11 +95,25 @@ const DeduplicationListTable = observer(
             List of potential duplicates and alternative versions
           </Card.Title>
           {checkBillingType ? (
-            <Actions description={texts.info.listOfDuplicates} />
+            <Actions
+              description={texts.info.listOfDuplicates}
+              hoverIcon={
+                <Icon
+                  src="#alert-circle-outline"
+                  style={{ color: '#757575' }}
+                />
+              }
+            />
           ) : (
             <Actions
               downloadUrl={duplicatesUrl}
               description={texts.info.listOfDuplicates}
+              hoverIcon={
+                <Icon
+                  src="#alert-circle-outline"
+                  style={{ color: '#757575' }}
+                />
+              }
             />
           )}
         </div>

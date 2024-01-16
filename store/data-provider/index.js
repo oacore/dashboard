@@ -45,6 +45,10 @@ class DataProvider extends Resource {
 
   @observable oaiMapping = {}
 
+  @observable apiUserData = []
+
+  @observable datasetUserData = []
+
   @observable logo = ''
 
   @observable membership = {}
@@ -221,6 +225,8 @@ class DataProvider extends Resource {
         this.retrieveIrusStats()
         this.retrieveRioxxStats()
         this.retrieveOaiMapping()
+        this.fetchApiUsers()
+        this.fetchDatasetUsers()
         this.retrieveLogo()
 
         const url = `/data-providers/${this.id}`
@@ -373,6 +379,26 @@ class DataProvider extends Resource {
       this.logo = logoUrl
     } catch (networkOrAccessError) {
       this.logo = null
+    }
+  }
+
+  @action async fetchApiUsers() {
+    try {
+      const url = `/settings/access_api_key`
+      const { data } = await apiRequest(url)
+      this.apiUserData = data
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action async fetchDatasetUsers() {
+    try {
+      const url = `/settings/access_dataset`
+      const { data } = await apiRequest(url)
+      this.datasetUserData = data
+    } catch (networkOrAccessError) {
+      // Ignore errors for this moment
     }
   }
 

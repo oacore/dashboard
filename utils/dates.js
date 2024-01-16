@@ -28,13 +28,12 @@ const getDatesByMonth = (history) => {
 const getDatesByHalfYear = (history) => {
   const lastDates = Object.values(Object.values(history).slice(-7))
 
-  const filteredData = []
-
-  lastDates.map((monthes) => {
-    filteredData.push(monthes['06'])
-    filteredData.push(monthes['12'])
-    return null
-  })
+  const filteredData = lastDates.filter((item) =>
+    Object.keys(item).some((key) => {
+      const numericKey = parseInt(key, 10)
+      return !Number.isNaN(numericKey) && numericKey > 6 && numericKey < 12
+    })
+  )
 
   const halfYearDates = filteredData
     .filter(Boolean)

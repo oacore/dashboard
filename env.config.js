@@ -11,11 +11,12 @@ const development = {
 }
 
 const production = {
-  API_URL: 'https://api02.core.ac.uk/internal',
-  IDP_URL: 'https://api02.core.ac.uk',
+  API_URL: 'https://api.core.ac.uk/internal',
+  IDP_URL: 'https://api.core.ac.uk',
 }
 
 // In case if we have trouble with main API02
+
 // const production = {
 //   API_URL: 'https://api.core.ac.uk/internal',
 //   IDP_URL: 'https://api.core.ac.uk',

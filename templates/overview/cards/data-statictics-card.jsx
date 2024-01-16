@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import OverviewCard from './overview-card'
@@ -30,7 +31,12 @@ const ActionsBar = ({ onSetActiveType, activeType }) => {
           active={activeType === name}
         />
       ))}
-      <Actions description={text.cardTooltip} />
+      <Actions
+        description={text.cardTooltip}
+        hoverIcon={
+          <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+        }
+      />
     </div>
   )
 }
@@ -70,7 +76,7 @@ const DataStatisticsCard = ({
     <OverviewCard className={styles.infoCard} {...restProps}>
       <div className={styles.cardHeader}>
         <Card.Title tag="h2">{text.title}</Card.Title>
-        {barChartValues.length > 5 && (
+        {barChartValues.length >= 2 && (
           <ActionsBar
             activeType={activeType}
             onSetActiveType={onSetActiveType}
@@ -98,7 +104,7 @@ const DataStatisticsCard = ({
           />
         )}
       </div>
-      {barChartValues.length > 5 ? (
+      {barChartValues.length >= 2 ? (
         <AreaChart
           data={barChartValues.map(({ date, value }) => ({
             'name': formatDate(date, {
@@ -109,7 +115,7 @@ const DataStatisticsCard = ({
           }))}
         />
       ) : (
-        <p>No compliance-aggregate for repository</p>
+        <p>There is not enough historical data to display on a chart.</p>
       )}
     </OverviewCard>
   )
