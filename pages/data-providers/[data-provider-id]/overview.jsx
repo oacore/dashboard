@@ -29,6 +29,9 @@ const Overview = ({ store, ...props }) => (
     rioxxCompliance={store.dataProvider?.rioxx}
     dataProviderData={store.dataProvider}
     tutorial={store.tutorial}
+    notificationGuide={store.notificationGuide}
+    updateNotifications={store.updateNotifications}
+    organisationId={store.organisationId}
     {...props}
   />
 )

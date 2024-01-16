@@ -148,13 +148,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .notification-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.header-sub-title {
+  margin-bottom: 24px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: #424242;
+  letter-spacing: 0.04px;
 }
 
 .notification-text {
@@ -164,13 +173,31 @@
   font-weight: 500;
   color: #b75400;
   letter-spacing: 0.0125em;
+  cursor: pointer;
+}
+
+.notification-text-disable {
+  margin-left: 4px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  color: #9e9e9e;
+  letter-spacing: 0.0125em;
+  cursor: pointer;
 }
 
 .card-wrapper {
-  width: 50%;
+  display: flex;
+  justify-content: space-between;
   padding: 24px 0;
+  margin-top: 10px;
   border-top: 1px solid #b75400;
   border-bottom: 1px solid #b75400;
+}
+
+.inner-wrapper {
+  display: flex;
+  justify-content: space-between;
 }
 
 .type-wrapper {
@@ -179,30 +206,34 @@
   margin-bottom: 24px;
 }
 
-.toggler {
-  margin-bottom: 16px;
+.main-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 200px;
+  margin-top: 24px;
 }
 
-.notification-type-text {
-  margin-left: 15px;
+.notification-container {
+  width: 50%;
+}
+
+.switch-title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  color: #000;
+  letter-spacing: 0.026px;
+}
+
+.toggler-text {
+  margin-left: 62px;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 130%;
   color: #424242;
-}
-
-.option-wrapper {
-  margin-left: 40px;
-}
-
-.option {
-  display: flex;
-  align-items: center;
-}
-
-.option:not(:last-child) {
-  margin-bottom: 24px;
+  letter-spacing: 0.042px;
 }
 
 .harvesting-type {
@@ -556,6 +587,50 @@
 
 .plan-active {
   color: var(--success-dark);
+}
+
+.notification-guide-inner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.notification-title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  color: #212121;
+  letter-spacing: 0.01px;
+}
+
+.notification-description {
+  margin: 24px 0;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #212121;
+  letter-spacing: 0.026px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-button:first-child {
+  margin-right: 8px;
+}
+
+.action-button {
+  text-transform: capitalize;
+}
+
+.disabled {
+  cursor: not-allowed;
 }
 
 .user-wrapper {

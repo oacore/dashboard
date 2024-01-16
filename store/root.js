@@ -85,6 +85,10 @@ class Root extends Store {
 
   @observable depositDates = null
 
+  @observable harvestNotifications = null
+
+  @observable deduplicationNotifications = null
+
   @observable tutorial = {
     currentStep: 1,
     isModalOpen: false,
@@ -103,11 +107,31 @@ class Root extends Store {
     },
   }
 
+  @observable notificationGuide = {
+    isModalOpen: false,
+    openModal() {
+      this.isModalOpen = true
+    },
+    closeModal() {
+      this.isModalOpen = false
+    },
+  }
+
   @observable acceptedTCVersion = 0
 
   @observable requestsInProgress = 0
 
   @observable seenAll = []
+
+  @action
+  setHarvestNotifications = (data) => {
+    this.harvestNotifications = data
+  }
+
+  @action
+  setDeduplicationNotifications = (data) => {
+    this.deduplicationNotifications = data
+  }
 
   @computed
   get isLoading() {
@@ -321,6 +345,61 @@ class Root extends Store {
       })
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
+    }
+  }
+
+  @action
+  getNotifications = async (userId, organisationId, type) => {
+    try {
+      const url = `/user/${this.user.id}/settings/${this.organisation.id}/${type}`
+      const response = await this.options.request(url)
+
+      if (type === 'harvest-completed') this.setHarvestNotifications(response)
+      else if (type === 'deduplication-completed')
+        this.setDeduplicationNotifications(response)
+    } catch (error) {
+      console.error('Error making GET request:', error)
+      throw error
+    }
+  }
+
+  @action
+  updateNotifications = async (body, notificationType) => {
+    try {
+      const url = `${process.env.API_URL}/user/${this.user.id}/settings`
+      await this.options.request(url, {
+        skipStatusCheck: true,
+        method: 'POST',
+        body,
+      })
+      await this.getNotifications(
+        body.userId,
+        body.organisationId,
+        notificationType
+      )
+    } catch (networkOrAccessError) {
+      console.error('Error updating notifications:', networkOrAccessError)
+      throw new Error('Something went wrong. Please try again later!')
+    }
+  }
+
+  @action
+  deleteNotifications = async (body, notificationType) => {
+    try {
+      const url = `${process.env.API_URL}/user/${this.user.id}/settings`
+      await this.options.request(url, {
+        skipStatusCheck: true,
+        method: 'DELETE',
+        body,
+      })
+
+      await this.getNotifications(
+        body.userId,
+        body.organisationId,
+        notificationType
+      )
+    } catch (networkOrAccessError) {
+      throw new Error('Something went wrong. Please try again later!')
     }
   }
 
