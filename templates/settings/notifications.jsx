@@ -8,7 +8,7 @@ import content from '../../texts/settings'
 import notification from './assets/notification.svg'
 import notificationsOff from './assets/notificationsOffs.svg'
 import HarvestingNotification from './cards/harvestingNotification'
-// import DeduplicationNotification from './cards/dedupliactionNotifications'
+import DeduplicationNotification from './cards/dedupliactionNotifications'
 
 const NotificationsPageTemplate = observer(
   ({
@@ -23,16 +23,16 @@ const NotificationsPageTemplate = observer(
   }) => {
     const [harvestingSwitch, setHarvestingSwitch] = useState(false)
 
-    // const [deduplicationSwitch, setDeduplicationSwitch] = useState(false)
+    const [deduplicationSwitch, setDeduplicationSwitch] = useState(false)
 
     // eslint-disable-next-line max-len
     const [harvestingNotificationsPending, setHarvestingNotificationsPending] =
       useState(false)
 
-    // const [
-    //   deduplicationNotificationsPending,
-    //   setDeduplicationNotificationsPending,
-    // ] = useState(false)
+    const [
+      deduplicationNotificationsPending,
+      setDeduplicationNotificationsPending,
+    ] = useState(false)
 
     const handleHarvestingOptionDelete = async () => {
       setHarvestingNotificationsPending(true)
@@ -53,28 +53,28 @@ const NotificationsPageTemplate = observer(
       }
     }
 
-    // const handleDeduplicationOptionDelete = async () => {
-    //   setDeduplicationNotificationsPending(true)
-    //   try {
-    //     await deleteNotifications(
-    //       {
-    //         organisationId,
-    //         userId,
-    //         type: 'deduplication-completed',
-    //       },
-    //       'deduplication-completed'
-    //     )
-    //     setDeduplicationSwitch(false)
-    //   } catch (error) {
-    //     console.error('Error deleting notifications:', error)
-    //   } finally {
-    //     setDeduplicationNotificationsPending(false)
-    //   }
-    // }
+    const handleDeduplicationOptionDelete = async () => {
+      setDeduplicationNotificationsPending(true)
+      try {
+        await deleteNotifications(
+          {
+            organisationId,
+            userId,
+            type: 'deduplication-completed',
+          },
+          'deduplication-completed'
+        )
+        setDeduplicationSwitch(false)
+      } catch (error) {
+        console.error('Error deleting notifications:', error)
+      } finally {
+        setDeduplicationNotificationsPending(false)
+      }
+    }
 
     const handleDelete = () => {
       handleHarvestingOptionDelete()
-      // handleDeduplicationOptionDelete()
+      handleDeduplicationOptionDelete()
     }
 
     const handleHarvestingOptionChange = async (newSelectedOption) => {
@@ -95,23 +95,23 @@ const NotificationsPageTemplate = observer(
       }
     }
 
-    // const handleDeduplicationOptionChange = async (newSelectedOption) => {
-    //   setDeduplicationNotificationsPending(true)
-    //   try {
-    //     await updateNotifications(
-    //       {
-    //         organisationId,
-    //         type: 'deduplication-completed',
-    //         datetimeInterval: newSelectedOption,
-    //       },
-    //       'deduplication-completed'
-    //     )
-    //   } catch (error) {
-    //     console.error('Error updating notifications:', error)
-    //   } finally {
-    //     setDeduplicationNotificationsPending(false)
-    //   }
-    // }
+    const handleDeduplicationOptionChange = async (newSelectedOption) => {
+      setDeduplicationNotificationsPending(true)
+      try {
+        await updateNotifications(
+          {
+            organisationId,
+            type: 'deduplication-completed',
+            datetimeInterval: newSelectedOption,
+          },
+          'deduplication-completed'
+        )
+      } catch (error) {
+        console.error('Error updating notifications:', error)
+      } finally {
+        setDeduplicationNotificationsPending(false)
+      }
+    }
 
     const toggleHarvestingSwitch = () => {
       setHarvestingSwitch((prevSwitch) => {
@@ -126,22 +126,22 @@ const NotificationsPageTemplate = observer(
       })
     }
 
-    // const toggleDeduplicationSwitch = () => {
-    //   setDeduplicationSwitch((prevSwitch) => {
-    //     const newSwitch = !prevSwitch
-    //     if (newSwitch) {
-    //       handleDeduplicationOptionChange(
-    //         content.notifications.types.deduplication.radio[0].key
-    //       )
-    //     } else handleDeduplicationOptionDelete()
-    //
-    //     return newSwitch
-    //   })
-    // }
+    const toggleDeduplicationSwitch = () => {
+      setDeduplicationSwitch((prevSwitch) => {
+        const newSwitch = !prevSwitch
+        if (newSwitch) {
+          handleDeduplicationOptionChange(
+            content.notifications.types.deduplication.radio[0].key
+          )
+        } else handleDeduplicationOptionDelete()
+
+        return newSwitch
+      })
+    }
 
     const handleToggle = () => {
       toggleHarvestingSwitch()
-      // toggleDeduplicationSwitch()
+      toggleDeduplicationSwitch()
     }
 
     useEffect(() => {
@@ -156,21 +156,21 @@ const NotificationsPageTemplate = observer(
       fetchData()
     }, [])
 
-    // useEffect(() => {
-    //   const fetchData = async () => {
-    //     try {
-    //       await getNotifications(
-    //         userId,
-    //         organisationId,
-    //         'deduplication-completed'
-    //       )
-    //     } catch (error) {
-    //       console.error('Error fetching notifications:', error)
-    //     }
-    //   }
-    //
-    //   fetchData()
-    // }, [])
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          await getNotifications(
+            userId,
+            organisationId,
+            'deduplication-completed'
+          )
+        } catch (error) {
+          console.error('Error fetching notifications:', error)
+        }
+      }
+
+      fetchData()
+    }, [])
 
     useEffect(() => {
       setHarvestingSwitch(
@@ -178,12 +178,12 @@ const NotificationsPageTemplate = observer(
       )
     }, [harvestNotifications])
 
-    // useEffect(() => {
-    //   setDeduplicationSwitch(
-    // eslint-disable-next-line max-len
-    //     deduplicationNotifications?.data[0]?.type === 'deduplication-completed'
-    //   )
-    // }, [deduplicationNotifications])
+    useEffect(() => {
+      setDeduplicationSwitch(
+        // eslint-disable-next-line max-len
+        deduplicationNotifications?.data[0]?.type === 'deduplication-completed'
+      )
+    }, [deduplicationNotifications])
 
     return (
       <>
@@ -192,27 +192,28 @@ const NotificationsPageTemplate = observer(
         <Card className={styles.section} tag="section">
           <div className={styles.headerWrapper}>
             <Card.Title tag="h2">{content.notifications.title}</Card.Title>
-            {harvestingSwitch ? (
-              // || deduplicationSwitch
+            {harvestingSwitch || deduplicationSwitch ? (
               // eslint-disable-next-line max-len
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
               <div
                 onClick={
-                  harvestingNotificationsPending
-                    ? // || deduplicationNotificationsPending
-                      null
+                  harvestingNotificationsPending ||
+                  deduplicationNotificationsPending
+                    ? null
                     : handleDelete
                 }
                 className={classNames.use(styles.notificationWrapper, {
-                  [styles.disabled]: harvestingNotificationsPending,
-                  // || deduplicationNotificationsPending,
+                  [styles.disabled]:
+                    harvestingNotificationsPending ||
+                    deduplicationNotificationsPending,
                 })}
               >
                 <img src={notification} alt={content.notifications.title} />
                 <span
                   className={classNames.use(styles.notificationText, {
-                    [styles.disabled]: harvestingNotificationsPending,
-                    // || deduplicationNotificationsPending,
+                    [styles.disabled]:
+                      harvestingNotificationsPending ||
+                      deduplicationNotificationsPending,
                   })}
                 >
                   {content.notifications.subAction}
@@ -224,8 +225,9 @@ const NotificationsPageTemplate = observer(
               <div
                 onClick={handleToggle}
                 className={classNames.use(styles.notificationWrapper, {
-                  [styles.disabled]: harvestingNotificationsPending,
-                  // || deduplicationNotificationsPending,
+                  [styles.disabled]:
+                    harvestingNotificationsPending ||
+                    deduplicationNotificationsPending,
                 })}
               >
                 <img src={notificationsOff} alt={content.notifications.title} />
@@ -262,33 +264,34 @@ const NotificationsPageTemplate = observer(
               updateNotificationsPending={harvestingNotificationsPending}
               harvestingNotificationsPending={harvestingNotificationsPending}
             />
-            {/* <DeduplicationNotification */}
-            {/*  label={ */}
-            {/*    <span className={styles.switchTitle}> */}
-            {/*      {content.notifications.types.deduplication.type} */}
-            {/*    </span> */}
-            {/*  } */}
-            {/*  title={content.notifications.types.deduplication.notifyOne} */}
-            {/* eslint-disable-next-line max-len */}
-            {/*  subTitle={content.notifications.types.deduplication.notifyTwo} */}
-            {/*  options={Object?.values( */}
-            {/*    content.notifications.types.deduplication.radio */}
-            {/*  )} */}
-            {/*  checked={deduplicationSwitch} */}
-            {/*  onChange={toggleDeduplicationSwitch} */}
-            {/*  id="deduplication" */}
-            {/*  name="deduplication" */}
-            {/*  updateNotifications={updateNotifications} */}
-            {/*  handleOptionChange={handleDeduplicationOptionChange} */}
-            {/*  dataProviderId={dataProviderId} */}
-            {/*  harvestNotifications={harvestNotifications} */}
-            {/*  deduplicationNotifications={deduplicationNotifications} */}
-            {/* eslint-disable-next-line max-len */}
-            {/*  updateNotificationsPending={deduplicationNotificationsPending} */}
-            {/*  deduplicationNotificationsPending={ */}
-            {/*    deduplicationNotificationsPending */}
-            {/*  } */}
-            {/* /> */}
+            <DeduplicationNotification
+              label={
+                <span className={styles.switchTitle}>
+                  {content.notifications.types.deduplication.type}
+                </span>
+              }
+              title={content.notifications.types.deduplication.notifyOne}
+              eslint-disable-next-line
+              max-len
+              subTitle={content.notifications.types.deduplication.notifyTwo}
+              options={Object?.values(
+                content.notifications.types.deduplication.radio
+              )}
+              checked={deduplicationSwitch}
+              onChange={toggleDeduplicationSwitch}
+              id="deduplication"
+              name="deduplication"
+              updateNotifications={updateNotifications}
+              handleOptionChange={handleDeduplicationOptionChange}
+              dataProviderId={dataProviderId}
+              harvestNotifications={harvestNotifications}
+              deduplicationNotifications={deduplicationNotifications}
+              // eslint-disable-next-line max-len
+              updateNotificationsPending={deduplicationNotificationsPending}
+              deduplicationNotificationsPending={
+                deduplicationNotificationsPending
+              }
+            />
           </div>
         </Card>
       </>
