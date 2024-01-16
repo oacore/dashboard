@@ -271,8 +271,6 @@ const NotificationsPageTemplate = observer(
                 </span>
               }
               title={content.notifications.types.deduplication.notifyOne}
-              eslint-disable-next-line
-              max-len
               subTitle={content.notifications.types.deduplication.notifyTwo}
               options={Object?.values(
                 content.notifications.types.deduplication.radio
