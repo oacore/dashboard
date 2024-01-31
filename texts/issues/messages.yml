@@ -44,7 +44,7 @@
   resolution: No recommendation available for this issue.
   level: internal
   description: |
-    We were unable to identify what kind of error happend during the harvesting.
+    We were unable to identify what kind of error happend during the indexing.
     If this issue impacts a lot of records, please contact us.
 
 # Metadata Download

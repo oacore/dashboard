@@ -27,7 +27,7 @@ const HarvestingStatusCard = ({
       />
       <NumericValue
         value={valueOrDefault(metadataCount, 'Loading...')}
-        title="Total harvested outputs"
+        title="Total indexed outputs"
         tag="div"
         bold
       />
@@ -52,7 +52,7 @@ const HarvestingStatusCard = ({
     </div>
     {errorsCount && total && (
       <p className={styles.errorsInfo}>
-        Harvested with
+        Indexed with
         <span className={styles.errorsCount}>
           {' '}
           {patchValueFull('{{errorsCount}}', { errorsCount })}{' '}
