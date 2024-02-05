@@ -81,8 +81,8 @@ notifications:
       variant: outlined
   types:
     harvesting:
-      type: Harvesting
-      notifyOne: Notify me of the harvesting status for my repository.
+      type: Indexing
+      notifyOne: Notify me of the indexing status for my repository.
       notifyTwo: Send me a Harvesting Report email.
       radio:
         - title: Every month
@@ -91,7 +91,7 @@ notifications:
           key: 3 month
         - title: Every 6 months
           key: 6 month
-        - title: Every time when harvesting finished
+        - title: Every time when indexing finished
           key: every time
     deduplication:
       type: Deduplication
