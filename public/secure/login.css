@@ -2,6 +2,10 @@
   display: none;
 }
 
+.message {
+  margin-bottom: 20px;
+}
+
 /* Source code inspired by https://github.com/tobiasahlin/SpinKit */
 .spinner {
   position: relative;
@@ -68,4 +72,47 @@
 
 .forgotten-password {
   float: right;
+}
+
+label {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+input {
+  width: 100%;
+  padding: 10px 0;
+  margin-top: 20px;
+  border: none;
+  outline: none;
+  color: #212121;
+  font-size: 16px;
+}
+
+input::placeholder {
+  opacity: 0;
+  color: #666;
+  font-size: 16px;
+}
+
+span {
+  position: absolute;
+  bottom: 48px;
+  left: 0;
+  transform: translateY(30px);
+  transition-duration: 300ms;
+  margin-left: 12px;
+  color: #b75400;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+label:focus-within > span,
+input:not(:placeholder-shown) + span {
+  color: #b75400;
+  transform: translateY(5px);
+  background: #fff;
+  width: max-content;
+  border-radius: 4px;
+  padding: 2px 4px;
 }

@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <p class="group">
+    <label for="email">
       <input
         id="email"
         class="control"
@@ -42,9 +42,9 @@
         autocomplete="email"
         required
       />
-      <label class="label" for="email">Email</label>
-    </p>
-    <p class="group">
+      <span>Email</span>
+    </label>
+    <label for="password">
       <input
         id="password"
         class="control"
@@ -54,8 +54,9 @@
         autocomplete="current-password"
         required
       />
-      <label class="label" for="password">Password</label>
-    </p>
+      <span>Password</span>
+    </label>
+
     <input type="hidden" name="remember_me" value="on" />
 
     <button class="button contained" type="submit">Login</button>
