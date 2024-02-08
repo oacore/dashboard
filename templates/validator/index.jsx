@@ -8,6 +8,7 @@ import RioxValidator from './RIoxValidator/RIoxValidator'
 import MyRepository from './MyReposiyory/myRepository'
 import { Message } from '../../design'
 import Markdown from '../../components/markdown'
+import DashboardHeader from '../../components/dashboard-header'
 
 import { Button } from 'design'
 import texts from 'texts/validator'
@@ -183,15 +184,11 @@ const ValidatorPageTemplate = ({
       className={classNames.use(styles.container).join(className)}
       {...restProps}
     >
-      <header className={styles.header}>
-        <div className={styles.validatorHeader}>
-          <div className={styles.temporaryWrapper}>
-            <h1 className={styles.title}>{texts.validator.title}</h1>
-            <div className={styles.beta}>BETA</div>
-          </div>
-        </div>
-        <p className={styles.description}>{texts.validator.description}</p>
-      </header>
+      <DashboardHeader
+        title={texts.validator.title}
+        description={texts.validator.description}
+        identifier="BETA"
+      />
       {/* {rioxxCompliance != null && rioxxCompliance.totalCount > 0 ? ( */}
       <>
         <Message className={styles.dataErrorWrapper}>

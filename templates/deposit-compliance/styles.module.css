@@ -147,17 +147,6 @@
   color: var(--danger-dark);
 }
 
-.header-wrapper {
-  padding: var(--component-padding-y) var(--component-padding-x);
-  background-color: var(--white);
-  border-bottom: 2px solid var(--primary);
-  box-shadow: var(--elevation-04);
-}
-
-.intro-body {
-  color: var(--gray-700);
-}
-
 .placeholder-img {
   width: 320px;
   height: 284px;

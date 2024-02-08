@@ -514,21 +514,6 @@
   background-color: var(--white);
 }
 
-.header {
-  padding: var(--component-padding-y) var(--component-padding-x);
-  background-color: var(--white);
-  border-bottom: 2px solid var(--primary);
-  box-shadow: var(--elevation-04);
-}
-
-.title {
-  font-weight: 400;
-}
-
-.member-description {
-  color: var(--gray-600);
-}
-
 .cards {
   --column-min-width: 30%;
 

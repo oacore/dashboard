@@ -5,44 +5,6 @@
   padding: var(--component-padding-y, 1rem) 0;
 }
 
-.header {
-  padding: var(--component-padding-y) var(--component-padding-x);
-  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
-  background-color: var(--white);
-  border-bottom: 6px solid var(--primary);
-  box-shadow: var(--elevation-04);
-}
-
-.temporary-wrapper {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.title {
-  margin-bottom: 0;
-  font-weight: 400;
-}
-
-.beta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 53px;
-  height: 30px;
-  margin-left: 10px;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  color: #fff;
-  background: #8bc34a;
-  border-radius: 2px;
-}
-
-.description {
-  color: var(--gray-600);
-}
-
 /* DeduplicationInfoCard */
 .cards-wrapper {
   display: flex;

@@ -2,50 +2,8 @@
   padding: var(--component-padding-y) var(--component-padding-x);
 }
 
-.header {
-  padding: var(--component-padding-y) var(--component-padding-x);
-  background-color: var(--white);
-  border-bottom: 6px solid var(--primary);
-  box-shadow: var(--elevation-04);
-}
-
-.validator-header {
-  display: flex;
-  align-items: center;
-}
-
 .menu {
   cursor: pointer;
-}
-
-.title {
-  margin-bottom: 0;
-  font-weight: 400;
-}
-
-.temporary-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.beta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 53px;
-  height: 30px;
-  margin-left: 10px;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  color: #fff;
-  background: #8bc34a;
-  border-radius: 2px;
-}
-
-.description {
-  color: var(--gray-600);
 }
 
 .issue-outer-wrapper {
