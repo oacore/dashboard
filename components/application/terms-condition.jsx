@@ -15,7 +15,7 @@ const TermsConditionPopup = ({ store, ...passProps }) => {
 
   const onClickDecline = () => {
     const data = {
-      acceptedTCVersion: -1,
+      acceptedTCVersion: -2,
     }
     store.updateUser(data)
 
@@ -31,7 +31,7 @@ const TermsConditionPopup = ({ store, ...passProps }) => {
 
   const onClickAccept = () => {
     const data = {
-      acceptedTCVersion: 1,
+      acceptedTCVersion: 2,
     }
     store.updateUser(data)
     setTcVersion(true)
