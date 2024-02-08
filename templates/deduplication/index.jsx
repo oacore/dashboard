@@ -9,6 +9,7 @@ import DeduplicationStatistics from './cards/deduplicationStatistics'
 import DeduplicationTableCard from './tables/deduplicationTables'
 import texts from '../../texts/deduplication/deduplication.yml'
 import ShowMoreText from '../../components/showMore'
+import DashboardHeader from '../../components/dashboard-header'
 
 const DeduplicationPageTemplate = observer(
   ({
@@ -68,19 +69,20 @@ const DeduplicationPageTemplate = observer(
         className={classNames.use(styles.container).join(className)}
         {...restProps}
       >
-        <header className={styles.header}>
-          <div className={styles.temporaryWrapper}>
-            <h1 className={styles.title}>{texts.title}</h1>
-            <div className={styles.beta}>BETA</div>
-          </div>
-          <ShowMoreText
-            className={styles.description}
-            text={texts.description || 'N/A'}
-            maxLetters={320}
-            showMore={showMore}
-            toggleShowMore={toggleShowMore}
-          />
-        </header>
+        <DashboardHeader
+          title={texts.title}
+          identifier="BETA"
+          showMore={
+            <ShowMoreText
+              className={styles.description}
+              text={texts.description || 'N/A'}
+              maxLetters={320}
+              showMore={showMore}
+              toggleShowMore={toggleShowMore}
+              textRestyle
+            />
+          }
+        />
         <div className={styles.cardsWrapper}>
           <DeduplicationInfoCard
             duplicateList={duplicateList}
