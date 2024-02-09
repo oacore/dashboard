@@ -9,6 +9,7 @@ import DeduplicationStatistics from './cards/deduplicationStatistics'
 import DeduplicationTableCard from './tables/deduplicationTables'
 import texts from '../../texts/deduplication/deduplication.yml'
 import ShowMoreText from '../../components/showMore'
+import DashboardHeader from '../../components/dashboard-header'
 
 const DeduplicationPageTemplate = observer(
   ({
@@ -36,6 +37,7 @@ const DeduplicationPageTemplate = observer(
     const [rowData, setRowData] = useState()
     const [showCompareView, setShowCompareView] = useState(false)
     const [checkBillingType, setCheckBillingType] = useState(false)
+    const [showMore, setShowMore] = useState(false)
 
     const id = router.query['data-provider-id']
 
@@ -58,22 +60,29 @@ const DeduplicationPageTemplate = observer(
       clearOutputsData()
     }
 
+    const toggleShowMore = () => {
+      setShowMore(!showMore)
+    }
+
     return (
       <Tag
         className={classNames.use(styles.container).join(className)}
         {...restProps}
       >
-        <header className={styles.header}>
-          <div className={styles.temporaryWrapper}>
-            <h1 className={styles.title}>{texts.title}</h1>
-            <div className={styles.beta}>BETA</div>
-          </div>
-          <ShowMoreText
-            className={styles.description}
-            text={texts.description || 'N/A'}
-            maxLetters={320}
-          />
-        </header>
+        <DashboardHeader
+          title={texts.title}
+          identifier="BETA"
+          showMore={
+            <ShowMoreText
+              className={styles.description}
+              text={texts.description || 'N/A'}
+              maxLetters={320}
+              showMore={showMore}
+              toggleShowMore={toggleShowMore}
+              textRestyle
+            />
+          }
+        />
         <div className={styles.cardsWrapper}>
           <DeduplicationInfoCard
             duplicateList={duplicateList}

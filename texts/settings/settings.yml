@@ -56,6 +56,9 @@ upload:
 notifications:
   title: Email notifications
   subAction: Turn off all notification
+  subActionDisabled: All notifications turned off
+  subTitle: |
+    Email me about updates on the following topics:
   messages:
     success: Harvesting has been successfully completed.
     issue: Harvesting was not completed because of issues that required your actions.
@@ -72,23 +75,55 @@ notifications:
      variant: outlined
   noNotifications:
     title: You have no new notifications.
-    description: Here you will see notifications about events in your repository.
+    description: Here you will see TABS.validation about events in your repository.
     action:
       title: OK
       variant: outlined
   types:
-    type: Harvesting
-    notifyOne: Notify me whenever harvesting has completed.
-    notifyTwo: Send me a Harvesting Report.
-    items:
-      month: Every month
-      quarter: Every 3 months
-      half: Every 6 months
-#  - type: Deduplication
-#    notify: Notify me whenever a new deduplication has completed.
-#    notifyTwo: Send me a Deduplication Report.
-#    items:
-#      month: Every month
-#      quarter: Every 3 months
-#      half: Every 6 months
+    harvesting:
+      type: Indexing
+      notifyOne: Notify me of the indexing status for my repository.
+      notifyTwo: Send me a Harvesting Report email.
+      radio:
+        - title: Every month
+          key: every month
+        - title: Every 3 months
+          key: 3 month
+        - title: Every 6 months
+          key: 6 month
+        - title: Every time when indexing finished
+          key: every time
+    deduplication:
+      type: Deduplication
+      notifyOne: Notify me of duplicate records found in my repository.
+      notifyTwo: Send me a Deduplication Report.
+      radio:
+        - title: Every month
+          key: every month
+        - title: Every 3 months
+          key: 3 month
+        - title: Every 6 months
+          key: 6 month
+        - title: Every time when deduplication finished
+          key: every time
 
+notificationGuide:
+  title: Enable notifications for your repository
+  description: |
+    To ensure you're always informed about the latest updates concerning your repository, we'll send you email notifications. You have the freedom to customise the type and frequency of notifications in your settings.
+
+    We promise that by enabling the notifications in the dashboard we won’t spam you with non-informative content but we will provide you email notifications on events happening in your repository life with CORE.
+  actions:
+    offAction:
+      title: Disable notification
+      type: text
+    onAction:
+      title: Enable notification
+      type: contained
+
+accessUsers:
+  title: API access
+  subTitle: Use case in which CORE data use
+accessDataUsers :
+  title: Dataset access
+  subTitle: Use case in which CORE data use

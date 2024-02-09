@@ -6,7 +6,7 @@ download: Download CSV
 harvesting-card-tooltip: The date when your repository was last harvested by CORE.
 issues-overview-card-tooltip: Issues relating to your repository that were detected by CORE whilst harvesting.
 issues:
-  title: Harvesting issues
+  title: Indexing issues
   affected: records are affected by this issue
   recommendation-card-title: Recommendation
   download-action: Download in csv

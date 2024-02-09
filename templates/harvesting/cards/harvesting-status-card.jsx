@@ -30,7 +30,7 @@ const HarvestingStatusCard = ({
         {errorsCount && total && (
           <div className={styles.errorWrapper}>
             <p className={styles.errorsInfo}>
-              Harvested with
+              indexed with
               <span className={styles.errorsCount}>
                 {' '}
                 {patchValueFull('{{errorsCount}}', { errorsCount })}{' '}

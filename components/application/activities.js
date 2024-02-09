@@ -115,12 +115,12 @@ const config = new RouteConfig([
         id: 'repository',
         value: 'Repository',
       },
-      // {
-      //   test: /\/notifications/,
-      //   path: 'notifications',
-      //   id: 'notifications',
-      //   value: 'Notifications',
-      // },
+      {
+        test: /\/notifications/,
+        path: 'notifications',
+        id: 'notifications',
+        value: 'Notifications',
+      },
     ],
   },
 ])

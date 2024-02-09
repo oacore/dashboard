@@ -5,7 +5,7 @@ description: Our technology searches your repository to identify different versi
 info:
   title: Last successful check
   countTitle: Number of matches
-  subTitle: Please be aware that it is a list of possible duplicates, and you can review it.
+  subTitle: These matches might include potential duplicates, near-duplicates and different versions of papers and metadata records.
   description: Detection of versions and near-duplicates runs automatically every time after your repository is harvested.
   action: DOWNLOAD
   info: We perform a check for versions and near-duplicates periodically, every time we complete the harvesting of your repository. We match records using a variant of locality sensitive hashing.
@@ -19,9 +19,15 @@ statistics:
 moreInfo:
   action: comparison
   description: |
-    The below list contains the potential duplicates which CORE identified. You can compare them to this record and review how they differ. You can subsequently mark them as duplicates, different versions or advise us that they are different.
+    The below list contains the potential duplicates which CORE identified. You can compare them to this record and review how they differ. You can subsequently mark them as “to be removed” or “different from the reference paper”.
 
-    This will impact how CORE displays these articles in Search, API and other services. Specifically, by marking potential duplicates as different articles, these articles will be disassociated (they will not be part of the same **Work** entity).
+    * **“To be removed”**: this indicates that one of the other presented records in the repository are the same as this record. You decided to mark this record as the one to be removed.
+
+    * **“Different from the reference paper”**: this indicates that this record is not related to the reference paper. You decided to disassociate this record from the reference paper. This will remove the connection of this record from the reference Works entity.
+
+      When you mark a paper as “to be removed” or “different from the reference paper”, then this marking will be exporter in a .csv format when you download the data using the download button.
+
+      When you mark a paper as different from the reference paper, then this will impact how CORE displays this article in Search, API and other services. Specifically, this article will be disassociated from the reference Work entity.
   tableTitle: Possible duplicates in your repositories
   duplicates: This column contains the version classification of the paper. The paper can be marked as a duplicate, or as a version with the type defined by one of the possible values in the COAR version type vocabulary
   publicationDate: The publication date coming from the repository metadata.

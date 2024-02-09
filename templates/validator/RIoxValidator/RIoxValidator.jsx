@@ -1,5 +1,6 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
+import { Icon } from '@oacore/design'
 
 import ValidateCard from '../cards/validateCard'
 import styles from '../styles.module.css'
@@ -59,7 +60,15 @@ const RioxValidator = ({
                     {texts.validator.issues.issueTitle}
                   </p>
                 </div>
-                <Actions description={texts.validator.issueTooltip} />
+                <Actions
+                  description={texts.validator.issueTooltip}
+                  hoverIcon={
+                    <Icon
+                      src="#alert-circle-outline"
+                      style={{ color: '#757575' }}
+                    />
+                  }
+                />
               </div>
               {Object.keys(validationResult).length !== 0 &&
               validationResult?.missingRequiredData.length !== 0 ? (
@@ -83,7 +92,15 @@ const RioxValidator = ({
                     {texts.validator.issues.warningTitle}
                   </p>
                 </div>
-                <Actions description={texts.validator.warningTooltip} />
+                <Actions
+                  description={texts.validator.warningTooltip}
+                  hoverIcon={
+                    <Icon
+                      src="#alert-circle-outline"
+                      style={{ color: '#757575' }}
+                    />
+                  }
+                />
               </div>
               {Object.keys(validationResult).length !== 0 &&
               validationResult?.missingOptionalData.length !== 0 ? (

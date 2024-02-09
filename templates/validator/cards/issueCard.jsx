@@ -22,6 +22,7 @@ const IssueCard = ({
           key,
           outputsCount,
           elementName,
+          messages,
         }) => (
           <li
             key={title || elementName || key}
@@ -41,7 +42,11 @@ const IssueCard = ({
                   {title || elementName || key}
                 </h3>
               </div>
-              <p>{description || `Missing element ${elementName || key}`}</p>
+              <p>
+                {description ||
+                  messages ||
+                  `Missing element ${elementName || key}`}
+              </p>
               {issueCount && (
                 <div className={styles.countWrapper}>
                   <div
