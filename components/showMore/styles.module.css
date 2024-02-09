@@ -19,3 +19,9 @@
 .show-more-btn:focus {
   --button-overlay: unset;
 }
+
+.description {
+  margin-top: 24px;
+  margin-bottom: unset;
+  color: var(--gray-700);
+}

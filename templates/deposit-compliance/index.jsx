@@ -11,10 +11,9 @@ import {
   TableCard,
 } from './cards'
 import AccessPlaceholder from '../../components/access-placeholder/AccessPlaceholder'
+import DashboardHeader from '../../components/dashboard-header'
 
 import { Icon, Link, Message } from 'design'
-import Title from 'components/title'
-import Markdown from 'components/markdown'
 import { intro as texts } from 'texts/depositing'
 
 const NotEnoughDataMessage = () => (
@@ -102,10 +101,7 @@ const DepositComplianceTemplate = ({
 
   return (
     <Tag className={[styles.container, className].join(' ')} {...restProps}>
-      <header className={styles.headerWrapper}>
-        <Title>{texts.title}</Title>
-        <Markdown className={styles.introBody}>{texts.body}</Markdown>
-      </header>
+      <DashboardHeader title={texts.title} description={texts.body} />
       {countryCode?.toLowerCase() !== 'gb' && (
         <RegionAlert>{texts.regionWarning}</RegionAlert>
       )}
