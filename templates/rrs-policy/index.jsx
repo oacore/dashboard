@@ -1,0 +1,34 @@
+import React from 'react'
+import { classNames } from '@oacore/design/lib/utils'
+
+import styles from './styles.module.css'
+import { rrs } from '../../texts/rrs-retention'
+import Markdown from '../../components/markdown'
+import RrsStatsCard from './cards/rrsStatsCard'
+import RrsReviewCard from './cards/rrsReviewCard'
+import RrsCheckCard from './cards/rrsCheckerCard'
+import RrsTable from './tables/rrsTable'
+
+const RrsPageTemplate = ({ tag: Tag = 'main', className, ...restProps }) => (
+  <Tag
+    className={classNames.use(styles.container).join(className)}
+    {...restProps}
+  >
+    <header className={styles.header}>
+      <div className={styles.validatorHeader}>
+        <div className={styles.temporaryWrapper}>
+          <h1 className={styles.title}>{rrs.title}</h1>
+        </div>
+      </div>
+      <Markdown className={styles.description}>{rrs.description}</Markdown>
+    </header>
+    <div className={styles.cardsWrapper}>
+      <RrsStatsCard />
+      <RrsReviewCard />
+      <RrsCheckCard />
+    </div>
+    <RrsTable />
+  </Tag>
+)
+
+export default RrsPageTemplate

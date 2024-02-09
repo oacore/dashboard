@@ -1,0 +1,35 @@
+title: Rights Retention Strategy (RRS) Identification
+
+description: According to the Plan S, the [Rights Retention Strategy](https://www.coalition-s.org/rights-retention-strategy/) (RRS) enables authors to exercise the authorship rights they have on their manuscripts to deposit a copy of the Author Accepted Manuscript (AAM) in a repository on publication and provide open access to it. RRS is typically implemented by means of authors inserting a rights retention statement in their manuscript. CORE provides functionality to automatically identify papers with these Rights Retention Strategy statements, by means of testing if the rights retention statement is present in the paper’s full text.
+
+statsCard:
+  title: Outputs with RRS
+  description: within your repository collection
+  action: Download
+
+reviewCard:
+  title: RRS to review
+  description: action recommended
+  info: Number of outputs without a Right Retention within the repository collection.
+  action: Review
+
+checkCard:
+  title: RRS checker
+  info: CORE has discovered more Right Retention which are not listed in the repository.
+  action: Upload
+
+table:
+  title: Outputs with RRS statements found in your repository
+  subTitle: In the list below you can review and approve all detected RRS statements.
+
+
+helpInfo:
+  actionBtn: Hide description
+  description: |
+    The below list contains the list of papers in your repository for which CORE has automatically detected the presence of RRS statements.  We recommend that you review the automatically extracted RRS statements to check if they are correct. You will be then able to download a .csv file which contains these reviewed RRS statements, for instance for the purposes of importing this information into your repository. The RRS identification runs on your full texts, CORE cannot detect RRS statements from papers CORE doesn’t have access to.
+
+    * “**Review RRS**”: click on the Review RRS link. A pop-up will show up displaying the automatically extracted RRS statement. Review it and click on correct or wrong.
+
+    * “**Status**”: this indicates whether the RRS statement has been reviewed and found correct or wrong. RRS statements that have not been reviewed will be indicated by a question mark.
+  show: Show description
+  hide: Hide description

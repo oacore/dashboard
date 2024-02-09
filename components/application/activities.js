@@ -64,6 +64,11 @@ const config = new RouteConfig([
     icon: 'calendar-check',
   },
   {
+    test: /\/rrs-policy/,
+    path: 'policy',
+    icon: 'calendar-check',
+  },
+  {
     test: /\/doi/,
     path: 'doi',
     icon: 'barcode',
