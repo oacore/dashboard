@@ -11,7 +11,7 @@ import texts from '../../../texts/deduplication/deduplication.yml'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import ExportButton from '../../../components/export-button'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
-import CompareWarning from '../cards/warningCard'
+import DashboardTipMessage from '../../../components/dashboard-tip-message'
 
 const DeduplicationListTable = observer(
   ({
@@ -122,7 +122,7 @@ const DeduplicationListTable = observer(
           <span className={styles.itemCount}>{duplicateData.count}</span> items.
           Review and download them below.
         </div>
-        <CompareWarning
+        <DashboardTipMessage
           show={texts.helpInfo.show}
           hide={texts.helpInfo.hide}
           description={texts.helpInfo.description}
