@@ -16,50 +16,59 @@ const HarvestingStatusCard = ({
   metadataCount,
   total,
 }) => (
-  <Card>
+  <Card className={styles.harvestingCardWrapper}>
     <Card.Title tag="h2">{texts.genInfo.title}</Card.Title>
     <div className={styles.metadata}>
-      <NumericValue
-        value={valueOrDefault(formatDate(lastHarvestingDate), 'Loading...')}
-        title="Last successful updating"
-        tag="div"
-        bold
-      />
-      <NumericValue
-        value={valueOrDefault(metadataCount, 'Loading...')}
-        title="Total indexed outputs"
-        tag="div"
-        bold
-      />
-      <FullTextsProgressChart
-        className={styles.chart}
-        fullTextCount={fullTextCount}
-        chartValues={[
-          {
-            name: 'Full text',
-            value: fullTextCount,
-            color: COLORS.primary,
-          },
-          {
-            name: 'Without full text',
-            value: metadataCount - fullTextCount,
-            color: COLORS.gray200,
-          },
-        ]}
-        caption="Full texts"
-        value={valueOrDefault((fullTextCount / metadataCount) * 100, '🔁')}
-      />
+      <div className={styles.metadataItems}>
+        <NumericValue
+          value={valueOrDefault(formatDate(lastHarvestingDate), 'Loading...')}
+          title="Last successful updating"
+          tag="div"
+          bold
+          className={styles.metadataItem}
+        />
+        {errorsCount && total && (
+          <div className={styles.errorWrapper}>
+            <p className={styles.errorsInfo}>
+              indexed with
+              <span className={styles.errorsCount}>
+                {' '}
+                {patchValueFull('{{errorsCount}}', { errorsCount })}{' '}
+              </span>
+              issue types affecting {patchValueFull('{{total}}', { total })}{' '}
+              records
+            </p>
+          </div>
+        )}
+      </div>
+      <div className={styles.metadataItems}>
+        <NumericValue
+          value={valueOrDefault(metadataCount, 'Loading...')}
+          title="Total harvested outputs"
+          tag="div"
+          bold
+          className={styles.metadataItem}
+        />
+        <FullTextsProgressChart
+          className={styles.chart}
+          fullTextCount={fullTextCount}
+          chartValues={[
+            {
+              name: 'Full text',
+              value: fullTextCount,
+              color: COLORS.primary,
+            },
+            {
+              name: 'Without full text',
+              value: metadataCount - fullTextCount,
+              color: COLORS.gray200,
+            },
+          ]}
+          caption="Full texts"
+          value={valueOrDefault((fullTextCount / metadataCount) * 100, '🔁')}
+        />
+      </div>
     </div>
-    {errorsCount && total && (
-      <p className={styles.errorsInfo}>
-        Indexed with
-        <span className={styles.errorsCount}>
-          {' '}
-          {patchValueFull('{{errorsCount}}', { errorsCount })}{' '}
-        </span>
-        issue types affecting {patchValueFull('{{total}}', { total })} records
-      </p>
-    )}
   </Card>
 )
 

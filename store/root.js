@@ -409,6 +409,14 @@ class Root extends Store {
       body: data,
     })
   }
+
+  @action
+  sendHarvestingRequest = async () => {
+    const url = `/data-providers/${this.dataProvider.id}/harvesting/request`
+    await this.request(url, {
+      method: 'POST',
+    })
+  }
 }
 
 export default Root
