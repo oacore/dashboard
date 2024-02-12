@@ -2,12 +2,12 @@ import React from 'react'
 import { Button } from '@oacore/design/lib/elements'
 import { classNames } from '@oacore/design/lib/utils'
 
-import { Message } from '../../../design'
-import styles from '../styles.module.css'
-import info from '../../../components/upload/assets/info.svg'
-import Markdown from '../../../components/markdown'
+import styles from './styles.module.css'
+import Markdown from '../markdown'
+import { Message } from '../../design'
+import info from '../upload/assets/info.svg'
 
-const CompareWarning = ({
+const DashboardTipMessage = ({
   title,
   show,
   hide,
@@ -56,4 +56,4 @@ const CompareWarning = ({
   </div>
 )
 
-export default CompareWarning
+export default DashboardTipMessage
