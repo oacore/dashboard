@@ -4,11 +4,9 @@ import { Popover } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import { Button } from '../../../design'
-import done from '../../../components/upload/assets/done.svg'
-import failed from '../../../components/upload/assets/failed.svg'
-import Markdown from '../../../components/markdown'
 import loadingImg from '../../../components/upload/assets/loading.svg'
 import content from '../../../texts/settings'
+import HarvestingModal from './harvesting-modal'
 
 import { Card } from 'design'
 import texts from 'texts/issues'
@@ -19,6 +17,7 @@ const HarvestingProgressCard = ({
 }) => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const dayInterval = (lastHarvestingDateString) => {
     const lastHarvestingDate = new Date(lastHarvestingDateString)
@@ -45,6 +44,14 @@ const HarvestingProgressCard = ({
     }
   }
 
+  const triggerModal = () => {
+    setModalOpen(true)
+  }
+
+  const handleButtonClose = () => {
+    setModalOpen(false)
+  }
+
   return (
     <Card className={styles.progressWrapper}>
       <div
@@ -56,75 +63,52 @@ const HarvestingProgressCard = ({
         <Card.Title className={styles.maiTitle} tag="h2">
           {texts.progress.title}
         </Card.Title>
-        <Button onClick={() => sendRequest()} variant="contained">
-          {loading ? (
-            <div className={styles.spinnerWrapper}>
-              <span>Loading</span>
-              <img
-                className={styles.rotate}
-                src={loadingImg}
-                alt={content.notifications.title}
-              />
-            </div>
-          ) : (
-            texts.progress.action
-          )}
-        </Button>
       </div>
       <div className={styles.requestDateWrapper}>
-        {errorMessage && (
-          <div className={styles.errorItem}>
-            <img
-              src={failed}
-              alt={texts.progress.subTitle}
-              className={styles.errorImage}
-            />
-            <Markdown className={styles.status}>{errorMessage}</Markdown>
-          </div>
+        {modalOpen && errorMessage && (
+          <HarvestingModal
+            title={texts.modal.error.title}
+            description={texts.modal.error.description}
+            placeholder={texts.modal.error.input}
+            handleButtonClose={handleButtonClose}
+            handleButtonClick={sendRequest}
+          />
         )}
-        {success &&
+        {modalOpen &&
+          success &&
           result &&
           harvestingStatus?.scheduledState === 'PENDING' && (
-            <div className={styles.statusWrapper}>
-              <img
-                src={done}
-                alt={texts.progress.subTitle}
-                className={styles.image}
-              />
-              <Markdown className={styles.status}>
-                {texts.type.scheduled.success}
-              </Markdown>
-            </div>
-          )}
-        {success && harvestingStatus?.scheduledState !== 'PENDING' && (
-          <div className={styles.statusWrapper}>
-            <img
-              src={done}
-              alt={texts.progress.subTitle}
-              className={styles.image}
+            <HarvestingModal
+              title={texts.modal.scheduled.title}
+              description={texts.modal.scheduled.description}
+              placeholder={texts.modal.scheduled.input}
+              handleButtonClose={handleButtonClose}
+              handleButtonClick={sendRequest}
             />
-            <Markdown className={styles.status}>
-              {texts.type.progress.success}
-            </Markdown>
-          </div>
-        )}
-        {success &&
+          )}
+        {modalOpen &&
+          success &&
+          harvestingStatus?.scheduledState !== 'PENDING' && (
+            <HarvestingModal
+              title={texts.modal.progress.title}
+              description={texts.modal.progress.description}
+              placeholder={texts.modal.progress.input}
+              handleButtonClose={handleButtonClose}
+              handleButtonClick={sendRequest}
+            />
+          )}
+        {modalOpen &&
+          success &&
           !result &&
           harvestingStatus?.scheduledState === 'PENDING' && (
-            <div className={styles.statusWrapper}>
-              <img
-                src={done}
-                alt={texts.progress.subTitle}
-                className={styles.image}
-              />
-              <Markdown className={styles.status}>
-                {texts.type.finished.success}
-              </Markdown>
-            </div>
+            <HarvestingModal
+              title={texts.modal.finished.title}
+              description={texts.modal.finished.description}
+              placeholder={texts.modal.finished.input}
+              handleButtonClose={handleButtonClose}
+              handleButtonClick={sendRequest}
+            />
           )}
-      </div>
-      <div className={styles.statusDescription}>
-        {texts.progress.description}
       </div>
       <div className={styles.progressBar}>
         <div className={styles.progressItem}>
@@ -200,6 +184,29 @@ const HarvestingProgressCard = ({
             {texts.type.finished.title}
           </span>
         </div>
+      </div>
+      <div className={styles.statusDescription}>
+        {texts.progress.description}
+      </div>
+      <div className={styles.buttonWrapper}>
+        <Button
+          onClick={triggerModal}
+          // onClick={() => sendRequest()}
+          variant="contained"
+        >
+          {loading ? (
+            <div className={styles.spinnerWrapper}>
+              <span>Loading</span>
+              <img
+                className={styles.rotate}
+                src={loadingImg}
+                alt={content.notifications.title}
+              />
+            </div>
+          ) : (
+            texts.progress.action
+          )}
+        </Button>
       </div>
     </Card>
   )
