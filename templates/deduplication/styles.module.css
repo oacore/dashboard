@@ -365,7 +365,7 @@
 
 .duplicate-cell {
   display: block;
-  width: 74px;
+  min-width: 36px;
   padding: 1px 8px;
   font-size: 12px;
   font-style: normal;
@@ -374,6 +374,20 @@
   color: #212121;
   text-align: center;
   background: #f5bb95;
+  border-radius: 1px;
+}
+
+.review-cell {
+  display: block;
+  min-width: 36px;
+  padding: 1px 8px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #212121;
+  text-align: center;
+  background: #f5f5f5;
   border-radius: 1px;
 }
 

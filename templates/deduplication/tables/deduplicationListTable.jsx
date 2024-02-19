@@ -175,11 +175,11 @@ const DeduplicationListTable = observer(
             id="count"
             display="Matches"
             getter={(v) =>
-              (
-                <span
-                  className={styles.duplicateCell}
-                >{`+ ${v.count} found`}</span>
-              ) || '-'
+              v?.type ? (
+                <span className={styles.duplicateCell}>{v?.type}</span>
+              ) : (
+                <span className={styles.reviewCell}>To review</span>
+              )
             }
             className={styles.duplicateColumn}
           />
