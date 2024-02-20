@@ -21,7 +21,7 @@ const DeduplicationListTable = observer(
     checkBillingType,
     dataProviderData,
   }) => {
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(-1)
     const [records, setRecords] = useState([])
     const [localSearchTerm, setLocalSearchTerm] = useState('')
     const [searchResults, setSearchResults] = useState([])

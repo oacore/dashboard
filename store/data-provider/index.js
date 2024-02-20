@@ -69,11 +69,6 @@ class DataProvider extends Resource {
 
   @observable workData = {}
 
-  constructor(dataProviderInit, options) {
-    super(dataProviderInit, options)
-    this.duplicatesUrl = `${process.env.API_URL}/data-providers/${dataProviderInit.id}/duplicates?accept=text/csv`
-  }
-
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -235,6 +230,7 @@ class DataProvider extends Resource {
         this.doi = new DOI(url, this.options)
         this.issues = new Issues(url, this.options)
         this.allMembers = new Membership(url, this.options)
+        this.duplicatesUrl = `${process.env.API_URL}${url}/duplicates?accept=text/csv`
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {
