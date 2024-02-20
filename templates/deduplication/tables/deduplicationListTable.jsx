@@ -22,7 +22,7 @@ const DeduplicationListTable = observer(
     checkBillingType,
     dataProviderData,
   }) => {
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(-1)
     const [records, setRecords] = useState([])
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
