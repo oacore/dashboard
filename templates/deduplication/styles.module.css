@@ -365,7 +365,7 @@
 
 .duplicate-cell {
   display: block;
-  min-width: 36px;
+  width: 74px;
   padding: 1px 8px;
   font-size: 12px;
   font-style: normal;
@@ -377,9 +377,45 @@
   border-radius: 1px;
 }
 
+.cell-wrapper {
+  display: flex;
+}
+
+.to-review {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 71px;
+  height: 22px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #212121;
+  text-align: center;
+  letter-spacing: 0.018px;
+  background: #f5f5f5;
+}
+
+.reviewed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 71px;
+  height: 22px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #212121;
+  text-align: center;
+  letter-spacing: 0.018px;
+  background: #a7bceb;
+}
+
 .review-cell {
   display: block;
-  min-width: 36px;
+  width: 36px;
   padding: 1px 8px;
   font-size: 12px;
   font-style: normal;
@@ -388,6 +424,22 @@
   color: #212121;
   text-align: center;
   background: #f5f5f5;
+  border-radius: 1px;
+}
+
+.type-cell {
+  flex-shrink: 0;
+  width: 36px;
+  height: 22px;
+  padding: 4px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #212121;
+  text-align: center;
+  letter-spacing: 0.014px;
+  background: #f5bb95;
   border-radius: 1px;
 }
 

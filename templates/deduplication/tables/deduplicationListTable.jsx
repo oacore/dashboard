@@ -175,13 +175,53 @@ const DeduplicationListTable = observer(
             id="count"
             display="Matches"
             getter={(v) =>
-              v?.type ? (
-                <span className={styles.duplicateCell}>{v?.type}</span>
-              ) : (
-                <span className={styles.reviewCell}>To review</span>
-              )
+              (
+                <span
+                  className={styles.duplicateCell}
+                >{`+ ${v.count} found`}</span>
+              ) || '-'
             }
             className={styles.duplicateColumn}
+          />
+          <Table.Column
+            id="status"
+            display="Status"
+            getter={(v) => {
+              const types = v.duplicates.map((item) => item.type)
+              const hasUndefined = types.some((type) => type === undefined)
+              if (hasUndefined)
+                return <div className={styles.toReview}>To review</div>
+              return <div className={styles.reviewed}>Reviewed</div>
+            }}
+            className={styles.duplicateColumn}
+          />
+          <Table.Column
+            id="version"
+            display="Version"
+            getter={(v) => {
+              const types = v.duplicates.map((item) => item.type)
+              const allUndefined = types.every((type) => type === undefined)
+              if (allUndefined)
+                return <span className={styles.reviewCell}>No data</span>
+
+              return (
+                <div className={styles.cellWrapper}>
+                  {types.map((type, index) =>
+                    type !== undefined ? (
+                      // eslint-disable-next-line react/no-array-index-key
+                      <span key={index} className={styles.typeCell}>
+                        {type}
+                      </span>
+                    ) : (
+                      // eslint-disable-next-line react/no-array-index-key
+                      <span key={index} className={styles.reviewCell}>
+                        No data
+                      </span>
+                    )
+                  )}
+                </div>
+              )
+            }}
           />
           <Table.Column
             id="publicationDate"
