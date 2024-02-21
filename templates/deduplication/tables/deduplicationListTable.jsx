@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Icon } from '@oacore/design/lib/elements'
+import { Icon } from '@oacore/design/lib/elements'
 import { observer } from 'mobx-react-lite'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 import { Card } from '../../../design'
 import Actions from '../../../components/actions'
 import Table from '../../../components/table'
-import Menu from '../../../components/menu'
 import texts from '../../../texts/deduplication/deduplication.yml'
-import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import ExportButton from '../../../components/export-button'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
@@ -24,8 +23,6 @@ const DeduplicationListTable = observer(
   }) => {
     const [page, setPage] = useState(-1)
     const [records, setRecords] = useState([])
-    const [visibleMenu, setVisibleMenu] = useState(false)
-    const [selectedRowData, setSelectedRowData] = useState(null)
     const [localSearchTerm, setLocalSearchTerm] = useState('')
     const [searchResults, setSearchResults] = useState([])
     const [visibleHelp, setVisibleHelp] = useState(
@@ -35,28 +32,6 @@ const DeduplicationListTable = observer(
     useEffect(() => {
       localStorage.setItem('visibleHelp', visibleHelp)
     }, [visibleHelp])
-
-    const handleClick = (e, rowDetail) => {
-      e.preventDefault()
-      e.stopPropagation()
-      setSelectedRowData(rowDetail)
-      setVisibleMenu(!visibleMenu)
-    }
-
-    const handleRedirect = (e, id) => {
-      e.preventDefault()
-      e.stopPropagation()
-      window.open(`https://core.ac.uk/outputs/${id}`, '_blank')
-    }
-
-    const handleToggleRedirect = (e, key, outputsId, oaiId) => {
-      e.preventDefault()
-      e.stopPropagation()
-      setVisibleMenu(false)
-      if (key === 'coreUrl')
-        window.open(`https://core.ac.uk/outputs/${outputsId}`, '_blank')
-      else window.open(`${process.env.IDP_URL}/oai/${oaiId}`, '_blank')
-    }
 
     useEffect(() => {
       if (checkBillingType) setRecords(list.slice(0, 5))
@@ -140,7 +115,7 @@ const DeduplicationListTable = observer(
           fetchData={() => setPage(page + 1)}
           data={searchResults}
           totalLength={list.length}
-          size={searchResults.length}
+          size={searchResults?.length}
           isHeaderClickable
           excludeFooter={checkBillingType}
         >
@@ -184,54 +159,46 @@ const DeduplicationListTable = observer(
             className={styles.duplicateColumn}
           />
           <Table.Column
+            id="status"
+            display="Status"
+            getter={(v) => {
+              const types = v.duplicates.map((item) => item.type)
+              const hasUndefined = types.some((type) => type === undefined)
+              if (hasUndefined)
+                return <div className={styles.toReview}>To review</div>
+              return <div className={styles.reviewed}>Reviewed</div>
+            }}
+            className={styles.duplicateColumn}
+          />
+          <Table.Column
+            id="version"
+            display="Version"
+            getter={(v) => (
+              <div className={styles.cellWrapper}>
+                {v.duplicates.map((item, index) => (
+                  <div
+                    /* eslint-disable-next-line react/no-array-index-key */
+                    key={index}
+                    className={classNames.use(styles.cell, {
+                      [styles.dash]:
+                        item.type === 'notSameArticle' ||
+                        item.type === 'duplicate',
+                      [styles.typeCell]: item.type,
+                    })}
+                  >
+                    {item.type === 'notSameArticle' || item.type === 'duplicate'
+                      ? '-'
+                      : item.type || '-'}
+                  </div>
+                ))}
+              </div>
+            )}
+          />
+          <Table.Column
             id="publicationDate"
             display="Publication date"
             className={styles.publicationDateColumn}
             getter={(v) => v?.publicationDate}
-          />
-          <Table.Column
-            id="visibility"
-            getter={(v) => (
-              <Icon
-                src="#eye"
-                onClick={(e) => handleRedirect(e, v.documentId)}
-                className={styles.visibilityIcon}
-              />
-            )}
-            className={styles.visibilityStatusColumn}
-          />
-          <Table.Column
-            id="output"
-            getter={(v) => (
-              <div className={styles.actionButtonWrapper}>
-                <Button
-                  className={styles.actionButtonPure}
-                  onClick={(e) => handleClick(e, v)}
-                >
-                  <img src={kababMenu} alt="kababMenu" />
-                </Button>
-                <Menu
-                  visible={visibleMenu && selectedRowData === v}
-                  className={styles.menuButton}
-                  stopPropagation
-                >
-                  {Object.values(texts.actions).map(({ title, key }) => (
-                    <Menu.Item key={key} target="_blank">
-                      {/* eslint-disable-next-line max-len */}
-                      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-                      <div
-                        onClick={(e) =>
-                          handleToggleRedirect(e, key, v.documentId, v.oai)
-                        }
-                        className={styles.togglerTitle}
-                      >
-                        {title}
-                      </div>
-                    </Menu.Item>
-                  ))}
-                </Menu>
-              </div>
-            )}
           />
           <Table.Action>
             <ExportButton href={duplicatesUrl}>download csv</ExportButton>

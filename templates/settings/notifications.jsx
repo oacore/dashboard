@@ -25,7 +25,6 @@ const NotificationsPageTemplate = observer(
 
     const [deduplicationSwitch, setDeduplicationSwitch] = useState(false)
 
-    // eslint-disable-next-line max-len
     const [harvestingNotificationsPending, setHarvestingNotificationsPending] =
       useState(false)
 
@@ -180,7 +179,6 @@ const NotificationsPageTemplate = observer(
 
     useEffect(() => {
       setDeduplicationSwitch(
-        // eslint-disable-next-line max-len
         deduplicationNotifications?.data[0]?.type === 'deduplication-completed'
       )
     }, [deduplicationNotifications])
@@ -193,8 +191,7 @@ const NotificationsPageTemplate = observer(
           <div className={styles.headerWrapper}>
             <Card.Title tag="h2">{content.notifications.title}</Card.Title>
             {harvestingSwitch || deduplicationSwitch ? (
-              // eslint-disable-next-line max-len
-              // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events
               <div
                 onClick={
                   harvestingNotificationsPending ||
@@ -284,7 +281,6 @@ const NotificationsPageTemplate = observer(
               dataProviderId={dataProviderId}
               harvestNotifications={harvestNotifications}
               deduplicationNotifications={deduplicationNotifications}
-              // eslint-disable-next-line max-len
               updateNotificationsPending={deduplicationNotificationsPending}
               deduplicationNotificationsPending={
                 deduplicationNotificationsPending
