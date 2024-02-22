@@ -422,7 +422,12 @@
 .form-wrapper {
   display: flex;
   align-items: center;
-  margin-top: 1rem;
+  gap: 20px;
+}
+
+.form-ror-wrapper {
+  display: flex;
+  align-items: flex-start;
   gap: 20px;
 }
 
@@ -445,6 +450,7 @@
 
 .main-warning-wrapper {
   flex: 1;
+  margin-top: 16px;
 }
 
 .warning-wrapper {

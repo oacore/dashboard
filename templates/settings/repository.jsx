@@ -88,6 +88,7 @@ const RepositoryPageTemplate = observer(
     const [repositoryName, setRepositoryName] = useState(
       globalStore.dataProvider.name
     )
+    const [oaiUrl, setOaiUrl] = useState()
     const [suggestionsId, setSuggestionsId] = useState([])
     const [suggestionsName, setSuggestionsName] = useState([])
     const [isChanged, setChanged] = useState(false)
@@ -95,6 +96,8 @@ const RepositoryPageTemplate = observer(
     const [isIdOpen, setIdIsOpen] = useState(false)
 
     const [isNameChanged, setNameChanged] = useState(false)
+    const [isEmailChanged, setEmailChanged] = useState(false)
+    const [isOaiChanged, setOaiChanged] = useState(false)
     const [isFormSubmitted, setFormSubmitted] = useState(false)
 
     useEffect(() => {
@@ -185,8 +188,17 @@ const RepositoryPageTemplate = observer(
       setNameChanged(true)
     }
 
+    const changeEmail = () => {
+      setEmailChanged(true)
+    }
+    const changeOaiUrl = () => {
+      setOaiChanged(true)
+    }
     const handleNameChange = (event) => {
       setRepositoryName(event.target.value)
+    }
+    const handleOaiUrlChange = (event) => {
+      setOaiUrl(event.target.value)
     }
 
     const renderRORWarning = () => {
@@ -224,31 +236,44 @@ const RepositoryPageTemplate = observer(
                 onSubmit={handleSubmit}
                 onChange={changeHandler}
               >
-                <>
-                  <TextField
-                    id="settings-repository-name"
-                    label={!dataProvider.name && 'Name'}
-                    name="name"
-                    defaultValue={repositoryName}
-                    tag="p"
-                    value={repositoryName}
-                    onChange={handleNameChange}
-                  />
-                  <TextField
-                    id="settings-repository-email"
-                    label={!dataProvider.email && 'Email'}
-                    name="email"
-                    defaultValue={dataProvider.email}
-                    tag="p"
-                    readOnly
-                  />
-                </>
+                <TextField
+                  id="settings-repository-name"
+                  label={!dataProvider.name && 'Name'}
+                  name="name"
+                  defaultValue={repositoryName}
+                  tag="p"
+                  value={repositoryName}
+                  onChange={handleNameChange}
+                />
                 {isNameChanged && <Button variant="contained">save</Button>}
               </FormShell>
             </div>
             <div className={styles.mainWarningWrapper} />
           </div>
           <div className={styles.formWrapper}>
+            <div className={styles.formInnerWrapper}>
+              <FormShell
+                name="data-provider"
+                onSubmit={handleSubmit}
+                onChange={changeEmail}
+              >
+                <TextField
+                  id="settings-repository-email"
+                  label={!dataProvider.email && 'Email'}
+                  name="email"
+                  defaultValue={dataProvider.email}
+                  tag="p"
+                  readOnly
+                />
+                {isEmailChanged && <Button variant="contained">save</Button>}
+              </FormShell>
+              <Markdown className={styles.rorDescription}>
+                {content.organisation.emailDescription}
+              </Markdown>
+            </div>
+            <div className={styles.mainWarningWrapper} />
+          </div>
+          <div className={styles.formRorWrapper}>
             <div className={styles.formInnerWrapper}>
               <form
                 name="data-provider"
@@ -289,14 +314,38 @@ const RepositoryPageTemplate = observer(
                 </div>
                 {isChanged && <Button variant="contained">save</Button>}
               </form>
+              <Markdown className={styles.rorDescription}>
+                {content.organisation.rordescription}
+              </Markdown>
             </div>
             <div className={styles.mainWarningWrapper}>
               {renderRORWarning()}
             </div>
           </div>
-          <Markdown className={styles.rorDescription}>
-            {content.organisation.rordescription}
-          </Markdown>
+          <div className={styles.formWrapper}>
+            <div className={styles.formInnerWrapper}>
+              <FormShell
+                name="data-provider"
+                onSubmit={handleSubmit}
+                onChange={changeOaiUrl}
+              >
+                <TextField
+                  id="oaiPmhUrl"
+                  label="OAI based URL"
+                  name="oaiPmhUrl"
+                  defaultValue={oaiUrl}
+                  tag="p"
+                  value={oaiUrl}
+                  onChange={handleOaiUrlChange}
+                />
+                {isOaiChanged && <Button variant="contained">save</Button>}
+              </FormShell>
+              <Markdown className={styles.rorDescription}>
+                {content.organisation.oaiDescription}
+              </Markdown>
+            </div>
+            <div className={styles.mainWarningWrapper} />
+          </div>
           {isFormSubmitted && (
             <div className={styles.infoIndicatorWrapper}>
               <div className={styles.infoIndicator}>
