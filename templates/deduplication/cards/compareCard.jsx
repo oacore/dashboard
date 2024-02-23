@@ -86,10 +86,19 @@ const CompareCard = ({
 
   const handleModalOpen = (id, index) => {
     const clickedItem = outputsDataInfo.find((item) => item.data.id === id)
-    setCurrentModalData({ ...modalContent[index], id: clickedItem.data.id })
+    const isItemSelected = activeButtons[id] === modalContent[index].type
+    if (isItemSelected) {
+      setCurrentModalData({
+        ...modalContent[index + 2],
+        id: clickedItem.data.id,
+      })
+    } else
+      setCurrentModalData({ ...modalContent[index], id: clickedItem.data.id })
+
     document.body.classList.add('modal-open')
     document.body.style.overflow = 'hidden'
   }
+
   const handleModalClose = () => {
     setCurrentModalData(null)
     document.body.classList.remove('modal-open')
@@ -116,8 +125,11 @@ const CompareCard = ({
   }
 
   const handleTypeSave = async (workId, outputId, type) => {
-    await updateWork(workId, outputId, type)
-    await getDeduplicationInfo(workId, outputId, type)
+    const isSelected = selectedTypes[outputId] === type
+    const newType = isSelected ? '' : type
+
+    await updateWork(workId, outputId, newType)
+    await getDeduplicationInfo(workId, outputId, newType)
 
     setActiveButtons((prevActiveButtons) => {
       const updatedActiveButtons = { ...prevActiveButtons }
@@ -128,7 +140,7 @@ const CompareCard = ({
 
     setSelectedTypes((prevSelectedTypes) => ({
       ...prevSelectedTypes,
-      [outputId]: type,
+      [outputId]: newType,
     }))
     localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
   }

@@ -25,7 +25,9 @@ const ActionModal = ({
   }
 
   const handleConfirm = async (outputId, workId, type) => {
-    onConfirm(selectedOption)
+    if (selectedOption === '') onConfirm('')
+    else onConfirm(selectedOption)
+
     await updateWork(outputId, workId, type)
     await getDeduplicationInfo(outputId, workId, type)
   }

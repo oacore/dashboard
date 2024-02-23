@@ -152,6 +152,19 @@ comparison:
       description: You decided to disassociate this record from the reference paper. This will remove the connection of this record from the reference Works entity. Do you want to proceed?
       confirm: YES
       cancel: NO
+    - title: Unset "To be removed" status
+      index: 2
+      type: ""
+      description: This article will be **unmarked** from **"To be removed".**
+      confirm: YES
+      cancel: NO
+    - title: Unset previous action
+      index: 3
+      type: ""
+      description: Unset disassociate this record from the reference paper action.
+      confirm: YES
+      cancel: NO
+
 
 guideCard:
   title: Compare metadata records
