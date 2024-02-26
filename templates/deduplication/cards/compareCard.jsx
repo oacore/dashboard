@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { Button, Icon } from '@oacore/design/lib/elements'
 import { Carousel } from '@oacore/design/lib'
@@ -6,7 +6,6 @@ import { Carousel } from '@oacore/design/lib'
 import styles from '../styles.module.css'
 import ShowMoreText from '../../../components/showMore'
 import info from '../../../components/upload/assets/info.svg'
-import oai from '../../../components/upload/assets/oai.svg'
 import carouselArrowRight from '../../../components/upload/assets/carouselArrowRight.svg'
 import carouselArrowLeft from '../../../components/upload/assets/carouselArrowLeft.svg'
 import redirect from '../../../components/upload/assets/redirect.svg'
@@ -27,7 +26,6 @@ const generatedTitle = [
   <div className={styles.columnItemTitle}>Type</div>,
   <div className={styles.columnItemTitle}>Field of study</div>,
   <div className={styles.columnItemTitle}>DOI</div>,
-  <img src={oai} alt="oai" />,
   'Publication date',
   'Deposited date',
   <div className={styles.abstractTitle}>Abstract</div>,
@@ -51,12 +49,8 @@ const CompareCard = ({
     const storedSelectedTypes = localStorage.getItem('selectedTypes')
     return storedSelectedTypes ? JSON.parse(storedSelectedTypes) : {}
   })
-  const [isPopupOpen, setIsPopupOpen] = useState(false)
-  const [popupContent, setPopupContent] = useState('')
 
   const [showMore, setShowMore] = useState(false)
-
-  const popupRef = useRef(null)
 
   useEffect(() => {
     const generatedData = [
@@ -64,7 +58,6 @@ const CompareCard = ({
       worksDataInfo?.data?.documentType,
       worksDataInfo?.data?.fieldOfStudy,
       worksDataInfo?.data?.doi,
-      worksDataInfo?.data?.oaiIds,
       worksDataInfo?.data?.publishedDate,
       worksDataInfo?.data?.depositedDate,
       worksDataInfo?.data?.abstract,
@@ -185,36 +178,9 @@ const CompareCard = ({
       })
   }
 
-  const handlePopupOpen = (content) => {
-    setIsPopupOpen(true)
-    setPopupContent(content)
-  }
-
-  const handlePopupClose = () => {
-    setIsPopupOpen(false)
-    setPopupContent('')
-  }
-
   const toggleShowMore = () => {
     setShowMore(!showMore)
   }
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (
-        popupRef.current &&
-        !popupRef.current.contains(event.target) &&
-        isPopupOpen
-      )
-        handlePopupClose()
-    }
-
-    document.addEventListener('click', handleOutsideClick)
-
-    return () => {
-      document.removeEventListener('click', handleOutsideClick)
-    }
-  }, [isPopupOpen])
 
   return (
     <div className={styles.compareCardWrapper}>
@@ -292,52 +258,16 @@ const CompareCard = ({
                     className={classNames.use(styles.dataItem, {
                       [styles.height]: index === modifiedWorksData.length - 1,
                       [styles.authorHeight]: index === 0,
-                      [styles.relativeParent]: Array.isArray(value),
                     })}
                   >
-                    {Array.isArray(value) ? (
-                      // eslint-disable-next-line max-len
-                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-                      <span
-                        className={styles.popupTrigger}
-                        onClick={() =>
-                          handlePopupOpen(value.slice(1).join(', '))
-                        }
-                      >
-                        {value[0].length > 35
-                          ? `${value[0].slice(0, 35)}...`
-                          : value[0]}{' '}
-                        <span className={styles.count}>
-                          +{value.length - 1}
-                        </span>
-                        {isPopupOpen && (
-                          <div className={styles.popup} ref={popupRef}>
-                            <div className={styles.popupContent}>
-                              {popupContent}
-                            </div>
-                            <Button
-                              className={styles.closeButton}
-                              variant="outlined"
-                              onClick={(event) => {
-                                event.stopPropagation()
-                                handlePopupClose()
-                              }}
-                            >
-                              Close
-                            </Button>
-                          </div>
-                        )}
-                      </span>
-                    ) : (
-                      <ShowMoreText
-                        text={value}
-                        showMore={showMore}
-                        toggleShowMore={toggleShowMore}
-                        maxLetters={
-                          index === modifiedWorksData.length - 1 ? 150 : 50
-                        }
-                      />
-                    )}
+                    <ShowMoreText
+                      text={value}
+                      showMore={showMore}
+                      toggleShowMore={toggleShowMore}
+                      maxLetters={
+                        index === modifiedWorksData.length - 1 ? 150 : 50
+                      }
+                    />
                   </div>
                 ))}
                 <div className={styles.dataItem}>
@@ -482,21 +412,9 @@ const CompareCard = ({
                     </div>
                     <div
                       className={classNames.use(styles.outputItem, {
-                        [styles.matched]: !isMatching(item?.data?.oai, 4),
-                      })}
-                    >
-                      <ShowMoreText
-                        text={item?.data?.oai}
-                        maxLetters={50}
-                        showMore={showMore}
-                        toggleShowMore={toggleShowMore}
-                      />
-                    </div>
-                    <div
-                      className={classNames.use(styles.outputItem, {
                         [styles.matched]: !isMatching(
                           item?.data?.publishedDate,
-                          5
+                          4
                         ),
                       })}
                     >
@@ -511,7 +429,7 @@ const CompareCard = ({
                       className={classNames.use(styles.outputItem, {
                         [styles.matched]: !isMatching(
                           item?.data?.depositedDate,
-                          6
+                          5
                         ),
                       })}
                     >
@@ -524,7 +442,7 @@ const CompareCard = ({
                     </div>
                     <div
                       className={classNames.use(styles.heightOutput, {
-                        [styles.matched]: !isMatching(item?.data?.abstract, 7),
+                        [styles.matched]: !isMatching(item?.data?.abstract, 6),
                       })}
                     >
                       <ShowMoreText

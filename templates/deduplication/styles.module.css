@@ -933,10 +933,6 @@
   border-radius: 4px;
 }
 
-.relative-parent {
-  position: relative;
-}
-
 .popup {
   position: absolute;
   top: 0;
