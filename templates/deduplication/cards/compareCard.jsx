@@ -516,16 +516,21 @@ const CompareCard = ({
                         <div
                           className={classNames.use(styles.togglePanelTitle, {
                             [styles.togglePanelTitleActive]:
-                              activeButtons[item.data.id],
+                              activeButtons[item.data.id] ||
+                              selectedTypes[item?.data.id],
                           })}
                         >
-                          {activeButtons[item.data.id]
+                          {/* eslint-disable-next-line no-nested-ternary */}
+                          {selectedTypes[item?.data.id]
+                            ? texts.comparison.differentButton.title
+                            : activeButtons[item.data.id]
                             ? findTitlesBySelectedTypes(
                                 Object.values(modalContent),
                                 activeButtons[item.data.id]
                               )
                             : 'Mark this paper as'}
-                          {activeButtons[item.data.id] ? (
+                          {activeButtons[item.data.id] ||
+                          selectedTypes[item?.data.id] ? (
                             <img src={check} alt="check" />
                           ) : (
                             <div className={styles.svgWrapper}>
@@ -563,6 +568,29 @@ const CompareCard = ({
                               </div>
                             )
                           )}
+                          <div
+                            className={classNames.use(
+                              styles.actionButton,
+                              styles.restrict,
+                              {
+                                [styles.clicked]: selectedTypes[item?.data.id],
+                              }
+                            )}
+                          >
+                            <div>{texts.comparison.differentButton.title}</div>
+                            <Actions
+                              className={styles.actionIcon}
+                              description={
+                                texts.comparison.differentButton.info
+                              }
+                              hoverIcon={
+                                <Icon
+                                  src="#alert-circle-outline"
+                                  style={{ color: '#757575' }}
+                                />
+                              }
+                            />
+                          </div>
                         </div>
                       }
                     />

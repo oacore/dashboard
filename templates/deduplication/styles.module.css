@@ -1146,6 +1146,10 @@
   border: 1px solid #f5f5f5;
 }
 
+.restrict {
+  cursor: not-allowed;
+}
+
 .active {
   background: #f5f5f5;
 }

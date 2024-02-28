@@ -105,6 +105,9 @@ comparison:
     - title: Different from the reference paper
       type: notSameArticle
       info: This indicates that this record is not related to the reference paper. You decided to disassociate this record from the reference paper. This will remove the connection of this record from the reference Works entity.
+  differentButton:
+      title: Different version
+      info: This indicates that this record is a different version of the same paper. You can't choose this type unless you specify the version.
   toggleVersion:
     - title: Different version
       index: 1
