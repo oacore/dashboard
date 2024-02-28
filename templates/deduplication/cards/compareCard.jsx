@@ -30,7 +30,7 @@ const generatedTitle = [
   'Deposited date',
   <div className={styles.abstractTitle}>Abstract</div>,
   <div>Version</div>,
-  <div />,
+  <div>Action</div>,
 ]
 const CompareCard = ({
   worksDataInfo,
@@ -277,7 +277,20 @@ const CompareCard = ({
                     />
                   </div>
                 ))}
-                <div className={styles.dataItem}>
+                <div
+                  className={classNames.use(
+                    styles.dataItem,
+                    styles.notAvaliable
+                  )}
+                >
+                  {texts.comparison.version}
+                </div>
+                <div
+                  className={classNames.use(
+                    styles.dataItem,
+                    styles.notAvaliable
+                  )}
+                >
                   {texts.comparison.version}
                 </div>
               </div>
