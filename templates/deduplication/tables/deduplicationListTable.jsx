@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Icon } from '@oacore/design/lib/elements'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
+import { useRouter } from 'next/router'
 
 import styles from '../styles.module.css'
 import { Card } from '../../../design'
@@ -11,6 +12,7 @@ import texts from '../../../texts/deduplication/deduplication.yml'
 import ExportButton from '../../../components/export-button'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
+import DashboardCachedMessage from '../../../components/dashboard-cached-message'
 
 const DeduplicationListTable = observer(
   ({
@@ -20,7 +22,9 @@ const DeduplicationListTable = observer(
     duplicatesUrl,
     checkBillingType,
     dataProviderData,
+    getDeduplicationData,
   }) => {
+    const router = useRouter()
     const [page, setPage] = useState(-1)
     const [records, setRecords] = useState([])
     const [localSearchTerm, setLocalSearchTerm] = useState('')
@@ -28,6 +32,13 @@ const DeduplicationListTable = observer(
     const [visibleHelp, setVisibleHelp] = useState(
       localStorage.getItem('visibleHelp') === 'true'
     )
+    const [sortDirection, setSortDirection] = useState('asc')
+    const [sortStatusDirection, setSortStatusDirection] = useState('asc')
+    const id = router.query['data-provider-id']
+
+    const handleRefetch = () => {
+      getDeduplicationData(id, true)
+    }
 
     useEffect(() => {
       localStorage.setItem('visibleHelp', visibleHelp)
@@ -62,6 +73,29 @@ const DeduplicationListTable = observer(
         setSearchResults(filteredData)
       } else setSearchResults(records)
     }, [localSearchTerm, records, list])
+
+    const sortByPublicationDate = (direction) => {
+      const sortedData = [...list].sort((a, b) => {
+        const dateA = new Date(a.publicationDate)
+        const dateB = new Date(b.publicationDate)
+        return direction === 'asc' ? dateA - dateB : dateB - dateA
+      })
+      setSearchResults(sortedData)
+      setSortDirection(direction)
+    }
+    const getStatus = (item) => {
+      const hasUndefined = item.duplicates.some((dup) => dup.type === undefined)
+      return hasUndefined ? 0 : 1
+    }
+    const sortByStatus = (direction) => {
+      const sortedData = [...list].sort((a, b) => {
+        const statusA = getStatus(a)
+        const statusB = getStatus(b)
+        return direction === 'asc' ? statusA - statusB : statusB - statusA
+      })
+      setSearchResults(sortedData)
+      setSortStatusDirection(direction)
+    }
 
     return (
       <>
@@ -104,6 +138,12 @@ const DeduplicationListTable = observer(
           setText={setVisibleHelp}
           activeText={visibleHelp}
         />
+        <DashboardCachedMessage
+          button={texts.cachedInfo.actionBtn}
+          title={texts.cachedInfo.title}
+          description={texts.cachedInfo.description}
+          onClick={handleRefetch}
+        />
         <Table
           rowClick={(row) => handeAdditionalInfo(row)}
           rowActionProp
@@ -118,6 +158,15 @@ const DeduplicationListTable = observer(
           size={searchResults?.length}
           isHeaderClickable
           excludeFooter={checkBillingType}
+          onClick={() =>
+            sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
+          }
+          handleCLick={() =>
+            sortByStatus(sortStatusDirection === 'asc' ? 'desc' : 'asc')
+          }
+          sortDirection={sortDirection}
+          sortStatusDirection={sortStatusDirection}
+          showAdditionalSort
         >
           <Table.Column
             id="oai"

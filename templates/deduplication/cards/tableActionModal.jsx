@@ -17,6 +17,7 @@ const ActionModal = ({
   worksDataInfo,
   typeText,
   itemId,
+  duplicateData,
 }) => {
   const [selectedOption, setSelectedOption] = useState('')
 
@@ -24,12 +25,17 @@ const ActionModal = ({
     setSelectedOption(event.target.value)
   }
 
-  const handleConfirm = async (outputId, workId, type) => {
+  const handleConfirm = async (workId, outputId, type) => {
+    const { duplicates } = duplicateData?.duplicateList[workId]
+    const index = duplicates.findIndex((item) => item.documentId === outputId)
+
+    if (index !== -1) duplicates[index].type = type
+
     if (selectedOption === '') onConfirm('')
     else onConfirm(selectedOption)
 
-    await updateWork(outputId, workId, type)
-    await getDeduplicationInfo(outputId, workId, type)
+    await updateWork(workId, outputId, type)
+    await getDeduplicationInfo(workId, outputId, type)
   }
 
   return (

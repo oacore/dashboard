@@ -1,5 +1,9 @@
 import React from 'react'
 import { Table } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
+
+import styles from './styles.module.css'
+import sort from '../upload/assets/sort.svg'
 
 const Header = React.memo(
   ({
@@ -7,6 +11,11 @@ const Header = React.memo(
     columns,
     handleColumnOrderChange,
     columnOrder,
+    onClick,
+    handleCLick,
+    showAdditionalSort,
+    sortDirection,
+    sortStatusDirection,
   }) => (
     <Table.Head>
       <Table.Row>
@@ -22,6 +31,30 @@ const Header = React.memo(
               className={columnClassName}
             >
               {display}
+              {showAdditionalSort && id === 'publicationDate' && (
+                // eslint-disable-next-line max-len
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                <img
+                  className={classNames.use(styles.sortIcon, {
+                    [styles.rotateIcon]: sortDirection === 'desc',
+                  })}
+                  alt="restart-icon"
+                  src={sort}
+                  onClick={onClick}
+                />
+              )}
+              {showAdditionalSort && id === 'status' && (
+                // eslint-disable-next-line max-len
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                <img
+                  className={classNames.use(styles.sortIcon, {
+                    [styles.rotateIcon]: sortStatusDirection === 'desc',
+                  })}
+                  alt="restart-icon"
+                  src={sort}
+                  onClick={handleCLick}
+                />
+              )}
             </Table.HeadCell>
           ) : (
             <Table.Cell

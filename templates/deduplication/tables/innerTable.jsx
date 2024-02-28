@@ -22,6 +22,7 @@ const InnerTable = observer(
     worksDataInfo,
     outputData,
     getDeduplicationInfo,
+    duplicateData,
   }) => {
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
@@ -204,6 +205,7 @@ const InnerTable = observer(
             worksDataInfo={worksDataInfo}
             handleButtonToggle={handleButtonToggle}
             compare={compare}
+            duplicateData={duplicateData}
           />
         </div>
       </>

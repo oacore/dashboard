@@ -37,6 +37,7 @@ const CompareCard = ({
   outputsDataInfo,
   updateWork,
   getDeduplicationInfo,
+  duplicateData,
 }) => {
   const modalContent = texts.comparison.modalData
   const [modifiedWorksData, setModifiedWorksData] = useState([])
@@ -118,6 +119,11 @@ const CompareCard = ({
   }
 
   const handleTypeSave = async (workId, outputId, type) => {
+    const { duplicates } = duplicateData.duplicateList[workId]
+    const index = duplicates.findIndex((item) => item.documentId === outputId)
+
+    if (index !== -1) duplicates[index].type = type
+
     const isSelected = selectedTypes[outputId] === type
     const newType = isSelected ? '' : type
 
@@ -209,6 +215,7 @@ const CompareCard = ({
               getDeduplicationInfo={getDeduplicationInfo}
               worksDataInfo={worksDataInfo}
               outputsDataInfo={outputsDataInfo}
+              duplicateData={duplicateData}
             />
           </div>
         )}

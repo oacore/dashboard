@@ -105,10 +105,12 @@ class DataProvider extends Resource {
   }
 
   @action
-  getDeduplicationData = async (id) => {
+  getDeduplicationData = async (id, refresh = false) => {
     try {
       const response = await fetch(
-        `${process.env.API_URL}/data-providers/${id}/duplicates`
+        `${process.env.API_URL}/data-providers/${id}/duplicates${
+          refresh ? '?refresh=true' : ''
+        }`
       )
 
       if (response.ok) {
