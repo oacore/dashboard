@@ -50,7 +50,11 @@ const DoiCard = ({
           {enrichmentSize > 0 && (
             <Markdown>
               {description.render({
-                count: getPercent(enrichmentSize, doiCount, '...'),
+                count: getPercent(
+                  enrichmentSize,
+                  doiCount,
+                  enrichmentSize || '...'
+                ),
               })}
             </Markdown>
           )}
