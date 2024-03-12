@@ -211,11 +211,14 @@ class DataProvider extends Resource {
   uploadPdf = async (file) => {
     try {
       const url = `https://api-dev.core.ac.uk/internal/data-providers/rights-retention-upload-file`
+
       const fd = new FormData()
-      fd.append('test', file)
+      fd.set('file', file)
 
       const response = await fetch(url, {
         method: 'POST',
+        credentials: 'same-origin',
+        mode: 'no-cors',
         body: fd,
       })
 
