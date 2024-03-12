@@ -1,33 +1,301 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { Button } from '@oacore/design/lib/elements'
 
 import styles from '../styles.module.css'
 import { Card } from '../../../design'
 import texts from '../../../texts/rrs-retention/rrs.yml'
 import RrsWarning from '../cards/warningCard'
+import ExportButton from '../../../components/export-button'
+import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
+import accept from '../../../components/upload/assets/accept.svg'
+import deny from '../../../components/upload/assets/deny.svg'
+import redirect from '../../../components/upload/assets/urlRedirect.svg'
+import Menu from '../../../components/menu'
+import Article from '../cards/article'
+import request from '../../../api'
+import StatusCard from '../cards/statusCard'
 
-const RrsTable = observer(() => {
-  const [visibleHelp, setVisibleHelp] = useState(
-    localStorage.getItem('rrsHelp') === 'true'
-  )
+import Table from 'components/table'
 
-  useEffect(() => {
-    localStorage.setItem('rrsHelp', visibleHelp)
-  }, [visibleHelp])
+const RrsTable = observer(
+  ({
+    rrsList,
+    getRrslistData,
+    updateRrsStatus,
+    rrsAdditionalData,
+    getOutputsAdditionalData,
+  }) => {
+    const [visibleHelp, setVisibleHelp] = useState(
+      localStorage.getItem('rrsHelp') === 'true'
+    )
+    const [tableData, setTableData] = useState([])
+    const [page, setPage] = useState(0)
+    const [visibleMenu, setVisibleMenu] = useState(false)
+    const [selectedRowData, setSelectedRowData] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [isDisabled, setIsDisabled] = useState(false)
+    const [outputsUrl, setOutputsUrl] = useState()
+    const [showStatusModal, setShowStatusModal] = useState(false)
+    const [sortDirection, setSortDirection] = useState('asc')
 
-  return (
-    <Card>
-      <Card.Title tag="h2">{texts.table.title}</Card.Title>
-      <div className={styles.itemCountIndicator}>{texts.table.subTitle}</div>
-      <RrsWarning
-        show={texts.helpInfo.show}
-        hide={texts.helpInfo.hide}
-        description={texts.helpInfo.description}
-        setText={setVisibleHelp}
-        activeText={visibleHelp}
-      />
-    </Card>
-  )
-})
+    const router = useRouter()
+    const providerId = router.query['data-provider-id']
+
+    const changeArticleVisibility = async (article) => {
+      setLoading(true)
+      try {
+        await request(`/articles/${article.id}`, {
+          method: 'PATCH',
+          body: { disabled: !article?.disabled },
+        })
+        setIsDisabled(!isDisabled)
+        Object.assign(rrsAdditionalData, {
+          disabled: !rrsAdditionalData?.disabled,
+        })
+      } catch (error) {
+        throw Error(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    useEffect(() => {
+      const newRecords = [
+        ...tableData,
+        ...rrsList.slice(page * 10, (page + 1) * 10),
+      ]
+      const newRRS = newRecords.map((item) => ({
+        ...item,
+        id: +item.articleId,
+        output: null,
+      }))
+      setTableData(newRRS)
+    }, [rrsList, page])
+
+    useEffect(() => {
+      localStorage.setItem('rrsHelp', visibleHelp)
+    }, [visibleHelp])
+
+    useEffect(() => {
+      getRrslistData(providerId)
+    }, [providerId])
+
+    const handleClick = (e, rowDetail) => {
+      e.preventDefault()
+      e.stopPropagation()
+      setSelectedRowData(rowDetail)
+      setVisibleMenu(!visibleMenu)
+    }
+
+    const handleStatusUpdate = async (e, articleId, validationStatus) => {
+      e.preventDefault()
+      e.stopPropagation()
+      await updateRrsStatus(providerId, articleId, validationStatus)
+      setShowStatusModal(false)
+    }
+
+    const handleToggleRedirect = (e, key, outputsId, oaiId) => {
+      e.preventDefault()
+      e.stopPropagation()
+      setVisibleMenu(false)
+      if (key === 'coreUrl')
+        window.open(`https://core.ac.uk/outputs/${outputsId}`, '_blank')
+      else window.open(`${process.env.IDP_URL}/oai/${oaiId}`, '_blank')
+    }
+
+    const onSetActiveArticle = useCallback((id) => {
+      getOutputsAdditionalData(id)
+      setOutputsUrl(`https://core.ac.uk/outputs/${id}`)
+    }, [])
+
+    const handleStatusModal = (e, rowData) => {
+      setSelectedRowData(rowData)
+      setShowStatusModal(true)
+      e.stopPropagation()
+    }
+
+    const sortByPublicationDate = (direction) => {
+      const sortedData = [...tableData].sort((a, b) => {
+        const dateA = new Date(a.publicationDate).getTime()
+        const dateB = new Date(b.publicationDate).getTime()
+        return direction === 'asc' ? dateA - dateB : dateB - dateA
+      })
+      setTableData(sortedData.slice(0, tableData.length))
+      setSortDirection(direction)
+    }
+
+    return (
+      <Card>
+        <Card.Title tag="h2">{texts.table.title}</Card.Title>
+        <div className={styles.itemCountIndicator}>{texts.table.subTitle}</div>
+        <RrsWarning
+          show={texts.helpInfo.show}
+          hide={texts.helpInfo.hide}
+          description={texts.helpInfo.description}
+          setText={setVisibleHelp}
+          activeText={visibleHelp}
+        />
+        <Table
+          data={tableData}
+          totalLength={tableData?.length}
+          size={tableData?.length}
+          isHeaderClickable
+          fetchData={() => setPage(page + 1)}
+          defaultRowClick={onSetActiveArticle}
+          onClick={() =>
+            sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
+          }
+          sortDirection={sortDirection}
+          showAdditionalSort
+        >
+          <Table.Column
+            id="oai"
+            display="OAI"
+            getter={(v) => {
+              if (v.oai) {
+                return (
+                  <span className={styles.oaiCell}>
+                    {v.oai.split(':').pop()}
+                  </span>
+                )
+              }
+              return '-'
+            }}
+            className={styles.oaiColumn}
+            cellClassName={styles.oaiCell}
+          />
+          <Table.Column
+            id="title"
+            display="Title"
+            getter={(v) => v.title || '-'}
+            className={styles.titleColumn}
+          />
+          {/* <Table.Column */}
+          {/*  id="authors" */}
+          {/*  display="Authors" */}
+          {/*  className={styles.authorsColumn} */}
+          {/*  getter={(v) => v.document.documentMetadata?.authors} */}
+          {/* /> */}
+          <Table.Column
+            id="publicationDate"
+            display="Publication date"
+            className={styles.publicationDateColumn}
+            getter={(v) => <div>{v.publicationDate?.split('T')[0]}</div>}
+          />
+          <Table.Column
+            id="licence"
+            display="Identified licence"
+            className={styles.publicationDateColumn}
+            getter={(v) => (
+              <div className={`${styles.licence} ${styles.truncated}`}>
+                {v.licenceRecognised?.length > 10
+                  ? `${v.licenceRecognised.substring(0, 10)}...`
+                  : v.licenceRecognised}
+              </div>
+            )}
+          />
+          <Table.Column
+            id="rrs"
+            display="Extracted RRS"
+            className={styles.publicationDateColumn}
+            getter={(v) => (
+              <a
+                target="_blank"
+                href={`https://core.ac.uk/reader/${v.articleId}`}
+                className={styles.redirectLink}
+                rel="noreferrer"
+              >
+                Review RRS
+                <img src={redirect} alt="" />
+              </a>
+            )}
+          />
+          <Table.Column
+            id="status"
+            display="Status"
+            getter={(v) => (
+              <div>
+                {/* eslint-disable-next-line max-len */}
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                <div
+                  className={styles.statusWrapper}
+                  onClick={(e) => handleStatusModal(e, v)}
+                >
+                  {v.validationStatusRRS === 0 ? (
+                    <img
+                      src={deny}
+                      alt="deny"
+                      className={styles.visibilityIcon}
+                    />
+                  ) : (
+                    <img
+                      src={accept}
+                      alt="accept"
+                      className={styles.visibilityIcon}
+                    />
+                  )}
+                </div>
+                {showStatusModal && selectedRowData === v && (
+                  <StatusCard
+                    handleStatusUpdate={handleStatusUpdate}
+                    onClose={() => setShowStatusModal(false)}
+                    v={v}
+                  />
+                )}
+              </div>
+            )}
+            className={styles.visibilityStatusColumn}
+          />
+          <Table.Column
+            id="output"
+            getter={(v) => (
+              <div className={styles.actionButtonWrapper}>
+                <Button
+                  className={styles.actionButtonPure}
+                  onClick={(e) => handleClick(e, v)}
+                >
+                  <img src={kababMenu} alt="kababMenu" />
+                </Button>
+                <Menu
+                  visible={visibleMenu && selectedRowData === v}
+                  className={styles.menuButton}
+                  stopPropagation
+                >
+                  {Object.values(texts.actions).map(({ title, key }) => (
+                    <Menu.Item key={key} target="_blank">
+                      {/* eslint-disable-next-line max-len */}
+                      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                      <div
+                        onClick={(e) =>
+                          handleToggleRedirect(e, key, v.articleId, v.oai)
+                        }
+                        className={styles.togglerTitle}
+                      >
+                        {title}
+                      </div>
+                    </Menu.Item>
+                  ))}
+                </Menu>
+              </div>
+            )}
+          />
+          <Table.Details>
+            <Article
+              changeVisibility={changeArticleVisibility}
+              article={rrsAdditionalData}
+              loading={loading}
+              outputsUrl={outputsUrl}
+            />
+          </Table.Details>
+          <Table.Action>
+            <ExportButton>download csv</ExportButton>
+          </Table.Action>
+        </Table>
+      </Card>
+    )
+  }
+)
 
 export default RrsTable

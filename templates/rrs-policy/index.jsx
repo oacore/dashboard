@@ -2,14 +2,27 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
-import { rrs } from '../../texts/rrs-retention'
 import Markdown from '../../components/markdown'
 import RrsStatsCard from './cards/rrsStatsCard'
 import RrsReviewCard from './cards/rrsReviewCard'
 import RrsCheckCard from './cards/rrsCheckerCard'
 import RrsTable from './tables/rrsTable'
 
-const RrsPageTemplate = ({ tag: Tag = 'main', className, ...restProps }) => (
+import rrs from 'texts/rrs-retention'
+
+const RrsPageTemplate = ({
+  tag: Tag = 'main',
+  className,
+  rrsList,
+  getRrslistData,
+  updateRrsStatus,
+  statusUpdate,
+  rrsAdditionalData,
+  getOutputsAdditionalData,
+  uploadPdf,
+  uploadResults,
+  ...restProps
+}) => (
   <Tag
     className={classNames.use(styles.container).join(className)}
     {...restProps}
@@ -25,9 +38,16 @@ const RrsPageTemplate = ({ tag: Tag = 'main', className, ...restProps }) => (
     <div className={styles.cardsWrapper}>
       <RrsStatsCard />
       <RrsReviewCard />
-      <RrsCheckCard />
+      <RrsCheckCard uploadPdf={uploadPdf} uploadResults={uploadPdf} />
     </div>
-    <RrsTable />
+    <RrsTable
+      rrsList={rrsList}
+      getRrslistData={getRrslistData}
+      updateRrsStatus={updateRrsStatus}
+      statusUpdate={statusUpdate}
+      rrsAdditionalData={rrsAdditionalData}
+      getOutputsAdditionalData={getOutputsAdditionalData}
+    />
   </Tag>
 )
 
