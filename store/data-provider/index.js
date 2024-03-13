@@ -219,7 +219,6 @@ class DataProvider extends Resource {
       const response = await fetch(url, {
         method: 'POST',
         credentials: 'same-origin',
-        mode: 'no-cors',
         body: fd,
       })
 
