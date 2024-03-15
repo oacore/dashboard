@@ -73,7 +73,11 @@ class DataProvider extends Resource {
 
   @observable rrsList = []
 
-  @observable rrsAdditionalData = []
+  @observable rrsAdditionalData = {}
+
+  @observable rrsAdditionalDataLoading = false
+
+  @observable rrsPdfLoading = false
 
   @observable statusUpdate = []
 
@@ -174,6 +178,7 @@ class DataProvider extends Resource {
 
   @action
   getOutputsAdditionalData = async (id) => {
+    this.rrsAdditionalDataLoading = true
     try {
       const response = await fetch(
         `https://api.core.ac.uk/internal/articles/${id}`
@@ -185,6 +190,8 @@ class DataProvider extends Resource {
     } catch (error) {
       console.error('Error fetching rrs data:', error)
       this.setRrsAdditionalData([])
+    } finally {
+      this.rrsAdditionalDataLoading = false
     }
   }
 
@@ -194,24 +201,26 @@ class DataProvider extends Resource {
       const url = `https://api-dev.core.ac.uk/internal/data-providers/${dataProviderId}/rights-retention-update`
       const body = { articleId, validationStatus }
       const response = await fetch(url, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        // mode: 'no-cors',
         body: JSON.stringify(body),
       })
       const result = await response.json()
       this.setStatusUpdate(result)
+      await this.getRrslistData(dataProviderId)
     } catch (error) {
       console.error(error)
     }
   }
 
   @action
-  uploadPdf = async (file) => {
+  uploadPdf = async (file, dataProviderId) => {
+    this.rrsPdfLoading = true
     try {
       const url = `https://api-dev.core.ac.uk/internal/data-providers/rights-retention-upload-file`
-      const dataProviderId = 86
       const fd = new FormData()
       fd.set('file', file)
       fd.set('dataProviderId', dataProviderId)
@@ -226,6 +235,8 @@ class DataProvider extends Resource {
       this.setUploadResult(result)
     } catch (error) {
       console.error(error)
+    } finally {
+      this.rrsPdfLoading = false
     }
   }
 

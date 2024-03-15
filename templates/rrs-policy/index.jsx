@@ -19,6 +19,8 @@ const RrsPageTemplate = ({
   statusUpdate,
   rrsAdditionalData,
   getOutputsAdditionalData,
+  rrsAdditionalDataLoading,
+  rrsPdfLoading,
   uploadPdf,
   uploadResults,
   ...restProps
@@ -38,7 +40,11 @@ const RrsPageTemplate = ({
     <div className={styles.cardsWrapper}>
       <RrsStatsCard />
       <RrsReviewCard />
-      <RrsCheckCard uploadPdf={uploadPdf} uploadResults={uploadPdf} />
+      <RrsCheckCard
+        rrsPdfLoading={rrsPdfLoading}
+        uploadPdf={uploadPdf}
+        uploadResults={uploadResults}
+      />
     </div>
     <RrsTable
       rrsList={rrsList}
@@ -47,6 +53,7 @@ const RrsPageTemplate = ({
       statusUpdate={statusUpdate}
       rrsAdditionalData={rrsAdditionalData}
       getOutputsAdditionalData={getOutputsAdditionalData}
+      rrsAdditionalDataLoading={rrsAdditionalDataLoading}
     />
   </Tag>
 )

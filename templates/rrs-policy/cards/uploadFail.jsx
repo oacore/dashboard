@@ -1,12 +1,12 @@
 import React from 'react'
 import { Button } from '@oacore/design'
 
-import issueSvg from '../../../components/upload/assets/issue.svg'
+import fail from '../../../components/upload/assets/issue.svg'
 import text from '../../../texts/rrs-retention/rrs.yml'
 import styles from './styles.module.css'
 import { ProgressSpinner } from '../../../design'
 
-const SizeUploadIssue = ({
+const UploadFail = ({
   handleClick,
   handleFileChange,
   uploadRef,
@@ -18,15 +18,15 @@ const SizeUploadIssue = ({
     </div>
   ) : (
     <div className={styles.uploadWrapper}>
-      <div className={styles.titleWrapper}>
-        <img src={issueSvg} alt="issueSvg" />
-        <h3 className={styles.uploadTitle}>
-          {text.upload.noSupport.sizeTitle}
-        </h3>
+      <div className={styles.successWrapper}>
+        <div className={styles.titleWrapper}>
+          <img src={fail} alt="issueSvg" />
+          <h3 className={styles.uploadTitle}>{text.upload.fail.title}</h3>
+        </div>
       </div>
       <div className={styles.innerIssueWrapper}>
-        <span className={styles.innerIssueTitle}>
-          {text.upload.subInfo.size}
+        <span className={styles.uploadTitle}>
+          {text.upload.fail.description}
         </span>
         <input
           ref={uploadRef}
@@ -40,10 +40,10 @@ const SizeUploadIssue = ({
       </div>
       <div className={styles.uploadFooterButton}>
         <Button onClick={handleClick} variant="contained">
-          {text.upload.noSupport.action}
+          {text.upload.fail.action.title}
         </Button>
       </div>
     </div>
   )
 
-export default SizeUploadIssue
+export default UploadFail

@@ -5,6 +5,7 @@ import { Popover } from '@oacore/design/lib/modules'
 import { useOutsideClick } from '@oacore/design/lib/hooks'
 
 import styles from '../styles.module.css'
+import { ProgressSpinner } from '../../../design'
 
 import Menu from 'components/menu'
 import { capitalize } from 'utils/helpers'
@@ -18,6 +19,7 @@ const Article = ({
   outputsUrl,
   loading,
   changeVisibility,
+  rrsAdditionalDataLoading,
 }) => {
   const [visibleMenu, setVisibleMenu] = useState(false)
 
@@ -57,62 +59,70 @@ const Article = ({
       colSpan="12"
       className={classNames.use(styles.article).join(className)}
     >
-      <div className={styles.articleHeader}>
-        <h2>{article.title}</h2>
-        <div className={styles.actions} ref={menuRef}>
-          <Popover placement="top" content={visibility?.extraText}>
-            <Button
-              disabled={loading}
-              className={classNames.use(styles.actionButton, {
-                [styles.actionButtonDisabled]: visibility?.disabled,
-              })}
-              onClick={() => changeVisibility(article)}
-            >
-              <Icon
-                src={`#${visibility?.icon}`}
-                className={styles.actionButtonIcon}
-              />
-              {visibility?.title}
-            </Button>
-          </Popover>
-          <Button
-            className={styles.actionButtonPure}
-            onClick={toggleVisibleMenu}
-            ref={menuRef}
-          >
-            <Icon src="#dots-vertical" />
-          </Button>
-          <Menu visible={visibleMenu} className={styles.menu}>
-            {actions.map(({ title, value, key, generatedUrl }) => (
-              <Menu.Item
-                key={key}
-                target="_blank"
-                href={generatedUrl ? outputsUrl : value}
-              >
-                {title}
-              </Menu.Item>
-            ))}
-          </Menu>
+      {rrsAdditionalDataLoading ? (
+        <div className={styles.spinnerWrapper}>
+          <ProgressSpinner className={styles.spinner} />
         </div>
-      </div>
-      <div className={styles.wrapper}>
-        {fields.map(
-          ({ name, value, key }) =>
-            value && (
-              <div className={styles.box} key={key}>
-                <p className={styles.boxProp}>{name}</p>
-                <ReadMore
-                  className={classNames.use(
-                    styles.boxCaption,
-                    `${styles[`boxCaption${capitalize(key)}`]}`
-                  )}
+      ) : (
+        <>
+          <div className={styles.articleHeader}>
+            <h2>{article.title}</h2>
+            <div className={styles.actions} ref={menuRef}>
+              <Popover placement="top" content={visibility?.extraText}>
+                <Button
+                  disabled={loading}
+                  className={classNames.use(styles.actionButton, {
+                    [styles.actionButtonDisabled]: visibility?.disabled,
+                  })}
+                  onClick={() => changeVisibility(article)}
                 >
-                  {value}
-                </ReadMore>
-              </div>
-            )
-        )}
-      </div>
+                  <Icon
+                    src={`#${visibility?.icon}`}
+                    className={styles.actionButtonIcon}
+                  />
+                  {visibility?.title}
+                </Button>
+              </Popover>
+              <Button
+                className={styles.actionButtonPure}
+                onClick={toggleVisibleMenu}
+                ref={menuRef}
+              >
+                <Icon src="#dots-vertical" />
+              </Button>
+              <Menu visible={visibleMenu} className={styles.menu}>
+                {actions.map(({ title, value, key, generatedUrl }) => (
+                  <Menu.Item
+                    key={key}
+                    target="_blank"
+                    href={generatedUrl ? outputsUrl : value}
+                  >
+                    {title}
+                  </Menu.Item>
+                ))}
+              </Menu>
+            </div>
+          </div>
+          <div className={styles.wrapper}>
+            {fields.map(
+              ({ name, value, key }) =>
+                value && (
+                  <div className={styles.box} key={key}>
+                    <p className={styles.boxProp}>{name}</p>
+                    <ReadMore
+                      className={classNames.use(
+                        styles.boxCaption,
+                        `${styles[`boxCaption${capitalize(key)}`]}`
+                      )}
+                    >
+                      {value}
+                    </ReadMore>
+                  </div>
+                )
+            )}
+          </div>
+        </>
+      )}
     </Tag>
   )
 }

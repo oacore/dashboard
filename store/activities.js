@@ -31,7 +31,7 @@ const config = [
   },
   {
     id: 'rrsPolicy',
-    path: 'policy',
+    path: 'rights-retention-strategy',
     icon: 'calendar-check',
   },
   {

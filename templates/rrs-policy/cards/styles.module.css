@@ -54,11 +54,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 77px;
-  padding: 0 4px;
+  width: max-content;
+  padding: 4px;
   background: #fef5ef;
   border-radius: 2px;
   gap: 10px;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
 }
 
 .inner-issue-wrapper {
@@ -108,4 +115,9 @@
   line-height: 16px;
   color: #666;
   letter-spacing: 0.018px;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
 }

@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Icon } from '@oacore/design/lib/elements'
+import { router } from 'next/client'
 
 import styles from '../styles.module.css'
 import Actions from '../../../components/actions'
@@ -7,79 +8,37 @@ import DefaultUploadView from './defaultUpload'
 import SizeUploadIssue from './sizeUploadIssue'
 import FormatUploadIssue from './formatUploadIssue'
 import UploadSuccess from './uploadSuccess'
+import UploadFail from './uploadFail'
 
 import { Card } from 'design'
 
-const RrsCheckCard = ({ uploadPdf }) => {
-  const [pdfFile, setPdfFile] = useState(null)
-  const [uploadSuccess, setUploadSuccess] = useState(false)
-  const [sizeIssue, setSizeIssue] = useState(false)
-  const [formatIssue, setFormatIssue] = useState(false)
+const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
   const uploadRef = useRef(null)
+  const providerId = router.query['data-provider-id']
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0]
-    const maxFileSize = 10 * 1024 * 1024
-    uploadPdf(file)
-    if (file) {
-      if (file.size > maxFileSize) {
-        setSizeIssue(true)
-        setFormatIssue(false)
-        setPdfFile(null)
-        setUploadSuccess(false)
-      } else if (
-        file.type !== 'application/pdf' &&
-        file.type !==
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ) {
-        setFormatIssue(true)
-        setPdfFile(null)
-        setSizeIssue(false)
-        setUploadSuccess(false)
-      } else {
-        setPdfFile(file)
-        setSizeIssue(false)
-        setFormatIssue(false)
-        setUploadSuccess(false)
-        setUploadSuccess(true)
-      }
-    }
-  }
+  const [currentView, setCurrentView] = useState('default')
 
   const handleClick = () => {
     uploadRef.current.click()
   }
 
-  const renderUploadVIew = React.useMemo(() => {
-    if (sizeIssue) {
-      return (
-        <SizeUploadIssue
-          uploadRef={uploadRef}
-          handleClick={handleClick}
-          handleFileChange={handleFileChange}
-        />
-      )
-    }
-    if (formatIssue && !sizeIssue) {
-      return (
-        <FormatUploadIssue
-          uploadRef={uploadRef}
-          handleClick={handleClick}
-          handleFileChange={handleFileChange}
-        />
-      )
-    }
-    if (uploadSuccess) return <UploadSuccess />
-
-    return (
-      <DefaultUploadView
-        uploadRef={uploadRef}
-        pdfFile={pdfFile}
-        handleFileChange={handleFileChange}
-        handleClick={handleClick}
-      />
+  useEffect(() => {
+    if (uploadResults.rightsRetentionSentence) setCurrentView('success')
+    if (
+      !uploadResults.rightsRetentionSentence &&
+      uploadResults.confidence === 0
     )
-  }, [formatIssue, uploadSuccess, sizeIssue])
+      setCurrentView('fail')
+  }, [uploadResults])
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    uploadPdf(file, providerId)
+    if (file.size > 10 * 1024 * 1024) {
+      setCurrentView('sizeIssue')
+      return
+    }
+    if (file.type !== 'application/pdf') setCurrentView('formatIssue')
+  }
 
   return (
     <Card className={styles.cardWrapperBig} tag="section" title="Your Title">
@@ -94,7 +53,48 @@ const RrsCheckCard = ({ uploadPdf }) => {
           }
         />
       </div>
-      {renderUploadVIew}
+      {currentView === 'default' && (
+        <DefaultUploadView
+          uploadRef={uploadRef}
+          handleFileChange={handleFileChange}
+          handleClick={handleClick}
+          rrsPdfLoading={rrsPdfLoading}
+        />
+      )}
+      {currentView === 'sizeIssue' && (
+        <SizeUploadIssue
+          uploadRef={uploadRef}
+          handleClick={handleClick}
+          handleFileChange={handleFileChange}
+          rrsPdfLoading={rrsPdfLoading}
+        />
+      )}
+      {currentView === 'formatIssue' && (
+        <FormatUploadIssue
+          uploadRef={uploadRef}
+          handleClick={handleClick}
+          handleFileChange={handleFileChange}
+          rrsPdfLoading={rrsPdfLoading}
+        />
+      )}
+      {currentView === 'success' && (
+        <UploadSuccess
+          uploadRef={uploadRef}
+          handleClick={handleClick}
+          handleFileChange={handleFileChange}
+          uploadResults={uploadResults}
+          rrsPdfLoading={rrsPdfLoading}
+        />
+      )}
+      {currentView === 'fail' && (
+        <UploadFail
+          uploadRef={uploadRef}
+          handleClick={handleClick}
+          handleFileChange={handleFileChange}
+          uploadResults={uploadResults}
+          rrsPdfLoading={rrsPdfLoading}
+        />
+      )}
     </Card>
   )
 }

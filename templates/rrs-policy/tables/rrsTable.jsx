@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button } from '@oacore/design/lib/elements'
 
@@ -26,6 +26,7 @@ const RrsTable = observer(
     updateRrsStatus,
     rrsAdditionalData,
     getOutputsAdditionalData,
+    rrsAdditionalDataLoading,
   }) => {
     const [visibleHelp, setVisibleHelp] = useState(
       localStorage.getItem('rrsHelp') === 'true'
@@ -64,7 +65,7 @@ const RrsTable = observer(
     useEffect(() => {
       const newRecords = [
         ...tableData,
-        ...rrsList.slice(page * 10, (page + 1) * 10),
+        ...rrsList?.slice(page * 10, (page + 1) * 10),
       ]
       const newRRS = newRecords.map((item) => ({
         ...item,
@@ -105,10 +106,10 @@ const RrsTable = observer(
       else window.open(`${process.env.IDP_URL}/oai/${oaiId}`, '_blank')
     }
 
-    const onSetActiveArticle = useCallback((id) => {
-      getOutputsAdditionalData(id)
-      setOutputsUrl(`https://core.ac.uk/outputs/${id}`)
-    }, [])
+    const onSetActiveArticle = async (row) => {
+      await getOutputsAdditionalData(row.id)
+      setOutputsUrl(`https://core.ac.uk/outputs/${row.id}`)
+    }
 
     const handleStatusModal = (e, rowData) => {
       setSelectedRowData(rowData)
@@ -117,11 +118,12 @@ const RrsTable = observer(
     }
 
     const sortByPublicationDate = (direction) => {
-      const sortedData = [...tableData].sort((a, b) => {
+      const sortedData = [...rrsList].sort((a, b) => {
         const dateA = new Date(a.publicationDate).getTime()
         const dateB = new Date(b.publicationDate).getTime()
         return direction === 'asc' ? dateA - dateB : dateB - dateA
       })
+
       setTableData(sortedData.slice(0, tableData.length))
       setSortDirection(direction)
     }
@@ -138,12 +140,16 @@ const RrsTable = observer(
           activeText={visibleHelp}
         />
         <Table
+          className={styles.rrsTable}
+          rowActionProp
           data={tableData}
           totalLength={tableData?.length}
           size={tableData?.length}
           isHeaderClickable
+          renderDropDown={rrsAdditionalData}
           fetchData={() => setPage(page + 1)}
-          defaultRowClick={onSetActiveArticle}
+          // defaultRowClick={onSetActiveArticle}
+          rowClick={(row) => onSetActiveArticle(row)}
           onClick={() =>
             sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
           }
@@ -164,7 +170,7 @@ const RrsTable = observer(
               return '-'
             }}
             className={styles.oaiColumn}
-            cellClassName={styles.oaiCell}
+            // cellClassName={styles.oaiCell}
           />
           <Table.Column
             id="title"
@@ -172,34 +178,40 @@ const RrsTable = observer(
             getter={(v) => v.title || '-'}
             className={styles.titleColumn}
           />
-          {/* <Table.Column */}
-          {/*  id="authors" */}
-          {/*  display="Authors" */}
-          {/*  className={styles.authorsColumn} */}
-          {/*  getter={(v) => v.document.documentMetadata?.authors} */}
-          {/* /> */}
+          <Table.Column
+            id="authors"
+            display="Authors"
+            className={styles.authorsColumn}
+            getter={(v) => v?.authors}
+          />
           <Table.Column
             id="publicationDate"
             display="Publication date"
             className={styles.publicationDateColumn}
-            getter={(v) => <div>{v.publicationDate?.split('T')[0]}</div>}
-          />
-          <Table.Column
-            id="licence"
-            display="Identified licence"
-            className={styles.publicationDateColumn}
             getter={(v) => (
-              <div className={`${styles.licence} ${styles.truncated}`}>
-                {v.licenceRecognised?.length > 10
-                  ? `${v.licenceRecognised.substring(0, 10)}...`
-                  : v.licenceRecognised}
+              <div className={styles.publicationDateCell}>
+                {v.publicationDate?.split('T')[0]}
               </div>
             )}
           />
           <Table.Column
+            id="licence"
+            display="Identified licence"
+            className={styles.licenceColumn}
+            getter={(v) =>
+              v.licenceRecognised && (
+                <div className={`${styles.licence} ${styles.truncated}`}>
+                  {v.licenceRecognised?.length > 10
+                    ? `${v.licenceRecognised.substring(0, 10)}...`
+                    : v.licenceRecognised}
+                </div>
+              )
+            }
+          />
+          <Table.Column
             id="rrs"
             display="Extracted RRS"
-            className={styles.publicationDateColumn}
+            className={styles.publicationColumn}
             getter={(v) => (
               <a
                 target="_blank"
@@ -287,6 +299,7 @@ const RrsTable = observer(
               article={rrsAdditionalData}
               loading={loading}
               outputsUrl={outputsUrl}
+              rrsAdditionalDataLoading={rrsAdditionalDataLoading}
             />
           </Table.Details>
           <Table.Action>

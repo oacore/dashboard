@@ -44,6 +44,7 @@ const InfiniteTable = ({
   showAdditionalSort,
   sortDirection,
   sortStatusDirection,
+  renderDropDown,
   rowActionProp,
   ...restProps
 }) => {
@@ -139,6 +140,7 @@ const InfiniteTable = ({
               sortStatusDirection={sortStatusDirection}
             />
             <Body
+              renderDropDown={renderDropDown}
               handleRowClick={rowClick || rowAction}
               rowActionProp={rowActionProp}
               handleDoubleRowClick={useRowCallback(handleDoubleRowClick)}

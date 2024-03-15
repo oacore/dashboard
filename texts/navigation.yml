@@ -8,7 +8,7 @@ items:
   deduplication: Versions/duplicates
   content: Content
   deposit-compliance: OA compliance
-  policy: RRS Policy
+  rights-retention-strategy: RRS Policy
   doi: DOI
   plugins: Plugins
   plugins/discovery: Discovery Plugin

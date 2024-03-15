@@ -2,7 +2,6 @@ import { Button } from '@oacore/design/lib/elements'
 import React, { useEffect } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import Markdown from '../../../components/markdown'
 import styles from '../styles.module.css'
 import texts from '../../../texts/rrs-retention/rrs.yml'
 import accept from '../../../components/upload/assets/acceptLight.svg'
@@ -24,9 +23,9 @@ const StatusCard = ({ onClose, handleStatusUpdate, v }) => {
   return (
     <div className={styles.modalWrapper}>
       <h3 className={styles.modalTitle}>{texts.statusModal.title}</h3>
-      <Markdown className={styles.confirmationPopup}>
+      <div className={styles.confirmationPopup}>
         {texts.statusModal.description}
-      </Markdown>
+      </div>
       <div className={styles.redirect}>
         <span>{texts.statusModal.link}</span>
         <img src={redirect} alt="" />

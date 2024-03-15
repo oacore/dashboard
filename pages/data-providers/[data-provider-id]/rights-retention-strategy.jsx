@@ -9,6 +9,8 @@ const PolicyPage = ({ store, ...props }) => (
     getRrslistData={store.dataProvider?.getRrslistData}
     rrsAdditionalData={store.dataProvider?.rrsAdditionalData}
     getOutputsAdditionalData={store.dataProvider?.getOutputsAdditionalData}
+    rrsAdditionalDataLoading={store.dataProvider?.rrsAdditionalDataLoading}
+    rrsPdfLoading={store.dataProvider?.rrsPdfLoading}
     updateRrsStatus={store.dataProvider?.updateRrsStatus}
     statusUpdate={store.dataProvider?.statusUpdate}
     uploadPdf={store.dataProvider?.uploadPdf}
