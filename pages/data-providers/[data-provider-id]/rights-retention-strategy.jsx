@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { withGlobalStore } from '../../../store'
-import RrsPageTemplate from '../../../templates/rrs-policy'
+import { withGlobalStore } from 'store'
+import RrsPageTemplate from 'templates/rrs-policy'
 
-const PolicyPage = ({ store, ...props }) => (
+const rrsPolicy = ({ store, ...props }) => (
   <RrsPageTemplate
     rrsList={store.dataProvider?.rrsList}
     getRrslistData={store.dataProvider?.getRrslistData}
@@ -19,4 +19,4 @@ const PolicyPage = ({ store, ...props }) => (
   />
 )
 
-export default withGlobalStore(PolicyPage)
+export default withGlobalStore(rrsPolicy)

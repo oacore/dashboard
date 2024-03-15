@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Icon } from '@oacore/design/lib/elements'
-import { router } from 'next/client'
+import { useRouter } from 'next/router'
 
 import styles from '../styles.module.css'
 import Actions from '../../../components/actions'
@@ -14,6 +14,7 @@ import { Card } from 'design'
 
 const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
   const uploadRef = useRef(null)
+  const router = useRouter()
   const providerId = router.query['data-provider-id']
 
   const [currentView, setCurrentView] = useState('default')
