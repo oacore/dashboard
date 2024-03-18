@@ -66,7 +66,7 @@ const config = new RouteConfig([
   {
     test: /\/rights-retention-strategy/,
     path: 'rights-retention-strategy',
-    icon: 'calendar-check',
+    icon: 'copy-document',
   },
   {
     test: /\/doi/,

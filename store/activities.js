@@ -32,7 +32,7 @@ const config = [
   {
     id: 'rrsPolicy',
     path: 'rights-retention-strategy',
-    icon: 'calendar-check',
+    icon: 'copy-document',
   },
   {
     id: 'doi',
