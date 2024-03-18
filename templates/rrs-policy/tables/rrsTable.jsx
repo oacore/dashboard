@@ -11,6 +11,7 @@ import ExportButton from '../../../components/export-button'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import accept from '../../../components/upload/assets/accept.svg'
 import deny from '../../../components/upload/assets/deny.svg'
+import question from '../../../components/upload/assets/questionMarkLight.svg'
 import redirect from '../../../components/upload/assets/urlRedirect.svg'
 import Menu from '../../../components/menu'
 import Article from '../cards/article'
@@ -32,7 +33,7 @@ const RrsTable = observer(
       localStorage.getItem('rrsHelp') === 'true'
     )
     const [tableData, setTableData] = useState([])
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(-1)
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -40,6 +41,7 @@ const RrsTable = observer(
     const [outputsUrl, setOutputsUrl] = useState()
     const [showStatusModal, setShowStatusModal] = useState(false)
     const [sortDirection, setSortDirection] = useState('asc')
+    const [statusSortDirection, setStatusSortDirection] = useState('asc')
 
     const router = useRouter()
     const providerId = router.query['data-provider-id']
@@ -128,6 +130,25 @@ const RrsTable = observer(
       setSortDirection(direction)
     }
 
+    const getStatusIcon = (validationStatusRRS) => {
+      if (validationStatusRRS === undefined || validationStatusRRS === null)
+        return question
+      if (validationStatusRRS === 0) return deny
+
+      return accept
+    }
+
+    const sortByStatus = (direction) => {
+      const sortedData = [...tableData].sort((a, b) =>
+        direction === 'asc'
+          ? a.validationStatusRRS - b.validationStatusRRS
+          : b.validationStatusRRS - a.validationStatusRRS
+      )
+
+      setTableData(sortedData)
+      setStatusSortDirection(direction)
+    }
+
     return (
       <Card>
         <Card.Title tag="h2">{texts.table.title}</Card.Title>
@@ -153,7 +174,11 @@ const RrsTable = observer(
           onClick={() =>
             sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
           }
+          handleCLick={() =>
+            sortByStatus(statusSortDirection === 'asc' ? 'desc' : 'asc')
+          }
           sortDirection={sortDirection}
+          sortStatusDirection={statusSortDirection}
           showAdditionalSort
         >
           <Table.Column
@@ -235,19 +260,11 @@ const RrsTable = observer(
                   className={styles.statusWrapper}
                   onClick={(e) => handleStatusModal(e, v)}
                 >
-                  {v.validationStatusRRS === 0 ? (
-                    <img
-                      src={deny}
-                      alt="deny"
-                      className={styles.visibilityIcon}
-                    />
-                  ) : (
-                    <img
-                      src={accept}
-                      alt="accept"
-                      className={styles.visibilityIcon}
-                    />
-                  )}
+                  <img
+                    src={getStatusIcon(v.validationStatusRRS)}
+                    alt="status icon"
+                    className={styles.visibilityIcon}
+                  />
                 </div>
                 {showStatusModal && selectedRowData === v && (
                   <StatusCard
