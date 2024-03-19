@@ -167,7 +167,7 @@ class DataProvider extends Resource {
   getRrslistData = async (id) => {
     try {
       const response = await fetch(
-        ` https://api-dev.core.ac.uk/internal/data-providers/${id}/rights-retention`
+        `${process.env.API_URL}/data-providers/${id}/rights-retention`
       )
       if (response.ok) {
         const data = await response.json()
@@ -201,7 +201,7 @@ class DataProvider extends Resource {
   @action
   updateRrsStatus = async (dataProviderId, articleId, validationStatus) => {
     try {
-      const url = `https://api-dev.core.ac.uk/internal/data-providers/${dataProviderId}/rights-retention-update`
+      const url = `${process.env.API_URL}/data-providers/${dataProviderId}/rights-retention-update`
       const body = { articleId, validationStatus }
       const response = await fetch(url, {
         method: 'POST',
@@ -223,7 +223,7 @@ class DataProvider extends Resource {
   uploadPdf = async (file, dataProviderId) => {
     this.rrsPdfLoading = true
     try {
-      const url = `https://api-dev.core.ac.uk/internal/data-providers/rights-retention-upload-file`
+      const url = `${process.env.API_URL}/data-providers/rights-retention-upload-file`
       const fd = new FormData()
       fd.set('file', file)
       fd.set('dataProviderId', dataProviderId)
