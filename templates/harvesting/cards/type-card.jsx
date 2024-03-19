@@ -36,49 +36,51 @@ const TypeCard = ({
 
   return (
     <li
-      className={classNames.use(styles.typeCard, {
+      className={classNames.use({
         [styles.typeCardHidden]: hidden,
       })}
     >
-      <div className={styles.typeCardSection}>
-        <div className={styles.typeCardHeader}>
-          <Icon
-            src="#alert"
-            className={classNames.use(`${styles[`cardIcon${type}`]}`)}
-          />
-          <h3 className={styles.typeCardTitle}>{title}</h3>
-        </div>
-        <p>{description}</p>
-        <div
-          className={classNames.use(
-            styles.typeCardCount,
-            `${styles[`typeCardCount${type}`]}`
-          )}
-        >
-          <span>{count.toLocaleString()}</span> {texts.issues.affected}
-        </div>
-      </div>
-      <div className={styles.typeCardSection}>
-        <div className={styles.typeCardHeader}>
-          <Icon src="#comment-multiple" className={styles.cardIconComment} />
-          <h3 className={styles.typeCardTitle}>
-            {texts.issues.recommendationCardTitle}
-          </h3>
-        </div>
-        <Markdown>{resolution}</Markdown>
-        <div className={styles.typeCardActions}>
-          <Button variant="contained" href={issuesList.downloadUrl}>
-            {texts.issues.downloadAction}
-          </Button>
-          <Button
-            variant="outlined"
-            disabled={articlesLoading}
-            onClick={toggleVisibleList}
+      <div className={styles.typeCard}>
+        <div className={styles.typeCardSection}>
+          <div className={styles.typeCardHeader}>
+            <Icon
+              src="#alert"
+              className={classNames.use(`${styles[`cardIcon${type}`]}`)}
+            />
+            <h3 className={styles.typeCardTitle}>{title}</h3>
+          </div>
+          <p>{description}</p>
+          <div
+            className={classNames.use(
+              styles.typeCardCount,
+              `${styles[`typeCardCount${type}`]}`
+            )}
           >
-            {visibleList
-              ? texts.issues.listActions.hide
-              : texts.issues.listActions.show}
-          </Button>
+            <span>{count.toLocaleString()}</span> {texts.issues.affected}
+          </div>
+        </div>
+        <div className={styles.typeCardSection}>
+          <div className={styles.typeCardHeader}>
+            <Icon src="#comment-multiple" className={styles.cardIconComment} />
+            <h3 className={styles.typeCardTitle}>
+              {texts.issues.recommendationCardTitle}
+            </h3>
+          </div>
+          <Markdown>{resolution}</Markdown>
+          <div className={styles.typeCardActions}>
+            <Button variant="contained" href={issuesList.downloadUrl}>
+              {texts.issues.downloadAction}
+            </Button>
+            <Button
+              variant="outlined"
+              disabled={articlesLoading}
+              onClick={toggleVisibleList}
+            >
+              {visibleList
+                ? texts.issues.listActions.hide
+                : texts.issues.listActions.show}
+            </Button>
+          </div>
         </div>
       </div>
       {visibleList && Object.keys(articles).length > 0 && (

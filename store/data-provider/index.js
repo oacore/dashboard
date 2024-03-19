@@ -86,14 +86,17 @@ class DataProvider extends Resource {
     this.recordValue = input
   }
 
+  @action
   setDuplicateList(data) {
     this.duplicateList = data
   }
 
+  @action
   setRrsList(data) {
     this.rrsList = data
   }
 
+  @action
   setRrsAdditionalData(data) {
     this.rrsAdditionalData = data
   }
