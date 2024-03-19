@@ -341,6 +341,7 @@ class DataProvider extends Resource {
         this.issues = new Issues(url, this.options)
         this.allMembers = new Membership(url, this.options)
         this.duplicatesUrl = `${process.env.API_URL}${url}/duplicates?accept=text/csv`
+        this.rrsUrl = `${process.env.API_URL}${url}/rights-retention?accept=text/csv`
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {

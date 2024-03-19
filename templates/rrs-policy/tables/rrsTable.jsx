@@ -28,6 +28,7 @@ const RrsTable = observer(
     rrsAdditionalData,
     getOutputsAdditionalData,
     rrsAdditionalDataLoading,
+    rrsUrl,
   }) => {
     const [visibleHelp, setVisibleHelp] = useState(
       localStorage.getItem('rrsHelp') === 'true'
@@ -339,7 +340,7 @@ const RrsTable = observer(
             />
           </Table.Details>
           <Table.Action>
-            <ExportButton>download csv</ExportButton>
+            <ExportButton href={rrsUrl}>download csv</ExportButton>
           </Table.Action>
         </Table>
       </Card>

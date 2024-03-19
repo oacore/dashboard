@@ -23,6 +23,7 @@ const RrsPageTemplate = ({
   rrsPdfLoading,
   uploadPdf,
   uploadResults,
+  rrsUrl,
   ...restProps
 }) => (
   <Tag
@@ -54,6 +55,7 @@ const RrsPageTemplate = ({
       rrsAdditionalData={rrsAdditionalData}
       getOutputsAdditionalData={getOutputsAdditionalData}
       rrsAdditionalDataLoading={rrsAdditionalDataLoading}
+      rrsUrl={rrsUrl}
     />
   </Tag>
 )

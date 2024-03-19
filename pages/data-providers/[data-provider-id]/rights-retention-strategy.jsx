@@ -12,6 +12,7 @@ const rrsPolicy = ({ store, ...props }) => (
     rrsAdditionalDataLoading={store.dataProvider?.rrsAdditionalDataLoading}
     rrsPdfLoading={store.dataProvider?.rrsPdfLoading}
     updateRrsStatus={store.dataProvider?.updateRrsStatus}
+    rrsUrl={store.dataProvider?.rrsUrl}
     statusUpdate={store.dataProvider?.statusUpdate}
     uploadPdf={store.dataProvider?.uploadPdf}
     uploadResults={store.dataProvider?.uploadResults}
