@@ -11,15 +11,20 @@ const DefaultUploadView = ({
   uploadRef,
   handleFileChange,
   rrsPdfLoading,
-}) =>
-  rrsPdfLoading ? (
-    <div className={styles.spinnerWrapper}>
-      <ProgressSpinner className={styles.spinner} />
-    </div>
-  ) : (
-    <div className={styles.uploadWrapper}>
-      {/* eslint-disable-next-line max-len */}
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+  fileName,
+}) => (
+  <div className={styles.uploadWrapper}>
+    <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
+    {rrsPdfLoading ? (
+      <div className={styles.innerWrapper}>
+        <div className={styles.spinnerWrapper}>
+          <ProgressSpinner className={styles.spinner} />
+        </div>
+        <h6 className={styles.fileName}>{fileName}</h6>
+      </div>
+    ) : (
+      /* eslint-disable-next-line max-len */
+      /* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */
       <div className={styles.innerWrapper} onClick={handleClick}>
         <img
           src={uploadSvg}
@@ -40,16 +45,21 @@ const DefaultUploadView = ({
           hidden
         />
       </div>
-      <div className={styles.uploadFooter}>
-        <span className={styles.footerText}>{text.upload.subInfo.format}</span>
-        <span className={styles.footerText}>{text.upload.subInfo.size}</span>
-      </div>
-      <div className={styles.uploadFooterButton}>
-        <Button onClick={handleClick} variant="contained">
-          {text.upload.default.action.title}
-        </Button>
-      </div>
+    )}
+    <div className={styles.uploadFooter}>
+      <span className={styles.footerText}>{text.upload.subInfo.format}</span>
+      <span className={styles.footerText}>{text.upload.subInfo.size}</span>
     </div>
-  )
+    <div className={styles.uploadFooterButton}>
+      <Button
+        disabled={rrsPdfLoading}
+        onClick={handleClick}
+        variant="contained"
+      >
+        {text.upload.default.action.title}
+      </Button>
+    </div>
+  </div>
+)
 
 export default DefaultUploadView

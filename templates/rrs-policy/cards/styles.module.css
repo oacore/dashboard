@@ -15,6 +15,18 @@
   border: 1px dashed #b75400;
 }
 
+.file-name {
+  margin-top: 16px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  color: #212121;
+  text-align: center;
+  letter-spacing: 0.024px;
+}
+
 .inner-title {
   display: flex;
   font-size: 14px;

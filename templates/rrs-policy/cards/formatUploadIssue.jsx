@@ -11,20 +11,30 @@ const FormatUploadIssue = ({
   handleFileChange,
   uploadRef,
   rrsPdfLoading,
-}) =>
-  rrsPdfLoading ? (
-    <div className={styles.spinnerWrapper}>
-      <ProgressSpinner className={styles.spinner} />
+  fileName,
+}) => (
+  <div className={styles.uploadWrapper}>
+    <div className={styles.titleWrapper}>
+      {!rrsPdfLoading ? (
+        <>
+          <img src={issueSvg} alt="issueSvg" />
+          <h3 className={styles.uploadTitle}>{text.upload.noSupport.title}</h3>
+        </>
+      ) : (
+        <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
+      )}
     </div>
-  ) : (
-    <div className={styles.uploadWrapper}>
-      <div className={styles.titleWrapper}>
-        <img src={issueSvg} alt="issueSvg" />
-        <h3 className={styles.uploadTitle}>{text.upload.noSupport.title}</h3>
+    {rrsPdfLoading ? (
+      <div className={styles.innerWrapper}>
+        <div className={styles.spinnerWrapper}>
+          <ProgressSpinner className={styles.spinner} />
+        </div>
+        <h6 className={styles.fileName}>{fileName}</h6>
       </div>
+    ) : (
       <div className={styles.innerIssueWrapper}>
         <span className={styles.innerIssueTitle}>
-          {text.upload.subInfo.format}
+          {text.upload.subInfo.size}
         </span>
         <input
           ref={uploadRef}
@@ -36,12 +46,17 @@ const FormatUploadIssue = ({
           hidden
         />
       </div>
-      <div className={styles.uploadFooterButton}>
-        <Button onClick={handleClick} variant="contained">
-          {text.upload.noSupport.action}
-        </Button>
-      </div>
+    )}
+    <div className={styles.uploadFooterButton}>
+      <Button
+        disabled={rrsPdfLoading}
+        onClick={handleClick}
+        variant="contained"
+      >
+        {text.upload.noSupport.action}
+      </Button>
     </div>
-  )
+  </div>
+)
 
 export default FormatUploadIssue

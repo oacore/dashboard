@@ -14,6 +14,7 @@ import { Card } from 'design'
 
 const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
   const uploadRef = useRef(null)
+  const [fileName, setFileName] = useState('')
   const router = useRouter()
   const providerId = router.query['data-provider-id']
 
@@ -31,24 +32,56 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
     )
       setCurrentView('fail')
   }, [uploadResults])
+
+  const handleDragOver = (event) => {
+    event.preventDefault()
+  }
   const handleFileChange = (event) => {
-    const file = event.target.files[0]
-    uploadPdf(file, providerId)
-    if (file.size > 10 * 1024 * 1024) {
-      setCurrentView('sizeIssue')
-      return
+    event.preventDefault()
+    if (rrsPdfLoading) return
+
+    let file
+    const { files } = event.dataTransfer || event.target
+
+    if (files && files.length) {
+      // eslint-disable-next-line prefer-destructuring
+      file = files[0]
+      uploadPdf(file, providerId)
+      setFileName(file.name)
+      if (file.size > 10 * 1024 * 1024) {
+        setCurrentView('sizeIssue')
+        return
+      }
+      const fileType = file.type
+      if (
+        !(
+          fileType === 'application/pdf' ||
+          fileType === 'application/msword' ||
+          fileType ===
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        )
+      ) {
+        setCurrentView('formatIssue')
+        return
+      }
     }
-    if (file.type !== 'application/pdf') setCurrentView('formatIssue')
+    event.stopPropagation()
   }
 
   return (
-    <Card className={styles.cardWrapperBig} tag="section" title="Your Title">
+    <Card
+      onDragOver={handleDragOver}
+      onDrop={handleFileChange}
+      className={styles.cardWrapperBig}
+      tag="section"
+      title="RRS checker"
+    >
       <div className={styles.headerWrapper}>
         <Card.Title className={styles.cardTitle} tag="h2">
-          Your Title
+          RRS checker
         </Card.Title>
         <Actions
-          description="Your Description"
+          description="CORE has discovered more Right Retention which are not listed in the repository."
           hoverIcon={
             <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
           }
@@ -60,6 +93,7 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           handleFileChange={handleFileChange}
           handleClick={handleClick}
           rrsPdfLoading={rrsPdfLoading}
+          fileName={fileName}
         />
       )}
       {currentView === 'sizeIssue' && (
@@ -68,6 +102,7 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           handleClick={handleClick}
           handleFileChange={handleFileChange}
           rrsPdfLoading={rrsPdfLoading}
+          fileName={fileName}
         />
       )}
       {currentView === 'formatIssue' && (
@@ -76,6 +111,7 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           handleClick={handleClick}
           handleFileChange={handleFileChange}
           rrsPdfLoading={rrsPdfLoading}
+          fileName={fileName}
         />
       )}
       {currentView === 'success' && (
@@ -85,6 +121,7 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           handleFileChange={handleFileChange}
           uploadResults={uploadResults}
           rrsPdfLoading={rrsPdfLoading}
+          fileName={fileName}
         />
       )}
       {currentView === 'fail' && (
@@ -94,6 +131,7 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           handleFileChange={handleFileChange}
           uploadResults={uploadResults}
           rrsPdfLoading={rrsPdfLoading}
+          fileName={fileName}
         />
       )}
     </Card>

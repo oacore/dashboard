@@ -12,13 +12,10 @@ const UploadSuccess = ({
   uploadRef,
   uploadResults,
   rrsPdfLoading,
-}) =>
-  rrsPdfLoading ? (
-    <div className={styles.spinnerWrapper}>
-      <ProgressSpinner className={styles.spinner} />
-    </div>
-  ) : (
-    <div className={styles.uploadWrapper}>
+  fileName,
+}) => (
+  <div className={styles.uploadWrapper}>
+    {!rrsPdfLoading ? (
       <div className={styles.successWrapper}>
         <div className={styles.titleWrapper}>
           <img src={success} alt="issueSvg" />
@@ -28,6 +25,17 @@ const UploadSuccess = ({
           {uploadResults.licenceRecognised}
         </div>
       </div>
+    ) : (
+      <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
+    )}
+    {rrsPdfLoading ? (
+      <div className={styles.innerWrapper}>
+        <div className={styles.spinnerWrapper}>
+          <ProgressSpinner className={styles.spinner} />
+        </div>
+        <h6 className={styles.fileName}>{fileName}</h6>
+      </div>
+    ) : (
       <div className={styles.innerIssueWrapper}>
         <span className={styles.uploadTitle}>
           {text.upload.success.description}
@@ -42,12 +50,17 @@ const UploadSuccess = ({
           hidden
         />
       </div>
-      <div className={styles.uploadFooterButton}>
-        <Button onClick={handleClick} variant="contained">
-          {text.upload.success.action.title}
-        </Button>
-      </div>
+    )}
+    <div className={styles.uploadFooterButton}>
+      <Button
+        disabled={rrsPdfLoading}
+        onClick={handleClick}
+        variant="contained"
+      >
+        {text.upload.success.action.title}
+      </Button>
     </div>
-  )
+  </div>
+)
 
 export default UploadSuccess

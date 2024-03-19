@@ -22,32 +22,41 @@ const ProgressBar = ({ count, maxCount }) => {
     </div>
   )
 }
+const RrsStatsCard = ({ rrsUrl, rrsList }) => {
+  const outputsWithRrsList = rrsList.filter(
+    (item) =>
+      item.validationStatusRRS !== 0 && item.validationStatusRRS !== undefined
+  )
 
-const RrsStatsCard = () => (
-  <Card
-    className={styles.cardWrapper}
-    tag="section"
-    title={rrs.statsCard.title}
-  >
-    <div className={styles.headerWrapper}>
-      <Card.Title className={styles.cardTitle} tag="h2">
-        {rrs.statsCard.title}
-      </Card.Title>
-    </div>
-    <div className={styles.innerWrapper}>
-      {/* <span className={styles.text}> */}
-      {/*  {valueOrDefault('from bc', 'Loading...')} */}
-      {/* </span> */}
-    </div>
-    <Card.Description className={styles.cardDescription}>
-      {rrs.statsCard.description}
-    </Card.Description>
-    <ProgressBar count={945} maxCount={2345} />
-    <div className={styles.footerWrapper}>
-      <Button variant="contained">{rrs.statsCard.action}</Button>
-      <span className={styles.subFooter}>{formatNumber(2345)} outputs</span>
-    </div>
-  </Card>
-)
+  return (
+    <Card
+      className={styles.cardWrapper}
+      tag="section"
+      title={rrs.statsCard.title}
+    >
+      <div className={styles.headerWrapper}>
+        <Card.Title className={styles.cardTitle} tag="h2">
+          {rrs.statsCard.title}
+        </Card.Title>
+      </div>
+      <div className={styles.innerWrapper} />
+      <Card.Description className={styles.cardDescription}>
+        {rrs.statsCard.description}
+      </Card.Description>
+      <ProgressBar
+        count={outputsWithRrsList.length}
+        maxCount={rrsList.length}
+      />
+      <div className={styles.footerWrapper}>
+        <Button href={rrsUrl} variant="contained">
+          {rrs.statsCard.action}
+        </Button>
+        <span className={styles.subFooter}>
+          {formatNumber(outputsWithRrsList.length)} outputs
+        </span>
+      </div>
+    </Card>
+  )
+}
 
 export default RrsStatsCard

@@ -43,7 +43,6 @@ const RrsTable = observer(
     const [showStatusModal, setShowStatusModal] = useState(false)
     const [loadingStatus, setLoadingStatus] = useState(false)
     const [sortDirection, setSortDirection] = useState('asc')
-    const [statusSortDirection, setStatusSortDirection] = useState('asc')
 
     const router = useRouter()
     const providerId = router.query['data-provider-id']
@@ -157,19 +156,8 @@ const RrsTable = observer(
       return accept
     }
 
-    const sortByStatus = (direction) => {
-      const sortedData = [...tableData].sort((a, b) =>
-        direction === 'asc'
-          ? a.validationStatusRRS - b.validationStatusRRS
-          : b.validationStatusRRS - a.validationStatusRRS
-      )
-
-      setTableData(sortedData)
-      setStatusSortDirection(direction)
-    }
-
     return (
-      <Card>
+      <Card className={styles.rrsTableWrapper} id="rrsTable">
         <Card.Title tag="h2">{texts.table.title}</Card.Title>
         <div className={styles.itemCountIndicator}>{texts.table.subTitle}</div>
         <RrsWarning
@@ -193,11 +181,7 @@ const RrsTable = observer(
           onClick={() =>
             sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
           }
-          handleCLick={() =>
-            sortByStatus(statusSortDirection === 'asc' ? 'desc' : 'asc')
-          }
           sortDirection={sortDirection}
-          sortStatusDirection={statusSortDirection}
           showAdditionalSort
         >
           <Table.Column
@@ -291,6 +275,7 @@ const RrsTable = observer(
                     onClose={() => setShowStatusModal(false)}
                     v={v}
                     loadingStatus={loadingStatus}
+                    href={`https://core.ac.uk/reader/${v.articleId}`}
                   />
                 )}
               </div>

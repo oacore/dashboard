@@ -27,7 +27,7 @@ const RrsPageTemplate = ({
   ...restProps
 }) => (
   <Tag
-    className={classNames.use(styles.container).join(className)}
+    className={classNames.use(styles.rrsMainWrapper).join(className)}
     {...restProps}
   >
     <header className={styles.header}>
@@ -39,8 +39,8 @@ const RrsPageTemplate = ({
       <Markdown className={styles.description}>{rrs.description}</Markdown>
     </header>
     <div className={styles.cardsWrapper}>
-      <RrsStatsCard />
-      <RrsReviewCard />
+      <RrsStatsCard rrsUrl={rrsUrl} rrsList={rrsList} />
+      <RrsReviewCard rrsList={rrsList} />
       <RrsCheckCard
         rrsPdfLoading={rrsPdfLoading}
         uploadPdf={uploadPdf}

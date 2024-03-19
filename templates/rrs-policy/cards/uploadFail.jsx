@@ -11,19 +11,29 @@ const UploadFail = ({
   handleFileChange,
   uploadRef,
   rrsPdfLoading,
-}) =>
-  rrsPdfLoading ? (
-    <div className={styles.spinnerWrapper}>
-      <ProgressSpinner className={styles.spinner} />
-    </div>
-  ) : (
-    <div className={styles.uploadWrapper}>
-      <div className={styles.successWrapper}>
-        <div className={styles.titleWrapper}>
-          <img src={fail} alt="issueSvg" />
-          <h3 className={styles.uploadTitle}>{text.upload.fail.title}</h3>
-        </div>
+  fileName,
+}) => (
+  <div className={styles.uploadWrapper}>
+    <div className={styles.successWrapper}>
+      <div className={styles.titleWrapper}>
+        {!rrsPdfLoading ? (
+          <>
+            <img src={fail} alt="issueSvg" />
+            <h3 className={styles.uploadTitle}>{text.upload.fail.title}</h3>
+          </>
+        ) : (
+          <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
+        )}
       </div>
+    </div>
+    {rrsPdfLoading ? (
+      <div className={styles.innerWrapper}>
+        <div className={styles.spinnerWrapper}>
+          <ProgressSpinner className={styles.spinner} />
+        </div>
+        <h6 className={styles.fileName}>{fileName}</h6>
+      </div>
+    ) : (
       <div className={styles.innerIssueWrapper}>
         <span className={styles.uploadTitle}>
           {text.upload.fail.description}
@@ -38,12 +48,17 @@ const UploadFail = ({
           hidden
         />
       </div>
-      <div className={styles.uploadFooterButton}>
-        <Button onClick={handleClick} variant="contained">
-          {text.upload.fail.action.title}
-        </Button>
-      </div>
+    )}
+    <div className={styles.uploadFooterButton}>
+      <Button
+        disabled={rrsPdfLoading}
+        onClick={handleClick}
+        variant="contained"
+      >
+        {text.upload.fail.action.title}
+      </Button>
     </div>
-  )
+  </div>
+)
 
 export default UploadFail

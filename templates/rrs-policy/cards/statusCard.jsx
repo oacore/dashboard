@@ -9,7 +9,13 @@ import deny from '../../../components/upload/assets/denyLight.svg'
 import redirect from '../../../components/upload/assets/urlRedirect.svg'
 import { ProgressSpinner } from '../../../design'
 
-const StatusCard = ({ onClose, handleStatusUpdate, v, loadingStatus }) => {
+const StatusCard = ({
+  onClose,
+  handleStatusUpdate,
+  v,
+  loadingStatus,
+  href,
+}) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(`.${styles.modalWrapper}`)) onClose()
@@ -35,8 +41,15 @@ const StatusCard = ({ onClose, handleStatusUpdate, v, loadingStatus }) => {
         {texts.statusModal.description}
       </div>
       <div className={styles.redirect}>
-        <span>{texts.statusModal.link}</span>
-        <img src={redirect} alt="" />
+        <a
+          className={styles.redirectBtn}
+          target="_blank"
+          href={href}
+          rel="noreferrer"
+        >
+          <span>{texts.statusModal.link}</span>
+          <img src={redirect} alt="" />
+        </a>
       </div>
       <div className={styles.modalFooter}>
         {Object.values(texts.statusActions).map(({ button, key }) => (

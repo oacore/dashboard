@@ -29,7 +29,7 @@ upload:
     action:
       title: Upload new file
   fail:
-    title: RRS doesn’t found
+    title: RRS wasn’t found
     description: RRS doesn’t found in this paper.
     action:
       title: Upload new file
