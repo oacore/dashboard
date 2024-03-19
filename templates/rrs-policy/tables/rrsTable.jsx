@@ -40,6 +40,7 @@ const RrsTable = observer(
     const [isDisabled, setIsDisabled] = useState(false)
     const [outputsUrl, setOutputsUrl] = useState()
     const [showStatusModal, setShowStatusModal] = useState(false)
+    const [loadingStatus, setLoadingStatus] = useState(false)
     const [sortDirection, setSortDirection] = useState('asc')
     const [statusSortDirection, setStatusSortDirection] = useState('asc')
 
@@ -95,8 +96,25 @@ const RrsTable = observer(
     const handleStatusUpdate = async (e, articleId, validationStatus) => {
       e.preventDefault()
       e.stopPropagation()
-      await updateRrsStatus(providerId, articleId, validationStatus)
-      setShowStatusModal(false)
+      const currentArticle = tableData.find(
+        (item) => item.articleId === articleId
+      )
+      setLoadingStatus(true)
+      try {
+        await updateRrsStatus(providerId, articleId, validationStatus)
+        currentArticle.validationStatusRRS = validationStatus
+        setTableData((prevTableData) => {
+          const updatedTableData = prevTableData.map((item) =>
+            item.articleId === articleId ? currentArticle : item
+          )
+          return updatedTableData
+        })
+      } catch (error) {
+        console.error('Error updating status:', error)
+      } finally {
+        setLoadingStatus(false)
+        setShowStatusModal(false)
+      }
     }
 
     const handleToggleRedirect = (e, key, outputsId, oaiId) => {
@@ -164,7 +182,7 @@ const RrsTable = observer(
           className={styles.rrsTable}
           rowActionProp
           data={tableData}
-          totalLength={tableData?.length}
+          totalLength={rrsList?.length}
           size={tableData?.length}
           isHeaderClickable
           renderDropDown={rrsAdditionalData}
@@ -271,6 +289,7 @@ const RrsTable = observer(
                     handleStatusUpdate={handleStatusUpdate}
                     onClose={() => setShowStatusModal(false)}
                     v={v}
+                    loadingStatus={loadingStatus}
                   />
                 )}
               </div>

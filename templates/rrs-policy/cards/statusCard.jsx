@@ -7,8 +7,9 @@ import texts from '../../../texts/rrs-retention/rrs.yml'
 import accept from '../../../components/upload/assets/acceptLight.svg'
 import deny from '../../../components/upload/assets/denyLight.svg'
 import redirect from '../../../components/upload/assets/urlRedirect.svg'
+import { ProgressSpinner } from '../../../design'
 
-const StatusCard = ({ onClose, handleStatusUpdate, v }) => {
+const StatusCard = ({ onClose, handleStatusUpdate, v, loadingStatus }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(`.${styles.modalWrapper}`)) onClose()
@@ -22,7 +23,14 @@ const StatusCard = ({ onClose, handleStatusUpdate, v }) => {
 
   return (
     <div className={styles.modalWrapper}>
-      <h3 className={styles.modalTitle}>{texts.statusModal.title}</h3>
+      <div className={styles.spinTitleWrapper}>
+        <h3 className={styles.modalTitle}>{texts.statusModal.title}</h3>
+        {loadingStatus && (
+          <div className={styles.spinnerWrapper}>
+            <ProgressSpinner className={styles.spinnerSmall} />
+          </div>
+        )}
+      </div>
       <div className={styles.confirmationPopup}>
         {texts.statusModal.description}
       </div>
@@ -34,7 +42,6 @@ const StatusCard = ({ onClose, handleStatusUpdate, v }) => {
         {Object.values(texts.statusActions).map(({ button, key }) => (
           <Button
             onClick={(e) => handleStatusUpdate(e, v.articleId, key)}
-            // className={styles.modalFooterN}
             className={classNames.use(styles.modalFooterY, {
               [styles.modalFooterN]: button === 'WRONG',
             })}
