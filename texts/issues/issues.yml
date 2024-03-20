@@ -38,10 +38,10 @@ article:
     - name: Abstract
       key: abstract
   actions:
+    - title: Open in Core
+      key: coreUrl
     - title: Open in the repository
       key: outputUrl
-    - title: Download
-      key: downloadUrl
   visibility:
     - title: Live in core
       disabled: false
