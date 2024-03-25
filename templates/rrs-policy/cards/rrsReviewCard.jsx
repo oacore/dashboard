@@ -11,7 +11,7 @@ import { Card } from 'design'
 
 const RrsReviewCard = ({ rrsList }) => {
   const rrsToReviewList = rrsList.filter(
-    (item) => item.validationStatusRRS !== 0 && item.validationStatusRRS !== 1
+    (item) => item.validationStatusRRS !== 1 && item.validationStatusRRS !== 2
   )
   return (
     <Card

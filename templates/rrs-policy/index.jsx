@@ -24,6 +24,7 @@ const RrsPageTemplate = ({
   uploadPdf,
   uploadResults,
   rrsUrl,
+  metadataCount,
   ...restProps
 }) => (
   <Tag
@@ -39,7 +40,11 @@ const RrsPageTemplate = ({
       <Markdown className={styles.description}>{rrs.description}</Markdown>
     </header>
     <div className={styles.cardsWrapper}>
-      <RrsStatsCard rrsUrl={rrsUrl} rrsList={rrsList} />
+      <RrsStatsCard
+        rrsUrl={rrsUrl}
+        rrsList={rrsList}
+        metadataCount={metadataCount}
+      />
       <RrsReviewCard rrsList={rrsList} />
       <RrsCheckCard
         rrsPdfLoading={rrsPdfLoading}

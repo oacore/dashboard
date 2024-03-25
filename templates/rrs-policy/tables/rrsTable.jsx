@@ -149,9 +149,8 @@ const RrsTable = observer(
     }
 
     const getStatusIcon = (validationStatusRRS) => {
-      if (validationStatusRRS === undefined || validationStatusRRS === null)
-        return question
-      if (validationStatusRRS === 0) return deny
+      if (validationStatusRRS === 0) return question
+      if (validationStatusRRS === 1) return deny
 
       return accept
     }

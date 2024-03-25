@@ -64,10 +64,10 @@ helpInfo:
 statusActions:
   - title: Deny
     button: WRONG
-    key: 0
+    key: 1
   - title: Accept
     button: Correct
-    key: 1
+    key: 2
 
 actions:
   - title: Open in Core
