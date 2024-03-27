@@ -24,7 +24,7 @@ const HarvestingProgressCard = ({
     const currentDate = new Date()
     const timeDifference = currentDate - lastHarvestingDate
     const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
-    return daysDifference > 10
+    return daysDifference > 7
   }
 
   const result = dayInterval(harvestingStatus?.lastHarvestingDate)
@@ -65,17 +65,16 @@ const HarvestingProgressCard = ({
         </Card.Title>
       </div>
       <div className={styles.requestDateWrapper}>
-        {modalOpen && errorMessage && (
-          <HarvestingModal
-            title={texts.modal.error.title}
-            description={texts.modal.error.description}
-            placeholder={texts.modal.error.input}
-            handleButtonClose={handleButtonClose}
-            handleButtonClick={sendRequest}
-          />
-        )}
+        {/* {modalOpen && ( */}
+        {/*  <HarvestingModal */}
+        {/*    title={texts.modal.error.title} */}
+        {/*    description={texts.modal.error.description} */}
+        {/*    placeholder={texts.modal.error.input} */}
+        {/*    handleButtonClose={handleButtonClose} */}
+        {/*    handleButtonClick={sendRequest} */}
+        {/*  /> */}
+        {/* )} */}
         {modalOpen &&
-          success &&
           result &&
           harvestingStatus?.scheduledState === 'PENDING' && (
             <HarvestingModal
@@ -87,8 +86,8 @@ const HarvestingProgressCard = ({
             />
           )}
         {modalOpen &&
-          success &&
-          harvestingStatus?.scheduledState !== 'PENDING' && (
+          !result &&
+          harvestingStatus?.scheduledState === 'PENDING' && (
             <HarvestingModal
               title={texts.modal.progress.title}
               description={texts.modal.progress.description}
@@ -98,9 +97,8 @@ const HarvestingProgressCard = ({
             />
           )}
         {modalOpen &&
-          success &&
-          !result &&
-          harvestingStatus?.scheduledState === 'PENDING' && (
+          result &&
+          harvestingStatus?.scheduledState !== 'PENDING' && (
             <HarvestingModal
               title={texts.modal.finished.title}
               description={texts.modal.finished.description}
@@ -120,9 +118,7 @@ const HarvestingProgressCard = ({
             <div
               className={classNames.use(styles.progressCircle, {
                 [styles.progressCircleActive]:
-                  !errorMessage &&
-                  result &&
-                  harvestingStatus?.scheduledState === 'PENDING',
+                  result && harvestingStatus?.scheduledState === 'PENDING',
               })}
             />
           </Popover>
@@ -132,6 +128,7 @@ const HarvestingProgressCard = ({
                 result && harvestingStatus?.scheduledState === 'PENDING',
             })}
           >
+            {/* CHECK Scheduled */}
             {texts.type.scheduled.title}
           </span>
         </div>
@@ -145,17 +142,17 @@ const HarvestingProgressCard = ({
             <div
               className={classNames.use(styles.progressCircle, {
                 [styles.progressCircleActive]:
-                  !errorMessage &&
-                  harvestingStatus?.scheduledState !== 'PENDING',
+                  !result && harvestingStatus?.scheduledState === 'PENDING',
               })}
             />
           </Popover>
           <span
             className={classNames.use(styles.progressText, {
               [styles.progressTextActive]:
-                harvestingStatus?.scheduledState !== 'PENDING',
+                !result && harvestingStatus?.scheduledState === 'PENDING',
             })}
           >
+            {/* im progress */}
             {texts.type.progress.title}
           </span>
         </div>
@@ -169,18 +166,17 @@ const HarvestingProgressCard = ({
             <div
               className={classNames.use(styles.progressCircle, {
                 [styles.progressCircleActive]:
-                  !errorMessage &&
-                  !result &&
-                  harvestingStatus?.scheduledState === 'PENDING',
+                  result && harvestingStatus?.scheduledState !== 'PENDING',
               })}
             />
           </Popover>
           <span
             className={classNames.use(styles.progressText, {
               [styles.progressTextActive]:
-                !result && harvestingStatus?.scheduledState === 'PENDING',
+                result && harvestingStatus?.scheduledState !== 'PENDING',
             })}
           >
+            {/* finished */}
             {texts.type.finished.title}
           </span>
         </div>
