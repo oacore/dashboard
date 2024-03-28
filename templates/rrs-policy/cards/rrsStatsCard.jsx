@@ -7,22 +7,7 @@ import { Button } from '../../../design'
 import rrs from 'texts/rrs-retention'
 import { Card } from 'design'
 
-const ProgressBar = ({ count, maxCount }) => {
-  const percentage = (maxCount / count) * 100
-
-  return (
-    <div className={styles.progressBar}>
-      <div
-        className={styles.progressBarInner}
-        style={{ width: `${percentage}%` }}
-      />
-      <div className={styles.progressBarLabel}>{`${percentage.toFixed(
-        1
-      )}%`}</div>
-    </div>
-  )
-}
-const RrsStatsCard = ({ rrsUrl, rrsList, metadataCount, rrsDataLoading }) => (
+const RrsStatsCard = ({ rrsUrl, rrsList, rrsDataLoading }) => (
   <Card
     className={styles.cardWrapper}
     tag="section"
@@ -42,15 +27,14 @@ const RrsStatsCard = ({ rrsUrl, rrsList, metadataCount, rrsDataLoading }) => (
         <div className={styles.loadingStroke} />
       </div>
     ) : (
-      <ProgressBar count={metadataCount} maxCount={rrsList.length} />
+      <div className={styles.subFooter}>
+        {formatNumber(rrsList.length)} outputs
+      </div>
     )}
     <div className={styles.footerWrapper}>
       <Button href={rrsUrl} variant="contained">
         {rrs.statsCard.action}
       </Button>
-      <span className={styles.subFooter}>
-        {formatNumber(rrsList.length)} outputs
-      </span>
     </div>
   </Card>
 )

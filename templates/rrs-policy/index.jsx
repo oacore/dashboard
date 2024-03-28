@@ -26,7 +26,6 @@ const RrsPageTemplate = ({
   uploadPdf,
   uploadResults,
   rrsUrl,
-  metadataCount,
   rrsDataLoading,
   ...restProps
 }) => {
@@ -55,7 +54,6 @@ const RrsPageTemplate = ({
           <RrsStatsCard
             rrsUrl={rrsUrl}
             rrsList={rrsList}
-            metadataCount={metadataCount}
             rrsDataLoading={rrsDataLoading}
           />
           <RrsReviewCard rrsList={rrsList} rrsDataLoading={rrsDataLoading} />
