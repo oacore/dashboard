@@ -69,15 +69,15 @@ const useTableState = ({ fetchDataProp, data, defaultRowClick, ...rest }) => {
     (event) => {
       if (event.detail === 1) {
         const clickedRow = event.target.closest('tr')
+        const rowId = !Number.isNaN(+clickedRow?.dataset.id)
+          ? +clickedRow?.dataset.id
+          : clickedRow?.dataset.id
         tableRowClickTimeout.current = setTimeout(() => {
           // ignore copy event
           const selection = window.getSelection().toString()
           if (selection.length) return
 
-          const rowId = clickedRow?.dataset.id
-
           if (defaultRowClick && rowId) defaultRowClick(rowId)
-
           changeState({
             type: 'CHANGE_TABLE_STATE',
             value: {

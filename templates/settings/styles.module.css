@@ -312,9 +312,7 @@
 
 .footer {
   display: flex;
-
-  /* flex-pack: end; */
-  justify-content: end;
+  justify-content: flex-end;
 
   & > button {
     margin-left: 10px;

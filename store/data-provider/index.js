@@ -61,6 +61,8 @@ class DataProvider extends Resource {
 
   @observable validationResult = {}
 
+  @observable uploadResults = {}
+
   @observable duplicateList = {}
 
   @observable duplicateListDetails = {}
@@ -69,9 +71,51 @@ class DataProvider extends Resource {
 
   @observable workData = {}
 
+  @observable rrsList = []
+
+  @observable rrsAdditionalData = {}
+
+  @observable rrsDataLoading = false
+
+  @observable rrsAdditionalDataLoading = false
+
+  @observable rrsPdfLoading = false
+
+  @observable statusUpdate = []
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
+  }
+
+  @action
+  setDuplicateList(data) {
+    this.duplicateList = data
+  }
+
+  @action
+  setRrsList(data) {
+    this.rrsList = data
+  }
+
+  @action
+  setRrsAdditionalData(data) {
+    this.rrsAdditionalData = data
+  }
+
+  @action
+  setStatusUpdate = (result) => {
+    this.statusUpdate = result
+  }
+
+  @action
+  setValidationResult = (result) => {
+    this.validationResult = result
+  }
+
+  @action
+  setUploadResult = (result) => {
+    this.uploadResults = result
   }
 
   @action
@@ -121,8 +165,86 @@ class DataProvider extends Resource {
     }
   }
 
-  setDuplicateList(data) {
-    this.duplicateList = data
+  @action
+  getRrslistData = async (id) => {
+    this.rrsDataLoading = true
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${id}/rights-retention`
+      )
+      if (response.ok) {
+        const data = await response.json()
+        this.setRrsList(data)
+      } else throw new Error('Failed to fetch rrs data')
+    } catch (error) {
+      console.error('Error fetching rrs data:', error)
+      this.setRrsList([])
+    } finally {
+      this.rrsDataLoading = false
+    }
+  }
+
+  @action
+  getOutputsAdditionalData = async (id) => {
+    this.rrsAdditionalDataLoading = true
+    try {
+      const response = await fetch(
+        `https://api.core.ac.uk/internal/articles/${id}`
+      )
+      if (response.ok) {
+        const data = await response.json()
+        this.setRrsAdditionalData(data)
+      } else throw new Error('Failed to fetch rrs data')
+    } catch (error) {
+      console.error('Error fetching rrs data:', error)
+      this.setRrsAdditionalData([])
+    } finally {
+      this.rrsAdditionalDataLoading = false
+    }
+  }
+
+  @action
+  updateRrsStatus = async (dataProviderId, articleId, validationStatus) => {
+    try {
+      const url = `${process.env.API_URL}/data-providers/${dataProviderId}/rights-retention-update`
+      const body = { articleId, validationStatus }
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // mode: 'no-cors',
+        body: JSON.stringify(body),
+      })
+      const result = await response.json()
+      this.setStatusUpdate(result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  @action
+  uploadPdf = async (file, dataProviderId) => {
+    this.rrsPdfLoading = true
+    try {
+      const url = `${process.env.API_URL}/data-providers/rights-retention-upload-file`
+      const fd = new FormData()
+      fd.set('file', file)
+      fd.set('dataProviderId', dataProviderId)
+
+      const response = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: fd,
+      })
+
+      const result = await response.json()
+      this.setUploadResult(result)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.rrsPdfLoading = false
+    }
   }
 
   @action
@@ -205,11 +327,6 @@ class DataProvider extends Resource {
     }
   }
 
-  @action
-  setValidationResult = (result) => {
-    this.validationResult = result
-  }
-
   @action retrieve() {
     super.retrieve().then(
       () => {
@@ -231,6 +348,7 @@ class DataProvider extends Resource {
         this.issues = new Issues(url, this.options)
         this.allMembers = new Membership(url, this.options)
         this.duplicatesUrl = `${process.env.API_URL}${url}/duplicates?accept=text/csv`
+        this.rrsUrl = `${process.env.API_URL}${url}/rights-retention?accept=text/csv`
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {
