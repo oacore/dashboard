@@ -9,6 +9,7 @@ import SizeUploadIssue from './sizeUploadIssue'
 import FormatUploadIssue from './formatUploadIssue'
 import UploadSuccess from './uploadSuccess'
 import UploadFail from './uploadFail'
+import rrs from '../../../texts/rrs-retention'
 
 import { Card } from 'design'
 
@@ -81,7 +82,7 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           RRS checker
         </Card.Title>
         <Actions
-          description="CORE has discovered more Right Retention which are not listed in the repository."
+          description={rrs.checkCard.info}
           hoverIcon={
             <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
           }

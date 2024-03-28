@@ -10,12 +10,12 @@ statsCard:
 reviewCard:
   title: RRS to review
   description: action recommended
-  info: Number of outputs without a Right Retention within the repository collection.
+  info: By clicking on the Review RRS button in the table below you will find the details of right retention statement found in your records, with the possibility to mark it as “Correct” or “Wrong”.
   action: Review
 
 checkCard:
   title: RRS checker
-  info: CORE has discovered more Right Retention which are not listed in the repository.
+  info: RRS checker provides an easy way to find Rights Retention Strategy statements in papers not yet in CORE. You can test it by uploading a paper (PDF, DOC).
   action: Upload
 
 upload:
