@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button } from '@oacore/design/lib/elements'
+import { Popover } from '@oacore/design'
 
 import styles from '../styles.module.css'
-import { Card } from '../../../design'
+import { Card, ProgressSpinner } from '../../../design'
 import texts from '../../../texts/rrs-retention/rrs.yml'
 import RrsWarning from '../cards/warningCard'
 import ExportButton from '../../../components/export-button'
@@ -28,6 +29,7 @@ const RrsTable = observer(
     rrsAdditionalData,
     getOutputsAdditionalData,
     rrsAdditionalDataLoading,
+    rrsDataLoading,
     rrsUrl,
   }) => {
     const [visibleHelp, setVisibleHelp] = useState(
@@ -45,6 +47,7 @@ const RrsTable = observer(
     const [sortDirection, setSortDirection] = useState('asc')
 
     const router = useRouter()
+    const menuRef = useRef(null)
     const providerId = router.query['data-provider-id']
 
     const changeArticleVisibility = async (article) => {
@@ -85,6 +88,18 @@ const RrsTable = observer(
     useEffect(() => {
       getRrslistData(providerId)
     }, [providerId])
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target))
+          setVisibleMenu(false)
+      }
+
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [menuRef])
 
     const handleClick = (e, rowDetail) => {
       e.preventDefault()
@@ -159,174 +174,189 @@ const RrsTable = observer(
       <Card className={styles.rrsTableWrapper} id="rrsTable">
         <Card.Title tag="h2">{texts.table.title}</Card.Title>
         <div className={styles.itemCountIndicator}>{texts.table.subTitle}</div>
-        <RrsWarning
-          show={texts.helpInfo.show}
-          hide={texts.helpInfo.hide}
-          description={texts.helpInfo.description}
-          setText={setVisibleHelp}
-          activeText={visibleHelp}
-        />
-        <Table
-          className={styles.rrsTable}
-          rowActionProp
-          data={tableData}
-          totalLength={rrsList?.length}
-          size={tableData?.length}
-          isHeaderClickable
-          renderDropDown={rrsAdditionalData}
-          fetchData={() => setPage(page + 1)}
-          // defaultRowClick={onSetActiveArticle}
-          rowClick={(row) => onSetActiveArticle(row)}
-          onClick={() =>
-            sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
-          }
-          sortDirection={sortDirection}
-          showAdditionalSort
-        >
-          <Table.Column
-            id="oai"
-            display="OAI"
-            getter={(v) => {
-              if (v.oai) {
-                return (
-                  <span className={styles.oaiCell}>
-                    {v.oai.split(':').pop()}
-                  </span>
-                )
-              }
-              return '-'
-            }}
-            className={styles.oaiColumn}
-            // cellClassName={styles.oaiCell}
-          />
-          <Table.Column
-            id="title"
-            display="Title"
-            getter={(v) => v.title || '-'}
-            className={styles.titleColumn}
-          />
-          <Table.Column
-            id="authors"
-            display="Authors"
-            className={styles.authorsColumn}
-            getter={(v) => v?.authors}
-          />
-          <Table.Column
-            id="publicationDate"
-            display="Publication date"
-            className={styles.publicationDateColumn}
-            getter={(v) => (
-              <div className={styles.publicationDateCell}>
-                {v.publicationDate?.split('T')[0]}
-              </div>
-            )}
-          />
-          <Table.Column
-            id="licence"
-            display="Identified licence"
-            className={styles.licenceColumn}
-            getter={(v) =>
-              v.licenceRecognised && (
-                <div className={`${styles.licence} ${styles.truncated}`}>
-                  {v.licenceRecognised?.length > 10
-                    ? `${v.licenceRecognised.substring(0, 10)}...`
-                    : v.licenceRecognised}
-                </div>
-              )
-            }
-          />
-          <Table.Column
-            id="rrs"
-            display="Extracted RRS"
-            className={styles.publicationColumn}
-            getter={(v) => (
-              <a
-                target="_blank"
-                href={`https://core.ac.uk/reader/${v.articleId}`}
-                className={styles.redirectLink}
-                rel="noreferrer"
-              >
-                Review RRS
-                <img src={redirect} alt="" />
-              </a>
-            )}
-          />
-          <Table.Column
-            id="status"
-            display="Status"
-            getter={(v) => (
-              <div>
-                {/* eslint-disable-next-line max-len */}
-                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-                <div
-                  className={styles.statusWrapper}
-                  onClick={(e) => handleStatusModal(e, v)}
-                >
-                  <img
-                    src={getStatusIcon(v.validationStatusRRS)}
-                    alt="status icon"
-                    className={styles.visibilityIcon}
-                  />
-                </div>
-                {showStatusModal && selectedRowData === v && (
-                  <StatusCard
-                    handleStatusUpdate={handleStatusUpdate}
-                    onClose={() => setShowStatusModal(false)}
-                    v={v}
-                    loadingStatus={loadingStatus}
-                    href={`https://core.ac.uk/reader/${v.articleId}`}
-                  />
-                )}
-              </div>
-            )}
-            className={styles.visibilityStatusColumn}
-          />
-          <Table.Column
-            id="output"
-            getter={(v) => (
-              <div className={styles.actionButtonWrapper}>
-                <Button
-                  className={styles.actionButtonPure}
-                  onClick={(e) => handleClick(e, v)}
-                >
-                  <img src={kababMenu} alt="kababMenu" />
-                </Button>
-                <Menu
-                  visible={visibleMenu && selectedRowData === v}
-                  className={styles.menuButton}
-                  stopPropagation
-                >
-                  {Object.values(texts.actions).map(({ title, key }) => (
-                    <Menu.Item key={key} target="_blank">
-                      {/* eslint-disable-next-line max-len */}
-                      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-                      <div
-                        onClick={(e) =>
-                          handleToggleRedirect(e, key, v.articleId, v.oai)
-                        }
-                        className={styles.togglerTitle}
-                      >
-                        {title}
-                      </div>
-                    </Menu.Item>
-                  ))}
-                </Menu>
-              </div>
-            )}
-          />
-          <Table.Details>
-            <Article
-              changeVisibility={changeArticleVisibility}
-              article={rrsAdditionalData}
-              loading={loading}
-              outputsUrl={outputsUrl}
-              rrsAdditionalDataLoading={rrsAdditionalDataLoading}
+        {rrsDataLoading ? (
+          <div className={styles.dataSpinnerWrapper}>
+            <ProgressSpinner className={styles.spinner} />
+            <p className={styles.spinnerText}>
+              This may take a while, longer for larger repositories ...
+            </p>
+          </div>
+        ) : (
+          <>
+            <RrsWarning
+              show={texts.helpInfo.show}
+              hide={texts.helpInfo.hide}
+              description={texts.helpInfo.description}
+              setText={setVisibleHelp}
+              activeText={visibleHelp}
             />
-          </Table.Details>
-          <Table.Action>
-            <ExportButton href={rrsUrl}>download csv</ExportButton>
-          </Table.Action>
-        </Table>
+            <Table
+              className={styles.rrsTable}
+              rowActionProp
+              data={tableData}
+              totalLength={rrsList?.length}
+              size={tableData?.length}
+              isHeaderClickable
+              renderDropDown={rrsAdditionalData}
+              fetchData={() => setPage(page + 1)}
+              rowClick={(row) => onSetActiveArticle(row)}
+              onClick={() =>
+                sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
+              }
+              sortDirection={sortDirection}
+              showAdditionalSort
+            >
+              <Table.Column
+                id="oai"
+                display="OAI"
+                getter={(v) => {
+                  if (v.oai) {
+                    return (
+                      <span className={styles.oaiCell}>
+                        {v.oai.split(':').pop()}
+                      </span>
+                    )
+                  }
+                  return '-'
+                }}
+                className={styles.oaiColumn}
+              />
+              <Table.Column
+                id="title"
+                display="Title"
+                getter={(v) => v.title || '-'}
+                className={styles.titleColumn}
+              />
+              <Table.Column
+                id="authors"
+                display="Authors"
+                className={styles.authorsColumn}
+                getter={(v) => v?.authors}
+              />
+              <Table.Column
+                id="publicationDate"
+                display="Publication date"
+                className={styles.publicationDateColumn}
+                getter={(v) => (
+                  <div className={styles.publicationDateCell}>
+                    {v.publicationDate?.split('T')[0]}
+                  </div>
+                )}
+              />
+              <Table.Column
+                id="licence"
+                display="Identified licence"
+                className={styles.licenceColumn}
+                getter={(v) =>
+                  v.licenceRecognised && (
+                    <Popover
+                      className={styles.popover}
+                      placement="top"
+                      content={v.licenceRecognised}
+                    >
+                      <div className={`${styles.licence} ${styles.truncated}`}>
+                        {v.licenceRecognised?.length > 10
+                          ? `${v.licenceRecognised.substring(0, 10)}...`
+                          : v.licenceRecognised}
+                      </div>
+                    </Popover>
+                  )
+                }
+              />
+              <Table.Column
+                id="rrs"
+                display="Extracted RRS"
+                className={styles.publicationColumn}
+                getter={(v) => (
+                  <>
+                    <Button
+                      target="_blank"
+                      className={styles.redirectLink}
+                      onClick={(e) => handleStatusModal(e, v)}
+                      rel="noreferrer"
+                    >
+                      Review RRS
+                      <img src={redirect} alt="" />
+                    </Button>
+                    {showStatusModal && selectedRowData === v && (
+                      <StatusCard
+                        handleStatusUpdate={handleStatusUpdate}
+                        onClose={() => setShowStatusModal(false)}
+                        v={v}
+                        loadingStatus={loadingStatus}
+                        href={`https://core.ac.uk/reader/${v.articleId}`}
+                      />
+                    )}
+                  </>
+                )}
+              />
+              <Table.Column
+                id="status"
+                display="Status"
+                getter={(v) => (
+                  <div>
+                    {/* eslint-disable-next-line max-len */}
+                    {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                    <div className={styles.statusWrapper}>
+                      <img
+                        src={getStatusIcon(v.validationStatusRRS)}
+                        alt="status icon"
+                        className={styles.visibilityIcon}
+                      />
+                    </div>
+                  </div>
+                )}
+                className={styles.visibilityStatusColumn}
+              />
+              <Table.Column
+                id="output"
+                getter={(v) => (
+                  <div className={styles.actionButtonWrapper}>
+                    <Button
+                      className={styles.actionButtonPure}
+                      onClick={(e) => handleClick(e, v)}
+                    >
+                      <img src={kababMenu} alt="kababMenu" />
+                    </Button>
+                    <Menu
+                      ref={menuRef}
+                      visible={visibleMenu && selectedRowData === v}
+                      className={styles.menuButton}
+                      stopPropagation
+                    >
+                      {Object.values(texts.actions).map(({ title, key }) => (
+                        <Menu.Item key={key} target="_blank">
+                          {/* eslint-disable-next-line max-len */}
+                          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                          <div
+                            onClick={(e) =>
+                              handleToggleRedirect(e, key, v.articleId, v.oai)
+                            }
+                            className={styles.togglerTitle}
+                          >
+                            {title}
+                          </div>
+                        </Menu.Item>
+                      ))}
+                    </Menu>
+                  </div>
+                )}
+              />
+              <Table.Details>
+                <Article
+                  changeVisibility={changeArticleVisibility}
+                  article={rrsAdditionalData}
+                  loading={loading}
+                  outputsUrl={outputsUrl}
+                  rrsAdditionalDataLoading={rrsAdditionalDataLoading}
+                />
+              </Table.Details>
+              <Table.Action>
+                <ExportButton href={rrsUrl}>download csv</ExportButton>
+              </Table.Action>
+            </Table>
+          </>
+        )}
       </Card>
     )
   }

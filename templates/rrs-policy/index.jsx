@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
-import Markdown from '../../components/markdown'
 import RrsStatsCard from './cards/rrsStatsCard'
 import RrsReviewCard from './cards/rrsReviewCard'
 import RrsCheckCard from './cards/rrsCheckerCard'
 import RrsTable from './tables/rrsTable'
+import DashboardHeader from '../../components/dashboard-header'
+import texts from '../../texts/deduplication/deduplication.yml'
+import ShowMoreText from '../../components/showMore'
 
 import rrs from 'texts/rrs-retention'
 
@@ -25,44 +27,58 @@ const RrsPageTemplate = ({
   uploadResults,
   rrsUrl,
   metadataCount,
+  rrsDataLoading,
   ...restProps
-}) => (
-  <Tag
-    className={classNames.use(styles.rrsMainWrapper).join(className)}
-    {...restProps}
-  >
-    <header className={styles.header}>
-      <div className={styles.validatorHeader}>
-        <div className={styles.temporaryWrapper}>
-          <h1 className={styles.title}>{rrs.title}</h1>
+}) => {
+  const [showMore, setShowMore] = useState(false)
+  const toggleShowMore = () => {
+    setShowMore(!showMore)
+  }
+
+  return (
+    <Tag className={classNames.use(styles.main).join(className)} {...restProps}>
+      <DashboardHeader
+        title={rrs.title}
+        showMore={
+          <ShowMoreText
+            className={styles.description}
+            text={texts.description || 'N/A'}
+            maxLetters={320}
+            showMore={showMore}
+            toggleShowMore={toggleShowMore}
+            textRestyle
+          />
+        }
+      />
+      <div className={styles.rrsMainWrapper}>
+        <div className={styles.cardsWrapper}>
+          <RrsStatsCard
+            rrsUrl={rrsUrl}
+            rrsList={rrsList}
+            metadataCount={metadataCount}
+            rrsDataLoading={rrsDataLoading}
+          />
+          <RrsReviewCard rrsList={rrsList} rrsDataLoading={rrsDataLoading} />
+          <RrsCheckCard
+            rrsPdfLoading={rrsPdfLoading}
+            uploadPdf={uploadPdf}
+            uploadResults={uploadResults}
+          />
         </div>
+        <RrsTable
+          rrsDataLoading={rrsDataLoading}
+          rrsList={rrsList}
+          getRrslistData={getRrslistData}
+          updateRrsStatus={updateRrsStatus}
+          statusUpdate={statusUpdate}
+          rrsAdditionalData={rrsAdditionalData}
+          getOutputsAdditionalData={getOutputsAdditionalData}
+          rrsAdditionalDataLoading={rrsAdditionalDataLoading}
+          rrsUrl={rrsUrl}
+        />
       </div>
-      <Markdown className={styles.description}>{rrs.description}</Markdown>
-    </header>
-    <div className={styles.cardsWrapper}>
-      <RrsStatsCard
-        rrsUrl={rrsUrl}
-        rrsList={rrsList}
-        metadataCount={metadataCount}
-      />
-      <RrsReviewCard rrsList={rrsList} />
-      <RrsCheckCard
-        rrsPdfLoading={rrsPdfLoading}
-        uploadPdf={uploadPdf}
-        uploadResults={uploadResults}
-      />
-    </div>
-    <RrsTable
-      rrsList={rrsList}
-      getRrslistData={getRrslistData}
-      updateRrsStatus={updateRrsStatus}
-      statusUpdate={statusUpdate}
-      rrsAdditionalData={rrsAdditionalData}
-      getOutputsAdditionalData={getOutputsAdditionalData}
-      rrsAdditionalDataLoading={rrsAdditionalDataLoading}
-      rrsUrl={rrsUrl}
-    />
-  </Tag>
-)
+    </Tag>
+  )
+}
 
 export default RrsPageTemplate

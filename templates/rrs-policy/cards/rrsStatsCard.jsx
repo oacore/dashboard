@@ -22,7 +22,7 @@ const ProgressBar = ({ count, maxCount }) => {
     </div>
   )
 }
-const RrsStatsCard = ({ rrsUrl, rrsList, metadataCount }) => (
+const RrsStatsCard = ({ rrsUrl, rrsList, metadataCount, rrsDataLoading }) => (
   <Card
     className={styles.cardWrapper}
     tag="section"
@@ -37,7 +37,13 @@ const RrsStatsCard = ({ rrsUrl, rrsList, metadataCount }) => (
     <Card.Description className={styles.cardDescription}>
       {rrs.statsCard.description}
     </Card.Description>
-    <ProgressBar count={metadataCount} maxCount={rrsList.length} />
+    {rrsDataLoading ? (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingStroke} />
+      </div>
+    ) : (
+      <ProgressBar count={metadataCount} maxCount={rrsList.length} />
+    )}
     <div className={styles.footerWrapper}>
       <Button href={rrsUrl} variant="contained">
         {rrs.statsCard.action}

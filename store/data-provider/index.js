@@ -75,6 +75,8 @@ class DataProvider extends Resource {
 
   @observable rrsAdditionalData = {}
 
+  @observable rrsDataLoading = false
+
   @observable rrsAdditionalDataLoading = false
 
   @observable rrsPdfLoading = false
@@ -165,6 +167,7 @@ class DataProvider extends Resource {
 
   @action
   getRrslistData = async (id) => {
+    this.rrsDataLoading = true
     try {
       const response = await fetch(
         `${process.env.API_URL}/data-providers/${id}/rights-retention`
@@ -176,6 +179,8 @@ class DataProvider extends Resource {
     } catch (error) {
       console.error('Error fetching rrs data:', error)
       this.setRrsList([])
+    } finally {
+      this.rrsDataLoading = false
     }
   }
 
@@ -213,7 +218,6 @@ class DataProvider extends Resource {
       })
       const result = await response.json()
       this.setStatusUpdate(result)
-      await this.getRrslistData(dataProviderId)
     } catch (error) {
       console.error(error)
     }

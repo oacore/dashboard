@@ -9,6 +9,7 @@ const rrsPolicy = ({ store, ...props }) => (
     getRrslistData={store.dataProvider?.getRrslistData}
     rrsAdditionalData={store.dataProvider?.rrsAdditionalData}
     getOutputsAdditionalData={store.dataProvider?.getOutputsAdditionalData}
+    rrsDataLoading={store.dataProvider?.rrsDataLoading}
     rrsAdditionalDataLoading={store.dataProvider?.rrsAdditionalDataLoading}
     metadataCount={store.dataProvider?.statistics?.countMetadata}
     rrsPdfLoading={store.dataProvider?.rrsPdfLoading}

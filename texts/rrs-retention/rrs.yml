@@ -70,7 +70,7 @@ statusActions:
     key: 2
 
 actions:
-  - title: Open in Core
+  - title: Open in CORE
     key: coreUrl
   - title: Open in the repository
     key: outputUrl

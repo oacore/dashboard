@@ -9,7 +9,7 @@ import Actions from '../../../components/actions'
 import rrs from 'texts/rrs-retention'
 import { Card } from 'design'
 
-const RrsReviewCard = ({ rrsList }) => {
+const RrsReviewCard = ({ rrsList, rrsDataLoading }) => {
   const rrsToReviewList = rrsList.filter(
     (item) => item.validationStatusRRS !== 1 && item.validationStatusRRS !== 2
   )
@@ -33,12 +33,18 @@ const RrsReviewCard = ({ rrsList }) => {
       <Card.Description className={styles.cardDescription}>
         {rrs.reviewCard.description}
       </Card.Description>
-      <div className={styles.innerContent}>
-        <p className={styles.inputCount}>
-          {formatNumber(rrsToReviewList.length)}
-          <span className={styles.innerContentText}>outputs</span>
-        </p>
-      </div>
+      {rrsDataLoading ? (
+        <div className={styles.loadingContainerOutputs}>
+          <div className={styles.loadingStroke} />
+        </div>
+      ) : (
+        <div className={styles.innerContent}>
+          <p className={styles.inputCount}>
+            {formatNumber(rrsToReviewList.length)}
+            <span className={styles.innerContentText}>outputs</span>
+          </p>
+        </div>
+      )}
       <Button href="#rrsTable" variant="contained">
         {rrs.reviewCard.action}
       </Button>

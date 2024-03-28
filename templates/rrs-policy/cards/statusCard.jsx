@@ -15,6 +15,7 @@ const StatusCard = ({
   v,
   loadingStatus,
   href,
+  rrs,
 }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -28,7 +29,11 @@ const StatusCard = ({
   }, [onClose])
 
   return (
-    <div className={styles.modalWrapper}>
+    <div
+      className={classNames.use(styles.modalWrapper, {
+        [styles.modalWrapperRrs]: rrs,
+      })}
+    >
       <div className={styles.spinTitleWrapper}>
         <h3 className={styles.modalTitle}>{texts.statusModal.title}</h3>
         {loadingStatus && (
