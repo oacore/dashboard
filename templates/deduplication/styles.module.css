@@ -5,7 +5,6 @@
   padding: var(--component-padding-y, 1rem) 0;
 }
 
-/* DeduplicationInfoCard */
 .cards-wrapper {
   display: flex;
   justify-content: space-between;
