@@ -5,8 +5,8 @@ const config = [
     icon: 'view-dashboard',
   },
   {
-    id: 'harvesting',
-    path: 'harvesting',
+    id: 'indexing',
+    path: 'indexing',
     icon: 'sync',
   },
   {

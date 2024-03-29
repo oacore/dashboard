@@ -78,7 +78,7 @@ const Application = observer(
         })
 
         await refetch(id)
-        router.push(`/data-providers/${dataProviderId}/harvesting`)
+        router.push(`/data-providers/${dataProviderId}/indexing`)
         setShowNotification(false)
       } catch (err) {
         // eslint-disable-next-line no-console

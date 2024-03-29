@@ -2,7 +2,7 @@ title: Navigation
 items:
   overview: Overview
   index: Overview
-  harvesting: Indexing status
+  indexing: Indexing status
   data: Data
   validator: Metadata validator
   deduplication: Versions/duplicates

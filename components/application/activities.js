@@ -39,8 +39,8 @@ const config = new RouteConfig([
     icon: 'view-dashboard',
   },
   {
-    test: /\/harvesting/,
-    path: 'harvesting',
+    test: /\/indexing/,
+    path: 'indexing',
     icon: 'sync',
   },
   {
