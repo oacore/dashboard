@@ -100,6 +100,11 @@
   letter-spacing: 0.0015em;
 }
 
+.data-spinner-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .card-description {
   padding: 8px;
   margin-top: 20px;

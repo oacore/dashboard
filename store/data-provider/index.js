@@ -63,6 +63,8 @@ class DataProvider extends Resource {
 
   @observable duplicateList = {}
 
+  @observable duplicateDataLoading = false
+
   @observable duplicateListDetails = {}
 
   @observable outputData = []
@@ -106,6 +108,7 @@ class DataProvider extends Resource {
 
   @action
   getDeduplicationData = async (id) => {
+    this.duplicateDataLoading = true
     try {
       const response = await fetch(
         `${process.env.API_URL}/data-providers/${id}/duplicates`
@@ -118,6 +121,8 @@ class DataProvider extends Resource {
     } catch (error) {
       console.error('Error fetching deduplication data:', error)
       this.setDuplicateList([])
+    } finally {
+      this.duplicateDataLoading = false
     }
   }
 
