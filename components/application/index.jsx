@@ -143,7 +143,7 @@ const Application = observer(
                         <img
                           onClick={handleShowNotification}
                           src={notification}
-                          alt="bell"
+                          alt="notification"
                         />
                         {unseenNotification.length > 0 && (
                           <div className={styles.count}>
