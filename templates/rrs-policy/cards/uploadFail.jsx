@@ -35,7 +35,7 @@ const UploadFail = ({
       </div>
     ) : (
       <div className={styles.innerIssueWrapper}>
-        <span className={styles.uploadTitle}>
+        <span className={styles.uploadDescription}>
           {text.upload.fail.description}
         </span>
         <input

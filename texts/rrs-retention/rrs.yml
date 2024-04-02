@@ -1,6 +1,6 @@
 title: Rights Retention Strategy (RRS) Identification
 
-description: According to the Plan S, the [Rights Retention Strategy](https://www.coalition-s.org/rights-retention-strategy/) (RRS) enables authors to exercise the authorship rights they have on their manuscripts to deposit a copy of the Author Accepted Manuscript (AAM) in a repository on publication and provide open access to it. RRS is typically implemented by means of authors inserting a rights retention statement in their manuscript. CORE provides functionality to automatically identify papers with these Rights Retention Strategy statements, by means of testing if the rights retention statement is present in the paper’s full text.
+description: According to the Plan S, the Rights Retention Strategy (RRS) enables authors to exercise the authorship rights they have on their manuscripts to deposit a copy of the Author Accepted Manuscript (AAM) in a repository on publication and provide open access to it. RRS is typically implemented by means of authors inserting a rights retention statement in their manuscript. CORE provides functionality to automatically identify papers with these Rights Retention Strategy statements, by means of testing if the rights retention statement is present in the paper’s full text.
 
 statsCard:
   title: Outputs with RRS statements
@@ -30,7 +30,7 @@ upload:
       title: Upload new file
   fail:
     title: RRS wasn’t found
-    description: RRS doesn’t found in this paper.
+    description: RRS statement not found in this paper.
     action:
       title: Upload new file
   noSupport:
@@ -93,11 +93,11 @@ article:
     - name: Abstract
       key: abstract
   actions:
+    - title: Open in CORE
+      key: coreUrl
+      generatedUrl: https://core.ac.uk/outputs/{{id}}
     - title: Open in the repository
       key: outputUrl
-      generatedUrl: https://core.ac.uk/outputs/{{id}}
-    - title: Download
-      key: downloadUrl
   visibility:
     - title: Live in core
       disabled: false

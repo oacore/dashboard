@@ -22,7 +22,6 @@
 }
 
 .card-description {
-  padding-bottom: 26px;
   margin-bottom: unset;
   font-size: 14px;
   font-style: normal;
@@ -33,6 +32,9 @@
 }
 
 .card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 30%;
 }
 
@@ -83,7 +85,7 @@
 
 .sub-footer {
   margin: 28px 0;
-  font-size: 32px;
+  font-size: 40px;
   font-style: normal;
   font-weight: 400;
   line-height: 32px;
@@ -95,16 +97,11 @@
 }
 
 .input-count {
-  font-size: 32px;
+  font-size: 40px;
   font-style: normal;
   font-weight: 400;
   line-height: 32px;
   color: #ff5f52;
-}
-
-.inner-content-text {
-  margin-left: 8px;
-  font-size: 16px;
 }
 
 .item-count-indicator {
@@ -199,6 +196,11 @@
   animation: 0.5s bounce;
 }
 
+.article:hover {
+  cursor: unset;
+  background: #fff;
+}
+
 .article-header {
   position: relative;
   display: flex;
@@ -218,6 +220,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  margin-right: 18px;
 }
 
 .action-button {

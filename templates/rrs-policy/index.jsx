@@ -7,7 +7,6 @@ import RrsReviewCard from './cards/rrsReviewCard'
 import RrsCheckCard from './cards/rrsCheckerCard'
 import RrsTable from './tables/rrsTable'
 import DashboardHeader from '../../components/dashboard-header'
-import texts from '../../texts/deduplication/deduplication.yml'
 import ShowMoreText from '../../components/showMore'
 
 import rrs from 'texts/rrs-retention'
@@ -41,7 +40,7 @@ const RrsPageTemplate = ({
         showMore={
           <ShowMoreText
             className={styles.description}
-            text={texts.description || 'N/A'}
+            text={rrs.description || 'N/A'}
             maxLetters={320}
             showMore={showMore}
             toggleShowMore={toggleShowMore}

@@ -75,11 +75,11 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
       onDrop={handleFileChange}
       className={styles.cardWrapperBig}
       tag="section"
-      title="RRS checker"
+      title="RRS demo checker"
     >
       <div className={styles.headerWrapper}>
         <Card.Title className={styles.cardTitle} tag="h2">
-          RRS checker
+          RRS demo checker
         </Card.Title>
         <Actions
           description={rrs.checkCard.info}

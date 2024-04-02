@@ -34,7 +34,7 @@ const FormatUploadIssue = ({
     ) : (
       <div className={styles.innerIssueWrapper}>
         <span className={styles.innerIssueTitle}>
-          {text.upload.subInfo.size}
+          {text.upload.subInfo.format}
         </span>
         <input
           ref={uploadRef}

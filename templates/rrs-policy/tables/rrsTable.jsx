@@ -164,10 +164,12 @@ const RrsTable = observer(
     }
 
     const getStatusIcon = (validationStatusRRS) => {
-      if (validationStatusRRS === 0) return question
-      if (validationStatusRRS === 1) return deny
+      if (validationStatusRRS === 0)
+        return { icon: question, text: 'To be reviewed' }
+      if (validationStatusRRS === 1)
+        return { icon: deny, text: 'Review not confirmed' }
 
-      return accept
+      return { icon: accept, text: 'Review confirmed' }
     }
 
     return (
@@ -295,14 +297,18 @@ const RrsTable = observer(
                 display="Status"
                 getter={(v) => (
                   <div>
-                    {/* eslint-disable-next-line max-len */}
-                    {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
                     <div className={styles.statusWrapper}>
-                      <img
-                        src={getStatusIcon(v.validationStatusRRS)}
-                        alt="status icon"
-                        className={styles.visibilityIcon}
-                      />
+                      <Popover
+                        className={styles.popover}
+                        placement="top"
+                        content={getStatusIcon(v.validationStatusRRS).text}
+                      >
+                        <img
+                          src={getStatusIcon(v.validationStatusRRS).icon}
+                          alt="status icon"
+                          className={styles.visibilityIcon}
+                        />
+                      </Popover>
                     </div>
                   </div>
                 )}

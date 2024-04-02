@@ -91,11 +91,15 @@ const Article = ({
                 <Icon src="#dots-vertical" />
               </Button>
               <Menu visible={visibleMenu} className={styles.menu}>
-                {actions.map(({ title, value, key, generatedUrl }) => (
+                {actions.map(({ title, key, generatedUrl }) => (
                   <Menu.Item
                     key={key}
                     target="_blank"
-                    href={generatedUrl ? outputsUrl : value}
+                    href={
+                      generatedUrl
+                        ? outputsUrl
+                        : `${process.env.IDP_URL}/oai/${article.oai}`
+                    }
                   >
                     {title}
                   </Menu.Item>
