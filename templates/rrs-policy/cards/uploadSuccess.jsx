@@ -38,7 +38,7 @@ const UploadSuccess = ({
     ) : (
       <div className={styles.innerIssueWrapper}>
         <span className={styles.successTitle}>
-          &quot;{text.upload.success.description}&quot;
+          &quot;{uploadResults.rightsRetentionSentence}&quot;
         </span>
         <input
           ref={uploadRef}

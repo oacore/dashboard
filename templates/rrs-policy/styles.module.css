@@ -85,9 +85,9 @@
 
 .sub-footer {
   margin: 28px 0;
-  font-size: 40px;
+  font-size: 48px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 32px;
   color: #8bc34a;
 }
@@ -97,9 +97,9 @@
 }
 
 .input-count {
-  font-size: 40px;
+  font-size: 48px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 32px;
   color: #ff5f52;
 }

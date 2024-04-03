@@ -99,7 +99,7 @@
 }
 
 .inner-issue-wrapper {
-  height: 162px;
+  height: max-content;
   padding: 16px;
   margin: 8px 0;
   background: #f5f5f5;

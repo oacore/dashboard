@@ -43,7 +43,7 @@ const StatusCard = ({
         )}
       </div>
       <div className={styles.confirmationPopup}>
-        {texts.statusModal.description}
+        {v.rightsRetentionSentence}
       </div>
       <div className={styles.redirect}>
         <a

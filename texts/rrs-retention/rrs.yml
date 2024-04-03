@@ -25,7 +25,6 @@ upload:
       title: upload
   success:
     title: RRS found
-    description: "For the purposes of open access, the author has applied a Creative Commons Attribution (CC BY) licence to any Author Accepted Manuscript version arising from this submission."
     action:
       title: Upload new file
   fail:
@@ -110,7 +109,6 @@ article:
 
 statusModal:
   title: Rights retention statements
-  description: "For the purposes of open access, the author has applied a Creative Commons Attribution (CC BY) licence to any Author Accepted Manuscript version arising from this submission."
   link: Open full text in the CORE reader
   buttonsY:
     title: Correct
