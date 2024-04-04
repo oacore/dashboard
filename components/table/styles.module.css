@@ -115,3 +115,11 @@
     calc(-1 * var(--sidebar-padding)) auto;
   color: var(--white);
 }
+
+.sort-icon {
+  margin-left: 8px;
+}
+
+.rotate-icon {
+  transform: rotate(180deg);
+}
