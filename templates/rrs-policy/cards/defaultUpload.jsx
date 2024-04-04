@@ -33,7 +33,7 @@ const DefaultUploadView = ({
         />
         <div className={styles.innerTitle}>
           {text.upload.default.subTitle}
-          <p className={styles.link}> Uploaded File:</p>
+          <p className={styles.link}> Click the upload button:</p>
         </div>
         <input
           ref={uploadRef}
