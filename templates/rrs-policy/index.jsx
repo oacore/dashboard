@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
@@ -26,12 +26,19 @@ const RrsPageTemplate = ({
   uploadResults,
   rrsUrl,
   rrsDataLoading,
+  billingPlan,
+  dataProviderData,
   ...restProps
 }) => {
   const [showMore, setShowMore] = useState(false)
+  const [checkBillingType, setCheckBillingType] = useState(false)
   const toggleShowMore = () => {
     setShowMore(!showMore)
   }
+
+  useEffect(() => {
+    setCheckBillingType(billingPlan?.billingType === 'starting')
+  }, [billingPlan])
 
   return (
     <Tag className={classNames.use(styles.main).join(className)} {...restProps}>
@@ -54,6 +61,7 @@ const RrsPageTemplate = ({
             rrsUrl={rrsUrl}
             rrsList={rrsList}
             rrsDataLoading={rrsDataLoading}
+            checkBillingType={checkBillingType}
           />
           <RrsReviewCard rrsList={rrsList} rrsDataLoading={rrsDataLoading} />
           <RrsCheckCard
@@ -71,7 +79,9 @@ const RrsPageTemplate = ({
           rrsAdditionalData={rrsAdditionalData}
           getOutputsAdditionalData={getOutputsAdditionalData}
           rrsAdditionalDataLoading={rrsAdditionalDataLoading}
+          checkBillingType={checkBillingType}
           rrsUrl={rrsUrl}
+          dataProviderData={dataProviderData}
         />
       </div>
     </Tag>

@@ -18,6 +18,7 @@ import Menu from '../../../components/menu'
 import Article from '../cards/article'
 import request from '../../../api'
 import StatusCard from '../cards/statusCard'
+import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 
 import Table from 'components/table'
 
@@ -30,6 +31,8 @@ const RrsTable = observer(
     getOutputsAdditionalData,
     rrsAdditionalDataLoading,
     rrsDataLoading,
+    checkBillingType,
+    dataProviderData,
     rrsUrl,
   }) => {
     const [visibleHelp, setVisibleHelp] = useState(
@@ -69,16 +72,25 @@ const RrsTable = observer(
     }
 
     useEffect(() => {
-      const newRecords = [
-        ...tableData,
-        ...rrsList?.slice(page * 10, (page + 1) * 10),
-      ]
-      const newRRS = newRecords.map((item) => ({
-        ...item,
-        id: +item.articleId,
-        output: null,
-      }))
-      setTableData(newRRS)
+      if (checkBillingType) {
+        const newRRS = rrsList.slice(0, 5).map((item) => ({
+          ...item,
+          id: +item.articleId,
+          output: null,
+        }))
+        setTableData(newRRS)
+      } else {
+        const newRecords = [
+          ...tableData,
+          ...rrsList?.slice(page * 10, (page + 1) * 10),
+        ]
+        const newRRS = newRecords.map((item) => ({
+          ...item,
+          id: +item.articleId,
+          output: null,
+        }))
+        setTableData(newRRS)
+      }
     }, [rrsList, page])
 
     useEffect(() => {
@@ -207,6 +219,7 @@ const RrsTable = observer(
               }
               sortDirection={sortDirection}
               showAdditionalSort
+              excludeFooter={checkBillingType}
             >
               <Table.Column
                 id="oai"
@@ -361,6 +374,13 @@ const RrsTable = observer(
                 <ExportButton href={rrsUrl}>download csv</ExportButton>
               </Table.Action>
             </Table>
+            {checkBillingType && (
+              <AccessPlaceholder
+                dataProviderData={dataProviderData}
+                customWidth
+                description="To see and download the full list of outputs with RRS statements found in your repository become our Supporting or Sustaining member."
+              />
+            )}
           </>
         )}
       </Card>

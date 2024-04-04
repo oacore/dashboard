@@ -7,7 +7,12 @@ import { Button } from '../../../design'
 import rrs from 'texts/rrs-retention'
 import { Card } from 'design'
 
-const RrsStatsCard = ({ rrsUrl, rrsList, rrsDataLoading }) => (
+const RrsStatsCard = ({
+  rrsUrl,
+  rrsList,
+  rrsDataLoading,
+  checkBillingType,
+}) => (
   <Card
     className={styles.cardWrapper}
     tag="section"
@@ -34,9 +39,11 @@ const RrsStatsCard = ({ rrsUrl, rrsList, rrsDataLoading }) => (
       )}
     </div>
     <div className={styles.footerWrapper}>
-      <Button href={rrsUrl} variant="contained">
-        {rrs.statsCard.action}
-      </Button>
+      {!checkBillingType && (
+        <Button href={rrsUrl} variant="contained">
+          {rrs.statsCard.action}
+        </Button>
+      )}
     </div>
   </Card>
 )

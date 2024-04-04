@@ -17,6 +17,8 @@ const rrsPolicy = ({ store, ...props }) => (
     statusUpdate={store.dataProvider?.statusUpdate}
     uploadPdf={store.dataProvider?.uploadPdf}
     uploadResults={store.dataProvider?.uploadResults}
+    billingPlan={store.organisation.billingPlan}
+    dataProviderData={store.dataProvider}
     {...props}
   />
 )
