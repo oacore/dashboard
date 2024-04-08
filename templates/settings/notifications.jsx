@@ -191,6 +191,7 @@ const NotificationsPageTemplate = observer(
           <div className={styles.headerWrapper}>
             <Card.Title tag="h2">{content.notifications.title}</Card.Title>
             {harvestingSwitch || deduplicationSwitch ? (
+              // eslint-disaåble-next-line jsx-a11y/click-events-have-key-events
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events
               <div
                 onClick={
