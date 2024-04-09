@@ -5,8 +5,8 @@ const config = [
     icon: 'view-dashboard',
   },
   {
-    id: 'harvesting',
-    path: 'harvesting',
+    id: 'indexing',
+    path: 'indexing',
     icon: 'sync',
   },
   {
@@ -28,6 +28,11 @@ const config = [
     id: 'depositCompliance',
     path: 'deposit-compliance',
     icon: 'calendar-check',
+  },
+  {
+    id: 'rrsPolicy',
+    path: 'rights-retention-strategy',
+    icon: 'copy-document',
   },
   {
     id: 'doi',

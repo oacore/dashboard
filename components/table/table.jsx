@@ -44,6 +44,7 @@ const InfiniteTable = ({
   showAdditionalSort,
   sortDirection,
   sortStatusDirection,
+  renderDropDown,
   rowActionProp,
   ...restProps
 }) => {
@@ -53,6 +54,7 @@ const InfiniteTable = ({
     sidebar,
     action,
     details,
+    Dropdown,
     columnOrder: columnOrderConfig,
     columns,
   } = useTableConfig(children)
@@ -85,7 +87,7 @@ const InfiniteTable = ({
     }
   }, [])
 
-  const bodyHasCallbacks = Boolean(sidebar || details)
+  const bodyHasCallbacks = Boolean(sidebar || details || Dropdown)
 
   // even if this is not an actual Hook, it starts from 'use-'
   // to potentially have useCallback() call behind
@@ -138,6 +140,7 @@ const InfiniteTable = ({
               sortStatusDirection={sortStatusDirection}
             />
             <Body
+              renderDropDown={renderDropDown}
               handleRowClick={rowClick || rowAction}
               rowActionProp={rowActionProp}
               handleDoubleRowClick={useRowCallback(handleDoubleRowClick)}
@@ -145,6 +148,7 @@ const InfiniteTable = ({
               isClickable={bodyHasCallbacks}
               data={data}
               details={details}
+              Dropdown={Dropdown}
               useExpandIcon={useExpandIcon}
               expandedRowId={expandedRowId?.id}
             />
