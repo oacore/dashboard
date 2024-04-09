@@ -20,6 +20,15 @@ const Article = ({
 }) => {
   const [visibleMenu, setVisibleMenu] = React.useState(false)
 
+  const handleToggleRedirect = (e, key, outputsId, oaiId) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setVisibleMenu(false)
+    if (key === 'coreUrl')
+      window.open(`https://core.ac.uk/outputs/${outputsId}`, '_blank')
+    else window.open(`${process.env.IDP_URL}/oai/${oaiId}`, '_blank')
+  }
+
   const menuRef = useRef()
 
   const { article: text } = texts
@@ -82,9 +91,18 @@ const Article = ({
             <Icon src="#dots-vertical" />
           </Button>
           <Menu visible={visibleMenu} className={styles.menu}>
-            {actions.map(({ title, value, key }) => (
-              <Menu.Item key={key} target="_blank" href={value}>
-                {title}
+            {actions.map(({ title, key }) => (
+              <Menu.Item key={key} target="_blank">
+                {/* eslint-disable-next-line max-len */}
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                <div
+                  onClick={(e) =>
+                    handleToggleRedirect(e, key, article.id, article.oai)
+                  }
+                  className={styles.togglerTitle}
+                >
+                  {title}
+                </div>
               </Menu.Item>
             ))}
           </Menu>

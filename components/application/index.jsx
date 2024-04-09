@@ -78,7 +78,7 @@ const Application = observer(
         })
 
         await refetch(id)
-        router.push(`/data-providers/${dataProviderId}/harvesting`)
+        router.push(`/data-providers/${dataProviderId}/indexing`)
         setShowNotification(false)
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -143,7 +143,7 @@ const Application = observer(
                         <img
                           onClick={handleShowNotification}
                           src={notification}
-                          alt="bell"
+                          alt="notification"
                         />
                         {unseenNotification.length > 0 && (
                           <div className={styles.count}>
