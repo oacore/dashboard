@@ -80,7 +80,7 @@ const DeduplicationListTable = observer(
         const dateB = new Date(b.publicationDate)
         return direction === 'asc' ? dateA - dateB : dateB - dateA
       })
-      setSearchResults(sortedData)
+      setSearchResults(sortedData.slice(0, records.length))
       setSortDirection(direction)
     }
     const getStatus = (item) => {
@@ -93,7 +93,7 @@ const DeduplicationListTable = observer(
         const statusB = getStatus(b)
         return direction === 'asc' ? statusA - statusB : statusB - statusA
       })
-      setSearchResults(sortedData)
+      setSearchResults(sortedData.slice(0, records.length))
       setSortStatusDirection(direction)
     }
 
