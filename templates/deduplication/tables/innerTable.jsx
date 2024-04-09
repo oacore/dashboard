@@ -8,9 +8,9 @@ import Table from '../../../components/table'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import Menu from '../../../components/menu'
 import Actions from '../../../components/actions'
-import CompareWarning from '../cards/warningCard'
 import ComparisonTable from './comparisonTable'
 import questionInfo from '../../../components/upload/assets/questionInfo.svg'
+import DashboardTipMessage from '../../../components/dashboard-tip-message'
 
 const InnerTable = observer(
   ({
@@ -68,7 +68,7 @@ const InnerTable = observer(
     return (
       <>
         <div className={styles.contentWrapper}>
-          <CompareWarning
+          <DashboardTipMessage
             title={texts.moreInfo.tableTitle}
             show={texts.moreInfo.show}
             hide={texts.moreInfo.hide}

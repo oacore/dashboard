@@ -39,8 +39,8 @@ const config = new RouteConfig([
     icon: 'view-dashboard',
   },
   {
-    test: /\/harvesting/,
-    path: 'harvesting',
+    test: /\/indexing/,
+    path: 'indexing',
     icon: 'sync',
   },
   {
@@ -62,6 +62,11 @@ const config = new RouteConfig([
     test: /\/deposit-compliance/,
     path: 'deposit-compliance',
     icon: 'calendar-check',
+  },
+  {
+    test: /\/rights-retention-strategy/,
+    path: 'rights-retention-strategy',
+    icon: 'copy-document',
   },
   {
     test: /\/doi/,
