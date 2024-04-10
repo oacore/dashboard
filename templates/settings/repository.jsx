@@ -15,7 +15,6 @@ import { FormShell, ResolverSettingsForm } from '../../components/forms'
 import DropdownInput from '../../components/input-select/input-select'
 import warning from './assets/warning.svg'
 import { GlobalContext } from '../../store'
-import infoGreen from '../../components/upload/assets/infoGreen.svg'
 
 const UploadSection = ({
   className,
@@ -98,7 +97,6 @@ const RepositoryPageTemplate = observer(
     const [isNameChanged, setNameChanged] = useState(false)
     const [isEmailChanged, setEmailChanged] = useState(false)
     const [isOaiChanged, setOaiChanged] = useState(false)
-    const [isFormSubmitted, setFormSubmitted] = useState(false)
 
     useEffect(() => {
       fetch(`https://api.ror.org/organizations?query=${rorId}`)
@@ -143,7 +141,7 @@ const RepositoryPageTemplate = observer(
       const data = Object.fromEntries(formData.entries())
       const scope = target.getAttribute('name', 'ror_id')
       const present = {
-        'data-provider': updateDataProvider,
+        'data-provider': await updateDataProvider,
         'mapping': mappingSubmit,
       }[scope]
 
@@ -152,9 +150,6 @@ const RepositoryPageTemplate = observer(
       setGlobalRorName(rorName)
 
       await globalStore.organisation.retrieve()
-
-      if (event.target.getAttribute('name') === 'data-provider')
-        setFormSubmitted(true)
 
       setFormMessage({
         ...formMessage,
@@ -256,6 +251,7 @@ const RepositoryPageTemplate = observer(
                 name="data-provider"
                 onSubmit={handleSubmit}
                 onChange={changeEmail}
+                message={formMessage['data-provider']}
               >
                 <TextField
                   id="settings-repository-email"
@@ -346,20 +342,6 @@ const RepositoryPageTemplate = observer(
             </div>
             <div className={styles.mainWarningWrapper} />
           </div>
-          {isFormSubmitted && (
-            <div className={styles.infoIndicatorWrapper}>
-              <div className={styles.infoIndicator}>
-                <img src={infoGreen} alt="infogreen" />
-                <span className={styles.infoText}>
-                  Your data has been successfully saved.
-                  <br />
-                  Please be aware that it may take a few days for the changes to
-                  propagate across the whole of CORE data.
-                </span>
-              </div>
-              <div className={styles.mainWarningWrapper} />
-            </div>
-          )}
         </Card>
         <div ref={mappingRef}>
           <Card

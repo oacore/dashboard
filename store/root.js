@@ -219,27 +219,29 @@ class Root extends Store {
   }
 
   @action
-  updateDataProvider = async (patch) => {
+  updateDataProvider = async (body) => {
     try {
-      const { ...body } = patch
-
       const url = `/data-providers/${this.dataProvider.id}`
-      const { data } = await this.options.request(url, {
+      await this.options.request(url, {
+        skipStatusCheck: true,
         method: 'PATCH',
-        body,
-      })
-      Object.assign(this.dataProvider, data)
-      return {
-        message: 'Settings were updated successfully!',
-        data: {
-          ror_id: data.ror_id,
-          rorName: data.rorName,
-          name: data.name,
+        body: {
+          ...body,
+          ror_id: body.ror_id,
+          rorName: body.rorName,
+          name: body.name,
         },
-      }
-    } catch (networkOrAccessError) {
+      })
+      Object.assign(this.dataProvider, body)
       return {
-        message: 'Something went wrong. Please try it again later!',
+        type: 'success',
+        message:
+          'Settings were updated successfully! Be aware that it may take a few days for the changes to propagate across the whole of CORE data.',
+      }
+    } catch (error) {
+      return {
+        type: 'danger',
+        message: 'Something went wrong. Please try again later!',
       }
     }
   }
