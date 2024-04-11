@@ -86,7 +86,7 @@ const HarvestingProgressCard = ({
           )}
         {modalOpen &&
           !result &&
-          harvestingStatus?.scheduledState === 'PENDING' && (
+          harvestingStatus?.scheduledState !== 'PENDING' && (
             <HarvestingModal
               title={texts.modal.progress.title}
               description={texts.modal.progress.description}
@@ -97,7 +97,7 @@ const HarvestingProgressCard = ({
           )}
         {modalOpen &&
           result &&
-          harvestingStatus?.scheduledState !== 'PENDING' && (
+          harvestingStatus?.scheduledState === 'PENDING' && (
             <HarvestingModal
               title={texts.modal.finished.title}
               description={texts.modal.finished.description}
@@ -143,14 +143,14 @@ const HarvestingProgressCard = ({
             <div
               className={classNames.use(styles.progressCircle, {
                 [styles.progressCircleActive]:
-                  !result && harvestingStatus?.scheduledState === 'PENDING',
+                  !result && harvestingStatus?.scheduledState !== 'PENDING',
               })}
             />
           </Popover>
           <span
             className={classNames.use(styles.progressText, {
               [styles.progressTextActive]:
-                !result && harvestingStatus?.scheduledState === 'PENDING',
+                !result && harvestingStatus?.scheduledState !== 'PENDING',
             })}
           >
             {/* im progress */}
@@ -167,14 +167,14 @@ const HarvestingProgressCard = ({
             <div
               className={classNames.use(styles.progressCircle, {
                 [styles.progressCircleActive]:
-                  result && harvestingStatus?.scheduledState !== 'PENDING',
+                  result && harvestingStatus?.scheduledState === 'PENDING',
               })}
             />
           </Popover>
           <span
             className={classNames.use(styles.progressText, {
               [styles.progressTextActive]:
-                result && harvestingStatus?.scheduledState !== 'PENDING',
+                result && harvestingStatus?.scheduledState === 'PENDING',
             })}
           >
             {/* finished */}
