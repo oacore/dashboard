@@ -75,8 +75,7 @@ const HarvestingProgressCard = ({
         {/*  /> */}
         {/* )} */}
         {modalOpen &&
-          result &&
-          harvestingStatus?.scheduledState === 'PENDING' && (
+          harvestingStatus?.scheduledState === 'IN_DOWNLOAD_METADATA_QUEUE' && (
             <HarvestingModal
               title={texts.modal.scheduled.title}
               description={texts.modal.scheduled.description}
@@ -118,14 +117,16 @@ const HarvestingProgressCard = ({
             <div
               className={classNames.use(styles.progressCircle, {
                 [styles.progressCircleActive]:
-                  result && harvestingStatus?.scheduledState === 'PENDING',
+                  harvestingStatus?.scheduledState ===
+                  'IN_DOWNLOAD_METADATA_QUEUE',
               })}
             />
           </Popover>
           <span
             className={classNames.use(styles.progressText, {
               [styles.progressTextActive]:
-                result && harvestingStatus?.scheduledState === 'PENDING',
+                harvestingStatus?.scheduledState ===
+                'IN_DOWNLOAD_METADATA_QUEUE',
             })}
           >
             {/* CHECK Scheduled */}
@@ -185,11 +186,7 @@ const HarvestingProgressCard = ({
         {texts.progress.description}
       </div>
       <div className={styles.buttonWrapper}>
-        <Button
-          onClick={triggerModal}
-          // onClick={() => sendRequest()}
-          variant="contained"
-        >
+        <Button onClick={triggerModal} variant="contained">
           {loading ? (
             <div className={styles.spinnerWrapper}>
               <span>Loading</span>
