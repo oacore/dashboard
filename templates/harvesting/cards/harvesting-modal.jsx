@@ -31,7 +31,7 @@ const HarvestingModal = ({
           <Button
             key={content.notificationGuide.actions.offAction.title}
             onClick={handleButtonClick}
-            variant={content.notificationGuide.actions.offAction.type}
+            variant={content.notificationGuide.actions.onAction.type}
             className={styles.button}
           >
             send
@@ -39,7 +39,7 @@ const HarvestingModal = ({
           <Button
             key={content.notificationGuide.actions.onAction.title}
             onClick={handleButtonClose}
-            variant={content.notificationGuide.actions.onAction.type}
+            variant={content.notificationGuide.actions.offAction.type}
             className={styles.button}
           >
             cancel
