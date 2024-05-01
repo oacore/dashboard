@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Icon } from '@oacore/design/lib/elements'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
-import { useRouter } from 'next/router'
 
 import styles from '../styles.module.css'
 import { Card } from '../../../design'
@@ -22,9 +21,7 @@ const DeduplicationListTable = observer(
     duplicatesUrl,
     checkBillingType,
     dataProviderData,
-    getDeduplicationData,
   }) => {
-    const router = useRouter()
     const [page, setPage] = useState(-1)
     const [records, setRecords] = useState([])
     const [localSearchTerm, setLocalSearchTerm] = useState('')
@@ -34,11 +31,6 @@ const DeduplicationListTable = observer(
     )
     const [sortDirection, setSortDirection] = useState('asc')
     const [sortStatusDirection, setSortStatusDirection] = useState('asc')
-    const id = router.query['data-provider-id']
-
-    const handleRefetch = () => {
-      getDeduplicationData(id, true)
-    }
 
     useEffect(() => {
       localStorage.setItem('visibleHelp', visibleHelp)
@@ -139,10 +131,8 @@ const DeduplicationListTable = observer(
           activeText={visibleHelp}
         />
         <DashboardCachedMessage
-          button={texts.cachedInfo.actionBtn}
           title={texts.cachedInfo.title}
           description={texts.cachedInfo.description}
-          onClick={handleRefetch}
         />
         <Table
           rowClick={(row) => handeAdditionalInfo(row)}

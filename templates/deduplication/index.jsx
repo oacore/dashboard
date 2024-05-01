@@ -112,7 +112,6 @@ const DeduplicationPageTemplate = observer(
           exportUrl={exportUrl}
           checkBillingType={checkBillingType}
           dataProviderData={dataProviderData}
-          getDeduplicationData={getDeduplicationData}
         />
       </Tag>
     )

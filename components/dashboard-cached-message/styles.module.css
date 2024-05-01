@@ -24,11 +24,6 @@
   list-style-type: disc;
 }
 
-.hide-button-wrapper {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .data-error-wrapper {
   padding: 1rem;
   margin: 12px 0 16px;

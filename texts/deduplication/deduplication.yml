@@ -47,7 +47,7 @@ cachedInfo:
   title: Please note
   actionBtn: Refresh the cache
   description: |
-    The data on this list is cached for performance reasons. Once you completed your work please click here to refresh the cache. The processing will take some time but you will be able to see the updated data
+    The data on this list is cached for performance reasons. The processing will take some time but you will be able to see the updated data
 
 moreInfoComparison:
   action: Close comparison
