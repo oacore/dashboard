@@ -154,6 +154,10 @@
   justify-content: flex-end;
 }
 
+.cursor-disable {
+  cursor: not-allowed;
+}
+
 .progress-bar {
   display: flex;
   align-items: center;

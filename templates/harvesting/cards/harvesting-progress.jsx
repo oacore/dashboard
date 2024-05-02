@@ -32,6 +32,7 @@ const HarvestingProgressCard = ({
   const sendRequest = async () => {
     try {
       setLoading(true)
+      setModalOpen(false)
       await sendHarvestingRequest()
       setSuccess(true)
     } catch (error) {
@@ -45,7 +46,7 @@ const HarvestingProgressCard = ({
   }
 
   const triggerModal = () => {
-    setModalOpen(true)
+    if (!loading) setModalOpen(true)
   }
 
   const handleButtonClose = () => {
@@ -186,7 +187,13 @@ const HarvestingProgressCard = ({
         {texts.progress.description}
       </div>
       <div className={styles.buttonWrapper}>
-        <Button onClick={triggerModal} variant="contained">
+        <Button
+          className={classNames.use({
+            [styles.cursorDisable]: loading,
+          })}
+          onClick={triggerModal}
+          variant="contained"
+        >
           {loading ? (
             <div className={styles.spinnerWrapper}>
               <span>Loading</span>
