@@ -76,6 +76,21 @@
   margin-bottom: 35px;
 }
 
+.form-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  border: 1px solid var(--danger);
+}
+
+.error-message-text {
+  margin-bottom: 0;
+  font-weight: 400;
+  color: var(--danger);
+}
+
 .error-item {
   display: flex;
   align-items: flex-start;

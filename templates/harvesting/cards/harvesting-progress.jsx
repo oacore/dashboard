@@ -29,11 +29,15 @@ const HarvestingProgressCard = ({
 
   const result = dayInterval(harvestingStatus?.lastHarvestingDate)
 
-  const sendRequest = async () => {
+  const sendRequest = async (requestText) => {
     try {
+      if (!requestText.trim()) {
+        setErrorMessage('This field is mandatory')
+        return
+      }
       setLoading(true)
       setModalOpen(false)
-      await sendHarvestingRequest()
+      await sendHarvestingRequest(requestText)
       setSuccess(true)
     } catch (error) {
       // eslint-disable-next-line no-console
