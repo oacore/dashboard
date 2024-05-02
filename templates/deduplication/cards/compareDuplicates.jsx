@@ -16,6 +16,7 @@ const CompareDuplicates = observer(
     outputData,
     getDeduplicationInfo,
     worksDataInfo,
+    duplicateData,
   }) => (
     <>
       <InnerTableHeader
@@ -33,6 +34,7 @@ const CompareDuplicates = observer(
         getOutputsData={getOutputsData}
         outputData={outputData}
         worksDataInfo={worksDataInfo}
+        duplicateData={duplicateData}
       />
     </>
   )

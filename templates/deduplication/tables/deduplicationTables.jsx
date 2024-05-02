@@ -80,6 +80,7 @@ const DeduplicationTableCard = observer(
             getOutputsData={getOutputsData}
             outputData={outputData}
             worksDataInfo={workData}
+            duplicateData={duplicateData}
           />
         )}
       </Card>
