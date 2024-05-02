@@ -130,10 +130,7 @@ const DeduplicationListTable = observer(
           setText={setVisibleHelp}
           activeText={visibleHelp}
         />
-        <DashboardCachedMessage
-          title={texts.cachedInfo.title}
-          description={texts.cachedInfo.description}
-        />
+        <DashboardCachedMessage title={texts.cachedInfo.title} />
         <Table
           rowClick={(row) => handeAdditionalInfo(row)}
           rowActionProp

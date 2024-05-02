@@ -44,10 +44,8 @@ helpInfo:
   hide: Hide tips
 
 cachedInfo:
-  title: Please note
+  title: The data on this list is cached for performance reasons. The processing will take some time but you will be able to see the updated data
   actionBtn: Refresh the cache
-  description: |
-    The data on this list is cached for performance reasons. The processing will take some time but you will be able to see the updated data
 
 moreInfoComparison:
   action: Close comparison
