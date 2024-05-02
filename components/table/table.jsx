@@ -40,8 +40,10 @@ const InfiniteTable = ({
   excludeFooter = false,
   rowClick,
   onClick,
+  handleCLick,
   showAdditionalSort,
   sortDirection,
+  sortStatusDirection,
   renderDropDown,
   rowActionProp,
   ...restProps
@@ -132,8 +134,10 @@ const InfiniteTable = ({
               columns={columns}
               isHeaderClickable={isHeaderClickable}
               onClick={onClick}
+              handleCLick={handleCLick}
               showAdditionalSort={showAdditionalSort}
               sortDirection={sortDirection}
+              sortStatusDirection={sortStatusDirection}
             />
             <Body
               renderDropDown={renderDropDown}
