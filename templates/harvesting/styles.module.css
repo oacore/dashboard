@@ -195,14 +195,14 @@
 
 .warning-wrapper {
   display: flex;
-  gap: 16px;
   align-items: center;
-  color: #666;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
+  color: #666;
   letter-spacing: 0.024px;
+  gap: 16px;
 }
 
 .cursor-disable {
