@@ -123,6 +123,8 @@ class Root extends Store {
 
   @observable seenAll = []
 
+  @observable responseData = null
+
   @action
   setHarvestNotifications = (data) => {
     this.harvestNotifications = data
@@ -131,6 +133,11 @@ class Root extends Store {
   @action
   setDeduplicationNotifications = (data) => {
     this.deduplicationNotifications = data
+  }
+
+  @action
+  setResponseData = (data) => {
+    this.responseData = data
   }
 
   @computed
@@ -411,11 +418,15 @@ class Root extends Store {
   }
 
   @action
-  sendHarvestingRequest = async () => {
+  sendHarvestingRequest = async (message) => {
     const url = `/data-providers/${this.dataProvider.id}/harvesting/request`
-    await this.request(url, {
+    const response = await this.request(url, {
       method: 'POST',
+      body: {
+        message,
+      },
     })
+    this.setResponseData(response)
   }
 }
 

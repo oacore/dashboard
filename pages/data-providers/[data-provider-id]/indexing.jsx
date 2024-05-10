@@ -11,6 +11,7 @@ const HarvestingPage = ({ store, store: { dataProvider }, ...props }) => (
     errorsCount={dataProvider?.issues?.aggregation?.errorsCount}
     warningCount={dataProvider?.issues?.aggregation?.warningsCount}
     sendHarvestingRequest={store?.sendHarvestingRequest}
+    responseData={store?.responseData}
     metadataCount={dataProvider?.statistics?.countMetadata}
     fullTextCount={dataProvider?.statistics?.countFulltext}
     typesCount={dataProvider?.issues?.aggregation?.typesCount}
