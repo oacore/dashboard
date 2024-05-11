@@ -175,7 +175,8 @@ class DataProvider extends Resource {
       const response = await fetch(
         `${process.env.API_URL}/data-providers/${id}/rights-retention`
       )
-      if (response.ok) {
+
+      if (response.ok && response.status === 200) {
         const data = await response.json()
         this.setRrsList(data)
       } else throw new Error('Failed to fetch rrs data')
