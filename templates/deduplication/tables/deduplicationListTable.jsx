@@ -30,6 +30,8 @@ const DeduplicationListTable = observer(
     const [visibleHelp, setVisibleHelp] = useState(
       localStorage.getItem('visibleHelp') === 'true'
     )
+    // const [sortDirection, setSortDirection] = useState('asc')
+    // const [sortStatusDirection, setSortStatusDirection] = useState('asc')
 
     useEffect(() => {
       if (checkBillingType) setRecords(list.slice(0, 5))
@@ -63,6 +65,30 @@ const DeduplicationListTable = observer(
     const fetchData = () => {
       setPage(page + 1)
     }
+
+    // const sortByPublicationDate = (direction) => {
+    //   const sortedData = [...list].sort((a, b) => {
+    //     const dateA = new Date(a.publicationDate)
+    //     const dateB = new Date(b.publicationDate)
+    //     return direction === 'asc' ? dateA - dateB : dateB - dateA
+    //   })
+    //   setSearchResults(sortedData.slice(0, records.length))
+    //   setSortDirection(direction)
+    // }
+    // const getStatus = (item) => {
+    // eslint-disable-next-line max-len
+    //   const hasUndefined = item.duplicates.some((dup) => dup.type === undefined)
+    //   return hasUndefined ? 0 : 1
+    // }
+    // const sortByStatus = (direction) => {
+    //   const sortedData = [...list].sort((a, b) => {
+    //     const statusA = getStatus(a)
+    //     const statusB = getStatus(b)
+    //     return direction === 'asc' ? statusA - statusB : statusB - statusA
+    //   })
+    //   setSearchResults(sortedData.slice(0, records.length))
+    //   setSortStatusDirection(direction)
+    // }
 
     return (
       <>
@@ -119,12 +145,23 @@ const DeduplicationListTable = observer(
             data={searchResults}
             size={searchResults?.length}
             totalLength={list.length}
-            searchable
+            searchable={!checkBillingType}
             localSearch
             localSearchTerm={localSearchTerm}
             searchChange={searchChange}
             fetchData={fetchData}
             rowActionProp
+            // isHeaderClickable
+            // excludeFooter={checkBillingType}
+            // onClick={() =>
+            //   sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
+            // }
+            // handleCLick={() =>
+            //   sortByStatus(sortStatusDirection === 'asc' ? 'desc' : 'asc')
+            // }
+            // sortDirection={sortDirection}
+            // sortStatusDirection={sortStatusDirection}
+            // showAdditionalSort
           >
             <Table.Column
               id="oai"
@@ -202,6 +239,12 @@ const DeduplicationListTable = observer(
                 </div>
               )}
             />
+            {/* <Table.Column */}
+            {/*  id="publicationDate" */}
+            {/*  display="Publication date" */}
+            {/*  className={styles.publicationDateColumn} */}
+            {/*  getter={(v) => v?.publicationDate} */}
+            {/* /> */}
             <Table.Action>
               <ExportButton href={duplicatesUrl}>download csv</ExportButton>
             </Table.Action>

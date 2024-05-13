@@ -11,6 +11,7 @@ const ComparisonTable = observer(
     worksDataInfo,
     outputData,
     getDeduplicationInfo,
+    duplicateData,
   }) => {
     useEffect(() => {
       combinedArray.forEach((item) => {
@@ -26,6 +27,7 @@ const ComparisonTable = observer(
           updateWork={updateWork}
           getDeduplicationInfo={getDeduplicationInfo}
           combinedArray={combinedArray}
+          duplicateData={duplicateData}
         />
       </>
     )

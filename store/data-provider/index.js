@@ -151,12 +151,15 @@ class DataProvider extends Resource {
   }
 
   @action
-  getDeduplicationData = async (id) => {
+  getDeduplicationData = async (id, refresh = false) => {
     this.duplicateDataLoading = true
     try {
-      const response = await fetch(
-        `${process.env.API_URL}/data-providers/${id}/duplicates`
-      )
+      let url = `${process.env.API_URL}/data-providers/${id}/duplicates`
+      if (refresh) url += '?refresh=true'
+
+      const options = refresh ? { cache: 'reload' } : {}
+
+      const response = await fetch(url, options)
 
       if (response.ok) {
         const data = await response.json()
@@ -177,7 +180,8 @@ class DataProvider extends Resource {
       const response = await fetch(
         `${process.env.API_URL}/data-providers/${id}/rights-retention`
       )
-      if (response.ok) {
+
+      if (response.ok && response.status === 200) {
         const data = await response.json()
         this.setRrsList(data)
       } else throw new Error('Failed to fetch rrs data')
