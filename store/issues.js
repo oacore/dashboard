@@ -19,7 +19,7 @@ class Issues extends Store {
   }
 
   @action
-  getHarvestingStatus = async (refresh = false) => {
+  async getHarvestingStatus(refresh = false) {
     try {
       let url = `${this.url}/harvesting`
       if (refresh) url += '?refresh=true'
