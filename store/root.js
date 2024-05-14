@@ -7,6 +7,7 @@ import Organisation from './organisation'
 import Invitation from './invitation'
 import { AccessError, AuthorizationError, PaymentRequiredError } from './errors'
 import DataProvider from './data-provider'
+import Issues from './issues'
 
 import apiRequest from 'api'
 import * as NetworkErrors from 'api/errors'
@@ -73,6 +74,7 @@ class Root extends Store {
   constructor(options) {
     super(null, options)
     this.options.request = this.options.request.bind(this)
+    this.issues = new Issues(process.env.API_URL, this.options)
   }
 
   contactUrl = `${process.env.API_URL}/contact`
@@ -84,6 +86,8 @@ class Root extends Store {
   @observable dataProvider = null
 
   @observable depositDates = null
+
+  @observable issues = null
 
   @observable harvestNotifications = null
 
@@ -123,6 +127,8 @@ class Root extends Store {
 
   @observable seenAll = []
 
+  @observable responseData = null
+
   @action
   setHarvestNotifications = (data) => {
     this.harvestNotifications = data
@@ -131,6 +137,11 @@ class Root extends Store {
   @action
   setDeduplicationNotifications = (data) => {
     this.deduplicationNotifications = data
+  }
+
+  @action
+  setResponseData = (data) => {
+    this.responseData = data
   }
 
   @computed
@@ -408,6 +419,18 @@ class Root extends Store {
       method: 'POST',
       body: data,
     })
+  }
+
+  @action
+  sendHarvestingRequest = async (message) => {
+    const url = `/data-providers/${this.dataProvider.id}/harvesting/request`
+    const response = await this.request(url, {
+      method: 'POST',
+      body: {
+        message,
+      },
+    })
+    this.setResponseData(response)
   }
 }
 

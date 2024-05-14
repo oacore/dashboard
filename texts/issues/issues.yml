@@ -51,3 +51,43 @@ article:
       disabled: true
       icon: eye-off
       extraText: Click to enable
+
+progress:
+  title: Indexing status
+  subTitle: Last sent request
+  description: CORE performs indexing periodically. The frequency depends on a range of criteria including how often your repository is updated, its size and membership status. If there were issues with indexing your repository which you feel have now been fixed, you may request re-indexing.
+  action: Request reindexing
+
+type:
+  scheduled:
+    title: Scheduled
+    tooltip: Your request for reharvesting has been submitted. Our team will review the request and submit your repository for reharvesting. After this status will change to “In progress”
+    success: Thank you for the request, a member of our team will look into it and schedule a new harvesting manually if needed.
+  progress:
+    title: In progress
+    tooltip: Your repository is harvesting now. This process can take 1-2 weeks (depends on size of your repository). After harvesting completed status will changed to finished.
+    success: Thank you for the request, our recommendation is to wait until completion of the current harvesting process. Please allow up to a week, if there is still an issue [contact us](/about#contact) or send another harvesting request.
+  finished:
+    title: Completed
+    tooltip: Reharvesting of your repository is finished.
+    success: Thank you for the request. The latest harvesting has completed and it might take a few days for the changes to propagate to the dashboard. Please allow a few days. If you still have an issue [contact us](/about#contact) or send another harvesting request
+  error:
+    success: We are currently unable to process your request, please [contact us]() if you have any issue.
+
+modal:
+  scheduled:
+    title: Confirmation
+    description: The indexing of your repository has already been scheduled. In case your repository stays in the Scheduled state more than 2 weeks, then feel free to send us a message to investigate.
+    input: Please, indicate the reason why you are making this request?
+  progress:
+    title: Confirmation
+    description: Your repository is currently being indexed. If your repository has been in progress for longer than 2 weeks, you can send us a message to investigate. Do you wish to send us a message to investigate?
+    input: Please, indicate the reason why do you need reindexing of your content? For instance, have there been any recent changes to your repository or technical fixes?
+  finished:
+    title: Confirmation
+    description: Your request for reindexing will be sent to the CORE team.
+    input: Please, indicate the reason why do you need reindexing of your content? For instance, have there been any recent changes to your repository or technical fixes?
+  error:
+    title: Confirmation
+    description: Your request for reindexing will be sent to the CORE team.
+    input: Please, indicate the reason why do you need reindexing of your content? For instance, have there been any recent changes to your repository or technical fixes?
