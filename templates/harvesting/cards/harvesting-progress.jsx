@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { Popover } from '@oacore/design'
 import { observer } from 'mobx-react-lite'
 
+import { GlobalContext } from '../../../store'
 import styles from '../styles.module.css'
 import { Button, ProgressSpinner } from '../../../design'
 import loadingImg from '../../../components/upload/assets/loading.svg'
@@ -14,7 +15,8 @@ import { Card } from 'design'
 import texts from 'texts/issues'
 
 const HarvestingProgressCard = observer(
-  ({ harvestingStatus, sendHarvestingRequest, responseData }) => {
+  ({ harvestingStatus, sendHarvestingRequest }) => {
+    const { ...globalStore } = useContext(GlobalContext)
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
@@ -26,9 +28,7 @@ const HarvestingProgressCard = observer(
       const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
       return daysDifference > 7
     }
-
     const result = dayInterval(harvestingStatus?.lastHarvestingDate)
-
     const sendRequest = async (requestText) => {
       try {
         if (!requestText.trim()) {
@@ -38,6 +38,7 @@ const HarvestingProgressCard = observer(
         setLoading(true)
         setModalOpen(false)
         await sendHarvestingRequest(requestText)
+        await globalStore.dataProvider.retrieve()
         setSuccess(true)
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -67,17 +68,7 @@ const HarvestingProgressCard = observer(
       const differenceInTime =
         currentDate.getTime() - lastHarvestingDate.getTime()
       const differenceInDays = differenceInTime / (1000 * 3600 * 24)
-
-      const responseDate = new Date(
-        responseData?.data?.lastHarvestingRequestDate
-      )
-
-      const responseDifferenceInTime =
-        currentDate.getTime() - responseDate.getTime()
-      const responseDifferenceInDays =
-        responseDifferenceInTime / (1000 * 3600 * 24)
-
-      if (!responseData && (differenceInDays > 5 || !lastHarvestingDate)) {
+      if (differenceInDays > 5 || !lastHarvestingDate) {
         return (
           <Button
             className={classNames.use({
@@ -101,10 +92,7 @@ const HarvestingProgressCard = observer(
           </Button>
         )
       }
-      if (
-        differenceInDays < 5 ||
-        (responseData && responseDifferenceInDays < 5)
-      ) {
+      if (differenceInDays < 5) {
         return (
           <div className={styles.warningWrapper}>
             <img className={styles.tick} src={greenTick} alt="" />
@@ -130,15 +118,6 @@ const HarvestingProgressCard = observer(
           </Card.Title>
         </div>
         <div className={styles.requestDateWrapper}>
-          {/* {modalOpen && ( */}
-          {/*  <HarvestingModal */}
-          {/*    title={texts.modal.error.title} */}
-          {/*    description={texts.modal.error.description} */}
-          {/*    placeholder={texts.modal.error.input} */}
-          {/*    handleButtonClose={handleButtonClose} */}
-          {/*    handleButtonClick={sendRequest} */}
-          {/*  /> */}
-          {/* )} */}
           {modalOpen &&
             harvestingStatus?.scheduledState ===
               'IN_DOWNLOAD_METADATA_QUEUE' && (
@@ -194,7 +173,6 @@ const HarvestingProgressCard = observer(
                   'IN_DOWNLOAD_METADATA_QUEUE',
               })}
             >
-              {/* CHECK Scheduled */}
               {texts.type.scheduled.title}
             </span>
           </div>
@@ -224,7 +202,6 @@ const HarvestingProgressCard = observer(
                   harvestingStatus?.scheduledState === 'PENDING',
               })}
             >
-              {/* im progress */}
               {texts.type.progress.title}
             </span>
           </div>
@@ -248,7 +225,6 @@ const HarvestingProgressCard = observer(
                   result && harvestingStatus?.scheduledState !== 'PENDING',
               })}
             >
-              {/* finished */}
               {texts.type.finished.title}
             </span>
           </div>
