@@ -68,7 +68,7 @@ const TypeCard = ({
           </div>
           <Markdown>{resolution}</Markdown>
           <div className={styles.typeCardActions}>
-            <Button variant="contained" href={issuesList.downloadUrl}>
+            <Button variant="contained" href={issuesList?.downloadUrl}>
               {texts.issues.downloadAction}
             </Button>
             <Button

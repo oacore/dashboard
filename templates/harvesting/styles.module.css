@@ -10,10 +10,18 @@
   padding: var(--component-padding-y, 1rem) var(--component-padding-x, 1rem);
 }
 
+.harvesting-card-wrapper {
+  width: 50%;
+}
+
 .metadata {
   display: flex;
   gap: 5rem;
   align-items: center;
+}
+
+.metadata-items {
+  width: 50%;
 }
 
 .chart {
@@ -21,13 +29,230 @@
   background-color: var(--white);
 }
 
+.error-wrapper {
+  display: flex;
+  align-items: center;
+  height: 110px;
+}
+
 .errors-info {
   font-size: 1.2em;
   color: var(--gray-700);
 }
 
+.metadata-item {
+  margin-bottom: 30px;
+}
+
 .errors-count {
   color: var(--danger-light);
+}
+
+.harvesting-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.progress-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.progress-wrapper-placement {
+  justify-content: unset;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.title-option {
+  margin-bottom: 64px;
+}
+
+.error-message {
+  margin-bottom: 35px;
+}
+
+.form-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  border: 1px solid var(--danger);
+}
+
+.error-message-text {
+  margin-bottom: 0;
+  font-weight: 400;
+  color: var(--danger);
+}
+
+.error-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 35px;
+  gap: 8px;
+}
+
+.error-image {
+  padding: 5px;
+  background: rgba(255, 95, 82, 0.1);
+  border-radius: 2px;
+}
+
+.mai-title {
+  margin-bottom: 0;
+}
+
+.data-spinner-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+}
+
+.spinner-text {
+  margin: 0 0 0 14px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #666;
+  letter-spacing: 0.021px;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-wrapper span {
+  margin-right: 5px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  width: 15px;
+  height: 15px;
+  animation: spin 1.5s linear infinite;
+}
+
+.request-date-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.status-wrapper {
+  display: flex;
+  align-items: flex-start;
+  margin: 10px 0 12px;
+}
+
+.status {
+  margin-left: 8px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+  color: #666;
+  letter-spacing: 0.024px;
+}
+
+.status-description {
+  padding: 10px 0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #212121;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.warning-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #666;
+  letter-spacing: 0.024px;
+  gap: 16px;
+}
+
+.cursor-disable {
+  cursor: not-allowed;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.border {
+  width: 90px;
+  border: 1px dashed #b75400;
+}
+
+.progress-item {
+  display: flex;
+}
+
+.popover {
+  max-width: 20rem;
+  cursor: pointer;
+}
+
+.progress-circle {
+  width: 23px;
+  height: 23px;
+  margin-right: 8px;
+  background: #fff;
+  border: 2px solid #b75400;
+  border-radius: 50%;
+}
+
+.progress-circle-active {
+  background: #b75400;
+}
+
+.progress-text {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  color: #9e9e9e;
+  letter-spacing: 0.024px;
+}
+
+.progress-text-active {
+  color: #212121;
 }
 
 .issues-card {
@@ -166,4 +391,28 @@
 
 .type-card-hidden {
   display: none;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.87);
+  letter-spacing: 0.01px;
+}
+
+.input {
+  width: 100%;
+  height: 102px;
+  margin-bottom: 4px;
+}
+
+.word-count {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  color: #424242;
+  letter-spacing: 0.035px;
 }
