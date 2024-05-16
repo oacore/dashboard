@@ -93,6 +93,10 @@ class Root extends Store {
 
   @observable deduplicationNotifications = null
 
+  @observable loadingSets = false
+
+  @observable setsList = {}
+
   @observable tutorial = {
     currentStep: 1,
     isModalOpen: false,
@@ -152,6 +156,11 @@ class Root extends Store {
   @computed
   get organisationId() {
     return this.organisation ? this.organisation.id : ''
+  }
+
+  @action
+  setSetsList(data) {
+    this.setsList = data
   }
 
   @computed
@@ -356,6 +365,46 @@ class Root extends Store {
       })
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
+    }
+  }
+
+  @action
+  getSetsList = async () => {
+    this.loadingSets = true
+    try {
+      const response = await fetch(
+        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings`
+      )
+      if (response.ok) {
+        const data = await response.json()
+        this.setSetsList(data)
+      } else throw new Error('Failed to fetch rrs data')
+    } catch (error) {
+      console.error('Error fetching rrs data:', error)
+      this.setSetsList([])
+    } finally {
+      this.loadingSets = false
+    }
+  }
+
+  @action
+  enableSet = async (body) => {
+    try {
+      const response = await fetch(
+        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        }
+      )
+
+      if (!response.ok) throw new Error('Failed to patch settings')
+    } catch (error) {
+      console.error('Error patching settings:', error)
+      throw error
     }
   }
 

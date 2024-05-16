@@ -76,6 +76,10 @@ const RepositoryPageTemplate = observer(
     setGlobalRorId,
     init,
     status,
+    getSetsList,
+    setsList,
+    loadingSets,
+    enableSet,
     tag: Tag = 'main',
     ...restProps
   }) => {
@@ -121,6 +125,8 @@ const RepositoryPageTemplate = observer(
 
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
+    const setRef = useRef(null)
+    const dropdownRef = useRef(null)
     const router = useRouter()
 
     const isStartingMember = membershipPlan.billing_type === 'starting'
@@ -128,6 +134,7 @@ const RepositoryPageTemplate = observer(
     const scrollTarget = {
       upload: uploadRef,
       mapping: mappingRef,
+      sets: setRef,
     }
 
     useScrollEffect(scrollTarget[router.query.referrer])
@@ -142,6 +149,7 @@ const RepositoryPageTemplate = observer(
       const present = {
         'data-provider': updateDataProvider,
         'mapping': mappingSubmit,
+        'sets': mappingSubmit,
       }[scope]
 
       const result = await present(data)
@@ -205,6 +213,36 @@ const RepositoryPageTemplate = observer(
       }
       return null
     }
+
+    const [isOpen, setIsOpen] = useState(false)
+
+    const handleDropdownClick = async () => {
+      if (!setsList.length) await getSetsList()
+
+      setIsOpen(!isOpen)
+    }
+
+    const handleSelect = async (item) => {
+      try {
+        await enableSet({ id: item.id, isEnabled: 1 })
+        setIsOpen(false)
+      } catch (error) {
+        console.error('Error patching settings:', error)
+      }
+    }
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target))
+          setIsOpen(false)
+      }
+
+      document.addEventListener('mousedown', handleClickOutside)
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [dropdownRef])
 
     return (
       <Tag
@@ -312,6 +350,52 @@ const RepositoryPageTemplate = observer(
             </div>
           )}
         </Card>
+        <div ref={setRef}>
+          <Card
+            className={classNames.use(styles.section).join(className)}
+            tag="section"
+            id="sets"
+            name="sets"
+          >
+            <div className={styles.formWrapper}>
+              <div className={styles.formInnerWrapper}>
+                <Card.Title tag="h2">{content.sets.title}</Card.Title>
+                <Card.Description className={styles.description}>
+                  <Markdown>{content.sets.description}</Markdown>
+                </Card.Description>
+                <div className="select" ref={dropdownRef}>
+                  <TextField
+                    id="selectInput"
+                    label="Select"
+                    onClick={handleDropdownClick}
+                    readOnly
+                  />
+                  {isOpen && (
+                    <div className="dropdown-menu">
+                      {loadingSets ? (
+                        <p>Loading...</p>
+                      ) : (
+                        <ul>
+                          {setsList.map((item) => (
+                            // eslint-disable-next-line max-len
+                            // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                            <li
+                              key={item.id}
+                              onClick={() => handleSelect(item)}
+                            >
+                              {item.setName}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className={styles.mainWarningWrapper} />
+            </div>
+          </Card>
+        </div>
         <div ref={mappingRef}>
           <Card
             className={classNames.use(styles.section).join(className)}
