@@ -24,6 +24,10 @@ const Tablev2 = ({
   fetchData,
   rowClick,
   rowActionProp,
+  renderDropDown,
+  details,
+  rowAction,
+  excludeFooter = false,
 }) => {
   const tableRef = useRef(null)
   const containerRef = useRef(null)
@@ -47,22 +51,26 @@ const Tablev2 = ({
           <Table ref={tableRef}>
             <Header isHeaderClickable={isHeaderClickable} columns={columns} />
             <Body
-              handleRowClick={rowClick}
+              renderDropDown={renderDropDown}
+              handleRowClick={rowClick || rowAction}
               rowActionProp={rowActionProp}
               columns={columns}
               data={data}
+              details={details}
             />
-            <Footer
-              buttonText={buttonText}
-              isFirstPageLoaded={data !== null}
-              fetchData={fetchData}
-              totalLength={totalLength}
-              size={size}
-              hidePagination={hidePagination}
-              {...restProps}
-            >
-              {action}
-            </Footer>
+            {!excludeFooter && (
+              <Footer
+                buttonText={buttonText}
+                isFirstPageLoaded={data !== null}
+                fetchData={fetchData}
+                totalLength={totalLength}
+                size={size}
+                hidePagination={hidePagination}
+                {...restProps}
+              >
+                {action}
+              </Footer>
+            )}
           </Table>
         </div>
       </div>
