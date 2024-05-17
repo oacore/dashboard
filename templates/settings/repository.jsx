@@ -16,6 +16,8 @@ import DropdownInput from '../../components/input-select/input-select'
 import warning from './assets/warning.svg'
 import { GlobalContext } from '../../store'
 import infoGreen from '../../components/upload/assets/infoGreen.svg'
+import removeBin from '../../components/upload/assets/removeBin.svg'
+import toggleArrow from '../../components/upload/assets/dropdownArrow.svg'
 
 const UploadSection = ({
   className,
@@ -80,6 +82,10 @@ const RepositoryPageTemplate = observer(
     setsList,
     loadingSets,
     enableSet,
+    enabledList,
+    disabledList,
+    deleteSet,
+    editSet,
     tag: Tag = 'main',
     ...restProps
   }) => {
@@ -97,9 +103,17 @@ const RepositoryPageTemplate = observer(
     const [isChanged, setChanged] = useState(false)
     const [isNameOpen, setNameIsOpen] = useState(false)
     const [isIdOpen, setIdIsOpen] = useState(false)
-
     const [isNameChanged, setNameChanged] = useState(false)
     const [isFormSubmitted, setFormSubmitted] = useState(false)
+    const [selectedItem, setSelectedItem] = useState(null)
+    const dropdownRef = useRef(null)
+    const [isOpen, setIsOpen] = useState(false)
+    const [setNameDisplay, setSetNameDisplay] = useState()
+    const [isEditing, setIsEditing] = useState(false)
+    const [showFullList, setShowFullList] = useState(false)
+
+    const router = useRouter()
+    const providerId = router.query['data-provider-id']
 
     useEffect(() => {
       fetch(`https://api.ror.org/organizations?query=${rorId}`)
@@ -123,11 +137,13 @@ const RepositoryPageTemplate = observer(
         })
     }, [rorName])
 
+    useEffect(() => {
+      getSetsList(1)
+    }, [providerId])
+
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
     const setRef = useRef(null)
-    const dropdownRef = useRef(null)
-    const router = useRouter()
 
     const isStartingMember = membershipPlan.billing_type === 'starting'
 
@@ -214,18 +230,51 @@ const RepositoryPageTemplate = observer(
       return null
     }
 
-    const [isOpen, setIsOpen] = useState(false)
-
     const handleDropdownClick = async () => {
-      if (!setsList.length) await getSetsList()
-
       setIsOpen(!isOpen)
+      if (!setsList.length) await getSetsList(0)
     }
 
-    const handleSelect = async (item) => {
+    const handleSelect = (item) => {
+      setSelectedItem(item)
+      setIsOpen(false)
+    }
+
+    const handleAddClick = async () => {
+      if (selectedItem) {
+        try {
+          await enableSet({ id: selectedItem.id, is_enabled: 1 })
+          setSelectedItem(null)
+          await getSetsList(0)
+          await getSetsList(1)
+        } catch (error) {
+          console.error('Error patching settings:', error)
+        }
+      }
+    }
+
+    const handleDelete = async (id) => {
       try {
-        await enableSet({ id: item.id, isEnabled: 1 })
-        setIsOpen(false)
+        await enableSet({ id, is_enabled: 0 })
+        await getSetsList(0)
+        await getSetsList(1)
+      } catch (error) {
+        console.error('Error patching settings:', error)
+      }
+    }
+
+    const handleInputChange = (event) => {
+      setSetNameDisplay(event.target.value)
+    }
+
+    const handleEditClick = () => {
+      setIsEditing(true)
+    }
+    const handleButtonClick = async (id) => {
+      try {
+        await editSet({ id, name: setNameDisplay })
+        await getSetsList(1)
+        setIsEditing(false)
       } catch (error) {
         console.error('Error patching settings:', error)
       }
@@ -243,6 +292,12 @@ const RepositoryPageTemplate = observer(
         document.removeEventListener('mousedown', handleClickOutside)
       }
     }, [dropdownRef])
+
+    const displayAllSets = showFullList ? enabledList : enabledList.slice(0, 3)
+
+    const toggleList = () => {
+      setShowFullList(!showFullList)
+    }
 
     return (
       <Tag
@@ -363,25 +418,105 @@ const RepositoryPageTemplate = observer(
                 <Card.Description className={styles.description}>
                   <Markdown>{content.sets.description}</Markdown>
                 </Card.Description>
-                <div className="select" ref={dropdownRef}>
-                  <TextField
-                    id="selectInput"
-                    label="Select"
-                    onClick={handleDropdownClick}
-                    readOnly
-                  />
+                <div>
+                  {displayAllSets.map((item) => (
+                    <div className={styles.setMainItem}>
+                      <div className={styles.setOuterHeader}>
+                        <div className={styles.setInnerHeader}>
+                          <TextField
+                            value={setNameDisplay || item.setNameDisplay}
+                            onChange={handleInputChange}
+                            className={styles.setInnerField}
+                            disabled={!isEditing}
+                          />
+                          {!isEditing ? (
+                            <Button
+                              onClick={handleEditClick}
+                              className={styles.setButton}
+                            >
+                              <div className={styles.setButtonText}>
+                                Change set display name
+                              </div>
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={() => handleButtonClick(item.id)}
+                              className={styles.setButton}
+                            >
+                              <div className={styles.setButtonText}>Save</div>
+                            </Button>
+                          )}
+                        </div>
+                        <div className={styles.removeWrapper}>
+                          {/* eslint-disable-next-line max-len */}
+                          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
+                          <img
+                            onClick={() => handleDelete(item.id)}
+                            src={removeBin}
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <div className={styles.setWrapper}>
+                          <div className={styles.setTitle}>setName</div>
+                          <span className={styles.setItem}>{item.setName}</span>
+                        </div>
+                        <div className={styles.setWrapper}>
+                          <div className={styles.setTitle}>setSpec</div>
+                          <span className={styles.setItem}>{item.setSpec}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {enabledList.length > 3 && (
+                    <Button
+                      className={styles.showBtn}
+                      variant="outlined"
+                      onClick={toggleList}
+                    >
+                      {showFullList ? 'Show Less' : 'Show More'}
+                    </Button>
+                  )}
+                </div>
+                <div className={styles.selectRss} ref={dropdownRef}>
+                  <div className={styles.selectFormWrapper}>
+                    <div className={styles.selectWrapper}>
+                      <TextField
+                        id="selectInput"
+                        label="Add new set"
+                        onClick={handleDropdownClick}
+                        readOnly
+                        value={selectedItem ? selectedItem.setName : ''}
+                        className={styles.selectInput}
+                      />
+                      <img
+                        className={styles.repositoryLogo}
+                        src={toggleArrow}
+                        alt=""
+                      />
+                    </div>
+                    <Button
+                      onClick={handleAddClick}
+                      className={styles.addBtn}
+                      variant="contained"
+                    >
+                      Add
+                    </Button>
+                  </div>
                   {isOpen && (
-                    <div className="dropdown-menu">
+                    <div className={styles.dropdownMenu}>
                       {loadingSets ? (
-                        <p>Loading...</p>
+                        <p className={styles.loading}>Loading...</p>
                       ) : (
                         <ul>
-                          {setsList.map((item) => (
+                          {disabledList.map((item) => (
                             // eslint-disable-next-line max-len
                             // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
                             <li
                               key={item.id}
                               onClick={() => handleSelect(item)}
+                              className={styles.selectItem}
                             >
                               {item.setName}
                             </li>
@@ -392,7 +527,6 @@ const RepositoryPageTemplate = observer(
                   )}
                 </div>
               </div>
-              <div className={styles.mainWarningWrapper} />
             </div>
           </Card>
         </div>

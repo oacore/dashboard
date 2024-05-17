@@ -15,6 +15,10 @@ const RepositoryPage = ({ store, ...restProps }) => (
     setsList={store.setsList}
     loadingSets={store.loadingSets}
     enableSet={store.enableSet}
+    enabledList={store.enabledList}
+    disabledList={store.disabledList}
+    deleteSet={store.deleteSet}
+    editSet={store.editSet}
     oaiMapping={store.dataProvider.oaiMapping}
     setGlobalRorName={store.dataProvider.setGlobalRorName}
     setGlobalRorId={store.dataProvider.setGlobalRorId}

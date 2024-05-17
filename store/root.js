@@ -95,7 +95,11 @@ class Root extends Store {
 
   @observable loadingSets = false
 
-  @observable setsList = {}
+  @observable setsList = []
+
+  @observable enabledList = []
+
+  @observable disabledList = []
 
   @observable tutorial = {
     currentStep: 1,
@@ -161,6 +165,16 @@ class Root extends Store {
   @action
   setSetsList(data) {
     this.setsList = data
+  }
+
+  @action
+  setEnabledList(data) {
+    this.enabledList = data
+  }
+
+  @action
+  setDisabledList(data) {
+    this.disabledList = data
   }
 
   @computed
@@ -369,15 +383,16 @@ class Root extends Store {
   }
 
   @action
-  getSetsList = async () => {
+  getSetsList = async (isEnabled) => {
     this.loadingSets = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings`
+        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings?is_enabled=${isEnabled}`
       )
       if (response.ok) {
         const data = await response.json()
-        this.setSetsList(data)
+        if (isEnabled === 1) this.setEnabledList(data)
+        else this.setDisabledList(data)
       } else throw new Error('Failed to fetch rrs data')
     } catch (error) {
       console.error('Error fetching rrs data:', error)
@@ -405,6 +420,30 @@ class Root extends Store {
     } catch (error) {
       console.error('Error patching settings:', error)
       throw error
+    }
+  }
+
+  @action
+  editSet = async (body) => {
+    this.loadingSets = true
+    try {
+      const response = await fetch(
+        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        }
+      )
+
+      if (!response.ok) throw new Error('Failed to patch settings')
+    } catch (error) {
+      console.error('Error patching settings:', error)
+      throw error
+    } finally {
+      this.loadingSets = false
     }
   }
 
