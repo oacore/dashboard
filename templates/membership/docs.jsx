@@ -31,7 +31,7 @@ const DocumentationBlockTemplate = ({ headerDashboard, docs }) => {
                 {item.title}
               </h3>
               <div className={styles.typeWrapper}>
-                {item.membership.map((member) => (
+                {item?.membership?.map((member) => (
                   <span
                     key={member.name}
                     className={classNames
