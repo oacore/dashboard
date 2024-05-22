@@ -32,6 +32,8 @@ const Application = observer(
     isAuthenticated = false,
     acceptedTCVersion = 0,
     tutorial,
+    getSetsEnabledList,
+    enabledList,
     ...restProps
   }) => {
     const logoRef = useRef(null)
@@ -135,7 +137,11 @@ const Application = observer(
                         alt=""
                       />
                       {dataProvider && (
-                        <RepositorySelect value={dataProvider} />
+                        <RepositorySelect
+                          getSetsEnabledList={getSetsEnabledList}
+                          enabledList={enabledList}
+                          value={dataProvider}
+                        />
                       )}
                       <div className={styles.bellWrapper}>
                         {/* eslint-disable-next-line max-len */}

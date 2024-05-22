@@ -78,14 +78,16 @@ const RepositoryPageTemplate = observer(
     setGlobalRorId,
     init,
     status,
-    getSetsList,
     setsList,
     loadingSets,
     enableSet,
     enabledList,
     disabledList,
     deleteSet,
-    editSet,
+    getSetsWholeList,
+    wholeSetData,
+    loadingWholeSets,
+    getSetsEnabledList,
     tag: Tag = 'main',
     ...restProps
   }) => {
@@ -108,8 +110,8 @@ const RepositoryPageTemplate = observer(
     const [selectedItem, setSelectedItem] = useState(null)
     const dropdownRef = useRef(null)
     const [isOpen, setIsOpen] = useState(false)
-    const [setNameDisplay, setSetNameDisplay] = useState()
-    const [isEditing, setIsEditing] = useState(false)
+    const [setNameDisplay, setSetNameDisplay] = useState({})
+    const [isEditing, setIsEditing] = useState({})
     const [showFullList, setShowFullList] = useState(false)
 
     const router = useRouter()
@@ -138,7 +140,7 @@ const RepositoryPageTemplate = observer(
     }, [rorName])
 
     useEffect(() => {
-      getSetsList(1)
+      getSetsEnabledList()
     }, [providerId])
 
     const uploadRef = useRef(null)
@@ -232,7 +234,7 @@ const RepositoryPageTemplate = observer(
 
     const handleDropdownClick = async () => {
       setIsOpen(!isOpen)
-      if (!setsList.length) await getSetsList(0)
+      if (!wholeSetData.length) await getSetsWholeList()
     }
 
     const handleSelect = (item) => {
@@ -243,10 +245,14 @@ const RepositoryPageTemplate = observer(
     const handleAddClick = async () => {
       if (selectedItem) {
         try {
-          await enableSet({ id: selectedItem.id, is_enabled: 1 })
+          await enableSet({
+            setSpec: selectedItem.setSpec,
+            setName: selectedItem.setName,
+            setNameDisplay: selectedItem.setNameDisplay,
+          })
           setSelectedItem(null)
-          await getSetsList(0)
-          await getSetsList(1)
+          await getSetsWholeList()
+          await getSetsEnabledList()
         } catch (error) {
           console.error('Error patching settings:', error)
         }
@@ -255,26 +261,41 @@ const RepositoryPageTemplate = observer(
 
     const handleDelete = async (id) => {
       try {
-        await enableSet({ id, is_enabled: 0 })
-        await getSetsList(0)
-        await getSetsList(1)
+        await deleteSet(id)
+        await getSetsWholeList()
+        await getSetsEnabledList()
       } catch (error) {
         console.error('Error patching settings:', error)
       }
     }
 
-    const handleInputChange = (event) => {
-      setSetNameDisplay(event.target.value)
+    const handleInputChange = (id, event) => {
+      setSetNameDisplay((prevState) => ({
+        ...prevState,
+        [id]: event.target.value,
+      }))
     }
 
-    const handleEditClick = () => {
-      setIsEditing(true)
+    const handleEditClick = (id) => {
+      setIsEditing((prevState) => ({
+        ...prevState,
+        [id]: true,
+      }))
     }
-    const handleButtonClick = async (id) => {
+
+    const handleButtonClick = async (item) => {
       try {
-        await editSet({ id, name: setNameDisplay })
-        await getSetsList(1)
-        setIsEditing(false)
+        await enableSet({
+          id: item.id,
+          setSpec: item.setSpec,
+          setName: item.setName,
+          setNameDisplay: setNameDisplay[item.id],
+        })
+        // await getSetsEnabledList()
+        setIsEditing((prevState) => ({
+          ...prevState,
+          [item.id]: false,
+        }))
       } catch (error) {
         console.error('Error patching settings:', error)
       }
@@ -424,14 +445,18 @@ const RepositoryPageTemplate = observer(
                       <div className={styles.setOuterHeader}>
                         <div className={styles.setInnerHeader}>
                           <TextField
-                            value={setNameDisplay || item.setNameDisplay}
-                            onChange={handleInputChange}
+                            value={
+                              setNameDisplay[item.id] || item.setNameDisplay
+                            }
+                            onChange={(event) =>
+                              handleInputChange(item.id, event)
+                            }
                             className={styles.setInnerField}
-                            disabled={!isEditing}
+                            disabled={!isEditing[item.id]}
                           />
-                          {!isEditing ? (
+                          {!isEditing[item.id] ? (
                             <Button
-                              onClick={handleEditClick}
+                              onClick={() => handleEditClick(item.id)}
                               className={styles.setButton}
                             >
                               <div className={styles.setButtonText}>
@@ -440,7 +465,7 @@ const RepositoryPageTemplate = observer(
                             </Button>
                           ) : (
                             <Button
-                              onClick={() => handleButtonClick(item.id)}
+                              onClick={() => handleButtonClick(item)}
                               className={styles.setButton}
                             >
                               <div className={styles.setButtonText}>Save</div>
@@ -506,11 +531,11 @@ const RepositoryPageTemplate = observer(
                   </div>
                   {isOpen && (
                     <div className={styles.dropdownMenu}>
-                      {loadingSets ? (
+                      {loadingWholeSets ? (
                         <p className={styles.loading}>Loading...</p>
                       ) : (
                         <ul>
-                          {disabledList.map((item) => (
+                          {wholeSetData.map((item) => (
                             // eslint-disable-next-line max-len
                             // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
                             <li

@@ -7,6 +7,8 @@ import { PaymentRequiredError } from '../errors'
 import { NotFoundError } from 'api/errors'
 
 class DepositDates extends Store {
+  rootStore = null
+
   @observable isRetrieveDepositDatesInProgress = false
 
   @observable timeLagData = null
@@ -17,10 +19,14 @@ class DepositDates extends Store {
 
   @observable publicationDatesValidate = null
 
-  constructor(baseUrl, options) {
+  constructor(rootStore, baseUrl, options) {
     super(baseUrl, options)
-
-    const datesUrl = `${baseUrl}/public-release-dates`
+    this.rootStore = rootStore
+    const datesUrl = `${baseUrl}/public-release-dates${
+      this.rootStore.setSelectedItem
+        ? `?set=${this.rootStore.setSelectedItem}`
+        : ''
+    }`
     this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`

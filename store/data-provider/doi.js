@@ -4,6 +4,8 @@ import { Pages } from '../helpers/pages'
 import Store from '../store'
 
 class DOI extends Store {
+  rootStore = null
+
   @observable originCount = null
 
   @observable totalCount = null
@@ -27,10 +29,13 @@ class DOI extends Store {
 
   @observable doiRecords = null
 
-  constructor(baseUrl, options) {
+  constructor(rootStore, baseUrl, options) {
     super(baseUrl, options)
-
-    const doiUrl = `${baseUrl}/doi`
+    const doiUrl = `${baseUrl}/doi/${
+      this.rootStore?.setSelectedItem
+        ? `?set=${this.rootStore?.setSelectedItem}`
+        : ''
+    }`
     this.doiRecords = new Pages(doiUrl, this.options)
     this.doiUrl = `${process.env.API_URL}${doiUrl}?accept=text/csv`
     this.statisticsUrl = `${baseUrl}/statistics/doi`

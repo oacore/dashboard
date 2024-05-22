@@ -95,11 +95,15 @@ class Root extends Store {
 
   @observable loadingSets = false
 
+  @observable loadingWholeSets = false
+
   @observable setsList = []
 
   @observable enabledList = []
 
   @observable disabledList = []
+
+  @observable wholeSetData = []
 
   @observable tutorial = {
     currentStep: 1,
@@ -136,6 +140,13 @@ class Root extends Store {
   @observable seenAll = []
 
   @observable responseData = null
+
+  @observable setSelectedItem = ''
+
+  @action
+  updateSelectedSetSpec = (value) => {
+    this.setSelectedItem = value
+  }
 
   @action
   setHarvestNotifications = (data) => {
@@ -175,6 +186,11 @@ class Root extends Store {
   @action
   setDisabledList(data) {
     this.disabledList = data
+  }
+
+  @action
+  setWholeSetData(data) {
+    this.wholeSetData = data
   }
 
   @computed
@@ -228,7 +244,7 @@ class Root extends Store {
 
     const dataProviderInit = this.findDataProvider(id)
 
-    this.dataProvider = new DataProvider(dataProviderInit, {
+    this.dataProvider = new DataProvider(this, dataProviderInit, {
       ...this.options,
       prefetch: true,
     })
@@ -382,25 +398,48 @@ class Root extends Store {
     }
   }
 
+  // GET WHOLE DATA
+
   @action
-  getSetsList = async (isEnabled) => {
-    this.loadingSets = true
+  getSetsWholeList = async () => {
+    this.loadingWholeSets = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings?is_enabled=${isEnabled}`
+        `https://api-dev.core.ac.uk/internal/data-providers/140/set/available`
       )
       if (response.ok) {
         const data = await response.json()
-        if (isEnabled === 1) this.setEnabledList(data)
-        else this.setDisabledList(data)
+        this.setWholeSetData(data)
       } else throw new Error('Failed to fetch rrs data')
     } catch (error) {
       console.error('Error fetching rrs data:', error)
-      this.setSetsList([])
+      this.setWholeSetData([])
+    } finally {
+      this.loadingWholeSets = false
+    }
+  }
+
+  // GET ENABLED DATA
+  @action
+  getSetsEnabledList = async () => {
+    this.loadingSets = true
+    try {
+      const response = await fetch(
+        `https://api-dev.core.ac.uk/internal/data-providers/140/set`
+      )
+      if (response.ok) {
+        const data = await response.json()
+        this.setEnabledList(data)
+      } else throw new Error('Failed to fetch rrs data')
+    } catch (error) {
+      console.error('Error fetching rrs data:', error)
+      this.setEnabledList([])
     } finally {
       this.loadingSets = false
     }
   }
+
+  // ADD/edit NEW TO LIST
 
   @action
   enableSet = async (body) => {
@@ -423,21 +462,21 @@ class Root extends Store {
     }
   }
 
+  // DELETE SET ITEM
+
   @action
-  editSet = async (body) => {
+  deleteSet = async (idSet) => {
     this.loadingSets = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings`,
+        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings/${idSet}`,
         {
-          method: 'PATCH',
+          method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(body),
         }
       )
-
       if (!response.ok) throw new Error('Failed to patch settings')
     } catch (error) {
       console.error('Error patching settings:', error)
@@ -446,6 +485,8 @@ class Root extends Store {
       this.loadingSets = false
     }
   }
+
+  // FINISH
 
   @action
   getNotifications = async (userId, organisationId, type) => {
