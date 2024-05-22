@@ -6,13 +6,14 @@ import styles from './styles.module.css'
 const USRNTemplate = ({
   dataProviderName,
   billingPlan,
+  dateReport,
   className,
   tag: Tag = 'main',
   ...restProps
 }) => (
   <Tag className={[styles.container, className].join(' ')} {...restProps}>
     <HeaderCard />
-    <StatusCard />
+    <StatusCard dateReport={dateReport} />
   </Tag>
 )
 

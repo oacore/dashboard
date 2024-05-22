@@ -8,7 +8,7 @@ import Markdown from 'components/markdown'
 
 const CoverageCard = () => (
   <Card className={styles.headerCard} tag="section">
-    <Card.Title tag="h2">{texts.header.title}</Card.Title>
+    <Card.Title className={styles.headerTitle}>{texts.header.title}</Card.Title>
     <div className={styles.headerDescription}>
       <Markdown>{texts.header.description}</Markdown>
     </div>

@@ -17,10 +17,83 @@
 
 /*  USRN styles */
 .header-card {
+  color: #212121;
   border-bottom: 2px solid #b75400;
+}
+
+.header-title {
+  font-size: 20px;
+  line-height: 24px;
 }
 
 .header-description {
   font-size: 14px;
   line-height: 20px;
+}
+
+.header-description a {
+  color: #212121;
+  text-decoration: underline;
+}
+
+.status-title-first {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 41.6px;
+  text-align: center;
+}
+
+.status-description-first {
+  max-width: 670px;
+  margin: 0 auto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  color: #757575;
+  text-align: center;
+}
+
+.status-date-report-first {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  text-align: center;
+}
+
+.status-date-report-second {
+  padding: 15px 0 5px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18.2px;
+  text-align: center;
+  letter-spacing: 0.003em;
+}
+
+.status-wrapper,
+.status-line-splitter {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.status-line-splitter {
+  margin: 10px auto;
+  border-bottom: 2px solid #b75400;
+}
+
+.status-title-second {
+  padding-top: 10px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 31.2px;
+  text-align: left;
+  letter-spacing: 0.0015em;
+}
+
+.status-description-second {
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18.2px;
+  text-align: left;
+  letter-spacing: 0.003em;
 }
