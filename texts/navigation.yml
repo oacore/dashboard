@@ -11,6 +11,7 @@ items:
   rights-retention-strategy: RRS Policy
   doi: DOI
   plugins: Plugins
+  usrn: USRN
   plugins/discovery: Discovery Plugin
   plugins/recommender: Recommender Plugin
   statistics: Statistics
