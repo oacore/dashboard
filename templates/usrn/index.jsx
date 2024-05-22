@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { HeaderCard, StatusCard } from './cards'
 import styles from './styles.module.css'
 
 const USRNTemplate = ({
@@ -10,7 +11,8 @@ const USRNTemplate = ({
   ...restProps
 }) => (
   <Tag className={[styles.container, className].join(' ')} {...restProps}>
-    {dataProviderName}
+    <HeaderCard />
+    <StatusCard />
   </Tag>
 )
 

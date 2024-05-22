@@ -1,3 +1,26 @@
-.usrn {
-  color: #000;
+%item {
+  flex: 3 3 90%;
+  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  padding: var(--component-padding-y, 1rem) 0;
+
+  & > * {
+    @extend %item;
+  }
+}
+
+/*  USRN styles */
+.header-card {
+  border-bottom: 2px solid #b75400;
+}
+
+.header-description {
+  font-size: 14px;
+  line-height: 20px;
 }
