@@ -38,7 +38,7 @@ statusItems:
       should include provisions for maintaining integrity, authenticity, and availability.
       The repository records basic preservation metadata including provenance, date of
       upload, and file format.
-    linkDocumentation: http://core.ac.uk/
+    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
   - id: longTerm
     type: text
     title: Long-term Organizational Sustainability
@@ -68,7 +68,7 @@ statusItems:
       using schema that are appropriate to, and ideally widely used across, the communities that the repository serves.
       Metadata for the resource is recorded in a standard, interoperable, non-proprietary format. The repository
       assigns a CC0 public domain license to all metadata for resources in the repository.
-    linkDocumentation: http://core.ac.uk/
+    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
   - id: curationQualityAssurance
     type: text
     title: Curation and Quality Assurance
@@ -77,7 +77,7 @@ statusItems:
       integrity of digital objects and their metadata. This may include metadata enhancement, file integrity checks,
       and/or conversion to machine-readable formats. The repository provides documentation of what curation and quality
       assurance processes are applied to repository contents.
-    linkDocumentation: http://core.ac.uk/
+    linkDocumentation: 0
   - id: broadMeasuredReuse
     type: text
     title: Broad and Measured Reuse
@@ -92,25 +92,25 @@ statusItems:
     description: |
       The repository allows resources and metadata to be accessed, downloaded, or exported from the repository in
       widely used, preferably non-proprietary, formats.
-    linkDocumentation: http://core.ac.uk/
+    linkDocumentation: 0
   - id: provenance
     type: text
     title: Provenance
     description: |
       The repository has mechanisms in place to record the origin, provenance, version control, and any other modifications to submitted digital objects and their associated metadata.
-    linkDocumentation: http://core.ac.uk/
+    linkDocumentation: 0
   - id: authentication
     type: text
     title: Authentication
     description: |
       The repository supports authentication of its contributors. The repository has technical capabilities that facilitate associating contributor PIDs with those assigned to their deposited digital objects.
-    linkDocumentation: http://core.ac.uk/
+    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
   - id: longTermTechnicalSustainability
     type: text
     title: Long-term Technical Sustainability
     description: |
       The repository has a plan for long-term management and funding of its technical infrastructure.
-    linkDocumentation: http://core.ac.uk/
+    linkDocumentation: 0
   - id: securityIntegrity
     type: text
     title: Security and Integrity
@@ -118,5 +118,5 @@ statusItems:
       The repository has documented measures in place to meet well established cybersecurity criteria for
       preventing unauthorized access to or manipulation of its content and regularly monitors the integrity
       of its content. The repository has an emergency response plan in case of natural disaster, cyber attacks, etc.
-    linkDocumentation: http://core.ac.uk/
+    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
 

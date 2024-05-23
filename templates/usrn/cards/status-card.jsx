@@ -26,6 +26,8 @@ const StatusCard = ({ dateReport }) => (
         className={styles}
       />
     ))}
+
+    <div className={styles.statusLineSplitter} />
   </Card>
 )
 
