@@ -8,6 +8,8 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => (
     dataProviderName={dataProvider.name}
     billingPlan={organisation.billingPlan}
     dateReport="26.05.2024"
+    doiCount={dataProvider?.doi?.originCount}
+    totalDoiCount={dataProvider?.statistics?.countMetadata}
     {...props}
   />
 )

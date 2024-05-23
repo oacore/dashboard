@@ -19,12 +19,6 @@ const StatusCard = ({ dateReport }) => (
     </div>
     <div className={styles.statusDateReportSecond}>{dateReport}</div>
     <div className={styles.statusLineSplitter} />
-    <div className={styles.statusWrapper}>
-      <div className={styles.statusTitleSecond}>{texts.status.titleSecond}</div>
-      <div className={styles.statusDescriptionSecond}>
-        {texts.status.descriptionSecond}
-      </div>
-    </div>
   </Card>
 )
 

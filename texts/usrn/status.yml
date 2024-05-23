@@ -4,5 +4,119 @@ dateReport: Date of the last report update
 buttons:
   update: Update report
   download: Download in PDF
-titleSecond: Free and Easy Discoverability & Access
-descriptionSecond: The repository provides broad, equitable, and maximally open access to resources and their metadata in both machine- and human-readable formats at no cost to users. This should be done in a timely manner after submission and with limited unscheduled downtime, consistent with legal and policy requirements. The repository’s content should be discoverable both within the repository (i.e., via a search interface) and externally (i.e., via discovery services and aggregators). The repository supports access to its content for persons with disabilities and adheres to current web accessibility standards. Provide an accessibility statement describing efforts to increase accessibility of the platform/content and how to seek help if an accessible version of a digital publication is not available.
+statusItems:
+  - id: freeAndEasy
+    type: text
+    title: Free and Easy Discoverability & Access
+    description: |
+      The repository provides broad, equitable, and maximally open access to
+      resources and their metadata in both machine- and human-readable formats at no
+      cost to users. This should be done in a timely manner after submission and with
+      limited unscheduled downtime, consistent with legal and policy requirements.
+      The repository’s content should be discoverable both within the repository
+      (i.e., via a search interface) and externally (i.e., via discovery services and
+      aggregators). The repository supports access to its content for persons with
+      disabilities and adheres to current web accessibility standards. Provide an
+      accessibility statement describing efforts to increase accessibility of the
+      platform/content and how to seek help if an accessible version of a digital
+      publication is not available.
+    linkDocumentation: 0
+  - id: clearUseGuidance
+    type: text
+    title: Clear Use Guidance
+    description: |
+      The repository ensures metadata records for resources include licensing information
+      stipulating reuse conditions. Ideally, machine-readable information on the OA
+      status with the license is embedded in the resource.
+    linkDocumentation: 0
+  - id: preservation
+    type: text
+    title: Preservation
+    description: |
+      The repository has a plan in place to ensure the long-term management and preservation
+      of publications and provides documentation of that plan. The management plan
+      should include provisions for maintaining integrity, authenticity, and availability.
+      The repository records basic preservation metadata including provenance, date of
+      upload, and file format.
+    linkDocumentation: true
+  - id: longTerm
+    type: text
+    title: Long-term Organizational Sustainability
+    description: |
+      The repository has publicly available policies that outline the plan for its long-term management and funding,
+      naming the organization responsible for its governance and continued management, and
+      containing provisions for cessation of service. The host organization funds staff to support the repository and
+      its users and publicly provides contact information for at least one individual charged with assisting users
+      and the explicit responsibility of managing the repository services.
+    linkDocumentation: 0
+  - id: uniquePersistentIdentifiers
+    type: text
+    title: Unique Persistent Identifiers
+    description: |
+      The repository assigns each resource a unique persistent identifier (PID),
+      such as a digital object identifier (DOI), to support discovery, citation, reporting (e.g., of research progress),
+      and research assessment (e.g., identifying the outputs of Federally funded research). The unique PID points to a
+      persistent location that remains accessible even if the content is de-accessioned or no longer available.
+      The repository supports PIDs for entities related to the resources, such as authors (e.g., ORCID), funders
+      (e.g., Funder Registry), and organizations (e.g., ROR).
+    linkDocumentation: 0
+  - id: metadata
+    type: text
+    title: Metadata
+    description: |
+      The repository ensures publications are accompanied by metadata to enable discovery, reuse, and citation,
+      using schema that are appropriate to, and ideally widely used across, the communities that the repository serves.
+      Metadata for the resource is recorded in a standard, interoperable, non-proprietary format. The repository
+      assigns a CC0 public domain license to all metadata for resources in the repository.
+    linkDocumentation: true
+  - id: curationQualityAssurance
+    type: text
+    title: Curation and Quality Assurance
+    description: |
+      The repository provides or facilitates expert curation and quality assurance to improve the accuracy and
+      integrity of digital objects and their metadata. This may include metadata enhancement, file integrity checks,
+      and/or conversion to machine-readable formats. The repository provides documentation of what curation and quality
+      assurance processes are applied to repository contents.
+    linkDocumentation: true
+  - id: broadMeasuredReuse
+    type: text
+    title: Broad and Measured Reuse
+    description: |
+      The repository provides a landing page for each digital object that includes metadata required for citation of
+      the object and provides this metadata in a machine-readable format. The repository collects and shares usage
+      information using a standard protocol. The repository offers an API to facilitate machine action and bulk sharing.
+    linkDocumentation: 0
+  - id: commonFormat
+    type: text
+    title: Common Format
+    description: |
+      The repository allows resources and metadata to be accessed, downloaded, or exported from the repository in
+      widely used, preferably non-proprietary, formats.
+    linkDocumentation: true
+  - id: provenance
+    type: text
+    title: Provenance
+    description: |
+      The repository has mechanisms in place to record the origin, provenance, version control, and any other modifications to submitted digital objects and their associated metadata.
+    linkDocumentation: true
+  - id: authentication
+    type: text
+    title: Authentication
+    description: |
+      The repository supports authentication of its contributors. The repository has technical capabilities that facilitate associating contributor PIDs with those assigned to their deposited digital objects.
+    linkDocumentation: true
+  - id: longTermTechnicalSustainability
+    type: text
+    title: Long-term Technical Sustainability
+    description: |
+      The repository has a plan for long-term management and funding of its technical infrastructure.
+    linkDocumentation: true
+  - id: securityIntegrity
+    type: text
+    title: Security and Integrity
+    description: |
+      The repository has documented measures in place to meet well established cybersecurity criteria for
+      preventing unauthorized access to or manipulation of its content and regularly monitors the integrity
+      of its content. The repository has an emergency response plan in case of natural disaster, cyber attacks, etc.
+    linkDocumentation: true
+

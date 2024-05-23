@@ -7,13 +7,19 @@ const USRNTemplate = ({
   dataProviderName,
   billingPlan,
   dateReport,
+  doiCount,
+  totalDoiCount,
   className,
   tag: Tag = 'main',
   ...restProps
 }) => (
   <Tag className={[styles.container, className].join(' ')} {...restProps}>
     <HeaderCard />
-    <StatusCard dateReport={dateReport} />
+    <StatusCard
+      dateReport={dateReport}
+      doiCount={doiCount}
+      totalDoiCount={totalDoiCount}
+    />
   </Tag>
 )
 
