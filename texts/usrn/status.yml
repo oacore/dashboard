@@ -21,6 +21,12 @@ statusItems:
       platform/content and how to seek help if an accessible version of a digital
       publication is not available.
     linkDocumentation: 0
+  - id: repositoryOAIPMH
+    type: statistic
+    title: Your repository supports OAI-PMH?
+  - id: applicationProfile
+    type: statistic
+    title: Your repository metadata supports a widely used Application Profile
   - id: clearUseGuidance
     type: text
     title: Clear Use Guidance
@@ -60,6 +66,9 @@ statusItems:
       The repository supports PIDs for entities related to the resources, such as authors (e.g., ORCID), funders
       (e.g., Funder Registry), and organizations (e.g., ROR).
     linkDocumentation: 0
+  - id: doi
+    type: statistic
+    title: DOI
   - id: metadata
     type: text
     title: Metadata

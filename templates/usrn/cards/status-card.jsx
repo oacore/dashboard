@@ -2,33 +2,53 @@ import React from 'react'
 
 import styles from '../styles.module.css'
 import TextUSRN from '../../../components/usrn-text'
+import TextStat from '../../../components/usrn-stat'
 
 import { Card } from 'design'
 import * as texts from 'texts/usrn'
 import Markdown from 'components/markdown'
 
-const StatusCard = ({ dateReport }) => (
-  <Card tag="section">
-    <div className={styles.statusDateReportFirst}>
-      {texts.status.dateReport}: {dateReport}
-    </div>
-    <Card.Title className={styles.statusTitleFirst}>
-      {texts.status.titleFirst}
-    </Card.Title>
-    <div className={styles.statusDescriptionFirst}>
-      <Markdown>{texts.status.descriptionFirst}</Markdown>
-    </div>
-    <div className={styles.statusDateReportSecond}>{dateReport}</div>
-    {Object.keys(texts.status.statusItems).map((key) => (
-      <TextUSRN
-        key={`TextUSRN ${key}`}
-        content={texts.status.statusItems[key]}
-        className={styles}
-      />
-    ))}
+const StatusCard = ({ dateReport, doiCount, totalDoiCount }) => {
+  let counterStat = 0
+  return (
+    <Card tag="section">
+      <div className={styles.statusDateReportFirst}>
+        {texts.status.dateReport}: {dateReport}
+      </div>
+      <Card.Title className={styles.statusTitleFirst}>
+        {texts.status.titleFirst}
+      </Card.Title>
+      <div className={styles.statusDescriptionFirst}>
+        <Markdown>{texts.status.descriptionFirst}</Markdown>
+      </div>
+      <div className={styles.statusDateReportSecond}>{dateReport}</div>
+      {Object.keys(texts.status.statusItems).map((key) => {
+        if (texts.status.statusItems[key].type === 'statistic') {
+          // eslint-disable-next-line no-plusplus
+          ++counterStat
+          return (
+            <TextStat
+              counter={counterStat}
+              key={key}
+              content={texts.status.statusItems[key]}
+              className={styles}
+              doiCount={doiCount}
+              totalDoiCount={totalDoiCount}
+            />
+          )
+        }
+        return (
+          <TextUSRN
+            key={key}
+            content={texts.status.statusItems[key]}
+            className={styles}
+          />
+        )
+      })}
 
-    <div className={styles.statusLineSplitter} />
-  </Card>
-)
+      <div className={styles.statusLineSplitter} />
+    </Card>
+  )
+}
 
 export default StatusCard
