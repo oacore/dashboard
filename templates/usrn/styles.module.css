@@ -80,7 +80,7 @@
   border-bottom: 2px solid #b75400;
 }
 
-.status-title-second {
+.status-text-title {
   padding-top: 10px;
   font-size: 24px;
   font-weight: 500;
@@ -89,7 +89,7 @@
   letter-spacing: 0.0015em;
 }
 
-.status-description-second {
+.status-text-description {
   padding: 10px 0;
   font-size: 14px;
   font-weight: 400;

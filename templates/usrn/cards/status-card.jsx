@@ -1,6 +1,7 @@
 import React from 'react'
 
 import styles from '../styles.module.css'
+import TextUSRN from '../../../components/usrn-text'
 
 import { Card } from 'design'
 import * as texts from 'texts/usrn'
@@ -18,7 +19,13 @@ const StatusCard = ({ dateReport }) => (
       <Markdown>{texts.status.descriptionFirst}</Markdown>
     </div>
     <div className={styles.statusDateReportSecond}>{dateReport}</div>
-    <div className={styles.statusLineSplitter} />
+    {Object.keys(texts.status.statusItems).map((key) => (
+      <TextUSRN
+        key={`TextUSRN ${key}`}
+        content={texts.status.statusItems[key]}
+        className={styles}
+      />
+    ))}
   </Card>
 )
 
