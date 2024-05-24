@@ -3,3 +3,58 @@
   padding-bottom: 15px;
   margin: 0 auto;
 }
+
+.status-row .title,
+.status-row .counter {
+  padding: 15px 0;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.0006em;
+  background-color: #f5f5f5;
+}
+
+.status-row .title {
+  padding-left: 20px;
+  text-align: left;
+}
+
+.status-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.status-row > div:nth-child(1),
+.status-row > div:nth-child(3) {
+  width: 5%;
+  text-align: center;
+}
+
+.status-row > div:nth-child(2) {
+  width: 88%;
+}
+
+.description {
+  padding: 20px 0;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 18.2px;
+  text-align: left;
+  letter-spacing: 0.003em;
+}
+
+.status-success {
+  color: #5a9216;
+  background-color: #ecf6df;
+}
+
+.status-fail {
+  color: #c62828;
+  background-color: #fcc;
+}
+
+.status-success,
+.status-fail {
+  padding: 15px 5px;
+}

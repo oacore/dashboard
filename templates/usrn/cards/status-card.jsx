@@ -2,7 +2,7 @@ import React from 'react'
 
 import styles from '../styles.module.css'
 import TextUSRN from '../../../components/usrn-text'
-import TextStat from '../../../components/usrn-stat'
+import StatUSRN from '../../../components/usrn-stat'
 
 import { Card } from 'design'
 import * as texts from 'texts/usrn'
@@ -30,7 +30,7 @@ const StatusCard = ({ usrnParams }) => {
             // eslint-disable-next-line no-plusplus
             ++counterStat
             return (
-              <TextStat
+              <StatUSRN
                 counter={counterStat}
                 content={texts.status.statusItems[key]}
                 className={styles}
