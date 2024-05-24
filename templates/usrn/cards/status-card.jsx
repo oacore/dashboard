@@ -8,8 +8,9 @@ import { Card } from 'design'
 import * as texts from 'texts/usrn'
 import Markdown from 'components/markdown'
 
-const StatusCard = ({ dateReport, doiCount, totalDoiCount }) => {
+const StatusCard = ({ usrnParams }) => {
   let counterStat = 0
+  const { dateReport } = usrnParams
   return (
     <Card tag="section">
       <div className={styles.statusDateReportFirst}>
@@ -22,28 +23,28 @@ const StatusCard = ({ dateReport, doiCount, totalDoiCount }) => {
         <Markdown>{texts.status.descriptionFirst}</Markdown>
       </div>
       <div className={styles.statusDateReportSecond}>{dateReport}</div>
+      {/* eslint-disable-next-line array-callback-return,consistent-return */}
       {Object.keys(texts.status.statusItems).map((key) => {
-        if (texts.status.statusItems[key].type === 'statistic') {
-          // eslint-disable-next-line no-plusplus
-          ++counterStat
+        if (texts.status.statusItems[key].isEnable === 'yes') {
+          if (texts.status.statusItems[key].type === 'statistic') {
+            // eslint-disable-next-line no-plusplus
+            ++counterStat
+            return (
+              <TextStat
+                counter={counterStat}
+                content={texts.status.statusItems[key]}
+                className={styles}
+                usrnParams={usrnParams}
+              />
+            )
+          }
           return (
-            <TextStat
-              counter={counterStat}
-              key={key}
+            <TextUSRN
               content={texts.status.statusItems[key]}
               className={styles}
-              doiCount={doiCount}
-              totalDoiCount={totalDoiCount}
             />
           )
         }
-        return (
-          <TextUSRN
-            key={key}
-            content={texts.status.statusItems[key]}
-            className={styles}
-          />
-        )
       })}
 
       <div className={styles.statusLineSplitter} />

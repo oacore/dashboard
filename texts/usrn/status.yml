@@ -6,6 +6,7 @@ buttons:
   download: Download in PDF
 statusItems:
   - id: freeAndEasy
+    isEnable: yes
     type: text
     title: Free and Easy Discoverability & Access
     description: |
@@ -22,12 +23,39 @@ statusItems:
       publication is not available.
     linkDocumentation: 0
   - id: repositoryOAIPMH
+    isEnable: yes
     type: statistic
     title: Your repository supports OAI-PMH?
   - id: applicationProfile
+    isEnable: yes
     type: statistic
     title: Your repository metadata supports a widely used Application Profile
+  - id: indexedContent
+    isEnable: yes
+    type: statistic
+    title: Indexed content
+  - id: accessFullTexts
+    isEnable: yes
+    type: statistic
+    title: Do you provide access to full texts of research papers for your content?
+  - id: embargoedDocuments
+    isEnable: yes
+    type: statistic
+    title: Do you label embargoed documents?
+  - id: webAccessibility
+    isEnable: yes
+    type: statistic
+    title: Web accessibility
+  - id: signpostingFAIR
+    isEnable: yes
+    type: statistic
+    title: Do you support FAIR Signposting?
+  - id: vocabulariesCOAR
+    isEnable: yes
+    type: statistic
+    title: Do your metadata use COAR vocabularies
   - id: clearUseGuidance
+    isEnable: yes
     type: text
     title: Clear Use Guidance
     description: |
@@ -35,7 +63,12 @@ statusItems:
       stipulating reuse conditions. Ideally, machine-readable information on the OA
       status with the license is embedded in the resource.
     linkDocumentation: 0
+  - id: licensingMetadata
+    isEnable: yes
+    type: statistic
+    title: Licensing
   - id: preservation
+    isEnable: yes
     type: text
     title: Preservation
     description: |
@@ -46,6 +79,7 @@ statusItems:
       upload, and file format.
     linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
   - id: longTerm
+    isEnable: yes
     type: text
     title: Long-term Organizational Sustainability
     description: |
@@ -56,6 +90,7 @@ statusItems:
       and the explicit responsibility of managing the repository services.
     linkDocumentation: 0
   - id: uniquePersistentIdentifiers
+    isEnable: yes
     type: text
     title: Unique Persistent Identifiers
     description: |
@@ -66,10 +101,32 @@ statusItems:
       The repository supports PIDs for entities related to the resources, such as authors (e.g., ORCID), funders
       (e.g., Funder Registry), and organizations (e.g., ROR).
     linkDocumentation: 0
+  - id: researchDatasets
+    isEnable: yes
+    type: statistic
+    title: Do you provide links to research datasets
+  - id: accessibilityStatements
+    isEnable: yes
+    type: statistic
+    title: Do you provide data accessibility statements
+  - id: sourceCode
+    isEnable: yes
+    type: statistic
+    title: Do you provide links to source code
   - id: doi
+    isEnable: yes
     type: statistic
     title: DOI
+  - id: ORCID
+    isEnable: yes
+    type: statistic
+    title: ORCID
+  - id: ROR
+    isEnable: yes
+    type: statistic
+    title: ROR
   - id: metadata
+    isEnable: yes
     type: text
     title: Metadata
     description: |
@@ -79,6 +136,7 @@ statusItems:
       assigns a CC0 public domain license to all metadata for resources in the repository.
     linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
   - id: curationQualityAssurance
+    isEnable: yes
     type: text
     title: Curation and Quality Assurance
     description: |
@@ -88,6 +146,7 @@ statusItems:
       assurance processes are applied to repository contents.
     linkDocumentation: 0
   - id: broadMeasuredReuse
+    isEnable: yes
     type: text
     title: Broad and Measured Reuse
     description: |
@@ -95,7 +154,12 @@ statusItems:
       the object and provides this metadata in a machine-readable format. The repository collects and shares usage
       information using a standard protocol. The repository offers an API to facilitate machine action and bulk sharing.
     linkDocumentation: 0
+  - id: statisticIRUS
+    isEnable: yes
+    type: statistic
+    title: Download statistic (IRUS)
   - id: commonFormat
+    isEnable: yes
     type: text
     title: Common Format
     description: |
@@ -103,24 +167,28 @@ statusItems:
       widely used, preferably non-proprietary, formats.
     linkDocumentation: 0
   - id: provenance
+    isEnable: yes
     type: text
     title: Provenance
     description: |
       The repository has mechanisms in place to record the origin, provenance, version control, and any other modifications to submitted digital objects and their associated metadata.
     linkDocumentation: 0
   - id: authentication
+    isEnable: yes
     type: text
     title: Authentication
     description: |
       The repository supports authentication of its contributors. The repository has technical capabilities that facilitate associating contributor PIDs with those assigned to their deposited digital objects.
     linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
   - id: longTermTechnicalSustainability
+    isEnable: yes
     type: text
     title: Long-term Technical Sustainability
     description: |
       The repository has a plan for long-term management and funding of its technical infrastructure.
     linkDocumentation: 0
   - id: securityIntegrity
+    isEnable: yes
     type: text
     title: Security and Integrity
     description: |

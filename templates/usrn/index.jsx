@@ -4,22 +4,14 @@ import { HeaderCard, StatusCard } from './cards'
 import styles from './styles.module.css'
 
 const USRNTemplate = ({
-  dataProviderName,
-  billingPlan,
-  dateReport,
-  doiCount,
-  totalDoiCount,
+  usrnParams,
   className,
   tag: Tag = 'main',
   ...restProps
 }) => (
   <Tag className={[styles.container, className].join(' ')} {...restProps}>
     <HeaderCard />
-    <StatusCard
-      dateReport={dateReport}
-      doiCount={doiCount}
-      totalDoiCount={totalDoiCount}
-    />
+    <StatusCard usrnParams={usrnParams} />
   </Tag>
 )
 
