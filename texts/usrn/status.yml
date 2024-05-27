@@ -35,36 +35,46 @@ statusItems:
     type: statistic
     title: Your repository metadata supports a widely used Application Profile
     description: |
+      OpenAIRE Guidelines 3.0+ or RIOXX
+    prefix: |
+      Your metadata compliant with RIOXX:
   - id: indexedContent
     isEnable: yes
     type: statistic
     title: Indexed content
     description: |
+    prefix: |
+      Number of metadata records:
   - id: accessFullTexts
     isEnable: yes
     type: statistic
     title: Do you provide access to full texts of research papers for your content?
     description: |
+    prefix: |
   - id: embargoedDocuments
     isEnable: yes
     type: statistic
     title: Do you label embargoed documents?
     description: |
+    prefix: |
   - id: webAccessibility
     isEnable: yes
     type: statistic
     title: Web accessibility
     description: |
+    prefix: |
   - id: signpostingFAIR
     isEnable: yes
     type: statistic
     title: Do you support FAIR Signposting?
     description: |
+    prefix: |
   - id: vocabulariesCOAR
     isEnable: yes
     type: statistic
     title: Do your metadata use COAR vocabularies
     description: |
+    prefix: |
   - id: clearUseGuidance
     isEnable: yes
     type: text
@@ -79,6 +89,7 @@ statusItems:
     type: statistic
     title: Licensing
     description: |
+    prefix: |
   - id: preservation
     isEnable: yes
     type: text
@@ -118,31 +129,38 @@ statusItems:
     type: statistic
     title: Do you provide links to research datasets
     description: |
+    prefix: |
   - id: accessibilityStatements
     isEnable: yes
     type: statistic
     title: Do you provide data accessibility statements
     description: |
+    prefix: |
   - id: sourceCode
     isEnable: yes
     type: statistic
     title: Do you provide links to source code
     description: |
+    prefix: |
   - id: doi
     isEnable: yes
     type: statistic
     title: DOI
     description: |
+    prefix: |
+      Percentage of metadata with DOI:
   - id: ORCID
     isEnable: yes
     type: statistic
     title: ORCID
     description: |
+    prefix: |
   - id: ROR
     isEnable: yes
     type: statistic
     title: ROR
     description: |
+    prefix: |
   - id: metadata
     isEnable: yes
     type: text
@@ -218,4 +236,3 @@ statusItems:
       preventing unauthorized access to or manipulation of its content and regularly monitors the integrity
       of its content. The repository has an emergency response plan in case of natural disaster, cyber attacks, etc.
     linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
-

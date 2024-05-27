@@ -10,6 +10,8 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
     dateReport: '26.05.2024',
     doiCount: dataProvider?.doi?.originCount,
     totalDoiCount: dataProvider?.statistics?.countMetadata,
+    countMetadata: dataProvider?.statistics?.countMetadata,
+    statisticsIrus: dataProvider?.irus,
   }
   return <USRNTemplate usrnParams={usrnParams} {...props} />
 }

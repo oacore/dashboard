@@ -3,25 +3,58 @@ import React from 'react'
 
 import styles from './styles.module.css'
 import StatisticsChart from '../statistics-chart'
-import { formatDate } from '../../utils/helpers'
+import { formatDate, formatNumber, valueOrDefault } from '../../utils/helpers'
 import Markdown from '../markdown'
 
 import { overview as textIrusUk } from 'texts/irus-uk/index'
 
 const StatUSRN = ({ counter, className, content, usrnParams }) => {
-  const { doiCount, totalDoiCount, statisticsIrus } = usrnParams
+  const { doiCount, totalDoiCount, statisticsIrus, countMetadata } = usrnParams
   const { description: descriptionIrus } = textIrusUk
 
+  const enrichmentChart = ({ coveredCount, totalCount }) => {
+    let isLoading = true
+    if (
+      valueOrDefault(coveredCount, 0) !== 0 &&
+      valueOrDefault(totalCount, 0) !== 0
+    )
+      isLoading = false
+
+    return (
+      <div className={styles.chartRow}>
+        <div
+          className={classNames.use(
+            styles.chartBar,
+            isLoading ? styles.loadingBar : styles.base
+          )}
+        >
+          <span className={styles.chartPercent}>
+            {isLoading
+              ? 'Loading...'
+              : `${formatNumber((coveredCount / totalCount) * 100)}%`}
+          </span>
+        </div>
+      </div>
+    )
+  }
+
   let statCreated = ''
+  let statTextCreated = ''
   let statusClass = false
   switch (content.id) {
     case 'repositoryOAIPMH':
       statusClass = true
       break
+    case 'applicationProfile':
     case 'doi':
-      // statCreated = (doiCount / totalDoiCount) * 100
-      statCreated = totalDoiCount
-      statCreated = doiCount
+      statCreated = enrichmentChart({
+        coveredCount: doiCount,
+        totalCount: totalDoiCount,
+      })
+      statusClass = true
+      break
+    case 'indexedContent':
+      statTextCreated = valueOrDefault(countMetadata, 'Loading...')
       statusClass = true
       break
     case 'statisticIRUS':
@@ -59,7 +92,12 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       <div className={styles.statusRow}>
         <div className={styles.counter}>{counter}</div>
         <div className={styles.title}>{content.title}</div>
-        <div className={statusClass ? styles.statusSuccess : styles.statusFail}>
+        <div
+          className={classNames.use(
+            styles.status,
+            statusClass ? styles.statusSuccess : styles.statusFail
+          )}
+        >
           {statusClass ? 'Yes' : 'No'}
         </div>
       </div>
@@ -67,7 +105,13 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
         <div />
         <div>
           <div className={styles.description}>{content.description}</div>
-          <div>{statCreated}</div>
+          <div className={styles.prefix}>{content.prefix}</div>
+          <div className={styles.stat}>{statCreated}</div>
+          {statTextCreated.length > 0 ? (
+            <div className={styles.statText}>{statTextCreated}</div>
+          ) : (
+            ''
+          )}
         </div>
         <div />
       </div>
