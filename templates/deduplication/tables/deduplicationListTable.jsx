@@ -3,14 +3,15 @@ import { Icon } from '@oacore/design/lib/elements'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
+import { ProgressSpinner, Card } from '../../../design'
 import styles from '../styles.module.css'
-import { Card } from '../../../design'
 import Actions from '../../../components/actions'
 import Table from '../../../components/table'
 import texts from '../../../texts/deduplication/deduplication.yml'
 import ExportButton from '../../../components/export-button'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
+import Tablev2 from '../../../components/tablev2/tablev2'
 import DashboardCachedMessage from '../../../components/dashboard-cached-message'
 
 const DeduplicationListTable = observer(
@@ -21,8 +22,9 @@ const DeduplicationListTable = observer(
     duplicatesUrl,
     checkBillingType,
     dataProviderData,
+    duplicateDataLoading,
   }) => {
-    const [page, setPage] = useState(-1)
+    const [page, setPage] = useState(0)
     const [records, setRecords] = useState([])
     const [localSearchTerm, setLocalSearchTerm] = useState('')
     const [searchResults, setSearchResults] = useState([])
@@ -33,16 +35,11 @@ const DeduplicationListTable = observer(
     const [sortStatusDirection, setSortStatusDirection] = useState('asc')
 
     useEffect(() => {
-      localStorage.setItem('visibleHelp', visibleHelp)
-    }, [visibleHelp])
-
-    useEffect(() => {
       if (checkBillingType) setRecords(list.slice(0, 5))
       else {
-        const newRecords = [
-          ...records,
-          ...list.slice(page * 10, (page + 1) * 10),
-        ]
+        const startIndex = page * 10
+        const endIndex = Math.min(startIndex + 10, list.length)
+        const newRecords = [...records, ...list.slice(startIndex, endIndex)]
         setRecords(newRecords)
       }
     }, [page, list, checkBillingType])
@@ -65,6 +62,10 @@ const DeduplicationListTable = observer(
         setSearchResults(filteredData)
       } else setSearchResults(records)
     }, [localSearchTerm, records, list])
+
+    const fetchData = () => {
+      setPage(page + 1)
+    }
 
     const sortByPublicationDate = (direction) => {
       const sortedData = [...list].sort((a, b) => {
@@ -131,115 +132,126 @@ const DeduplicationListTable = observer(
           activeText={visibleHelp}
         />
         <DashboardCachedMessage title={texts.cachedInfo.title} />
-        <Table
-          rowClick={(row) => handeAdditionalInfo(row)}
-          rowActionProp
-          className={styles.issueTable}
-          searchable={!checkBillingType}
-          localSearch
-          searchChange={searchChange}
-          localSearchTerm={localSearchTerm}
-          fetchData={() => setPage(page + 1)}
-          data={searchResults}
-          totalLength={list.length}
-          size={searchResults?.length}
-          isHeaderClickable
-          excludeFooter={checkBillingType}
-          onClick={() =>
-            sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
-          }
-          handleCLick={() =>
-            sortByStatus(sortStatusDirection === 'asc' ? 'desc' : 'asc')
-          }
-          sortDirection={sortDirection}
-          sortStatusDirection={sortStatusDirection}
-          showAdditionalSort
-        >
-          <Table.Column
-            id="oai"
-            display="OAI"
-            getter={(v) => {
-              if (v?.oai) {
-                return (
-                  <span className={styles.oaiCell}>
-                    {v.oai.split(':').pop()}
-                  </span>
-                )
+        {duplicateDataLoading ? (
+          <div className={styles.dataSpinnerWrapper}>
+            <ProgressSpinner className={styles.spinner} />
+            <p className={styles.spinnerText}>
+              This may take a while, longer for larger repositories ...
+            </p>
+          </div>
+        ) : (
+          <Tablev2
+            rowClick={(row) => handeAdditionalInfo(row)}
+            className={styles.issueTable}
+            data={searchResults}
+            size={searchResults?.length}
+            totalLength={list.length}
+            searchable={!checkBillingType}
+            localSearch
+            localSearchTerm={localSearchTerm}
+            searchChange={searchChange}
+            fetchData={fetchData}
+            rowActionProp
+            isHeaderClickable
+            excludeFooter={checkBillingType}
+          >
+            <Table.Column
+              id="oai"
+              display="OAI"
+              getter={(v) => {
+                if (v?.oai) {
+                  return (
+                    <span className={styles.oaiCell}>
+                      {v.oai.split(':').pop()}
+                    </span>
+                  )
+                }
+                return '-'
+              }}
+              className={styles.oaiColumn}
+            />
+            <Table.Column
+              id="title"
+              display="Title"
+              getter={(v) => v?.title || '-'}
+              className={styles.titleColumn}
+            />
+            <Table.Column
+              id="authors"
+              display="Authors"
+              className={styles.authorsColumn}
+              getter={(v) => v?.authors.map((author) => author).join(' ')}
+            />
+            <Table.Column
+              id="count"
+              display="Matches"
+              getter={(v) =>
+                (
+                  <span
+                    className={styles.duplicateCell}
+                  >{`+ ${v.count} found`}</span>
+                ) || '-'
               }
-              return '-'
-            }}
-            className={styles.oaiColumn}
-          />
-          <Table.Column
-            id="title"
-            display="Title"
-            getter={(v) => v?.title || '-'}
-            className={styles.titleColumn}
-          />
-          <Table.Column
-            id="authors"
-            display="Authors"
-            className={styles.authorsColumn}
-            getter={(v) => v?.authors.map((author) => author).join(' ')}
-          />
-          <Table.Column
-            id="count"
-            display="Matches"
-            getter={(v) =>
-              (
-                <span
-                  className={styles.duplicateCell}
-                >{`+ ${v.count} found`}</span>
-              ) || '-'
-            }
-            className={styles.duplicateColumn}
-          />
-          <Table.Column
-            id="status"
-            display="Status"
-            getter={(v) => {
-              const types = v.duplicates.map((item) => item.type)
-              const hasUndefined = types.some((type) => type === undefined)
-              if (hasUndefined)
-                return <div className={styles.toReview}>To review</div>
-              return <div className={styles.reviewed}>Reviewed</div>
-            }}
-            className={styles.duplicateColumn}
-          />
-          <Table.Column
-            id="version"
-            display="Version"
-            getter={(v) => (
-              <div className={styles.cellWrapper}>
-                {v.duplicates.map((item, index) => (
-                  <div
-                    /* eslint-disable-next-line react/no-array-index-key */
-                    key={index}
-                    className={classNames.use(styles.cell, {
-                      [styles.dash]:
-                        item.type === 'notSameArticle' ||
-                        item.type === 'duplicate',
-                      [styles.typeCell]: item.type,
-                    })}
-                  >
-                    {item.type === 'notSameArticle' || item.type === 'duplicate'
-                      ? '-'
-                      : item.type || '-'}
-                  </div>
-                ))}
-              </div>
-            )}
-          />
-          <Table.Column
-            id="publicationDate"
-            display="Publication date"
-            className={styles.publicationDateColumn}
-            getter={(v) => v?.publicationDate}
-          />
-          <Table.Action>
-            <ExportButton href={duplicatesUrl}>download csv</ExportButton>
-          </Table.Action>
-        </Table>
+              className={styles.duplicateColumn}
+            />
+            <Table.Column
+              id="status"
+              display="Status"
+              getter={(v) => {
+                const types = v.duplicates.map((item) => item.type)
+                const hasUndefined = types.some((type) => type === undefined)
+                if (hasUndefined)
+                  return <div className={styles.toReview}>To review</div>
+                return <div className={styles.reviewed}>Reviewed</div>
+              }}
+              className={styles.duplicateColumn}
+              sortDirection={sortStatusDirection}
+              onClick={() =>
+                sortByStatus(sortStatusDirection === 'asc' ? 'desc' : 'asc')
+              }
+              icon
+            />
+            <Table.Column
+              id="version"
+              display="Version"
+              getter={(v) => (
+                <div className={styles.cellWrapper}>
+                  {v.duplicates.map((item, index) => (
+                    <div
+                      /* eslint-disable-next-line react/no-array-index-key */
+                      key={index}
+                      className={classNames.use(styles.cell, {
+                        [styles.dash]:
+                          item.type === 'notSameArticle' ||
+                          item.type === 'duplicate',
+                        [styles.typeCell]: item.type,
+                      })}
+                    >
+                      {item.type === 'notSameArticle' ||
+                      item.type === 'duplicate'
+                        ? '-'
+                        : item.type || '-'}
+                    </div>
+                  ))}
+                </div>
+              )}
+            />
+            <Table.Column
+              id="publicationDate"
+              display="Publication date"
+              className={styles.publicationDateColumn}
+              getter={(v) => v?.publicationDate}
+              sortDirection={sortDirection}
+              onClick={() =>
+                sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
+              }
+              icon
+            />
+            <Table.Action>
+              <ExportButton href={duplicatesUrl}>download csv</ExportButton>
+            </Table.Action>
+          </Tablev2>
+        )}
         {checkBillingType && (
           <AccessPlaceholder
             dataProviderData={dataProviderData}

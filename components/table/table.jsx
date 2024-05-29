@@ -38,12 +38,6 @@ const InfiniteTable = ({
   localSearchTerm,
   useExpandIcon = false,
   excludeFooter = false,
-  rowClick,
-  onClick,
-  handleCLick,
-  showAdditionalSort,
-  sortDirection,
-  sortStatusDirection,
   renderDropDown,
   rowActionProp,
   ...restProps
@@ -133,15 +127,10 @@ const InfiniteTable = ({
               columnOrder={columnOrder}
               columns={columns}
               isHeaderClickable={isHeaderClickable}
-              onClick={onClick}
-              handleCLick={handleCLick}
-              showAdditionalSort={showAdditionalSort}
-              sortDirection={sortDirection}
-              sortStatusDirection={sortStatusDirection}
             />
             <Body
               renderDropDown={renderDropDown}
-              handleRowClick={rowClick || rowAction}
+              handleRowClick={rowAction}
               rowActionProp={rowActionProp}
               handleDoubleRowClick={useRowCallback(handleDoubleRowClick)}
               columns={columns}
