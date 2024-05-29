@@ -160,7 +160,7 @@ class DataProvider extends Resource {
   getDeduplicationData = async (id, refresh = false) => {
     try {
       const specData = this.rootStore.setSelectedItem
-      let url = `${process.env.API_URL}/data-providers/${id}/duplicates/${
+      let url = `${process.env.API_URL}/data-providers/${id}/duplicates${
         specData ? `?set=${specData}` : ''
       }`
       if (refresh) url += '?refresh=true'
@@ -183,9 +183,14 @@ class DataProvider extends Resource {
   getRrslistData = async (id) => {
     this.rrsDataLoading = true
     try {
-      const response = await fetch(
-        `${process.env.API_URL}/data-providers/${id}/rights-retention`
-      )
+      const specData = this.rootStore.setSelectedItem
+      const url = `${
+        process.env.API_URL
+      }/data-providers/${id}/rights-retention${
+        specData ? `?set=${specData}` : ''
+      }`
+
+      const response = await fetch(url)
 
       if (response.ok && response.status === 200) {
         const data = await response.json()
@@ -357,7 +362,7 @@ class DataProvider extends Resource {
         this.retrieveLogo()
 
         const url = `/data-providers/${this.id}`
-        this.works = new Works(url, this.options)
+        this.works = new Works(this.rootStore, url, this.options)
         this.depositDates = new DepositDates(this.rootStore, url, this.options)
         this.doi = new DOI(this.rootStore, url, this.options)
         this.issues = new Issues(url, this.options)

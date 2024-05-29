@@ -84,10 +84,7 @@ const DeduplicationPageTemplate = observer(
           }
         />
         <div className={styles.cardsWrapper}>
-          <DeduplicationInfoCard
-            duplicateList={duplicateList}
-            harvestingStatus={harvestingStatus}
-          />
+          <DeduplicationInfoCard harvestingStatus={harvestingStatus} />
           <DeduplicationStatistics
             duplicateList={duplicateList}
             duplicatesUrl={duplicatesUrl}

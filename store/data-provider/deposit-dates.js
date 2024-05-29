@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx'
+import { action, computed, observable, reaction } from 'mobx'
 
 import { Pages } from '../helpers/pages'
 import Store from '../store'
@@ -7,7 +7,7 @@ import { PaymentRequiredError } from '../errors'
 import { NotFoundError } from 'api/errors'
 
 class DepositDates extends Store {
-  rootStore = null
+  baseStore = null
 
   @observable isRetrieveDepositDatesInProgress = false
 
@@ -21,18 +21,44 @@ class DepositDates extends Store {
 
   constructor(rootStore, baseUrl, options) {
     super(baseUrl, options)
-    this.rootStore = rootStore
+    this.baseStore = rootStore
+    this.fetchOptions = {
+      cache: 'no-store',
+    }
+    this.updateOaiUrl(baseUrl)
+    reaction(
+      () => this.baseStore?.setSelectedItem,
+      () => {
+        this.updateOaiUrl(baseUrl)
+      }
+    )
+  }
+
+  @action
+  updateOaiUrl = (baseUrl) => {
     const datesUrl = `${baseUrl}/public-release-dates${
-      this.rootStore.setSelectedItem
-        ? `?set=${this.rootStore.setSelectedItem}`
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
         : ''
     }`
     this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
-    this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
-    this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag`
+    this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag${
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
+        : ''
+    }`
+    this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag${
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
+        : ''
+    }`
     this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}?accept=text/csv`
-    this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate`
+    this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate${
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
+        : ''
+    }`
 
     this.retrieve()
   }

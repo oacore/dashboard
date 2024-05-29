@@ -1,7 +1,6 @@
 import { observable } from 'mobx'
 
 import getOrder from '../order'
-import invalidatePreviousRequests from '../invalidatePreviousRequests'
 import Store from '../../store'
 import { PaymentRequiredError } from '../../errors'
 
@@ -48,7 +47,6 @@ class Pages extends Store {
     this.type = type
   }
 
-  @invalidatePreviousRequests
   load(signal) {
     const order = getOrder(this.columnOrder)
 

@@ -1,11 +1,33 @@
-import { action } from 'mobx'
+import { action, observable, reaction } from 'mobx'
 
 import { Pages } from '../helpers/pages'
+import Store from '../store'
 
-class Works extends Pages {
-  constructor(baseUrl, options) {
-    const url = `${baseUrl}/works`
-    super(url, options)
+class Works extends Store {
+  baseStore = null
+
+  @observable workRecords = null
+
+  constructor(rootStore, baseUrl, options) {
+    super(baseUrl, options)
+    this.baseStore = rootStore
+    this.updateWorks(baseUrl)
+    reaction(
+      () => this.baseStore?.setSelectedItem,
+      () => {
+        this.updateWorks(baseUrl)
+      }
+    )
+  }
+
+  @action
+  updateWorks = (baseUrl) => {
+    const url = `${baseUrl}/works${
+      this.baseStore?.setSelectedItem
+        ? `?set=${this.baseStore?.setSelectedItem}`
+        : ''
+    }`
+    this.workRecords = new Pages(url, this.options)
     this.contentExportUrl = `${process.env.API_URL}${url}?accept=text/csv`
   }
 

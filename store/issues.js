@@ -18,6 +18,8 @@ class Issues extends Store {
     this.getIssuesAggregation()
   }
 
+  //  SET ?????
+
   @action
   async getHarvestingStatus(refresh = false) {
     try {

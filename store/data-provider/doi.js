@@ -1,14 +1,57 @@
-import { action, observable, computed } from 'mobx'
+import { action, computed, observable, reaction } from 'mobx'
 
 import { Pages } from '../helpers/pages'
 import Store from '../store'
 
 class DOI extends Store {
+  baseStore = null
+
+  constructor(rootStore, baseUrl, options) {
+    super(baseUrl, options)
+    this.baseStore = rootStore
+    this.fetchOptions = {
+      cache: 'no-store',
+    }
+
+    this.updateStatisticsUrl(baseUrl)
+    this.updateDoiRecords(baseUrl)
+    this.retrieveStatistics()
+    reaction(
+      () => this.baseStore?.setSelectedItem,
+      () => {
+        this.updateDoiRecords(baseUrl)
+        this.updateStatisticsUrl(baseUrl)
+      }
+    )
+  }
+
+  @action
+  updateStatisticsUrl = (baseUrl) => {
+    this.statisticsUrl = `${baseUrl}/statistics/doi${
+      this.baseStore?.setSelectedItem
+        ? `?set=${this.baseStore?.setSelectedItem}`
+        : ''
+    }`
+  }
+
+  @action
+  updateDoiRecords = (baseUrl) => {
+    const DUrl = `${baseUrl}/doi${
+      this.baseStore?.setSelectedItem
+        ? `?set=${this.baseStore?.setSelectedItem}`
+        : ''
+    }`
+    this.doiRecords = new Pages(DUrl, this.options)
+    this.doiUrl = `${process.env.API_URL}${DUrl}?accept=text/csv`
+  }
+
   rootStore = null
 
   @observable originCount = null
 
   @observable totalCount = null
+
+  @observable doiRecords = null
 
   @computed
   get enrichmentSize() {
@@ -27,24 +70,9 @@ class DOI extends Store {
     return lag
   }
 
-  @observable doiRecords = null
-
-  constructor(rootStore, baseUrl, options) {
-    super(baseUrl, options)
-    const doiUrl = `${baseUrl}/doi/${
-      this.rootStore?.setSelectedItem
-        ? `?set=${this.rootStore?.setSelectedItem}`
-        : ''
-    }`
-    this.doiRecords = new Pages(doiUrl, this.options)
-    this.doiUrl = `${process.env.API_URL}${doiUrl}?accept=text/csv`
-    this.statisticsUrl = `${baseUrl}/statistics/doi`
-    this.retrieveStatistics()
-  }
-
   @action
   retrieveStatistics = async () => {
-    const { data } = await this.request(this.statisticsUrl)
+    const { data } = await this.request(this.statisticsUrl, this.fetchOptions)
     this.originCount = data.dataProviderDoiCount
     this.totalCount = data.totalDoiCount
   }

@@ -53,6 +53,10 @@ const RepositorySelect = ({ store, enabledList, getSetsEnabledList }) => {
     setIsOpen(false)
     store.updateSelectedSetSpec(item.setSpec)
     store.dataProvider?.getDeduplicationData(providerId)
+    store.dataProvider?.getRrslistData(providerId)
+    store.dataProvider?.doi?.doiRecords.load()
+    store.dataProvider?.works?.workRecords.load()
+    store.dataProvider?.depositDates?.publicReleaseDatesPages?.load()
     store.dataProvider.retrieve()
   }
 
