@@ -51,12 +51,14 @@ statusItems:
     title: Do you provide access to full texts of research papers for your content?
     description: |
     prefix: |
+      Percentage of documents with access to full text:
   - id: embargoedDocuments
     isEnable: yes
     type: statistic
     title: Do you label embargoed documents?
     description: |
     prefix: |
+      Percentage of embargoed documents:
   - id: webAccessibility
     isEnable: no
     type: statistic
@@ -90,6 +92,10 @@ statusItems:
     title: Licensing
     description: |
     prefix: |
+      Percent of metadata records with a licence specified:
+    recommendation: |
+      The data on this list is cached for performance reasons. Once you completed your work please click
+      here to refresh the cache. The processing will take some time but you will be able to see the updated data
   - id: preservation
     isEnable: yes
     type: text
@@ -161,6 +167,7 @@ statusItems:
     title: ROR
     description: |
     prefix: |
+      Percentage of metadata with ROR:
   - id: metadata
     isEnable: yes
     type: text

@@ -48,14 +48,45 @@
   letter-spacing: 0.003em;
 }
 
+.description-empty {
+  height: 20px;
+}
+
 .prefix {
+  padding-bottom: 10px;
+  padding-left: 10px;
   font-size: 16px;
   font-weight: 400;
   line-height: 20.8px;
-  letter-spacing: 0.0006em;
   text-align: left;
-  padding-left: 10px;
+  letter-spacing: 0.0006em;
+}
+
+.recommendation-wrapper {
+  background-color: #fdf4cd;
+  margin-top: 10px;
+  padding: 16px 16px 24px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.recommendation-header {
   padding-bottom: 10px;
+}
+
+.recommendation-header .text {
+  font-weight: 700;
+  padding-left: 10px;
+  position: relative;
+  top: 1px;
+}
+
+.recommendation-content {
+  padding-left: 35px;
+  font-weight: 400;
+  font-size: 16px;
+  font-style: italic;
+  line-height: 20px;
 }
 
 .stat {
@@ -87,20 +118,20 @@
 
 /*  ==== */
 .chart-percent {
-  color: #fff;
-  font-size: 22px;
-  line-height: 2.2rem;
-  font-weight: 700;
   padding: 0 25px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 2.2rem;
+  color: #fff;
 }
 
 .chart-row {
-  margin: 0 0 10px;
-
-  --chart-border-radius: 2px;
   display: flex;
   height: 2.2rem;
+  margin: 0 0 10px;
   background: #fef5ef;
+
+  --chart-border-radius: 2px;
 }
 
 .chart-bar {

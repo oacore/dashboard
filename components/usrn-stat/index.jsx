@@ -6,6 +6,7 @@ import StatisticsChart from '../statistics-chart'
 import { formatDate, formatNumber, valueOrDefault } from '../../utils/helpers'
 import Markdown from '../markdown'
 import NumericValue from '../numeric-value'
+import infoLight from '../upload/assets/infoLight.svg'
 
 import { overview as textIrusUk } from 'texts/irus-uk/index'
 
@@ -80,7 +81,12 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       statusClass = true
       break
     case 'vocabulariesCOAR':
-      statCreated = usrnVocabulariesCOAR
+      statCreated = (
+        <NumericValue
+          value={valueOrDefault(usrnVocabulariesCOAR, 'Loading...')}
+          // size="extra-small"
+        />
+      )
       statusClass = true
       break
     case 'licensingMetadata':
@@ -92,10 +98,16 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       )
       statusClass = true
       break
-    // case 'ROR':
-    //   // number yes/no
-    //   statusClass = true
-    //   break
+    case 'ROR':
+      // number yes/no
+      statTextCreated = (
+        <NumericValue
+          value={valueOrDefault(null, 'Loading...')}
+          size="extra-small"
+        />
+      )
+      statusClass = true
+      break
     case 'doi':
       statCreated = enrichmentChart({
         coveredCount: doiCount,
@@ -139,6 +151,31 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       statCreated = ''
   }
 
+  const descriptionCreated = content.description ? (
+    <div className={styles.description}>{content.description}</div>
+  ) : (
+    <div className={styles.descriptionEmpty} />
+  )
+  const prefixCreated = content.prefix ? (
+    <div className={styles.prefix}>{content.prefix}</div>
+  ) : (
+    ''
+  )
+
+  const recommendationCreated = content.recommendation ? (
+    <div className={styles.recommendationWrapper}>
+      <div className={styles.recommendationHeader}>
+        <img src={infoLight} alt="info" />
+        <span className={styles.text}>Recommendation</span>
+      </div>
+      <div className={styles.recommendationContent}>
+        {content.recommendation}
+      </div>
+    </div>
+  ) : (
+    ''
+  )
+
   return (
     <div
       key={content.id}
@@ -159,10 +196,11 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       <div className={styles.statusRow}>
         <div />
         <div>
-          <div className={styles.description}>{content.description}</div>
-          <div className={styles.prefix}>{content.prefix}</div>
+          {descriptionCreated}
+          {prefixCreated}
           <div className={styles.stat}>{statCreated}</div>
           <div className={styles.statText}>{statTextCreated}</div>
+          {recommendationCreated}
         </div>
         <div />
       </div>
