@@ -5,11 +5,23 @@ import styles from './styles.module.css'
 import StatisticsChart from '../statistics-chart'
 import { formatDate, formatNumber, valueOrDefault } from '../../utils/helpers'
 import Markdown from '../markdown'
+import NumericValue from '../numeric-value'
 
 import { overview as textIrusUk } from 'texts/irus-uk/index'
 
 const StatUSRN = ({ counter, className, content, usrnParams }) => {
-  const { doiCount, totalDoiCount, statisticsIrus, countMetadata } = usrnParams
+  const {
+    doiCount,
+    totalDoiCount,
+    statisticsIrus,
+    countMetadata,
+    rioxxTotalCount,
+    rioxxPartiallyCompliantCount,
+    countFulltext,
+    embargoedDocuments,
+    usrnLicense,
+    usrnVocabulariesCOAR,
+  } = usrnParams
   const { description: descriptionIrus } = textIrusUk
 
   const enrichmentChart = ({ coveredCount, totalCount }) => {
@@ -43,9 +55,47 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
   let statusClass = false
   switch (content.id) {
     case 'repositoryOAIPMH':
+      // Just text layout
       statusClass = true
       break
     case 'applicationProfile':
+      statCreated = enrichmentChart({
+        coveredCount: rioxxPartiallyCompliantCount,
+        totalCount: rioxxTotalCount,
+      })
+      statusClass = true
+      break
+    case 'accessFullTexts':
+      statCreated = enrichmentChart({
+        coveredCount: countFulltext,
+        totalCount: countMetadata,
+      })
+      statusClass = true
+      break
+    case 'embargoedDocuments':
+      statCreated = enrichmentChart({
+        coveredCount: embargoedDocuments,
+        totalCount: 12000 + embargoedDocuments,
+      })
+      statusClass = true
+      break
+    case 'vocabulariesCOAR':
+      statCreated = usrnVocabulariesCOAR
+      statusClass = true
+      break
+    case 'licensingMetadata':
+      statTextCreated = (
+        <NumericValue
+          value={valueOrDefault(usrnLicense, 'Loading...')}
+          size="extra-small"
+        />
+      )
+      statusClass = true
+      break
+    // case 'ROR':
+    //   // number yes/no
+    //   statusClass = true
+    //   break
     case 'doi':
       statCreated = enrichmentChart({
         coveredCount: doiCount,
@@ -54,7 +104,12 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       statusClass = true
       break
     case 'indexedContent':
-      statTextCreated = valueOrDefault(countMetadata, 'Loading...')
+      statTextCreated = (
+        <NumericValue
+          value={valueOrDefault(countMetadata, 'Loading...')}
+          size="extra-small"
+        />
+      )
       statusClass = true
       break
     case 'statisticIRUS':
@@ -107,11 +162,7 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
           <div className={styles.description}>{content.description}</div>
           <div className={styles.prefix}>{content.prefix}</div>
           <div className={styles.stat}>{statCreated}</div>
-          {statTextCreated.length > 0 ? (
-            <div className={styles.statText}>{statTextCreated}</div>
-          ) : (
-            ''
-          )}
+          <div className={styles.statText}>{statTextCreated}</div>
         </div>
         <div />
       </div>

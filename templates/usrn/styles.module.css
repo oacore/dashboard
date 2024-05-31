@@ -53,11 +53,20 @@
   text-align: center;
 }
 
+.status-date-report-wrapper {
+  text-align: right;
+}
+
 .status-date-report-first {
+  display: inline-block;
   font-size: 16px;
   font-weight: 400;
   line-height: 20.8px;
-  text-align: center;
+  text-align: right;
+}
+
+.header-button {
+  margin-left: 15px;
 }
 
 .status-date-report-second {

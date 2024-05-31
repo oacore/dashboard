@@ -58,13 +58,13 @@ statusItems:
     description: |
     prefix: |
   - id: webAccessibility
-    isEnable: yes
+    isEnable: no
     type: statistic
     title: Web accessibility
     description: |
     prefix: |
   - id: signpostingFAIR
-    isEnable: yes
+    isEnable: no
     type: statistic
     title: Do you support FAIR Signposting?
     description: |
@@ -125,19 +125,19 @@ statusItems:
       (e.g., Funder Registry), and organizations (e.g., ROR).
     linkDocumentation: 0
   - id: researchDatasets
-    isEnable: yes
+    isEnable: no
     type: statistic
     title: Do you provide links to research datasets
     description: |
     prefix: |
   - id: accessibilityStatements
-    isEnable: yes
+    isEnable: no
     type: statistic
     title: Do you provide data accessibility statements
     description: |
     prefix: |
   - id: sourceCode
-    isEnable: yes
+    isEnable: no
     type: statistic
     title: Do you provide links to source code
     description: |
@@ -150,7 +150,7 @@ statusItems:
     prefix: |
       Percentage of metadata with DOI:
   - id: ORCID
-    isEnable: yes
+    isEnable: no
     type: statistic
     title: ORCID
     description: |

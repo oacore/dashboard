@@ -4,17 +4,25 @@ import styles from '../styles.module.css'
 import TextUSRN from '../../../components/usrn-text'
 import StatUSRN from '../../../components/usrn-stat'
 
-import { Card } from 'design'
+import { Card, Button } from 'design'
 import * as texts from 'texts/usrn'
 import Markdown from 'components/markdown'
 
 const StatusCard = ({ usrnParams }) => {
   let counterStat = 0
-  const { dateReport } = usrnParams
+  const { usrnDateReportUpdate } = usrnParams
   return (
     <Card tag="section">
-      <div className={styles.statusDateReportFirst}>
-        {texts.status.dateReport}: {dateReport}
+      <div className={styles.statusDateReportWrapper}>
+        <div className={styles.statusDateReportFirst}>
+          {texts.status.dateReport}: {usrnDateReportUpdate}
+        </div>
+        <Button variant="outlined" className={styles.headerButton}>
+          Update report
+        </Button>
+        <Button variant="contained" className={styles.headerButton}>
+          Download in PDF
+        </Button>
       </div>
       <Card.Title className={styles.statusTitleFirst}>
         {texts.status.titleFirst}
@@ -22,7 +30,9 @@ const StatusCard = ({ usrnParams }) => {
       <div className={styles.statusDescriptionFirst}>
         <Markdown>{texts.status.descriptionFirst}</Markdown>
       </div>
-      <div className={styles.statusDateReportSecond}>{dateReport}</div>
+      <div className={styles.statusDateReportSecond}>
+        {usrnDateReportUpdate}
+      </div>
       {/* eslint-disable-next-line array-callback-return,consistent-return */}
       {Object.keys(texts.status.statusItems).map((key) => {
         if (texts.status.statusItems[key].isEnable === 'yes') {
