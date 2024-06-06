@@ -7,7 +7,7 @@ import { TextField } from '../../design'
 
 import { withGlobalStore } from 'store'
 
-const RepositorySelect = ({ store, enabledList, getSetsEnabledList }) => {
+const RepositorySelect = ({ store }) => {
   const router = useRouter()
   const [suggestions, setSuggestions] = useState(store.user.dataProviders)
   const [value, setValue] = useState(store.dataProvider.name)
@@ -19,7 +19,6 @@ const RepositorySelect = ({ store, enabledList, getSetsEnabledList }) => {
 
   const handleOnChange = useCallback(
     (data) => {
-      if (data.value === store.dataProvider.name) return
       if (!data.id) {
         setValue(store.dataProvider.name)
         return
@@ -29,6 +28,7 @@ const RepositorySelect = ({ store, enabledList, getSetsEnabledList }) => {
 
       router.push(routePath, actualPath)
       setShowSecondDropdown(true)
+      store.updateSelectedSetSpec(null)
     },
     [router, store.dataProvider.name]
   )
@@ -55,13 +55,15 @@ const RepositorySelect = ({ store, enabledList, getSetsEnabledList }) => {
     store.dataProvider?.getDeduplicationData(providerId)
     store.dataProvider?.getRrslistData(providerId)
     store.dataProvider?.doi?.doiRecords.load()
-    store.dataProvider?.works?.workRecords.load()
+    store.dataProvider.works.resetWorks()
+    store.dataProvider.depositDates.resetCompliance()
+    store.dataProvider.doi.resetDoiRecords()
     store.dataProvider?.depositDates?.publicReleaseDatesPages?.load()
     store.dataProvider.retrieve()
   }
 
   useEffect(() => {
-    getSetsEnabledList()
+    store.getSetsEnabledList()
   }, [providerId])
 
   useEffect(() => {
@@ -81,6 +83,10 @@ const RepositorySelect = ({ store, enabledList, getSetsEnabledList }) => {
     }
   }, [setsRef])
 
+  const handleSelectClick = () => {
+    if (value === store.dataProvider.name) setShowSecondDropdown(true)
+  }
+
   return (
     <AppBar.Item className={styles.container}>
       <Select
@@ -90,6 +96,7 @@ const RepositorySelect = ({ store, enabledList, getSetsEnabledList }) => {
         value={value}
         onInput={handleOnInput}
         onChange={handleOnChange}
+        onClick={handleSelectClick}
         placeholder="Search repositories"
         clearButton={false}
         clearOnFocus
@@ -102,7 +109,7 @@ const RepositorySelect = ({ store, enabledList, getSetsEnabledList }) => {
           </Select.Option>
         ))}
       </Select>
-      {showSecondDropdown && (
+      {store.enabledList.length > 0 && showSecondDropdown && (
         <div className={styles.dropdownMenuWrapper} ref={setsRef}>
           <div className={styles.selectFormWrapper}>
             <div className={styles.selectWrapper}>
@@ -119,7 +126,7 @@ const RepositorySelect = ({ store, enabledList, getSetsEnabledList }) => {
           {isOpen && (
             <div className={styles.dropdownMenu}>
               <ul>
-                {enabledList.map((item) => (
+                {store.enabledList.map((item) => (
                   // eslint-disable-next-line max-len
                   // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
                   <li

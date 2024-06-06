@@ -181,8 +181,6 @@ class App extends NextApp {
         pathname={pathname}
         variant={variant}
         tutorial={store.tutorial}
-        getSetsEnabledList={store.getSetsEnabledList}
-        enabledList={store.enabledList}
         isAuthenticated
         acceptedTCVersion={acceptedTCVersion}
       >

@@ -35,6 +35,14 @@ class DepositDates extends Store {
   }
 
   @action
+  resetCompliance() {
+    this.timeLagData = null
+    this.publicReleaseDates = null
+    this.crossDepositLag = null
+    this.publicationDatesValidate = null
+  }
+
+  @action
   updateOaiUrl = (baseUrl) => {
     const datesUrl = `${baseUrl}/public-release-dates${
       this.baseStore.setSelectedItem

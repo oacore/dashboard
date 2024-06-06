@@ -405,7 +405,7 @@ class Root extends Store {
     this.loadingWholeSets = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/140/set/available`
+        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set/available`
       )
       if (response.ok) {
         const data = await response.json()
@@ -425,7 +425,7 @@ class Root extends Store {
     this.loadingSets = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/140/set`
+        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set`
       )
       if (response.ok) {
         const data = await response.json()
@@ -445,7 +445,7 @@ class Root extends Store {
   enableSet = async (body) => {
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings`,
+        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set/settings`,
         {
           method: 'PATCH',
           headers: {
@@ -469,7 +469,7 @@ class Root extends Store {
     this.loadingSets = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/140/set/settings/${idSet}`,
+        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set/settings/${idSet}`,
         {
           method: 'DELETE',
           headers: {

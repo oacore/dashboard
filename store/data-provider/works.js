@@ -1,4 +1,4 @@
-import { action, observable, reaction } from 'mobx'
+import { action, observable } from 'mobx'
 
 import { Pages } from '../helpers/pages'
 import Store from '../store'
@@ -8,16 +8,21 @@ class Works extends Store {
 
   @observable workRecords = null
 
+  @action
+  resetWorks() {
+    this.workRecords = null
+  }
+
   constructor(rootStore, baseUrl, options) {
     super(baseUrl, options)
     this.baseStore = rootStore
     this.updateWorks(baseUrl)
-    reaction(
-      () => this.baseStore?.setSelectedItem,
-      () => {
-        this.updateWorks(baseUrl)
-      }
-    )
+    // reaction(
+    //   () => this.baseStore?.setSelectedItem,
+    //   () => {
+    //     this.updateWorks(baseUrl)
+    //   }
+    // )
   }
 
   @action

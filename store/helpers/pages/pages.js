@@ -61,7 +61,6 @@ class Pages extends Store {
     if (this.type) params.type = this.type
     if (order) params.orderBy = order
     if (this.searchTerm) params.q = this.searchTerm
-
     const request = this.request(this.url, { searchParams: params, signal })
     return new Promise((resolve, reject) =>
       request

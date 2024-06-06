@@ -23,6 +23,7 @@ const DeduplicationListTable = observer(
     checkBillingType,
     dataProviderData,
     duplicateDataLoading,
+    setSelectedItem,
   }) => {
     const [page, setPage] = useState(0)
     const [records, setRecords] = useState([])
@@ -39,10 +40,13 @@ const DeduplicationListTable = observer(
       else {
         const startIndex = page * 10
         const endIndex = Math.min(startIndex + 10, list.length)
-        const newRecords = [...records, ...list.slice(startIndex, endIndex)]
+        let newRecords
+        if (setSelectedItem) newRecords = list
+        else newRecords = [...records, ...list.slice(startIndex, endIndex)]
+
         setRecords(newRecords)
       }
-    }, [page, list, checkBillingType])
+    }, [page, list, checkBillingType, setSelectedItem])
 
     const searchChange = (event) => {
       setLocalSearchTerm(event.target.value)

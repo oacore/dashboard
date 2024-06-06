@@ -25,6 +25,19 @@ class DOI extends Store {
     )
   }
 
+  @observable originCount = null
+
+  @observable totalCount = null
+
+  @observable doiRecords = null
+
+  @action
+  resetDoiRecords() {
+    this.originCount = null
+    this.totalCount = null
+    this.doiRecords = null
+  }
+
   @action
   updateStatisticsUrl = (baseUrl) => {
     this.statisticsUrl = `${baseUrl}/statistics/doi${
@@ -44,14 +57,6 @@ class DOI extends Store {
     this.doiRecords = new Pages(DUrl, this.options)
     this.doiUrl = `${process.env.API_URL}${DUrl}?accept=text/csv`
   }
-
-  rootStore = null
-
-  @observable originCount = null
-
-  @observable totalCount = null
-
-  @observable doiRecords = null
 
   @computed
   get enrichmentSize() {
