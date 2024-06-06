@@ -7,7 +7,6 @@ import Organisation from './organisation'
 import Invitation from './invitation'
 import { AccessError, AuthorizationError, PaymentRequiredError } from './errors'
 import DataProvider from './data-provider'
-import Issues from './issues'
 
 import apiRequest from 'api'
 import * as NetworkErrors from 'api/errors'
@@ -74,7 +73,8 @@ class Root extends Store {
   constructor(options) {
     super(null, options)
     this.options.request = this.options.request.bind(this)
-    this.issues = new Issues(process.env.API_URL, this.options)
+    //  TODO Check if harvesting works, removed because wrong api call
+    // this.issues = new Issues(process.env.API_URL, this.options)
   }
 
   contactUrl = `${process.env.API_URL}/contact`
