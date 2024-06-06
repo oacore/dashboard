@@ -81,6 +81,7 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       statusClass = true
       break
     case 'vocabulariesCOAR':
+      // yes/no/error
       statCreated = (
         <NumericValue
           value={valueOrDefault(usrnVocabulariesCOAR, 'Loading...')}
