@@ -21,6 +21,10 @@ const RepositoryPage = ({ store, ...restProps }) => (
     getSetsWholeList={store.getSetsWholeList}
     wholeSetData={store.wholeSetData}
     loadingWholeSets={store.loadingWholeSets}
+    loadingWholeSetsBtn={store.loadingWholeSetsBtn}
+    setLoadingWholeSetsBtn={store.setLoadingWholeSetsBtn}
+    loadingRemoveItem={store.loadingRemoveItem}
+    setLoadingRemoveAction={store.setLoadingRemoveAction}
     oaiMapping={store.dataProvider.oaiMapping}
     setGlobalRorName={store.dataProvider.setGlobalRorName}
     setGlobalRorId={store.dataProvider.setGlobalRorId}

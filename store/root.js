@@ -97,6 +97,10 @@ class Root extends Store {
 
   @observable loadingWholeSets = false
 
+  @observable loadingWholeSetsBtn = false
+
+  @observable loadingRemoveItem = false
+
   @observable setsList = []
 
   @observable enabledList = []
@@ -191,6 +195,16 @@ class Root extends Store {
   @action
   setWholeSetData(data) {
     this.wholeSetData = data
+  }
+
+  @action
+  setLoadingWholeSetsBtn = (value) => {
+    this.loadingWholeSetsBtn = value
+  }
+
+  @action
+  setLoadingRemoveAction = (value, id) => {
+    this.loadingRemoveItem = { value, id }
   }
 
   @computed

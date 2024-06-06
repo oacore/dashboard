@@ -121,7 +121,7 @@
 .set-button {
   position: absolute;
   right: 150px;
-  z-index: 9999;
+  z-index: 1;
   text-transform: lowercase;
   cursor: pointer;
   background: unset;
@@ -511,6 +511,7 @@
   display: flex;
   justify-content: center;
   width: 100px;
+  cursor: pointer;
 }
 
 .select-input input {
@@ -550,6 +551,16 @@
 
 .add-btn {
   width: 100px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner circle {
+  stroke: #fff;
 }
 
 .select-item {

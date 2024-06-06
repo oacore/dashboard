@@ -5,7 +5,7 @@ import { Button } from '@oacore/design/lib/elements'
 import { useRouter } from 'next/router'
 
 import styles from './styles.module.css'
-import { Card, TextField } from '../../design'
+import { Card, ProgressSpinner, TextField } from '../../design'
 import content from '../../texts/settings'
 import Markdown from '../../components/markdown'
 import Upload from '../../components/upload'
@@ -87,7 +87,11 @@ const RepositoryPageTemplate = observer(
     getSetsWholeList,
     wholeSetData,
     loadingWholeSets,
+    loadingWholeSetsBtn,
     getSetsEnabledList,
+    setLoadingWholeSetsBtn,
+    loadingRemoveItem,
+    setLoadingRemoveAction,
     tag: Tag = 'main',
     ...restProps
   }) => {
@@ -245,6 +249,7 @@ const RepositoryPageTemplate = observer(
     const handleAddClick = async () => {
       if (selectedItem) {
         try {
+          setLoadingWholeSetsBtn(true)
           await enableSet({
             setSpec: selectedItem.setSpec,
             setName: selectedItem.setName,
@@ -255,17 +260,22 @@ const RepositoryPageTemplate = observer(
           await getSetsEnabledList()
         } catch (error) {
           console.error('Error patching settings:', error)
+        } finally {
+          setLoadingWholeSetsBtn(false)
         }
       }
     }
 
     const handleDelete = async (id) => {
       try {
+        setLoadingRemoveAction(true, id)
         await deleteSet(id)
         await getSetsWholeList()
         await getSetsEnabledList()
       } catch (error) {
         console.error('Error patching settings:', error)
+      } finally {
+        setLoadingRemoveAction(false, id)
       }
     }
 
@@ -426,135 +436,158 @@ const RepositoryPageTemplate = observer(
             </div>
           )}
         </Card>
-        <div ref={setRef}>
-          <Card
-            className={classNames.use(styles.section).join(className)}
-            tag="section"
-            id="sets"
-            name="sets"
-          >
-            <div className={styles.formWrapper}>
-              <div className={styles.formInnerWrapper}>
-                <Card.Title tag="h2">{content.sets.title}</Card.Title>
-                <Card.Description className={styles.description}>
-                  <Markdown>{content.sets.description}</Markdown>
-                </Card.Description>
-                <div>
-                  {displayAllSets.map((item) => (
-                    <div className={styles.setMainItem}>
-                      <div className={styles.setOuterHeader}>
-                        <div className={styles.setInnerHeader}>
-                          <TextField
-                            value={
-                              setNameDisplay[item.id] || item.setNameDisplay
-                            }
-                            onChange={(event) =>
-                              handleInputChange(item.id, event)
-                            }
-                            className={styles.setInnerField}
-                            disabled={!isEditing[item.id]}
-                          />
-                          {!isEditing[item.id] ? (
-                            <Button
-                              onClick={() => handleEditClick(item.id)}
-                              className={styles.setButton}
-                            >
-                              <div className={styles.setButtonText}>
-                                Change set display name
+        {globalStore.enabledList.length > 0 ? (
+          <div ref={setRef}>
+            <Card
+              className={classNames.use(styles.section).join(className)}
+              tag="section"
+              id="sets"
+              name="sets"
+            >
+              <div className={styles.formWrapper}>
+                <div className={styles.formInnerWrapper}>
+                  <Card.Title tag="h2">{content.sets.title}</Card.Title>
+                  <Card.Description className={styles.description}>
+                    <Markdown>{content.sets.description}</Markdown>
+                  </Card.Description>
+                  <div>
+                    {displayAllSets.map((item) => (
+                      <div className={styles.setMainItem}>
+                        <div className={styles.setOuterHeader}>
+                          <div className={styles.setInnerHeader}>
+                            <TextField
+                              value={
+                                setNameDisplay[item.id] || item.setNameDisplay
+                              }
+                              onChange={(event) =>
+                                handleInputChange(item.id, event)
+                              }
+                              className={styles.setInnerField}
+                              disabled={!isEditing[item.id]}
+                            />
+                            {!isEditing[item.id] ? (
+                              <Button
+                                onClick={() => handleEditClick(item.id)}
+                                className={styles.setButton}
+                              >
+                                <div className={styles.setButtonText}>
+                                  Change set display name
+                                </div>
+                              </Button>
+                            ) : (
+                              <Button
+                                onClick={() => handleButtonClick(item)}
+                                className={styles.setButton}
+                              >
+                                <div className={styles.setButtonText}>Save</div>
+                              </Button>
+                            )}
+                          </div>
+                          <div className={styles.removeWrapper}>
+                            {loadingRemoveItem.id === item.id &&
+                            loadingRemoveItem.value ? (
+                              <div className={styles.wrapper}>
+                                <ProgressSpinner
+                                  className={styles.deleteSpinner}
+                                />
                               </div>
-                            </Button>
-                          ) : (
-                            <Button
-                              onClick={() => handleButtonClick(item)}
-                              className={styles.setButton}
-                            >
-                              <div className={styles.setButtonText}>Save</div>
-                            </Button>
-                          )}
+                            ) : (
+                              // eslint-disable-next-line max-len
+                              // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                              <img
+                                onClick={() => handleDelete(item.id)}
+                                src={removeBin}
+                                alt=""
+                              />
+                            )}
+                          </div>
                         </div>
-                        <div className={styles.removeWrapper}>
-                          {/* eslint-disable-next-line max-len */}
-                          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
-                          <img
-                            onClick={() => handleDelete(item.id)}
-                            src={removeBin}
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <div className={styles.setWrapper}>
-                          <div className={styles.setTitle}>setName</div>
-                          <span className={styles.setItem}>{item.setName}</span>
-                        </div>
-                        <div className={styles.setWrapper}>
-                          <div className={styles.setTitle}>setSpec</div>
-                          <span className={styles.setItem}>{item.setSpec}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  {enabledList.length > 3 && (
-                    <Button
-                      className={styles.showBtn}
-                      variant="outlined"
-                      onClick={toggleList}
-                    >
-                      {showFullList ? 'Show Less' : 'Show More'}
-                    </Button>
-                  )}
-                </div>
-                <div className={styles.selectRss} ref={dropdownRef}>
-                  <div className={styles.selectFormWrapper}>
-                    <div className={styles.selectWrapper}>
-                      <TextField
-                        id="selectInput"
-                        label="Add new set"
-                        onClick={handleDropdownClick}
-                        readOnly
-                        value={selectedItem ? selectedItem.setName : ''}
-                        className={styles.selectInput}
-                      />
-                      <img
-                        className={styles.repositoryLogo}
-                        src={toggleArrow}
-                        alt=""
-                      />
-                    </div>
-                    <Button
-                      onClick={handleAddClick}
-                      className={styles.addBtn}
-                      variant="contained"
-                    >
-                      Add
-                    </Button>
-                  </div>
-                  {isOpen && (
-                    <div className={styles.dropdownMenu}>
-                      {loadingWholeSets ? (
-                        <p className={styles.loading}>Loading...</p>
-                      ) : (
-                        <ul>
-                          {wholeSetData.map((item) => (
-                            // eslint-disable-next-line max-len
-                            // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
-                            <li
-                              key={item.id}
-                              onClick={() => handleSelect(item)}
-                              className={styles.selectItem}
-                            >
+                        <div>
+                          <div className={styles.setWrapper}>
+                            <div className={styles.setTitle}>setName</div>
+                            <span className={styles.setItem}>
                               {item.setName}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                            </span>
+                          </div>
+                          <div className={styles.setWrapper}>
+                            <div className={styles.setTitle}>setSpec</div>
+                            <span className={styles.setItem}>
+                              {item.setSpec}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {enabledList.length > 3 && (
+                      <Button
+                        className={styles.showBtn}
+                        variant="outlined"
+                        onClick={toggleList}
+                      >
+                        {showFullList ? 'Show Less' : 'Show More'}
+                      </Button>
+                    )}
+                  </div>
+                  <div className={styles.selectRss} ref={dropdownRef}>
+                    <div className={styles.selectFormWrapper}>
+                      <div className={styles.selectWrapper}>
+                        <TextField
+                          id="selectInput"
+                          label="Add new set"
+                          onClick={handleDropdownClick}
+                          readOnly
+                          value={selectedItem ? selectedItem.setName : ''}
+                          className={styles.selectInput}
+                        />
+                        <img
+                          className={styles.repositoryLogo}
+                          src={toggleArrow}
+                          alt=""
+                        />
+                      </div>
+                      <Button
+                        onClick={handleAddClick}
+                        className={styles.addBtn}
+                        variant="contained"
+                      >
+                        {!loadingWholeSetsBtn ? (
+                          <span>Add</span>
+                        ) : (
+                          <div className={styles.wrapper}>
+                            <ProgressSpinner className={styles.spinner} />
+                          </div>
+                        )}
+                      </Button>
                     </div>
-                  )}
+                    {isOpen && (
+                      <div className={styles.dropdownMenu}>
+                        {loadingWholeSets ? (
+                          <p className={styles.loading}>Loading...</p>
+                        ) : (
+                          <ul>
+                            {wholeSetData.map((item) => (
+                              // eslint-disable-next-line max-len
+                              // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                              <li
+                                key={item.id}
+                                onClick={() => handleSelect(item)}
+                                className={styles.selectItem}
+                              >
+                                {item.setName}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </Card>
-        </div>
+            </Card>
+          </div>
+        ) : (
+          <></>
+        )}
         <div ref={mappingRef}>
           <Card
             className={classNames.use(styles.section).join(className)}
