@@ -45,7 +45,6 @@ const RepositorySelect = ({ store }) => {
 
   const handleDropdownClick = async () => {
     setIsOpen(!isOpen)
-    // if (!setsList.length) await getSetsList(0)
   }
 
   const handleSelect = (item) => {

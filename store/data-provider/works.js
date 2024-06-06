@@ -17,12 +17,6 @@ class Works extends Store {
     super(baseUrl, options)
     this.baseStore = rootStore
     this.updateWorks(baseUrl)
-    // reaction(
-    //   () => this.baseStore?.setSelectedItem,
-    //   () => {
-    //     this.updateWorks(baseUrl)
-    //   }
-    // )
   }
 
   @action

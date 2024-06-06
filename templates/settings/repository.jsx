@@ -301,7 +301,6 @@ const RepositoryPageTemplate = observer(
           setName: item.setName,
           setNameDisplay: setNameDisplay[item.id],
         })
-        // await getSetsEnabledList()
         setIsEditing((prevState) => ({
           ...prevState,
           [item.id]: false,

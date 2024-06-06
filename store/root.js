@@ -412,8 +412,6 @@ class Root extends Store {
     }
   }
 
-  // GET WHOLE DATA
-
   @action
   getSetsWholeList = async () => {
     this.loadingWholeSets = true
@@ -433,7 +431,6 @@ class Root extends Store {
     }
   }
 
-  // GET ENABLED DATA
   @action
   getSetsEnabledList = async () => {
     this.loadingSets = true
@@ -452,8 +449,6 @@ class Root extends Store {
       this.loadingSets = false
     }
   }
-
-  // ADD/edit NEW TO LIST
 
   @action
   enableSet = async (body) => {
@@ -476,8 +471,6 @@ class Root extends Store {
     }
   }
 
-  // DELETE SET ITEM
-
   @action
   deleteSet = async (idSet) => {
     this.loadingSets = true
@@ -499,8 +492,6 @@ class Root extends Store {
       this.loadingSets = false
     }
   }
-
-  // FINISH
 
   @action
   getNotifications = async (userId, organisationId, type) => {

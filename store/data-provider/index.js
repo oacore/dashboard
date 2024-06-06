@@ -157,7 +157,6 @@ class DataProvider extends Resource {
     return data
   }
 
-  // TEMP
   @action
   getDeduplicationData = async (id, refresh = false) => {
     this.duplicateDataLoading = true
