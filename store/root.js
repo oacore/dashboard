@@ -87,8 +87,6 @@ class Root extends Store {
 
   @observable depositDates = null
 
-  @observable issues = null
-
   @observable harvestNotifications = null
 
   @observable deduplicationNotifications = null
