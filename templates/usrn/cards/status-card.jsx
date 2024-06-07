@@ -14,12 +14,18 @@ const StatusCard = ({ usrnParams }) => {
   return (
     <Card tag="section">
       <div className={styles.statusDateReportWrapper}>
-        <div className={styles.statusDateReportFirst}>
-          {texts.status.dateReport}: {usrnDateReportUpdate}
-        </div>
-        <Button variant="outlined" className={styles.headerButton}>
-          Update report
-        </Button>
+        {usrnDateReportUpdate ? (
+          <>
+            <div className={styles.statusDateReportFirst}>
+              {texts.status.dateReport}: {usrnDateReportUpdate}
+            </div>
+            <Button variant="outlined" className={styles.headerButton}>
+              Update report
+            </Button>
+          </>
+        ) : (
+          ''
+        )}
         <Button variant="contained" className={styles.headerButton}>
           Download in PDF
         </Button>
