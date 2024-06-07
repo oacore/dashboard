@@ -1,0 +1,245 @@
+titleFirst: USRN Desirable Characteristics of Digital Publication Repositories Report
+descriptionFirst: In defining the desirable characteristics outlined below, the U.S. Repository Network (USRN) Desirable Characteristics Working Group strove to balance feasibility and necessity.
+dateReport: Date of the last report update
+buttons:
+  update: Update report
+  download: Download in PDF
+statusItems:
+  - id: freeAndEasy
+    isEnable: yes
+    type: text
+    title: Free and Easy Discoverability & Access
+    description: |
+      The repository provides broad, equitable, and maximally open access to
+      resources and their metadata in both machine- and human-readable formats at no
+      cost to users. This should be done in a timely manner after submission and with
+      limited unscheduled downtime, consistent with legal and policy requirements.
+      The repository’s content should be discoverable both within the repository
+      (i.e., via a search interface) and externally (i.e., via discovery services and
+      aggregators). The repository supports access to its content for persons with
+      disabilities and adheres to current web accessibility standards. Provide an
+      accessibility statement describing efforts to increase accessibility of the
+      platform/content and how to seek help if an accessible version of a digital
+      publication is not available.
+    linkDocumentation: 0
+  - id: repositoryOAIPMH
+    isEnable: yes
+    type: statistic
+    title: Your repository supports OAI-PMH?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in
+      the remainder of this document) provides an application-independent interoperability
+      framework based on metadata harvesting.
+  - id: applicationProfile
+    isEnable: yes
+    type: statistic
+    title: Your repository metadata supports a widely used Application Profile
+    description: |
+      OpenAIRE Guidelines 3.0+ or RIOXX
+    prefix: |
+      Your metadata compliant with RIOXX:
+  - id: indexedContent
+    isEnable: yes
+    type: statistic
+    title: Indexed content
+    description: |
+    prefix: |
+      Number of metadata records:
+  - id: accessFullTexts
+    isEnable: yes
+    type: statistic
+    title: Do you provide access to full texts of research papers for your content?
+    description: |
+    prefix: |
+      Percentage of documents with access to full text:
+  - id: embargoedDocuments
+    isEnable: yes
+    type: statistic
+    title: Do you label embargoed documents?
+    description: |
+    prefix: |
+      Percentage of embargoed documents:
+  - id: webAccessibility
+    isEnable: yes
+    type: statistic
+    title: Web accessibility
+    description: |
+    prefix: |
+  - id: signpostingFAIR
+    isEnable: yes
+    type: statistic
+    title: Do you support FAIR Signposting?
+    description: |
+    prefix: |
+  - id: vocabulariesCOAR
+    isEnable: yes
+    type: statistic
+    title: Do your metadata use COAR vocabularies
+    description: |
+    prefix: |
+  - id: clearUseGuidance
+    isEnable: yes
+    type: text
+    title: Clear Use Guidance
+    description: |
+      The repository ensures metadata records for resources include licensing information
+      stipulating reuse conditions. Ideally, machine-readable information on the OA
+      status with the license is embedded in the resource.
+    linkDocumentation: 0
+  - id: licensingMetadata
+    isEnable: yes
+    type: statistic
+    title: Licensing
+    description: |
+    prefix: |
+      Percent of metadata records with a licence specified:
+    recommendation: |
+      The data on this list is cached for performance reasons. Once you completed your work please click
+      here to refresh the cache. The processing will take some time but you will be able to see the updated data
+  - id: preservation
+    isEnable: yes
+    type: text
+    title: Preservation
+    description: |
+      The repository has a plan in place to ensure the long-term management and preservation
+      of publications and provides documentation of that plan. The management plan
+      should include provisions for maintaining integrity, authenticity, and availability.
+      The repository records basic preservation metadata including provenance, date of
+      upload, and file format.
+    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+  - id: longTerm
+    isEnable: yes
+    type: text
+    title: Long-term Organizational Sustainability
+    description: |
+      The repository has publicly available policies that outline the plan for its long-term management and funding,
+      naming the organization responsible for its governance and continued management, and
+      containing provisions for cessation of service. The host organization funds staff to support the repository and
+      its users and publicly provides contact information for at least one individual charged with assisting users
+      and the explicit responsibility of managing the repository services.
+    linkDocumentation: 0
+  - id: uniquePersistentIdentifiers
+    isEnable: yes
+    type: text
+    title: Unique Persistent Identifiers
+    description: |
+      The repository assigns each resource a unique persistent identifier (PID),
+      such as a digital object identifier (DOI), to support discovery, citation, reporting (e.g., of research progress),
+      and research assessment (e.g., identifying the outputs of Federally funded research). The unique PID points to a
+      persistent location that remains accessible even if the content is de-accessioned or no longer available.
+      The repository supports PIDs for entities related to the resources, such as authors (e.g., ORCID), funders
+      (e.g., Funder Registry), and organizations (e.g., ROR).
+    linkDocumentation: 0
+  - id: researchDatasets
+    isEnable: yes
+    type: statistic
+    title: Do you provide links to research datasets
+    description: |
+    prefix: |
+  - id: accessibilityStatements
+    isEnable: yes
+    type: statistic
+    title: Do you provide data accessibility statements
+    description: |
+    prefix: |
+  - id: sourceCode
+    isEnable: yes
+    type: statistic
+    title: Do you provide links to source code
+    description: |
+    prefix: |
+  - id: doi
+    isEnable: yes
+    type: statistic
+    title: DOI
+    description: |
+    prefix: |
+      Percentage of metadata with DOI:
+  - id: ORCID
+    isEnable: yes
+    type: statistic
+    title: ORCID
+    description: |
+    prefix: |
+  - id: ROR
+    isEnable: yes
+    type: statistic
+    title: ROR
+    description: |
+    prefix: |
+      Percentage of metadata with ROR:
+  - id: metadata
+    isEnable: yes
+    type: text
+    title: Metadata
+    description: |
+      The repository ensures publications are accompanied by metadata to enable discovery, reuse, and citation,
+      using schema that are appropriate to, and ideally widely used across, the communities that the repository serves.
+      Metadata for the resource is recorded in a standard, interoperable, non-proprietary format. The repository
+      assigns a CC0 public domain license to all metadata for resources in the repository.
+    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+  - id: curationQualityAssurance
+    isEnable: yes
+    type: text
+    title: Curation and Quality Assurance
+    description: |
+      The repository provides or facilitates expert curation and quality assurance to improve the accuracy and
+      integrity of digital objects and their metadata. This may include metadata enhancement, file integrity checks,
+      and/or conversion to machine-readable formats. The repository provides documentation of what curation and quality
+      assurance processes are applied to repository contents.
+    linkDocumentation: 0
+  - id: broadMeasuredReuse
+    isEnable: yes
+    type: text
+    title: Broad and Measured Reuse
+    description: |
+      The repository provides a landing page for each digital object that includes metadata required for citation of
+      the object and provides this metadata in a machine-readable format. The repository collects and shares usage
+      information using a standard protocol. The repository offers an API to facilitate machine action and bulk sharing.
+    linkDocumentation: 0
+  - id: statisticIRUS
+    isEnable: yes
+    type: statistic
+    title: Download statistic (IRUS)
+    description: |
+      IRUS (Institutional Repository Usage Statistics) allows you to demonstrate the value and impact of your institutional
+      repository (IR). It does this by enabling institutional repositories to share
+      and compare usage statistics based on the COUNTER standard.
+  - id: commonFormat
+    isEnable: yes
+    type: text
+    title: Common Format
+    description: |
+      The repository allows resources and metadata to be accessed, downloaded, or exported from the repository in
+      widely used, preferably non-proprietary, formats.
+    linkDocumentation: 0
+  - id: provenance
+    isEnable: yes
+    type: text
+    title: Provenance
+    description: |
+      The repository has mechanisms in place to record the origin, provenance, version control, and any other modifications to submitted digital objects and their associated metadata.
+    linkDocumentation: 0
+  - id: authentication
+    isEnable: yes
+    type: text
+    title: Authentication
+    description: |
+      The repository supports authentication of its contributors. The repository has technical capabilities that facilitate associating contributor PIDs with those assigned to their deposited digital objects.
+    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+  - id: longTermTechnicalSustainability
+    isEnable: yes
+    type: text
+    title: Long-term Technical Sustainability
+    description: |
+      The repository has a plan for long-term management and funding of its technical infrastructure.
+    linkDocumentation: 0
+  - id: securityIntegrity
+    isEnable: yes
+    type: text
+    title: Security and Integrity
+    description: |
+      The repository has documented measures in place to meet well established cybersecurity criteria for
+      preventing unauthorized access to or manipulation of its content and regularly monitors the integrity
+      of its content. The repository has an emergency response plan in case of natural disaster, cyber attacks, etc.
+    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf

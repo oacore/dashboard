@@ -1,0 +1,10 @@
+.status-wrapper {
+  max-width: 850px;
+  padding-bottom: 15px;
+  margin: 0 auto;
+}
+
+.docs-link {
+  padding-right: 8px;
+  padding-bottom: 5px;
+}
