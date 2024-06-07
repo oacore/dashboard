@@ -36,8 +36,8 @@
     "postcss-extend-rule": "^4.0.0",
     "postcss-preset-env": "^7.7.2",
     "prettier": "^2.2.1",
-    "stylelint": "^13.8.0",
-    "svgo": "^1.3.2",
+    "stylelint": "^16.6.1",
+    "svgo": "^3.3.2",
     "yaml-frontmatter-loader": "^0.1.0",
     "yaml-import-loader": "^1.3.6"
   },
@@ -52,7 +52,7 @@
     "camelize": "^1.0.1",
     "connect": "^3.7.0",
     "core-js": "^3.8.1",
-    "cssnano": "^4.1.11",
+    "cssnano": "^7.0.2",
     "d3-array": "^2.8.0",
     "d3-collection": "^1.0.7",
     "escape-string-regexp": "^4.0.0",
@@ -62,7 +62,7 @@
     "mobx": "5.15.7",
     "mobx-react-lite": "^2.2.2",
     "mustache": "^4.0.1",
-    "next": "^10.0.3",
+    "next": "^14.2.3",
     "next-images": "^1.8.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -72,7 +72,7 @@
     "recharts": "^2.0.0",
     "remark-heading-id": "^1.0.0",
     "remark-slug": "^6.0.0",
-    "webpack": "^4.44.2"
+    "webpack": "^5.91.0"
   },
   "engines": {
     "node": ">=12"
