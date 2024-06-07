@@ -92,7 +92,7 @@ const RepositorySelect = ({ store }) => {
         id="repository"
         className={styles.repositorySelect}
         label="Repository"
-        value={value}
+        value={value.length > 100 ? `${value.substring(0, 110)}...` : value}
         onInput={handleOnInput}
         onChange={handleOnChange}
         onClick={handleSelectClick}

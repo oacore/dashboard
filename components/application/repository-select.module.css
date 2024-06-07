@@ -18,7 +18,7 @@
   /* stylelint-disable-next-line length-zero-no-unit */
   --form-control-border-width: 0px;
 
-  flex: 1;
+  flex: 2;
 
   &:focus-within {
     --form-control-border-width: 1px;
@@ -48,6 +48,10 @@
   gap: 24px;
 }
 
+.select-wrapper {
+  width: 100%;
+}
+
 .select-input input {
   background: #fff;
   border: 1px solid #b75400;
@@ -56,6 +60,7 @@
 
 .dropdown-menu-wrapper {
   position: relative;
+  flex: 1;
 }
 
 .dropdown-menu {
