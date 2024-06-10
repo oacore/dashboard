@@ -1,7 +1,6 @@
 import { observable } from 'mobx'
 
 import getOrder from '../order'
-import invalidatePreviousRequests from '../invalidatePreviousRequests'
 import Store from '../../store'
 import { PaymentRequiredError } from '../../errors'
 
@@ -48,7 +47,6 @@ class Pages extends Store {
     this.type = type
   }
 
-  @invalidatePreviousRequests
   load(signal) {
     const order = getOrder(this.columnOrder)
 
@@ -63,7 +61,6 @@ class Pages extends Store {
     if (this.type) params.type = this.type
     if (order) params.orderBy = order
     if (this.searchTerm) params.q = this.searchTerm
-
     const request = this.request(this.url, { searchParams: params, signal })
     return new Promise((resolve, reject) =>
       request
