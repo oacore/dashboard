@@ -137,6 +137,109 @@
   background: unset;
 }
 
+.set-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.set-title {
+  width: 78px;
+  padding: 6px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  color: #212121;
+  background: #e0e0e0;
+  border-radius: 2px;
+}
+
+.set-item {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  color: #212121;
+}
+
+.select-wrapper {
+  position: relative;
+  width: calc(100% - 100px);
+}
+
+.remove-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  cursor: pointer;
+}
+
+.select-input input {
+  background: #fff;
+  border: 1px solid #b75400;
+  border-radius: 2px;
+}
+
+.repository-logo {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+.dropdown-menu {
+  width: calc(100% - 124px);
+  padding: 10px;
+  background: #fff;
+  border-radius: 2px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.loading {
+  color: #9e9e9e;
+}
+
+.select-form-wrapper {
+  display: flex;
+  width: 100%;
+  margin-top: 24px;
+  gap: 24px;
+}
+
+.add-btn {
+  width: 100px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner circle {
+  stroke: #fff;
+}
+
+.select-item {
+  padding: 10px;
+  margin: 4px 0;
+  color: #b75400;
+  cursor: pointer;
+}
+
+.select-item:hover {
+  background: #eee;
+}
+
+.section-item:hover {
+  background: #eee;
+}
+
 .upload-container {
   display: flex;
   justify-content: space-between;
