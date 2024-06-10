@@ -8,6 +8,7 @@
   display: flex;
   flex: 2 2 60%;
   align-items: center;
+  gap: 20px;
 }
 
 .repository-select {
@@ -17,7 +18,7 @@
   /* stylelint-disable-next-line length-zero-no-unit */
   --form-control-border-width: 0px;
 
-  flex: 1;
+  flex: 2;
 
   &:focus-within {
     --form-control-border-width: 1px;
@@ -39,4 +40,42 @@
 
 .repository-select ul {
   font-weight: initial;
+}
+
+.select-form-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+}
+
+.select-wrapper {
+  width: 100%;
+}
+
+.select-input input {
+  background: #fff;
+  border: 1px solid #b75400;
+  border-radius: 2px;
+}
+
+.dropdown-menu-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.dropdown-menu {
+  position: absolute;
+  padding: 10px;
+  background: #fff;
+  border-radius: 2px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.select-item {
+  padding: 10px;
+  margin: 4px 0;
+  color: #b75400;
+  cursor: pointer;
 }

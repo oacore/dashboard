@@ -94,6 +94,49 @@
   color: var(--gray-900);
 }
 
+.set-main-item {
+  margin-top: 30px;
+}
+
+.set-outer-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.set-inner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.set-inner-field {
+  position: relative;
+  width: 100%;
+  font-weight: 500;
+}
+
+.set-button {
+  position: absolute;
+  right: 150px;
+  z-index: 1;
+  text-transform: lowercase;
+  cursor: pointer;
+  background: unset;
+  transform: translate(0, 0);
+}
+
+.spinner-wrapper {
+  position: absolute;
+  right: 150px;
+}
+
+.set-button:hover {
+  background: unset;
+}
+
 .upload-container {
   display: flex;
   justify-content: space-between;
