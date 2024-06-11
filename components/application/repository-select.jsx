@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import styles from './repository-select.module.css'
 import { TextField } from '../../design'
 
+import close from 'components/upload/assets/closeLight.svg'
 import { withGlobalStore } from 'store'
 
 const RepositorySelect = ({ store }) => {
@@ -86,6 +87,11 @@ const RepositorySelect = ({ store }) => {
     if (value === store.dataProvider.name) setShowSecondDropdown(true)
   }
 
+  const handleClear = () => {
+    // eslint-disable-next-line no-console
+    console.log('reset')
+  }
+
   return (
     <AppBar.Item className={styles.container}>
       <Select
@@ -112,14 +118,23 @@ const RepositorySelect = ({ store }) => {
         <div className={styles.dropdownMenuWrapper} ref={setsRef}>
           <div className={styles.selectFormWrapper}>
             <div className={styles.selectWrapper}>
-              <TextField
-                id="secondInput"
-                label="Sets"
-                onClick={handleDropdownClick}
-                readOnly
-                value={selectedItem ? selectedItem.setName : ''}
-                className={styles.selectInput}
-              />
+              {selectedItem ? (
+                <div className={styles.selectedItem}>
+                  {selectedItem.setName}
+                  {/* eslint-disable-next-line max-len */}
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
+                  <img onClick={handleClear} src={close} alt="close" />
+                </div>
+              ) : (
+                <TextField
+                  id="secondInput"
+                  label="Sets"
+                  onClick={handleDropdownClick}
+                  readOnly
+                  value={selectedItem ? selectedItem.setName : ''}
+                  className={styles.selectInput}
+                />
+              )}
             </div>
           </div>
           {isOpen && (
