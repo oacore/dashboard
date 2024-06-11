@@ -117,6 +117,7 @@ const RepositoryPageTemplate = observer(
     const [setNameDisplay, setSetNameDisplay] = useState({})
     const [isEditing, setIsEditing] = useState({})
     const [showFullList, setShowFullList] = useState(false)
+    const [inputValue, setInputValue] = useState('')
 
     const router = useRouter()
     const providerId = router.query['data-provider-id']
@@ -243,6 +244,7 @@ const RepositoryPageTemplate = observer(
 
     const handleSelect = (item) => {
       setSelectedItem(item)
+      setInputValue(item.setName)
       setIsOpen(false)
     }
 
@@ -328,6 +330,14 @@ const RepositoryPageTemplate = observer(
     const toggleList = () => {
       setShowFullList(!showFullList)
     }
+
+    const handleSetInputChange = (event) => {
+      setInputValue(event.target.value)
+    }
+
+    const filteredData = wholeSetData.filter((item) =>
+      item.setName.toLowerCase().includes(inputValue.toLowerCase())
+    )
 
     return (
       <Tag
@@ -534,8 +544,8 @@ const RepositoryPageTemplate = observer(
                           id="selectInput"
                           label="Add new set"
                           onClick={handleDropdownClick}
-                          readOnly
-                          value={selectedItem ? selectedItem.setName : ''}
+                          onChange={handleSetInputChange}
+                          value={inputValue}
                           className={styles.selectInput}
                         />
                         <img
@@ -564,7 +574,7 @@ const RepositoryPageTemplate = observer(
                           <p className={styles.loading}>Loading...</p>
                         ) : (
                           <ul>
-                            {wholeSetData.map((item) => (
+                            {filteredData.map((item) => (
                               // eslint-disable-next-line max-len
                               // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
                               <li
