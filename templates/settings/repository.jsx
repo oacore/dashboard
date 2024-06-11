@@ -466,7 +466,18 @@ const RepositoryPageTemplate = observer(
                           <div className={styles.setInnerHeader}>
                             <TextField
                               value={
-                                setNameDisplay[item.id] || item.setNameDisplay
+                                (setNameDisplay?.[item.id]?.length > 100
+                                  ? `${setNameDisplay[item.id].substring(
+                                      0,
+                                      100
+                                    )}...`
+                                  : setNameDisplay[item.id]) ||
+                                (item?.setNameDisplay?.length > 100
+                                  ? `${item.setNameDisplay.substring(
+                                      0,
+                                      100
+                                    )}...`
+                                  : item.setNameDisplay)
                               }
                               onChange={(event) =>
                                 handleInputChange(item.id, event)
@@ -515,13 +526,17 @@ const RepositoryPageTemplate = observer(
                           <div className={styles.setWrapper}>
                             <div className={styles.setTitle}>setName</div>
                             <span className={styles.setItem}>
-                              {item.setName}
+                              {item.setName.length > 110
+                                ? `${item.setName.substring(0, 110)}...`
+                                : item.setName}
                             </span>
                           </div>
                           <div className={styles.setWrapper}>
                             <div className={styles.setTitle}>setSpec</div>
                             <span className={styles.setItem}>
-                              {item.setSpec}
+                              {item.setSpec.length > 110
+                                ? `${item.setSpec.substring(0, 110)}...`
+                                : item.setSpec}
                             </span>
                           </div>
                         </div>
