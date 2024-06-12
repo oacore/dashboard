@@ -46,25 +46,25 @@ class DepositDates extends Store {
   updateOaiUrl = (baseUrl) => {
     const datesUrl = `${baseUrl}/public-release-dates${
       this.baseStore.setSelectedItem
-        ? `?set=${this.baseStore.setSelectedItem}`
+        ? `?set=${this.baseStore.setSelectedItem.setSpec}`
         : ''
     }`
     this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag${
       this.baseStore.setSelectedItem
-        ? `?set=${this.baseStore.setSelectedItem}`
+        ? `?set=${this.baseStore.setSelectedItem.setSpec}`
         : ''
     }`
     this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag${
       this.baseStore.setSelectedItem
-        ? `?set=${this.baseStore.setSelectedItem}`
+        ? `?set=${this.baseStore.setSelectedItem.setSpec}`
         : ''
     }`
     this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}?accept=text/csv`
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate${
       this.baseStore.setSelectedItem
-        ? `?set=${this.baseStore.setSelectedItem}`
+        ? `?set=${this.baseStore.setSelectedItem.setSpec}`
         : ''
     }`
 

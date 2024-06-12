@@ -42,7 +42,7 @@ class DOI extends Store {
   updateStatisticsUrl = (baseUrl) => {
     this.statisticsUrl = `${baseUrl}/statistics/doi${
       this.baseStore?.setSelectedItem
-        ? `?set=${this.baseStore?.setSelectedItem}`
+        ? `?set=${this.baseStore?.setSelectedItem.setSpec}`
         : ''
     }`
   }
@@ -51,7 +51,7 @@ class DOI extends Store {
   updateDoiRecords = (baseUrl) => {
     const DUrl = `${baseUrl}/doi${
       this.baseStore?.setSelectedItem
-        ? `?set=${this.baseStore?.setSelectedItem}`
+        ? `?set=${this.baseStore?.setSelectedItem.setSpec}`
         : ''
     }`
     this.doiRecords = new Pages(DUrl, this.options)

@@ -53,7 +53,7 @@ const RepositorySelect = ({ store }) => {
     setSelectedItem(item)
     setIsOpen(false)
     setInputValue(item.setName)
-    store.updateSelectedSetSpec(item.setSpec)
+    store.updateSelectedSetSpec(item)
     store.dataProvider?.getDeduplicationData(providerId)
     store.dataProvider?.getRrslistData(providerId)
     store.dataProvider?.doi?.doiRecords.load()

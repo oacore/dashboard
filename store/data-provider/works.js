@@ -23,7 +23,7 @@ class Works extends Store {
   updateWorks = (baseUrl) => {
     const url = `${baseUrl}/works${
       this.baseStore?.setSelectedItem
-        ? `?set=${this.baseStore?.setSelectedItem}`
+        ? `?set=${this.baseStore?.setSelectedItem.setSpec}`
         : ''
     }`
     this.workRecords = new Pages(url, this.options)

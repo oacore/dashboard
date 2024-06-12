@@ -21,6 +21,22 @@
   margin-bottom: 38px;
 }
 
+.set-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.set-name {
+  margin-right: 8px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: var(--success-dark);
+  letter-spacing: 0.048px;
+}
+
 .main-header-wrapper {
   display: flex;
   align-items: center;

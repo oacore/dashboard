@@ -161,7 +161,7 @@ class DataProvider extends Resource {
   getDeduplicationData = async (id, refresh = false) => {
     this.duplicateDataLoading = true
     try {
-      const specData = this.rootStore.setSelectedItem
+      const specData = this.rootStore.setSelectedItem.setSpec
       let url = `${process.env.API_URL}/data-providers/${id}/duplicates${
         specData ? `?set=${specData}` : ''
       }`
@@ -187,7 +187,7 @@ class DataProvider extends Resource {
   getRrslistData = async (id) => {
     this.rrsDataLoading = true
     try {
-      const specData = this.rootStore.setSelectedItem
+      const specData = this.rootStore.setSelectedItem.setSpec
       const url = `${
         process.env.API_URL
       }/data-providers/${id}/rights-retention${
