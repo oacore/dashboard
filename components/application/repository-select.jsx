@@ -15,6 +15,7 @@ const RepositorySelect = ({ store }) => {
   const [showSecondDropdown, setShowSecondDropdown] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
+  const [inputValue, setInputValue] = useState('')
   const providerId = router.query['data-provider-id']
   const setsRef = useRef(null)
 
@@ -51,6 +52,7 @@ const RepositorySelect = ({ store }) => {
   const handleSelect = (item) => {
     setSelectedItem(item)
     setIsOpen(false)
+    setInputValue(item.setName)
     store.updateSelectedSetSpec(item.setSpec)
     store.dataProvider?.getDeduplicationData(providerId)
     store.dataProvider?.getRrslistData(providerId)
@@ -92,6 +94,14 @@ const RepositorySelect = ({ store }) => {
     console.log('reset')
   }
 
+  const handleSetInputChange = (event) => {
+    setInputValue(event.target.value)
+  }
+
+  const filteredData = store.enabledList.filter((item) =>
+    item.setName.toLowerCase().includes(inputValue.toLowerCase())
+  )
+
   return (
     <AppBar.Item className={styles.container}>
       <Select
@@ -120,7 +130,9 @@ const RepositorySelect = ({ store }) => {
             <div className={styles.selectWrapper}>
               {selectedItem ? (
                 <div className={styles.selectedItem}>
-                  {selectedItem.setName}
+                  {selectedItem?.setName.length > 25
+                    ? `${selectedItem?.setName.substring(0, 25)}...`
+                    : inputValue}
                   {/* eslint-disable-next-line max-len */}
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
                   <img onClick={handleClear} src={close} alt="close" />
@@ -130,8 +142,8 @@ const RepositorySelect = ({ store }) => {
                   id="secondInput"
                   label="Sets"
                   onClick={handleDropdownClick}
-                  readOnly
-                  value={selectedItem ? selectedItem.setName : ''}
+                  onChange={handleSetInputChange}
+                  value={inputValue}
                   className={styles.selectInput}
                 />
               )}
@@ -140,7 +152,7 @@ const RepositorySelect = ({ store }) => {
           {isOpen && (
             <div className={styles.dropdownMenu}>
               <ul>
-                {store.enabledList.map((item) => (
+                {filteredData.map((item) => (
                   // eslint-disable-next-line max-len
                   // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
                   <li
