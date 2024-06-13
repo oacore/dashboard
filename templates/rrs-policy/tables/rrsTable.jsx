@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button } from '@oacore/design/lib/elements'
 import { Popover } from '@oacore/design'
@@ -20,6 +20,9 @@ import request from '../../../api'
 import StatusCard from '../cards/statusCard'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import Tablev2 from '../../../components/tablev2/tablev2'
+import { GlobalContext } from '../../../store'
+import checked from '../../../components/upload/assets/checkGreen.svg'
+import TextWithTooltip from '../../../components/textWithTooltip/textWithtooltip'
 
 import Table from 'components/table'
 
@@ -36,6 +39,7 @@ const RrsTable = observer(
     dataProviderData,
     rrsUrl,
   }) => {
+    const { ...globalStore } = useContext(GlobalContext)
     const [visibleHelp, setVisibleHelp] = useState(
       localStorage.getItem('rrsHelp') === 'true'
     )
@@ -191,7 +195,20 @@ const RrsTable = observer(
 
     return (
       <Card className={styles.rrsTableWrapper} id="rrsTable">
-        <Card.Title tag="h2">{texts.table.title}</Card.Title>
+        <div className={styles.setHeaderWrapper}>
+          <Card.Title tag="h2">{texts.table.title}</Card.Title>
+          {globalStore?.setSelectedItem && (
+            <div>
+              <img src={checked} alt="" />
+              <span className={styles.setName}>
+                <TextWithTooltip
+                  className={styles.setName}
+                  text={globalStore.selectedSetName}
+                />
+              </span>
+            </div>
+          )}
+        </div>
         <div className={styles.itemCountIndicator}>{texts.table.subTitle}</div>
         {rrsDataLoading ? (
           <div className={styles.dataSpinnerWrapper}>

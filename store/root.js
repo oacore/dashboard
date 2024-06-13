@@ -145,9 +145,16 @@ class Root extends Store {
 
   @observable setSelectedItem = ''
 
+  @observable selectedSetName = ''
+
   @action
   updateSelectedSetSpec = (value) => {
     this.setSelectedItem = value
+  }
+
+  @action
+  updateSelectedSetName = (value) => {
+    this.selectedSetName = value
   }
 
   @action

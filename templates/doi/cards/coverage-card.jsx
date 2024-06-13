@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import Parser from 'html-react-parser'
 
 import styles from '../styles.module.css'
+import { GlobalContext } from '../../../store'
+import checked from '../../../components/upload/assets/checkGreen.svg'
+import TextWithTooltip from '../../../components/textWithTooltip/textWithtooltip'
 
 import { Card } from 'design'
 import Markdown from 'components/markdown'
@@ -54,49 +57,65 @@ const CoverageEnrichmentChart = ({
   )
 }
 
-const CoverageCard = ({ doiCount, totalCount, enrichmentSize }) => (
-  <Card className={styles.overviewCard} tag="section">
-    <Card.Title tag="h2">{texts.coverage.title}</Card.Title>
-    <div className={styles.overviewCardContent}>
-      <div>
-        <NumericValue
-          value={valueOrDefault(doiCount, 'Loading...')}
-          caption={texts.coverage.numberLabel}
-          tag="p"
-          title={texts.coverage.numberLabelTooltip}
-        />
+const CoverageCard = ({ doiCount, totalCount, enrichmentSize }) => {
+  const { ...globalStore } = useContext(GlobalContext)
+  return (
+    <Card className={styles.overviewCard} tag="section">
+      <div className={styles.setHeaderWrapper}>
+        <Card.Title tag="h2">{texts.coverage.title}</Card.Title>
+        {globalStore?.setSelectedItem && (
+          <div>
+            <img src={checked} alt="" />
+            <span className={styles.setName}>
+              <TextWithTooltip
+                className={styles.setName}
+                text={globalStore.selectedSetName}
+              />
+            </span>
+          </div>
+        )}
       </div>
-      <div className={styles.optional}>
-        <NumericValue
-          value={valueOrDefault((doiCount / totalCount) * 100, 'Loading...')}
-          append="%"
-          caption={texts.coverage.percentLabel}
-          tag="p"
-          title={texts.coverage.percentLabelTooltip}
-        />
+      <div className={styles.overviewCardContent}>
+        <div>
+          <NumericValue
+            value={valueOrDefault(doiCount, 'Loading...')}
+            caption={texts.coverage.numberLabel}
+            tag="p"
+            title={texts.coverage.numberLabelTooltip}
+          />
+        </div>
+        <div className={styles.optional}>
+          <NumericValue
+            value={valueOrDefault((doiCount / totalCount) * 100, 'Loading...')}
+            append="%"
+            caption={texts.coverage.percentLabel}
+            tag="p"
+            title={texts.coverage.percentLabelTooltip}
+          />
+        </div>
+        <div>
+          <NumericValue
+            value={valueOrDefault(formatNumber(enrichmentSize), 'Loading...')}
+            caption={texts.coverage.enrichmentLabel}
+            notation="standard"
+            className={classNames.use(enrichmentSize > 0 && styles.enrichment)}
+            tag="p"
+            title={Parser(texts.coverage.enrichmentLabelTooltip)}
+          />
+        </div>
       </div>
-      <div>
-        <NumericValue
-          value={valueOrDefault(formatNumber(enrichmentSize), 'Loading...')}
-          caption={texts.coverage.enrichmentLabel}
-          notation="standard"
-          className={classNames.use(enrichmentSize > 0 && styles.enrichment)}
-          tag="p"
-          title={Parser(texts.coverage.enrichmentLabelTooltip)}
-        />
-      </div>
-    </div>
-    <CoverageEnrichmentChart
-      coveredCount={doiCount}
-      totalCount={totalCount}
-      enrichmentSize={enrichmentSize}
-    />
-    {enrichmentSize > 0 && (
-      <Markdown>
-        {texts.coverage.body.render({ count: enrichmentSize })}
-      </Markdown>
-    )}
-  </Card>
-)
+      <CoverageEnrichmentChart
+        coveredCount={doiCount}
+        totalCount={totalCount}
+        enrichmentSize={enrichmentSize}
+      />
+      {enrichmentSize > 0 && (
+        <Markdown>
+          {texts.coverage.body.render({ count: enrichmentSize })}
+        </Markdown>
+      )}
+    </Card>
+  )
+}
 
 export default CoverageCard

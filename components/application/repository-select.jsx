@@ -31,6 +31,7 @@ const RepositorySelect = ({ store }) => {
       router.push(routePath, actualPath)
       setShowSecondDropdown(true)
       store.updateSelectedSetSpec(null)
+      store.updateSelectedSetName(null)
     },
     [router, store.dataProvider.name]
   )
@@ -54,6 +55,7 @@ const RepositorySelect = ({ store }) => {
     setIsOpen(false)
     setInputValue(item.setName)
     store.updateSelectedSetSpec(item.setSpec)
+    store.updateSelectedSetName(item.setName)
     store.dataProvider?.getDeduplicationData(providerId)
     store.dataProvider?.getRrslistData(providerId)
     store.dataProvider?.doi?.doiRecords.load()
