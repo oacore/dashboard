@@ -102,3 +102,7 @@
   border-radius: 4px;
   gap: 24px;
 }
+
+.close-icon {
+  cursor: pointer;
+}

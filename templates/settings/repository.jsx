@@ -260,6 +260,7 @@ const RepositoryPageTemplate = observer(
           setSelectedItem(null)
           await getSetsWholeList()
           await getSetsEnabledList()
+          setInputValue('')
         } catch (error) {
           console.error('Error patching settings:', error)
         } finally {

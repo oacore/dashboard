@@ -92,8 +92,18 @@ const RepositorySelect = ({ store }) => {
   }
 
   const handleClear = () => {
-    // eslint-disable-next-line no-console
-    console.log('reset')
+    setSelectedItem(null)
+    setInputValue('')
+    store.updateSelectedSetSpec(null)
+    store.updateSelectedSetName(null)
+    store.dataProvider?.getDeduplicationData(providerId)
+    store.dataProvider?.getRrslistData(providerId)
+    store.dataProvider?.doi?.doiRecords.load()
+    store.dataProvider.works.resetWorks()
+    store.dataProvider.depositDates.resetCompliance()
+    store.dataProvider.doi.resetDoiRecords()
+    store.dataProvider?.depositDates?.publicReleaseDatesPages?.load()
+    store.dataProvider.retrieve()
   }
 
   const handleSetInputChange = (event) => {
@@ -137,7 +147,12 @@ const RepositorySelect = ({ store }) => {
                     : inputValue}
                   {/* eslint-disable-next-line max-len */}
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
-                  <img onClick={handleClear} src={close} alt="close" />
+                  <img
+                    className={styles.closeIcon}
+                    onClick={handleClear}
+                    src={close}
+                    alt="close"
+                  />
                 </div>
               ) : (
                 <TextField
