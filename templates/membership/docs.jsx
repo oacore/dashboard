@@ -5,7 +5,7 @@ import styles from './docs-styles.module.css'
 import DocumentationNav from '../membershipDocumentationNav'
 import Markdown from '../../components/markdown'
 
-const DocumentationBlockTemplate = ({ headerDashboard, docs }) => {
+const DocumentationBlockTemplate = ({ headerDashboard, docs, navigation }) => {
   const [highlight, setHighlight] = useState()
   return (
     <div className={styles.documentationWrapper}>
@@ -14,7 +14,7 @@ const DocumentationBlockTemplate = ({ headerDashboard, docs }) => {
       </h2>
       <Markdown>{headerDashboard.header.caption}</Markdown>
       <div className={styles.placement}>
-        <DocumentationNav setHighlight={setHighlight} />
+        <DocumentationNav navigation={navigation} setHighlight={setHighlight} />
         <div className={styles.documentationInnerWrapper}>
           {docs.items.map((item, index) => (
             <div

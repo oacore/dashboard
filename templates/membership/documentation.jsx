@@ -10,6 +10,7 @@ const DocumentationPageTemplate = ({
   className,
   headerDashboard,
   docs,
+  navigation,
   ...restProps
 }) => (
   <Tag
@@ -20,6 +21,7 @@ const DocumentationPageTemplate = ({
       <DocumentationBlockTemplate
         headerDashboard={headerDashboard}
         docs={docs}
+        navigation={navigation}
       />
     </article>
   </Tag>
