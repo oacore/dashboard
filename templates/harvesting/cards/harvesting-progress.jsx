@@ -119,8 +119,8 @@ const HarvestingProgressCard = observer(
         </div>
         <div className={styles.requestDateWrapper}>
           {modalOpen &&
-            harvestingStatus?.scheduledState ===
-              'IN_DOWNLOAD_METADATA_QUEUE' && (
+            harvestingStatus?.scheduledState === 'IN_DOWNLOAD_METADATA_QUEUE' &&
+            !result(
               <HarvestingModal
                 title={texts.modal.scheduled.title}
                 description={texts.modal.scheduled.description}
@@ -162,7 +162,7 @@ const HarvestingProgressCard = observer(
                 className={classNames.use(styles.progressCircle, {
                   [styles.progressCircleActive]:
                     harvestingStatus?.scheduledState ===
-                    'IN_DOWNLOAD_METADATA_QUEUE',
+                      'IN_DOWNLOAD_METADATA_QUEUE' && !result,
                 })}
               />
             </Popover>
@@ -170,7 +170,7 @@ const HarvestingProgressCard = observer(
               className={classNames.use(styles.progressText, {
                 [styles.progressTextActive]:
                   harvestingStatus?.scheduledState ===
-                  'IN_DOWNLOAD_METADATA_QUEUE',
+                    'IN_DOWNLOAD_METADATA_QUEUE' && !result,
               })}
             >
               {texts.type.scheduled.title}
