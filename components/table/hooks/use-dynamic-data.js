@@ -31,7 +31,6 @@ const useDynamicTableData = ({ pages, defaultSize = 100 }) => {
       else newSize = defaultSize
 
       const newState = {}
-
       // reset data when search or column order changes
       if (searchTerm !== pages.searchTerm || columnOrder !== pages.columnOrder)
         newState.data = null
