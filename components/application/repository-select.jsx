@@ -145,8 +145,8 @@ const RepositorySelect = ({ store }) => {
             <div className={styles.selectWrapper}>
               {selectedItem ? (
                 <div className={styles.selectedItem}>
-                  {selectedItem?.setNameDisplay.length > 25
-                    ? `${selectedItem?.setNameDisplay.substring(0, 25)}...`
+                  {selectedItem?.setNameDisplay.length > 20
+                    ? `${selectedItem?.setNameDisplay.substring(0, 20)}...`
                     : inputValue}
                   {/* eslint-disable-next-line max-len */}
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
