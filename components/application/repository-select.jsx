@@ -56,9 +56,9 @@ const RepositorySelect = ({ store }) => {
   const handleSelect = (item) => {
     setSelectedItem(item)
     setIsOpen(false)
-    setInputValue(item.setName)
+    setInputValue(item.setNameDisplay)
     store.updateSelectedSetSpec(item.setSpec)
-    store.updateSelectedSetName(item.setName)
+    store.updateSelectedSetName(item.setNameDisplay)
     store.dataProvider?.getDeduplicationData(providerId)
     store.dataProvider?.getRrslistData(providerId)
     store.dataProvider?.doi?.doiRecords.load()
@@ -114,7 +114,7 @@ const RepositorySelect = ({ store }) => {
   }
 
   const filteredData = store.enabledList.filter((item) =>
-    item.setName.toLowerCase().includes(inputValue.toLowerCase())
+    item.setNameDisplay.toLowerCase().includes(inputValue.toLowerCase())
   )
 
   return (
@@ -145,8 +145,8 @@ const RepositorySelect = ({ store }) => {
             <div className={styles.selectWrapper}>
               {selectedItem ? (
                 <div className={styles.selectedItem}>
-                  {selectedItem?.setNameDisplay.length > 20
-                    ? `${selectedItem?.setNameDisplay.substring(0, 20)}...`
+                  {selectedItem?.setNameDisplay.length > 30
+                    ? `${selectedItem?.setNameDisplay.substring(0, 30)}...`
                     : inputValue}
                   {/* eslint-disable-next-line max-len */}
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
