@@ -128,6 +128,10 @@
   transform: translate(0, 0);
 }
 
+.set-button-text {
+  text-transform: initial;
+}
+
 .spinner-wrapper {
   position: absolute;
   right: 150px;

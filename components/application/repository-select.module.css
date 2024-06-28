@@ -19,6 +19,7 @@
   --form-control-border-width: 0px;
 
   flex: 1;
+  width: 100%;
 
   &:focus-within {
     --form-control-border-width: 1px;
@@ -54,8 +55,28 @@
 
 .select-input input {
   background: #fff;
-  border: 1px solid #b75400;
+  border: 1px solid transparent;
   border-radius: 2px;
+}
+
+.folder-icon {
+  margin-right: 8px;
+}
+
+.dropdown-second-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.active-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.active-wrapper div {
+  display: flex;
+  width: 100%;
 }
 
 /* stylelint-disable declaration-no-important */
@@ -70,6 +91,8 @@
 
 .dropdown-menu {
   position: absolute;
+  left: 35px;
+  width: 92%;
   padding: 10px;
   background: #fff;
   border-radius: 2px;
@@ -78,9 +101,14 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
+.active {
+  border: 1px solid #b75400;
+}
+
 .select-item {
   padding: 10px;
   margin: 4px 0;
+  font-weight: initial;
   color: #b75400;
   cursor: pointer;
 }

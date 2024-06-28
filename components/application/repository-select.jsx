@@ -1,11 +1,14 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react'
 import { AppBar, Select } from '@oacore/design'
 import { useRouter } from 'next/router'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './repository-select.module.css'
 import { TextField } from '../../design'
 
 import close from 'components/upload/assets/closeLight.svg'
+import folder from 'components/upload/assets/folder.svg'
+import dropdown from 'components/upload/assets/dropdownArrow.svg'
 import { withGlobalStore } from 'store'
 
 const RepositorySelect = ({ store }) => {
@@ -142,8 +145,8 @@ const RepositorySelect = ({ store }) => {
             <div className={styles.selectWrapper}>
               {selectedItem ? (
                 <div className={styles.selectedItem}>
-                  {selectedItem?.setName.length > 25
-                    ? `${selectedItem?.setName.substring(0, 25)}...`
+                  {selectedItem?.setNameDisplay.length > 25
+                    ? `${selectedItem?.setNameDisplay.substring(0, 25)}...`
                     : inputValue}
                   {/* eslint-disable-next-line max-len */}
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
@@ -155,14 +158,32 @@ const RepositorySelect = ({ store }) => {
                   />
                 </div>
               ) : (
-                <TextField
-                  id="secondInput"
-                  label="Sets"
-                  onClick={handleDropdownClick}
-                  onChange={handleSetInputChange}
-                  value={inputValue}
-                  className={styles.selectInput}
-                />
+                <div className={styles.dropdownSecondWrapper}>
+                  <img
+                    className={styles.folderIcon}
+                    src={folder}
+                    alt="dropdown"
+                  />
+                  <div
+                    className={classNames.use(styles.activeWrapper, {
+                      [styles.active]: isOpen,
+                    })}
+                  >
+                    <TextField
+                      id="secondInput"
+                      label="Sets"
+                      onClick={handleDropdownClick}
+                      onChange={handleSetInputChange}
+                      value={inputValue}
+                      className={styles.selectInput}
+                    />
+                    <img
+                      className={styles.icon}
+                      src={dropdown}
+                      alt="dropdown"
+                    />
+                  </div>
+                </div>
               )}
             </div>
           </div>
@@ -177,7 +198,7 @@ const RepositorySelect = ({ store }) => {
                     onClick={() => handleSelect(item)}
                     className={styles.selectItem}
                   >
-                    {item.setName}
+                    {item.setNameDisplay}
                   </li>
                 ))}
               </ul>

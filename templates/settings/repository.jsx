@@ -446,7 +446,8 @@ const RepositoryPageTemplate = observer(
             </div>
           )}
         </Card>
-        {globalStore.enabledList.length > 0 ? (
+        {globalStore.enabledList.length >= 0 &&
+        globalStore.dataProvider.id === 140 ? (
           <div ref={setRef}>
             <Card
               className={classNames.use(styles.section).join(className)}
