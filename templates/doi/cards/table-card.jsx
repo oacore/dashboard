@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useObserver } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
+import checked from '../../../components/upload/assets/checkGreen.svg'
+import { GlobalContext } from '../../../store'
+import TextWithTooltip from '../../../components/textWithTooltip/textWithtooltip'
 
 import { PaymentRequiredError } from 'store/errors'
 import { Card, Icon } from 'design'
@@ -28,6 +31,7 @@ const formatDOI = (entity) => {
 }
 
 const TableCard = ({ pages, exportUrl }) => {
+  const { ...globalStore } = useContext(GlobalContext)
   const [tableProps, fetchData] = useDynamicTableData({
     pages,
     defaultSize: 5,
@@ -38,7 +42,20 @@ const TableCard = ({ pages, exportUrl }) => {
 
   return (
     <Card className={styles.doiTableCard} tag="section">
-      <Card.Title tag="h2">Browse DOI records</Card.Title>
+      <div className={styles.setHeaderWrapper}>
+        <Card.Title tag="h2">Browse DOI records</Card.Title>
+        {globalStore?.setSelectedItem && (
+          <div>
+            <img src={checked} alt="" />
+            <span className={styles.setName}>
+              <TextWithTooltip
+                className={styles.setName}
+                text={globalStore.setSelectedItem.setName}
+              />
+            </span>
+          </div>
+        )}
+      </div>
       <Table
         className={classNames.use(
           styles.doiTable,

@@ -9,8 +9,8 @@ const DoiPage = ({ store: { dataProvider, organisation }, ...props }) => (
     doiUrl={dataProvider?.doi?.doiUrl}
     isExportDisabled={
       dataProvider?.doi?.enrichmentSize === 0 ||
-      dataProvider?.doi?.doiRecords.error != null ||
-      dataProvider?.doi?.doiRecords.data.length === 0
+      dataProvider?.doi?.doiRecords?.error != null ||
+      dataProvider?.doi?.doiRecords?.data.length === 0
     }
     doiCount={dataProvider?.doi?.originCount}
     dataProviderName={dataProvider.name}

@@ -16,6 +16,9 @@ invite:
 repository:
   title: Your repository
 
+sets:
+  title: Repository Sets
+  description: Sets are an OAI-PMH solution that you can use to categorise your content. By adding sets in this section you enable the dashboard to show you both the global data and a view focussed only on a specific set.
 mapping:
   title: Register OAI mapping
   description: This allows you to register a mapping between the OAI Prefix and the URL in your repository to which it should resolve. Once resolved and activated your OAI resolver will start resolving your OAIs directly to your repository metadata page. Where not registered, we will resolve to the metadata page in CORE. To find out more see [OAI identifier documentation](https://core.ac.uk/documentation/oai-resolver).

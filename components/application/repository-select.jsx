@@ -1,19 +1,26 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useRef } from 'react'
 import { AppBar, Select } from '@oacore/design'
 import { useRouter } from 'next/router'
 
 import styles from './repository-select.module.css'
+import { TextField } from '../../design'
 
+import close from 'components/upload/assets/closeLight.svg'
 import { withGlobalStore } from 'store'
 
 const RepositorySelect = ({ store }) => {
   const router = useRouter()
   const [suggestions, setSuggestions] = useState(store.user.dataProviders)
   const [value, setValue] = useState(store.dataProvider.name)
+  const [showSecondDropdown, setShowSecondDropdown] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedItem, setSelectedItem] = useState(null)
+  const [inputValue, setInputValue] = useState('')
+  const providerId = router.query['data-provider-id']
+  const setsRef = useRef(null)
 
   const handleOnChange = useCallback(
     (data) => {
-      if (data.value === store.dataProvider.name) return
       if (!data.id) {
         setValue(store.dataProvider.name)
         return
@@ -22,6 +29,8 @@ const RepositorySelect = ({ store }) => {
       const actualPath = `/data-providers/${data.id}`
 
       router.push(routePath, actualPath)
+      setShowSecondDropdown(true)
+      store.updateSelectedSetSpec(null)
     },
     [router, store.dataProvider.name]
   )
@@ -36,9 +45,62 @@ const RepositorySelect = ({ store }) => {
     setValue(data.value)
   }, [])
 
+  const handleDropdownClick = async () => {
+    setIsOpen(!isOpen)
+  }
+
+  const handleSelect = (item) => {
+    setSelectedItem(item)
+    setIsOpen(false)
+    setInputValue(item.setName)
+    store.updateSelectedSetSpec(item)
+    store.dataProvider?.getDeduplicationData(providerId)
+    store.dataProvider?.getRrslistData(providerId)
+    store.dataProvider?.doi?.doiRecords.load()
+    store.dataProvider.works.resetWorks()
+    store.dataProvider.depositDates.resetCompliance()
+    store.dataProvider.doi.resetDoiRecords()
+    store.dataProvider?.depositDates?.publicReleaseDatesPages?.load()
+    store.dataProvider.retrieve()
+  }
+
+  useEffect(() => {
+    store.getSetsEnabledList()
+  }, [providerId])
+
   useEffect(() => {
     setValue(store.dataProvider.name)
   }, [store.dataProvider.name])
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (setsRef.current && !setsRef.current.contains(event.target))
+        setIsOpen(false)
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [setsRef])
+
+  const handleSelectClick = () => {
+    if (value === store.dataProvider.name) setShowSecondDropdown(true)
+  }
+
+  const handleClear = () => {
+    // eslint-disable-next-line no-console
+    console.log('reset')
+  }
+
+  const handleSetInputChange = (event) => {
+    setInputValue(event.target.value)
+  }
+
+  const filteredData = store.enabledList.filter((item) =>
+    item.setName.toLowerCase().includes(inputValue.toLowerCase())
+  )
 
   return (
     <AppBar.Item className={styles.container}>
@@ -46,9 +108,10 @@ const RepositorySelect = ({ store }) => {
         id="repository"
         className={styles.repositorySelect}
         label="Repository"
-        value={value}
+        value={value.length > 100 ? `${value.substring(0, 110)}...` : value}
         onInput={handleOnInput}
         onChange={handleOnChange}
+        onClick={handleSelectClick}
         placeholder="Search repositories"
         clearButton={false}
         clearOnFocus
@@ -61,6 +124,50 @@ const RepositorySelect = ({ store }) => {
           </Select.Option>
         ))}
       </Select>
+      {store.enabledList.length > 0 && showSecondDropdown && (
+        <div className={styles.dropdownMenuWrapper} ref={setsRef}>
+          <div className={styles.selectFormWrapper}>
+            <div className={styles.selectWrapper}>
+              {selectedItem ? (
+                <div className={styles.selectedItem}>
+                  {selectedItem?.setName.length > 25
+                    ? `${selectedItem?.setName.substring(0, 25)}...`
+                    : inputValue}
+                  {/* eslint-disable-next-line max-len */}
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
+                  <img onClick={handleClear} src={close} alt="close" />
+                </div>
+              ) : (
+                <TextField
+                  id="secondInput"
+                  label="Sets"
+                  onClick={handleDropdownClick}
+                  onChange={handleSetInputChange}
+                  value={inputValue}
+                  className={styles.selectInput}
+                />
+              )}
+            </div>
+          </div>
+          {isOpen && (
+            <div className={styles.dropdownMenu}>
+              <ul>
+                {filteredData.map((item) => (
+                  // eslint-disable-next-line max-len
+                  // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                  <li
+                    key={item.id}
+                    onClick={() => handleSelect(item)}
+                    className={styles.selectItem}
+                  >
+                    {item.setName}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
     </AppBar.Item>
   )
 }
