@@ -4,6 +4,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import styles from './docs-styles.module.css'
 import DocumentationNav from '../membershipDocumentationNav'
 import Markdown from '../../components/markdown'
+import redirectLink from '../../components/upload/assets/redirectLink.svg'
 
 const DocumentationBlockTemplate = ({ headerDashboard, docs, navigation }) => {
   const [highlight, setHighlight] = useState()
@@ -30,17 +31,32 @@ const DocumentationBlockTemplate = ({ headerDashboard, docs, navigation }) => {
               >
                 {item.title}
               </h3>
-              <div className={styles.typeWrapper}>
-                {item?.membership?.map((member) => (
-                  <span
-                    key={member.name}
-                    className={classNames
-                      .use(styles.membership)
-                      .join(member.status ? styles.enabled : styles.disabled)}
+              <div className={styles.subTitleWrapper}>
+                <div className={styles.typeWrapper}>
+                  {item?.membership?.map((member) => (
+                    <span
+                      key={member.name}
+                      className={classNames
+                        .use(styles.membership)
+                        .join(member.status ? styles.enabled : styles.disabled)}
+                    >
+                      {member.name}
+                    </span>
+                  ))}
+                </div>
+                {item.redirect && (
+                  <a
+                    target="_blank"
+                    href={item.redirect?.link}
+                    className={styles.linkWrapper}
+                    rel="noreferrer"
                   >
-                    {member.name}
-                  </span>
-                ))}
+                    <span className={styles.linkText}>
+                      {item.redirect?.text}
+                    </span>
+                    <img alt="redirect" src={redirectLink} />
+                  </a>
+                )}
               </div>
               <Markdown>{item.descriptionDashboard}</Markdown>
               <div>
