@@ -7,8 +7,9 @@ import styles from './styles.module.css'
 import content from '../../texts/settings'
 import notification from './assets/notification.svg'
 import notificationsOff from './assets/notificationsOffs.svg'
-import HarvestingNotification from './cards/harvestingNotification'
-import DeduplicationNotification from './cards/dedupliactionNotifications'
+import Notification from '../../components/notification/notification'
+import harvesting from '../../components/upload/images/harvestingStatus.svg'
+import deduplication from '../../components/upload/images/deduplicationStatus.svg'
 
 const NotificationsPageTemplate = observer(
   ({
@@ -239,7 +240,8 @@ const NotificationsPageTemplate = observer(
             {content.notifications.subTitle}
           </span>
           <div className={styles.mainWrapper}>
-            <HarvestingNotification
+            <Notification
+              type="harvesting"
               label={
                 <span className={styles.switchTitle}>
                   {content.notifications.types.harvesting.type}
@@ -247,45 +249,41 @@ const NotificationsPageTemplate = observer(
               }
               title={content.notifications.types.harvesting.notifyOne}
               subTitle={content.notifications.types.harvesting.notifyTwo}
-              options={Object?.values(
+              options={Object.values(
                 content.notifications.types.harvesting.radio
               )}
               checked={harvestingSwitch}
               onChange={toggleHarvestingSwitch}
               id="harvesting"
               name="harvesting"
-              updateNotifications={updateNotifications}
               handleOptionChange={handleHarvestingOptionChange}
               dataProviderId={dataProviderId}
-              harvestNotifications={harvestNotifications}
-              deduplicationNotifications={deduplicationNotifications}
+              notifications={harvestNotifications}
               updateNotificationsPending={harvestingNotificationsPending}
-              harvestingNotificationsPending={harvestingNotificationsPending}
+              notificationsPending={harvestingNotificationsPending}
+              image={harvesting}
             />
-            <DeduplicationNotification
+            <Notification
+              type="deduplication"
               label={
                 <span className={styles.switchTitle}>
                   {content.notifications.types.deduplication.type}
                 </span>
               }
               title={content.notifications.types.deduplication.notifyOne}
-              subTitle={content.notifications.types.deduplication.notifyTwo}
-              options={Object?.values(
+              options={Object.values(
                 content.notifications.types.deduplication.radio
               )}
               checked={deduplicationSwitch}
               onChange={toggleDeduplicationSwitch}
               id="deduplication"
               name="deduplication"
-              updateNotifications={updateNotifications}
               handleOptionChange={handleDeduplicationOptionChange}
               dataProviderId={dataProviderId}
-              harvestNotifications={harvestNotifications}
-              deduplicationNotifications={deduplicationNotifications}
+              notifications={deduplicationNotifications}
               updateNotificationsPending={deduplicationNotificationsPending}
-              deduplicationNotificationsPending={
-                deduplicationNotificationsPending
-              }
+              notificationsPending={deduplicationNotificationsPending}
+              image={deduplication}
             />
           </div>
         </Card>
