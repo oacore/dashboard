@@ -20,6 +20,11 @@ const config = [
     icon: 'deduplication',
   },
   {
+    test: `fresh-finds`,
+    path: 'fresh-finds',
+    icon: 'fresh-finds',
+  },
+  {
     id: 'content',
     path: 'content',
     icon: 'file-document',

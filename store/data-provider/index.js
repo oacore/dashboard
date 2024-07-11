@@ -85,6 +85,10 @@ class DataProvider extends Resource {
 
   @observable statusUpdate = []
 
+  @observable freshFindsData = []
+
+  @observable freshFindsDataLoading = false
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -118,6 +122,11 @@ class DataProvider extends Resource {
   @action
   setUploadResult = (result) => {
     this.uploadResults = result
+  }
+
+  @action
+  setFreshFindsData(data) {
+    this.freshFindsData = data
   }
 
   @action
@@ -522,6 +531,26 @@ class DataProvider extends Resource {
       this.datasetUserData = data
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
+    }
+  }
+
+  @action
+  getFreshFindsData = async (id) => {
+    this.freshFindsDataLoading = true
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${id}/fresh-finds`
+      )
+
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        this.setFreshFindsData(data)
+      } else throw new Error('Failed to fetch fresh data')
+    } catch (error) {
+      console.error('Error fetching fresh data:', error)
+      this.setFreshFindsData([])
+    } finally {
+      this.freshFindsDataLoading = false
     }
   }
 

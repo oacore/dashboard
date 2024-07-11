@@ -6,6 +6,7 @@ items:
   data: Data
   validator: Metadata validator
   deduplication: Versions/duplicates
+  fresh-finds: Fresh finds
   content: Content
   deposit-compliance: OA compliance
   rights-retention-strategy: RRS Policy

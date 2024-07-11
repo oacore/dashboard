@@ -3,7 +3,7 @@ import { Icon } from '@oacore/design/lib/elements'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
-import { ProgressSpinner, Card } from '../../../design'
+import { Card } from '../../../design'
 import styles from '../styles.module.css'
 import Actions from '../../../components/actions'
 import Table from '../../../components/table'
@@ -13,6 +13,7 @@ import AccessPlaceholder from '../../../components/access-placeholder/AccessPlac
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import DashboardCachedMessage from '../../../components/dashboard-cached-message'
+import TableLoading from '../../../components/tableLoading'
 
 const DeduplicationListTable = observer(
   ({
@@ -133,12 +134,7 @@ const DeduplicationListTable = observer(
         />
         <DashboardCachedMessage title={texts.cachedInfo.title} />
         {duplicateDataLoading ? (
-          <div className={styles.dataSpinnerWrapper}>
-            <ProgressSpinner className={styles.spinner} />
-            <p className={styles.spinnerText}>
-              This may take a while, longer for larger repositories ...
-            </p>
-          </div>
+          <TableLoading />
         ) : (
           <Tablev2
             rowClick={(row) => handeAdditionalInfo(row)}

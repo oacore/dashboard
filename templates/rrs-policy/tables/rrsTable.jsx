@@ -5,7 +5,7 @@ import { Button } from '@oacore/design/lib/elements'
 import { Popover } from '@oacore/design'
 
 import styles from '../styles.module.css'
-import { Card, ProgressSpinner } from '../../../design'
+import { Card } from '../../../design'
 import texts from '../../../texts/rrs-retention/rrs.yml'
 import RrsWarning from '../cards/warningCard'
 import ExportButton from '../../../components/export-button'
@@ -20,6 +20,7 @@ import request from '../../../api'
 import StatusCard from '../cards/statusCard'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import Tablev2 from '../../../components/tablev2/tablev2'
+import TableLoading from '../../../components/tableLoading'
 
 import Table from 'components/table'
 
@@ -194,12 +195,7 @@ const RrsTable = observer(
         <Card.Title tag="h2">{texts.table.title}</Card.Title>
         <div className={styles.itemCountIndicator}>{texts.table.subTitle}</div>
         {rrsDataLoading ? (
-          <div className={styles.dataSpinnerWrapper}>
-            <ProgressSpinner className={styles.spinner} />
-            <p className={styles.spinnerText}>
-              This may take a while, longer for larger repositories ...
-            </p>
-          </div>
+          <TableLoading />
         ) : (
           <>
             <RrsWarning
