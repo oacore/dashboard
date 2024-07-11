@@ -87,14 +87,22 @@ const RrsTable = observer(
       } else {
         const startIndex = page * 10
         const endIndex = Math.min(startIndex + 10, rrsList.length)
-        const newRRS = [
-          ...tableData,
-          ...rrsList.slice(startIndex, endIndex),
-        ].map((item) => ({
-          ...item,
-          id: +item.articleId,
-          output: null,
-        }))
+        let newRRS
+        if (globalStore.setSelectedItem) {
+          newRRS = rrsList.map((item) => ({
+            ...item,
+            id: +item.articleId,
+            output: null,
+          }))
+        } else {
+          newRRS = [...tableData, ...rrsList.slice(startIndex, endIndex)].map(
+            (item) => ({
+              ...item,
+              id: +item.articleId,
+              output: null,
+            })
+          )
+        }
         setTableData(newRRS)
       }
     }, [rrsList, page, checkBillingType])
