@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { HeaderCard, StatusCard } from './cards'
+import { HeaderCard, StatusCard, StatusCardClosed } from './cards'
 import styles from './styles.module.css'
 
-const USRNTemplate = ({
+export const USRNTemplateActivated = ({
   usrnParams,
   className,
   tag: Tag = 'main',
@@ -15,4 +15,15 @@ const USRNTemplate = ({
   </Tag>
 )
 
-export default USRNTemplate
+export const USRNTemplateDeactivated = ({
+  className,
+  tag: Tag = 'main',
+  ...restProps
+}) => (
+  <Tag className={[styles.container, className].join(' ')} {...restProps}>
+    <HeaderCard />
+    <StatusCardClosed />
+  </Tag>
+)
+
+export default { USRNTemplateActivated, USRNTemplateDeactivated }

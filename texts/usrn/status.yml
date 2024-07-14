@@ -70,12 +70,22 @@ statusItems:
     type: statistic
     title: Do you support FAIR Signposting?
     description: |
+      FAIR Signposting is a technical approach designed to enhance the discoverability and interoperability
+      of scholarly resources on the web. It involves using standardized HTTP link relations to expose key information
+      about web resources, particularly in the context of scholarly communication. This approach aligns with the broader
+      FAIR principles, which aim for data to be Findable, Accessible, Interoperable, and Reusable.
+      The FAIR Signposting Profile is provided by: author, cite-as, describedby, describes, type, license, item, collection.
     prefix: |
   - id: vocabulariesCOAR
     isEnable: yes
     type: statistic
     title: Do your metadata use COAR vocabularies
     description: |
+      COAR (Confederation of Open Access Repositories) vocabularies are structured sets of terms organized to provide
+      a common framework for the sharing and integration of data across different systems,
+      primarily in the open access and scholarly communication fields. These vocabularies are developed
+      and maintained by COAR, an international association that aims to enhance visibility and use of research outputs
+      through global networks of open access repositories.
     prefix: |
   - id: clearUseGuidance
     isEnable: yes
@@ -141,7 +151,10 @@ statusItems:
     type: statistic
     title: Do you provide data accessibility statements
     description: |
-    prefix: |
+      A data availability statement also sometimes called a ‘data access statement’, tells the reader where the research
+      data associated with a paper is available, and under what conditions the data can be accessed.
+      They also include links where applicable to the data set.
+    linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Free-and-Easy-Discoverability-and-Access
   - id: sourceCode
     isEnable: yes
     type: statistic
@@ -160,7 +173,9 @@ statusItems:
     type: statistic
     title: ORCID
     description: |
+      Public Investigator and Contributor Identifier is a non-proprietary alphanumeric code that uniquely identifies scientific authors.
     prefix: |
+    linkDocumentation: https://en.wikipedia.org/wiki/ORCID
   - id: ROR
     isEnable: yes
     type: statistic
@@ -243,3 +258,6 @@ statusItems:
       preventing unauthorized access to or manipulation of its content and regularly monitors the integrity
       of its content. The repository has an emergency response plan in case of natural disaster, cyber attacks, etc.
     linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+usrnClosed: |
+  DataProvider is not supporting USRN
+usrnListDataProvider: [ 3463, 183, 2145, 1248, 660, 222, 14373, 3559, 21117, 292, 14567, 2812, 196, 3581, 197, 12800, 14335, 1249, 2313, 21853, 15201, 1012, 158 ]

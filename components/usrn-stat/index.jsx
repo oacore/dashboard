@@ -7,6 +7,7 @@ import { formatDate, formatNumber, valueOrDefault } from '../../utils/helpers'
 import Markdown from '../markdown'
 import NumericValue from '../numeric-value'
 import infoLight from '../upload/assets/infoLight.svg'
+import LinkDoc from '../usrn-text/linkDoc'
 
 import { overview as textIrusUk } from 'texts/irus-uk/index'
 
@@ -33,6 +34,11 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
     )
       isLoading = false
 
+    const percent = (coveredCount / totalCount) * 100
+    const percentFull = formatNumber(percent, {
+      maximumFractionDigits: 0,
+    })
+
     return (
       <div className={styles.chartRow}>
         <div
@@ -40,11 +46,10 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
             styles.chartBar,
             isLoading ? styles.loadingBar : styles.base
           )}
+          style={{ width: `${percentFull}%` }}
         >
           <span className={styles.chartPercent}>
-            {isLoading
-              ? 'Loading...'
-              : `${formatNumber((coveredCount / totalCount) * 100)}%`}
+            {isLoading ? 'Loading...' : `${formatNumber(percent)}%`}
           </span>
         </div>
       </div>
@@ -163,6 +168,12 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
     ''
   )
 
+  const linkDocumentation = content.linkDocumentation ? (
+    <LinkDoc content={content} />
+  ) : (
+    ''
+  )
+
   const recommendationCreated = content.recommendation ? (
     <div className={styles.recommendationWrapper}>
       <div className={styles.recommendationHeader}>
@@ -199,6 +210,7 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
         <div>
           {descriptionCreated}
           {prefixCreated}
+          {linkDocumentation}
           <div className={styles.stat}>{statCreated}</div>
           <div className={styles.statText}>{statTextCreated}</div>
           {recommendationCreated}
