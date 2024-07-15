@@ -14,30 +14,45 @@ class Issues extends Store {
     super(baseUrl, options)
 
     this.issuesUrl = `${baseUrl}/issues`
-    this.getHarvestingStatus()
+    this.getHarvestingStatus(true)
     this.getIssuesAggregation()
   }
 
   @action
-  async getHarvestingStatus() {
-    const { data } = await this.request(`${this.url}/harvesting`)
-    this.harvestingStatus = data
+  async getHarvestingStatus(refresh = false) {
+    try {
+      let url = `${this.url}/harvesting`
+      if (refresh) url += '?refresh=true'
+
+      const options = refresh ? { cache: 'reload' } : {}
+
+      const { data } = await this.request(url, options)
+      this.harvestingStatus = data
+    } catch (error) {
+      console.error('Error fetching harvesting status:', error)
+      this.harvestingStatus = null
+    }
   }
 
   @action
   async getIssuesAggregation() {
-    const { data } = await this.request(`${this.issuesUrl}/aggregation`)
+    try {
+      const { data } = await this.request(`${this.issuesUrl}/aggregation`)
 
-    // initialize pages per every issue type
-    Object.keys(data.countByType || {}).forEach((type) => {
-      const downloadUrl = `${process.env.API_URL}${this.issuesUrl}?type=${type}&accept=text/csv`
-      const pages = new Pages(this.issuesUrl, this.options)
-      pages.type = type
-      pages.downloadUrl = downloadUrl
-      this.issuesByType.set(type, pages)
-    })
+      // initialize pages per every issue type
+      Object.keys(data.countByType || {}).forEach((type) => {
+        const downloadUrl = `${process.env.API_URL}${this.issuesUrl}?type=${type}&accept=text/csv`
+        const pages = new Pages(this.issuesUrl, this.options)
+        pages.type = type
+        pages.downloadUrl = downloadUrl
+        this.issuesByType.set(type, pages)
+      })
 
-    this.aggregation = data
+      this.aggregation = data
+    } catch (error) {
+      console.error('Error fetching issues aggregation:', error)
+      this.aggregation = null
+    }
   }
 }
 

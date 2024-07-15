@@ -43,6 +43,10 @@ helpInfo:
   show: Show tips
   hide: Hide tips
 
+cachedInfo:
+  title: The data on this list is cached for performance reasons. The processing will take some time but you will be able to see the updated data
+  actionBtn: Refresh the cache
+
 moreInfoComparison:
   action: Close comparison
   title: Comparison tips
@@ -99,6 +103,9 @@ comparison:
     - title: Different from the reference paper
       type: notSameArticle
       info: This indicates that this record is not related to the reference paper. You decided to disassociate this record from the reference paper. This will remove the connection of this record from the reference Works entity.
+  differentButton:
+      title: Different version
+      info: This indicates that this record is a different version of the same paper. You can't choose this type unless you specify the version.
   toggleVersion:
     - title: Different version
       index: 1
@@ -152,6 +159,19 @@ comparison:
       description: You decided to disassociate this record from the reference paper. This will remove the connection of this record from the reference Works entity. Do you want to proceed?
       confirm: YES
       cancel: NO
+    - title: Unset "To be removed" status
+      index: 2
+      type: ""
+      description: This article will be **unmarked** from **"To be removed".**
+      confirm: YES
+      cancel: NO
+    - title: Unset previous action
+      index: 3
+      type: ""
+      description: Unset disassociate this record from the reference paper action.
+      confirm: YES
+      cancel: NO
+
 
 guideCard:
   title: Compare metadata records

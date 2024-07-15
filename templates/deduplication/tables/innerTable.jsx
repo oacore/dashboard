@@ -11,6 +11,7 @@ import Actions from '../../../components/actions'
 import ComparisonTable from './comparisonTable'
 import questionInfo from '../../../components/upload/assets/questionInfo.svg'
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
+import Tablev2 from '../../../components/tablev2/tablev2'
 
 const InnerTable = observer(
   ({
@@ -22,6 +23,7 @@ const InnerTable = observer(
     worksDataInfo,
     outputData,
     getDeduplicationInfo,
+    duplicateData,
   }) => {
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
@@ -76,7 +78,7 @@ const InnerTable = observer(
             setText={setVisibleWarning}
             activeText={visibleWarning}
           />
-          <Table
+          <Tablev2
             className={styles.issueTable}
             fetchData={() => {}}
             hidePagination
@@ -194,7 +196,7 @@ const InnerTable = observer(
                 </div>
               )}
             />
-          </Table>
+          </Tablev2>
           <ComparisonTable
             updateWork={updateWork}
             getDeduplicationInfo={getDeduplicationInfo}
@@ -204,6 +206,7 @@ const InnerTable = observer(
             worksDataInfo={worksDataInfo}
             handleButtonToggle={handleButtonToggle}
             compare={compare}
+            duplicateData={duplicateData}
           />
         </div>
       </>

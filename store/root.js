@@ -73,6 +73,8 @@ class Root extends Store {
   constructor(options) {
     super(null, options)
     this.options.request = this.options.request.bind(this)
+    //  TODO Check if harvesting works, removed because wrong api call
+    // this.issues = new Issues(process.env.API_URL, this.options)
   }
 
   contactUrl = `${process.env.API_URL}/contact`
@@ -123,6 +125,8 @@ class Root extends Store {
 
   @observable seenAll = []
 
+  @observable responseData = null
+
   @action
   setHarvestNotifications = (data) => {
     this.harvestNotifications = data
@@ -131,6 +135,11 @@ class Root extends Store {
   @action
   setDeduplicationNotifications = (data) => {
     this.deduplicationNotifications = data
+  }
+
+  @action
+  setResponseData = (data) => {
+    this.responseData = data
   }
 
   @computed
@@ -410,6 +419,18 @@ class Root extends Store {
       method: 'POST',
       body: data,
     })
+  }
+
+  @action
+  sendHarvestingRequest = async (message) => {
+    const url = `/data-providers/${this.dataProvider.id}/harvesting/request`
+    const response = await this.request(url, {
+      method: 'POST',
+      body: {
+        message,
+      },
+    })
+    this.setResponseData(response)
   }
 }
 
