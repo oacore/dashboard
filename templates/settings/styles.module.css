@@ -186,15 +186,6 @@
   cursor: pointer;
 }
 
-.card-wrapper {
-  display: flex;
-  justify-content: space-between;
-  padding: 24px 0;
-  margin-top: 10px;
-  border-top: 1px solid #b75400;
-  border-bottom: 1px solid #b75400;
-}
-
 .inner-wrapper {
   display: flex;
   justify-content: space-between;
@@ -213,10 +204,6 @@
   margin-top: 24px;
 }
 
-.notification-container {
-  width: 50%;
-}
-
 .switch-title {
   font-size: 16px;
   font-style: normal;
@@ -224,16 +211,6 @@
   line-height: 130%;
   color: #000;
   letter-spacing: 0.026px;
-}
-
-.toggler-text {
-  margin-left: 62px;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 130%;
-  color: #424242;
-  letter-spacing: 0.042px;
 }
 
 .harvesting-type {
@@ -610,10 +587,6 @@
 
 .action-button {
   text-transform: capitalize;
-}
-
-.disabled {
-  cursor: not-allowed;
 }
 
 .user-wrapper {

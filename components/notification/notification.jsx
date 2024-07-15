@@ -1,12 +1,12 @@
 import React from 'react'
-import { Switch } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
+import { Switch } from '@oacore/design'
 
-import RadioGroup from '../../../components/checkbox/radiobutton'
-import styles from '../styles.module.css'
-import deduplication from '../../../components/upload/images/deduplicationStatus.svg'
+import styles from './styles.module.css'
+import RadioGroup from '../checkbox/radiobutton'
 
-const DeduplicationNotification = ({
+const Notification = ({
+  type,
   label,
   title,
   options,
@@ -14,33 +14,26 @@ const DeduplicationNotification = ({
   onChange,
   id,
   name,
-  selectedOption,
   handleOptionChange,
   dataProviderId,
-  deduplicationNotifications,
+  notifications,
   updateNotificationsPending,
-  deduplicationNotificationsPending,
+  notificationsPending,
+  image,
 }) => (
   <>
     <div className={styles.notificationContainer}>
       <div
         className={classNames.use({
-          [styles.disabled]:
-            deduplicationNotificationsPending || !deduplicationNotifications,
+          [styles.disabled]: notificationsPending || !notifications,
         })}
       >
         <Switch
           className={styles.toggler}
           id={id}
           checked={checked}
-          nonActive={
-            deduplicationNotificationsPending || !deduplicationNotifications
-          }
-          onChange={
-            deduplicationNotificationsPending || !deduplicationNotifications
-              ? null
-              : onChange
-          }
+          nonActive={notificationsPending || !notifications}
+          onChange={notificationsPending || !notifications ? null : onChange}
           label={label}
         />
       </div>
@@ -49,21 +42,20 @@ const DeduplicationNotification = ({
         <div>
           <RadioGroup
             onChange={handleOptionChange}
-            selectedOption={selectedOption}
             options={options}
             name={name}
             dataProviderId={dataProviderId}
             checkedStatus={checked}
-            notificationData={deduplicationNotifications}
+            notificationData={notifications}
             updateNotificationsPending={updateNotificationsPending}
           />
         </div>
         <div>
-          <img src={deduplication} alt="deduplication" />
+          <img src={image} alt={type} />
         </div>
       </div>
     </div>
   </>
 )
 
-export default DeduplicationNotification
+export default Notification
