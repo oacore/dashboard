@@ -86,14 +86,7 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       statusClass = true
       break
     case 'vocabulariesCOAR':
-      // yes/no/error
-      statCreated = (
-        <NumericValue
-          value={valueOrDefault(usrnVocabulariesCOAR, 'Loading...')}
-          // size="extra-small"
-        />
-      )
-      statusClass = true
+      statusClass = usrnVocabulariesCOAR
       break
     case 'licensingMetadata':
       // eslint-disable-next-line no-case-declarations
