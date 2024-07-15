@@ -76,7 +76,7 @@ const config = new RouteConfig([
   {
     test: /\/usrn/,
     path: 'usrn',
-    icon: 'star',
+    icon: 'file-check',
   },
   {
     test: /\/plugins/,
