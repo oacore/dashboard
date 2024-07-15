@@ -20,14 +20,14 @@ const StatusCard = ({ usrnParams }) => {
               {texts.status.dateReport}: {usrnDateReportUpdate}
             </div>
             <Button variant="outlined" className={styles.headerButton}>
-              Update report
+              {texts.status.buttons.update}
             </Button>
           </>
         ) : (
           ''
         )}
         <Button variant="contained" className={styles.headerButton}>
-          Download in PDF
+          {texts.status.buttons.download}
         </Button>
       </div>
       <Card.Title className={styles.statusTitleFirst}>

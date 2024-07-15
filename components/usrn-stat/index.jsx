@@ -36,9 +36,10 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
 
     const percent = (coveredCount / totalCount) * 100
     const percentFull = formatNumber(percent, {
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 1,
     })
 
+    const percentWidth = percentFull < 15 ? '' : `width: ${percentFull}%`
     return (
       <div className={styles.chartRow}>
         <div
@@ -46,10 +47,10 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
             styles.chartBar,
             isLoading ? styles.loadingBar : styles.base
           )}
-          style={{ width: `${percentFull}%` }}
+          style={{ percentWidth }}
         >
           <span className={styles.chartPercent}>
-            {isLoading ? 'Loading...' : `${formatNumber(percent)}%`}
+            {isLoading ? 'Loading...' : `${formatNumber(percentFull)}%`}
           </span>
         </div>
       </div>
@@ -86,22 +87,16 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       statusClass = true
       break
     case 'vocabulariesCOAR':
-      // yes/no/error
-      statCreated = (
-        <NumericValue
-          value={valueOrDefault(usrnVocabulariesCOAR, 'Loading...')}
-          // size="extra-small"
-        />
-      )
-      statusClass = true
+      statusClass = usrnVocabulariesCOAR
       break
     case 'licensingMetadata':
-      statTextCreated = (
-        <NumericValue
-          value={valueOrDefault(usrnLicense, 'Loading...')}
-          size="extra-small"
-        />
-      )
+      // eslint-disable-next-line no-case-declarations
+      const randomTotalLicense = parseInt(usrnLicense, 10) + usrnLicense / 3 + 5
+      statCreated = enrichmentChart({
+        coveredCount: usrnLicense,
+        totalCount: randomTotalLicense,
+      })
+
       statusClass = true
       break
     case 'ROR':
