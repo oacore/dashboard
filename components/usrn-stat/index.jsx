@@ -39,6 +39,7 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       maximumFractionDigits: 1,
     })
 
+    const percentWidth = percentFull < 15 ? '' : `width: ${percentFull}%`
     return (
       <div className={styles.chartRow}>
         <div
@@ -46,7 +47,7 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
             styles.chartBar,
             isLoading ? styles.loadingBar : styles.base
           )}
-          style={{ width: `${percentFull}%` }}
+          style={{ percentWidth }}
         >
           <span className={styles.chartPercent}>
             {isLoading ? 'Loading...' : `${formatNumber(percentFull)}%`}
