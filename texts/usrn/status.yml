@@ -1,5 +1,7 @@
 titleFirst: USRN Desirable Characteristics of Digital Publication Repositories Report
-descriptionFirst: In defining the desirable characteristics outlined below, the U.S. Repository Network (USRN) Desirable Characteristics Working Group strove to balance feasibility and necessity.
+descriptionFirst: This report should give a live view of the status of the repository against a series of principles defined as
+  ["Desirable Characteristics"](https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf)
+  and it should support and serve as a companion to the [Toolkit](https://github.com/antleaf/USRN-Discovery/wiki/Toolkit) created by the USRN Discovery project.
 dateReport: Date of the last report update
 buttons:
   update: Update report
@@ -25,68 +27,32 @@ statusItems:
   - id: repositoryOAIPMH
     isEnable: yes
     type: statistic
-    title: Your repository supports OAI-PMH?
+    title: Your repository supports OAI-PMH
     description: |
       The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in
       the remainder of this document) provides an application-independent interoperability
-      framework based on metadata harvesting.
-  - id: applicationProfile
-    isEnable: yes
-    type: statistic
-    title: Your repository metadata supports a widely used Application Profile
-    description: |
-      OpenAIRE Guidelines 3.0+ or RIOXX
-    prefix: |
-      Your metadata compliant with RIOXX:
+      framework based on metadata harvesting. This provides the basic building block to provide an
+      interoperable digital publications repository.
   - id: indexedContent
     isEnable: yes
     type: statistic
     title: Indexed content
     description: |
+      The number of records CORE is able to index from your digital repository. If this number doesn't match your records
+      it might mean you have issues in exposing your records in an interoperable way.
+      You can check the [Harvesting tab](/harvesting) where we collect issues CORE discovered while indexing your repository.
     prefix: |
       Number of metadata records:
   - id: accessFullTexts
     isEnable: yes
     type: statistic
-    title: Do you provide access to full texts of research papers for your content?
+    title: Access to full texts of research papers for your content
     description: |
+      The number of full text CORE is able to discover from your digital repository. If this number doesn't match your records
+      it might mean you have issues in exposing your records in an interoperable way.
+      You can check the [Harvesting tab](/harvesting) where we collect issues CORE discovered while indexing your repository.
     prefix: |
       Percentage of documents with access to full text:
-  - id: embargoedDocuments
-    isEnable: yes
-    type: statistic
-    title: Do you label embargoed documents?
-    description: |
-    prefix: |
-      Percentage of embargoed documents:
-  - id: webAccessibility
-    isEnable: yes
-    type: statistic
-    title: Web accessibility
-    description: |
-    prefix: |
-  - id: signpostingFAIR
-    isEnable: yes
-    type: statistic
-    title: Do you support FAIR Signposting?
-    description: |
-      FAIR Signposting is a technical approach designed to enhance the discoverability and interoperability
-      of scholarly resources on the web. It involves using standardized HTTP link relations to expose key information
-      about web resources, particularly in the context of scholarly communication. This approach aligns with the broader
-      FAIR principles, which aim for data to be Findable, Accessible, Interoperable, and Reusable.
-      The FAIR Signposting Profile is provided by: author, cite-as, describedby, describes, type, license, item, collection.
-    prefix: |
-  - id: vocabulariesCOAR
-    isEnable: yes
-    type: statistic
-    title: Do your metadata use COAR vocabularies
-    description: |
-      COAR (Confederation of Open Access Repositories) vocabularies are structured sets of terms organized to provide
-      a common framework for the sharing and integration of data across different systems,
-      primarily in the open access and scholarly communication fields. These vocabularies are developed
-      and maintained by COAR, an international association that aims to enhance visibility and use of research outputs
-      through global networks of open access repositories.
-    prefix: |
   - id: clearUseGuidance
     isEnable: yes
     type: text
@@ -116,7 +82,7 @@ statusItems:
       should include provisions for maintaining integrity, authenticity, and availability.
       The repository records basic preservation metadata including provenance, date of
       upload, and file format.
-    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+    linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Preservation
   - id: longTerm
     isEnable: yes
     type: text
@@ -127,7 +93,7 @@ statusItems:
       containing provisions for cessation of service. The host organization funds staff to support the repository and
       its users and publicly provides contact information for at least one individual charged with assisting users
       and the explicit responsibility of managing the repository services.
-    linkDocumentation: 0
+    linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Long-term-Organizational-Sustainability
   - id: uniquePersistentIdentifiers
     isEnable: yes
     type: text
@@ -143,8 +109,9 @@ statusItems:
   - id: researchDatasets
     isEnable: yes
     type: statistic
-    title: Do you provide links to research datasets
+    title: Links to research datasets
     description: |
+      This is in development right now.
     prefix: |
   - id: accessibilityStatements
     isEnable: yes
@@ -154,12 +121,14 @@ statusItems:
       A data availability statement also sometimes called a ‘data access statement’, tells the reader where the research
       data associated with a paper is available, and under what conditions the data can be accessed.
       They also include links where applicable to the data set.
+      This is in development right now.
     linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Free-and-Easy-Discoverability-and-Access
   - id: sourceCode
     isEnable: yes
     type: statistic
     title: Do you provide links to source code
     description: |
+      This is in development right now.
     prefix: |
   - id: doi
     isEnable: yes
@@ -182,7 +151,7 @@ statusItems:
     title: ROR
     description: |
     prefix: |
-      Percentage of metadata with ROR:
+      Is your institutional repository connected with the ROR ID of your institution
   - id: metadata
     isEnable: yes
     type: text
@@ -193,6 +162,34 @@ statusItems:
       Metadata for the resource is recorded in a standard, interoperable, non-proprietary format. The repository
       assigns a CC0 public domain license to all metadata for resources in the repository.
     linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+  - id: signpostingFAIR
+    isEnable: yes
+    type: statistic
+    title: FAIR Signposting
+    description: |
+      FAIR Signposting is a technical approach designed to enhance the discoverability and interoperability
+      of scholarly resources on the web. It involves using standardized HTTP link relations to expose key information
+      about web resources, particularly in the context of scholarly communication. This approach aligns with the broader
+      FAIR principles, which aim for data to be Findable, Accessible, Interoperable, and Reusable.
+    prefix: |
+  - id: vocabulariesCOAR
+    isEnable: yes
+    type: statistic
+    title: Use of COAR vocabularies
+    description: |
+      COAR (Confederation of Open Access Repositories) vocabularies are structured sets of terms organized to provide
+      a common framework for the sharing and integration of data across different systems.
+    prefix: |
+  - id: embargoedDocuments
+    isEnable: yes
+    type: statistic
+    title: Do you label embargoed documents?
+    description: |
+      Embargoed documents require correct tagging to ensure that machines can access and understand the policy.
+      There are various supported ways of tagging an embargo document, CORE recognises only a few of them.
+      If this number doesn't match the one in your records please review your system.
+    prefix: |
+      Percentage of embargoed documents:
   - id: curationQualityAssurance
     isEnable: yes
     type: text
@@ -228,6 +225,16 @@ statusItems:
       The repository allows resources and metadata to be accessed, downloaded, or exported from the repository in
       widely used, preferably non-proprietary, formats.
     linkDocumentation: 0
+  - id: applicationProfile
+    isEnable: yes
+    type: statistic
+    title: Your repository metadata supports a widely used Application Profile
+    description: |
+      Ensuring the usuage of a well-known application profile means that the metadata of the publication is described
+      in a less ambiguous and more accurate way. Most used publications profiles are the OpenAIRE Guidelines 3.0+ and the
+      RIOXX metadata application profile.
+    prefix: |
+      Your repository support RIOXXv2, RIOXXv3, OAIRE (todo)
   - id: provenance
     isEnable: yes
     type: text
