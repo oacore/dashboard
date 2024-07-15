@@ -10,6 +10,7 @@ import notificationsOff from './assets/notificationsOffs.svg'
 import Notification from '../../components/notification/notification'
 import harvesting from '../../components/upload/images/harvestingStatus.svg'
 import deduplication from '../../components/upload/images/deduplicationStatus.svg'
+import freshFinds from '../../components/upload/images/freshFinds.svg'
 
 const NotificationsPageTemplate = observer(
   ({
@@ -284,6 +285,29 @@ const NotificationsPageTemplate = observer(
               updateNotificationsPending={deduplicationNotificationsPending}
               notificationsPending={deduplicationNotificationsPending}
               image={deduplication}
+            />
+            <Notification
+              type="freshFinds"
+              label={
+                <span className={styles.switchTitle}>
+                  {content.notifications.types.freshFinds.type}
+                </span>
+              }
+              title={content.notifications.types.freshFinds.notifyOne}
+              subTitle={content.notifications.types.freshFinds.notifyTwo}
+              options={Object.values(
+                content.notifications.types.freshFinds.radio
+              )}
+              // checked={}
+              // onChange={}
+              id="freshFinds"
+              name="freshFinds"
+              // handleOptionChange={}
+              dataProviderId={dataProviderId}
+              // notifications={}
+              // updateNotificationsPending={}
+              // notificationsPending={}
+              image={freshFinds}
             />
           </div>
         </Card>

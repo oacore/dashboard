@@ -106,6 +106,19 @@ notifications:
           key: 6 month
         - title: Every time when deduplication finished
           key: every time
+    freshFinds:
+      type: freshFinds
+      notifyOne: Notify me when one of our researchers publishes a new article elsewhere
+      notifyTwo: Send me a Fresh Finds Report email.
+      radio:
+        - title: Every month
+          key: every month
+        - title: Every 3 months
+          key: 3 month
+        - title: Every 6 months
+          key: 6 month
+        - title: Every time when new paper found
+          key: every time
 
 notificationGuide:
   title: Enable notifications for your repository
