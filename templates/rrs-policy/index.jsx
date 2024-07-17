@@ -8,8 +8,61 @@ import RrsCheckCard from './cards/rrsCheckerCard'
 import RrsTable from './tables/rrsTable'
 import DashboardHeader from '../../components/dashboard-header'
 import ShowMoreText from '../../components/showMore'
+import NetworkGraph from './chart'
 
 import rrs from 'texts/rrs-retention'
+
+const tempData = {
+  chart: {
+    graphData: {
+      nodes: [
+        {
+          id: 'Stark',
+          height: 50,
+          count: 10, // Add count property
+        },
+        {
+          id: 'Frey',
+          height: 50,
+          count: 5, // Add count property
+        },
+        {
+          id: 'Bolton',
+          height: 50,
+          count: 7, // Add count property
+        },
+        {
+          id: 'Lannister',
+          height: 50,
+          count: 8, // Add count property
+        },
+        {
+          id: 'Tyrell',
+          height: 50,
+          count: 6, // Add count property
+        },
+      ],
+      edges: [
+        {
+          from: 'Stark',
+          to: 'Frey',
+        },
+        {
+          from: 'Stark',
+          to: 'Bolton',
+        },
+        {
+          from: 'Stark',
+          to: 'Lannister',
+        },
+        {
+          from: 'Stark',
+          to: 'Tyrell',
+        },
+      ],
+    },
+  },
+}
 
 const RrsPageTemplate = ({
   tag: Tag = 'main',
@@ -83,6 +136,7 @@ const RrsPageTemplate = ({
           rrsUrl={rrsUrl}
           dataProviderData={dataProviderData}
         />
+        <NetworkGraph data={tempData} />
       </div>
     </Tag>
   )
