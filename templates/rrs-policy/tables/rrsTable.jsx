@@ -21,8 +21,6 @@ import StatusCard from '../cards/statusCard'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import { GlobalContext } from '../../../store'
-import checked from '../../../components/upload/assets/checkGreen.svg'
-import TextWithTooltip from '../../../components/textWithTooltip/textWithtooltip'
 
 import Table from 'components/table'
 
@@ -203,20 +201,7 @@ const RrsTable = observer(
 
     return (
       <Card className={styles.rrsTableWrapper} id="rrsTable">
-        <div className={styles.setHeaderWrapper}>
-          <Card.Title tag="h2">{texts.table.title}</Card.Title>
-          {globalStore?.setSelectedItem && (
-            <div>
-              <img src={checked} alt="" />
-              <span className={styles.setName}>
-                <TextWithTooltip
-                  className={styles.setName}
-                  text={globalStore.selectedSetName}
-                />
-              </span>
-            </div>
-          )}
-        </div>
+        <Card.Title tag="h2">{texts.table.title}</Card.Title>
         <div className={styles.itemCountIndicator}>{texts.table.subTitle}</div>
         {rrsDataLoading ? (
           <div className={styles.dataSpinnerWrapper}>

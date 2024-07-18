@@ -1,19 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Icon } from '@oacore/design/lib/elements'
 
 import styles from '../styles.module.css'
 import { formatNumber } from '../../../utils/helpers'
 import { Button } from '../../../design'
 import Actions from '../../../components/actions'
-import { GlobalContext } from '../../../store'
-import checked from '../../../components/upload/assets/checkGreen.svg'
-import TextWithTooltip from '../../../components/textWithTooltip/textWithtooltip'
 
 import rrs from 'texts/rrs-retention'
 import { Card } from 'design'
 
 const RrsReviewCard = ({ rrsList, rrsDataLoading }) => {
-  const { ...globalStore } = useContext(GlobalContext)
   const rrsToReviewList = rrsList.filter(
     (item) => item.validationStatusRRS !== 1 && item.validationStatusRRS !== 2
   )
@@ -56,17 +52,6 @@ const RrsReviewCard = ({ rrsList, rrsDataLoading }) => {
         <Button href="#rrsTable" variant="contained">
           {rrs.reviewCard.action}
         </Button>
-        {globalStore?.setSelectedItem && (
-          <div>
-            <img src={checked} alt="" />
-            <span className={styles.setName}>
-              <TextWithTooltip
-                className={styles.setName}
-                text={globalStore.selectedSetName}
-              />
-            </span>
-          </div>
-        )}
       </div>
     </Card>
   )

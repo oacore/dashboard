@@ -48,6 +48,15 @@
   color: var(--danger-light);
 }
 
+.info-wrapper {
+  border: 1px solid #c6a700;
+  background: #fdf4cd;
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
 .harvesting-wrapper {
   display: flex;
   justify-content: space-between;

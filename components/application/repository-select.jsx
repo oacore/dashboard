@@ -1,4 +1,10 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react'
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+} from 'react'
 import { AppBar, Select } from '@oacore/design'
 import { useRouter } from 'next/router'
 import { classNames } from '@oacore/design/lib/utils'
@@ -9,13 +15,13 @@ import { TextField } from '../../design'
 import close from 'components/upload/assets/closeLight.svg'
 import folder from 'components/upload/assets/folder.svg'
 import dropdown from 'components/upload/assets/dropdownArrow.svg'
-import { withGlobalStore } from 'store'
+import { GlobalContext, withGlobalStore } from 'store'
 
 const RepositorySelect = ({ store }) => {
   const router = useRouter()
+  const { ...globalStore } = useContext(GlobalContext)
   const [suggestions, setSuggestions] = useState(store.user.dataProviders)
   const [value, setValue] = useState(store.dataProvider.name)
-  const [showSecondDropdown, setShowSecondDropdown] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
   const [inputValue, setInputValue] = useState('')
@@ -32,7 +38,6 @@ const RepositorySelect = ({ store }) => {
       const actualPath = `/data-providers/${data.id}`
 
       router.push(routePath, actualPath)
-      setShowSecondDropdown(true)
       store.updateSelectedSetSpec(null)
       store.updateSelectedSetName(null)
     },
@@ -90,10 +95,6 @@ const RepositorySelect = ({ store }) => {
     }
   }, [setsRef])
 
-  const handleSelectClick = () => {
-    if (value === store.dataProvider.name) setShowSecondDropdown(true)
-  }
-
   const handleClear = () => {
     setSelectedItem(null)
     setInputValue('')
@@ -126,7 +127,6 @@ const RepositorySelect = ({ store }) => {
         value={value.length > 100 ? `${value.substring(0, 110)}...` : value}
         onInput={handleOnInput}
         onChange={handleOnChange}
-        onClick={handleSelectClick}
         placeholder="Search repositories"
         clearButton={false}
         clearOnFocus
@@ -139,7 +139,7 @@ const RepositorySelect = ({ store }) => {
           </Select.Option>
         ))}
       </Select>
-      {store.enabledList.length > 0 && showSecondDropdown && (
+      {store.enabledList.length > 0 && globalStore.dataProvider.id === 140 && (
         <div className={styles.dropdownMenuWrapper} ref={setsRef}>
           <div className={styles.selectFormWrapper}>
             <div className={styles.selectWrapper}>

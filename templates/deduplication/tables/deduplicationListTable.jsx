@@ -14,8 +14,6 @@ import DashboardTipMessage from '../../../components/dashboard-tip-message'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import DashboardCachedMessage from '../../../components/dashboard-cached-message'
 import { GlobalContext } from '../../../store'
-import checked from '../../../components/upload/assets/checkGreen.svg'
-import TextWithTooltip from '../../../components/textWithTooltip/textWithtooltip'
 
 const DeduplicationListTable = observer(
   ({
@@ -100,22 +98,9 @@ const DeduplicationListTable = observer(
     return (
       <>
         <div className={styles.mainHeaderWrapper}>
-          <div className={styles.setHeaderWrapper}>
-            <Card.Title tag="h2">
-              List of potential duplicates and alternative versions
-            </Card.Title>
-            {globalStore?.setSelectedItem && (
-              <div>
-                <img src={checked} alt="" />
-                <span className={styles.setName}>
-                  <TextWithTooltip
-                    className={styles.setName}
-                    text={globalStore.selectedSetName}
-                  />
-                </span>
-              </div>
-            )}
-          </div>
+          <Card.Title tag="h2">
+            List of potential duplicates and alternative versions
+          </Card.Title>
           {checkBillingType ? (
             <Actions
               description={texts.info.listOfDuplicates}
