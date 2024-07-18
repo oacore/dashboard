@@ -1,0 +1,126 @@
+.doi-cell {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--primary);
+  text-align: center;
+  letter-spacing: 0.175px;
+  cursor: pointer;
+}
+
+.fresh-table-wrapper {
+  width: 100%;
+  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
+}
+
+.fresh-table td,
+.fresh-table th {
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fresh-table th button {
+  letter-spacing: 1px;
+}
+
+.fresh-table th button:hover,
+.fresh-table th button:active {
+  cursor: pointer;
+  background: transparent;
+  box-shadow: unset;
+}
+
+.fresh-table tr {
+  position: relative;
+}
+
+.fresh-table {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+}
+
+.fresh-table td {
+  cursor: pointer;
+}
+
+.fresh-table tr:hover {
+  background: #eee;
+}
+
+.fresh-table tbody::before {
+  display: block;
+  line-height: 1rem;
+  text-indent: -99999px;
+  content: '@';
+}
+
+.fresh-table tr:nth-child(1) {
+  border-top: none;
+}
+
+.item-count-indicator {
+  margin-bottom: 18px;
+}
+
+.menu-button {
+  position: absolute;
+  top: 3rem;
+  right: 0;
+  z-index: 999;
+}
+
+.article-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0 1rem 15.5vw;
+  background-color: #fffadd;
+}
+
+.article-header h2 {
+  max-width: 50vw;
+  margin-bottom: 0;
+  white-space: normal;
+}
+
+.actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 18px;
+}
+
+.wrapper {
+  display: flex;
+  max-width: 70vw;
+  margin: 1rem auto;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--spacer);
+  margin-left: 24px;
+}
+
+.text {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  color: #000;
+  letter-spacing: 0.026px;
+}
+
+.box-prop {
+  width: 7vw;
+  margin: 0;
+  font-weight: 500;
+  color: var(--primary);
+  text-align: right;
+}

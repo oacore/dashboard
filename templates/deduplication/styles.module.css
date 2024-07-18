@@ -147,26 +147,6 @@
   color: #212121;
 }
 
-.spinner-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.spinner {
-  width: 44px;
-  height: 44px;
-}
-
-.spinner-text {
-  margin: 0 0 0 14px;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 130%;
-  color: #666;
-  letter-spacing: 0.021px;
-}
-
 .issue-table {
   grid-column: 1 / -1;
   margin-top: 0.5rem;
