@@ -30,5 +30,4 @@ const DeduplicationInfoCard = ({ harvestingStatus }) => (
     </Card.Description>
   </Card>
 )
-
 export default DeduplicationInfoCard

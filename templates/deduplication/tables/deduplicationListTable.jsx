@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Icon } from '@oacore/design/lib/elements'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
@@ -13,6 +13,7 @@ import AccessPlaceholder from '../../../components/access-placeholder/AccessPlac
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import DashboardCachedMessage from '../../../components/dashboard-cached-message'
+import { GlobalContext } from '../../../store'
 
 const DeduplicationListTable = observer(
   ({
@@ -24,6 +25,7 @@ const DeduplicationListTable = observer(
     dataProviderData,
     duplicateDataLoading,
   }) => {
+    const { ...globalStore } = useContext(GlobalContext)
     const [page, setPage] = useState(0)
     const [records, setRecords] = useState([])
     const [localSearchTerm, setLocalSearchTerm] = useState('')
@@ -39,10 +41,13 @@ const DeduplicationListTable = observer(
       else {
         const startIndex = page * 10
         const endIndex = Math.min(startIndex + 10, list.length)
-        const newRecords = [...records, ...list.slice(startIndex, endIndex)]
+        let newRecords
+        if (globalStore.setSelectedItem) newRecords = list
+        else newRecords = [...records, ...list.slice(startIndex, endIndex)]
+
         setRecords(newRecords)
       }
-    }, [page, list, checkBillingType])
+    }, [page, list, checkBillingType, globalStore.setSelectedItem])
 
     const searchChange = (event) => {
       setLocalSearchTerm(event.target.value)

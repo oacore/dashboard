@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react-lite'
 
@@ -7,6 +7,8 @@ import HarvestingStatusCard from './cards/harvesting-status-card'
 import TypesList from './cards/types-list'
 import useTypes from './hooks/use-types'
 import HarvestingProgressCard from './cards/harvesting-progress'
+import { GlobalContext } from '../../store'
+import info from '../../components/upload/assets/infoLight.svg'
 
 import Title from 'components/title'
 import { Card, Button } from 'design'
@@ -32,6 +34,8 @@ const HarvestingPageTemplate = observer(
     responseData,
     ...restProps
   }) => {
+    const { ...globalStore } = useContext(GlobalContext)
+
     const defaultType = texts.actions.find(
       (action) => action.defaultActive
     ).action
@@ -47,6 +51,13 @@ const HarvestingPageTemplate = observer(
         {...restProps}
       >
         <Title hidden>{texts.title}</Title>
+        {globalStore.dataProvider.id === 140 &&
+          globalStore?.setSelectedItem && (
+            <div className={styles.infoWrapper}>
+              <img className={styles.showIcon} src={info} alt="description" />{' '}
+              {texts.setMessage.title}
+            </div>
+          )}
         <div className={styles.harvestingWrapper}>
           <HarvestingStatusCard
             metadataCount={metadataCount}
@@ -61,7 +72,6 @@ const HarvestingPageTemplate = observer(
             responseData={responseData}
           />
         </div>
-
         <Card className={styles.issuesCard}>
           <div className={styles.issuesCardHeader}>
             <Card.Title className={styles.issuesCardTitle} tag="h2">

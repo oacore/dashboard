@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button } from '@oacore/design/lib/elements'
 import { Popover } from '@oacore/design'
@@ -20,6 +20,7 @@ import request from '../../../api'
 import StatusCard from '../cards/statusCard'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import Tablev2 from '../../../components/tablev2/tablev2'
+import { GlobalContext } from '../../../store'
 
 import Table from 'components/table'
 
@@ -36,6 +37,7 @@ const RrsTable = observer(
     dataProviderData,
     rrsUrl,
   }) => {
+    const { ...globalStore } = useContext(GlobalContext)
     const [visibleHelp, setVisibleHelp] = useState(
       localStorage.getItem('rrsHelp') === 'true'
     )
@@ -83,14 +85,22 @@ const RrsTable = observer(
       } else {
         const startIndex = page * 10
         const endIndex = Math.min(startIndex + 10, rrsList.length)
-        const newRRS = [
-          ...tableData,
-          ...rrsList.slice(startIndex, endIndex),
-        ].map((item) => ({
-          ...item,
-          id: +item.articleId,
-          output: null,
-        }))
+        let newRRS
+        if (globalStore.setSelectedItem) {
+          newRRS = rrsList.map((item) => ({
+            ...item,
+            id: +item.articleId,
+            output: null,
+          }))
+        } else {
+          newRRS = [...tableData, ...rrsList.slice(startIndex, endIndex)].map(
+            (item) => ({
+              ...item,
+              id: +item.articleId,
+              output: null,
+            })
+          )
+        }
         setTableData(newRRS)
       }
     }, [rrsList, page, checkBillingType])

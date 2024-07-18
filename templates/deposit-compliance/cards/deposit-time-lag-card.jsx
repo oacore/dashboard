@@ -22,5 +22,4 @@ const DepositTimeLagCard = ({
     )}
   </Card>
 )
-
 export default DepositTimeLagCard

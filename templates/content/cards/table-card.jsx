@@ -80,57 +80,59 @@ const SidebarContent = observer(
   }
 )
 
-const TableCard = ({ works, changeVisibility, exportUrl, ...props }) => {
-  const [tableProps, fetchData] = useDynamicTableData({ pages: works })
-  return (
-    <Card {...props}>
-      <Table
-        className={styles.contentTable}
-        searchable
-        fetchData={fetchData}
-        {...tableProps}
-      >
-        <Table.Column
-          id="oai"
-          display="OAI"
-          order="any"
-          getter={(v) => {
-            const { oai } = v.identifiers
-            if (oai) return oai.split(':').pop()
-            return '-'
-          }}
-          className={styles.oaiColumn}
-        />
-        <Table.Column
-          id="title"
-          display="Title"
-          className={styles.titleColumn}
-        />
-        <Table.Column
-          id="authors"
-          display="Authors"
-          order="any"
-          className={styles.authorsColumn}
-          getter={(v) => v.authors.map((a) => a.name).join(' ')}
-        />
-        <Table.Column
-          id="lastUpdate"
-          display="Last Update"
-          order="desc"
-          className={styles.lastUpdateColumn}
-          getter={(v) => formatDate(v.lastUpdate)}
-        />
-        <Table.Sidebar>
-          <SidebarContent changeVisibility={changeVisibility} />
-        </Table.Sidebar>
-        <Table.Action>
-          <ExportButton href={exportUrl}>
-            {texts.exporting.download}
-          </ExportButton>
-        </Table.Action>
-      </Table>
-    </Card>
-  )
-}
+const TableCard = observer(
+  ({ works, changeVisibility, exportUrl, ...props }) => {
+    const [tableProps, fetchData] = useDynamicTableData({ pages: works })
+    return (
+      <Card {...props}>
+        <Table
+          className={styles.contentTable}
+          searchable
+          fetchData={fetchData}
+          {...tableProps}
+        >
+          <Table.Column
+            id="oai"
+            display="OAI"
+            order="any"
+            getter={(v) => {
+              const { oai } = v.identifiers
+              if (oai) return oai.split(':').pop()
+              return '-'
+            }}
+            className={styles.oaiColumn}
+          />
+          <Table.Column
+            id="title"
+            display="Title"
+            className={styles.titleColumn}
+          />
+          <Table.Column
+            id="authors"
+            display="Authors"
+            order="any"
+            className={styles.authorsColumn}
+            getter={(v) => v.authors.map((a) => a.name).join(' ')}
+          />
+          <Table.Column
+            id="lastUpdate"
+            display="Last Update"
+            order="desc"
+            className={styles.lastUpdateColumn}
+            getter={(v) => formatDate(v.lastUpdate)}
+          />
+          <Table.Sidebar>
+            <SidebarContent changeVisibility={changeVisibility} />
+          </Table.Sidebar>
+          <Table.Action>
+            <ExportButton href={exportUrl}>
+              {texts.exporting.download}
+            </ExportButton>
+          </Table.Action>
+        </Table>
+      </Card>
+    )
+  }
+)
 
 export default TableCard

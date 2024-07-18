@@ -33,7 +33,7 @@ const DeduplicationStatistics = ({
     </div>
     <div className={styles.innerWrapper}>
       <span className={styles.innerSubTitle}>{texts.info.subTitle}</span>
-      {duplicateList.count ? (
+      {duplicateList.count !== undefined && duplicateList.count !== null ? (
         <span className={styles.text}>{formatNumber(duplicateList.count)}</span>
       ) : (
         <div className={styles.spinnerWrapper}>

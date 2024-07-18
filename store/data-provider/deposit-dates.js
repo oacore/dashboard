@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx'
+import { action, computed, observable, reaction } from 'mobx'
 
 import { Pages } from '../helpers/pages'
 import Store from '../store'
@@ -7,6 +7,8 @@ import { PaymentRequiredError } from '../errors'
 import { NotFoundError } from 'api/errors'
 
 class DepositDates extends Store {
+  baseStore = null
+
   @observable isRetrieveDepositDatesInProgress = false
 
   @observable timeLagData = null
@@ -17,16 +19,54 @@ class DepositDates extends Store {
 
   @observable publicationDatesValidate = null
 
-  constructor(baseUrl, options) {
+  constructor(rootStore, baseUrl, options) {
     super(baseUrl, options)
+    this.baseStore = rootStore
+    this.fetchOptions = {
+      cache: 'no-store',
+    }
+    this.updateOaiUrl(baseUrl)
+    reaction(
+      () => this.baseStore?.setSelectedItem,
+      () => {
+        this.updateOaiUrl(baseUrl)
+      }
+    )
+  }
 
-    const datesUrl = `${baseUrl}/public-release-dates`
+  @action
+  resetCompliance() {
+    this.timeLagData = null
+    this.publicReleaseDates = null
+    this.crossDepositLag = null
+    this.publicationDatesValidate = null
+  }
+
+  @action
+  updateOaiUrl = (baseUrl) => {
+    const datesUrl = `${baseUrl}/public-release-dates${
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
+        : ''
+    }`
     this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
-    this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag`
-    this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag`
+    this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag${
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
+        : ''
+    }`
+    this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag${
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
+        : ''
+    }`
     this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}?accept=text/csv`
-    this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate`
+    this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate${
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
+        : ''
+    }`
 
     this.retrieve()
   }
