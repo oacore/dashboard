@@ -9,10 +9,12 @@ import * as texts from 'texts/usrn'
 import Markdown from 'components/markdown'
 
 const StatusCard = ({ usrnParams }) => {
-  let counterStat = 0
   const { usrnDateReportUpdate } = usrnParams
+  const handleDownloadPDF = () => {
+    window.print()
+  }
   return (
-    <Card tag="section">
+    <Card id="usrnReport" tag="section">
       <div className={styles.statusDateReportWrapper}>
         {usrnDateReportUpdate ? (
           <>
@@ -26,7 +28,11 @@ const StatusCard = ({ usrnParams }) => {
         ) : (
           ''
         )}
-        <Button variant="contained" className={styles.headerButton}>
+        <Button
+          variant="contained"
+          className={styles.headerButton}
+          onClick={handleDownloadPDF}
+        >
           {texts.status.buttons.download}
         </Button>
       </div>
@@ -43,11 +49,8 @@ const StatusCard = ({ usrnParams }) => {
       {Object.keys(texts.status.statusItems).map((key) => {
         if (texts.status.statusItems[key].isEnable === 'yes') {
           if (texts.status.statusItems[key].type === 'statistic') {
-            // eslint-disable-next-line no-plusplus
-            ++counterStat
             return (
               <StatUSRN
-                counter={counterStat}
                 content={texts.status.statusItems[key]}
                 className={styles}
                 usrnParams={usrnParams}

@@ -40,6 +40,8 @@ class DataProvider extends Resource {
     license: null,
     vocabulariesCOAR: null,
     dateReportUpdate: null,
+    supportsBetterMetadata: null,
+    supportSignposting: null,
   }
 
   @observable plugins = {

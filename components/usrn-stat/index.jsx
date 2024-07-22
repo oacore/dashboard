@@ -11,7 +11,7 @@ import LinkDoc from '../usrn-text/linkDoc'
 
 import { overview as textIrusUk } from 'texts/irus-uk/index'
 
-const StatUSRN = ({ counter, className, content, usrnParams }) => {
+const StatUSRN = ({ className, content, usrnParams }) => {
   const {
     doiCount,
     totalDoiCount,
@@ -23,6 +23,8 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
     embargoedDocuments,
     usrnLicense,
     usrnVocabulariesCOAR,
+    supportsBetterMetadata,
+    supportSignposting,
   } = usrnParams
   const { description: descriptionIrus } = textIrusUk
 
@@ -66,6 +68,7 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       statusClass = true
       break
     case 'applicationProfile':
+      // Not working endpoint
       statCreated = enrichmentChart({
         coveredCount: rioxxPartiallyCompliantCount,
         totalCount: rioxxTotalCount,
@@ -87,7 +90,16 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       statusClass = true
       break
     case 'vocabulariesCOAR':
-      statusClass = usrnVocabulariesCOAR
+      statCreated = usrnVocabulariesCOAR
+      statusClass = true
+      break
+    case 'webAccessibility':
+      statCreated = ''
+      statusClass = supportsBetterMetadata
+      break
+    case 'signpostingFAIR':
+      statCreated = ''
+      statusClass = supportSignposting
       break
     case 'licensingMetadata':
       // eslint-disable-next-line no-case-declarations
@@ -189,7 +201,6 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
       className={classNames.use(styles.statusWrapper).join(className)}
     >
       <div className={styles.statusRow}>
-        <div className={styles.counter}>{counter}</div>
         <div className={styles.title}>{content.title}</div>
         <div
           className={classNames.use(
@@ -201,7 +212,6 @@ const StatUSRN = ({ counter, className, content, usrnParams }) => {
         </div>
       </div>
       <div className={styles.statusRow}>
-        <div />
         <div>
           {descriptionCreated}
           {prefixCreated}

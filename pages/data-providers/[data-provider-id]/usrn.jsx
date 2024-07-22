@@ -20,6 +20,7 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
     : null
 
   const usrnParams = {
+    dataProviderId: dataProvider.id,
     dataProviderName: dataProvider.name,
     billingPlan: organisation.billingPlan,
     doiCount: dataProvider?.doi?.originCount,
@@ -34,6 +35,8 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
     usrnLicense: dataProvider?.usrn?.license,
     usrnVocabulariesCOAR: dataProvider?.usrn?.vocabulariesCOAR,
     usrnDateReportUpdate: formattedDateReport,
+    supportsBetterMetadata: dataProvider?.usrn?.supportsBetterMetadata,
+    supportSignposting: dataProvider?.usrn?.supportSignposting,
   }
   return <USRNTemplateActivated usrnParams={usrnParams} {...props} />
 }
