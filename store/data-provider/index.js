@@ -417,7 +417,7 @@ class DataProvider extends Resource {
   @action
   async retrieveUSRNStatistics() {
     const url = new URL(
-      `/v3/data-providers/${this.id}/usrn`,
+      `/internal/data-providers/${this.id}/usrn`,
       process.env.API_URL
     ).href
 

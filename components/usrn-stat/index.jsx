@@ -52,7 +52,7 @@ const StatUSRN = ({ className, content, usrnParams }) => {
           style={{ percentWidth }}
         >
           <span className={styles.chartPercent}>
-            {isLoading ? 'Loading...' : `${formatNumber(percentFull)}%`}
+            {isLoading ? 'Not available' : `${formatNumber(percentFull)}%`}
           </span>
         </div>
       </div>
