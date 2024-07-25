@@ -74,6 +74,11 @@ const config = new RouteConfig([
     icon: 'barcode',
   },
   {
+    test: /\/usrn/,
+    path: 'usrn',
+    icon: 'file-check',
+  },
+  {
     test: /\/plugins/,
     path: 'plugins',
     icon: 'puzzle',
