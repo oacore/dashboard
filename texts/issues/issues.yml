@@ -4,7 +4,7 @@ gen-info:
 
 download: Download CSV
 harvesting-card-tooltip: The date when your repository was last harvested by CORE.
-issues-overview-card-tooltip: Issues relating to your repository that were detected by CORE whilst harvesting.
+issues-overview-card-tooltip: Issues relating to your repository that were detected by CORE whilst indexing.
 issues:
   title: Indexing issues
   affected: records are affected by this issue
@@ -61,16 +61,16 @@ progress:
 type:
   scheduled:
     title: Scheduled
-    tooltip: Your request for reharvesting has been submitted. Our team will review the request and submit your repository for reharvesting. After this status will change to “In progress”
-    success: Thank you for the request, a member of our team will look into it and schedule a new harvesting manually if needed.
+    tooltip: Your request for reindexing has been submitted. Our team will review the request and submit your repository for reindexing. After this status will change to “In progress”
+    success: Thank you for the request, a member of our team will look into it and schedule a new indexing manually if needed.
   progress:
     title: In progress
-    tooltip: Your repository is harvesting now. This process can take 1-2 weeks (depends on size of your repository). After harvesting completed status will changed to finished.
-    success: Thank you for the request, our recommendation is to wait until completion of the current harvesting process. Please allow up to a week, if there is still an issue [contact us](/about#contact) or send another harvesting request.
+    tooltip: Your repository is indexing now. This process can take 1-2 weeks (depends on size of your repository). After indexing finished status will changed to Completed
+    success: Thank you for the request, our recommendation is to wait until completion of the current indexing process. Please allow up to a week, if there is still an issue [contact us](/about#contact) or send another indexing request.
   finished:
     title: Completed
-    tooltip: Reharvesting of your repository is finished.
-    success: Thank you for the request. The latest harvesting has completed and it might take a few days for the changes to propagate to the dashboard. Please allow a few days. If you still have an issue [contact us](/about#contact) or send another harvesting request
+    tooltip: Reindexing of your repository is finished
+    success: Thank you for the request. The latest indexing has completed and it might take a few days for the changes to propagate to the dashboard. Please allow a few days. If you still have an issue [contact us](/about#contact) or send another indexing request
   error:
     success: We are currently unable to process your request, please [contact us]() if you have any issue.
 
