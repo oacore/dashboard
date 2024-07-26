@@ -17,7 +17,6 @@ const icons = [
   'close-circle-outline',
   'cog',
   'comment-multiple',
-  'fresh-finds',
   'dots-vertical',
   'download',
   'earth',

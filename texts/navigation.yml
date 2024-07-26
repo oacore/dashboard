@@ -7,6 +7,7 @@ items:
   validator: Metadata validator
   deduplication: Versions/duplicates
   fresh-finds: Fresh finds
+  collaborators: Your collaborators
   content: Content
   deposit-compliance: OA compliance
   rights-retention-strategy: RRS Policy

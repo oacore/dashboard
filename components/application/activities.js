@@ -54,6 +54,11 @@ const config = new RouteConfig([
     icon: 'deduplication',
   },
   {
+    test: /\/collaborators/,
+    path: 'collaborators',
+    icon: 'collaborators',
+  },
+  {
     test: /\/fresh-finds/,
     path: 'fresh-finds',
     icon: 'fresh-finds',

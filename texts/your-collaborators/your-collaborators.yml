@@ -1,0 +1,13 @@
+network:
+  title: Your collaboration network
+
+  description: Organisation's footprint refers to the impact and presence of a organisation within the academic community or their field of study. It encompasses various aspects of their research output, collaborations, influence, and contributions.
+
+  table:
+    title: New collaborating research partners of your institution you might not be aware of
+    subTitle: All papers in checking period.
+
+collaborators:
+  title: Your collaborators
+
+  description: Organisation's footprint refers to the impact and presence of a organisation within the academic community or their field of study. It encompasses various aspects of their research output, collaborations, influence, and contributions.
