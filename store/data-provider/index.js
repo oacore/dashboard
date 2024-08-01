@@ -11,6 +11,13 @@ import { NotFoundError as NetworkNotFoundError } from '../../api/errors'
 import { NotFoundError } from '../errors'
 
 class DataProvider extends Resource {
+  rootStore = null
+
+  constructor(rootStore, init, options) {
+    super(init, options)
+    this.rootStore = rootStore
+  }
+
   @observable id = ''
 
   @observable name = ''
@@ -154,7 +161,10 @@ class DataProvider extends Resource {
   getDeduplicationData = async (id, refresh = false) => {
     this.duplicateDataLoading = true
     try {
-      let url = `${process.env.API_URL}/data-providers/${id}/duplicates`
+      const specData = this.rootStore.setSelectedItem.setSpec
+      let url = `${process.env.API_URL}/data-providers/${id}/duplicates${
+        specData ? `?set=${specData}` : ''
+      }`
       if (refresh) url += '?refresh=true'
 
       const options = refresh ? { cache: 'reload' } : {}
@@ -177,9 +187,14 @@ class DataProvider extends Resource {
   getRrslistData = async (id) => {
     this.rrsDataLoading = true
     try {
-      const response = await fetch(
-        `${process.env.API_URL}/data-providers/${id}/rights-retention`
-      )
+      const specData = this.rootStore.setSelectedItem.setSpec
+      const url = `${
+        process.env.API_URL
+      }/data-providers/${id}/rights-retention${
+        specData ? `?set=${specData}` : ''
+      }`
+
+      const response = await fetch(url)
 
       if (response.ok && response.status === 200) {
         const data = await response.json()
@@ -351,9 +366,9 @@ class DataProvider extends Resource {
         this.retrieveLogo()
 
         const url = `/data-providers/${this.id}`
-        this.works = new Works(url, this.options)
-        this.depositDates = new DepositDates(url, this.options)
-        this.doi = new DOI(url, this.options)
+        this.works = new Works(this.rootStore, url, this.options)
+        this.depositDates = new DepositDates(this.rootStore, url, this.options)
+        this.doi = new DOI(this.rootStore, url, this.options)
         this.issues = new Issues(url, this.options)
         this.allMembers = new Membership(url, this.options)
         this.duplicatesUrl = `${process.env.API_URL}${url}/duplicates?accept=text/csv`

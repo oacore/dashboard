@@ -83,6 +83,21 @@
   justify-content: space-between;
 }
 
+.set-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.set-name {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: var(--success-dark);
+  letter-spacing: 0.048px;
+}
+
 .sub-footer {
   margin: 28px 0;
   font-size: 48px;

@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
+import checked from '../../../components/upload/assets/checkGreen.svg'
+import { GlobalContext } from '../../../store'
+import TextWithTooltip from '../../../components/textWithTooltip/textWithtooltip'
 
 import { formatDate } from 'utils/helpers'
 import { Card, DetailList, Icon } from 'design'
@@ -80,57 +83,73 @@ const SidebarContent = observer(
   }
 )
 
-const TableCard = ({ works, changeVisibility, exportUrl, ...props }) => {
-  const [tableProps, fetchData] = useDynamicTableData({ pages: works })
-  return (
-    <Card {...props}>
-      <Table
-        className={styles.contentTable}
-        searchable
-        fetchData={fetchData}
-        {...tableProps}
-      >
-        <Table.Column
-          id="oai"
-          display="OAI"
-          order="any"
-          getter={(v) => {
-            const { oai } = v.identifiers
-            if (oai) return oai.split(':').pop()
-            return '-'
-          }}
-          className={styles.oaiColumn}
-        />
-        <Table.Column
-          id="title"
-          display="Title"
-          className={styles.titleColumn}
-        />
-        <Table.Column
-          id="authors"
-          display="Authors"
-          order="any"
-          className={styles.authorsColumn}
-          getter={(v) => v.authors.map((a) => a.name).join(' ')}
-        />
-        <Table.Column
-          id="lastUpdate"
-          display="Last Update"
-          order="desc"
-          className={styles.lastUpdateColumn}
-          getter={(v) => formatDate(v.lastUpdate)}
-        />
-        <Table.Sidebar>
-          <SidebarContent changeVisibility={changeVisibility} />
-        </Table.Sidebar>
-        <Table.Action>
-          <ExportButton href={exportUrl}>
-            {texts.exporting.download}
-          </ExportButton>
-        </Table.Action>
-      </Table>
-    </Card>
-  )
-}
+const TableCard = observer(
+  ({ works, changeVisibility, exportUrl, ...props }) => {
+    const { ...globalStore } = useContext(GlobalContext)
+    const [tableProps, fetchData] = useDynamicTableData({ pages: works })
+    return (
+      <Card {...props}>
+        <div className={styles.setEndWrapper}>
+          {globalStore?.setSelectedItem && (
+            <div>
+              <img src={checked} alt="" />
+              <span className={styles.setName}>
+                <TextWithTooltip
+                  className={styles.setName}
+                  text={globalStore.setSelectedItem.setName}
+                />
+              </span>
+            </div>
+          )}
+        </div>
+        <Table
+          className={styles.contentTable}
+          searchable
+          fetchData={fetchData}
+          {...tableProps}
+        >
+          <Table.Column
+            id="oai"
+            display="OAI"
+            order="any"
+            getter={(v) => {
+              const { oai } = v.identifiers
+              if (oai) return oai.split(':').pop()
+              return '-'
+            }}
+            className={styles.oaiColumn}
+          />
+          <Table.Column
+            id="title"
+            display="Title"
+            className={styles.titleColumn}
+          />
+          <Table.Column
+            id="authors"
+            display="Authors"
+            order="any"
+            className={styles.authorsColumn}
+            getter={(v) => v.authors.map((a) => a.name).join(' ')}
+          />
+          <Table.Column
+            id="lastUpdate"
+            display="Last Update"
+            order="desc"
+            className={styles.lastUpdateColumn}
+            getter={(v) => formatDate(v.lastUpdate)}
+          />
+          <Table.Sidebar>
+            <SidebarContent changeVisibility={changeVisibility} />
+          </Table.Sidebar>
+          <Table.Action>
+            <ExportButton href={exportUrl}>
+              {texts.exporting.download}
+            </ExportButton>
+          </Table.Action>
+        </Table>
+      </Card>
+    )
+  }
+)
 
 export default TableCard
