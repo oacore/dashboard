@@ -1,6 +1,8 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Button } from '@oacore/design/lib/elements'
+import React, { useContext, useEffect, useState } from 'react'
+// import { Button } from '@oacore/design/lib/elements'
+
+// import { classNames } from '@oacore/design/lib/utils'
 
 import { GlobalContext } from '../../../store'
 import styles from '../styles.module.css'
@@ -9,8 +11,8 @@ import { Card } from '../../../design'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import Table from '../../../components/table'
 import link from '../../../components/upload/assets/link.svg'
-import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
-import Menu from '../../../components/menu'
+// import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
+// import Menu from '../../../components/menu'
 import ExportButton from '../../../components/export-button'
 import TableLoading from '../../../components/tableLoading'
 import Accordion from '../cards/accordion'
@@ -18,9 +20,9 @@ import Accordion from '../cards/accordion'
 const FreshFindsTable = observer(
   ({ getFreshFindsData, freshFindsData, freshFindsDataLoading }) => {
     const { ...globalStore } = useContext(GlobalContext)
-    const menuRef = useRef(null)
-    const [visibleMenu, setVisibleMenu] = useState(false)
-    const [selectedRowData, setSelectedRowData] = useState(null)
+    // const menuRef = useRef(null)
+    // const [visibleMenu, setVisibleMenu] = useState(false)
+    // const [selectedRowData, setSelectedRowData] = useState(null)
     const [page, setPage] = useState(0)
     const [freshData, setFreshData] = useState([])
     const [localSearchTerm, setLocalSearchTerm] = useState('')
@@ -34,12 +36,12 @@ const FreshFindsTable = observer(
       getFreshFindsData(globalStore.dataProvider.id)
     }, [globalStore.dataProvider.id])
 
-    const handleClick = (e, rowDetail) => {
-      e.preventDefault()
-      e.stopPropagation()
-      setSelectedRowData(rowDetail)
-      setVisibleMenu(!visibleMenu)
-    }
+    // const handleClick = (e, rowDetail) => {
+    //   e.preventDefault()
+    //   e.stopPropagation()
+    //   setSelectedRowData(rowDetail)
+    //   setVisibleMenu(!visibleMenu)
+    // }
 
     const fetchData = () => {
       setPage(page + 1)
@@ -50,17 +52,17 @@ const FreshFindsTable = observer(
       window.open(`https://dx.doi.org/${doi}`, '_blank')
     }
 
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (menuRef.current && !menuRef.current.contains(event.target))
-          setVisibleMenu(false)
-      }
-
-      document.addEventListener('mousedown', handleClickOutside)
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside)
-      }
-    }, [menuRef])
+    // useEffect(() => {
+    //   const handleClickOutside = (event) => {
+    //     if (menuRef.current && !menuRef.current.contains(event.target))
+    //       setVisibleMenu(false)
+    //   }
+    //
+    //   document.addEventListener('mousedown', handleClickOutside)
+    //   return () => {
+    //     document.removeEventListener('mousedown', handleClickOutside)
+    //   }
+    // }, [menuRef])
 
     useEffect(() => {
       const startIndex = page * 10
@@ -79,8 +81,11 @@ const FreshFindsTable = observer(
           ?.map((info) => info.author_name.toLowerCase())
           .join(', ')
         const doi = item.DOI ? item.DOI.toLowerCase() : ''
+        const title = item.DOI ? item.DOI.toLowerCase() : ''
         return (
-          authors.includes(lowerSearchTerm) || doi.includes(lowerSearchTerm)
+          authors.includes(lowerSearchTerm) ||
+          doi.includes(lowerSearchTerm) ||
+          title.includes(lowerSearchTerm)
         )
       })
     }
@@ -117,7 +122,12 @@ const FreshFindsTable = observer(
             localSearch
             localSearchTerm={localSearchTerm}
             searchChange={searchChange}
-            details={<Accordion article={accordionData} />}
+            details={
+              <Accordion
+                institution={globalStore.dataProvider.institution}
+                article={accordionData}
+              />
+            }
           >
             <Table.Column
               id="authors"
@@ -130,6 +140,15 @@ const FreshFindsTable = observer(
                     .join(', ')
                   return <span>{authorNames}</span>
                 }
+                return '-'
+              }}
+            />
+            <Table.Column
+              id="title"
+              display="Title"
+              className={styles.titleColumn}
+              getter={(v) => {
+                if (v.title) return <span>{v.title}</span>
                 return '-'
               }}
             />
@@ -155,30 +174,42 @@ const FreshFindsTable = observer(
               className={styles.doiColumn}
             />
             <Table.Column
-              id="actions"
-              getter={(v) => (
-                <div className={styles.actionButtonWrapper}>
-                  <Button
-                    className={styles.actionButtonPure}
-                    onClick={(e) => handleClick(e, v)}
-                  >
-                    <img src={kababMenu} alt="kababMenu" />
-                  </Button>
-                  <Menu
-                    ref={menuRef}
-                    visible={visibleMenu && selectedRowData === v}
-                    className={styles.menuButton}
-                    stopPropagation
-                  >
-                    {Object.values(texts.actions).map(({ title, key }) => (
-                      <Menu.Item key={key} target="_blank">
-                        <div className={styles.togglerTitle}>{title}</div>
-                      </Menu.Item>
-                    ))}
-                  </Menu>
-                </div>
-              )}
+              id="date"
+              display="Publication date"
+              className={styles.titleColumn}
+              getter={(v) => {
+                if (v.publicationDate) return <span>{v.publicationDate}</span>
+
+                return '-'
+              }}
             />
+            {/* <Table.Column */}
+            {/*  id="actions" */}
+            {/*  getter={(v) => ( */}
+            {/*    <div className={styles.actionButtonWrapper}> */}
+            {/*      <Button */}
+            {/*        className={styles.actionButtonPure} */}
+            {/*        onClick={(e) => handleClick(e, v)} */}
+            {/*      > */}
+            {/*        <img src={kababMenu} alt="kababMenu" /> */}
+            {/*      </Button> */}
+            {/*      <Menu */}
+            {/*        ref={menuRef} */}
+            {/*        visible={visibleMenu && selectedRowData === v} */}
+            {/*        className={styles.menuButton} */}
+            {/*        stopPropagation */}
+            {/*      > */}
+            {/* eslint-disable-next-line max-len */}
+            {/*        {Object.values(texts.actions).map(({ title, key }) => ( */}
+            {/*          <Menu.Item key={key} target="_blank"> */}
+            {/* eslint-disable-next-line max-len */}
+            {/*            <div className={styles.togglerTitle}>{title}</div> */}
+            {/*          </Menu.Item> */}
+            {/*        ))} */}
+            {/*      </Menu> */}
+            {/*    </div> */}
+            {/*  )} */}
+            {/* /> */}
             <Table.Action>
               <ExportButton href="">download csv</ExportButton>
             </Table.Action>

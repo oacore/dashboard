@@ -117,10 +117,30 @@
   letter-spacing: 0.026px;
 }
 
+.afiliation {
+  color: #b75400;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.026px;
+  margin: 0 0 10px;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
 .box-prop {
   width: 7vw;
   margin: 0;
   font-weight: 500;
   color: var(--primary);
   text-align: right;
+}
+
+.accordion-item-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
