@@ -67,11 +67,11 @@ statusItems:
     type: statistic
     title: Licensing
     description: |
+      The number of license URLs CORE is able to recognise from the metadata.
     prefix: |
       Percent of metadata records with a licence specified:
     recommendation: |
-      The data on this list is cached for performance reasons. Once you completed your work please click
-      here to refresh the cache. The processing will take some time but you will be able to see the updated data
+      It is important that licenses are exposed correctly in the metadata. The best way is to use well known URLs like for example the Creative Commons canonical URL https://creativecommons.org/licenses/by/4.0/
   - id: preservation
     isEnable: yes
     type: text
@@ -107,11 +107,11 @@ statusItems:
       (e.g., Funder Registry), and organizations (e.g., ROR).
     linkDocumentation: 0
   - id: researchDatasets
-    isEnable: yes
+    isEnable: no
     type: statistic
     title: Links to research datasets
     description: |
-      This is in development right now.
+      The number of link to research datasets discovered from your records.
     prefix: |
   - id: accessibilityStatements
     isEnable: yes
@@ -128,7 +128,7 @@ statusItems:
     type: statistic
     title: Do you provide links to source code
     description: |
-      This is in development right now.
+      This feature is currently under development.
     prefix: |
   - id: doi
     isEnable: yes
@@ -143,6 +143,7 @@ statusItems:
     title: ORCID
     description: |
       Public Investigator and Contributor Identifier is a non-proprietary alphanumeric code that uniquely identifies scientific authors.
+      This feature is currently under development.
     prefix: |
     linkDocumentation: https://en.wikipedia.org/wiki/ORCID
   - id: ROR
