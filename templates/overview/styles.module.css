@@ -189,10 +189,10 @@
 }
 
 .card-header-wrapper {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .action-wrapper {
@@ -206,13 +206,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  color: #c6a700;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
+  color: #c6a700;
   letter-spacing: 0.048px;
+  gap: 6px;
 }
 
 .card-header-irus {
