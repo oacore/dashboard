@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { Icon } from '@oacore/design'
 
 import styles from '../styles.module.css'
+import { GlobalContext } from '../../../store'
 
 import Actions from 'components/actions'
 import { Card } from 'design'
@@ -13,24 +14,41 @@ const OverviewCard = ({
   tooltip,
   title,
   downloadUrl,
+  renderWarning,
   ...passProps
-}) => (
-  <Card
-    className={classNames.use(styles.overviewCard, className)}
-    {...passProps}
-  >
-    <div className={styles.cardHeader}>
-      <Card.Title tag="h2">{title}</Card.Title>
-      <Actions
-        downloadUrl={downloadUrl}
-        description={tooltip}
-        hoverIcon={
-          <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
-        }
-      />
-    </div>
-    {children}
-  </Card>
-)
+}) => {
+  const { ...globalStore } = useContext(GlobalContext)
+  return (
+    <Card
+      className={classNames.use(styles.overviewCard, className)}
+      {...passProps}
+    >
+      <div className={styles.cardHeader}>
+        <div className={styles.cardHeaderWrapper}>
+          <Card.Title tag="h2">{title}</Card.Title>
+          <div className={styles.actionWrapper}>
+            {globalStore.dataProvider.id === 140 && renderWarning && (
+              <div className={styles.iconWrapper}>
+                <Icon src="#alert" />
+                <div>Repository wide</div>
+              </div>
+            )}
+            <Actions
+              downloadUrl={downloadUrl}
+              description={tooltip}
+              hoverIcon={
+                <Icon
+                  src="#alert-circle-outline"
+                  style={{ color: '#757575' }}
+                />
+              }
+            />
+          </div>
+        </div>
+      </div>
+      {children}
+    </Card>
+  )
+}
 
 export default OverviewCard

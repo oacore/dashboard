@@ -391,16 +391,14 @@ class DataProvider extends Resource {
     const url = new URL(
       `/v3/data-providers/${this.id}/stats?depositHistory=true`,
       process.env.API_URL
-    ).href
+    )
 
-    const body = {
-      depositHistory: true,
-    }
+    if (this.rootStore?.setSelectedItem)
+      url.searchParams.append('set', this.rootStore.setSelectedItem)
 
     try {
-      const { data } = await await apiRequest(url, {
-        body,
-        method: 'POST',
+      const { data } = await await apiRequest(url.href, {
+        method: 'GET',
       })
 
       Object.assign(this.statistics, data)
