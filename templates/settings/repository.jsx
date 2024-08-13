@@ -121,6 +121,7 @@ const RepositoryPageTemplate = observer(
 
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
+    const licenseRef = useRef(null)
     const router = useRouter()
 
     const isStartingMember = membershipPlan.billing_type === 'starting'
@@ -128,6 +129,7 @@ const RepositoryPageTemplate = observer(
     const scrollTarget = {
       upload: uploadRef,
       mapping: mappingRef,
+      license: licenseRef,
     }
 
     useScrollEffect(scrollTarget[router.query.referrer])
@@ -336,6 +338,30 @@ const RepositoryPageTemplate = observer(
                 )}
               </div>
               <div className={styles.mainWarningWrapper} />
+            </div>
+          </Card>
+        </div>
+        <div ref={licenseRef}>
+          <Card
+            className={classNames.use(styles.section).join(className)}
+            tag="section"
+          >
+            <Card.Title tag="h2">{content.license.title}</Card.Title>
+            <div className={styles.licenseContainer}>
+              <Card.Description
+                className={styles.licenseDescriptionWrapper}
+                tag="div"
+              >
+                <>
+                  <Markdown className={styles.licensedescription}>
+                    {content.license.description}
+                  </Markdown>
+                  <div className={styles.selectWrapper} />
+                  <Markdown className={styles.licenseNote}>
+                    {content.license.subDescription}
+                  </Markdown>
+                </>
+              </Card.Description>
             </div>
           </Card>
         </div>
