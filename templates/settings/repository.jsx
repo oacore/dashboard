@@ -17,6 +17,8 @@ import warning from './assets/warning.svg'
 import { GlobalContext } from '../../store'
 import infoGreen from '../../components/upload/assets/infoGreen.svg'
 
+import dropdown from 'components/upload/assets/dropdownArrow.svg'
+
 const UploadSection = ({
   className,
   handleUpload,
@@ -96,6 +98,8 @@ const RepositoryPageTemplate = observer(
 
     const [isNameChanged, setNameChanged] = useState(false)
     const [isFormSubmitted, setFormSubmitted] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
+    const [inputValue, setInputValue] = useState('')
 
     useEffect(() => {
       fetch(`https://api.ror.org/organizations?query=${rorId}`)
@@ -206,6 +210,14 @@ const RepositoryPageTemplate = observer(
         )
       }
       return null
+    }
+
+    const handleDropdownClick = async () => {
+      setIsOpen(!isOpen)
+    }
+
+    const handleSetInputChange = (event) => {
+      setInputValue(event.target.value)
     }
 
     return (
@@ -356,6 +368,30 @@ const RepositoryPageTemplate = observer(
                   <Markdown className={styles.licensedescription}>
                     {content.license.description}
                   </Markdown>
+                  <div className={styles.licenseTypeWrapper}>
+                    <div className={styles.licenseType}>
+                      {content.license.dropdown}
+                    </div>
+                    <div
+                      className={classNames.use(styles.activeWrapper, {
+                        [styles.active]: isOpen,
+                      })}
+                    >
+                      <TextField
+                        id="secondInput"
+                        label="Sets"
+                        onClick={handleDropdownClick}
+                        onChange={handleSetInputChange}
+                        value={inputValue}
+                        className={styles.selectInput}
+                      />
+                      <img
+                        className={styles.icon}
+                        src={dropdown}
+                        alt="dropdown"
+                      />
+                    </div>
+                  </div>
                   <div className={styles.selectWrapper} />
                   <Markdown className={styles.licenseNote}>
                     {content.license.subDescription}
