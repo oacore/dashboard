@@ -29,7 +29,7 @@ const OverviewCard = ({
           <div className={styles.actionWrapper}>
             {globalStore.dataProvider.id === 140 && renderWarning && (
               <div className={styles.iconWrapper}>
-                <Icon src="#alert" />
+                <Icon className={styles.icon} src="#alert" />
                 <div>Repository wide</div>
               </div>
             )}
