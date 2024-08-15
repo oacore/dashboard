@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 import { Button } from '@oacore/design/lib/elements'
 import { useRouter } from 'next/router'
+import { Modal } from '@oacore/design'
 
 import styles from './styles.module.css'
 import { Card, TextField } from '../../design'
@@ -78,6 +79,7 @@ const RepositoryPageTemplate = observer(
     setGlobalRorId,
     init,
     status,
+    getLicencing,
     tag: Tag = 'main',
     ...restProps
   }) => {
@@ -100,6 +102,7 @@ const RepositoryPageTemplate = observer(
     const [isFormSubmitted, setFormSubmitted] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [inputValue, setInputValue] = useState('')
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
       fetch(`https://api.ror.org/organizations?query=${rorId}`)
@@ -123,10 +126,15 @@ const RepositoryPageTemplate = observer(
         })
     }, [rorName])
 
+    // useEffect(() => {
+    //   getLicencing()
+    // }, [])
+
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
     const licenseRef = useRef(null)
     const router = useRouter()
+    const dropdownRef = useRef(null)
 
     const isStartingMember = membershipPlan.billing_type === 'starting'
 
@@ -137,6 +145,19 @@ const RepositoryPageTemplate = observer(
     }
 
     useScrollEffect(scrollTarget[router.query.referrer])
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target))
+          setIsOpen(false)
+      }
+
+      document.addEventListener('mousedown', handleClickOutside)
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [dropdownRef])
 
     const handleSubmit = async (event) => {
       event.preventDefault()
@@ -183,6 +204,12 @@ const RepositoryPageTemplate = observer(
       setIdIsOpen(false)
     }
 
+    const handleLicenseClick = (option) => {
+      setIsOpen(false)
+      setInputValue(option)
+      if (option.type === 1) setIsModalOpen(true)
+    }
+
     const handleChange = () => {
       setChanged(true)
     }
@@ -212,7 +239,7 @@ const RepositoryPageTemplate = observer(
       return null
     }
 
-    const handleDropdownClick = async () => {
+    const handleDropdownClick = () => {
       setIsOpen(!isOpen)
     }
 
@@ -372,34 +399,87 @@ const RepositoryPageTemplate = observer(
                     <div className={styles.licenseType}>
                       {content.license.dropdown}
                     </div>
-                    <div
-                      className={classNames.use(styles.activeWrapper, {
-                        [styles.active]: isOpen,
-                      })}
-                    >
-                      <TextField
-                        id="secondInput"
-                        label="Sets"
-                        onClick={handleDropdownClick}
-                        onChange={handleSetInputChange}
-                        value={inputValue}
-                        className={styles.selectInput}
-                      />
-                      <img
-                        className={styles.icon}
-                        src={dropdown}
-                        alt="dropdown"
-                      />
+                    <div className={styles.dropdownWrapper} ref={dropdownRef}>
+                      <div
+                        className={classNames.use(styles.activeWrapper, {
+                          [styles.active]: isOpen,
+                        })}
+                      >
+                        <TextField
+                          id="secondInput"
+                          label="Sets"
+                          onClick={handleDropdownClick}
+                          onChange={handleSetInputChange}
+                          value={inputValue.value}
+                          className={styles.selectInput}
+                        />
+                        <img
+                          className={styles.icon}
+                          src={dropdown}
+                          alt="dropdown"
+                        />
+                      </div>
+                      {isOpen && (
+                        <div className={styles.dropdown}>
+                          <ul>
+                            {Object.values(content.license.options).map(
+                              (option) => (
+                                // eslint-disable-next-line max-len
+                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                                <li
+                                  key={option.type}
+                                  onClick={() => handleLicenseClick(option)}
+                                  className={styles.selectItem}
+                                >
+                                  {option.value}
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className={styles.selectWrapper} />
                   <Markdown className={styles.licenseNote}>
-                    {content.license.subDescription}
+                    {inputValue ? inputValue.description : ''}
                   </Markdown>
                 </>
               </Card.Description>
             </div>
           </Card>
+          {isModalOpen && (
+            <Modal isOpen={isModalOpen} aria-label="modal" hideManually>
+              <div className={styles.notificationGuideWrapper}>
+                <h5 className={styles.notificationTitle}>
+                  {content.license.modal.title}
+                </h5>
+                <div className={styles.notificationGuideInnerWrapper}>
+                  <Markdown className={styles.notificationDescription}>
+                    {content.license.modal.description}
+                  </Markdown>
+                </div>
+                <div className={styles.buttonGroup}>
+                  <Button
+                    key={content.notificationGuide.actions.offAction.title}
+                    variant={content.notificationGuide.actions.offAction.type}
+                    className={styles.actionButton}
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    {Object.values(content.license.modal.actions[0])}
+                  </Button>
+                  <Button
+                    key={content.notificationGuide.actions.offAction.title}
+                    variant={content.notificationGuide.actions.offAction.type}
+                    className={styles.actionButton}
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    {Object.values(content.license.modal.actions[1])}
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+          )}
         </div>
         <div ref={uploadRef}>
           <UploadSection

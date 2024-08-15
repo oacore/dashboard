@@ -89,6 +89,8 @@ class Root extends Store {
 
   @observable harvestNotifications = null
 
+  @observable licencingData = null
+
   @observable deduplicationNotifications = null
 
   @observable tutorial = {
@@ -140,6 +142,11 @@ class Root extends Store {
   @action
   setResponseData = (data) => {
     this.responseData = data
+  }
+
+  @action
+  setLicencing = (data) => {
+    this.licencingData = data
   }
 
   @computed
@@ -366,6 +373,20 @@ class Root extends Store {
       if (type === 'harvest-completed') this.setHarvestNotifications(response)
       else if (type === 'deduplication-completed')
         this.setDeduplicationNotifications(response)
+    } catch (error) {
+      console.error('Error making GET request:', error)
+      throw error
+    }
+  }
+
+  @action
+  getLicencing = async () => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/internal/data-providers/101/licencing`
+      )
+      const data = await response.json()
+      this.setLicencing(data)
     } catch (error) {
       console.error('Error making GET request:', error)
       throw error

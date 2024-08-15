@@ -10,6 +10,7 @@ const RepositoryPage = ({ store, ...restProps }) => (
     updateOrganization={store.updateOrganization}
     dataProviderLogo={store.dataProvider.logo}
     updateDataProvider={store.updateDataProvider}
+    getLicencing={store.getLicencing}
     updateLogo={store.updateLogo}
     oaiMapping={store.dataProvider.oaiMapping}
     setGlobalRorName={store.dataProvider.setGlobalRorName}
