@@ -6,7 +6,7 @@ import ContentTemplate from 'templates/content'
 const Content = ({ store: { dataProvider }, ...props }) => (
   <ContentTemplate
     exportUrl={dataProvider?.works?.contentExportUrl}
-    works={dataProvider?.works}
+    works={dataProvider?.works?.workRecords}
     changeVisibility={dataProvider?.works?.changeVisibility}
     {...props}
   />

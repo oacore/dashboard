@@ -91,3 +91,6 @@ modal:
     title: Confirmation
     description: Your request for reindexing will be sent to the CORE team.
     input: Please, indicate the reason why do you need reindexing of your content? For instance, have there been any recent changes to your repository or technical fixes?
+
+setMessage:
+  title: The data on this tab is shown for whole White Rose Research Online repository.

@@ -82,7 +82,7 @@ const Content = ({ compliantCount, totalCount, missingTerms }) => (
 )
 
 const RioxxCard = ({ compliance }) => (
-  <OverviewCard title={texts.rioxx.title}>
+  <OverviewCard renderWarning title={texts.rioxx.title}>
     <Markdown className={styles.subtitle}>{texts.rioxx.description}</Markdown>
     {compliance != null ? (
       <Content
