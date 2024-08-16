@@ -27,12 +27,14 @@ const OverviewCard = ({
         <div className={styles.cardHeaderWrapper}>
           <Card.Title tag="h2">{title}</Card.Title>
           <div className={styles.actionWrapper}>
-            {globalStore.dataProvider.id === 140 && renderWarning && (
-              <div className={styles.iconWrapper}>
-                <Icon className={styles.icon} src="#alert" />
-                <div>Repository wide</div>
-              </div>
-            )}
+            {globalStore.dataProvider.id === 140 &&
+              globalStore.selectedSetName &&
+              renderWarning && (
+                <div className={styles.iconWrapper}>
+                  <Icon className={styles.icon} src="#alert" />
+                  <div>Repository wide</div>
+                </div>
+              )}
             <Actions
               downloadUrl={downloadUrl}
               description={tooltip}
