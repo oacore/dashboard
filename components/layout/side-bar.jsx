@@ -11,7 +11,7 @@ const SideBar = ({
   children,
   className,
   tag: Tag = 'nav',
-  id, // prevent passing ID to element attributes
+  id, // prevent passing ID to element
   onClick,
   ...restProps
 }) => {
