@@ -28,6 +28,7 @@
 }
 
 .placement {
+  position: relative;
   display: flex;
   justify-content: space-between;
   max-height: 1472px;
@@ -59,6 +60,25 @@
   font-weight: 700;
   line-height: 24px;
   color: #212121;
+}
+
+.navigator {
+  position: fixed;
+  right: 52px;
+  bottom: 52px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  background: #e0e0e0;
+  border: 1px solid #b75400;
+  border-radius: 2px;
+}
+
+.navigator-logo {
+  transform: rotate(-90deg);
 }
 
 .card-wrapper {
@@ -177,4 +197,22 @@
 
 .highlighted {
   color: #b75400;
+}
+
+@media (max-width: 992px) {
+  .documentation-inner-wrapper {
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .placement {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: max-content;
+  }
+
+  .navigator {
+    display: flex;
+  }
 }
