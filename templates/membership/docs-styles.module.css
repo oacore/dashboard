@@ -32,6 +32,7 @@
   justify-content: space-between;
   max-height: 1472px;
   overflow-y: scroll;
+  position: relative;
 }
 
 .placement::-webkit-scrollbar {
@@ -59,6 +60,25 @@
   font-weight: 700;
   line-height: 24px;
   color: #212121;
+}
+
+.navigator {
+  position: fixed;
+  bottom: 52px;
+  right: 52px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  border: 1px solid #b75400;
+  background: #e0e0e0;
+  width: 48px;
+  height: 48px;
+  display: none;
+  cursor: pointer;
+}
+
+.navigator-logo {
+  transform: rotate(-90deg);
 }
 
 .card-wrapper {
@@ -177,4 +197,22 @@
 
 .highlighted {
   color: #b75400;
+}
+
+@media (max-width: 992px) {
+  .documentation-inner-wrapper {
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .placement {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: max-content;
+  }
+
+  .navigator {
+    display: flex;
+  }
 }
