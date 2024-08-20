@@ -28,11 +28,11 @@
 }
 
 .placement {
+  position: relative;
   display: flex;
   justify-content: space-between;
   max-height: 1472px;
   overflow-y: scroll;
-  position: relative;
 }
 
 .placement::-webkit-scrollbar {
@@ -64,17 +64,17 @@
 
 .navigator {
   position: fixed;
-  bottom: 52px;
   right: 52px;
+  bottom: 52px;
+  display: none;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
-  border: 1px solid #b75400;
-  background: #e0e0e0;
   width: 48px;
   height: 48px;
-  display: none;
   cursor: pointer;
+  background: #e0e0e0;
+  border: 1px solid #b75400;
+  border-radius: 2px;
 }
 
 .navigator-logo {
