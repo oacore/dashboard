@@ -383,13 +383,34 @@ class Root extends Store {
   getLicencing = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/internal/data-providers/101/licencing`
+        `${process.env.API_URL}/data-providers/${this.dataProvider.id}/licencing`
       )
       const data = await response.json()
       this.setLicencing(data)
     } catch (error) {
       console.error('Error making GET request:', error)
       throw error
+    }
+  }
+
+  @action
+  updateLicencing = async (licenseType) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${this.dataProvider.id}/licencing`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ licence: licenseType }),
+        }
+      )
+
+      if (!response.ok) throw new Error('Network response was not ok')
+      await this.getLicencing()
+    } catch (error) {
+      console.error('Error:', error)
     }
   }
 

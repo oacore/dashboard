@@ -17,6 +17,7 @@ import DropdownInput from '../../components/input-select/input-select'
 import warning from './assets/warning.svg'
 import { GlobalContext } from '../../store'
 import infoGreen from '../../components/upload/assets/infoGreen.svg'
+import greenTick from '../../components/upload/assets/greenTick.svg'
 
 import dropdown from 'components/upload/assets/dropdownArrow.svg'
 
@@ -80,6 +81,7 @@ const RepositoryPageTemplate = observer(
     init,
     status,
     getLicencing,
+    updateLicencing,
     tag: Tag = 'main',
     ...restProps
   }) => {
@@ -103,6 +105,7 @@ const RepositoryPageTemplate = observer(
     const [isOpen, setIsOpen] = useState(false)
     const [inputValue, setInputValue] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
 
     useEffect(() => {
       fetch(`https://api.ror.org/organizations?query=${rorId}`)
@@ -126,9 +129,9 @@ const RepositoryPageTemplate = observer(
         })
     }, [rorName])
 
-    // useEffect(() => {
-    //   getLicencing()
-    // }, [])
+    useEffect(() => {
+      getLicencing()
+    }, [])
 
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
@@ -204,10 +207,37 @@ const RepositoryPageTemplate = observer(
       setIdIsOpen(false)
     }
 
-    const handleLicenseClick = (option) => {
+    useEffect(() => {
+      if (globalStore.licencingData?.licenseStrategy === false)
+        setInputValue(content.license.options[0])
+      else if (globalStore.licencingData?.licenseStrategy === true)
+        setInputValue(content.license.options[1])
+    }, [globalStore.licencingData?.licenseStrategy])
+
+    const handleLicenseClick = async (option) => {
       setIsOpen(false)
       setInputValue(option)
       if (option.type === 1) setIsModalOpen(true)
+      else {
+        const licenseType = option.value !== content.license.options[0].value
+        try {
+          await updateLicencing(licenseType)
+          setShowSuccess(true)
+        } catch (error) {
+          console.error('Error updating license:', error)
+        }
+      }
+    }
+
+    const handleSave = async () => {
+      const licenseType = inputValue.value !== content.license.options[0].value
+      try {
+        await updateLicencing(licenseType)
+        setIsModalOpen(false)
+        setShowSuccess(true)
+      } catch (error) {
+        console.error('Error updating license:', error)
+      }
     }
 
     const handleChange = () => {
@@ -385,72 +415,92 @@ const RepositoryPageTemplate = observer(
             className={classNames.use(styles.section).join(className)}
             tag="section"
           >
-            <Card.Title tag="h2">{content.license.title}</Card.Title>
-            <div className={styles.licenseContainer}>
-              <Card.Description
-                className={styles.licenseDescriptionWrapper}
-                tag="div"
-              >
-                <>
-                  <Markdown className={styles.licensedescription}>
-                    {content.license.description}
-                  </Markdown>
-                  <div className={styles.licenseTypeWrapper}>
-                    <div className={styles.licenseType}>
-                      {content.license.dropdown}
-                    </div>
-                    <div className={styles.dropdownWrapper} ref={dropdownRef}>
-                      <div
-                        className={classNames.use(styles.activeWrapper, {
-                          [styles.active]: isOpen,
-                        })}
-                      >
-                        <TextField
-                          id="secondInput"
-                          label="Sets"
-                          onClick={handleDropdownClick}
-                          onChange={handleSetInputChange}
-                          value={inputValue.value}
-                          className={styles.selectInput}
-                        />
-                        <img
-                          className={styles.icon}
-                          src={dropdown}
-                          alt="dropdown"
-                        />
+            <div className={styles.formWrapper}>
+              <div className={styles.formInnerWrapper}>
+                <Card.Title tag="h2">{content.license.title}</Card.Title>
+                <div className={styles.licenseContainer}>
+                  <Card.Description
+                    className={styles.licenseDescriptionWrapper}
+                    tag="div"
+                  >
+                    <>
+                      <Markdown className={styles.licensedescription}>
+                        {content.license.description}
+                      </Markdown>
+                      <div className={styles.licenseTypeWrapper}>
+                        <div className={styles.licenseType}>
+                          {content.license.dropdown}
+                        </div>
+                        <div
+                          className={styles.dropdownWrapper}
+                          ref={dropdownRef}
+                        >
+                          <div
+                            className={classNames.use(styles.activeWrapper, {
+                              [styles.active]: isOpen,
+                            })}
+                          >
+                            <TextField
+                              id="secondInput"
+                              label=""
+                              onClick={handleDropdownClick}
+                              onChange={handleSetInputChange}
+                              value={inputValue.value}
+                              className={styles.selectInput}
+                              readOnly
+                            />
+                            <img
+                              className={styles.icon}
+                              src={dropdown}
+                              alt="dropdown"
+                            />
+                          </div>
+                          {isOpen && (
+                            <div className={styles.dropdown}>
+                              <ul>
+                                {Object.values(content.license.options).map(
+                                  (option) => (
+                                    // eslint-disable-next-line max-len
+                                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                                    <li
+                                      key={option.type}
+                                      onClick={() => handleLicenseClick(option)}
+                                      className={styles.selectItem}
+                                    >
+                                      {option.value}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      {isOpen && (
-                        <div className={styles.dropdown}>
-                          <ul>
-                            {Object.values(content.license.options).map(
-                              (option) => (
-                                // eslint-disable-next-line max-len
-                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
-                                <li
-                                  key={option.type}
-                                  onClick={() => handleLicenseClick(option)}
-                                  className={styles.selectItem}
-                                >
-                                  {option.value}
-                                </li>
-                              )
-                            )}
-                          </ul>
+                      <div className={styles.selectWrapper} />
+                      <Markdown className={styles.licenseNote}>
+                        {inputValue.description}
+                      </Markdown>
+                      {showSuccess && (
+                        <div className={styles.success}>
+                          <img className={styles.tick} src={greenTick} alt="" />
+                          <div>Licencing preference updated successfully.</div>
                         </div>
                       )}
-                    </div>
-                  </div>
-                  <div className={styles.selectWrapper} />
-                  <Markdown className={styles.licenseNote}>
-                    {inputValue ? inputValue.description : ''}
-                  </Markdown>
-                </>
-              </Card.Description>
+                    </>
+                  </Card.Description>
+                </div>
+              </div>
+              <div className={styles.mainWarningWrapper} />
             </div>
           </Card>
           {isModalOpen && (
-            <Modal isOpen={isModalOpen} aria-label="modal" hideManually>
-              <div className={styles.notificationGuideWrapper}>
+            <Modal
+              className={styles.notificationGuideWrapper}
+              isOpen={isModalOpen}
+              aria-label="modal"
+              hideManually
+            >
+              <div className={styles.notificationGuide}>
                 <h5 className={styles.notificationTitle}>
                   {content.license.modal.title}
                 </h5>
@@ -462,19 +512,19 @@ const RepositoryPageTemplate = observer(
                 <div className={styles.buttonGroup}>
                   <Button
                     key={content.notificationGuide.actions.offAction.title}
-                    variant={content.notificationGuide.actions.offAction.type}
-                    className={styles.actionButton}
-                    onClick={() => setIsModalOpen(false)}
-                  >
-                    {Object.values(content.license.modal.actions[0])}
-                  </Button>
-                  <Button
-                    key={content.notificationGuide.actions.offAction.title}
-                    variant={content.notificationGuide.actions.offAction.type}
+                    variant="text"
                     className={styles.actionButton}
                     onClick={() => setIsModalOpen(false)}
                   >
                     {Object.values(content.license.modal.actions[1])}
+                  </Button>
+                  <Button
+                    key={content.notificationGuide.actions.offAction.title}
+                    variant="contained"
+                    className={styles.actionButton}
+                    onClick={() => handleSave()}
+                  >
+                    {Object.values(content.license.modal.actions[0])}
                   </Button>
                 </div>
               </div>
