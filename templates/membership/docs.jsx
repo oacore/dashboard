@@ -1,13 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './docs-styles.module.css'
 import DocumentationNav from '../membershipDocumentationNav'
 import Markdown from '../../components/markdown'
 import redirectLink from '../../components/upload/assets/redirectLink.svg'
+import activeArrow from '../../components/upload/assets/activeArrow.svg'
 
 const DocumentationBlockTemplate = ({ headerDashboard, docs, navigation }) => {
   const [highlight, setHighlight] = useState()
+  const [showNavigator, setShowNavigator] = useState(false)
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) setShowNavigator(true)
+      else setShowNavigator(false)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   return (
     <div className={styles.documentationWrapper}>
       <h2 className={styles.documentationHeader}>
@@ -94,6 +116,17 @@ const DocumentationBlockTemplate = ({ headerDashboard, docs, navigation }) => {
             </div>
           ))}
         </div>
+        {showNavigator && (
+          // eslint-disable-next-line max-len
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+          <div className={styles.navigator} onClick={handleScrollToTop}>
+            <img
+              src={activeArrow}
+              alt="Logo"
+              className={styles.navigatorLogo}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

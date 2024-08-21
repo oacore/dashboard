@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { Modal } from '@oacore/design'
 
 import styles from './styles.module.css'
-import { Card, TextField } from '../../design'
+import { Card, ProgressSpinner, TextField } from '../../design'
 import content from '../../texts/settings'
 import Markdown from '../../components/markdown'
 import Upload from '../../components/upload'
@@ -18,6 +18,8 @@ import warning from './assets/warning.svg'
 import { GlobalContext } from '../../store'
 import infoGreen from '../../components/upload/assets/infoGreen.svg'
 import greenTick from '../../components/upload/assets/greenTick.svg'
+import removeBin from '../../components/upload/assets/removeBin.svg'
+import toggleArrow from '../../components/upload/assets/dropdownArrow.svg'
 
 import dropdown from 'components/upload/assets/dropdownArrow.svg'
 
@@ -82,6 +84,20 @@ const RepositoryPageTemplate = observer(
     status,
     getLicencing,
     updateLicencing,
+    setsList,
+    loadingSets,
+    enableSet,
+    enabledList,
+    disabledList,
+    deleteSet,
+    getSetsWholeList,
+    wholeSetData,
+    loadingWholeSets,
+    loadingWholeSetsBtn,
+    getSetsEnabledList,
+    setLoadingWholeSetsBtn,
+    loadingRemoveItem,
+    setLoadingRemoveAction,
     tag: Tag = 'main',
     ...restProps
   }) => {
@@ -99,13 +115,22 @@ const RepositoryPageTemplate = observer(
     const [isChanged, setChanged] = useState(false)
     const [isNameOpen, setNameIsOpen] = useState(false)
     const [isIdOpen, setIdIsOpen] = useState(false)
-
     const [isNameChanged, setNameChanged] = useState(false)
     const [isFormSubmitted, setFormSubmitted] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
-    const [inputValue, setInputValue] = useState('')
+    const [isLicenseOpen, setIsLicenseOpen] = useState(false)
+    const [inputLicenseValue, setLicenseInputValue] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [selectedItem, setSelectedItem] = useState(null)
+    const dropdownRef = useRef(null)
+    const [isOpen, setIsOpen] = useState(false)
+    const [setNameDisplay, setSetNameDisplay] = useState({})
+    const [isEditing, setIsEditing] = useState({})
+    const [showFullList, setShowFullList] = useState(false)
+    const [inputValue, setInputValue] = useState('')
+
+    const router = useRouter()
+    const providerId = router.query['data-provider-id']
 
     useEffect(() => {
       fetch(`https://api.ror.org/organizations?query=${rorId}`)
@@ -133,11 +158,15 @@ const RepositoryPageTemplate = observer(
       getLicencing()
     }, [])
 
+    useEffect(() => {
+      getSetsEnabledList()
+    }, [providerId])
+
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
     const licenseRef = useRef(null)
-    const router = useRouter()
-    const dropdownRef = useRef(null)
+    const icenseDropdownRef = useRef(null)
+    const setRef = useRef(null)
 
     const isStartingMember = membershipPlan.billing_type === 'starting'
 
@@ -145,14 +174,18 @@ const RepositoryPageTemplate = observer(
       upload: uploadRef,
       mapping: mappingRef,
       license: licenseRef,
+      sets: setRef,
     }
 
     useScrollEffect(scrollTarget[router.query.referrer])
 
     useEffect(() => {
       const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target))
-          setIsOpen(false)
+        if (
+          icenseDropdownRef.current &&
+          !icenseDropdownRef.current.contains(event.target)
+        )
+          setIsLicenseOpen(false)
       }
 
       document.addEventListener('mousedown', handleClickOutside)
@@ -160,7 +193,7 @@ const RepositoryPageTemplate = observer(
       return () => {
         document.removeEventListener('mousedown', handleClickOutside)
       }
-    }, [dropdownRef])
+    }, [icenseDropdownRef])
 
     const handleSubmit = async (event) => {
       event.preventDefault()
@@ -172,6 +205,7 @@ const RepositoryPageTemplate = observer(
       const present = {
         'data-provider': updateDataProvider,
         'mapping': mappingSubmit,
+        'sets': mappingSubmit,
       }[scope]
 
       const result = await present(data)
@@ -209,14 +243,14 @@ const RepositoryPageTemplate = observer(
 
     useEffect(() => {
       if (globalStore.licencingData?.licenseStrategy === false)
-        setInputValue(content.license.options[0])
+        setLicenseInputValue(content.license.options[0])
       else if (globalStore.licencingData?.licenseStrategy === true)
-        setInputValue(content.license.options[1])
+        setLicenseInputValue(content.license.options[1])
     }, [globalStore.licencingData?.licenseStrategy])
 
     const handleLicenseClick = async (option) => {
-      setIsOpen(false)
-      setInputValue(option)
+      setIsLicenseOpen(false)
+      setLicenseInputValue(option)
       if (option.type === 1) setIsModalOpen(true)
       else {
         const licenseType = option.value !== content.license.options[0].value
@@ -230,7 +264,8 @@ const RepositoryPageTemplate = observer(
     }
 
     const handleSave = async () => {
-      const licenseType = inputValue.value !== content.license.options[0].value
+      const licenseType =
+        inputLicenseValue.value !== content.license.options[0].value
       try {
         await updateLicencing(licenseType)
         setIsModalOpen(false)
@@ -269,13 +304,116 @@ const RepositoryPageTemplate = observer(
       return null
     }
 
-    const handleDropdownClick = () => {
+    const handleLicenseDropdownClick = () => {
+      setIsLicenseOpen(!isLicenseOpen)
+    }
+
+    const handleSetLicenseInputChange = (event) => {
+      setLicenseInputValue(event.target.value)
+    }
+
+    const handleDropdownClick = async () => {
       setIsOpen(!isOpen)
+      if (!wholeSetData.length) await getSetsWholeList()
+    }
+
+    const handleSelect = (item) => {
+      setSelectedItem(item)
+      setInputValue(item.setName)
+      setIsOpen(false)
+    }
+
+    const handleAddClick = async () => {
+      if (selectedItem) {
+        try {
+          setLoadingWholeSetsBtn(true)
+          await enableSet({
+            setSpec: selectedItem.setSpec,
+            setName: selectedItem.setName,
+            setNameDisplay: selectedItem.setNameDisplay,
+          })
+          setSelectedItem(null)
+          await getSetsWholeList()
+          await getSetsEnabledList()
+          setInputValue('')
+        } catch (error) {
+          console.error('Error patching settings:', error)
+        } finally {
+          setLoadingWholeSetsBtn(false)
+        }
+      }
+    }
+
+    const handleDelete = async (id) => {
+      try {
+        setLoadingRemoveAction(true, id)
+        await deleteSet(id)
+        await getSetsWholeList()
+        await getSetsEnabledList()
+      } catch (error) {
+        console.error('Error patching settings:', error)
+      } finally {
+        setLoadingRemoveAction(false, id)
+      }
+    }
+
+    const handleInputChange = (id, event) => {
+      setSetNameDisplay((prevState) => ({
+        ...prevState,
+        [id]: event.target.value,
+      }))
+    }
+
+    const handleEditClick = (id) => {
+      setIsEditing((prevState) => ({
+        ...prevState,
+        [id]: true,
+      }))
+    }
+
+    const handleButtonClick = async (item) => {
+      try {
+        await enableSet({
+          id: item.id,
+          setSpec: item.setSpec,
+          setName: item.setName,
+          setNameDisplay: setNameDisplay[item.id],
+        })
+        setIsEditing((prevState) => ({
+          ...prevState,
+          [item.id]: false,
+        }))
+      } catch (error) {
+        console.error('Error patching settings:', error)
+      }
+    }
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target))
+          setIsOpen(false)
+      }
+
+      document.addEventListener('mousedown', handleClickOutside)
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [dropdownRef])
+
+    const displayAllSets = showFullList ? enabledList : enabledList.slice(0, 3)
+
+    const toggleList = () => {
+      setShowFullList(!showFullList)
     }
 
     const handleSetInputChange = (event) => {
       setInputValue(event.target.value)
     }
+
+    const filteredData = wholeSetData.filter((item) =>
+      item.setName.toLowerCase().includes(inputValue.toLowerCase())
+    )
 
     return (
       <Tag
@@ -383,6 +521,174 @@ const RepositoryPageTemplate = observer(
             </div>
           )}
         </Card>
+        {globalStore.enabledList.length >= 0 &&
+        globalStore.dataProvider.id === 140 ? (
+          <div ref={setRef}>
+            <Card
+              className={classNames.use(styles.section).join(className)}
+              tag="section"
+              id="sets"
+              name="sets"
+            >
+              <div className={styles.formWrapper}>
+                <div className={styles.formInnerWrapper}>
+                  <Card.Title tag="h2">{content.sets.title}</Card.Title>
+                  <Card.Description className={styles.description}>
+                    <Markdown>{content.sets.description}</Markdown>
+                  </Card.Description>
+                  <div>
+                    {displayAllSets.map((item) => (
+                      <div className={styles.setMainItem}>
+                        <div className={styles.setOuterHeader}>
+                          <div className={styles.setInnerHeader}>
+                            <TextField
+                              value={
+                                (setNameDisplay?.[item.id]?.length > 100
+                                  ? `${setNameDisplay[item.id].substring(
+                                      0,
+                                      100
+                                    )}...`
+                                  : setNameDisplay[item.id]) ||
+                                (item?.setNameDisplay?.length > 100
+                                  ? `${item.setNameDisplay.substring(
+                                      0,
+                                      100
+                                    )}...`
+                                  : item.setNameDisplay)
+                              }
+                              onChange={(event) =>
+                                handleInputChange(item.id, event)
+                              }
+                              className={styles.setInnerField}
+                              disabled={!isEditing[item.id]}
+                            />
+                            {!isEditing[item.id] ? (
+                              <Button
+                                onClick={() => handleEditClick(item.id)}
+                                className={styles.setButton}
+                              >
+                                <div className={styles.setButtonText}>
+                                  Change set display name
+                                </div>
+                              </Button>
+                            ) : (
+                              <Button
+                                onClick={() => handleButtonClick(item)}
+                                className={styles.setButton}
+                              >
+                                <div className={styles.setButtonText}>Save</div>
+                              </Button>
+                            )}
+                          </div>
+                          <div className={styles.removeWrapper}>
+                            {loadingRemoveItem.id === item.id &&
+                            loadingRemoveItem.value ? (
+                              <div className={styles.wrapper}>
+                                <ProgressSpinner
+                                  className={styles.deleteSpinner}
+                                />
+                              </div>
+                            ) : (
+                              // eslint-disable-next-line max-len
+                              // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                              <img
+                                onClick={() => handleDelete(item.id)}
+                                src={removeBin}
+                                alt=""
+                              />
+                            )}
+                          </div>
+                        </div>
+                        <div>
+                          <div className={styles.setWrapper}>
+                            <div className={styles.setTitle}>setName</div>
+                            <span className={styles.setItem}>
+                              {item.setName.length > 110
+                                ? `${item.setName.substring(0, 110)}...`
+                                : item.setName}
+                            </span>
+                          </div>
+                          <div className={styles.setWrapper}>
+                            <div className={styles.setTitle}>setSpec</div>
+                            <span className={styles.setItem}>
+                              {item.setSpec.length > 110
+                                ? `${item.setSpec.substring(0, 110)}...`
+                                : item.setSpec}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {enabledList.length > 3 && (
+                      <Button
+                        className={styles.showBtn}
+                        variant="outlined"
+                        onClick={toggleList}
+                      >
+                        {showFullList ? 'Show Less' : 'Show More'}
+                      </Button>
+                    )}
+                  </div>
+                  <div className={styles.selectRss} ref={dropdownRef}>
+                    <div className={styles.selectFormWrapper}>
+                      <div className={styles.selectWrapper}>
+                        <TextField
+                          id="selectInput"
+                          label="Add new set"
+                          onClick={handleDropdownClick}
+                          onChange={handleSetInputChange}
+                          value={inputValue}
+                          className={styles.selectInput}
+                        />
+                        <img
+                          className={styles.repositoryLogo}
+                          src={toggleArrow}
+                          alt=""
+                        />
+                      </div>
+                      <Button
+                        onClick={handleAddClick}
+                        className={styles.addBtn}
+                        variant="contained"
+                      >
+                        {!loadingWholeSetsBtn ? (
+                          <span>Add</span>
+                        ) : (
+                          <div className={styles.wrapper}>
+                            <ProgressSpinner className={styles.spinner} />
+                          </div>
+                        )}
+                      </Button>
+                    </div>
+                    {isOpen && (
+                      <div className={styles.dropdownMenu}>
+                        {loadingWholeSets ? (
+                          <p className={styles.loading}>Loading...</p>
+                        ) : (
+                          <ul>
+                            {filteredData.map((item) => (
+                              // eslint-disable-next-line max-len
+                              // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                              <li
+                                key={item.id}
+                                onClick={() => handleSelect(item)}
+                                className={styles.selectItem}
+                              >
+                                {item.setName}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        ) : (
+          <></>
+        )}
         <div ref={mappingRef}>
           <Card
             className={classNames.use(styles.section).join(className)}
@@ -433,19 +739,19 @@ const RepositoryPageTemplate = observer(
                         </div>
                         <div
                           className={styles.dropdownWrapper}
-                          ref={dropdownRef}
+                          ref={icenseDropdownRef}
                         >
                           <div
                             className={classNames.use(styles.activeWrapper, {
-                              [styles.active]: isOpen,
+                              [styles.active]: isLicenseOpen,
                             })}
                           >
                             <TextField
                               id="secondInput"
                               label=""
-                              onClick={handleDropdownClick}
-                              onChange={handleSetInputChange}
-                              value={inputValue.value}
+                              onClick={handleLicenseDropdownClick}
+                              onChange={handleSetLicenseInputChange}
+                              value={inputLicenseValue.value}
                               className={styles.selectInput}
                               readOnly
                             />
@@ -455,7 +761,7 @@ const RepositoryPageTemplate = observer(
                               alt="dropdown"
                             />
                           </div>
-                          {isOpen && (
+                          {isLicenseOpen && (
                             <div className={styles.dropdown}>
                               <ul>
                                 {Object.values(content.license.options).map(
@@ -478,7 +784,7 @@ const RepositoryPageTemplate = observer(
                       </div>
                       <div className={styles.selectWrapper} />
                       <Markdown className={styles.licenseNote}>
-                        {inputValue.description}
+                        {inputLicenseValue.description}
                       </Markdown>
                       {showSuccess && (
                         <div className={styles.success}>

@@ -27,7 +27,7 @@ const Content = ({ data, ...htmlProps }) => (
 )
 
 const IrusCard = ({ statistics }) => (
-  <OverviewCard title={title} tooltip={cardTooltip}>
+  <OverviewCard renderWarning title={title} tooltip={cardTooltip}>
     {statistics != null ? (
       <Content className={styles.irusCardContent} data={statistics} />
     ) : (

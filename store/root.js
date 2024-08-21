@@ -93,6 +93,22 @@ class Root extends Store {
 
   @observable deduplicationNotifications = null
 
+  @observable loadingSets = false
+
+  @observable loadingWholeSets = false
+
+  @observable loadingWholeSetsBtn = false
+
+  @observable loadingRemoveItem = false
+
+  @observable setsList = []
+
+  @observable enabledList = []
+
+  @observable disabledList = []
+
+  @observable wholeSetData = []
+
   @observable tutorial = {
     currentStep: 1,
     isModalOpen: false,
@@ -129,6 +145,20 @@ class Root extends Store {
 
   @observable responseData = null
 
+  @observable setSelectedItem = ''
+
+  @observable selectedSetName = ''
+
+  @action
+  updateSelectedSetSpec = (value) => {
+    this.setSelectedItem = value
+  }
+
+  @action
+  updateSelectedSetName = (value) => {
+    this.selectedSetName = value
+  }
+
   @action
   setHarvestNotifications = (data) => {
     this.harvestNotifications = data
@@ -157,6 +187,36 @@ class Root extends Store {
   @computed
   get organisationId() {
     return this.organisation ? this.organisation.id : ''
+  }
+
+  @action
+  setSetsList(data) {
+    this.setsList = data
+  }
+
+  @action
+  setEnabledList(data) {
+    this.enabledList = data
+  }
+
+  @action
+  setDisabledList(data) {
+    this.disabledList = data
+  }
+
+  @action
+  setWholeSetData(data) {
+    this.wholeSetData = data
+  }
+
+  @action
+  setLoadingWholeSetsBtn = (value) => {
+    this.loadingWholeSetsBtn = value
+  }
+
+  @action
+  setLoadingRemoveAction = (value, id) => {
+    this.loadingRemoveItem = { value, id }
   }
 
   @computed
@@ -210,7 +270,7 @@ class Root extends Store {
 
     const dataProviderInit = this.findDataProvider(id)
 
-    this.dataProvider = new DataProvider(dataProviderInit, {
+    this.dataProvider = new DataProvider(this, dataProviderInit, {
       ...this.options,
       prefetch: true,
     })
@@ -361,6 +421,87 @@ class Root extends Store {
       })
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
+    }
+  }
+
+  @action
+  getSetsWholeList = async () => {
+    this.loadingWholeSets = true
+    try {
+      const response = await fetch(
+        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set/available`
+      )
+      if (response.ok) {
+        const data = await response.json()
+        this.setWholeSetData(data)
+      } else throw new Error('Failed to fetch rrs data')
+    } catch (error) {
+      console.error('Error fetching rrs data:', error)
+      this.setWholeSetData([])
+    } finally {
+      this.loadingWholeSets = false
+    }
+  }
+
+  @action
+  getSetsEnabledList = async () => {
+    this.loadingSets = true
+    try {
+      const response = await fetch(
+        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set`
+      )
+      if (response.ok) {
+        const data = await response.json()
+        this.setEnabledList(data)
+      } else throw new Error('Failed to fetch rrs data')
+    } catch (error) {
+      console.error('Error fetching rrs data:', error)
+      this.setEnabledList([])
+    } finally {
+      this.loadingSets = false
+    }
+  }
+
+  @action
+  enableSet = async (body) => {
+    try {
+      const response = await fetch(
+        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set/settings`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        }
+      )
+
+      if (!response.ok) throw new Error('Failed to patch settings')
+    } catch (error) {
+      console.error('Error patching settings:', error)
+      throw error
+    }
+  }
+
+  @action
+  deleteSet = async (idSet) => {
+    this.loadingSets = true
+    try {
+      const response = await fetch(
+        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set/settings/${idSet}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (!response.ok) throw new Error('Failed to patch settings')
+    } catch (error) {
+      console.error('Error patching settings:', error)
+      throw error
+    } finally {
+      this.loadingSets = false
     }
   }
 
