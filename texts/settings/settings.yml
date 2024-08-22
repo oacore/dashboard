@@ -134,7 +134,7 @@ accessDataUsers :
 license:
   title: Licencing
   description: |
-    CORE recommends using machine-readable licence URLs in the respective metadata fields, depending on the metadata schema employed by your repository, to identify the licence of the content. Where the licence information is exposed, CORE complies with the conditions of the licence. More information about how to expose licencing is available in our [documentation]().
+    CORE recommends using machine-readable licence URLs in the respective metadata fields, depending on the metadata schema employed by your repository, to identify the licence of the content. Where the licence information is exposed, CORE complies with the conditions of the licence. More information about how to expose licencing is available in our documentation.
 
     One of the requirements for including a data provider in CORE is that the data provider exposes content in line with the principles of the BOAI2002.  If your repository contains mixed content, you have the option to request that CORE only indexes content which does not have an explicit licence.
   dropdown: Content without an explicit licence statement

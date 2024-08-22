@@ -128,6 +128,8 @@ const RepositoryPageTemplate = observer(
     const [isEditing, setIsEditing] = useState({})
     const [showFullList, setShowFullList] = useState(false)
     const [inputValue, setInputValue] = useState('')
+    const [storedLicenseValue, setStoredLicenseValue] =
+      useState(inputLicenseValue)
 
     const router = useRouter()
     const providerId = router.query['data-provider-id']
@@ -275,6 +277,11 @@ const RepositoryPageTemplate = observer(
       }
     }
 
+    const handleCancel = () => {
+      setIsModalOpen(false)
+      setLicenseInputValue(storedLicenseValue)
+    }
+
     const handleChange = () => {
       setChanged(true)
     }
@@ -306,6 +313,7 @@ const RepositoryPageTemplate = observer(
 
     const handleLicenseDropdownClick = () => {
       setIsLicenseOpen(!isLicenseOpen)
+      setStoredLicenseValue(inputLicenseValue)
     }
 
     const handleSetLicenseInputChange = (event) => {
@@ -730,7 +738,7 @@ const RepositoryPageTemplate = observer(
                     tag="div"
                   >
                     <>
-                      <Markdown className={styles.licensedescription}>
+                      <Markdown className={styles.licenseDescription}>
                         {content.license.description}
                       </Markdown>
                       <div className={styles.licenseTypeWrapper}>
@@ -820,7 +828,7 @@ const RepositoryPageTemplate = observer(
                     key={content.notificationGuide.actions.offAction.title}
                     variant="text"
                     className={styles.actionButton}
-                    onClick={() => setIsModalOpen(false)}
+                    onClick={handleCancel}
                   >
                     {Object.values(content.license.modal.actions[1])}
                   </Button>
