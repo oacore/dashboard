@@ -178,7 +178,7 @@ const FreshFindsTable = observer(
               display="Publication date"
               className={styles.titleColumn}
               getter={(v) => {
-                if (v.publicationDate) return <span>{v.publicationDate}</span>
+                if (v.publication_date) return <span>{v.publication_date}</span>
 
                 return '-'
               }}
