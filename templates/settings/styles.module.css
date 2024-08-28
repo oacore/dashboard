@@ -94,6 +94,105 @@
   color: var(--gray-900);
 }
 
+.license-note {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #424242;
+  letter-spacing: 0.048px;
+}
+
+.license-note p {
+  margin-bottom: 4px;
+}
+
+.license-note li {
+  margin-left: 16px;
+  list-style-type: disc;
+}
+
+.license-description {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  color: #212121;
+  letter-spacing: 0.04px;
+}
+
+.license-type-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 14px 0;
+  gap: 14px;
+}
+
+.license-type {
+  width: 50%;
+  min-height: 48px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  color: #212121;
+  letter-spacing: 0.01px;
+  background: #f5f5f5;
+}
+
+.dropdown-wrapper {
+  position: relative;
+  display: flex;
+  width: 50%;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+  border-radius: 2px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.active {
+  border: 1px solid #b75400;
+}
+
+.active-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  z-index: 900;
+  transform: translate(0, -50%);
+}
+
+.active-wrapper div {
+  display: flex;
+  width: 100%;
+}
+
+.success {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  padding: 12px 16px;
+  margin-top: 24px;
+  background: #ecf6df;
+  gap: 10px;
+}
+
 .set-main-item {
   margin-top: 30px;
 }
@@ -164,7 +263,7 @@
 
 .upload-wrapper {
   display: flex;
-  width: 50%;
+  width: 67%;
   gap: 40px;
   padding: 14px;
   margin-top: 1rem;
@@ -449,7 +548,7 @@
 }
 
 .form-inner-wrapper {
-  flex: 1;
+  flex: 2;
 }
 
 .form-inner-wrapper form {
@@ -496,6 +595,7 @@
 }
 
 .select-input input {
+  cursor: pointer;
   background: #fff;
   border: 1px solid #b75400;
   border-radius: 2px;
@@ -716,14 +816,28 @@
   letter-spacing: 0.01px;
 }
 
+.notification-guide-wrapper {
+  min-width: 480px;
+}
+
 .notification-description {
-  margin: 24px 0;
+  margin: 24px 0 8px;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
   color: #212121;
+  text-align: left;
   letter-spacing: 0.026px;
+}
+
+.notification-description ul {
+  margin-left: 32px;
+  list-style-type: disc;
+}
+
+.notification-description ul li {
+  margin-bottom: 16px;
 }
 
 .button-group {

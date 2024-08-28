@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 import { Button } from '@oacore/design/lib/elements'
 import { useRouter } from 'next/router'
+import { Modal } from '@oacore/design'
 
 import styles from './styles.module.css'
 import { Card, ProgressSpinner, TextField } from '../../design'
@@ -16,8 +17,11 @@ import DropdownInput from '../../components/input-select/input-select'
 import warning from './assets/warning.svg'
 import { GlobalContext } from '../../store'
 import infoGreen from '../../components/upload/assets/infoGreen.svg'
+import greenTick from '../../components/upload/assets/greenTick.svg'
 import removeBin from '../../components/upload/assets/removeBin.svg'
 import toggleArrow from '../../components/upload/assets/dropdownArrow.svg'
+
+import dropdown from 'components/upload/assets/dropdownArrow.svg'
 
 const UploadSection = ({
   className,
@@ -78,6 +82,8 @@ const RepositoryPageTemplate = observer(
     setGlobalRorId,
     init,
     status,
+    getLicencing,
+    updateLicencing,
     setsList,
     loadingSets,
     enableSet,
@@ -111,6 +117,10 @@ const RepositoryPageTemplate = observer(
     const [isIdOpen, setIdIsOpen] = useState(false)
     const [isNameChanged, setNameChanged] = useState(false)
     const [isFormSubmitted, setFormSubmitted] = useState(false)
+    const [isLicenseOpen, setIsLicenseOpen] = useState(false)
+    const [inputLicenseValue, setLicenseInputValue] = useState('')
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
     const dropdownRef = useRef(null)
     const [isOpen, setIsOpen] = useState(false)
@@ -118,6 +128,8 @@ const RepositoryPageTemplate = observer(
     const [isEditing, setIsEditing] = useState({})
     const [showFullList, setShowFullList] = useState(false)
     const [inputValue, setInputValue] = useState('')
+    const [storedLicenseValue, setStoredLicenseValue] =
+      useState(inputLicenseValue)
 
     const router = useRouter()
     const providerId = router.query['data-provider-id']
@@ -145,11 +157,17 @@ const RepositoryPageTemplate = observer(
     }, [rorName])
 
     useEffect(() => {
+      getLicencing()
+    }, [])
+
+    useEffect(() => {
       getSetsEnabledList()
     }, [providerId])
 
     const uploadRef = useRef(null)
     const mappingRef = useRef(null)
+    const licenseRef = useRef(null)
+    const icenseDropdownRef = useRef(null)
     const setRef = useRef(null)
 
     const isStartingMember = membershipPlan.billing_type === 'starting'
@@ -157,10 +175,27 @@ const RepositoryPageTemplate = observer(
     const scrollTarget = {
       upload: uploadRef,
       mapping: mappingRef,
+      license: licenseRef,
       sets: setRef,
     }
 
     useScrollEffect(scrollTarget[router.query.referrer])
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (
+          icenseDropdownRef.current &&
+          !icenseDropdownRef.current.contains(event.target)
+        )
+          setIsLicenseOpen(false)
+      }
+
+      document.addEventListener('mousedown', handleClickOutside)
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [icenseDropdownRef])
 
     const handleSubmit = async (event) => {
       event.preventDefault()
@@ -208,6 +243,45 @@ const RepositoryPageTemplate = observer(
       setIdIsOpen(false)
     }
 
+    useEffect(() => {
+      if (globalStore.licencingData?.licenseStrategy === false)
+        setLicenseInputValue(content.license.options[0])
+      else if (globalStore.licencingData?.licenseStrategy === true)
+        setLicenseInputValue(content.license.options[1])
+    }, [globalStore.licencingData?.licenseStrategy])
+
+    const handleLicenseClick = async (option) => {
+      setIsLicenseOpen(false)
+      setLicenseInputValue(option)
+      if (option.type === 1) setIsModalOpen(true)
+      else {
+        const licenseType = option.value !== content.license.options[0].value
+        try {
+          await updateLicencing(licenseType)
+          setShowSuccess(true)
+        } catch (error) {
+          console.error('Error updating license:', error)
+        }
+      }
+    }
+
+    const handleSave = async () => {
+      const licenseType =
+        inputLicenseValue.value !== content.license.options[0].value
+      try {
+        await updateLicencing(licenseType)
+        setIsModalOpen(false)
+        setShowSuccess(true)
+      } catch (error) {
+        console.error('Error updating license:', error)
+      }
+    }
+
+    const handleCancel = () => {
+      setIsModalOpen(false)
+      setLicenseInputValue(storedLicenseValue)
+    }
+
     const handleChange = () => {
       setChanged(true)
     }
@@ -235,6 +309,15 @@ const RepositoryPageTemplate = observer(
         )
       }
       return null
+    }
+
+    const handleLicenseDropdownClick = () => {
+      setIsLicenseOpen(!isLicenseOpen)
+      setStoredLicenseValue(inputLicenseValue)
+    }
+
+    const handleSetLicenseInputChange = (event) => {
+      setLicenseInputValue(event.target.value)
     }
 
     const handleDropdownClick = async () => {
@@ -640,6 +723,127 @@ const RepositoryPageTemplate = observer(
               <div className={styles.mainWarningWrapper} />
             </div>
           </Card>
+        </div>
+        <div ref={licenseRef}>
+          <Card
+            className={classNames.use(styles.section).join(className)}
+            tag="section"
+          >
+            <div className={styles.formWrapper}>
+              <div className={styles.formInnerWrapper}>
+                <Card.Title tag="h2">{content.license.title}</Card.Title>
+                <div className={styles.licenseContainer}>
+                  <Card.Description
+                    className={styles.licenseDescriptionWrapper}
+                    tag="div"
+                  >
+                    <>
+                      <Markdown className={styles.licenseDescription}>
+                        {content.license.description}
+                      </Markdown>
+                      <div className={styles.licenseTypeWrapper}>
+                        <div className={styles.licenseType}>
+                          {content.license.dropdown}
+                        </div>
+                        <div
+                          className={styles.dropdownWrapper}
+                          ref={icenseDropdownRef}
+                        >
+                          <div
+                            className={classNames.use(styles.activeWrapper, {
+                              [styles.active]: isLicenseOpen,
+                            })}
+                          >
+                            <TextField
+                              id="secondInput"
+                              label=""
+                              onClick={handleLicenseDropdownClick}
+                              onChange={handleSetLicenseInputChange}
+                              value={inputLicenseValue.value}
+                              className={styles.selectInput}
+                              readOnly
+                            />
+                            <img
+                              className={styles.icon}
+                              src={dropdown}
+                              alt="dropdown"
+                            />
+                          </div>
+                          {isLicenseOpen && (
+                            <div className={styles.dropdown}>
+                              <ul>
+                                {Object.values(content.license.options).map(
+                                  (option) => (
+                                    // eslint-disable-next-line max-len
+                                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                                    <li
+                                      key={option.type}
+                                      onClick={() => handleLicenseClick(option)}
+                                      className={styles.selectItem}
+                                    >
+                                      {option.value}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className={styles.selectWrapper} />
+                      <Markdown className={styles.licenseNote}>
+                        {inputLicenseValue.description}
+                      </Markdown>
+                      {showSuccess && (
+                        <div className={styles.success}>
+                          <img className={styles.tick} src={greenTick} alt="" />
+                          <div>Licencing preference updated successfully.</div>
+                        </div>
+                      )}
+                    </>
+                  </Card.Description>
+                </div>
+              </div>
+              <div className={styles.mainWarningWrapper} />
+            </div>
+          </Card>
+          {isModalOpen && (
+            <Modal
+              className={styles.notificationGuideWrapper}
+              isOpen={isModalOpen}
+              aria-label="modal"
+              hideManually
+            >
+              <div className={styles.notificationGuide}>
+                <h5 className={styles.notificationTitle}>
+                  {content.license.modal.title}
+                </h5>
+                <div className={styles.notificationGuideInnerWrapper}>
+                  <Markdown className={styles.notificationDescription}>
+                    {content.license.modal.description}
+                  </Markdown>
+                </div>
+                <div className={styles.buttonGroup}>
+                  <Button
+                    key={content.notificationGuide.actions.offAction.title}
+                    variant="text"
+                    className={styles.actionButton}
+                    onClick={handleCancel}
+                  >
+                    {Object.values(content.license.modal.actions[1])}
+                  </Button>
+                  <Button
+                    key={content.notificationGuide.actions.offAction.title}
+                    variant="contained"
+                    className={styles.actionButton}
+                    onClick={() => handleSave()}
+                  >
+                    {Object.values(content.license.modal.actions[0])}
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+          )}
         </div>
         <div ref={uploadRef}>
           <UploadSection

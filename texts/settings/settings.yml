@@ -130,3 +130,40 @@ accessUsers:
 accessDataUsers :
   title: Dataset access
   subTitle: Use case in which CORE data use
+
+license:
+  title: Licencing
+  description: |
+    CORE recommends using machine-readable licence URLs in the respective metadata fields, depending on the metadata schema employed by your repository, to identify the licence of the content. Where the licence information is exposed, CORE complies with the conditions of the licence. More information about how to expose licencing is available in our documentation.
+
+    One of the requirements for including a data provider in CORE is that the data provider exposes content in line with the principles of the BOAI2002.  If your repository contains mixed content, then you have the option to specify how should CORE treat content that does not have an explicit licence.
+  dropdown: Content without an explicit licence statement
+  options:
+    - value: Indexed and hosted (recommended)
+      type: 0
+      description: |
+        CORE will index both metadata and full text content in your repository. CORE will be able to:
+        * Increase the discoverability of your content in CORE Search, [Discovery]() and [Recommender]() and promote links to your content to our open scholarly infrastructure partners, such as PubMed Central via the [LinkOut]() cooperation, providing maximum visibility for your content on the Web and resulting in more exposure for your researchers.
+        * Process your content to check for near-duplicates in your and other repositories.
+        * Provide full support for the machine readability of your content in the CORE API and Dataset.
+    - value:  Indexed only
+      type: 1
+      description: |
+        CORE will index metadata and full text, but some functionalities will be affected.
+
+  modal:
+    title: |
+      Changing to an “indexed only” option will have the following consequences:
+    description: |
+      * CORE Search ranks articles that are full Open Access (in accordance with BOAI) first
+
+      * CORE Recommender only recommends to users full Open Access articles
+
+      * CORE duplicate checker will be less accurate
+
+      * The CORE Discovery will not recommend this content
+
+      * The ability of CORE to enable machine readability of your content will be affected. Machine readability of research manuscripts might be mandated by the government or a funder in your country. Note that some countries operate text and data mining exceptions for research purposes, so only non-research use will be affected.
+    actions:
+      - title: save
+      - title: cancel
