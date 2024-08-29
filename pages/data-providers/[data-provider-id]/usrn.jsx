@@ -37,6 +37,7 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
     usrnDateReportUpdate: formattedDateReport,
     supportsBetterMetadata: dataProvider?.usrn?.supportsBetterMetadata,
     supportSignposting: dataProvider?.usrn?.supportSignposting,
+    rorId: dataProvider?.rorGlobalId,
   }
   return <USRNTemplateActivated usrnParams={usrnParams} {...props} />
 }

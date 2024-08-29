@@ -69,7 +69,6 @@ statusItems:
     description: |
       The number of license URLs CORE is able to recognise from the metadata.
     prefix: |
-      Percent of metadata records with a licence specified:
     recommendation: |
       It is important that licenses are exposed correctly in the metadata. The best way is to use well known URLs like for example the Creative Commons canonical URL https://creativecommons.org/licenses/by/4.0/
   - id: preservation
@@ -190,7 +189,6 @@ statusItems:
       There are various supported ways of tagging an embargo document, CORE recognises only a few of them.
       If this number doesn't match the one in your records please review your system.
     prefix: |
-      Percentage of embargoed documents:
   - id: curationQualityAssurance
     isEnable: yes
     type: text

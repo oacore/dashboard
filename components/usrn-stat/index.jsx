@@ -25,6 +25,7 @@ const StatUSRN = ({ className, content, usrnParams }) => {
     usrnVocabulariesCOAR,
     supportsBetterMetadata,
     supportSignposting,
+    rorId,
   } = usrnParams
   const { description: descriptionIrus } = textIrusUk
 
@@ -84,10 +85,12 @@ const StatUSRN = ({ className, content, usrnParams }) => {
       statusClass = true
       break
     case 'embargoedDocuments':
-      statCreated = enrichmentChart({
-        coveredCount: embargoedDocuments,
-        totalCount: 12000 + embargoedDocuments,
-      })
+      statTextCreated = (
+        <NumericValue
+          value={valueOrDefault(embargoedDocuments, 'Loading...')}
+          size="extra-small"
+        />
+      )
       statusClass = true
       break
     case 'vocabulariesCOAR':
@@ -103,24 +106,16 @@ const StatUSRN = ({ className, content, usrnParams }) => {
       statusClass = supportSignposting
       break
     case 'licensingMetadata':
-      // eslint-disable-next-line no-case-declarations
-      const randomTotalLicense = parseInt(usrnLicense, 10) + usrnLicense / 3 + 5
-      statCreated = enrichmentChart({
-        coveredCount: usrnLicense,
-        totalCount: randomTotalLicense,
-      })
-
-      statusClass = true
-      break
-    case 'ROR':
-      // number yes/no
       statTextCreated = (
         <NumericValue
-          value={valueOrDefault(null, 'Loading...')}
+          value={valueOrDefault(usrnLicense, 'Loading...')}
           size="extra-small"
         />
       )
       statusClass = true
+      break
+    case 'ROR':
+      statusClass = !!rorId
       break
     case 'doi':
       statCreated = enrichmentChart({
