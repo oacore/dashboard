@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button } from '@oacore/design/lib/elements'
 import { Popover } from '@oacore/design'
@@ -19,6 +19,8 @@ import Article from '../cards/article'
 import request from '../../../api'
 import StatusCard from '../cards/statusCard'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
+import Tablev2 from '../../../components/tablev2/tablev2'
+import { GlobalContext } from '../../../store'
 
 import Table from 'components/table'
 
@@ -35,11 +37,12 @@ const RrsTable = observer(
     dataProviderData,
     rrsUrl,
   }) => {
+    const { ...globalStore } = useContext(GlobalContext)
     const [visibleHelp, setVisibleHelp] = useState(
       localStorage.getItem('rrsHelp') === 'true'
     )
     const [tableData, setTableData] = useState([])
-    const [page, setPage] = useState(-1)
+    const [page, setPage] = useState(0)
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -80,18 +83,27 @@ const RrsTable = observer(
         }))
         setTableData(newRRS)
       } else {
-        const newRecords = [
-          ...tableData,
-          ...rrsList?.slice(page * 10, (page + 1) * 10),
-        ]
-        const newRRS = newRecords.map((item) => ({
-          ...item,
-          id: +item.articleId,
-          output: null,
-        }))
+        const startIndex = page * 10
+        const endIndex = Math.min(startIndex + 10, rrsList.length)
+        let newRRS
+        if (globalStore.setSelectedItem) {
+          newRRS = rrsList.map((item) => ({
+            ...item,
+            id: +item.articleId,
+            output: null,
+          }))
+        } else {
+          newRRS = [...tableData, ...rrsList.slice(startIndex, endIndex)].map(
+            (item) => ({
+              ...item,
+              id: +item.articleId,
+              output: null,
+            })
+          )
+        }
         setTableData(newRRS)
       }
-    }, [rrsList, page])
+    }, [rrsList, page, checkBillingType])
 
     useEffect(() => {
       localStorage.setItem('rrsHelp', visibleHelp)
@@ -154,8 +166,8 @@ const RrsTable = observer(
     }
 
     const onSetActiveArticle = async (row) => {
-      await getOutputsAdditionalData(row.id)
-      setOutputsUrl(`https://core.ac.uk/outputs/${row.id}`)
+      await getOutputsAdditionalData(row.articleId)
+      setOutputsUrl(`https://core.ac.uk/outputs/${row.articleId}`)
     }
 
     const handleStatusModal = (e, rowData) => {
@@ -164,14 +176,17 @@ const RrsTable = observer(
       e.stopPropagation()
     }
 
+    const fetchData = () => {
+      setPage(page + 1)
+    }
+
     const sortByPublicationDate = (direction) => {
       const sortedData = [...rrsList].sort((a, b) => {
         const dateA = new Date(a.publicationDate).getTime()
         const dateB = new Date(b.publicationDate).getTime()
         return direction === 'asc' ? dateA - dateB : dateB - dateA
       })
-
-      setTableData(sortedData.slice(0, tableData.length))
+      setTableData(sortedData)
       setSortDirection(direction)
     }
 
@@ -204,22 +219,26 @@ const RrsTable = observer(
               setText={setVisibleHelp}
               activeText={visibleHelp}
             />
-            <Table
-              className={styles.rrsTable}
-              rowActionProp
-              data={tableData}
-              totalLength={rrsList?.length}
-              size={tableData?.length}
-              isHeaderClickable
-              renderDropDown={rrsAdditionalData}
-              fetchData={() => setPage(page + 1)}
+            <Tablev2
               rowClick={(row) => onSetActiveArticle(row)}
-              onClick={() =>
-                sortByPublicationDate(sortDirection === 'asc' ? 'desc' : 'asc')
-              }
-              sortDirection={sortDirection}
-              showAdditionalSort
+              className={styles.rrsTable}
+              data={tableData}
+              size={tableData?.length}
+              totalLength={rrsList?.length}
+              fetchData={fetchData}
+              isHeaderClickable
+              rowIdentifier="articleId"
               excludeFooter={checkBillingType}
+              renderDropDown={rrsAdditionalData}
+              details={
+                <Article
+                  changeVisibility={changeArticleVisibility}
+                  article={rrsAdditionalData}
+                  loading={loading}
+                  outputsUrl={outputsUrl}
+                  rrsAdditionalDataLoading={rrsAdditionalDataLoading}
+                />
+              }
             >
               <Table.Column
                 id="oai"
@@ -257,6 +276,13 @@ const RrsTable = observer(
                     {v.publicationDate?.split('T')[0]}
                   </div>
                 )}
+                onClick={() =>
+                  sortByPublicationDate(
+                    sortDirection === 'asc' ? 'desc' : 'asc'
+                  )
+                }
+                sortDirection={sortDirection}
+                icon
               />
               <Table.Column
                 id="licence"
@@ -361,19 +387,10 @@ const RrsTable = observer(
                   </div>
                 )}
               />
-              <Table.Details>
-                <Article
-                  changeVisibility={changeArticleVisibility}
-                  article={rrsAdditionalData}
-                  loading={loading}
-                  outputsUrl={outputsUrl}
-                  rrsAdditionalDataLoading={rrsAdditionalDataLoading}
-                />
-              </Table.Details>
               <Table.Action>
                 <ExportButton href={rrsUrl}>download csv</ExportButton>
               </Table.Action>
-            </Table>
+            </Tablev2>
             {checkBillingType && (
               <AccessPlaceholder
                 dataProviderData={dataProviderData}

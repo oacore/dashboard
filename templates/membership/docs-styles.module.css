@@ -28,6 +28,7 @@
 }
 
 .placement {
+  position: relative;
   display: flex;
   justify-content: space-between;
   max-height: 1472px;
@@ -59,6 +60,25 @@
   font-weight: 700;
   line-height: 24px;
   color: #212121;
+}
+
+.navigator {
+  position: fixed;
+  right: 52px;
+  bottom: 52px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  background: #e0e0e0;
+  border: 1px solid #b75400;
+  border-radius: 2px;
+}
+
+.navigator-logo {
+  transform: rotate(-90deg);
 }
 
 .card-wrapper {
@@ -136,10 +156,33 @@
   width: 50%;
 }
 
+.sub-title-wrapper {
+  display: flex;
+  gap: 24px;
+}
+
 .type-wrapper {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.link-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link-text {
+  margin-right: 4px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  color: #8bc34a;
+  letter-spacing: 0.035px;
+  cursor: pointer;
+  text-decoration-line: underline;
 }
 
 .enabled {
@@ -154,4 +197,22 @@
 
 .highlighted {
   color: #b75400;
+}
+
+@media (max-width: 992px) {
+  .documentation-inner-wrapper {
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .placement {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: max-content;
+  }
+
+  .navigator {
+    display: flex;
+  }
 }

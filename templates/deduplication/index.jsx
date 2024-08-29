@@ -29,6 +29,7 @@ const DeduplicationPageTemplate = observer(
     exportUrl,
     billingPlan,
     dataProviderData,
+    duplicateDataLoading,
     clearOutputsData,
     ...restProps
   }) => {
@@ -84,10 +85,7 @@ const DeduplicationPageTemplate = observer(
           }
         />
         <div className={styles.cardsWrapper}>
-          <DeduplicationInfoCard
-            duplicateList={duplicateList}
-            harvestingStatus={harvestingStatus}
-          />
+          <DeduplicationInfoCard harvestingStatus={harvestingStatus} />
           <DeduplicationStatistics
             duplicateList={duplicateList}
             duplicatesUrl={duplicatesUrl}
@@ -112,6 +110,7 @@ const DeduplicationPageTemplate = observer(
           exportUrl={exportUrl}
           checkBillingType={checkBillingType}
           dataProviderData={dataProviderData}
+          duplicateDataLoading={duplicateDataLoading}
         />
       </Tag>
     )
