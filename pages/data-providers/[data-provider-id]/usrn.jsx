@@ -19,6 +19,10 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
       }).format(new Date(dataProvider?.usrn?.dateReportUpdate * 1000))
     : null
 
+  const issueAggregation = dataProvider?.issues?.aggregation
+  const issueRestrictedAttachment =
+    issueAggregation?.countByType?.RESTRICTED_ATTACHMENT ?? null
+
   const usrnParams = {
     dataProviderId: dataProvider.id,
     dataProviderName: dataProvider.name,
@@ -29,8 +33,7 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
     rioxxTotalCount: dataProvider?.rioxx?.totalCount,
     rioxxPartiallyCompliantCount: dataProvider?.rioxx?.partiallyCompliantCount,
     countFulltext: dataProvider?.statistics?.countFulltext,
-    embargoedDocuments:
-      dataProvider?.issues?.aggregation?.countByType?.RESTRICTED_ATTACHMENT,
+    embargoedDocuments: issueRestrictedAttachment,
     statisticsIrus: dataProvider?.irus,
     usrnLicense: dataProvider?.usrn?.license,
     usrnVocabulariesCOAR: dataProvider?.usrn?.vocabulariesCOAR,
