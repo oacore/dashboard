@@ -70,12 +70,13 @@ const StatUSRN = ({ className, content, usrnParams }) => {
       statusClass = true
       break
     case 'applicationProfile':
-      // Not working endpoint
-      statCreated = enrichmentChart({
-        coveredCount: rioxxPartiallyCompliantCount,
-        totalCount: rioxxTotalCount,
-      })
-      statusClass = true
+      statusClass = !!(rioxxTotalCount && rioxxPartiallyCompliantCount)
+      statCreated = statusClass
+        ? enrichmentChart({
+            coveredCount: rioxxPartiallyCompliantCount,
+            totalCount: rioxxTotalCount,
+          })
+        : ''
       break
     case 'accessFullTexts':
       statCreated = enrichmentChart({
@@ -165,11 +166,12 @@ const StatUSRN = ({ className, content, usrnParams }) => {
   ) : (
     <div className={styles.descriptionEmpty} />
   )
-  const prefixCreated = content.prefix ? (
-    <div className={styles.prefix}>{content.prefix}</div>
-  ) : (
-    ''
-  )
+  const prefixCreated =
+    content.prefix && statusClass ? (
+      <div className={styles.prefix}>{content.prefix}</div>
+    ) : (
+      ''
+    )
 
   const linkDocumentation = content.linkDocumentation ? (
     <LinkDoc content={content} />
