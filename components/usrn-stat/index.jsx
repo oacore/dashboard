@@ -86,17 +86,22 @@ const StatUSRN = ({ className, content, usrnParams }) => {
       statusClass = true
       break
     case 'embargoedDocuments':
-      statTextCreated = (
+      statusClass = !!embargoedDocuments
+      statTextCreated = statusClass ? (
         <NumericValue
           value={valueOrDefault(embargoedDocuments, 'Loading...')}
           size="extra-small"
         />
+      ) : (
+        ''
       )
-      statusClass = true
       break
     case 'vocabulariesCOAR':
-      statCreated = usrnVocabulariesCOAR
-      statusClass = true
+      statusClass = usrnVocabulariesCOAR && usrnVocabulariesCOAR > 0
+      statCreated =
+        usrnVocabulariesCOAR && usrnVocabulariesCOAR > 0
+          ? usrnVocabulariesCOAR
+          : ''
       break
     case 'webAccessibility':
       statCreated = ''
