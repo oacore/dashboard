@@ -8,9 +8,9 @@
   padding: 15px 0 15px 20px;
   font-size: 16px;
   font-weight: 500;
+  text-align: left;
   letter-spacing: 0.0006em;
   background-color: #f5f5f5;
-  text-align: left;
 }
 
 .status-row {
@@ -91,18 +91,24 @@
   text-align: left;
 }
 
-.status-success {
+.status-2 {
+  color: #939393;
+  background-color: #f5f5f5;
+}
+
+.status-1 {
   color: #5a9216;
   background-color: #ecf6df;
 }
 
-.status-fail {
+.status-0 {
   color: #c62828;
   background-color: #fcc;
 }
 
 .status {
   padding: 15px 5px;
+  font-size: 14px;
   font-weight: 500;
 }
 
