@@ -130,7 +130,7 @@ statusItems:
     type: statistic
     title: DOI
     description: |
-      The [/doi](DOI tab) provides a checklist of the number of content objects in your repository which have a DOI.
+      The [DOI tab](/doi) provides a checklist of the number of content objects in your repository which have a DOI.
       It also identifies (and counts) the number of DOIs that it finds from articles held other repositories relating to research in your institution
     prefix: |
       Percentage of metadata with DOI:

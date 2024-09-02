@@ -73,6 +73,9 @@ const StatUSRN = ({ className, content, usrnParams }) => {
     case 'ORCID':
       statusClass = STATUS_DEVELOP
       break
+    case 'sourceCode':
+      statusClass = STATUS_DEVELOP
+      break
     case 'repositoryOAIPMH':
       statusClass = STATUS_NO
       break
