@@ -33,6 +33,11 @@ statusItems:
       the remainder of this document) provides an application-independent interoperability
       framework based on metadata harvesting. This provides the basic building block to provide an
       interoperable digital publications repository.
+      OAI-PMH is the most widely used protocol for exchanging information between repositories.
+      It is the standard used by CERN, by arXiv, by Wikipedia, by repository software tools such as DSpace and ePrints, and by CORE.
+
+      Repository managers can check their OAI-PMH endpoint using the [OAI-PMH Validator tool](https://www.openarchives.org/Register/ValidateSite).
+
   - id: indexedContent
     isEnable: yes
     type: statistic
@@ -40,7 +45,9 @@ statusItems:
     description: |
       The number of records CORE is able to index from your digital repository. If this number doesn't match your records
       it might mean you have issues in exposing your records in an interoperable way.
-      You can check the [Harvesting tab](/harvesting) where we collect issues CORE discovered while indexing your repository.
+      The [Indexing status tab](/harvesting) provides a summary of any issue CORE finds while indexing your repository.
+      A common issue is when institutions have more than one repository. CORE identifies some but not all of the repositories, which means the total number it identifies is less than the total in the repositories.
+
     prefix: |
       Number of metadata records:
   - id: accessFullTexts
@@ -51,6 +58,10 @@ statusItems:
       The number of full text CORE is able to discover from your digital repository. If this number doesn't match your records
       it might mean you have issues in exposing your records in an interoperable way.
       You can check the [Harvesting tab](/harvesting) where we collect issues CORE discovered while indexing your repository.
+      If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way.
+      The [Indexing status tab](/harvesting) provides a summary of any issue CORE finds while indexing your repository.
+      CORE requires that full text must be hosted on the same domain or subdomains as the OAI-PMH endpoint, unless we are informed by the institution about other owned domains containing full text.
+
     prefix: |
       Percentage of documents with access to full text:
   - id: clearUseGuidance
@@ -69,8 +80,168 @@ statusItems:
     description: |
       The number of license URLs CORE is able to recognise from the metadata.
     prefix: |
+      Percent of metadata records with a licence specified:
     recommendation: |
-      It is important that licenses are exposed correctly in the metadata. The best way is to use well known URLs like for example the Creative Commons canonical URL https://creativecommons.org/licenses/by/4.0/
+      Licensing and copyright information may be displayed  in a machine-readable way, or by a text description. However, text descriptions such as “all rights reserved” may not be specific enough for other users to interpret. Much better is to provide a URL to the relevant Creative Common licence, for example, for the non-commercial CC-BY licence, https://creativecommons.org/licenses/by-nc/4.0/
+      By clicking on this link, a human can see the precise meaning of this licence. Any machine can identify immediately, and unambiguously, what kind of licence is stated.
+      CORE promotes and advocates for the use of machine-readable licencing descriptions. In particular, we advise the use of the NISO Access License and Indicators (ALI) Schema.
+      Institutions may have a blanket policy that covers all content with a specific publisher, which usually means that individual documents contain no licensing information. However, a specific CC-BY licence enables exceptions to be made for individual documents and reduces ambiguity.
+  - id: uniquePersistentIdentifiers
+    isEnable: yes
+    type: text
+    title: Unique Persistent Identifiers
+    description: |
+      The repository assigns each resource a unique persistent identifier (PID),
+      such as a digital object identifier (DOI), to support discovery, citation, reporting (e.g., of research progress),
+      and research assessment (e.g., identifying the outputs of Federally funded research). The unique PID points to a
+      persistent location that remains accessible even if the content is de-accessioned or no longer available.
+      The repository supports PIDs for entities related to the resources, such as authors (e.g., ORCID), funders
+      (e.g., Funder Registry), and organizations (e.g., ROR).
+    linkDocumentation: 0
+  - id: researchDatasets
+    isEnable: no
+    type: statistic
+    title: Links to research datasets
+    description: |
+      Links to research data are often shown with a URL, but much better is to use a persistent data identifier, such as a DOI,
+      with the research data held in a trusted repository, which may be the same as your institutional repository,
+      or may be a separate repository specifically for data, which is maintained by your repository team.
+    prefix: |
+  - id: accessibilityStatements
+    isEnable: yes
+    type: statistic
+    title: Do you provide data accessibility statements
+    description: |
+      A data availability statement also sometimes called a ‘data access statement’, tells the reader where the research
+      data associated with a paper is available, and under what conditions the data can be accessed.
+      They also include links where applicable to the data set.
+      For example, the paper may state “The data that support the findings of this study are openly available in [repository name] at https://doi.org/[doi]”.
+      This is in development right now.
+    linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Free-and-Easy-Discoverability-and-Access
+  - id: sourceCode
+    isEnable: yes
+    type: statistic
+    title: Do you provide links to source code
+    description: |
+      This feature is currently under development.
+    prefix: |
+  - id: doi
+    isEnable: yes
+    type: statistic
+    title: DOI
+    description: |
+      The [/doi](DOI tab) provides a checklist of the number of content objects in your repository which have a DOI.
+      It also identifies (and counts) the number of DOIs that it finds from articles held other repositories relating to research in your institution
+    prefix: |
+      Percentage of metadata with DOI:
+  - id: ORCID
+    isEnable: yes
+    type: statistic
+    title: ORCID
+    description: |
+      Public Investigator and Contributor Identifier is a non-proprietary alphanumeric code that uniquely identifies scientific authors.
+      ORCID is an essential metadata tool that enables researchers to claim credit for their own research, without ambiguity.
+      For example, there are many researchers with the common name “John Smith” or “Zhang Wei”. ORCID enables these names to be disambiguated
+      CORE is currently developing an ORCID dashboard, which will enable repository managers to both to identify missing ORCID IDs,
+      and to enrich your data with ORCID IDs found from elsewhere.
+      This feature is currently under development.
+    prefix: |
+    linkDocumentation: https://en.wikipedia.org/wiki/ORCID
+  - id: ROR
+    isEnable: yes
+    type: statistic
+    title: ROR
+    description: |
+    prefix: |
+      The CORE Dashboard enables you to specify your ROR ID. You should check the details to make sure your institution is identified correctly.
+      If the ROR ID is missing or incorrect, you can correct it on the dashboard. The ROR ID can be obtained from the [Research Organisation Registry](https://ror.org/) website,
+  - id: metadata
+    isEnable: yes
+    type: text
+    title: Metadata
+    description: |
+      The repository ensures publications are accompanied by metadata to enable discovery, reuse, and citation,
+      using schema that are appropriate to, and ideally widely used across, the communities that the repository serves.
+      Metadata for the resource is recorded in a standard, interoperable, non-proprietary format. The repository
+      assigns a CC0 public domain license to all metadata for resources in the repository.
+    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+  - id: signpostingFAIR
+    isEnable: yes
+    type: statistic
+    title: FAIR Signposting
+    description: |
+      FAIR Signposting is a technical approach designed to enhance the discoverability and interoperability
+      of scholarly resources on the web. It involves using standardized HTTP link relations to expose key information
+      about web resources, particularly in the context of scholarly communication. This approach aligns with the broader
+      FAIR principles, which aim for data to be Findable, Accessible, Interoperable, and Reusable.
+      Specifically, the HTTP header can contain a <link> element to describe the type of content resource, for example, “author”, or “collection”. .
+
+    prefix: |
+  - id: vocabulariesCOAR
+    isEnable: yes
+    type: statistic
+    title: Use of COAR vocabularies
+    description: |
+      [COAR (Confederation of Open Access Repositories)](https://vocabularies.coar-repositories.org/) vocabularies are structured sets of terms organized to provide
+      a common framework for the sharing and integration of data across different systems.
+      They comprise three types: Access rights, resource types, and version types.
+      A metadata profile such as RIOXX can provide an easy way to share and use COAR vocabularies in your metadata.
+      - Access rights describe the access status of a resource, such as “embargoed access”, or “restricted access”.
+      - Resource types describe the type of resource, such as “patent”, “bibliography”, or “conference presentation”.
+      - Version types distinguish the various states of an academic article, including the version of record (VOR), the Author’s Original (AO), and the Author’s Accepted Manuscript (AM).
+    prefix: |
+  - id: embargoedDocuments
+    isEnable: yes
+    type: statistic
+    title: Do you label embargoed documents?
+    description: |
+      Embargoed documents are articles that can only be made available open access after a stated interval, such as 90 days or six months.
+      These delays are best managed when the embargo is tagged in a machine-readable way to ensure that machines can access and understand the policy.
+    prefix: |
+      Percentage of embargoed documents:
+    recommendation: |
+      There are various supported ways of tagging an embargo document, CORE recognises only a few of them.
+      The [Rioxx specification](https://rioxx.net/profiles/v3-0-final/) recommend that they are tagged using “HTTP status 451 Unavailable For Legal Reasons”. https://rioxx.net/profiles/v3-0-final/
+      If this number doesn't match the one in your records please review your system.
+  - id: broadMeasuredReuse
+    isEnable: yes
+    type: text
+    title: Broad and Measured Reuse
+    description: |
+      The repository provides a landing page for each digital object that includes metadata required for citation of
+      the object and provides this metadata in a machine-readable format. The repository collects and shares usage
+      information using a standard protocol. The repository offers an API to facilitate machine action and bulk sharing.
+    linkDocumentation: 0
+  - id: statisticIRUS
+    isEnable: yes
+    type: statistic
+    title: Download statistic (IRUS)
+    description: |
+      IRUS (Institutional Repository Usage Statistics) allows you to demonstrate the value and impact of your institutional
+      repository (IR). It does this by enabling institutional repositories to share
+      and compare usage statistics based on the COUNTER standard.
+    recommendation: |
+      These statistics are available using the Irus statistics aggregation service (Irus-US for the USA, and Irus-UK for the UK).
+      By using a standard set of statistics, it becomes possible to provide meaningful stats to compare downloads across several repositories.
+      Irus uses the [COUNTER](https://www.countermetrics.org/) standard to measure usage statistics, such as “journal request”, or “book usage”.
+  - id: commonFormat
+    isEnable: yes
+    type: text
+    title: Common Format
+    description: |
+      The repository allows resources and metadata to be accessed, downloaded, or exported from the repository in
+      widely used, preferably non-proprietary, formats.
+    linkDocumentation: 0
+  - id: applicationProfile
+    isEnable: yes
+    type: statistic
+    title: Your repository metadata supports a widely used Application Profile
+    description: |
+      Ensuring the usuage of a well-known application profile means that the metadata of the publication is described
+      in a less ambiguous and more accurate way. Most used publications profiles are the OpenAIRE Guidelines 3.0+ and the
+      RIOXX metadata application profile.
+    prefix: |
+      Your repository support RIOXXv2, RIOXXv3, OAIRE.
   - id: preservation
     isEnable: yes
     type: text
@@ -93,102 +264,6 @@ statusItems:
       its users and publicly provides contact information for at least one individual charged with assisting users
       and the explicit responsibility of managing the repository services.
     linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Long-term-Organizational-Sustainability
-  - id: uniquePersistentIdentifiers
-    isEnable: yes
-    type: text
-    title: Unique Persistent Identifiers
-    description: |
-      The repository assigns each resource a unique persistent identifier (PID),
-      such as a digital object identifier (DOI), to support discovery, citation, reporting (e.g., of research progress),
-      and research assessment (e.g., identifying the outputs of Federally funded research). The unique PID points to a
-      persistent location that remains accessible even if the content is de-accessioned or no longer available.
-      The repository supports PIDs for entities related to the resources, such as authors (e.g., ORCID), funders
-      (e.g., Funder Registry), and organizations (e.g., ROR).
-    linkDocumentation: 0
-  - id: researchDatasets
-    isEnable: no
-    type: statistic
-    title: Links to research datasets
-    description: |
-      The number of link to research datasets discovered from your records.
-    prefix: |
-  - id: accessibilityStatements
-    isEnable: yes
-    type: statistic
-    title: Do you provide data accessibility statements
-    description: |
-      A data availability statement also sometimes called a ‘data access statement’, tells the reader where the research
-      data associated with a paper is available, and under what conditions the data can be accessed.
-      They also include links where applicable to the data set.
-      This is in development right now.
-    linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Free-and-Easy-Discoverability-and-Access
-  - id: sourceCode
-    isEnable: yes
-    type: statistic
-    title: Do you provide links to source code
-    description: |
-      This feature is currently under development.
-    prefix: |
-  - id: doi
-    isEnable: yes
-    type: statistic
-    title: DOI
-    description: |
-    prefix: |
-      Percentage of metadata with DOI:
-  - id: ORCID
-    isEnable: yes
-    type: statistic
-    title: ORCID
-    description: |
-      Public Investigator and Contributor Identifier is a non-proprietary alphanumeric code that uniquely identifies scientific authors.
-      This feature is currently under development.
-    prefix: |
-    linkDocumentation: https://en.wikipedia.org/wiki/ORCID
-  - id: ROR
-    isEnable: yes
-    type: statistic
-    title: ROR
-    description: |
-    prefix: |
-      Is your institutional repository connected with the ROR ID of your institution
-  - id: metadata
-    isEnable: yes
-    type: text
-    title: Metadata
-    description: |
-      The repository ensures publications are accompanied by metadata to enable discovery, reuse, and citation,
-      using schema that are appropriate to, and ideally widely used across, the communities that the repository serves.
-      Metadata for the resource is recorded in a standard, interoperable, non-proprietary format. The repository
-      assigns a CC0 public domain license to all metadata for resources in the repository.
-    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
-  - id: signpostingFAIR
-    isEnable: yes
-    type: statistic
-    title: FAIR Signposting
-    description: |
-      FAIR Signposting is a technical approach designed to enhance the discoverability and interoperability
-      of scholarly resources on the web. It involves using standardized HTTP link relations to expose key information
-      about web resources, particularly in the context of scholarly communication. This approach aligns with the broader
-      FAIR principles, which aim for data to be Findable, Accessible, Interoperable, and Reusable.
-    prefix: |
-  - id: vocabulariesCOAR
-    isEnable: yes
-    type: statistic
-    title: Use of COAR vocabularies
-    description: |
-      COAR (Confederation of Open Access Repositories) vocabularies are structured sets of terms organized to provide
-      a common framework for the sharing and integration of data across different systems.
-    prefix: |
-  - id: embargoedDocuments
-    isEnable: yes
-    type: statistic
-    title: Do you label embargoed documents?
-    description: |
-      Embargoed documents require correct tagging to ensure that machines can access and understand the policy.
-      There are various supported ways of tagging an embargo document, CORE recognises only a few of them.
-      If this number doesn't match the one in your records please review your system.
-    prefix: |
   - id: curationQualityAssurance
     isEnable: yes
     type: text
@@ -199,41 +274,6 @@ statusItems:
       and/or conversion to machine-readable formats. The repository provides documentation of what curation and quality
       assurance processes are applied to repository contents.
     linkDocumentation: 0
-  - id: broadMeasuredReuse
-    isEnable: yes
-    type: text
-    title: Broad and Measured Reuse
-    description: |
-      The repository provides a landing page for each digital object that includes metadata required for citation of
-      the object and provides this metadata in a machine-readable format. The repository collects and shares usage
-      information using a standard protocol. The repository offers an API to facilitate machine action and bulk sharing.
-    linkDocumentation: 0
-  - id: statisticIRUS
-    isEnable: yes
-    type: statistic
-    title: Download statistic (IRUS)
-    description: |
-      IRUS (Institutional Repository Usage Statistics) allows you to demonstrate the value and impact of your institutional
-      repository (IR). It does this by enabling institutional repositories to share
-      and compare usage statistics based on the COUNTER standard.
-  - id: commonFormat
-    isEnable: yes
-    type: text
-    title: Common Format
-    description: |
-      The repository allows resources and metadata to be accessed, downloaded, or exported from the repository in
-      widely used, preferably non-proprietary, formats.
-    linkDocumentation: 0
-  - id: applicationProfile
-    isEnable: yes
-    type: statistic
-    title: Your repository metadata supports a widely used Application Profile
-    description: |
-      Ensuring the usuage of a well-known application profile means that the metadata of the publication is described
-      in a less ambiguous and more accurate way. Most used publications profiles are the OpenAIRE Guidelines 3.0+ and the
-      RIOXX metadata application profile.
-    prefix: |
-      Your repository support RIOXXv2, RIOXXv3, OAIRE (todo)
   - id: provenance
     isEnable: yes
     type: text
