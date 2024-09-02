@@ -12,6 +12,9 @@ import LinkDoc from '../usrn-text/linkDoc'
 import { overview as textIrusUk } from 'texts/irus-uk/index'
 
 const StatUSRN = ({ className, content, usrnParams }) => {
+  const STATUS_NO = 0
+  const STATUS_YES = 1
+  const STATUS_DEVELOP = 2
   const {
     doiCount,
     totalDoiCount,
@@ -28,7 +31,6 @@ const StatUSRN = ({ className, content, usrnParams }) => {
     rorId,
   } = usrnParams
   const { description: descriptionIrus } = textIrusUk
-
   const enrichmentChart = ({ coveredCount, totalCount }) => {
     let isLoading = true
     if (
@@ -63,85 +65,107 @@ const StatUSRN = ({ className, content, usrnParams }) => {
 
   let statCreated = ''
   let statTextCreated = ''
-  let statusClass = false
+  let statusClass = STATUS_NO
   switch (content.id) {
+    case 'accessibilityStatements':
+      statusClass = STATUS_DEVELOP
+      break
+    case 'ORCID':
+      statusClass = STATUS_DEVELOP
+      break
     case 'repositoryOAIPMH':
-      // Just text layout
-      statusClass = true
+      statusClass = STATUS_NO
       break
     case 'applicationProfile':
-      statusClass = !!(rioxxTotalCount && rioxxPartiallyCompliantCount)
-      statCreated = statusClass
-        ? enrichmentChart({
-            coveredCount: rioxxPartiallyCompliantCount,
-            totalCount: rioxxTotalCount,
-          })
-        : ''
-      break
-    case 'accessFullTexts':
-      statCreated = enrichmentChart({
-        coveredCount: countFulltext,
-        totalCount: countMetadata,
-      })
-      statusClass = true
-      break
-    case 'embargoedDocuments':
-      statusClass = !!embargoedDocuments
-      statTextCreated = statusClass ? (
-        <NumericValue
-          value={valueOrDefault(embargoedDocuments, 'Loading...')}
-          size="extra-small"
-        />
-      ) : (
-        ''
-      )
-      break
-    case 'vocabulariesCOAR':
-      statusClass = usrnVocabulariesCOAR && usrnVocabulariesCOAR > 0
+      statusClass =
+        rioxxTotalCount && rioxxPartiallyCompliantCount ? STATUS_YES : STATUS_NO
       statCreated =
-        usrnVocabulariesCOAR && usrnVocabulariesCOAR > 0
-          ? usrnVocabulariesCOAR
+        statusClass === STATUS_YES
+          ? enrichmentChart({
+              coveredCount: rioxxPartiallyCompliantCount,
+              totalCount: rioxxTotalCount,
+            })
           : ''
       break
+    case 'accessFullTexts':
+      statusClass = countFulltext && countMetadata ? STATUS_YES : STATUS_NO
+      statCreated =
+        statusClass === STATUS_YES
+          ? enrichmentChart({
+              coveredCount: countFulltext,
+              totalCount: countMetadata,
+            })
+          : ''
+      break
+    case 'embargoedDocuments':
+      statusClass = embargoedDocuments ? STATUS_YES : STATUS_NO
+      statTextCreated =
+        statusClass === STATUS_YES ? (
+          <NumericValue
+            value={valueOrDefault(embargoedDocuments, 'Loading...')}
+            size="extra-small"
+          />
+        ) : (
+          ''
+        )
+      break
+    case 'vocabulariesCOAR':
+      statusClass =
+        usrnVocabulariesCOAR && usrnVocabulariesCOAR > 0
+          ? STATUS_YES
+          : STATUS_NO
+
+      statCreated = statusClass === STATUS_YES ? usrnVocabulariesCOAR : ''
+      break
     case 'webAccessibility':
+      statusClass = supportsBetterMetadata ? STATUS_YES : STATUS_NO
       statCreated = ''
-      statusClass = supportsBetterMetadata
       break
     case 'signpostingFAIR':
+      statusClass = supportSignposting ? STATUS_YES : STATUS_NO
       statCreated = ''
-      statusClass = supportSignposting
       break
     case 'licensingMetadata':
-      statTextCreated = (
-        <NumericValue
-          value={valueOrDefault(usrnLicense, 'Loading...')}
-          size="extra-small"
-        />
-      )
-      statusClass = true
+      statusClass = usrnLicense ? STATUS_YES : STATUS_NO
+      statTextCreated =
+        statusClass === STATUS_YES ? (
+          <NumericValue
+            value={valueOrDefault(usrnLicense, 'Loading...')}
+            size="extra-small"
+          />
+        ) : (
+          ''
+        )
       break
     case 'ROR':
-      statusClass = !!rorId
+      statusClass = rorId ? STATUS_YES : STATUS_NO
       break
     case 'doi':
-      statCreated = enrichmentChart({
-        coveredCount: doiCount,
-        totalCount: totalDoiCount,
-      })
-      statusClass = true
+      statusClass = doiCount && totalDoiCount ? STATUS_YES : STATUS_NO
+      statCreated =
+        statusClass === STATUS_YES
+          ? enrichmentChart({
+              coveredCount: doiCount,
+              totalCount: totalDoiCount,
+            })
+          : ''
       break
     case 'indexedContent':
-      statTextCreated = (
-        <NumericValue
-          value={valueOrDefault(countMetadata, 'Loading...')}
-          size="extra-small"
-        />
-      )
-      statusClass = true
+      statusClass = countMetadata ? STATUS_YES : STATUS_NO
+      statTextCreated =
+        statusClass === STATUS_YES ? (
+          <NumericValue
+            value={valueOrDefault(countMetadata, 'Loading...')}
+            size="extra-small"
+          />
+        ) : (
+          ''
+        )
       break
     case 'statisticIRUS':
+      statusClass = statisticsIrus != null ? STATUS_YES : STATUS_NO
       statCreated =
-        statisticsIrus != null ? (
+        statusClass === STATUS_YES ? (
           <div>
             <StatisticsChart
               data={statisticsIrus.map(({ date, coreViewCount: count }) => ({
@@ -158,16 +182,15 @@ const StatUSRN = ({ className, content, usrnParams }) => {
             </Markdown>
           </div>
         ) : (
-          'Loading...'
+          ''
         )
-      statusClass = true
       break
     default:
       statCreated = ''
   }
 
   const descriptionCreated = content.description ? (
-    <div className={styles.description}>{content.description}</div>
+    <Markdown className={styles.description}>{content.description}</Markdown>
   ) : (
     <div className={styles.descriptionEmpty} />
   )
@@ -208,10 +231,22 @@ const StatUSRN = ({ className, content, usrnParams }) => {
         <div
           className={classNames.use(
             styles.status,
-            statusClass ? styles.statusSuccess : styles.statusFail
+            // eslint-disable-next-line no-nested-ternary
+            statusClass === STATUS_NO
+              ? styles.status0
+              : statusClass === STATUS_YES
+              ? styles.status1
+              : styles.status2
           )}
         >
-          {statusClass ? 'Yes' : 'No'}
+          {
+            // eslint-disable-next-line no-nested-ternary
+            statusClass === STATUS_NO
+              ? 'No'
+              : statusClass === STATUS_YES
+              ? 'Yes'
+              : 'Develop'
+          }
         </div>
       </div>
       <div className={styles.statusRow}>
