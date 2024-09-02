@@ -213,9 +213,9 @@ const StatUSRN = ({ className, content, usrnParams }) => {
         <img src={infoLight} alt="info" />
         <span className={styles.text}>Recommendation</span>
       </div>
-      <div className={styles.recommendationContent}>
+      <Markdown className={styles.recommendationContent}>
         {content.recommendation}
-      </div>
+      </Markdown>
     </div>
   ) : (
     ''
