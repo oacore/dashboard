@@ -248,7 +248,7 @@ const StatUSRN = ({ className, content, usrnParams }) => {
               ? 'No'
               : statusClass === STATUS_YES
               ? 'Yes'
-              : 'Develop'
+              : 'WIP'
           }
         </div>
       </div>
