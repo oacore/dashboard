@@ -45,7 +45,7 @@ statusItems:
     description: |
       The number of records CORE is able to index from your digital repository. If this number doesn't match your records
       it might mean you have issues in exposing your records in an interoperable way.
-      The [Indexing status tab](/harvesting) provides a summary of any issue CORE finds while indexing your repository.
+      The [Indexing status tab](/data-providers/{{ID}}/harvesting) provides a summary of any issue CORE finds while indexing your repository.
       A common issue is when institutions have more than one repository. CORE identifies some but not all of the repositories, which means the total number it identifies is less than the total in the repositories.
 
     prefix: |
@@ -57,9 +57,9 @@ statusItems:
     description: |
       The number of full text CORE is able to discover from your digital repository. If this number doesn't match your records
       it might mean you have issues in exposing your records in an interoperable way.
-      You can check the [Harvesting tab](/harvesting) where we collect issues CORE discovered while indexing your repository.
+      You can check the [Harvesting tab](/data-providers/{{ID}}/harvesting) where we collect issues CORE discovered while indexing your repository.
       If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way.
-      The [Indexing status tab](/harvesting) provides a summary of any issue CORE finds while indexing your repository.
+      The [Indexing status tab](/data-providers/{{ID}}/harvesting) provides a summary of any issue CORE finds while indexing your repository.
       CORE requires that full text must be hosted on the same domain or subdomains as the OAI-PMH endpoint, unless we are informed by the institution about other owned domains containing full text.
 
     prefix: |
@@ -130,7 +130,7 @@ statusItems:
     type: statistic
     title: DOI
     description: |
-      The [DOI tab](/doi) provides a checklist of the number of content objects in your repository which have a DOI.
+      The [DOI tab](/data-providers/{{ID}}/doi) provides a checklist of the number of content objects in your repository which have a DOI.
       It also identifies (and counts) the number of DOIs that it finds from articles held other repositories relating to research in your institution
     prefix: |
       Percentage of metadata with DOI:

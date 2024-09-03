@@ -3,7 +3,12 @@ import React from 'react'
 
 import styles from './styles.module.css'
 import StatisticsChart from '../statistics-chart'
-import { formatDate, formatNumber, valueOrDefault } from '../../utils/helpers'
+import {
+  formatDate,
+  formatNumber,
+  processTemplate,
+  valueOrDefault,
+} from '../../utils/helpers'
 import Markdown from '../markdown'
 import NumericValue from '../numeric-value'
 import infoLight from '../upload/assets/infoLight.svg'
@@ -16,6 +21,7 @@ const StatUSRN = ({ className, content, usrnParams }) => {
   const STATUS_YES = 1
   const STATUS_DEVELOP = 2
   const {
+    dataProviderId,
     doiCount,
     totalDoiCount,
     statisticsIrus,
@@ -77,7 +83,7 @@ const StatUSRN = ({ className, content, usrnParams }) => {
       statusClass = STATUS_DEVELOP
       break
     case 'repositoryOAIPMH':
-      statusClass = STATUS_NO
+      statusClass = STATUS_YES
       break
     case 'applicationProfile':
       statusClass =
@@ -193,7 +199,9 @@ const StatUSRN = ({ className, content, usrnParams }) => {
   }
 
   const descriptionCreated = content.description ? (
-    <Markdown className={styles.description}>{content.description}</Markdown>
+    <Markdown className={styles.description}>
+      {processTemplate(content.description, { ID: dataProviderId })}
+    </Markdown>
   ) : (
     <div className={styles.descriptionEmpty} />
   )
