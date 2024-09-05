@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite'
 
 import TableCard from './cards/table-card'
 import Title from '../../components/title'
-import RouteGuard from '../../utils/allowedRouteGuards'
 
 const ContentTemplate = observer(
   ({ works, changeVisibility, exportUrl, ...props }) => (
@@ -21,4 +20,4 @@ const ContentTemplate = observer(
   )
 )
 
-export default RouteGuard(ContentTemplate)
+export default ContentTemplate

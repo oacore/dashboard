@@ -9,7 +9,6 @@ import useTypes from './hooks/use-types'
 import HarvestingProgressCard from './cards/harvesting-progress'
 import { GlobalContext } from '../../store'
 import info from '../../components/upload/assets/infoLight.svg'
-import RouteGuard from '../../utils/allowedRouteGuards'
 
 import Title from 'components/title'
 import { Button, Card } from 'design'
@@ -119,4 +118,4 @@ const HarvestingPageTemplate = observer(
   }
 )
 
-export default RouteGuard(HarvestingPageTemplate)
+export default HarvestingPageTemplate

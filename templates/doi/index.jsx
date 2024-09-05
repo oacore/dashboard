@@ -3,7 +3,6 @@ import React from 'react'
 import styles from './styles.module.css'
 import { CoverageCard, TableCard } from './cards'
 import AccessPlaceholder from '../../components/access-placeholder/AccessPlaceholder'
-import RouteGuard from '../../utils/allowedRouteGuards'
 
 import Title from 'components/title'
 
@@ -46,4 +45,4 @@ const DoiTemplate = ({
   )
 }
 
-export default RouteGuard(DoiTemplate)
+export default DoiTemplate
