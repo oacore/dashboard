@@ -12,6 +12,7 @@ import {
 } from './cards'
 import AccessPlaceholder from '../../components/access-placeholder/AccessPlaceholder'
 import DashboardHeader from '../../components/dashboard-header'
+import RouteGuard from '../../utils/allowedRouteGuards'
 
 import { Icon, Link, Message } from 'design'
 import { intro as texts } from 'texts/depositing'
@@ -110,4 +111,4 @@ const DepositComplianceTemplate = ({
   )
 }
 
-export default DepositComplianceTemplate
+export default RouteGuard(DepositComplianceTemplate)

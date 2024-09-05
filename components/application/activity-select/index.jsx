@@ -21,6 +21,7 @@ const ActivitySelect = ({ children }) => (
 const ActivitySelectOption = ({
   children,
   value,
+  disabled,
   selected,
   subMenu,
   dataProviderId,
@@ -32,8 +33,10 @@ const ActivitySelectOption = ({
   const router = useRouter()
 
   const handleSubMenu = () => {
-    setShowSubMenu(!showSubMenu)
-    setSelectedSubMenu(null)
+    if (!disabled) {
+      setShowSubMenu(!showSubMenu)
+      setSelectedSubMenu(null)
+    }
   }
 
   const handleSubMenuClick = (item) => {
@@ -56,6 +59,7 @@ const ActivitySelectOption = ({
           <div
             className={classNames.use(styles.settingItemWrapper, {
               [styles.settingItemWrapperBorder]: value === 'settings',
+              [styles.disabled]: disabled,
             })}
           >
             {children || (
@@ -117,7 +121,9 @@ const ActivitySelectOption = ({
           passHref
         >
           <Drawer.Item
-            className={styles[value]}
+            className={classNames.use(styles[value], {
+              [styles.disabled]: disabled,
+            })}
             active={selected}
             title={navigation.tooltips[value]}
           >

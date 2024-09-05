@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import { DataProviderLogo } from '@oacore/design/lib/elements'
 import { useRouter } from 'next/router'
@@ -19,6 +19,7 @@ import restart from '../upload/assets/restart.svg'
 import notification from '../../templates/settings/assets/bell.svg'
 import NotificationPopUp from '../../templates/settings/cards/notificationPopUp'
 import { useNotification } from './useNotification'
+import { GlobalContext } from '../../store'
 
 const Application = observer(
   ({
@@ -112,6 +113,18 @@ const Application = observer(
       if (str.length <= maxLength) return str
       return `${str.substring(0, maxLength)}...`
     }
+
+    const { ...globalStore } = useContext(GlobalContext)
+
+    const disabledTabs = [
+      'indexing',
+      'deduplication',
+      'content',
+      'deposit-compliance',
+      'doi',
+      'rights-retention-strategy',
+      'settings',
+    ]
 
     return (
       <>
@@ -224,6 +237,11 @@ const Application = observer(
                         .map(({ path, test, children }) => (
                           <ActivitySelect.Option
                             key={path}
+                            disabled={
+                              !globalStore.dataProvider?.issues
+                                ?.harvestingStatus?.lastHarvestingDate &&
+                              disabledTabs.includes(path)
+                            }
                             value={path}
                             selected={test(pathname)}
                             dataProviderId={dataProvider.id}

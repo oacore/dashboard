@@ -38,7 +38,7 @@ const HarvestingProgressCard = observer(
         setLoading(true)
         setModalOpen(false)
         await sendHarvestingRequest(requestText)
-        await globalStore.dataProvider.retrieve()
+        await globalStore.dataProvider.issues.getHarvestingStatus(true)
         setSuccess(true)
       } catch (error) {
         // eslint-disable-next-line no-console

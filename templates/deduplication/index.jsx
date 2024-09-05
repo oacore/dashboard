@@ -10,6 +10,7 @@ import DeduplicationTableCard from './tables/deduplicationTables'
 import texts from '../../texts/deduplication/deduplication.yml'
 import ShowMoreText from '../../components/showMore'
 import DashboardHeader from '../../components/dashboard-header'
+import RouteGuard from '../../utils/allowedRouteGuards'
 
 const DeduplicationPageTemplate = observer(
   ({
@@ -116,4 +117,4 @@ const DeduplicationPageTemplate = observer(
     )
   }
 )
-export default DeduplicationPageTemplate
+export default RouteGuard(DeduplicationPageTemplate)

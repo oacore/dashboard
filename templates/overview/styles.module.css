@@ -261,3 +261,41 @@
   padding: 0.5rem 1rem;
   background-color: var(--gray-100);
 }
+
+.inner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-title {
+  margin: 40px 0;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  color: #212121;
+  text-align: center;
+  letter-spacing: 0.029px;
+}
+
+.placeholder-description {
+  max-width: 575px;
+  margin: 0 0 24px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  color: #666;
+  text-align: center;
+  letter-spacing: 0.026px;
+}
+
+.placeholder-card {
+  margin-top: 16px;
+}
+
+.action-button {
+  margin-bottom: 64px;
+}

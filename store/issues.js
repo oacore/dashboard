@@ -14,7 +14,7 @@ class Issues extends Store {
     super(baseUrl, options)
 
     this.issuesUrl = `${baseUrl}/issues`
-    this.getHarvestingStatus(true)
+    this.getHarvestingStatus()
     this.getIssuesAggregation()
   }
 
@@ -28,9 +28,11 @@ class Issues extends Store {
 
       const { data } = await this.request(url, options)
       this.harvestingStatus = data
+      return data
     } catch (error) {
       console.error('Error fetching harvesting status:', error)
       this.harvestingStatus = null
+      throw error
     }
   }
 

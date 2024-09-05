@@ -8,6 +8,7 @@ import RrsCheckCard from './cards/rrsCheckerCard'
 import RrsTable from './tables/rrsTable'
 import DashboardHeader from '../../components/dashboard-header'
 import ShowMoreText from '../../components/showMore'
+import RouteGuard from '../../utils/allowedRouteGuards'
 
 import rrs from 'texts/rrs-retention'
 
@@ -88,4 +89,4 @@ const RrsPageTemplate = ({
   )
 }
 
-export default RrsPageTemplate
+export default RouteGuard(RrsPageTemplate)
