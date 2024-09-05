@@ -11,7 +11,7 @@ import { GlobalContext } from '../../store'
 import info from '../../components/upload/assets/infoLight.svg'
 
 import Title from 'components/title'
-import { Card, Button } from 'design'
+import { Button, Card } from 'design'
 import texts from 'texts/issues'
 
 const HarvestingPageTemplate = observer(
