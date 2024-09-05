@@ -82,9 +82,13 @@ statusItems:
     prefix: |
       Percent of metadata records with a licence specified:
     recommendation: |
-      Licensing and copyright information may be displayed  in a machine-readable way, or by a text description. However, text descriptions such as “all rights reserved” may not be specific enough for other users to interpret. Much better is to provide a URL to the relevant Creative Common licence, for example, for the non-commercial CC-BY licence, https://creativecommons.org/licenses/by-nc/4.0/
+      Licensing and copyright information may be displayed  in a machine-readable way, or by a text description.
+      However, text descriptions such as “all rights reserved” may not be specific enough for other users to interpret.
+      Much better is to provide a URL to the relevant Creative Commons licence, for example, for the non-commercial CC-BY licence, [https://creativecommons.org/licenses/by-nc/4.0/](https://creativecommons.org/licenses/by-nc/4.0/)
       By clicking on this link, a human can see the precise meaning of this licence. Any machine can identify immediately, and unambiguously, what kind of licence is stated.
+
       CORE promotes and advocates for the use of machine-readable licencing descriptions. In particular, we advise the use of the NISO Access License and Indicators (ALI) Schema.
+
       Institutions may have a blanket policy that covers all content with a specific publisher, which usually means that individual documents contain no licensing information. However, a specific CC-BY licence enables exceptions to be made for individual documents and reduces ambiguity.
   - id: uniquePersistentIdentifiers
     isEnable: yes
@@ -185,10 +189,14 @@ statusItems:
       [COAR (Confederation of Open Access Repositories)](https://vocabularies.coar-repositories.org/) vocabularies are structured sets of terms organized to provide
       a common framework for the sharing and integration of data across different systems.
       They comprise three types: Access rights, resource types, and version types.
+    recommendation: |
       A metadata profile such as RIOXX can provide an easy way to share and use COAR vocabularies in your metadata.
-      - Access rights describe the access status of a resource, such as “embargoed access”, or “restricted access”.
-      - Resource types describe the type of resource, such as “patent”, “bibliography”, or “conference presentation”.
-      - Version types distinguish the various states of an academic article, including the version of record (VOR), the Author’s Original (AO), and the Author’s Accepted Manuscript (AM).
+
+      - Access rights: describe the access status of a resource, such as “embargoed access”, or “restricted access”.
+
+      - Resource type: describe the type of resource, such as “patent”, “bibliography”, or “conference presentation”.
+
+      - Version type: distinguish the various states of an academic article, including the version of record (VOR), the Author’s Original (AO), and the Author’s Accepted Manuscript (AM).
     prefix: |
   - id: embargoedDocuments
     isEnable: yes

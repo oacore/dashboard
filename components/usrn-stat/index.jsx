@@ -40,8 +40,8 @@ const StatUSRN = ({ className, content, usrnParams }) => {
   const enrichmentChart = ({ coveredCount, totalCount }) => {
     let isLoading = true
     if (
-      valueOrDefault(coveredCount, 0) !== 0 &&
-      valueOrDefault(totalCount, 0) !== 0
+      valueOrDefault(coveredCount, -1) >= 0 &&
+      valueOrDefault(totalCount, -1) >= 0
     )
       isLoading = false
 
@@ -119,12 +119,14 @@ const StatUSRN = ({ className, content, usrnParams }) => {
         )
       break
     case 'vocabulariesCOAR':
-      statusClass =
-        usrnVocabulariesCOAR && usrnVocabulariesCOAR > 0
-          ? STATUS_YES
-          : STATUS_NO
-
-      statCreated = statusClass === STATUS_YES ? usrnVocabulariesCOAR : ''
+      statusClass = usrnVocabulariesCOAR ? STATUS_YES : STATUS_NO
+      statCreated =
+        valueOrDefault(usrnLicense, -1) >= 0
+          ? enrichmentChart({
+              coveredCount: usrnVocabulariesCOAR,
+              totalCount: countMetadata,
+            })
+          : ''
       break
     case 'webAccessibility':
       statusClass = supportsBetterMetadata ? STATUS_YES : STATUS_NO
@@ -136,15 +138,13 @@ const StatUSRN = ({ className, content, usrnParams }) => {
       break
     case 'licensingMetadata':
       statusClass = usrnLicense ? STATUS_YES : STATUS_NO
-      statTextCreated =
-        statusClass === STATUS_YES ? (
-          <NumericValue
-            value={valueOrDefault(usrnLicense, 'Loading...')}
-            size="extra-small"
-          />
-        ) : (
-          ''
-        )
+      statCreated =
+        valueOrDefault(usrnLicense, -1) >= 0
+          ? enrichmentChart({
+              coveredCount: usrnLicense,
+              totalCount: countMetadata,
+            })
+          : ''
       break
     case 'ROR':
       statusClass = rorId ? STATUS_YES : STATUS_NO
