@@ -55,9 +55,7 @@ statusItems:
     type: statistic
     title: Access to full texts of research papers for your content
     description: |
-      The number of full text CORE is able to discover from your digital repository. If this number doesn't match your records
-      it might mean you have issues in exposing your records in an interoperable way.
-      You can check the [Harvesting tab](/data-providers/{{ID}}/harvesting) where we collect issues CORE discovered while indexing your repository.
+      The number of full text CORE is able to discover from your digital repository. You can check the [Harvesting tab](/data-providers/{{ID}}/harvesting) where we collect issues CORE discovered while indexing your repository.
       If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way.
       The [Indexing status tab](/data-providers/{{ID}}/harvesting) provides a summary of any issue CORE finds while indexing your repository.
       CORE requires that full text must be hosted on the same domain or subdomains as the OAI-PMH endpoint, unless we are informed by the institution about other owned domains containing full text.
@@ -90,6 +88,8 @@ statusItems:
       CORE promotes and advocates for the use of machine-readable licencing descriptions. In particular, we advise the use of the NISO Access License and Indicators (ALI) Schema.
 
       Institutions may have a blanket policy that covers all content with a specific publisher, which usually means that individual documents contain no licensing information. However, a specific CC-BY licence enables exceptions to be made for individual documents and reduces ambiguity.
+
+      The CORE Rights Retention Statement tracker identifies with reasonable accuracy any specific licence conditions that are stated within an article or text file.
   - id: uniquePersistentIdentifiers
     isEnable: yes
     type: text
@@ -116,7 +116,7 @@ statusItems:
     type: statistic
     title: Do you provide data accessibility statements
     description: |
-      A data availability statement also sometimes called a ‘data access statement’, tells the reader where the research
+      A data availability statement, also sometimes called a ‘data access statement’, tells the reader where the research
       data associated with a paper is available, and under what conditions the data can be accessed.
       They also include links where applicable to the data set.
       For example, the paper may state “The data that support the findings of this study are openly available in [repository name] at https://doi.org/[doi]”.
@@ -148,7 +148,6 @@ statusItems:
       For example, there are many researchers with the common name “John Smith” or “Zhang Wei”. ORCID enables these names to be disambiguated
       CORE is currently developing an ORCID dashboard, which will enable repository managers to both to identify missing ORCID IDs,
       and to enrich your data with ORCID IDs found from elsewhere.
-      This feature is currently under development.
     prefix: |
     linkDocumentation: https://en.wikipedia.org/wiki/ORCID
   - id: ROR
@@ -178,7 +177,7 @@ statusItems:
       of scholarly resources on the web. It involves using standardized HTTP link relations to expose key information
       about web resources, particularly in the context of scholarly communication. This approach aligns with the broader
       FAIR principles, which aim for data to be Findable, Accessible, Interoperable, and Reusable.
-      Specifically, the HTTP header can contain a <link> element to describe the type of content resource, for example, “author”, or “collection”. .
+      Specifically, the HTTP header can contain a <link> element to describe the type of content resource, for example, “author”, or “collection”.
 
     prefix: |
   - id: vocabulariesCOAR
@@ -229,9 +228,9 @@ statusItems:
       repository (IR). It does this by enabling institutional repositories to share
       and compare usage statistics based on the COUNTER standard.
     recommendation: |
-      These statistics are available using the Irus statistics aggregation service (Irus-US for the USA, and Irus-UK for the UK).
+      These statistics are available using the IRUS statistics aggregation service (IRUS-US for the USA, and IRUS-UK for the UK).
       By using a standard set of statistics, it becomes possible to provide meaningful stats to compare downloads across several repositories.
-      Irus uses the [COUNTER](https://www.countermetrics.org/) standard to measure usage statistics, such as “journal request”, or “book usage”.
+      IRUS uses the [COUNTER](https://www.countermetrics.org/) standard to measure usage statistics, such as “journal request”, or “book usage”.
   - id: commonFormat
     isEnable: yes
     type: text
