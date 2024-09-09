@@ -6,6 +6,7 @@ import { withGlobalStore } from 'store'
 const HarvestingPage = ({ store, store: { dataProvider }, ...props }) => (
   <HarvestingPageTemplate
     harvestingStatus={dataProvider?.issues?.harvestingStatus}
+    harvestingError={store.dataProvider?.issues?.harvestingError}
     aggregation={dataProvider?.issues?.aggregation}
     issuesByType={dataProvider?.issues?.issuesByType}
     errorsCount={dataProvider?.issues?.aggregation?.errorsCount}
