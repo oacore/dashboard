@@ -25,6 +25,7 @@ statusItems:
       platform/content and how to seek help if an accessible version of a digital
       publication is not available.
     linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Free-and-Easy-Discoverability-and-Access
   - id: repositoryOAIPMH
     isEnable: yes
     type: statistic
@@ -72,6 +73,7 @@ statusItems:
       stipulating reuse conditions. Ideally, machine-readable information on the OA
       status with the license is embedded in the resource.
     linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Clear-Use-Guidance
   - id: licensingMetadata
     isEnable: yes
     type: statistic
@@ -103,6 +105,7 @@ statusItems:
       The repository supports PIDs for entities related to the resources, such as authors (e.g., ORCID), funders
       (e.g., Funder Registry), and organizations (e.g., ROR).
     linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Unique-Persistent-Identifiers
   - id: researchDatasets
     isEnable: no
     type: statistic
@@ -169,7 +172,7 @@ statusItems:
       Metadata for the resource is recorded in a standard, interoperable, non-proprietary format. The repository
       assigns a CC0 public domain license to all metadata for resources in the repository.
     linkDocumentation: 0
-    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Toolkit
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Metadata
   - id: signpostingFAIR
     isEnable: yes
     type: statistic
@@ -221,6 +224,7 @@ statusItems:
       the object and provides this metadata in a machine-readable format. The repository collects and shares usage
       information using a standard protocol. The repository offers an API to facilitate machine action and bulk sharing.
     linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Broad-and-Measured-Reuse
   - id: statisticIRUS
     isEnable: yes
     type: statistic
@@ -241,6 +245,7 @@ statusItems:
       The repository allows resources and metadata to be accessed, downloaded, or exported from the repository in
       widely used, preferably non-proprietary, formats.
     linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Common-Format
   - id: applicationProfile
     isEnable: yes
     type: statistic
