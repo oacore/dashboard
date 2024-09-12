@@ -3,6 +3,7 @@ import React from 'react'
 
 import styles from './styles.module.css'
 import LinkDoc from './linkDoc'
+import LinkToolKit from './linkToolKit'
 
 const TextUSRN = ({ className, content }) => (
   <div
@@ -13,6 +14,7 @@ const TextUSRN = ({ className, content }) => (
     <div className={className.statusTextTitle}>{content.title}</div>
     <div className={className.statusTextDescription}>{content.description}</div>
     <LinkDoc content={content} />
+    <LinkToolKit content={content} />
   </div>
 )
 

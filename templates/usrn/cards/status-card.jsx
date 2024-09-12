@@ -3,6 +3,7 @@ import React from 'react'
 import styles from '../styles.module.css'
 import TextUSRN from '../../../components/usrn-text'
 import StatUSRN from '../../../components/usrn-stat'
+import LinkToolKit from '../../../components/usrn-text/linkToolKit'
 
 import { Card, Button } from 'design'
 import * as texts from 'texts/usrn'
@@ -41,6 +42,9 @@ const StatusCard = ({ usrnParams }) => {
       </Card.Title>
       <div className={styles.statusDescriptionFirst}>
         <Markdown>{texts.status.descriptionFirst}</Markdown>
+      </div>
+      <div className={styles.statusDescriptionFirst}>
+        <LinkToolKit content={texts.status} />
       </div>
       <div className={styles.statusDateReportSecond}>
         {usrnDateReportUpdate}

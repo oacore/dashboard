@@ -1,7 +1,8 @@
 titleFirst: USRN Desirable Characteristics of Digital Publication Repositories Report
-descriptionFirst: This report should give a live view of the status of the repository against a series of principles defined as
-  ["Desirable Characteristics"](https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf)
-  and it should support and serve as a companion to the [Toolkit](https://github.com/antleaf/USRN-Discovery/wiki/Toolkit) created by the USRN Discovery project.
+descriptionFirst: |
+  This report should give a live view of the status of the repository against a series of principles defined as
+  Desirable Characteristics and it should support and serve as a companion to the Toolkit created by the USRN Discovery project.
+linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Toolkit
 dateReport: Date of the last report update
 buttons:
   update: Update report
@@ -259,7 +260,8 @@ statusItems:
       should include provisions for maintaining integrity, authenticity, and availability.
       The repository records basic preservation metadata including provenance, date of
       upload, and file format.
-    linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Preservation
+    linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Toolkit
   - id: longTerm
     isEnable: yes
     type: text
@@ -270,7 +272,8 @@ statusItems:
       containing provisions for cessation of service. The host organization funds staff to support the repository and
       its users and publicly provides contact information for at least one individual charged with assisting users
       and the explicit responsibility of managing the repository services.
-    linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Long-term-Organizational-Sustainability
+    linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Toolkit
   - id: curationQualityAssurance
     isEnable: yes
     type: text
@@ -281,6 +284,7 @@ statusItems:
       and/or conversion to machine-readable formats. The repository provides documentation of what curation and quality
       assurance processes are applied to repository contents.
     linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Toolkit
   - id: provenance
     isEnable: yes
     type: text

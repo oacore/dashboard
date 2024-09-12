@@ -37,6 +37,9 @@
 }
 
 .status-title-first {
+  max-width: 850px;
+  padding-bottom: 15px;
+  margin: 0 auto;
   font-size: 32px;
   font-weight: 500;
   line-height: 41.6px;
@@ -45,6 +48,7 @@
 
 .status-description-first {
   max-width: 670px;
+  padding-bottom: 15px;
   margin: 0 auto;
   font-size: 16px;
   font-weight: 400;
@@ -70,7 +74,7 @@
 }
 
 .status-date-report-second {
-  padding: 15px 0 5px;
+  padding: 5px 0;
   font-size: 14px;
   font-weight: 500;
   line-height: 18.2px;
