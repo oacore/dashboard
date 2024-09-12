@@ -168,7 +168,8 @@ statusItems:
       using schema that are appropriate to, and ideally widely used across, the communities that the repository serves.
       Metadata for the resource is recorded in a standard, interoperable, non-proprietary format. The repository
       assigns a CC0 public domain license to all metadata for resources in the repository.
-    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+    linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Toolkit
   - id: signpostingFAIR
     isEnable: yes
     type: statistic
