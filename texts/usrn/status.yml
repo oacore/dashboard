@@ -261,7 +261,7 @@ statusItems:
       The repository records basic preservation metadata including provenance, date of
       upload, and file format.
     linkDocumentation: 0
-    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Toolkit
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Preservation
   - id: longTerm
     isEnable: yes
     type: text
@@ -273,7 +273,7 @@ statusItems:
       its users and publicly provides contact information for at least one individual charged with assisting users
       and the explicit responsibility of managing the repository services.
     linkDocumentation: 0
-    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Toolkit
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Long-term-Organizational-Sustainability
   - id: curationQualityAssurance
     isEnable: yes
     type: text
@@ -292,13 +292,15 @@ statusItems:
     description: |
       The repository has mechanisms in place to record the origin, provenance, version control, and any other modifications to submitted digital objects and their associated metadata.
     linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Provenance
   - id: authentication
     isEnable: yes
     type: text
     title: Authentication
     description: |
       The repository supports authentication of its contributors. The repository has technical capabilities that facilitate associating contributor PIDs with those assigned to their deposited digital objects.
-    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+    linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Authentication
   - id: longTermTechnicalSustainability
     isEnable: yes
     type: text
@@ -306,6 +308,7 @@ statusItems:
     description: |
       The repository has a plan for long-term management and funding of its technical infrastructure.
     linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Long-term-Technical-Sustainability
   - id: securityIntegrity
     isEnable: yes
     type: text
@@ -314,7 +317,8 @@ statusItems:
       The repository has documented measures in place to meet well established cybersecurity criteria for
       preventing unauthorized access to or manipulation of its content and regularly monitors the integrity
       of its content. The repository has an emergency response plan in case of natural disaster, cyber attacks, etc.
-    linkDocumentation: https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf
+    linkDocumentation: 0
+    linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Security-and-Integrity
 usrnClosed: |
   DataProvider is not supporting USRN
 usrnListDataProvider: [ 3463, 183, 2145, 1248, 660, 222, 14373, 3559, 21117, 292, 14567, 2812, 196, 3581, 197, 12800, 14335, 1249, 2313, 21853, 15201, 1012, 158 ]
