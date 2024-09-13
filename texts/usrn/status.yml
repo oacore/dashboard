@@ -1,7 +1,7 @@
 titleFirst: USRN Desirable Characteristics of Digital Publication Repositories Report
 descriptionFirst: |
   This report should give a live view of the status of the repository against a series of principles defined as
-  Desirable Characteristics and it should support and serve as a companion to the Toolkit created by the USRN Discovery project.
+  [Desirable Characteristics of Digital Publication Repositories](https://sparcopen.org/wp-content/uploads/2022/10/Desirable-Characteristics-of-Digital-Publication-Repositories-APPROVED-20230331.pdf) and it should support and serve as a companion to the Toolkit created by the USRN Discovery project.
 linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Toolkit
 dateReport: Date of the last report update
 buttons:
@@ -79,7 +79,7 @@ statusItems:
     type: statistic
     title: Licensing
     description: |
-      The number of license URLs CORE is able to recognise from the metadata.
+      The percentage of metadata records with licence URLs CORE is able to recognise from the metadata.
     prefix: |
       Percent of metadata records with a licence specified:
     recommendation: |
@@ -125,7 +125,6 @@ statusItems:
       They also include links where applicable to the data set.
       For example, the paper may state “The data that support the findings of this study are openly available in [repository name] at https://doi.org/[doi]”.
       This is in development right now.
-    linkDocumentation: https://github.com/antleaf/USRN-Discovery/wiki/Free-and-Easy-Discoverability-and-Access
   - id: sourceCode
     isEnable: yes
     type: statistic
@@ -153,7 +152,7 @@ statusItems:
       CORE is currently developing an ORCID dashboard, which will enable repository managers to both to identify missing ORCID IDs,
       and to enrich your data with ORCID IDs found from elsewhere.
     prefix: |
-    linkDocumentation: https://en.wikipedia.org/wiki/ORCID
+    linkDocumentation: https://orcid.org
   - id: ROR
     isEnable: yes
     type: statistic
@@ -182,8 +181,10 @@ statusItems:
       of scholarly resources on the web. It involves using standardized HTTP link relations to expose key information
       about web resources, particularly in the context of scholarly communication. This approach aligns with the broader
       FAIR principles, which aim for data to be Findable, Accessible, Interoperable, and Reusable.
+    recommendation:
+      FAIR signposting can be done adding information to HTTP headers.
       Specifically, the HTTP header can contain a <link> element to describe the type of content resource, for example, “author”, or “collection”.
-
+    linkDocumentation: https://core.ac.uk/documentation/data-providers-guide#fair-signposting
     prefix: |
   - id: vocabulariesCOAR
     isEnable: yes
@@ -256,6 +257,10 @@ statusItems:
       RIOXX metadata application profile.
     prefix: |
       Your repository support RIOXXv2, RIOXXv3, OAIRE.
+    recommendation: |
+      CORE metadata indexing requires Dublin Core as a minimum; it supports OpenAIRE Guidelines; and it recommends RIOXX version 3.
+      CORE recommends that repositories use [RIOXX v3](https://rioxx.net/profiles/), which we consider to be the most suitable metadata application profile for describing scholarly research outputs. Rioxx: The Research Outputs Metadata Schema was developed for institutional repositories to share metadata about the scholarly resources they contain.
+      Information about how to comply with metadata recommendations are provided in the [CORE Data Provider’s Guide](https://core.ac.uk/documentation/data-providers-guide#meta-configuration).
   - id: preservation
     isEnable: yes
     type: text

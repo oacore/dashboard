@@ -2,9 +2,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import React from 'react'
 
 import styles from './styles.module.css'
-import StatisticsChart from '../statistics-chart'
 import {
-  formatDate,
   formatNumber,
   processTemplate,
   valueOrDefault,
@@ -176,16 +174,6 @@ const StatUSRN = ({ className, content, usrnParams }) => {
       statCreated =
         statusClass === STATUS_YES ? (
           <div>
-            <StatisticsChart
-              data={statisticsIrus.map(({ date, coreViewCount: count }) => ({
-                'name': formatDate(date, { month: 'short' }),
-                'Views in CORE': count,
-              }))}
-              colors={{
-                'Your repository': 'var(--gray-800)',
-                'Views in CORE': 'var(--primary)',
-              }}
-            />
             <Markdown className={styles.irusDescription}>
               {descriptionIrus}
             </Markdown>
