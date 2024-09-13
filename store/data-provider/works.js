@@ -33,7 +33,7 @@ class Works extends Store {
   @action
   changeVisibility = async (rowId) => {
     const [, workId] = rowId.split('-', 2)
-    const row = this.data.find((r) => r.originalId === +workId)
+    const row = this.workRecords.data.find((r) => r.originalId === +workId)
     const { disabled } = row
     row.disabled = !disabled
     try {
