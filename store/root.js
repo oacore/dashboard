@@ -425,11 +425,13 @@ class Root extends Store {
   }
 
   @action
-  getSetsWholeList = async () => {
+  getSetsWholeList = async (id) => {
     this.loadingWholeSets = true
     try {
       const response = await fetch(
-        `${process.env.API_URL}/data-providers/${this.dataProvider.id}/set/available`
+        `${process.env.API_URL}/data-providers/${
+          this.dataProvider.id || id
+        }/set/available`
       )
       if (response.ok) {
         const data = await response.json()
@@ -444,11 +446,13 @@ class Root extends Store {
   }
 
   @action
-  getSetsEnabledList = async () => {
+  getSetsEnabledList = async (id) => {
     this.loadingSets = true
     try {
       const response = await fetch(
-        `${process.env.API_URL}/data-providers/${this.dataProvider.id}/set`
+        `${process.env.API_URL}/data-providers/${
+          this.dataProvider.id || id
+        }/set`
       )
       if (response.ok) {
         const data = await response.json()
@@ -463,10 +467,12 @@ class Root extends Store {
   }
 
   @action
-  enableSet = async (body) => {
+  enableSet = async (body, id) => {
     try {
       const response = await fetch(
-        `${process.env.API_URL}/data-providers/${this.dataProvider.id}/set/settings`,
+        `${process.env.API_URL}/data-providers/${
+          this.dataProvider.id || id
+        }/set/settings`,
         {
           method: 'PATCH',
           headers: {
@@ -484,11 +490,13 @@ class Root extends Store {
   }
 
   @action
-  deleteSet = async (idSet) => {
+  deleteSet = async (idSet, id) => {
     this.loadingSets = true
     try {
       const response = await fetch(
-        `${process.env.API_URL}/data-providers/${this.dataProvider.id}/set/settings/${idSet}`,
+        `${process.env.API_URL}/data-providers/${
+          this.dataProvider.id || id
+        }/set/settings/${idSet}`,
         {
           method: 'DELETE',
           headers: {

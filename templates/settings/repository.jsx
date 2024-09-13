@@ -161,7 +161,7 @@ const RepositoryPageTemplate = observer(
     }, [])
 
     useEffect(() => {
-      getSetsEnabledList()
+      getSetsEnabledList(providerId)
     }, [providerId])
 
     const uploadRef = useRef(null)
@@ -320,9 +320,9 @@ const RepositoryPageTemplate = observer(
       setLicenseInputValue(event.target.value)
     }
 
-    const handleDropdownClick = async () => {
+    const handleDropdownClick = async (id) => {
       setIsOpen(!isOpen)
-      if (!wholeSetData.length) await getSetsWholeList()
+      if (!wholeSetData.length) await getSetsWholeList(id)
     }
 
     const handleSelect = (item) => {
@@ -336,13 +336,14 @@ const RepositoryPageTemplate = observer(
         try {
           setLoadingWholeSetsBtn(true)
           await enableSet({
+            providerId,
             setSpec: selectedItem.setSpec,
             setName: selectedItem.setName,
             setNameDisplay: selectedItem.setNameDisplay,
           })
           setSelectedItem(null)
-          await getSetsWholeList()
-          await getSetsEnabledList()
+          await getSetsWholeList(providerId)
+          await getSetsEnabledList(providerId)
           setInputValue('')
         } catch (error) {
           console.error('Error patching settings:', error)
@@ -355,9 +356,9 @@ const RepositoryPageTemplate = observer(
     const handleDelete = async (id) => {
       try {
         setLoadingRemoveAction(true, id)
-        await deleteSet(id)
-        await getSetsWholeList()
-        await getSetsEnabledList()
+        await deleteSet(id, providerId)
+        await getSetsWholeList(providerId)
+        await getSetsEnabledList(providerId)
       } catch (error) {
         console.error('Error patching settings:', error)
       } finally {
@@ -382,6 +383,7 @@ const RepositoryPageTemplate = observer(
     const handleButtonClick = async (item) => {
       try {
         await enableSet({
+          providerId,
           id: item.id,
           setSpec: item.setSpec,
           setName: item.setName,
@@ -643,7 +645,7 @@ const RepositoryPageTemplate = observer(
                         <TextField
                           id="selectInput"
                           label="Add new set"
-                          onClick={handleDropdownClick}
+                          onClick={() => handleDropdownClick(providerId)}
                           onChange={handleSetInputChange}
                           value={inputValue}
                           className={styles.selectInput}
