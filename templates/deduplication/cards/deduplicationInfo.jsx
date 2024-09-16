@@ -22,7 +22,9 @@ const DeduplicationInfoCard = ({ harvestingStatus, harvestingError }) => (
       {harvestingError ? (
         <div className={styles.errorsWrapper}>
           <img className={styles.infoIcon} src={info} alt="riox" />
-          <p className={styles.errorText}>This data is not available now. </p>
+          <p className={styles.errorText}>
+            The data is not available at the moment
+          </p>
         </div>
       ) : (
         <span className={styles.text}>

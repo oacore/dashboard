@@ -28,7 +28,7 @@ const HarvestingStatusCard = ({
               <div className={styles.errorsWrapper}>
                 <img className={styles.infoIcon} src={info} alt="riox" />
                 <p className={styles.errorText}>
-                  This data is not available now.{' '}
+                  The data is not available at the moment
                 </p>
               </div>
             ) : (
