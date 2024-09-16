@@ -12,6 +12,10 @@ import {
 } from './cards'
 import AccessPlaceholder from '../../components/access-placeholder/AccessPlaceholder'
 import DashboardHeader from '../../components/dashboard-header'
+import ComplianceOptions from './cards/compliance-option'
+import compliance from '../../texts/depositing/compliance.yml'
+import greenTick from '../../components/upload/assets/greenTick.svg'
+import add from '../../components/upload/assets/add.svg'
 
 import { Icon, Link, Message } from 'design'
 import { intro as texts } from 'texts/depositing'
@@ -65,8 +69,54 @@ const DepositComplianceTemplate = ({
         />
       )
     }
+
     return (
       <>
+        <div className={styles.complianceWrapper}>
+          <ComplianceOptions
+            title={compliance.compliance.total.title}
+            caption={compliance.compliance.total.subTitle}
+            value={totalCount}
+            button={compliance.compliance.total.button}
+            description={compliance.compliance.total.description}
+          />
+          <ComplianceOptions
+            title={compliance.compliance.compliant.title}
+            caption={compliance.compliance.compliant.subTitle}
+            button={compliance.compliance.compliant.button}
+            description={compliance.compliance.compliant.description}
+            icon={<img className={styles.tick} src={greenTick} alt="" />}
+            className={`${styles.wrapper} ${styles.green}`}
+          />
+          <ComplianceOptions
+            title={compliance.compliance.cross.title}
+            caption={compliance.compliance.cross.subTitle}
+            button={compliance.compliance.cross.button}
+            description={compliance.compliance.cross.description}
+            icon={
+              <Icon src="#alert-circle-outline" style={{ color: '#c62828' }} />
+            }
+            className={`${styles.wrapper} ${styles.red}`}
+          />
+          <ComplianceOptions
+            title={compliance.compliance.nonCompliant.title}
+            caption={compliance.compliance.nonCompliant.subTitle}
+            button={compliance.compliance.nonCompliant.button}
+            description={compliance.compliance.nonCompliant.description}
+            icon={
+              <Icon src="#alert-circle-outline" style={{ color: '#666' }} />
+            }
+            className={`${styles.wrapper} ${styles.dark}`}
+          />
+          <ComplianceOptions
+            title={compliance.compliance.unknown.title}
+            caption={compliance.compliance.unknown.subTitle}
+            button={compliance.compliance.unknown.button}
+            description={compliance.compliance.unknown.description}
+            icon={<img className={styles.add} src={add} alt="" />}
+            className={`${styles.wrapper} ${styles.green}`}
+          />
+        </div>
         <DataOverviewCard
           totalCount={totalCount}
           complianceLevel={complianceLevel}
