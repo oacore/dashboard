@@ -12,6 +12,7 @@ import NumericValue from '../numeric-value'
 import infoLight from '../upload/assets/infoLight.svg'
 import LinkDoc from '../usrn-text/linkDoc'
 import LinkToolKit from '../usrn-text/linkToolKit'
+import Actions from '../actions'
 
 import { overview as textIrusUk } from 'texts/irus-uk/index'
 
@@ -235,11 +236,17 @@ const StatUSRN = ({ className, content, usrnParams }) => {
         >
           {
             // eslint-disable-next-line no-nested-ternary
-            statusClass === STATUS_NO
-              ? 'No'
-              : statusClass === STATUS_YES
-              ? 'Yes'
-              : 'WIP'
+            statusClass === STATUS_NO ? (
+              'No'
+            ) : statusClass === STATUS_YES ? (
+              'Yes'
+            ) : (
+              <Actions
+                description="This is in development right now"
+                hoverIcon={false}
+                hoverText="WIP"
+              />
+            )
           }
         </div>
       </div>
