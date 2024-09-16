@@ -75,7 +75,7 @@ const RepositorySelect = ({ store }) => {
   }
 
   useEffect(() => {
-    store.getSetsEnabledList()
+    store.getSetsEnabledList(providerId)
   }, [providerId])
 
   useEffect(() => {
