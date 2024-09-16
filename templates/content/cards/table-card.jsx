@@ -57,9 +57,9 @@ const SidebarContent = observer(
             {doi && <DetailList.Item name="DOI">{doi}</DetailList.Item>}
             <DetailList.Item name="Update date">
               {formatDate(lastUpdate, {
-                year: 'numeric',
+                day: 'numeric',
                 month: 'long',
-                weekday: 'short',
+                year: 'numeric',
                 hour: 'numeric',
                 minute: 'numeric',
                 second: 'numeric',
