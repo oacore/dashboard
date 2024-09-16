@@ -18,7 +18,11 @@ const LinkToolKit = ({ content }) => {
           src={toolkit}
           alt="toolkit"
         />
-        Go to the toolkit
+        {content.textToolKit && content.textToolKit.length > 3 ? (
+          content.textToolKit
+        ) : (
+          <span>Go to the toolkit</span>
+        )}
       </a>
     ) : (
       ''

@@ -152,15 +152,18 @@ statusItems:
       CORE is currently developing an ORCID dashboard, which will enable repository managers to both to identify missing ORCID IDs,
       and to enrich your data with ORCID IDs found from elsewhere.
     prefix: |
-    linkDocumentation: https://orcid.org
+    linkDocumentation: 0
+    linkToolKit: https://orcid.org
+    textToolKit: Link to documentation
   - id: ROR
     isEnable: yes
     type: statistic
     title: ROR
     description: |
-    prefix: |
+    recommendation: |
       The CORE Dashboard enables you to specify your ROR ID. You should check the details to make sure your institution is identified correctly.
-      If the ROR ID is missing or incorrect, you can correct it on the dashboard. The ROR ID can be obtained from the [Research Organisation Registry](https://ror.org/) website,
+          If the ROR ID is missing or incorrect, you can correct it on the dashboard. The ROR ID can be obtained from the [Research Organisation Registry](https://ror.org/) website.
+    prefix: |
   - id: metadata
     isEnable: yes
     type: text
@@ -184,7 +187,9 @@ statusItems:
     recommendation:
       FAIR signposting can be done adding information to HTTP headers.
       Specifically, the HTTP header can contain a <link> element to describe the type of content resource, for example, “author”, or “collection”.
-    linkDocumentation: https://core.ac.uk/documentation/data-providers-guide#fair-signposting
+    linkDocumentation: 0
+    linkToolKit: https://core.ac.uk/documentation/data-providers-guide#fair-signposting
+    textToolKit: Link to documentation
     prefix: |
   - id: vocabulariesCOAR
     isEnable: yes

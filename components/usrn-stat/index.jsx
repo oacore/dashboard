@@ -11,6 +11,7 @@ import Markdown from '../markdown'
 import NumericValue from '../numeric-value'
 import infoLight from '../upload/assets/infoLight.svg'
 import LinkDoc from '../usrn-text/linkDoc'
+import LinkToolKit from '../usrn-text/linkToolKit'
 
 import { overview as textIrusUk } from 'texts/irus-uk/index'
 
@@ -200,12 +201,6 @@ const StatUSRN = ({ className, content, usrnParams }) => {
       ''
     )
 
-  const linkDocumentation = content.linkDocumentation ? (
-    <LinkDoc content={content} />
-  ) : (
-    ''
-  )
-
   const recommendationCreated = content.recommendation ? (
     <div className={styles.recommendationWrapper}>
       <div className={styles.recommendationHeader}>
@@ -252,7 +247,8 @@ const StatUSRN = ({ className, content, usrnParams }) => {
         <div>
           {descriptionCreated}
           {prefixCreated}
-          {linkDocumentation}
+          <LinkDoc content={content} />
+          <LinkToolKit content={content} />
           <div className={styles.stat}>{statCreated}</div>
           <div className={styles.statText}>{statTextCreated}</div>
           {recommendationCreated}

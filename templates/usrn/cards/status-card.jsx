@@ -22,9 +22,9 @@ const StatusCard = ({ usrnParams }) => {
             <div className={styles.statusDateReportFirst}>
               {texts.status.dateReport}: {usrnDateReportUpdate}
             </div>
-            <Button variant="outlined" className={styles.headerButton}>
-              {texts.status.buttons.update}
-            </Button>
+            {/* <Button variant="outlined" className={styles.headerButton}> */}
+            {/*  {texts.status.buttons.update} */}
+            {/* </Button> */}
           </>
         ) : (
           ''
