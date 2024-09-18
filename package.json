@@ -45,7 +45,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@babel/runtime": "^7.20.13",
     "@mdi/svg": "^5.8.55",
-    "@oacore/design": "5.0.1",
+    "@oacore/design": "5.0.4",
     "@octokit/rest": "^19.0.5",
     "@sentry/browser": "^5.27.2",
     "@sentry/node": "^5.29.0",
@@ -69,7 +69,7 @@
     "react-ga4": "^2.1.0",
     "react-markdown": "^5.0.0",
     "react-slick": "^0.29.0",
-    "recharts": "^2.0.0",
+    "recharts": "^2.12.7",
     "remark-heading-id": "^1.0.0",
     "remark-slug": "^6.0.0",
     "webpack": "^4.44.2"
