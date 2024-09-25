@@ -49,6 +49,7 @@
     "@octokit/rest": "^19.0.5",
     "@sentry/browser": "^5.27.2",
     "@sentry/node": "^5.29.0",
+    "anychart": "^8.12.1",
     "camelize": "^1.0.1",
     "connect": "^3.7.0",
     "core-js": "^3.8.1",
