@@ -199,6 +199,8 @@ const RepositoryPageTemplate = observer(
 
     const handleSubmit = async (event) => {
       event.preventDefault()
+      globalStore.dataProvider.setGlobalRorId(rorId)
+      globalStore.dataProvider.setGlobalRorName(rorName)
 
       const target = event.target.form || event.target
       const formData = new FormData(target)
@@ -211,8 +213,6 @@ const RepositoryPageTemplate = observer(
       }[scope]
 
       const result = await present(data)
-      setGlobalRorId(rorId)
-      setGlobalRorName(rorName)
 
       await globalStore.organisation.retrieve()
 
