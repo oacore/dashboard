@@ -174,8 +174,9 @@ const GeneralPageTemplate = observer(
     const renderRORWarning = () => {
       if (
         globalStore.organisation.rorId &&
-        globalStore.dataProvider.rorGlobalId &&
-        globalStore.organisation.rorId !== globalStore.dataProvider.rorGlobalId
+        globalStore.dataProvider.rorData.rorId &&
+        globalStore.organisation.rorId !==
+          globalStore.dataProvider.rorData.rorId
       ) {
         return (
           <div className={styles.warningWrapper}>

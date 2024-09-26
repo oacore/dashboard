@@ -78,8 +78,6 @@ const RepositoryPageTemplate = observer(
     oaiMapping,
     mappingSubmit,
     dataProvider,
-    setGlobalRorName,
-    setGlobalRorId,
     init,
     status,
     getLicencing,
@@ -103,9 +101,9 @@ const RepositoryPageTemplate = observer(
   }) => {
     const { ...globalStore } = useContext(GlobalContext)
     const [formMessage, setFormMessage] = useState({})
-    const [rorId, setRorId] = useState(globalStore.dataProvider.rorGlobalId)
+    const [rorId, setRorId] = useState(globalStore.dataProvider.rorData.rorId)
     const [rorName, setRorName] = useState(
-      globalStore.dataProvider.rorGlobalName
+      globalStore.dataProvider.rorData.rorName
     )
     const [repositoryName, setRepositoryName] = useState(
       globalStore.dataProvider.name
@@ -199,8 +197,6 @@ const RepositoryPageTemplate = observer(
 
     const handleSubmit = async (event) => {
       event.preventDefault()
-      globalStore.dataProvider.setGlobalRorId(rorId)
-      globalStore.dataProvider.setGlobalRorName(rorName)
 
       const target = event.target.form || event.target
       const formData = new FormData(target)
@@ -297,8 +293,9 @@ const RepositoryPageTemplate = observer(
     const renderRORWarning = () => {
       if (
         globalStore.organisation.rorId &&
-        globalStore.dataProvider.rorGlobalId &&
-        globalStore.organisation.rorId !== globalStore.dataProvider.rorGlobalId
+        globalStore.dataProvider.rorData.rorId &&
+        globalStore.organisation.rorId !==
+          globalStore.dataProvider.rorData.rorId
       ) {
         return (
           <div className={styles.warningWrapper}>
