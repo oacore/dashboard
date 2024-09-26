@@ -1,3 +1,4 @@
+// store/issues.js
 import { action, observable } from 'mobx'
 
 import Store from './store'
@@ -5,6 +6,8 @@ import { Pages } from './helpers/pages'
 
 class Issues extends Store {
   @observable harvestingStatus = null
+
+  @observable harvestingError = false
 
   @observable aggregation = null
 
@@ -14,7 +17,7 @@ class Issues extends Store {
     super(baseUrl, options)
 
     this.issuesUrl = `${baseUrl}/issues`
-    this.getHarvestingStatus(true)
+    this.getHarvestingStatus()
     this.getIssuesAggregation()
   }
 
@@ -26,11 +29,20 @@ class Issues extends Store {
 
       const options = refresh ? { cache: 'reload' } : {}
 
-      const { data } = await this.request(url, options)
-      this.harvestingStatus = data
+      const response = await this.request(url, options)
+      if (response.status === 200) {
+        this.harvestingStatus = response.data
+        this.harvestingError = false
+      } else {
+        this.harvestingStatus = null
+        this.harvestingError = true
+      }
+      return response.data
     } catch (error) {
       console.error('Error fetching harvesting status:', error)
       this.harvestingStatus = null
+      this.harvestingError = true
+      throw error
     }
   }
 

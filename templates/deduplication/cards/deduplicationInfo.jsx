@@ -3,10 +3,11 @@ import React from 'react'
 import styles from '../styles.module.css'
 import texts from '../../../texts/deduplication/deduplication.yml'
 import { formatDate, valueOrDefault } from '../../../utils/helpers'
+import info from '../../../components/upload/assets/info.svg'
 
 import { Card } from 'design'
 
-const DeduplicationInfoCard = ({ harvestingStatus }) => (
+const DeduplicationInfoCard = ({ harvestingStatus, harvestingError }) => (
   <Card
     className={styles.deduplicationInfoCardWrapper}
     tag="section"
@@ -18,12 +19,21 @@ const DeduplicationInfoCard = ({ harvestingStatus }) => (
       </Card.Title>
     </div>
     <div className={styles.innerWrapper}>
-      <span className={styles.text}>
-        {valueOrDefault(
-          formatDate(harvestingStatus?.lastHarvestingDate),
-          'Loading...'
-        )}
-      </span>
+      {harvestingError ? (
+        <div className={styles.errorsWrapper}>
+          <img className={styles.infoIcon} src={info} alt="riox" />
+          <p className={styles.errorText}>
+            The data is not available at the moment
+          </p>
+        </div>
+      ) : (
+        <span className={styles.text}>
+          {valueOrDefault(
+            formatDate(harvestingStatus?.lastHarvestingDate),
+            'Loading...'
+          )}
+        </span>
+      )}
     </div>
     <Card.Description className={styles.cardDescription}>
       {texts.info.description}

@@ -9,6 +9,7 @@ const DeduplicationPage = ({ store, ...props }) => (
     getDeduplicationData={store.dataProvider?.getDeduplicationData}
     duplicateDataLoading={store.dataProvider?.duplicateDataLoading}
     harvestingStatus={store.dataProvider?.issues?.harvestingStatus}
+    harvestingError={store.dataProvider?.issues?.harvestingError}
     duplicateList={store.dataProvider?.duplicateList}
     getDeduplicationInfo={store.dataProvider?.getDeduplicationInfo}
     duplicateListDetails={store.dataProvider?.duplicateListDetails}

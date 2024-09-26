@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { Popover } from '@oacore/design'
 import { observer } from 'mobx-react-lite'
 
+import info from '../../../components/upload/assets/info.svg'
 import { GlobalContext } from '../../../store'
 import styles from '../styles.module.css'
 import { Button, ProgressSpinner } from '../../../design'
@@ -15,12 +16,14 @@ import { Card } from 'design'
 import texts from 'texts/issues'
 
 const HarvestingProgressCard = observer(
-  ({ harvestingStatus, sendHarvestingRequest }) => {
+  ({ harvestingStatus, sendHarvestingRequest, harvestingError }) => {
     const { ...globalStore } = useContext(GlobalContext)
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
+    const [renderedContent, setRenderedContent] = useState(null)
+
     const dayInterval = (lastHarvestingDateString) => {
       const lastHarvestingDate = new Date(lastHarvestingDateString)
       const currentDate = new Date()
@@ -38,7 +41,7 @@ const HarvestingProgressCard = observer(
         setLoading(true)
         setModalOpen(false)
         await sendHarvestingRequest(requestText)
-        await globalStore.dataProvider.retrieve()
+        await globalStore.dataProvider.issues.getHarvestingStatus(true)
         setSuccess(true)
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -105,6 +108,32 @@ const HarvestingProgressCard = observer(
       }
     }
 
+    const getContent = () => {
+      if (harvestingError) {
+        return (
+          <div className={styles.errorsWrapper}>
+            <img className={styles.infoIcon} src={info} alt="riox" />
+            <p className={styles.errorText}>
+              Request reindexing is not available at the moment.
+            </p>
+          </div>
+        )
+      }
+      if (!harvestingStatus) {
+        return (
+          <div className={styles.dataSpinnerWrapper}>
+            <ProgressSpinner className={styles.spinner} />
+            <p className={styles.spinnerText}>Loading...</p>
+          </div>
+        )
+      }
+      return <div className={styles.buttonWrapper}>{renderView()}</div>
+    }
+
+    useEffect(() => {
+      setRenderedContent(getContent())
+    }, [harvestingError, harvestingStatus])
+
     return (
       <Card className={styles.progressWrapper}>
         <div
@@ -120,7 +149,7 @@ const HarvestingProgressCard = observer(
         <div className={styles.requestDateWrapper}>
           {modalOpen &&
             harvestingStatus?.scheduledState === 'IN_DOWNLOAD_METADATA_QUEUE' &&
-            !result(
+            !result && (
               <HarvestingModal
                 title={texts.modal.scheduled.title}
                 description={texts.modal.scheduled.description}
@@ -232,14 +261,7 @@ const HarvestingProgressCard = observer(
         <div className={styles.statusDescription}>
           {texts.progress.description}
         </div>
-        {!harvestingStatus ? (
-          <div className={styles.dataSpinnerWrapper}>
-            <ProgressSpinner className={styles.spinner} />
-            <p className={styles.spinnerText}>Loading</p>
-          </div>
-        ) : (
-          <div className={styles.buttonWrapper}>{renderView()}</div>
-        )}
+        {renderedContent}
       </Card>
     )
   }

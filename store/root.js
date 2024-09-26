@@ -89,6 +89,8 @@ class Root extends Store {
 
   @observable harvestNotifications = null
 
+  @observable licencingData = null
+
   @observable deduplicationNotifications = null
 
   @observable loadingSets = false
@@ -170,6 +172,11 @@ class Root extends Store {
   @action
   setResponseData = (data) => {
     this.responseData = data
+  }
+
+  @action
+  setLicencing = (data) => {
+    this.licencingData = data
   }
 
   @computed
@@ -418,11 +425,13 @@ class Root extends Store {
   }
 
   @action
-  getSetsWholeList = async () => {
+  getSetsWholeList = async (id) => {
     this.loadingWholeSets = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set/available`
+        `${process.env.API_URL}/data-providers/${
+          this.dataProvider.id || id
+        }/set/available`
       )
       if (response.ok) {
         const data = await response.json()
@@ -437,11 +446,13 @@ class Root extends Store {
   }
 
   @action
-  getSetsEnabledList = async () => {
+  getSetsEnabledList = async (id) => {
     this.loadingSets = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set`
+        `${process.env.API_URL}/data-providers/${
+          this.dataProvider.id || id
+        }/set`
       )
       if (response.ok) {
         const data = await response.json()
@@ -456,10 +467,12 @@ class Root extends Store {
   }
 
   @action
-  enableSet = async (body) => {
+  enableSet = async (body, id) => {
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set/settings`,
+        `${process.env.API_URL}/data-providers/${
+          this.dataProvider.id || id
+        }/set/settings`,
         {
           method: 'PATCH',
           headers: {
@@ -477,11 +490,13 @@ class Root extends Store {
   }
 
   @action
-  deleteSet = async (idSet) => {
+  deleteSet = async (idSet, id) => {
     this.loadingSets = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/data-providers/${this.dataProvider.id}/set/settings/${idSet}`,
+        `${process.env.API_URL}/data-providers/${
+          this.dataProvider.id || id
+        }/set/settings/${idSet}`,
         {
           method: 'DELETE',
           headers: {
@@ -510,6 +525,41 @@ class Root extends Store {
     } catch (error) {
       console.error('Error making GET request:', error)
       throw error
+    }
+  }
+
+  @action
+  getLicencing = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${this.dataProvider.id}/licencing`
+      )
+      const data = await response.json()
+      this.setLicencing(data)
+    } catch (error) {
+      console.error('Error making GET request:', error)
+      throw error
+    }
+  }
+
+  @action
+  updateLicencing = async (licenseType) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${this.dataProvider.id}/licencing`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ licence: licenseType }),
+        }
+      )
+
+      if (!response.ok) throw new Error('Network response was not ok')
+      await this.getLicencing()
+    } catch (error) {
+      console.error('Error:', error)
     }
   }
 

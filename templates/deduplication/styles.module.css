@@ -90,6 +90,20 @@
   margin-right: 55px;
 }
 
+.errors-wrapper {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  height: 48px;
+  padding: 12px 16px;
+  background: #f5f5f5;
+  gap: 10px;
+}
+
+.error-text {
+  margin-top: unset;
+}
+
 .inner-sub-title {
   margin: 4px 0 12px;
   font-size: 14px;

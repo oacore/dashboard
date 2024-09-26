@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
@@ -8,6 +8,11 @@ import { DataStatisticsCard, DoiCard, DepositingCard, IrusCard } from './cards'
 import RioxxCard from './cards/rioxx-card'
 import DashboardGuide from '../../components/dashboard-tutorial/dashboardGuide'
 import NotificationGuide from '../settings/cards/notificationGuide'
+import { GlobalContext } from '../../store'
+import placeholder from '../../components/upload/assets/placeholderChart.svg'
+import { Button } from '../../design'
+
+import { Card } from 'design'
 
 const OverviewTemplate = observer(
   ({
@@ -43,6 +48,7 @@ const OverviewTemplate = observer(
     const [hasNotificationGuideBeenShown, setNotificationGuideShown] = useState(
       localStorage.getItem('notificationGuideShown') === 'true'
     )
+    const { ...globalStore } = useContext(GlobalContext)
 
     const handleButtonClick = async () => {
       setNotificationGuideShown(true)
@@ -100,50 +106,89 @@ const OverviewTemplate = observer(
         className={classNames.use(styles.container).join(className)}
         {...restProps}
       >
-        <DataStatisticsCard
-          metadatadaHistory={metadatadaHistory}
-          metadataCount={metadataCount}
-          fullTextCount={fullTextCount}
-          harvestingDate={harvestingDate}
-          errorCount={errorCount}
-          warningCount={warningCount}
-          dataProviderId={dataProviderId}
-          viewStatistics={viewStatistics}
-        />
-        {tutorial && tutorial.currentStep === 1 && (
-          <DashboardGuide
-            tutorial={tutorial}
-            dataProviderData={dataProviderData}
-            modal={modal}
-          />
-        )}
-        {!hasNotificationGuideBeenShown && (
-          <NotificationGuide
-            dataProviderData={dataProviderData}
-            notificationGuide={notificationGuide}
-            handleButtonClick={handleButtonClick}
-            handleButtonClose={handleButtonClose}
-          />
-        )}
-        <DepositingCard
-          chartData={timeLagData}
-          complianceLevel={complianceLevel}
-          dataProviderId={dataProviderId}
-          countryCode={countryCode}
-        />
+        {globalStore.dataProvider?.issues?.harvestingStatus
+          ?.lastHarvestingDate !== null ? (
+          <div>
+            <DataStatisticsCard
+              metadatadaHistory={metadatadaHistory}
+              metadataCount={metadataCount}
+              fullTextCount={fullTextCount}
+              harvestingDate={harvestingDate}
+              errorCount={errorCount}
+              warningCount={warningCount}
+              dataProviderId={dataProviderId}
+              viewStatistics={viewStatistics}
+            />
+            {tutorial && tutorial.currentStep === 1 && (
+              <DashboardGuide
+                tutorial={tutorial}
+                dataProviderData={dataProviderData}
+                modal={modal}
+              />
+            )}
+            {!hasNotificationGuideBeenShown && (
+              <NotificationGuide
+                dataProviderData={dataProviderData}
+                notificationGuide={notificationGuide}
+                handleButtonClick={handleButtonClick}
+                handleButtonClose={handleButtonClose}
+              />
+            )}
+            <DepositingCard
+              chartData={timeLagData}
+              complianceLevel={complianceLevel}
+              dataProviderId={dataProviderId}
+              countryCode={countryCode}
+            />
 
-        {rioxxCompliance != null && rioxxCompliance.totalCount > 0 && (
-          <RioxxCard compliance={rioxxCompliance} />
-        )}
-        {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
-        {doiCount && (
-          <DoiCard
-            outputsCount={metadataCount}
-            doiCount={doiCount}
-            downloadUrl={doiDownloadUrl}
-            enrichmentSize={doiEnrichmentSize}
-            dataProviderId={dataProviderId}
-          />
+            {rioxxCompliance != null && rioxxCompliance.totalCount > 0 && (
+              <RioxxCard compliance={rioxxCompliance} />
+            )}
+            {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
+            {doiCount && (
+              <DoiCard
+                outputsCount={metadataCount}
+                doiCount={doiCount}
+                downloadUrl={doiDownloadUrl}
+                enrichmentSize={doiEnrichmentSize}
+                dataProviderId={dataProviderId}
+              />
+            )}
+          </div>
+        ) : (
+          <Card className={styles.placeholderCard}>
+            <Card.Title tag="h2">General information</Card.Title>
+            <div className={styles.innerContent}>
+              <img
+                src={placeholder}
+                alt="placeholder"
+                className={styles.logo}
+              />
+              <h5 className={styles.placeholderTitle}>
+                You repository is still indexing.
+              </h5>
+              <p className={styles.placeholderDescription}>
+                This can take up to 3 weeks depending on the size of the data
+                provider and our workload. You will receive an email once this
+                has been done. In the meantime, find out more about how to
+                ensure your repository is indexed to maximum effect in the Data
+                Provider’s Guide.
+              </p>
+              <Button
+                className={styles.actionButton}
+                variant="contained"
+                tag="div"
+                onClick={() =>
+                  window.open(
+                    'https://core.ac.uk/documentation/membership-documentation',
+                    '_blank'
+                  )
+                }
+              >
+                Data Provider’s Guide
+              </Button>
+            </div>
+          </Card>
         )}
       </Tag>
     )
