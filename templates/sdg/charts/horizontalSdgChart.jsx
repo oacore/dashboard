@@ -42,6 +42,7 @@ const HorizontalChart = ({ data }) => {
   const sortedData = [...filteredData].sort(
     (a, b) => b.outputCount - a.outputCount
   )
+
   return (
     <div className={styles.chartWrapper}>
       <ResponsiveContainer width="100%" height={sortedData.length * 50}>
