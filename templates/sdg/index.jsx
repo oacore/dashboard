@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 import { Switch } from '@oacore/design'
+import { router } from 'next/client'
 
 import DashboardHeader from '../../components/dashboard-header'
 import texts from '../../texts/sdg/sdg.yml'
@@ -48,425 +49,173 @@ import SdgTable from './table/sdgTable'
 const sdgTypes = [
   {
     id: 'all',
+    title: 'All',
     icon: all,
     color: '#B75400',
   },
   {
-    id: 'poverty',
+    id: 'SDG01',
+    title: 'No Poverty',
     icon: poverty,
     iconH: povertyH,
     color: '#E5243B',
   },
   {
-    id: 'hunger',
+    id: 'SDG02',
+    title: 'Zero Hunger',
     icon: hunger,
     iconH: hungerH,
     color: '#DDA63A',
   },
   {
-    id: 'health',
+    id: 'SDG03',
+    title: 'Good Health and Well-being',
     icon: health,
     iconH: healthH,
     color: '#4C9F38',
   },
   {
-    id: 'education',
+    id: 'SDG04',
+    title: 'Quality Education',
     icon: education,
     iconH: educationH,
     color: '#C5192D',
   },
   {
-    id: 'equal',
+    id: 'SDG05',
+    title: 'Gender Equality',
     icon: equal,
     iconH: equalH,
     color: '#FF3A21',
   },
   {
-    id: 'water',
+    id: 'SDG06',
+    title: 'Clean Water and Sanitation',
     icon: water,
     iconH: waterH,
     color: '#26BDE2',
   },
   {
-    id: 'energy',
+    id: 'SDG07',
+    title: 'Affordable and Clean Energy',
     icon: energy,
     iconH: energyH,
     color: '#FCC30B',
   },
   {
-    id: 'economy',
+    id: 'SDG08',
+    title: 'Decent Work and Economic Growth',
     icon: economy,
     iconH: economyH,
     color: '#A21942',
   },
   {
-    id: 'infrastructure',
+    id: 'SDG09',
+    title: 'Industry, Innovation and Infrastructure',
     icon: infrastructure,
     iconH: infrastructureH,
     color: '#FD6925',
   },
   {
-    id: 'inequality',
+    id: 'SDG10',
+    title: 'Reduced Inequality',
     icon: inequality,
     iconH: inequalityH,
     color: '#DD1367',
   },
   {
-    id: 'communities',
+    id: 'SDG11',
+    title: 'Sustainable Cities and Communities',
     icon: communities,
     iconH: communitiesH,
     color: '#FD9D24',
   },
   {
-    id: 'production',
+    id: 'SDG12',
+    title: 'Responsible Consumption and Production',
     icon: production,
     iconH: productionH,
     color: '#BF8B2E',
   },
   {
-    id: 'climate',
+    id: 'SDG13',
+    title: 'Climate Action',
     icon: climate,
     iconH: climateH,
     color: '#3F7E44',
   },
   {
-    id: 'underWater',
+    id: 'SDG14',
+    title: 'Life Below Water',
     icon: underWater,
     iconH: underWaterH,
     color: '#0A97D9',
   },
   {
-    id: 'land',
+    id: 'SDG15',
+    title: 'Life on Land',
     icon: land,
     iconH: landH,
     color: '#56C02B',
   },
   {
-    id: 'peace',
+    id: 'SDG16',
+    title: 'Peace, Justice and Strong Institutions',
     icon: peace,
     iconH: peaceH,
     color: '#00689D',
   },
   {
-    id: 'goal',
+    id: 'SDG17',
+    title: 'Partnerships for the Goals',
     icon: goal,
     iconH: goalH,
     color: '#19486A',
   },
 ]
 
-export const sdgData = [
-  {
-    id: 'all',
-    title: 'all',
-    yearlyData: {
-      2011: 500,
-      2012: 750,
-      2013: 80,
-      2017: 350,
-      2019: 400,
-      2020: 450,
-      2021: 550,
-      2022: 650,
-      2023: 750,
-      2024: 850,
-    },
-  },
-  {
-    id: 'poverty',
-    title: 'poverty',
-    yearlyData: {
-      2011: 60,
-      2012: 55,
-      2013: 35,
-      2017: 25,
-      2019: 100,
-      2020: 110,
-      2021: 120,
-      2022: 130,
-      2023: 140,
-      2024: 150,
-    },
-  },
-  {
-    id: 'hunger',
-    title: 'hunger',
-    yearlyData: {
-      2011: 20,
-      2012: 100,
-      2013: 20,
-      2017: 50,
-      2019: 30,
-      2020: 40,
-      2021: 50,
-      2022: 60,
-      2023: 70,
-      2024: 80,
-    },
-  },
-  {
-    id: 'health',
-    title: 'health',
-    yearlyData: {
-      2011: 10,
-      2012: 20,
-      2013: 30,
-      2017: 40,
-      2019: 50,
-      2020: 60,
-      2021: 70,
-      2022: 80,
-      2023: 90,
-      2024: 100,
-    },
-  },
-  {
-    id: 'education',
-    title: 'education',
-    yearlyData: {
-      2011: 10,
-      2012: 100,
-      2013: 100,
-      2017: 10,
-      2019: 200,
-      2020: 210,
-      2021: 220,
-      2022: 230,
-      2023: 240,
-      2024: 250,
-    },
-  },
-  {
-    id: 'equal',
-    title: 'equal',
-    yearlyData: {
-      2011: 30,
-      2012: 40,
-      2013: 50,
-      2017: 10,
-      2019: 20,
-      2020: 30,
-      2021: 40,
-      2022: 50,
-      2023: 60,
-      2024: 70,
-    },
-  },
-  {
-    id: 'water',
-    title: 'water',
-    yearlyData: {
-      2011: 50,
-      2012: 75,
-      2013: 8,
-      2017: 35,
-      2019: 40,
-      2020: 45,
-      2021: 55,
-      2022: 65,
-      2023: 75,
-      2024: 85,
-    },
-  },
-  {
-    id: 'energy',
-    title: 'energy',
-    yearlyData: {
-      2011: 60,
-      2012: 55,
-      2013: 35,
-      2017: 25,
-      2019: 100,
-      2020: 110,
-      2021: 120,
-      2022: 130,
-      2023: 140,
-      2024: 150,
-    },
-  },
-  {
-    id: 'economy',
-    title: 'economy',
-    yearlyData: {
-      2011: 20,
-      2012: 100,
-      2013: 20,
-      2017: 50,
-      2019: 30,
-      2020: 40,
-      2021: 50,
-      2022: 60,
-      2023: 70,
-      2024: 80,
-    },
-  },
-  {
-    id: 'infrastructure',
-    title: 'infrastructure',
-    yearlyData: {
-      2011: 10,
-      2012: 20,
-      2013: 30,
-      2017: 40,
-      2019: 50,
-      2020: 60,
-      2021: 70,
-      2022: 80,
-      2023: 90,
-      2024: 100,
-    },
-  },
-  {
-    id: 'inequality',
-    title: 'inequality',
-    yearlyData: {
-      2011: 10,
-      2012: 100,
-      2013: 100,
-      2017: 10,
-      2019: 200,
-      2020: 210,
-      2021: 220,
-      2022: 230,
-      2023: 240,
-      2024: 250,
-    },
-  },
-  {
-    id: 'communities',
-    title: 'communities',
-    yearlyData: {
-      2011: 30,
-      2012: 40,
-      2013: 50,
-      2017: 10,
-      2019: 20,
-      2020: 30,
-      2021: 40,
-      2022: 50,
-      2023: 60,
-      2024: 70,
-    },
-  },
-  {
-    id: 'production',
-    title: 'production',
-    yearlyData: {
-      2011: 50,
-      2012: 75,
-      2013: 8,
-      2017: 35,
-      2019: 40,
-      2020: 45,
-      2021: 55,
-      2022: 65,
-      2023: 75,
-      2024: 85,
-    },
-  },
-  {
-    id: 'climate',
-    title: 'climate',
-    yearlyData: {
-      2011: 60,
-      2012: 55,
-      2013: 35,
-      2017: 25,
-      2019: 100,
-      2020: 110,
-      2021: 120,
-      2022: 130,
-      2023: 140,
-      2024: 150,
-    },
-  },
-  {
-    id: 'underWater',
-    title: 'underWater',
-    yearlyData: {
-      2011: 20,
-      2012: 100,
-      2013: 20,
-      2017: 50,
-      2019: 30,
-      2020: 40,
-      2021: 50,
-      2022: 60,
-      2023: 70,
-      2024: 80,
-    },
-  },
-  {
-    id: 'land',
-    title: 'land',
-    yearlyData: {
-      2011: 10,
-      2012: 20,
-      2013: 30,
-      2017: 40,
-      2019: 50,
-      2020: 60,
-      2021: 70,
-      2022: 80,
-      2023: 90,
-      2024: 100,
-    },
-  },
-  {
-    id: 'peace',
-    title: 'peace',
-    yearlyData: {
-      2011: 10,
-      2012: 100,
-      2013: 100,
-      2017: 10,
-      2019: 200,
-      2020: 210,
-      2021: 220,
-      2022: 230,
-      2023: 240,
-      2024: 250,
-    },
-  },
-  {
-    id: 'goal',
-    title: 'goal',
-    yearlyData: {
-      2011: 30,
-      2012: 40,
-      2013: 50,
-      2017: 10,
-      2019: 20,
-      2020: 30,
-      2021: 40,
-      2022: 50,
-      2023: 60,
-      2024: 70,
-    },
-  },
-]
-
 const SdgPageTemplate = observer(
-  ({ tag: Tag = 'main', className, ...restProps }) => {
+  ({
+    tag: Tag = 'main',
+    className,
+    sdgUrl,
+    sdgTableList,
+    sdgTableDataLoading,
+    getSdgTableData,
+    getSdgYearData,
+    sdgYearData,
+    articleAdditionalData,
+    articleAdditionalDataLoading,
+    ...restProps
+  }) => {
     const [toggle, setToggle] = useState(false)
+
+    const providerId = router.query['data-provider-id']
+
+    useEffect(() => {
+      getSdgYearData(providerId)
+    }, [providerId])
 
     const handleToggle = (event) => {
       setToggle(event.target.checked)
     }
 
-    const years = Object.keys(sdgData[0].yearlyData)
+    const years =
+      sdgYearData && sdgYearData.length > 0
+        ? Object.keys(sdgYearData[0].yearlyData)
+        : []
 
     const data = years.map((year) => {
       const yearData = { name: year }
-      sdgData.forEach((sdg) => {
-        yearData[sdg.id] = sdg.yearlyData[year] || 0
+      sdgYearData.forEach((sdg) => {
+        yearData[sdg.type] = sdg.yearlyData[year] || 0
       })
       return yearData
     })
 
     const updatedSdgTypes = sdgTypes.map((sdg) => {
       // eslint-disable-next-line no-shadow
-      const sdgDataItem = sdgData.find((data) => data.id === sdg.id)
+      const sdgDataItem = sdgYearData.find((data) => data.type === sdg.id)
       const yearlyDataSum = sdgDataItem
         ? Object.values(sdgDataItem.yearlyData).reduce(
             (sum, value) => sum + value,
@@ -503,7 +252,15 @@ const SdgPageTemplate = observer(
             updatedSdgTypes={updatedSdgTypes}
           />
         )}
-        <SdgTable />
+        <SdgTable
+          sdgUrl={sdgUrl}
+          getSdgTableData={getSdgTableData}
+          sdgTableList={sdgTableList}
+          sdgTableDataLoading={sdgTableDataLoading}
+          sdgTypes={sdgTypes}
+          articleAdditionalData={articleAdditionalData}
+          articleAdditionalDataLoading={articleAdditionalDataLoading}
+        />
       </Tag>
     )
   }

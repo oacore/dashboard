@@ -7,3 +7,6 @@ chart:
     title: Show SDG bar chart by goals
   table:
     title: Number of articles with SDG
+
+table:
+  title: Browse SDG (Quality Education) records

@@ -1,0 +1,138 @@
+.article {
+  margin: 0 auto;
+  animation: 0.5s bounce;
+}
+
+.article:hover {
+  cursor: unset;
+  background: #fff;
+}
+
+.article-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0 1rem 15.5vw;
+  background-color: #fffadd;
+}
+
+.article-header h2 {
+  max-width: 50vw;
+  margin-bottom: 0;
+  white-space: normal;
+}
+
+.actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 18px;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  color: var(--white);
+  background-color: var(--success-dark);
+}
+
+.action-button-disabled {
+  background-color: var(--danger);
+}
+
+.action-button-icon {
+  margin-right: 0.5rem;
+}
+
+.action-button-pure {
+  margin-right: 0.2rem;
+  margin-left: 1rem;
+  color: var(--gray-600);
+}
+
+.menu {
+  position: absolute;
+  top: 3rem;
+  right: 0;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+}
+
+.wrapper {
+  max-width: 70vw;
+  margin: 1rem auto;
+}
+
+.box {
+  display: flex;
+  margin-bottom: var(--spacer);
+}
+
+.box-prop {
+  width: 7vw;
+  margin: 0;
+  font-weight: 500;
+  color: var(--primary);
+  text-align: right;
+}
+
+.box-caption {
+  max-width: 60vw;
+  margin: 0;
+  margin-left: 2rem;
+  white-space: normal;
+}
+
+.box-caption-oai,
+.box-caption-doi {
+  padding: 0 0.3rem;
+  border-radius: 5px;
+}
+
+.box-caption-oai {
+  color: var(--white);
+  background-color: var(--primary);
+}
+
+.box-caption-doi {
+  background-color: var(--gray-200);
+}
+
+.sdg-score-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.sdg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.sdg-score {
+  background-color: #f5f5f5;
+  width: max-content;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1px;
+  color: #212121;
+  font-size: 12px;
+  padding: 4px;
+  margin-left: 8px;
+}

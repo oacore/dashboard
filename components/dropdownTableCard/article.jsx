@@ -4,7 +4,7 @@ import { Button, Icon } from '@oacore/design/lib/elements'
 import { Popover } from '@oacore/design/lib/modules'
 import { useOutsideClick } from '@oacore/design/lib/hooks'
 
-import styles from '../styles.module.css'
+import styles from './styles.module.css'
 import { ProgressSpinner } from '../../../design'
 
 import Menu from 'components/menu'
@@ -12,14 +12,15 @@ import { capitalize } from 'utils/helpers'
 import texts from 'texts/rrs-retention'
 import ReadMore from 'components/read-more'
 
-const Article = ({
+const TableArticle = ({
   tag: Tag = 'td',
   className,
   article,
   outputsUrl,
   loading,
   changeVisibility,
-  rrsAdditionalDataLoading,
+  articleAdditionalDataLoading,
+  getSdgIcon,
 }) => {
   const [visibleMenu, setVisibleMenu] = useState(false)
 
@@ -27,13 +28,26 @@ const Article = ({
 
   const { article: text } = texts
 
-  // Map exception for authors
-  const fields = text.fields.map((item) => ({
-    ...item,
-    value: Array.isArray(article[item.key])
-      ? article[item.key].map((author) => author[item.findBy]).join(' ')
-      : article[item.key],
-  }))
+  // Map exception for authors and sdg
+  const fields = text.fields.map((item) => {
+    let value = article[item.key]
+    if (Array.isArray(value)) {
+      if (item.key === 'authors')
+        value = value.map((author) => author[item.findBy]).join(' ')
+      else if (item.key === 'sdg') {
+        value = value.map((sdgItem) => (
+          <div className={styles.sdgScoreWrapper}>
+            {getSdgIcon(sdgItem.type, sdgItem.score)}
+            <span className={styles.sdgScore}>{sdgItem.score}</span>
+          </div>
+        ))
+      }
+    }
+    return {
+      ...item,
+      value,
+    }
+  })
 
   const actions = text.actions.map((item) => ({
     ...item,
@@ -59,7 +73,7 @@ const Article = ({
       colSpan="12"
       className={classNames.use(styles.article).join(className)}
     >
-      {rrsAdditionalDataLoading ? (
+      {articleAdditionalDataLoading ? (
         <div className={styles.spinnerWrapper}>
           <ProgressSpinner className={styles.spinner} />
         </div>
@@ -115,6 +129,7 @@ const Article = ({
                     <p className={styles.boxProp}>{name}</p>
                     <ReadMore
                       className={classNames.use(
+                        name === 'SDG' && styles.sdgWrapper,
                         styles.boxCaption,
                         `${styles[`boxCaption${capitalize(key)}`]}`
                       )}
@@ -131,4 +146,4 @@ const Article = ({
   )
 }
 
-export default Article
+export default TableArticle
