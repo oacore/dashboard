@@ -25,6 +25,10 @@
   background: #fff;
 }
 
+.item-count-indicator {
+  margin-bottom: 10px;
+}
+
 .sdg-icons {
   display: flex;
   flex-wrap: wrap;

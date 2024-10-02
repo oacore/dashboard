@@ -34,6 +34,8 @@ const SdgTable = observer(
     const [loading, setLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     const [tableData, setTableData] = useState([])
+    const [localSearchTerm, setLocalSearchTerm] = useState('')
+    const [searchResults, setSearchResults] = useState([])
 
     //  TEMP UNTIL WE WILL HAVE SDG IN API CALL
     const [updatedArticleData, setUpdatedArticleData] = useState(
@@ -46,15 +48,15 @@ const SdgTable = observer(
 
     useEffect(() => {
       if (sdgTableList) {
-        const initialData = sdgTableList.slice(0, 10)
-        setTableData(initialData)
+        setSearchResults(sdgTableList)
+        setTableData(sdgTableList.slice(0, 10))
       }
     }, [sdgTableList])
 
     const fetchData = () => {
       const startIndex = (page + 1) * 10
-      const endIndex = Math.min(startIndex + 10, sdgTableList.length)
-      const newData = sdgTableList.slice(startIndex, endIndex)
+      const endIndex = Math.min(startIndex + 10, searchResults.length)
+      const newData = searchResults.slice(startIndex, endIndex)
       setTableData((prevData) => [...prevData, ...newData])
       setPage(page + 1)
     }
@@ -112,11 +114,36 @@ const SdgTable = observer(
       }
     }, [articleAdditionalData, sdgTableList])
 
+    useEffect(() => {
+      const lowerSearchTerm = localSearchTerm.toLowerCase()
+      if (lowerSearchTerm) {
+        const filteredData = sdgTableList.filter(
+          (record) =>
+            record.oai.toLowerCase().includes(lowerSearchTerm) ||
+            record.title.toLowerCase().includes(lowerSearchTerm) ||
+            record.authors.some((author) =>
+              author.name.toLowerCase().includes(lowerSearchTerm)
+            )
+        )
+        setSearchResults(filteredData)
+        setTableData(filteredData.slice(0, 10))
+      } else {
+        setSearchResults(sdgTableList)
+        setTableData(sdgTableList.slice(0, 10))
+      }
+    }, [localSearchTerm, sdgTableList])
+
+    const searchChange = (event) => {
+      setLocalSearchTerm(event.target.value)
+      setPage(0)
+    }
+
     return (
       <Card className={styles.sdgTableWrapper} id="rrsTable">
         <Card.Title tag="h2">{texts.table.title}</Card.Title>
         <div className={styles.itemCountIndicator}>
-          We have found 32,456 paper with SDG. Review and download them below.
+          We have found {sdgTableList?.length} paper with SDG. Review and
+          download them below.
         </div>
         {sdgTableDataLoading ? (
           <div className={styles.dataSpinnerWrapper}>
@@ -133,9 +160,13 @@ const SdgTable = observer(
               rowIdentifier="articleId"
               data={tableData}
               size={tableData?.length}
-              totalLength={sdgTableList?.length}
+              totalLength={searchResults?.length}
               rowClick={(row) => onSetActiveArticle(row)}
               fetchData={fetchData}
+              searchable
+              localSearch
+              localSearchTerm={localSearchTerm}
+              searchChange={searchChange}
               renderDropDown={articleAdditionalData}
               details={
                 <TableArticle
