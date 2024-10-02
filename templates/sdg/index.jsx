@@ -6,7 +6,6 @@ import { router } from 'next/client'
 
 import DashboardHeader from '../../components/dashboard-header'
 import texts from '../../texts/sdg/sdg.yml'
-import ReChartV2 from './charts/rechartV2'
 import all from '../../components/upload/assets/allSdg.svg'
 import poverty from '../../components/upload/assets/poverty.svg'
 import hunger from '../../components/upload/assets/hunger.svg'
@@ -45,6 +44,7 @@ import goalH from '../../components/upload/assets/goalH.svg'
 import styles from './styles.module.css'
 import HorizontalChart from './charts/horizontalSdgChart'
 import SdgTable from './table/sdgTable'
+import ReChartBarChart from './charts/rechartV2'
 
 const sdgTypes = [
   {
@@ -186,6 +186,7 @@ const SdgPageTemplate = observer(
     sdgYearData,
     articleAdditionalData,
     articleAdditionalDataLoading,
+    sdgYearDataLoading,
     ...restProps
   }) => {
     const [toggle, setToggle] = useState(false)
@@ -246,10 +247,11 @@ const SdgPageTemplate = observer(
         {toggle ? (
           <HorizontalChart sdgTypes={sdgTypes} data={updatedSdgTypes} />
         ) : (
-          <ReChartV2
+          <ReChartBarChart
             sdgTypes={sdgTypes}
             data={data}
             updatedSdgTypes={updatedSdgTypes}
+            sdgYearDataLoading={sdgYearDataLoading}
           />
         )}
         <SdgTable

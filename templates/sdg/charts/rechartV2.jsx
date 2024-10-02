@@ -19,7 +19,12 @@ import text from '../../../texts/harvesting'
 import NumericValue from '../../../components/numeric-value'
 import { valueOrDefault } from '../../../utils/helpers'
 
-const ReChartV2 = ({ sdgTypes, data, updatedSdgTypes }) => {
+const ReChartBarChart = ({
+  sdgTypes,
+  data,
+  updatedSdgTypes,
+  sdgYearDataLoading,
+}) => {
   const [visibleColumns, setVisibleColumns] = useState(['all'])
 
   const toggleColumn = (id) => {
@@ -43,30 +48,39 @@ const ReChartV2 = ({ sdgTypes, data, updatedSdgTypes }) => {
           />
         </div>
         <div style={{ width: '100%', height: 400 }}>
-          <ResponsiveContainer>
-            <BarChart
-              data={data}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              {sdgTypes
-                .filter((sdg) => visibleColumns.includes(sdg.id))
-                .map((sdg) => (
-                  <Bar key={sdg.id} dataKey={sdg.id} fill={sdg.color}>
-                    <LabelList dataKey={sdg.id} position="top" />
-                  </Bar>
-                ))}
-            </BarChart>
-          </ResponsiveContainer>
+          {sdgYearDataLoading ? (
+            <div className={styles.loadingBarContainer}>
+              {Array.from({ length: 10 }).map((_, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={index} className={styles.loadingBar} />
+              ))}
+            </div>
+          ) : (
+            <ResponsiveContainer>
+              <BarChart
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                {sdgTypes
+                  .filter((sdg) => visibleColumns.includes(sdg.id))
+                  .map((sdg) => (
+                    <Bar key={sdg.id} dataKey={sdg.id} fill={sdg.color}>
+                      <LabelList dataKey={sdg.id} position="top" />
+                    </Bar>
+                  ))}
+              </BarChart>
+            </ResponsiveContainer>
+          )}
         </div>
       </div>
       <div className={styles.sdgIcons}>
@@ -81,9 +95,27 @@ const ReChartV2 = ({ sdgTypes, data, updatedSdgTypes }) => {
                 src={sdg.icon}
                 alt={sdg.id}
               />
-              <div className={styles.sdgBody}>
-                <span className={styles.sdgCount}>{sdg.outputCount}</span>
-                <p className={styles.sdgDescription}>outputs</p>
+              <div
+                className={classNames.use(styles.sdgBody, {
+                  [styles.activeSdgBody]: visibleColumns.includes(sdg.id),
+                })}
+              >
+                <span
+                  className={classNames.use(styles.sdgCount, {
+                    [styles.activeSdgCount]: visibleColumns.includes(sdg.id),
+                  })}
+                >
+                  {sdg.outputCount}
+                </span>
+                <p
+                  className={classNames.use(styles.sdgDescription, {
+                    [styles.activeSdgDescription]: visibleColumns.includes(
+                      sdg.id
+                    ),
+                  })}
+                >
+                  outputs
+                </p>
               </div>
             </button>
           </div>
@@ -92,4 +124,4 @@ const ReChartV2 = ({ sdgTypes, data, updatedSdgTypes }) => {
     </div>
   )
 }
-export default ReChartV2
+export default ReChartBarChart
