@@ -161,7 +161,12 @@
 }
 
 .icon-wrapper {
-  margin-bottom: 20px;
+  height: 43px;
+}
+
+.icon-wrapper img {
+  width: 100%;
+  height: 100%;
 }
 
 .sdg-count-h {
@@ -266,4 +271,10 @@
   height: 0;
   background-color: #f2f2f2;
   animation: grow 1.5s ease-in-out infinite;
+}
+
+.horizontal-view-chart-wrapper {
+  padding: 24px;
+  margin-bottom: 20px;
+  background: #fff;
 }

@@ -16,7 +16,7 @@ const CustomYAxisTick = ({ x, y, data, index }) => {
   const item = data[index]
   return (
     <g transform={`translate(${x},${y})`}>
-      <foreignObject x={-220} y={-25} width={200} height={50}>
+      <foreignObject x={-210} y={-22} width={200} height={43}>
         <div className={styles.iconWrapper}>
           <img src={item.iconH} alt={item.name} />
         </div>
@@ -44,12 +44,13 @@ const HorizontalChart = ({ data }) => {
   )
 
   return (
-    <div className={styles.chartWrapper}>
+    <div className={styles.horizontalViewChartWrapper}>
+      <h1>SDG articles by goals</h1>
       <ResponsiveContainer width="100%" height={sortedData.length * 50}>
         <BarChart
           layout="vertical"
           data={sortedData}
-          margin={{ top: 5, right: 30, left: 220, bottom: 5 }}
+          margin={{ top: 5, right: 30, left: 165, bottom: 5 }}
           barSize={50}
         >
           <XAxis
