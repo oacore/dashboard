@@ -33,6 +33,8 @@ const SdgTable = observer(
     const [page, setPage] = useState(0)
     const [loading, setLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
+    const [tableData, setTableData] = useState([])
+
     //  TEMP UNTIL WE WILL HAVE SDG IN API CALL
     const [updatedArticleData, setUpdatedArticleData] = useState(
       articleAdditionalData
@@ -41,6 +43,21 @@ const SdgTable = observer(
     useEffect(() => {
       getSdgTableData(providerId)
     }, [providerId])
+
+    useEffect(() => {
+      if (sdgTableList) {
+        const initialData = sdgTableList.slice(0, 10)
+        setTableData(initialData)
+      }
+    }, [sdgTableList])
+
+    const fetchData = () => {
+      const startIndex = (page + 1) * 10
+      const endIndex = Math.min(startIndex + 10, sdgTableList.length)
+      const newData = sdgTableList.slice(startIndex, endIndex)
+      setTableData((prevData) => [...prevData, ...newData])
+      setPage(page + 1)
+    }
 
     const getSdgIcon = (type, score) => {
       const sdg = sdgTypes.find((sdgItem) => sdgItem.id === type)
@@ -59,10 +76,6 @@ const SdgTable = observer(
     const onSetActiveArticle = async (row) => {
       await globalStore.dataProvider.getOutputsAdditionalData(row.id)
       setOutputsUrl(`https://core.ac.uk/outputs/${row.id}`)
-    }
-
-    const fetchData = () => {
-      setPage(page + 1)
     }
 
     const changeArticleVisibility = async (article) => {
@@ -118,8 +131,8 @@ const SdgTable = observer(
               className={styles.sdgTable}
               isHeaderClickable
               rowIdentifier="articleId"
-              data={sdgTableList}
-              size={sdgTableList?.length}
+              data={tableData}
+              size={tableData?.length}
               totalLength={sdgTableList?.length}
               rowClick={(row) => onSetActiveArticle(row)}
               fetchData={fetchData}
