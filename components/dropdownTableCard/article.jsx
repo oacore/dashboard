@@ -5,7 +5,7 @@ import { Popover } from '@oacore/design/lib/modules'
 import { useOutsideClick } from '@oacore/design/lib/hooks'
 
 import styles from './styles.module.css'
-import { ProgressSpinner } from '../../../design'
+import { ProgressSpinner } from '../../design'
 
 import Menu from 'components/menu'
 import { capitalize } from 'utils/helpers'
