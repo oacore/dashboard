@@ -5,6 +5,7 @@
 .toggle-wrapper {
   display: flex;
   justify-content: flex-end;
+  width: 30%;
   margin: 20px 0;
   font-size: 16px;
   font-style: normal;
