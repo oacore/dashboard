@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
-import { Switch } from '@oacore/design'
 
 import DashboardHeader from '../../components/dashboard-header'
 import texts from '../../texts/sdg/sdg.yml'
@@ -41,10 +40,9 @@ import landH from '../../components/upload/assets/landH.svg'
 import peaceH from '../../components/upload/assets/peaceH.svg'
 import goalH from '../../components/upload/assets/goalH.svg'
 import styles from './styles.module.css'
-import HorizontalChart from './charts/horizontalSdgChart'
 import SdgTable from './table/sdgTable'
-import ReChartBarChart from './charts/rechartV2'
 import { GlobalContext } from '../../store'
+import ChartToggler from './charts/chartToggler'
 
 const sdgTypes = [
   {
@@ -190,6 +188,13 @@ const SdgPageTemplate = observer(
     ...restProps
   }) => {
     const [toggle, setToggle] = useState(false)
+    const [visibleColumns, setVisibleColumns] = useState(['all'])
+
+    const toggleColumn = (id) => {
+      setVisibleColumns((prev) =>
+        prev.includes(id) ? prev.filter((col) => col !== id) : [...prev, id]
+      )
+    }
     const { ...globalStore } = useContext(GlobalContext)
 
     useEffect(() => {
@@ -234,24 +239,56 @@ const SdgPageTemplate = observer(
         {...restProps}
       >
         <DashboardHeader title={texts.title} description={texts.description} />
-        <div className={styles.toggleWrapper}>
-          <Switch
-            id="sdg-toggle"
-            checked={toggle}
-            onChange={handleToggle}
-            label={texts.chart.toggle.title}
-            className={styles.toggleSwitch}
-          />
-        </div>
-        {toggle ? (
-          <HorizontalChart sdgTypes={sdgTypes} data={updatedSdgTypes} />
-        ) : (
-          <ReChartBarChart
-            sdgTypes={sdgTypes}
-            data={data}
-            updatedSdgTypes={updatedSdgTypes}
-            sdgYearDataLoading={sdgYearDataLoading}
-          />
+        <ChartToggler
+          handleToggle={handleToggle}
+          toggle={toggle}
+          sdgTypes={sdgTypes}
+          updatedSdgTypes={updatedSdgTypes}
+          data={data}
+          sdgYearDataLoading={sdgYearDataLoading}
+          visibleColumns={visibleColumns}
+        />
+        {!toggle && (
+          <div className={styles.sdgIcons}>
+            {updatedSdgTypes.map((sdg) => (
+              <div key={sdg.id} className={styles.sdgIcon}>
+                {/* eslint-disable-next-line react/button-has-type */}
+                <button onClick={() => toggleColumn(sdg.id)}>
+                  <img
+                    className={classNames.use(styles.sdgImg, {
+                      [styles.sdgImgMain]: sdg.id === 'all',
+                    })}
+                    src={sdg.icon}
+                    alt={sdg.id}
+                  />
+                  <div
+                    className={classNames.use(styles.sdgBody, {
+                      [styles.activeSdgBody]: visibleColumns.includes(sdg.id),
+                    })}
+                  >
+                    <span
+                      className={classNames.use(styles.sdgCount, {
+                        [styles.activeSdgCount]: visibleColumns.includes(
+                          sdg.id
+                        ),
+                      })}
+                    >
+                      {sdg.outputCount}
+                    </span>
+                    <p
+                      className={classNames.use(styles.sdgDescription, {
+                        [styles.activeSdgDescription]: visibleColumns.includes(
+                          sdg.id
+                        ),
+                      })}
+                    >
+                      outputs
+                    </p>
+                  </div>
+                </button>
+              </div>
+            ))}
+          </div>
         )}
         <SdgTable
           sdgUrl={sdgUrl}

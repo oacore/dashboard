@@ -20,13 +20,66 @@
   width: 100%;
 }
 
-.inner-chart-wrapper {
-  padding: 24px;
-  background: #fff;
-}
-
 .item-count-indicator {
   margin-bottom: 10px;
+}
+
+.sdg-table td,
+.sdg-table th {
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sdg-table tr:hover {
+  cursor: pointer;
+  background: #eee;
+}
+
+.sdg-table th button:hover,
+.sdg-table th button:active {
+  cursor: pointer;
+  background: transparent;
+  box-shadow: unset;
+}
+
+.title-column {
+  width: 60%;
+  max-width: 5rem;
+}
+
+.authors-column {
+  width: 40%;
+  max-width: 5rem;
+}
+
+.ellipsis {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-spinner-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-text {
+  margin: 0 0 0 14px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #666;
+  letter-spacing: 0.021px;
 }
 
 .sdg-icons {
@@ -129,6 +182,7 @@
   line-height: 18px;
   color: #666;
   letter-spacing: 0.175px;
+  text-transform: capitalize;
 }
 
 .active-sdg-description {
@@ -276,5 +330,17 @@
 .horizontal-view-chart-wrapper {
   padding: 24px;
   margin-bottom: 20px;
+  background: #fff;
+  margin-top: 20px;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inner-chart-wrapper {
+  padding: 24px;
   background: #fff;
 }

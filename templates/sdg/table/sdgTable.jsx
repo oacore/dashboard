@@ -220,14 +220,33 @@ const SdgTable = observer(
               <Table.Column
                 id="title"
                 display="Title"
-                getter={(v) => v.title || '-'}
+                getter={(v) => (
+                  <Popover placement="top" content={v.title || '-'}>
+                    <div className={`${styles.titleColumn} ${styles.ellipsis}`}>
+                      {v.title || '-'}
+                    </div>
+                  </Popover>
+                )}
                 className={styles.titleColumn}
               />
               <Table.Column
                 id="authors"
                 display="Authors"
                 className={styles.authorsColumn}
-                getter={(v) => v.authors.map((author) => author.name).join(' ')}
+                getter={(v) => {
+                  const authors = v.authors
+                    .map((author) => author.name)
+                    .join(', ')
+                  return (
+                    <Popover placement="top" content={authors}>
+                      <div
+                        className={`${styles.authorsColumn} ${styles.ellipsis}`}
+                      >
+                        {authors}
+                      </div>
+                    </Popover>
+                  )
+                }}
               />
               <Table.Column
                 id="publicationDate"

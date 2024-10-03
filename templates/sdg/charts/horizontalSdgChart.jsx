@@ -44,41 +44,38 @@ const HorizontalChart = ({ data }) => {
   )
 
   return (
-    <div className={styles.horizontalViewChartWrapper}>
-      <h1>SDG articles by goals</h1>
-      <ResponsiveContainer width="100%" height={sortedData.length * 50}>
-        <BarChart
-          layout="vertical"
-          data={sortedData}
-          margin={{ top: 5, right: 30, left: 165, bottom: 5 }}
-          barSize={50}
-        >
-          <XAxis
-            type="number"
-            axisLine={false}
-            tickLine={false}
-            tick={{ fill: 'transparent' }}
-          />
-          <YAxis
-            type="category"
-            dataKey="name"
-            tick={({ x, y, index }) => (
-              <CustomYAxisTick x={x} y={y} data={sortedData} index={index} />
-            )}
-            axisLine={false}
-            tickLine={false}
-          />
-          <Tooltip />
-          <Bar dataKey="outputCount" fill="#8884d8">
-            <LabelList dataKey="outputCount" content={<CustomLabel />} />
-            {sortedData.map((entry, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Cell key={`cell-${index}`} fill={entry.color} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+    <ResponsiveContainer width="100%" height={sortedData.length * 50}>
+      <BarChart
+        layout="vertical"
+        data={sortedData}
+        margin={{ top: 5, right: 30, left: 165, bottom: 5 }}
+        barSize={50}
+      >
+        <XAxis
+          type="number"
+          axisLine={false}
+          tickLine={false}
+          tick={{ fill: 'transparent' }}
+        />
+        <YAxis
+          type="category"
+          dataKey="name"
+          tick={({ x, y, index }) => (
+            <CustomYAxisTick x={x} y={y} data={sortedData} index={index} />
+          )}
+          axisLine={false}
+          tickLine={false}
+        />
+        <Tooltip />
+        <Bar dataKey="outputCount" fill="#8884d8">
+          <LabelList dataKey="outputCount" content={<CustomLabel />} />
+          {sortedData.map((entry, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <Cell key={`cell-${index}`} fill={entry.color} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
   )
 }
 
