@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 import { Switch } from '@oacore/design'
-import { router } from 'next/client'
 
 import DashboardHeader from '../../components/dashboard-header'
 import texts from '../../texts/sdg/sdg.yml'
@@ -45,6 +44,7 @@ import styles from './styles.module.css'
 import HorizontalChart from './charts/horizontalSdgChart'
 import SdgTable from './table/sdgTable'
 import ReChartBarChart from './charts/rechartV2'
+import { GlobalContext } from '../../store'
 
 const sdgTypes = [
   {
@@ -190,12 +190,11 @@ const SdgPageTemplate = observer(
     ...restProps
   }) => {
     const [toggle, setToggle] = useState(false)
-
-    const providerId = router.query['data-provider-id']
+    const { ...globalStore } = useContext(GlobalContext)
 
     useEffect(() => {
-      getSdgYearData(providerId)
-    }, [providerId])
+      getSdgYearData(globalStore.dataProvider.id)
+    }, [globalStore.dataProvider.id])
 
     const handleToggle = (event) => {
       setToggle(event.target.checked)

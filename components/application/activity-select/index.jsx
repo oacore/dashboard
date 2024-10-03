@@ -47,6 +47,8 @@ const ActivitySelectOption = ({
     setShowSubMenuState(false)
   }
 
+  if (dataProviderId !== 86 && value === 'sdg') return null
+
   return subMenu ? (
     <div>
       {/* eslint-disable-next-line max-len */}
