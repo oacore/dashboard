@@ -181,8 +181,8 @@
   font-weight: 400;
   line-height: 18px;
   color: #666;
-  letter-spacing: 0.175px;
   text-transform: capitalize;
+  letter-spacing: 0.175px;
 }
 
 .active-sdg-description {
@@ -329,15 +329,15 @@
 
 .horizontal-view-chart-wrapper {
   padding: 24px;
+  margin-top: 20px;
   margin-bottom: 20px;
   background: #fff;
-  margin-top: 20px;
 }
 
 .header-wrapper {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .inner-chart-wrapper {
