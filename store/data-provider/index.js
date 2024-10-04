@@ -509,7 +509,7 @@ class DataProvider extends Resource {
 
       if (response.ok && response.status === 200) {
         const data = await response.json()
-        this.setSdgTableList(data)
+        this.setSdgTableList(data.data)
       } else throw new Error('Failed to fetch rrs data')
     } catch (error) {
       console.error('Error fetching rrs data:', error)
