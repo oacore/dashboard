@@ -4,7 +4,6 @@ import {
   Bar,
   XAxis,
   YAxis,
-  Tooltip,
   ResponsiveContainer,
   Cell,
   LabelList,
@@ -25,16 +24,29 @@ const CustomYAxisTick = ({ x, y, data, index }) => {
   )
 }
 
-const CustomLabel = ({ x, y, width, value }) => (
-  <g transform={`translate(${x + width - 10},${y + 25})`}>
-    <text className={styles.sdgCountWrapper} fill="#fff" textAnchor="end">
-      <tspan>
-        <tspan className={styles.sdgCountH}>{value}</tspan>
-        <tspan className={styles.sdgDescriptionH}>&nbsp;Papers</tspan>
-      </tspan>
-    </text>
-  </g>
-)
+const CustomLabel = ({ x, y, width, value }) => {
+  const labelWidth = value.toString().length * 30
+  const fitsInside = width > labelWidth
+
+  return (
+    <g
+      transform={`translate(${x + (fitsInside ? width - 10 : width + 10)},${
+        y + 25
+      })`}
+    >
+      <text
+        className={styles.sdgCountWrapper}
+        fill={fitsInside ? '#fff' : '#000'}
+        textAnchor={fitsInside ? 'end' : 'start'}
+      >
+        <tspan>
+          <tspan className={styles.sdgCountH}>{value}</tspan>
+          <tspan className={styles.sdgDescriptionH}>&nbsp;Papers</tspan>
+        </tspan>
+      </text>
+    </g>
+  )
+}
 
 const HorizontalChart = ({ data }) => {
   const filteredData = data.filter((item) => item.id !== 'all' && item.iconH)
@@ -66,7 +78,6 @@ const HorizontalChart = ({ data }) => {
           axisLine={false}
           tickLine={false}
         />
-        <Tooltip />
         <Bar dataKey="outputCount" fill="#8884d8">
           <LabelList dataKey="outputCount" content={<CustomLabel />} />
           {sortedData.map((entry, index) => (

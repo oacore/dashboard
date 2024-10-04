@@ -43,6 +43,7 @@ import styles from './styles.module.css'
 import SdgTable from './table/sdgTable'
 import { GlobalContext } from '../../store'
 import ChartToggler from './charts/chartToggler'
+import { formatNumber } from '../../utils/helpers'
 
 const sdgTypes = [
   {
@@ -273,7 +274,7 @@ const SdgPageTemplate = observer(
                         ),
                       })}
                     >
-                      {sdg.outputCount}
+                      {formatNumber(sdg.outputCount)}
                     </span>
                     <p
                       className={classNames.use(styles.sdgDescription, {
