@@ -79,6 +79,11 @@ const config = new RouteConfig([
     icon: 'file-check',
   },
   {
+    test: /\/fair/,
+    path: 'fair',
+    icon: 'metadata-validator',
+  },
+  {
     test: /\/plugins/,
     path: 'plugins',
     icon: 'puzzle',

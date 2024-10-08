@@ -24,7 +24,7 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
     issueAggregation?.countByType?.RESTRICTED_ATTACHMENT ?? null
 
   const usrnParams = {
-    template: 'usrn',
+    template: 'fair',
     dataProviderId: dataProvider.id,
     dataProviderName: dataProvider.name,
     billingPlan: organisation.billingPlan,

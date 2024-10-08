@@ -6,11 +6,16 @@ import StatUSRN from '../../../components/usrn-stat'
 import LinkToolKit from '../../../components/usrn-text/linkToolKit'
 
 import { Card, Button } from 'design'
-import * as texts from 'texts/usrn'
+import * as textsUSRN from 'texts/usrn'
+import * as textsFAIR from 'texts/fair'
 import Markdown from 'components/markdown'
 
 const StatusCard = ({ usrnParams }) => {
-  const { usrnDateReportUpdate } = usrnParams
+  const { usrnDateReportUpdate, template } = usrnParams
+
+  let texts = textsFAIR
+  if (template === 'usrn') texts = textsUSRN
+
   const handleDownloadPDF = () => {
     window.print()
   }
