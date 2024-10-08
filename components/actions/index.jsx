@@ -10,11 +10,17 @@ const Actions = ({
   downloadUrl,
   description,
   hoverIcon,
+  hoverText = false,
 }) => (
   <Tag className={classNames.use(styles.container).join(className)}>
-    {description && (
+    {description && hoverIcon && (
       <Popover className={styles.popover} placement="top" content={description}>
         <Button>{hoverIcon}</Button>
+      </Popover>
+    )}
+    {description && hoverText && (
+      <Popover className={styles.popover} placement="top" content={description}>
+        <span>{hoverText}</span>
       </Popover>
     )}
     {downloadUrl && (
