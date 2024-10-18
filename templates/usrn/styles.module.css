@@ -1,0 +1,113 @@
+%item {
+  flex: 3 3 90%;
+  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  padding: var(--component-padding-y, 1rem) 0;
+
+  & > * {
+    @extend %item;
+  }
+}
+
+/*  USRN styles */
+.header-card {
+  color: #212121;
+  border-bottom: 2px solid #b75400;
+}
+
+.header-title {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.header-description {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.header-description a {
+  color: #212121;
+  text-decoration: underline;
+}
+
+.status-title-first {
+  max-width: 850px;
+  padding-bottom: 15px;
+  margin: 0 auto;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 41.6px;
+  text-align: center;
+}
+
+.status-description-first {
+  max-width: 670px;
+  padding-bottom: 15px;
+  margin: 0 auto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  color: #757575;
+  text-align: center;
+}
+
+.status-date-report-wrapper {
+  padding: 30px 0;
+  text-align: right;
+}
+
+.status-date-report-first {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  text-align: right;
+}
+
+.header-button {
+  margin-left: 15px;
+}
+
+.status-date-report-second {
+  padding: 5px 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18.2px;
+  text-align: center;
+  letter-spacing: 0.003em;
+}
+
+.status-wrapper,
+.status-line-splitter {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.status-line-splitter {
+  margin: 10px auto;
+  border-bottom: 2px solid #b75400;
+}
+
+.status-text-title {
+  padding-top: 10px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 31.2px;
+  text-align: left;
+  letter-spacing: 0.0015em;
+}
+
+.status-text-description {
+  padding: 10px 0 25px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18.2px;
+  text-align: left;
+  letter-spacing: 0.003em;
+}
