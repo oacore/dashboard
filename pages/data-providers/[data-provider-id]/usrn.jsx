@@ -9,7 +9,12 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
     Object.values(texts.status.usrnListDataProvider).indexOf(dataProvider?.id) >
     -1
 
-  if (!isUSRNActivated) return <USRNTemplateDeactivated {...props} />
+  let usrnParams = {
+    template: 'usrn',
+  }
+
+  if (!isUSRNActivated)
+    return <USRNTemplateDeactivated usrnParams={usrnParams} {...props} />
 
   const formattedDateReport = dataProvider?.usrn?.dateReportUpdate
     ? new Intl.DateTimeFormat('en-US', {
@@ -23,7 +28,7 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
   const issueRestrictedAttachment =
     issueAggregation?.countByType?.RESTRICTED_ATTACHMENT ?? null
 
-  const usrnParams = {
+  usrnParams = {
     template: 'usrn',
     dataProviderId: dataProvider.id,
     dataProviderName: dataProvider.name,
