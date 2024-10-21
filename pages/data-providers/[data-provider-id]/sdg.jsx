@@ -6,7 +6,7 @@ import SdgPageTemplate from '../../../templates/sdg'
 const SdgPage = ({ store, ...props }) => {
   const dataProviderId = store.dataProvider?.id
 
-  if (dataProviderId !== 86) return null
+  if (dataProviderId !== 86 && store.organisation.id !== 1010) return null
 
   return (
     <SdgPageTemplate

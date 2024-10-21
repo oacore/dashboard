@@ -21,6 +21,7 @@ const TableArticle = ({
   changeVisibility,
   articleAdditionalDataLoading,
   getSdgIcon,
+  removeLiveActions,
 }) => {
   const [visibleMenu, setVisibleMenu] = useState(false)
 
@@ -81,45 +82,64 @@ const TableArticle = ({
         <>
           <div className={styles.articleHeader}>
             <h2>{article.title}</h2>
-            <div className={styles.actions} ref={menuRef}>
-              <Popover placement="top" content={visibility?.extraText}>
-                <Button
-                  disabled={loading}
-                  className={classNames.use(styles.actionButton, {
-                    [styles.actionButtonDisabled]: visibility?.disabled,
-                  })}
-                  onClick={() => changeVisibility(article)}
-                >
-                  <Icon
-                    src={`#${visibility?.icon}`}
-                    className={styles.actionButtonIcon}
-                  />
-                  {visibility?.title}
-                </Button>
-              </Popover>
-              <Button
-                className={styles.actionButtonPure}
-                onClick={toggleVisibleMenu}
-                ref={menuRef}
+            {removeLiveActions ? (
+              <div
+                className={classNames.use(styles.actions, {
+                  [styles.gap]: removeLiveActions,
+                })}
               >
-                <Icon src="#dots-vertical" />
-              </Button>
-              <Menu visible={visibleMenu} className={styles.menu}>
-                {actions.map(({ title, key, generatedUrl }) => (
-                  <Menu.Item
-                    key={key}
-                    target="_blank"
-                    href={
-                      generatedUrl
-                        ? outputsUrl
-                        : `${process.env.IDP_URL}/oai/${article.oai}`
-                    }
+                <Button variant="outlined" target="_blank" href={outputsUrl}>
+                  Open in CORE
+                </Button>
+                <Button
+                  variant="outlined"
+                  target="_blank"
+                  href={`${process.env.IDP_URL}/oai/${article.oai}`}
+                >
+                  Open in the Repository
+                </Button>
+              </div>
+            ) : (
+              <div className={styles.actions} ref={menuRef}>
+                <Popover placement="top" content={visibility?.extraText}>
+                  <Button
+                    disabled={loading}
+                    className={classNames.use(styles.actionButton, {
+                      [styles.actionButtonDisabled]: visibility?.disabled,
+                    })}
+                    onClick={() => changeVisibility(article)}
                   >
-                    {title}
-                  </Menu.Item>
-                ))}
-              </Menu>
-            </div>
+                    <Icon
+                      src={`#${visibility?.icon}`}
+                      className={styles.actionButtonIcon}
+                    />
+                    {visibility?.title}
+                  </Button>
+                </Popover>
+                <Button
+                  className={styles.actionButtonPure}
+                  onClick={toggleVisibleMenu}
+                  ref={menuRef}
+                >
+                  <Icon src="#dots-vertical" />
+                </Button>
+                <Menu visible={visibleMenu} className={styles.menu}>
+                  {actions.map(({ title, key, generatedUrl }) => (
+                    <Menu.Item
+                      key={key}
+                      target="_blank"
+                      href={
+                        generatedUrl
+                          ? outputsUrl
+                          : `${process.env.IDP_URL}/oai/${article.oai}`
+                      }
+                    >
+                      {title}
+                    </Menu.Item>
+                  ))}
+                </Menu>
+              </div>
+            )}
           </div>
           <div className={styles.wrapper}>
             {fields.map(

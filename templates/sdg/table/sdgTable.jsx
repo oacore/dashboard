@@ -11,6 +11,7 @@ import { GlobalContext } from '../../../store'
 import request from '../../../api'
 import ExportButton from '../../../components/export-button'
 import TableArticle from '../../../components/dropdownTableCard/article'
+import { formatNumber } from '../../../utils/helpers'
 
 import Table from 'components/table'
 
@@ -23,6 +24,7 @@ const SdgTable = observer(
     sdgTableDataLoading,
     articleAdditionalData,
     articleAdditionalDataLoading,
+    outputCount,
   }) => {
     const router = useRouter()
     const providerId = router.query['data-provider-id']
@@ -142,7 +144,7 @@ const SdgTable = observer(
       <Card className={styles.sdgTableWrapper} id="rrsTable">
         <Card.Title tag="h2">{texts.table.title}</Card.Title>
         <div className={styles.itemCountIndicator}>
-          We have found {sdgTableList?.length} paper with SDG. Review and
+          We have found {formatNumber(outputCount)} paper with SDG. Review and
           download them below.
         </div>
         {sdgTableDataLoading ? (
@@ -176,6 +178,7 @@ const SdgTable = observer(
                   outputsUrl={outputsUrl}
                   articleAdditionalDataLoading={articleAdditionalDataLoading}
                   getSdgIcon={getSdgIcon}
+                  removeLiveActions
                 />
               }
             >

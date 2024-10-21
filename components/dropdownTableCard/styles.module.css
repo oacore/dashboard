@@ -30,6 +30,10 @@
   margin-right: 18px;
 }
 
+.gap {
+  gap: 22px;
+}
+
 .action-button {
   display: inline-flex;
   align-items: center;

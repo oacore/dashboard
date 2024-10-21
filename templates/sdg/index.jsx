@@ -299,6 +299,7 @@ const SdgPageTemplate = observer(
           sdgTypes={sdgTypes}
           articleAdditionalData={articleAdditionalData}
           articleAdditionalDataLoading={articleAdditionalDataLoading}
+          outputCount={updatedSdgTypes[0].outputCount}
         />
       </Tag>
     )
