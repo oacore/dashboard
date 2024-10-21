@@ -78,11 +78,11 @@ const config = new RouteConfig([
     path: 'usrn',
     icon: 'file-check',
   },
-  // {
-  //   test: /\/fair/,
-  //   path: 'fair',
-  //   icon: 'metadata-validator',
-  // },
+  {
+    test: /\/fair/,
+    path: 'fair',
+    icon: 'metadata-validator',
+  },
   {
     test: /\/plugins/,
     path: 'plugins',

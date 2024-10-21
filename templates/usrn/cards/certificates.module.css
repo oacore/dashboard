@@ -1,0 +1,97 @@
+.cards-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 30px;
+  text-align: center;
+  margin: 25px 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30%;
+  height: 425px;
+}
+
+.title {
+  height: 119px;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 32px;
+  padding-top: 15px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+.certified {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  letter-spacing: 0.08em;
+}
+
+.description-wrapper {
+  height: 100%;
+}
+
+.certificate-active .title {
+  background-color: #5a9216;
+  color: #fff;
+}
+
+.certificate-active .description-wrapper {
+  border: 2px solid #5a9216;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background: #f5f5f5;
+}
+
+.certificate-not-active .title {
+  background-color: #fef5ef;
+  color: #000;
+  border-bottom: 23px solid #b75400;
+}
+
+.certificate-not-active .description-wrapper {
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.description {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  margin: 0 auto;
+  color: #000000de;
+  padding: 0 20px 30px;
+}
+
+.access-text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: #5a9216;
+}
+
+.get-certificate-btn {
+  padding: 8px 16px;
+  background: #b75400;
+  color: #fff;
+  text-transform: uppercase;
+  border-radius: 4px;
+  margin: 0 auto;
+  display: inline-block;
+}
+
+.img {
+  margin: 30px 0;
+}
