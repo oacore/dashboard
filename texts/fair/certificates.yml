@@ -2,7 +2,6 @@ typeCertificates:
   - id: bronze
     title: Bronze
     isEnable: yes
-    img: ../components/upload/assets/certificate-bronze.svg
     description: |
       Access to basic functionality of CORE services as they are.
     accessText: |
@@ -10,7 +9,6 @@ typeCertificates:
   - id: silver
     title: Silver
     isEnable: yes
-    img: ../../components/upload/assets/certificate-silver.svg
     description: |
       Co-funds the maintenance of CORE services as they are.
     accessText: |
@@ -18,7 +16,6 @@ typeCertificates:
   - id: gold
     title: Gold
     isEnable: yes
-    img: ../../../components/upload/assets/certificate-gold.svg
     description: |
       Co-funds the maintenance of CORE services and their continuous improvement.
     accessText: |

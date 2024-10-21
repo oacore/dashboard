@@ -2,6 +2,9 @@ import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './certificates.module.css'
+import silver from '../../../components/upload/assets/certificate-silver.png'
+import gold from '../../../components/upload/assets/certificate-gold.png'
+import bronze from '../../../components/upload/assets/certificate-bronze.png'
 
 import { Card } from 'design'
 import * as textsFAIR from 'texts/fair'
@@ -30,15 +33,22 @@ const CertificatesCard = () => (
                 )}
               </div>
               <div className={styles.descriptionWrapper}>
-                {textsFAIR.certificates.typeCertificates[key].img && (
-                  <img
-                    className={styles.img}
-                    src={textsFAIR.certificates.typeCertificates[key].img}
-                    width="110px"
-                    height="110px"
-                    alt={textsFAIR.certificates.typeCertificates[key].title}
-                  />
-                )}
+                <img
+                  className={styles.img}
+                  src={
+                    (textsFAIR.certificates.typeCertificates[key].id ===
+                      'silver' &&
+                      silver) ||
+                    (textsFAIR.certificates.typeCertificates[key].id ===
+                      'gold' &&
+                      gold) ||
+                    (textsFAIR.certificates.typeCertificates[key].id ===
+                      'bronze' &&
+                      bronze)
+                  }
+                  width="116"
+                  alt={textsFAIR.certificates.typeCertificates[key].title}
+                />
                 <div className={styles.description}>
                   {textsFAIR.certificates.typeCertificates[key].description}
                 </div>
@@ -49,9 +59,9 @@ const CertificatesCard = () => (
                   </div>
                 )}
                 {!isActiveCertificate && (
-                  <div className={styles.getCertificateBtn}>
+                  <a href="/" className={styles.getCertificate}>
                     Get certification
-                  </div>
+                  </a>
                 )}
               </div>
             </div>
