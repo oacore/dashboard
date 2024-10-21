@@ -7,11 +7,14 @@ buttons:
   update: Update report
   download: Download in PDF
 statusItems:
-  - id: freeAndEasy
-    isEnable: no
+  - id: findable
+    isEnable: yes
     type: text
-    title: Free and Easy Discoverability & Access
+    title: Findable
     description: |
+      The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers.
+      Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential
+      component of the FAIRification process.
     linkDocumentation: 0
     linkToolKit: 0
   - id: repositoryOAIPMH
@@ -28,80 +31,6 @@ statusItems:
     description: |
     prefix: |
       Number of metadata records:
-  - id: accessFullTexts
-    isEnable: yes
-    type: statistic
-    title: Do you provide access to full texts of research papers for your content?
-    description: |
-    prefix: |
-      Percentage of documents with access to full text:
-  - id: clearUseGuidance
-    isEnable: no
-    type: text
-    title: Clear Use Guidance
-    description: |
-    linkDocumentation: 0
-    linkToolKit: 0
-  - id: licensingMetadata
-    isEnable: no
-    type: statistic
-    title: Licensing
-    description: |
-    prefix: |
-    recommendation: |
-  - id: uniquePersistentIdentifiers
-    isEnable: no
-    type: text
-    title: Unique Persistent Identifiers
-    description: |
-    linkDocumentation: 0
-    linkToolKit: 0
-  - id: researchDatasets
-    isEnable: no
-    type: statistic
-    title: Links to research datasets
-    description: |
-    prefix: |
-  - id: accessibilityStatements
-    isEnable: no
-    type: statistic
-    title: Do you provide data accessibility statements
-    description: |
-  - id: sourceCode
-    isEnable: no
-    type: statistic
-    title: Do you provide links to source code
-    description: |
-    prefix: |
-  - id: doi
-    isEnable: no
-    type: statistic
-    title: DOI
-    description: |
-    prefix: |
-  - id: ORCID
-    isEnable: no
-    type: statistic
-    title: ORCID
-    description: |
-    prefix: |
-    linkDocumentation: 0
-    linkToolKit: 0
-    textToolKit: Link to documentation
-  - id: ROR
-    isEnable: no
-    type: statistic
-    title: ROR
-    description: |
-    recommendation: |
-    prefix: |
-  - id: metadata
-    isEnable: no
-    type: text
-    title: Metadata
-    description: |
-    linkDocumentation: 0
-    linkToolKit: 0
   - id: signpostingFAIR
     isEnable: yes
     type: statistic
@@ -121,6 +50,44 @@ statusItems:
     recommendation: |
     prefix: |
     linkToolKit: https://zenodo.org/records/7108101
+  - id: applicationProfile
+    isEnable: yes
+    type: statistic
+    title: Your repository metadata supports a widely used Application Profile
+    description: |
+      Ensuring the usage of a well-known application profile means that the metadata of the publication is described in a less ambiguous and more accurate way.
+      Most used publications profiles are the OpenAIRE Guidelines 3.0+ and the RIOXX metadata application profile.
+    prefix: |
+    recommendation: |
+          CORE requires Dublin Core as a minimum; it supports OpenAIRE Guidelines; and it recommends RIOXX version 3.
+
+          CORE recommends that repositories use RIOXX v3, which we consider to be the most suitable metadata application profile
+          for describing scholarly research outputs. Rioxx: The Research Outputs Metadata Schema was developed
+          for institutional repositories to share metadata about the scholarly resources they contain.
+
+          Information about how to comply with metadata recommendation s are provided in the CORE Data Provider’s Guide.
+  ########################################################################################################################
+  - id: accessible
+    isEnable: yes
+    type: text
+    title: Accessible
+    description: |
+      Once the user finds the required data, she/he/they need to know how they can be accessed,
+      possibly including authentication and authorisation.
+  - id: accessFullTexts
+    isEnable: yes
+    type: statistic
+    title: Do you provide access to full texts of research papers for your content?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH
+      in the remainder of this document) provides an application-independent interoperability
+      framework based on metadata harvesting. Read more.
+    prefix: |
+      Percentage of documents with access to full text:
+    recommendation: |
+      The data on this list is cached for performance reasons. Once you completed your work
+      please click here to refresh the cache. The processing will take some time
+      but you will be able to see the updated data
   - id: embargoedDocuments
     isEnable: yes
     type: statistic
@@ -129,6 +96,66 @@ statusItems:
     prefix: |
       Percentage of embargoed documents:
     recommendation: |
+  ########################################################################################################################
+  - id: interoperable
+    isEnable: yes
+    type: text
+    title: Interoperable
+    description: |
+      The data usually need to be integrated with other data. In addition, the data need to interoperate
+      with applications or workflows for analysis, storage, and processing.
+  ########################################################################################################################
+  - id: reusable
+    isEnable: yes
+    type: text
+    title: Reusable
+    description: |
+      The ultimate goal of FAIR is to optimise the reuse of data. To achieve this, metadata
+      and data should be well-described so that they can be replicated and/or combined in different settings.
+  - id: accessibilityStatements
+    isEnable: yes
+    type: statistic
+    title: Do you provide data accessibility statements
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the
+      OAI-PMH in the remainder of this document) provides an application-independent interoperability
+      framework based on metadata harvesting. Read more.
+  - id: sourceCode
+    isEnable: yes
+    type: statistic
+    title: Do you provide links to source code
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder
+      of this document) provides an application-independent interoperability framework based on metadata harvesting. Read more.
+    prefix: |
+  ########################################################################################################################
+  - id: fitFunders
+    isEnable: yes
+    type: text
+    title: Fit for funders
+    description: |
+      The first step in (re)using data is to find them. Metadata and data should be easy to find
+      for both humans and computers. Machine-readable metadata are essential for automatic
+      discovery of datasets and services, so this is an essential component of the FAIRification process.
+  ########################################################################################################################
+  - id: fitFuture
+    isEnable: yes
+    type: text
+    title: Fit for future
+    description: |
+      The first step in (re)using data is to find them. Metadata and data should be easy to find for both
+      humans and computers. Machine-readable metadata are essential for automatic discovery of
+      datasets and services, so this is an essential component of the FAIRification process.
+  ########################################################################################################################
+  - id: environmental
+    isEnable: yes
+    type: text
+    title: Operational / Environmental considerations
+    description: |
+      We have run an automatic check of your repository. To get certification please arswer following questions:
+  ########################################################################################################################
+
+
   - id: broadMeasuredReuse
     isEnable: no
     type: text
@@ -149,22 +176,6 @@ statusItems:
     description: |
     linkDocumentation: 0
     linkToolKit: 0
-  - id: applicationProfile
-    isEnable: yes
-    type: statistic
-    title: Your repository metadata supports a widely used Application Profile
-    description: |
-      Ensuring the usage of a well-known application profile means that the metadata of the publication is described in a less ambiguous and more accurate way.
-      Most used publications profiles are the OpenAIRE Guidelines 3.0+ and the RIOXX metadata application profile.
-    prefix: |
-    recommendation: |
-          CORE requires Dublin Core as a minimum; it supports OpenAIRE Guidelines; and it recommends RIOXX version 3.
-
-          CORE recommends that repositories use RIOXX v3, which we consider to be the most suitable metadata application profile
-          for describing scholarly research outputs. Rioxx: The Research Outputs Metadata Schema was developed
-          for institutional repositories to share metadata about the scholarly resources they contain.
-
-          Information about how to comply with metadata recommendation s are provided in the CORE Data Provider’s Guide.
   - id: preservation
     isEnable: no
     type: text
@@ -211,6 +222,69 @@ statusItems:
     isEnable: no
     type: text
     title: Security and Integrity
+    description: |
+    linkDocumentation: 0
+    linkToolKit: 0
+  - id: freeAndEasy
+    isEnable: no
+    type: text
+    title: Free and Easy Discoverability & Access
+    description: |
+    linkDocumentation: 0
+    linkToolKit: 0
+  - id: clearUseGuidance
+    isEnable: no
+    type: text
+    title: Clear Use Guidance
+    description: |
+    linkDocumentation: 0
+    linkToolKit: 0
+  - id: licensingMetadata
+    isEnable: no
+    type: statistic
+    title: Licensing
+    description: |
+    prefix: |
+    recommendation: |
+  - id: uniquePersistentIdentifiers
+    isEnable: no
+    type: text
+    title: Unique Persistent Identifiers
+    description: |
+    linkDocumentation: 0
+    linkToolKit: 0
+  - id: researchDatasets
+    isEnable: no
+    type: statistic
+    title: Links to research datasets
+    description: |
+    prefix: |
+  - id: doi
+    isEnable: no
+    type: statistic
+    title: DOI
+    description: |
+    prefix: |
+  - id: ORCID
+    isEnable: no
+    type: statistic
+    title: ORCID
+    description: |
+    prefix: |
+    linkDocumentation: 0
+    linkToolKit: 0
+    textToolKit: Link to documentation
+  - id: ROR
+    isEnable: no
+    type: statistic
+    title: ROR
+    description: |
+    recommendation: |
+    prefix: |
+  - id: metadata
+    isEnable: no
+    type: text
+    title: Metadata
     description: |
     linkDocumentation: 0
     linkToolKit: 0
