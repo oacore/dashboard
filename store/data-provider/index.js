@@ -39,6 +39,14 @@ class DataProvider extends Resource {
     fullTextCount: null,
   }
 
+  @observable usrn = {
+    license: null,
+    vocabulariesCOAR: null,
+    dateReportUpdate: null,
+    supportsBetterMetadata: null,
+    supportSignposting: null,
+  }
+
   @observable plugins = {
     discovery: null,
     recommender: null,
@@ -368,6 +376,7 @@ class DataProvider extends Resource {
         this.fetchApiUsers()
         this.fetchDatasetUsers()
         this.retrieveLogo()
+        this.retrieveUSRNStatistics()
 
         const url = `/data-providers/${this.id}`
         this.works = new Works(this.rootStore, url, this.options)
@@ -423,6 +432,22 @@ class DataProvider extends Resource {
       const { data } = await await apiRequest(url)
 
       Object.assign(this.statistics, data)
+    } catch (error) {
+      // Ignore errors for this moment
+    }
+  }
+
+  @action
+  async retrieveUSRNStatistics() {
+    const url = new URL(
+      `/internal/data-providers/${this.id}/usrn`,
+      process.env.API_URL
+    ).href
+
+    try {
+      const { data } = await await apiRequest(url)
+
+      Object.assign(this.usrn, data)
     } catch (error) {
       // Ignore errors for this moment
     }

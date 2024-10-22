@@ -12,6 +12,8 @@ items:
   sdg: SDG
   doi: DOI
   plugins: Plugins
+  usrn: USRN
+  fair: FAIR
   plugins/discovery: Discovery Plugin
   plugins/recommender: Recommender Plugin
   statistics: Statistics
