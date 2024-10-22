@@ -31,16 +31,6 @@ statusItems:
     description: |
     prefix: |
       Number of metadata records:
-  - id: signpostingFAIR
-    isEnable: yes
-    type: statistic
-    title: Do you support FAIR Signposting?
-    description: |
-    recommendation: |
-    linkDocumentation: 0
-    linkToolKit: 0
-    textToolKit: Link to documentation
-    prefix: |
   - id: vocabulariesCOAR
     isEnable: yes
     type: statistic
@@ -93,6 +83,8 @@ statusItems:
     type: statistic
     title: Do you label embargoed documents?
     description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder
+      of this document) provides an application-independent interoperability framework based on metadata harvesting. Read more.
     prefix: |
       Percentage of embargoed documents:
     recommendation: |
@@ -104,6 +96,28 @@ statusItems:
     description: |
       The data usually need to be integrated with other data. In addition, the data need to interoperate
       with applications or workflows for analysis, storage, and processing.
+  - id: signpostingFAIR
+    isEnable: yes
+    type: statistic
+    title: Do you support FAIR Signposting?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document)
+      provides an application-independent interoperability framework based on metadata harvesting. Read more.
+    recommendation: |
+      The data on this list is cached for performance reasons. Once you completed your work please click here to refresh the cache.
+      The processing will take some time but you will be able to see the updated data
+    linkDocumentation: 0
+    linkToolKit: 0
+    textToolKit: Link to documentation
+    prefix: |
+  - id: repositorySupportPersistent
+    isEnable: yes
+    type: statistic
+    title: Does your repository support persistent management of records?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document)
+      provides an application-independent interoperability framework based on metadata harvesting. Read more.
+    recommendation: |
   ########################################################################################################################
   - id: reusable
     isEnable: yes
@@ -128,6 +142,14 @@ statusItems:
       The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder
       of this document) provides an application-independent interoperability framework based on metadata harvesting. Read more.
     prefix: |
+  - id: recordsProvideAccessibility
+    isEnable: yes
+    type: statistic
+    title: What proportion of your records provide data accessibility statements? (0-100%)
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document)
+      provides an application-independent interoperability framework based on metadata harvesting. Read more.
+    prefix: |
   ########################################################################################################################
   - id: fitFunders
     isEnable: yes
@@ -137,6 +159,34 @@ statusItems:
       The first step in (re)using data is to find them. Metadata and data should be easy to find
       for both humans and computers. Machine-readable metadata are essential for automatic
       discovery of datasets and services, so this is an essential component of the FAIRification process.
+  - id:  datesOfDeposit
+    isEnable: yes
+    type: statistic
+    title: Do you expose metadata about dates of deposit?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an
+      application-independent interoperability framework based on metadata harvesting. Read more.
+  - id:  researchOutputs
+    isEnable: yes
+    type: statistic
+    title: Do you provide information about funding bodies for the research outputs?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an
+      application-independent interoperability framework based on metadata harvesting. Read more.
+  - id:  informationAboutProject
+    isEnable: yes
+    type: statistic
+    title: Do you provide in the metadata information about project IDs?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an
+      application-independent interoperability framework based on metadata harvesting. Read more.
+  - id:  metadataRecordsSupport
+    isEnable: yes
+    type: statistic
+    title: What proportion of your metadata records support deposit dates? (0-100%)
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an
+      application-independent interoperability framework based on metadata harvesting. Read more.
   ########################################################################################################################
   - id: fitFuture
     isEnable: yes
@@ -146,6 +196,21 @@ statusItems:
       The first step in (re)using data is to find them. Metadata and data should be easy to find for both
       humans and computers. Machine-readable metadata are essential for automatic discovery of
       datasets and services, so this is an essential component of the FAIRification process.
+  - id: supportResourceSync
+    isEnable: yes
+    type: statistic
+    title: Do you support ResourceSync
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an
+      application-independent interoperability framework based on metadata harvesting. Read more.
+  - id: COARNotify
+    isEnable: yes
+    type: statistic
+    title: Do you support COAR Notify
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an
+      application-independent interoperability framework based on metadata harvesting. Read more.
+
   ########################################################################################################################
   - id: environmental
     isEnable: yes
@@ -153,6 +218,66 @@ statusItems:
     title: Operational / Environmental considerations
     description: |
       We have run an automatic check of your repository. To get certification please arswer following questions:
+
+  - id: isManageDeposits
+    isEnable: yes
+    type: statistic
+    title: How do you manage deposits? Is there someone to check them?
+    description: |
+      We serve the global network of repositories and journals increasing discoverability and preventing misuse of their content; making metadata records uniquely identifiable and resolvable with decentralised PIDs; supporting data providers in adopting good practices by providing tools for metadata validation, content management, enrichment and OA compliance; and facilitating machine access to open research.
+
+  - id: takeDownNotices
+    isEnable: yes
+    type: statistic
+    title: How do you handle take-down notices
+    description: |
+      We serve the global network of repositories and journals increasing discoverability and preventing misuse of their content; making metadata records uniquely identifiable and resolvable with decentralised PIDs; supporting data providers in adopting good practices by providing tools for metadata validation, content management, enrichment and OA compliance; and facilitating machine access to open research.
+
+  - id: preservationContentRepository
+    isEnable: yes
+    type: statistic
+    title: How do you manage the preservation of content in your repository?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an application-independent interoperability framework based on metadata harvesting. Read more.
+    linkDocumentation: https://dashboard.core.ac.uk/
+    textLinkDoc: Answer the question
+
+  - id: preservationContentRepository
+    isEnable: yes
+    type: statistic
+    title: How do you encourage researchers to get their ORCID?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an application-independent interoperability framework based on metadata harvesting. Read more.
+    linkDocumentation: https://dashboard.core.ac.uk/
+    textLinkDoc: Answer the question
+
+  - id: preservationContentRepository
+    isEnable: yes
+    type: statistic
+    title: What are you doing to promote FAIR principles?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an application-independent interoperability framework based on metadata harvesting. Read more.
+    linkDocumentation: https://dashboard.core.ac.uk/
+    textLinkDoc: Answer the question
+
+  - id: preservationContentRepository
+    isEnable: yes
+    type: statistic
+    title: What are you doing to promote research reproducibility?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an application-independent interoperability framework based on metadata harvesting. Read more.
+    linkDocumentation: https://dashboard.core.ac.uk/
+    textLinkDoc: Answer the question
+
+  - id: preservationContentRepository
+    isEnable: yes
+    type: statistic
+    title: How do you support Open Science at your institution?
+    description: |
+      The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an application-independent interoperability framework based on metadata harvesting. Read more.
+    linkDocumentation: https://dashboard.core.ac.uk/
+    textLinkDoc: Answer the question
+
   ########################################################################################################################
 
 
