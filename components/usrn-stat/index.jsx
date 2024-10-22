@@ -20,6 +20,7 @@ const StatUSRN = ({ className, content, usrnParams }) => {
   const STATUS_NO = 0
   const STATUS_YES = 1
   const STATUS_DEVELOP = 2
+  const STATUS_OPEN_QUESTION = 3
   const {
     dataProviderId,
     doiCount,
@@ -73,6 +74,18 @@ const StatUSRN = ({ className, content, usrnParams }) => {
   let statTextCreated = ''
   let statusClass = STATUS_NO
   switch (content.id) {
+    case 'recordsProvideAccessibility':
+      statusClass = STATUS_OPEN_QUESTION
+      break
+    case 'isManageDeposits':
+      statusClass = STATUS_OPEN_QUESTION
+      break
+    case 'takeDownNotices':
+      statusClass = STATUS_OPEN_QUESTION
+      break
+    case 'preservationContentRepository':
+      statusClass = STATUS_OPEN_QUESTION
+      break
     case 'accessibilityStatements':
       statusClass = STATUS_DEVELOP
       break
@@ -226,28 +239,32 @@ const StatUSRN = ({ className, content, usrnParams }) => {
         <div
           className={classNames.use(
             styles.status,
-            // eslint-disable-next-line no-nested-ternary
-            statusClass === STATUS_NO
-              ? styles.status0
-              : statusClass === STATUS_YES
-              ? styles.status1
-              : styles.status2
+            statusClass === STATUS_NO ? styles.status0 : '',
+            statusClass === STATUS_YES ? styles.status1 : '',
+            statusClass === STATUS_DEVELOP ? styles.status2 : '',
+            statusClass === STATUS_OPEN_QUESTION ? styles.status3 : ''
           )}
         >
-          {
-            // eslint-disable-next-line no-nested-ternary
-            statusClass === STATUS_NO ? (
-              'No'
-            ) : statusClass === STATUS_YES ? (
-              'Yes'
-            ) : (
-              <Actions
-                description="This is in development right now"
-                hoverIcon={false}
-                hoverText="WIP"
-              />
-            )
-          }
+          {statusClass === STATUS_NO ? 'No' : ''}
+          {statusClass === STATUS_YES ? 'Yes' : ''}
+          {statusClass === STATUS_DEVELOP ? (
+            <Actions
+              description="This is in development right now"
+              hoverIcon={false}
+              hoverText="WIP"
+            />
+          ) : (
+            ''
+          )}
+          {statusClass === STATUS_OPEN_QUESTION ? (
+            <Actions
+              description="It needs extra info"
+              hoverIcon={false}
+              hoverText="Open question"
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
       <div className={styles.statusRow}>

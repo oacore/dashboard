@@ -14,7 +14,7 @@ const LinkDoc = ({ content }) => {
           alt="docs"
         />
         <a href={content.linkDocumentation} target="_blank" rel="noreferrer">
-          Link to documentation
+          {content.textLinkDoc ?? 'Link to documentation'}
         </a>
       </div>
     ) : (
