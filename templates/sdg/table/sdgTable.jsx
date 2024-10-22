@@ -50,8 +50,11 @@ const SdgTable = observer(
 
     useEffect(() => {
       if (sdgTableList) {
-        setSearchResults(sdgTableList)
-        setTableData(sdgTableList.slice(0, 10))
+        const sortedData = [...sdgTableList].sort(
+          (a, b) => b.sdg[0].score - a.sdg[0].score
+        )
+        setSearchResults(sortedData)
+        setTableData(sortedData.slice(0, 10))
       }
     }, [sdgTableList])
 
@@ -127,11 +130,17 @@ const SdgTable = observer(
               author.name.toLowerCase().includes(lowerSearchTerm)
             )
         )
-        setSearchResults(filteredData)
-        setTableData(filteredData.slice(0, 10))
+        const sortedFilteredData = filteredData.sort(
+          (a, b) => b.sdg[0].score - a.sdg[0].score
+        )
+        setSearchResults(sortedFilteredData)
+        setTableData(sortedFilteredData.slice(0, 10))
       } else {
-        setSearchResults(sdgTableList)
-        setTableData(sdgTableList.slice(0, 10))
+        const sortedData = [...sdgTableList].sort(
+          (a, b) => b.sdg[0].score - a.sdg[0].score
+        )
+        setSearchResults(sortedData)
+        setTableData(sortedData.slice(0, 10))
       }
     }, [localSearchTerm, sdgTableList])
 

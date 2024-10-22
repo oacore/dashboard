@@ -46,12 +46,17 @@
 }
 
 .title-column {
-  width: 60%;
+  width: 50%;
   max-width: 5rem;
 }
 
 .authors-column {
-  width: 40%;
+  width: 30%;
+  max-width: 5rem;
+}
+
+.publication-date-column {
+  width: 20%;
   max-width: 5rem;
 }
 
