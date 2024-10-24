@@ -7,10 +7,12 @@ const rrsPolicy = ({ store, ...props }) => (
   <RrsPageTemplate
     rrsList={store.dataProvider?.rrsList}
     getRrslistData={store.dataProvider?.getRrslistData}
-    rrsAdditionalData={store.dataProvider?.rrsAdditionalData}
+    articleAdditionalData={store.dataProvider?.articleAdditionalData}
     getOutputsAdditionalData={store.dataProvider?.getOutputsAdditionalData}
     rrsDataLoading={store.dataProvider?.rrsDataLoading}
-    rrsAdditionalDataLoading={store.dataProvider?.rrsAdditionalDataLoading}
+    articleAdditionalDataLoading={
+      store.dataProvider?.articleAdditionalDataLoading
+    }
     rrsPdfLoading={store.dataProvider?.rrsPdfLoading}
     updateRrsStatus={store.dataProvider?.updateRrsStatus}
     rrsUrl={store.dataProvider?.rrsUrl}
