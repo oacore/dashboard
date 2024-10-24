@@ -190,6 +190,7 @@ const SdgPageTemplate = observer(
   }) => {
     const [toggle, setToggle] = useState(false)
     const [visibleColumns, setVisibleColumns] = useState(['all'])
+    const [activeTab, setActiveTab] = useState('yearly')
 
     const toggleColumn = (id) => {
       setVisibleColumns((prev) =>
@@ -248,8 +249,10 @@ const SdgPageTemplate = observer(
           data={data}
           sdgYearDataLoading={sdgYearDataLoading}
           visibleColumns={visibleColumns}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
         />
-        {!toggle && (
+        {activeTab === 'yearly' && (
           <div className={styles.sdgIcons}>
             {updatedSdgTypes.map((sdg) => (
               <div key={sdg.id} className={styles.sdgIcon}>

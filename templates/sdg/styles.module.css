@@ -23,6 +23,7 @@
 
 .toggle-tabs {
   display: flex;
+  margin-bottom: 6px;
   font-size: 16px;
   font-weight: 400;
   border: 1px solid #b75400;
@@ -367,6 +368,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.action-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 70%;
+  gap: 40px;
 }
 
 .inner-chart-wrapper {

@@ -17,11 +17,21 @@ import { formatNumber } from 'utils/helpers'
 
 const ReChartBarChart = ({
   sdgTypes,
+  updatedSdgTypes,
   data,
   sdgYearDataLoading,
   visibleColumns,
+  toggle,
 }) => {
-  const formatLabel = (value) => formatNumber(value)
+  const totalOutputCount = updatedSdgTypes.find(
+    (sdg) => sdg.id === 'all'
+  ).outputCount
+
+  const formatLabel = (value) => {
+    if (toggle) return `${((value / totalOutputCount) * 100).toFixed(2)}%`
+
+    return formatNumber(value)
+  }
 
   return (
     <div className={styles.chartWrapper}>

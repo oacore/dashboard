@@ -1,5 +1,5 @@
 import { Switch } from '@oacore/design'
-import React, { useState } from 'react'
+import React from 'react'
 
 import styles from '../styles.module.css'
 import texts from '../../../texts/sdg/sdg.yml'
@@ -14,9 +14,9 @@ const ChartToggler = ({
   data,
   sdgYearDataLoading,
   visibleColumns,
+  activeTab,
+  setActiveTab,
 }) => {
-  const [activeTab, setActiveTab] = useState('yearly')
-
   const handleTabClick = (tab) => {
     setActiveTab(tab)
   }
@@ -24,40 +24,42 @@ const ChartToggler = ({
   return (
     <div className={styles.horizontalViewChartWrapper}>
       <div className={styles.headerWrapper}>
-        {toggle ? (
+        {activeTab !== 'yearly' ? (
           <h1>SDG articles by goals</h1>
         ) : (
           <h1>{texts.chart.table.title}</h1>
         )}
-        <div className={styles.toggleWrapper}>
-          <Switch
-            id="sdg-toggle"
-            checked={toggle}
-            onChange={handleToggle}
-            label={texts.chart.toggle.title}
-            className={styles.toggleSwitch}
-          />
-        </div>
-        <div className={styles.toggleTabs}>
-          {/* eslint-disable-next-line max-len */}
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-          <div
-            className={`${styles.tab} ${
-              activeTab === 'yearly' ? styles.tabActive : styles.tabInactive
-            }`}
-            onClick={() => handleTabClick('yearly')}
-          >
-            {texts.tab.yearly}
+        <div className={styles.actionWrapper}>
+          <div className={styles.toggleWrapper}>
+            <Switch
+              id="sdg-toggle"
+              checked={toggle}
+              onChange={handleToggle}
+              label={texts.chart.toggle.title}
+              className={styles.toggleSwitch}
+            />
           </div>
-          {/* eslint-disable-next-line max-len */}
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-          <div
-            className={`${styles.tab} ${
-              activeTab === 'overall' ? styles.tabActive : styles.tabInactive
-            }`}
-            onClick={() => handleTabClick('overall')}
-          >
-            {texts.tab.overall}
+          <div className={styles.toggleTabs}>
+            {/* eslint-disable-next-line max-len */}
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+            <div
+              className={`${styles.tab} ${
+                activeTab === 'yearly' ? styles.tabActive : styles.tabInactive
+              }`}
+              onClick={() => handleTabClick('yearly')}
+            >
+              {texts.tab.yearly}
+            </div>
+            {/* eslint-disable-next-line max-len */}
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+            <div
+              className={`${styles.tab} ${
+                activeTab === 'overall' ? styles.tabActive : styles.tabInactive
+              }`}
+              onClick={() => handleTabClick('overall')}
+            >
+              {texts.tab.overall}
+            </div>
           </div>
         </div>
       </div>
@@ -68,9 +70,15 @@ const ChartToggler = ({
           updatedSdgTypes={updatedSdgTypes}
           sdgYearDataLoading={sdgYearDataLoading}
           visibleColumns={visibleColumns}
+          toggle={toggle}
         />
       ) : (
-        <HorizontalChart sdgTypes={sdgTypes} data={updatedSdgTypes} />
+        <HorizontalChart
+          updatedSdgTypes={updatedSdgTypes}
+          sdgTypes={sdgTypes}
+          data={updatedSdgTypes}
+          toggle={toggle}
+        />
       )}
     </div>
   )

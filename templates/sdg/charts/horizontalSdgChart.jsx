@@ -11,6 +11,8 @@ import {
 
 import styles from '../styles.module.css'
 
+import { formatNumber } from 'utils/helpers'
+
 const CustomYAxisTick = ({ x, y, data, index }) => {
   const item = data[index]
   return (
@@ -24,9 +26,12 @@ const CustomYAxisTick = ({ x, y, data, index }) => {
   )
 }
 
-const CustomLabel = ({ x, y, width, value }) => {
+const CustomLabel = ({ x, y, width, value, totalOutputCount, toggle }) => {
   const labelWidth = value.toString().length * 30
   const fitsInside = width > labelWidth
+  const displayValue = toggle
+    ? `${((value / totalOutputCount) * 100).toFixed(2)}%`
+    : formatNumber(value)
 
   return (
     <g
@@ -40,7 +45,7 @@ const CustomLabel = ({ x, y, width, value }) => {
         textAnchor={fitsInside ? 'end' : 'start'}
       >
         <tspan>
-          <tspan className={styles.sdgCountH}>{value}</tspan>
+          <tspan className={styles.sdgCountH}>{displayValue}</tspan>
           <tspan className={styles.sdgDescriptionH}>&nbsp;Papers</tspan>
         </tspan>
       </text>
@@ -48,12 +53,16 @@ const CustomLabel = ({ x, y, width, value }) => {
   )
 }
 
-const HorizontalChart = ({ data }) => {
+const HorizontalChart = ({ data, updatedSdgTypes, toggle }) => {
   const filteredData = data.filter((item) => item.id !== 'all' && item.iconH)
 
   const sortedData = [...filteredData].sort(
     (a, b) => b.outputCount - a.outputCount
   )
+
+  const totalOutputCount = updatedSdgTypes.find(
+    (sdg) => sdg.id === 'all'
+  ).outputCount
 
   return (
     <ResponsiveContainer width="100%" height={sortedData.length * 50}>
@@ -79,7 +88,15 @@ const HorizontalChart = ({ data }) => {
           tickLine={false}
         />
         <Bar dataKey="outputCount" fill="#8884d8">
-          <LabelList dataKey="outputCount" content={<CustomLabel />} />
+          <LabelList
+            dataKey="outputCount"
+            content={
+              <CustomLabel
+                totalOutputCount={totalOutputCount}
+                toggle={toggle}
+              />
+            }
+          />
           {sortedData.map((entry, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <Cell key={`cell-${index}`} fill={entry.color} />
