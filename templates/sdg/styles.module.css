@@ -21,6 +21,29 @@
   width: 100%;
 }
 
+.toggle-tabs {
+  display: flex;
+  font-size: 16px;
+  font-weight: 400;
+  border: 1px solid #b75400;
+}
+
+.tab {
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.tab-active {
+  padding: 2px 8px;
+  color: #fff;
+  background-color: #b75400;
+}
+
+.tab-inactive {
+  color: #b75400;
+  background-color: #fff;
+}
+
 .item-count-indicator {
   margin-bottom: 10px;
 }

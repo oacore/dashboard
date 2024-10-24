@@ -10,3 +10,7 @@ chart:
 
 table:
   title: Browse SDG records
+
+tab:
+  yearly: SDG yearly trends
+  overall: SDG overall distribution
