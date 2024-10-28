@@ -1,3 +1,4 @@
+// templates/deduplication/index.jsx
 import React, { useEffect, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { useRouter } from 'next/router'
@@ -20,6 +21,7 @@ const DeduplicationPageTemplate = observer(
     getDeduplicationInfo,
     duplicateListDetails,
     harvestingStatus,
+    harvestingError,
     getOutputsData,
     outputData,
     getWorksData,
@@ -85,7 +87,10 @@ const DeduplicationPageTemplate = observer(
           }
         />
         <div className={styles.cardsWrapper}>
-          <DeduplicationInfoCard harvestingStatus={harvestingStatus} />
+          <DeduplicationInfoCard
+            harvestingError={harvestingError}
+            harvestingStatus={harvestingStatus}
+          />
           <DeduplicationStatistics
             duplicateList={duplicateList}
             duplicatesUrl={duplicatesUrl}

@@ -32,6 +32,7 @@ const HarvestingPageTemplate = observer(
     issues,
     typesCount,
     responseData,
+    harvestingError,
     ...restProps
   }) => {
     const { ...globalStore } = useContext(GlobalContext)
@@ -60,6 +61,7 @@ const HarvestingPageTemplate = observer(
           )}
         <div className={styles.harvestingWrapper}>
           <HarvestingStatusCard
+            harvestingError={harvestingError}
             metadataCount={metadataCount}
             lastHarvestingDate={harvestingStatus?.lastHarvestingDate || 0}
             fullTextCount={fullTextCount}
@@ -70,6 +72,7 @@ const HarvestingPageTemplate = observer(
             harvestingStatus={harvestingStatus}
             sendHarvestingRequest={sendHarvestingRequest}
             responseData={responseData}
+            harvestingError={harvestingError}
           />
         </div>
         <Card className={styles.issuesCard}>

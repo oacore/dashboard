@@ -1,6 +1,7 @@
 import React from 'react'
 
 import styles from '../styles.module.css'
+import info from '../../../components/upload/assets/info.svg'
 
 import { Card } from 'design'
 import { valueOrDefault, formatDate, patchValueFull } from 'utils/helpers'
@@ -15,13 +16,25 @@ const HarvestingStatusCard = ({
   lastHarvestingDate,
   metadataCount,
   total,
+  harvestingError,
 }) => (
   <Card className={styles.harvestingCardWrapper}>
     <Card.Title tag="h2">{texts.genInfo.title}</Card.Title>
     <div className={styles.metadata}>
       <div className={styles.metadataItems}>
         <NumericValue
-          value={valueOrDefault(formatDate(lastHarvestingDate), 'Loading...')}
+          value={
+            harvestingError ? (
+              <div className={styles.errorsWrapper}>
+                <img className={styles.infoIcon} src={info} alt="riox" />
+                <p className={styles.errorText}>
+                  The data is not available at the moment
+                </p>
+              </div>
+            ) : (
+              valueOrDefault(formatDate(lastHarvestingDate), 'Loading...')
+            )
+          }
           title="Last successful updating"
           tag="div"
           bold

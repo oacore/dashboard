@@ -238,8 +238,8 @@ const Application = observer(
                           <ActivitySelect.Option
                             key={path}
                             disabled={
-                              !globalStore.dataProvider?.issues
-                                ?.harvestingStatus?.lastHarvestingDate &&
+                              globalStore.dataProvider?.issues?.harvestingStatus
+                                ?.lastHarvestingDate === null &&
                               disabledTabs.includes(path)
                             }
                             value={path}
