@@ -4,7 +4,7 @@ description: The Sustainable Development Goals or Global Goals are a [collection
 
 chart:
   toggle:
-    title: Show SDG bar chart by goals
+    title: Show as %
   table:
     title: Number of articles with SDG
 
