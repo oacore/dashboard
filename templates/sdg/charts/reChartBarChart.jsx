@@ -57,10 +57,10 @@ const ReChartBarChart = ({
             return (
               // eslint-disable-next-line react/no-array-index-key
               <p key={`item-${index}`} style={{ color }}>
-                {entry.name} (proportion of all papers with SDG):{' '}
-                {firstPercentage}%
+                {firstPercentage}% of all papers belong to {entry.name}
                 <br />
-                {entry.name} (percentage of all papers): {secondPercentage}%
+                {secondPercentage}% of papers with an SDG label belong to{' '}
+                {entry.name}
               </p>
             )
           }

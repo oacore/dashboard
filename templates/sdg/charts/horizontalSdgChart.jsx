@@ -27,7 +27,7 @@ const CustomYAxisTick = ({ x, y, data, index }) => {
 }
 
 const CustomLabel = ({ x, y, width, value, totalOutputCount, toggle }) => {
-  const labelWidth = value.toString().length * 30
+  const labelWidth = value.toString().length * 40
   const fitsInside = width > labelWidth
   const displayValue = toggle
     ? `${((value / totalOutputCount) * 100).toFixed(2)}%`
