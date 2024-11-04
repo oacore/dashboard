@@ -58,8 +58,11 @@ const SdgTable = observer(
       }
     }, [sdgTableList])
 
-    const fetchData = () => {
+    const fetchData = async () => {
       const startIndex = (page + 1) * 10
+      if (startIndex >= searchResults.length)
+        await getSdgTableData(providerId, startIndex, 500)
+
       const endIndex = Math.min(startIndex + 10, searchResults.length)
       const newData = searchResults.slice(startIndex, endIndex)
       setTableData((prevData) => [...prevData, ...newData])
@@ -171,7 +174,7 @@ const SdgTable = observer(
               rowIdentifier="articleId"
               data={tableData}
               size={tableData?.length}
-              totalLength={searchResults?.length}
+              totalLength={formatNumber(outputCount)}
               rowClick={(row) => onSetActiveArticle(row)}
               fetchData={fetchData}
               searchable

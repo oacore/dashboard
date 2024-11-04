@@ -525,19 +525,19 @@ class DataProvider extends Resource {
   }
 
   @action
-  getSdgTableData = async (id) => {
+  getSdgTableData = async (id, from = 0, size = 500) => {
     this.sdgTableDataLoading = true
     try {
-      const url = `${process.env.API_URL}/data-providers/${id}/sdg`
+      const url = `${process.env.API_URL}/data-providers/${id}/sdg?from=${from}&size=${size}`
 
       const response = await fetch(url)
 
       if (response.ok && response.status === 200) {
         const data = await response.json()
         this.setSdgTableList(data)
-      } else throw new Error('Failed to fetch rrs data')
+      } else throw new Error('Failed to fetch sdg data')
     } catch (error) {
-      console.error('Error fetching rrs data:', error)
+      console.error('Error fetching sdg data:', error)
       this.setSdgTableList([])
     } finally {
       this.sdgTableDataLoading = false
