@@ -54,18 +54,22 @@ const SdgTable = observer(
           (a, b) => b.sdg[0].score - a.sdg[0].score
         )
         setSearchResults(sortedData)
-        setTableData(sortedData)
+        setTableData(sortedData.slice(0, 10))
       }
     }, [sdgTableList])
 
     const fetchData = async () => {
       const from = (page + 1) * 500
-      await getSdgTableData(providerId, from, 500)
-      const newData = searchResults.slice(from, from + 500)
-      setTableData((prevData) => [...prevData, ...newData])
-      setPage(page + 1)
-    }
+      const endIndex = Math.min(tableData.length + 10, sdgTableList.length)
 
+      if (tableData.length >= sdgTableList.length) {
+        await getSdgTableData(providerId, from, 500)
+        setPage(page + 1)
+      }
+
+      const newData = searchResults.slice(tableData.length, endIndex)
+      setTableData((prevData) => [...prevData, ...newData])
+    }
     const getSdgIcon = (type, score) => {
       const sdg = sdgTypes.find((sdgItem) => sdgItem.id === type)
       return sdg ? (
@@ -121,8 +125,10 @@ const SdgTable = observer(
 
     useEffect(() => {
       const lowerSearchTerm = localSearchTerm.toLowerCase()
+      let filteredData
+
       if (lowerSearchTerm) {
-        const filteredData = sdgTableList.filter(
+        filteredData = sdgTableList.filter(
           (record) =>
             record.oai.toLowerCase().includes(lowerSearchTerm) ||
             record.title.toLowerCase().includes(lowerSearchTerm) ||
@@ -130,18 +136,14 @@ const SdgTable = observer(
               author.name.toLowerCase().includes(lowerSearchTerm)
             )
         )
-        const sortedFilteredData = filteredData.sort(
-          (a, b) => b.sdg[0].score - a.sdg[0].score
-        )
-        setSearchResults(sortedFilteredData)
-        setTableData(sortedFilteredData)
-      } else {
-        const sortedData = [...sdgTableList].sort(
-          (a, b) => b.sdg[0].score - a.sdg[0].score
-        )
-        setSearchResults(sortedData)
-        setTableData(sortedData)
-      }
+      } else filteredData = [...sdgTableList]
+
+      const sortedFilteredData = filteredData.sort(
+        (a, b) => b.sdg[0].score - a.sdg[0].score
+      )
+
+      setSearchResults(sortedFilteredData)
+      setTableData(sortedFilteredData.slice(0, tableData.length + 10 || 10))
     }, [localSearchTerm, sdgTableList])
 
     const searchChange = (event) => {

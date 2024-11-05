@@ -535,9 +535,9 @@ class DataProvider extends Resource {
       if (response.ok && response.status === 200) {
         const data = await response.json()
         this.setSdgTableList([...this.sdgTableList, ...data])
-      } else throw new Error('Failed to fetch sdg data')
+      } else throw new Error('Failed to fetch SDG data')
     } catch (error) {
-      console.error('Error fetching sdg data:', error)
+      console.error('Error fetching SDG data:', error)
       this.setSdgTableList([])
     } finally {
       this.sdgTableDataLoading = false
