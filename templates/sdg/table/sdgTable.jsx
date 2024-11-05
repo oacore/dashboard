@@ -54,17 +54,14 @@ const SdgTable = observer(
           (a, b) => b.sdg[0].score - a.sdg[0].score
         )
         setSearchResults(sortedData)
-        setTableData(sortedData.slice(0, 10))
+        setTableData(sortedData)
       }
     }, [sdgTableList])
 
     const fetchData = async () => {
-      const startIndex = (page + 1) * 10
-      if (startIndex >= searchResults.length)
-        await getSdgTableData(providerId, startIndex, 500)
-
-      const endIndex = Math.min(startIndex + 10, searchResults.length)
-      const newData = searchResults.slice(startIndex, endIndex)
+      const from = (page + 1) * 500
+      await getSdgTableData(providerId, from, 500)
+      const newData = searchResults.slice(from, from + 500)
       setTableData((prevData) => [...prevData, ...newData])
       setPage(page + 1)
     }
@@ -137,13 +134,13 @@ const SdgTable = observer(
           (a, b) => b.sdg[0].score - a.sdg[0].score
         )
         setSearchResults(sortedFilteredData)
-        setTableData(sortedFilteredData.slice(0, 10))
+        setTableData(sortedFilteredData)
       } else {
         const sortedData = [...sdgTableList].sort(
           (a, b) => b.sdg[0].score - a.sdg[0].score
         )
         setSearchResults(sortedData)
-        setTableData(sortedData.slice(0, 10))
+        setTableData(sortedData)
       }
     }, [localSearchTerm, sdgTableList])
 
