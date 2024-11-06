@@ -1,4 +1,4 @@
-.list {
+.bar-menu-list {
   --drawer-list-padding-y: calc(var(--component-padding-y, 1rem) / 2);
   --drawer-list-padding-x: calc(var(--component-padding-x, 1rem) / 2);
   --drawer-item-padding-y: calc(var(--component-padding-y, 1rem) / 2);
@@ -9,36 +9,36 @@
   margin: 0;
   line-height: 1;
   list-style: none;
-
-  & > li {
-    display: block;
-    padding: 0;
-    margin: 0;
-  }
 }
 
-.item {
+.bar-menu-list > li {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+.bar-menu-item {
   display: flex;
   align-items: center;
   padding: var(--drawer-item-padding-y) var(--drawer-item-padding-x);
   margin: var(--drawer-item-spacing) 0;
   color: var(--gray-800);
   border-radius: var(--component-corner-radius, 2px);
+}
 
-  &:link,
-  &:visited {
-    text-decoration: none;
-  }
+.bar-menu-item:link,
+.bar-menu-item:visited {
+  text-decoration: none;
+}
 
-  &:hover,
-  &:focus {
-    color: inherit;
-    background: #0000000a;
-  }
+.bar-menu-item:hover,
+.bar-menu-item:focus {
+  color: inherit;
+  background: #0000000a;
+}
 
-  &:active,
-  &.active {
-    color: var(--white);
-    background: var(--primary);
-  }
+.bar-menu-item:active,
+.bar-menu-item.active {
+  color: var(--white);
+  background: var(--primary);
 }
