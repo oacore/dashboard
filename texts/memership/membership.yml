@@ -20,7 +20,7 @@ plans:
         caption: Register interest
         url: https://docs.google.com/forms/d/e/1FAIpQLSfFJmMIspYfOEM5aOKG4FTZoK4qeqozyds47O75Wm4dJ1ta2w/viewform
 box:
- text: Here you can find a comparison table with detailed information about each features. It can help you choose the most sutible membership plan for you.
+ text: Here you can find a comparison table with detailed information about each features. It can help you choose the most suitable membership plan for you.
  action:
   caption: Compare features
   url: https://core.ac.uk/membership#comparison-table
