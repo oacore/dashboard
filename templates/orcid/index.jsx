@@ -7,6 +7,7 @@ import texts from '../../texts/orcid/orcid.yml'
 import ShowMoreText from '../../components/showMore'
 import DashboardHeader from '../../components/dashboard-header'
 import StatsCard from '../../components/statsCard/statsCard'
+import OrcidTable from './tables/rrsTable'
 
 import orcid from 'texts/orcid'
 
@@ -56,6 +57,7 @@ const OrcidPageTemplate = observer(
             ))}
           </div>
         </div>
+        <OrcidTable />
       </Tag>
     )
   }

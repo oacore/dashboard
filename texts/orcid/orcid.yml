@@ -21,6 +21,18 @@ statsCards:
     action: Review
     tooltip: CORE has discovered more ORCIDs which are not listed in the repository.
 
+table:
+  actions:
+    - name: Papers with an ORCID
+      defaultActive: true
+      action: with
+    - name: Papers without an ORCID
+      action: without
+    - name: Unique ORCIDs
+      action: unique
+    - name: ORCIDs found in other repositories
+      action: other
+
 # UPDATEEE
 upload:
   default:
@@ -45,13 +57,6 @@ upload:
       Supported formats: pdf, doc
     size: |
       Maximum  size: 10MB
-
-
-
-table:
-  title: Outputs with RRS statements found in your repository
-  subTitle: In the list below you can review and approve all detected RRS statements.
-
 
 helpInfo:
   actionBtn: Hide description
