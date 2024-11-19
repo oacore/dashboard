@@ -1,0 +1,125 @@
+title: Open Researcher and Contributor IDentifier (ORCID)
+
+description: The ORCID is a nonproprietary alphanumeric code to uniquely identify authors and contributors of scholarly communication as well as ORCID's website and services to look up authors and their bibliographic output.
+
+statsCards:
+  - title: Papers with an ORCID
+    description: within your repository collection
+    action: Review
+    tooltip: ""
+  - title: Papers without an ORCID
+    description: within your repository collection
+    action: Review
+    tooltip: Number of authors at your institution with an ORCID.
+    noticeable:  true
+  - title: Unique ORCIDs
+    description: number of authors at your institution with an ORCID
+    action: Review
+    tooltip: Number of outputs without an ORCID within the repository collection.
+  - title: ORCIDs found in other repositories
+    description: ""
+    action: Review
+    tooltip: CORE has discovered more ORCIDs which are not listed in the repository.
+
+# UPDATEEE
+upload:
+  default:
+    subTitle: Drag and drop your file here or
+    action:
+      title: upload
+  success:
+    title: RRS found
+    action:
+      title: Upload new file
+  fail:
+    title: RRS wasn’t found
+    description: RRS statement not found in this paper.
+    action:
+      title: Upload new file
+  noSupport:
+    title: This format is not supported
+    sizeTitle: File is too big
+    action: Upload new file
+  subInfo:
+    format: |
+      Supported formats: pdf, doc
+    size: |
+      Maximum  size: 10MB
+
+
+
+table:
+  title: Outputs with RRS statements found in your repository
+  subTitle: In the list below you can review and approve all detected RRS statements.
+
+
+helpInfo:
+  actionBtn: Hide description
+  description: |
+    The below list contains the list of papers in your repository for which CORE has automatically detected the presence of RRS statements.  We recommend that you review the automatically extracted RRS statements to check if they are correct. You will be then able to download a .csv file which contains these reviewed RRS statements, for instance for the purposes of importing this information into your repository. The RRS identification runs on your full texts, CORE cannot detect RRS statements from papers CORE doesn’t have access to.
+
+    * “**Review RRS**”: click on the Review RRS link. A pop-up will show up displaying the automatically extracted RRS statement. Review it and click on correct or wrong.
+
+    * “**Status**”: this indicates whether the RRS statement has been reviewed and found correct or wrong. RRS statements that have not been reviewed will be indicated by a question mark.
+  show: Show description
+  hide: Hide description
+
+statusActions:
+  - title: Deny
+    button: WRONG
+    key: 1
+  - title: Accept
+    button: Correct
+    key: 2
+
+actions:
+  - title: Open in CORE
+    key: coreUrl
+  - title: Open in the repository
+    key: outputUrl
+
+article:
+  fields:
+    - name: Author
+      key: authors
+      findBy: name
+    - name: Type
+      key: documentType
+    - name: Publication Date
+      key: publishedDate
+    - name: Deposited date
+      key: depositedDate
+    - name: DOI
+      key: doi
+    - name: OAI
+      key: oai
+    - name: Abstract
+      key: abstract
+  actions:
+    - title: Open in CORE
+      key: coreUrl
+      generatedUrl: https://core.ac.uk/outputs/{{id}}
+    - title: Open in the repository
+      key: outputUrl
+  visibility:
+    - title: Live in core
+      disabled: false
+      icon: eye
+      extraText: Click to disable
+    - title: Taken down
+      disabled: true
+      icon: eye-off
+      extraText: Click to enable
+
+statusModal:
+  title: Rights retention statements
+  link: Open full text in the CORE reader
+  buttonsY:
+    title: Correct
+  buttonsN:
+    title: WRONG
+  actions:
+    - title: Accept
+      key: 1
+    - title: Deny
+      key: 0

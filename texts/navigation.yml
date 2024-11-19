@@ -10,6 +10,7 @@ items:
   deposit-compliance: OA compliance
   rights-retention-strategy: RRS Policy
   doi: DOI
+  orcid: ORCID
   plugins: Plugins
   usrn: USRN
   fair: FAIR
