@@ -387,3 +387,10 @@
   padding: 10px;
   background: #fff;
 }
+
+.picker-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}

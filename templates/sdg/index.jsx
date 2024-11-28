@@ -44,6 +44,7 @@ import SdgTable from './table/sdgTable'
 import { GlobalContext } from '../../store'
 import ChartToggler from './charts/chartToggler'
 import { formatNumber } from '../../utils/helpers'
+import DateRangePicker from '../../components/datePicker/datePicker'
 
 const sdgTypes = [
   {
@@ -191,6 +192,7 @@ const SdgPageTemplate = observer(
     const [toggle, setToggle] = useState(false)
     const [visibleColumns, setVisibleColumns] = useState(['all'])
     const [activeTab, setActiveTab] = useState('yearly')
+    const [dateRange, setDateRange] = useState({ startDate: '', endDate: '' })
 
     const toggleColumn = (id) => {
       setVisibleColumns((prev) =>
@@ -207,22 +209,28 @@ const SdgPageTemplate = observer(
       setToggle(event.target.checked)
     }
 
+    const handleDateChange = (startDate, endDate) => {
+      setDateRange({ startDate, endDate })
+    }
+
     const years =
-      sdgYearData && sdgYearData.length > 0
-        ? Object.keys(sdgYearData[0].yearlyData)
+      sdgYearData.data && Object.values(sdgYearData?.data).length > 0
+        ? Object.keys(Object.values(sdgYearData?.data)[0].yearlyData)
         : []
 
     const data = years.map((year) => {
       const yearData = { name: year }
-      sdgYearData.forEach((sdg) => {
+      Object.values(sdgYearData?.data).forEach((sdg) => {
         yearData[sdg.type] = sdg.yearlyData[year] || 0
       })
       return yearData
     })
 
     const updatedSdgTypes = sdgTypes.map((sdg) => {
-      // eslint-disable-next-line no-shadow
-      const sdgDataItem = sdgYearData.find((data) => data.type === sdg.id)
+      const sdgDataItem = Object.values(sdgYearData?.data || {}).find(
+        // eslint-disable-next-line no-shadow
+        (data) => data.type === sdg.id
+      )
       const yearlyDataSum = sdgDataItem
         ? Object.values(sdgDataItem.yearlyData).reduce(
             (sum, value) => sum + value,
@@ -235,12 +243,18 @@ const SdgPageTemplate = observer(
       }
     })
 
+    // eslint-disable-next-line no-console
+    console.log(dateRange, 'dateRange')
+
     return (
       <Tag
         className={classNames.use(styles.container).join(className)}
         {...restProps}
       >
         <DashboardHeader title={texts.title} description={texts.description} />
+        <div className={styles.pickerWrapper}>
+          <DateRangePicker onDateChange={handleDateChange} />
+        </div>
         <ChartToggler
           handleToggle={handleToggle}
           toggle={toggle}
