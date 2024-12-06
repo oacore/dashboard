@@ -108,7 +108,7 @@ const OverviewTemplate = observer(
       >
         {globalStore.dataProvider?.issues?.harvestingStatus
           ?.lastHarvestingDate !== null ? (
-          <div>
+          <>
             <DataStatisticsCard
               metadatadaHistory={metadatadaHistory}
               metadataCount={metadataCount}
@@ -154,7 +154,7 @@ const OverviewTemplate = observer(
                 dataProviderId={dataProviderId}
               />
             )}
-          </div>
+          </>
         ) : (
           <Card className={styles.placeholderCard}>
             <Card.Title tag="h2">General information</Card.Title>
