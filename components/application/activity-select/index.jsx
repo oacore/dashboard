@@ -49,6 +49,8 @@ const ActivitySelectOption = ({
   }
   const isDataproviderInList = (obj, val) => Object.values(obj).includes(val)
 
+  if (dataProviderId !== 86 && value === 'sdg') return null
+
   // eslint-disable-next-line no-nested-ternary
   return subMenu ? (
     <div>

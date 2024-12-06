@@ -27,6 +27,7 @@ const Tablev2 = ({
   renderDropDown,
   details,
   rowAction,
+  isLoading,
   excludeFooter = false,
 }) => {
   const tableRef = useRef(null)
@@ -64,6 +65,7 @@ const Tablev2 = ({
                 isFirstPageLoaded={data !== null}
                 fetchData={fetchData}
                 totalLength={totalLength}
+                isLoading={isLoading}
                 size={size}
                 hidePagination={hidePagination}
                 {...restProps}
