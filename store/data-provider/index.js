@@ -525,16 +525,33 @@ class DataProvider extends Resource {
   }
 
   @action
-  getSdgTableData = async (id, from = 0, size = 500) => {
+  getSdgTableData = async (
+    id,
+    from = 0,
+    size = 500,
+    searchTerm = '',
+    startDate,
+    endDate
+  ) => {
     this.sdgTableDataLoading = true
     try {
-      const url = `${process.env.API_URL}/data-providers/${id}/sdg?from=${from}&size=${size}`
+      const url = new URL(`${process.env.API_URL}/data-providers/${id}/sdg`)
+      url.searchParams.append('from', from)
+      url.searchParams.append('size', size)
+      if (searchTerm)
+        url.searchParams.append('q', encodeURIComponent(searchTerm))
+      if (startDate && endDate) {
+        url.searchParams.append(
+          'q',
+          `AND(yearPublished>=${startDate} AND yearPublished<=${endDate})`
+        )
+      }
 
       const response = await fetch(url)
-
       if (response.ok && response.status === 200) {
         const data = await response.json()
-        this.setSdgTableList([...this.sdgTableList, ...data])
+        if (from === 0) this.setSdgTableList(data)
+        else this.setSdgTableList([...this.sdgTableList, ...data])
       } else throw new Error('Failed to fetch SDG data')
     } catch (error) {
       console.error('Error fetching SDG data:', error)
@@ -545,19 +562,27 @@ class DataProvider extends Resource {
   }
 
   @action
-  getSdgYearData = async (id) => {
+  getSdgYearData = async (id, startDate = '2012', endDate = '2024') => {
     this.sdgYearDataLoading = true
     try {
-      const url = `${process.env.API_URL}/data-providers/${id}/sdg/aggregations`
+      const url = new URL(
+        `${process.env.API_URL}/data-providers/${id}/sdg/aggregations?`
+      )
+      if (startDate && endDate) {
+        url.searchParams.append(
+          'q',
+          `AND(yearPublished>=${startDate} AND yearPublished<=${endDate})`
+        )
+      }
 
       const response = await fetch(url)
 
       if (response.ok && response.status === 200) {
         const data = await response.json()
         this.setSdgYearData(data)
-      } else throw new Error('Failed to fetch rrs data')
+      } else throw new Error('Failed to fetch SDG data')
     } catch (error) {
-      console.error('Error fetching rrs data:', error)
+      console.error('Error fetching SDG data:', error)
       this.setSdgYearData([])
     } finally {
       this.sdgYearDataLoading = false

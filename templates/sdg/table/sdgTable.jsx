@@ -3,15 +3,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Popover } from '@oacore/design'
 
-import styles from '../styles.module.css'
-import { Card, ProgressSpinner } from '../../../design'
-import texts from '../../../texts/sdg/sdg.yml'
-import Tablev2 from '../../../components/tablev2/tablev2'
-import { GlobalContext } from '../../../store'
+import { ProgressSpinner, Card } from '../../../design'
 import request from '../../../api'
-import ExportButton from '../../../components/export-button'
-import TableArticle from '../../../components/dropdownTableCard/article'
+import styles from '../styles.module.css'
+import Tablev2 from '../../../components/tablev2/tablev2'
 import { formatNumber } from '../../../utils/helpers'
+import ExportButton from '../../../components/export-button'
+import { GlobalContext } from '../../../store'
+import TableArticle from '../../../components/dropdownTableCard/article'
+import texts from '../../../texts/sdg/sdg.yml'
 
 import Table from 'components/table'
 
@@ -25,6 +25,8 @@ const SdgTable = observer(
     articleAdditionalData,
     articleAdditionalDataLoading,
     outputCount,
+    startDate,
+    endDate,
   }) => {
     const router = useRouter()
     const providerId = router.query['data-provider-id']
@@ -33,11 +35,10 @@ const SdgTable = observer(
 
     const [outputsUrl, setOutputsUrl] = useState()
     const [page, setPage] = useState(0)
+    const [localSearchTerm, setLocalSearchTerm] = useState('')
     const [loading, setLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-    const [tableData, setTableData] = useState([])
-    const [localSearchTerm, setLocalSearchTerm] = useState('')
-    const [searchResults, setSearchResults] = useState([])
+    const [initialLoad, setInitialLoad] = useState(true)
 
     //  TEMP UNTIL WE WILL HAVE SDG IN API CALL
     const [updatedArticleData, setUpdatedArticleData] = useState(
@@ -45,31 +46,42 @@ const SdgTable = observer(
     )
 
     useEffect(() => {
-      getSdgTableData(providerId)
-    }, [providerId])
-
-    useEffect(() => {
-      if (sdgTableList) {
-        const sortedData = [...sdgTableList].sort(
-          (a, b) => b.sdg[0].score - a.sdg[0].score
+      const fetchData = async () => {
+        setPage(0)
+        await getSdgTableData(
+          providerId,
+          0,
+          500,
+          localSearchTerm,
+          startDate,
+          endDate
         )
-        setSearchResults(sortedData)
-        setTableData(sortedData.slice(0, 10))
+        setInitialLoad(false)
       }
-    }, [sdgTableList])
+      if (providerId) fetchData()
+    }, [providerId, startDate, endDate])
 
     const fetchData = async () => {
+      if (sdgTableDataLoading) return
+
       const from = (page + 1) * 500
-      const endIndex = Math.min(tableData.length + 10, sdgTableList.length)
+      const size = 500
 
-      if (tableData.length >= sdgTableList.length) {
-        await getSdgTableData(providerId, from, 500)
-        setPage(page + 1)
+      try {
+        await getSdgTableData(
+          providerId,
+          from,
+          size,
+          localSearchTerm,
+          startDate,
+          endDate
+        )
+        setPage((prevPage) => prevPage + 1)
+      } catch (error) {
+        console.error('Error fetching additional data:', error)
       }
-
-      const newData = searchResults.slice(tableData.length, endIndex)
-      setTableData((prevData) => [...prevData, ...newData])
     }
+
     const getSdgIcon = (type, score) => {
       const sdg = sdgTypes.find((sdgItem) => sdgItem.id === type)
       return sdg ? (
@@ -106,8 +118,8 @@ const SdgTable = observer(
         setLoading(false)
       }
     }
-    //  TEMP UNTIL WE WILL HAVE SDG IN API CALL
 
+    //  TEMP UNTIL WE WILL HAVE SDG IN API CALL
     useEffect(() => {
       if (articleAdditionalData && sdgTableList) {
         const sdgItem = sdgTableList.find(
@@ -123,32 +135,11 @@ const SdgTable = observer(
       }
     }, [articleAdditionalData, sdgTableList])
 
-    useEffect(() => {
-      const lowerSearchTerm = localSearchTerm.toLowerCase()
-      let filteredData
-
-      if (lowerSearchTerm) {
-        filteredData = sdgTableList.filter(
-          (record) =>
-            record.oai.toLowerCase().includes(lowerSearchTerm) ||
-            record.title.toLowerCase().includes(lowerSearchTerm) ||
-            record.authors.some((author) =>
-              author.name.toLowerCase().includes(lowerSearchTerm)
-            )
-        )
-      } else filteredData = [...sdgTableList]
-
-      const sortedFilteredData = filteredData.sort(
-        (a, b) => b.sdg[0].score - a.sdg[0].score
-      )
-
-      setSearchResults(sortedFilteredData)
-      setTableData(sortedFilteredData.slice(0, tableData.length + 10 || 10))
-    }, [localSearchTerm, sdgTableList])
-
-    const searchChange = (event) => {
-      setLocalSearchTerm(event.target.value)
+    const onSearchChange = async (event) => {
+      const searchTerm = event.target.value
+      setLocalSearchTerm(searchTerm)
       setPage(0)
+      await getSdgTableData(providerId, 0, 500, searchTerm, startDate, endDate)
     }
 
     return (
@@ -158,7 +149,7 @@ const SdgTable = observer(
           We have found {formatNumber(outputCount)} paper with SDG. Review and
           download them below.
         </div>
-        {sdgTableDataLoading ? (
+        {initialLoad ? (
           <div className={styles.dataSpinnerWrapper}>
             <ProgressSpinner className={styles.spinner} />
             <p className={styles.spinnerText}>
@@ -166,118 +157,117 @@ const SdgTable = observer(
             </p>
           </div>
         ) : (
-          <>
-            <Tablev2
-              className={styles.sdgTable}
-              isHeaderClickable
-              rowIdentifier="articleId"
-              data={tableData}
-              size={tableData?.length}
-              totalLength={formatNumber(outputCount)}
-              rowClick={(row) => onSetActiveArticle(row)}
-              fetchData={fetchData}
-              searchable
-              localSearch
-              localSearchTerm={localSearchTerm}
-              searchChange={searchChange}
-              renderDropDown={articleAdditionalData}
-              details={
-                <TableArticle
-                  changeVisibility={changeArticleVisibility}
-                  article={updatedArticleData}
-                  loading={loading}
-                  outputsUrl={outputsUrl}
-                  articleAdditionalDataLoading={articleAdditionalDataLoading}
-                  getSdgIcon={getSdgIcon}
-                  removeLiveActions
-                />
-              }
-            >
-              <Table.Column
-                id="oai"
-                display="OAI"
-                getter={(v) => {
-                  if (v.oai) {
-                    return (
-                      <span className={styles.oaiCell}>
-                        {v.oai.split(':').pop()}
-                      </span>
-                    )
-                  }
-                  return '-'
-                }}
-                className={styles.oaiColumn}
+          <Tablev2
+            className={styles.sdgTable}
+            isHeaderClickable
+            rowIdentifier="articleId"
+            data={sdgTableList}
+            size={sdgTableList?.length}
+            totalLength={formatNumber(outputCount)}
+            rowClick={(row) => onSetActiveArticle(row)}
+            fetchData={fetchData}
+            searchable
+            isLoading={sdgTableDataLoading}
+            localSearch
+            localSearchTerm={localSearchTerm}
+            searchChange={onSearchChange}
+            renderDropDown={articleAdditionalData}
+            details={
+              <TableArticle
+                changeVisibility={changeArticleVisibility}
+                article={updatedArticleData}
+                loading={loading}
+                outputsUrl={outputsUrl}
+                articleAdditionalDataLoading={articleAdditionalDataLoading}
+                getSdgIcon={getSdgIcon}
+                removeLiveActions
               />
-              <Table.Column
-                id="sdg"
-                display="SDG"
-                getter={(v) => {
-                  const sortedSdg = v.sdg.sort((a, b) => b.score - a.score)
-                  const firstTwoSdgIcons = sortedSdg
-                    .slice(0, 2)
-                    .map((item) => getSdgIcon(item.type, item.score))
-                  const additionalCount =
-                    sortedSdg.length > 2 ? `+${sortedSdg.length - 2}` : ''
+            }
+          >
+            <Table.Column
+              id="oai"
+              display="OAI"
+              getter={(v) => {
+                if (v.oai) {
                   return (
-                    <div className={styles.sdgRow}>
-                      {firstTwoSdgIcons}
-                      {additionalCount && (
-                        <span className={styles.additionalCount}>
-                          {additionalCount}
-                        </span>
-                      )}
-                    </div>
+                    <span className={styles.oaiCell}>
+                      {v.oai.split(':').pop()}
+                    </span>
                   )
-                }}
-                className={styles.sdgColumn}
-              />
-              <Table.Column
-                id="title"
-                display="Title"
-                getter={(v) => (
-                  <Popover placement="top" content={v.title || '-'}>
-                    <div className={`${styles.titleColumn} ${styles.ellipsis}`}>
-                      {v.title || '-'}
+                }
+                return '-'
+              }}
+              className={styles.oaiColumn}
+            />
+            <Table.Column
+              id="sdg"
+              display="SDG"
+              getter={(v) => {
+                const sortedSdg = v.sdg.sort((a, b) => b.score - a.score)
+                const firstTwoSdgIcons = sortedSdg
+                  .slice(0, 2)
+                  .map((item) => getSdgIcon(item.type, item.score))
+                const additionalCount =
+                  sortedSdg.length > 2 ? `+${sortedSdg.length - 2}` : ''
+                return (
+                  <div className={styles.sdgRow}>
+                    {firstTwoSdgIcons}
+                    {additionalCount && (
+                      <span className={styles.additionalCount}>
+                        {additionalCount}
+                      </span>
+                    )}
+                  </div>
+                )
+              }}
+              className={styles.sdgColumn}
+            />
+            <Table.Column
+              id="title"
+              display="Title"
+              getter={(v) => (
+                <Popover placement="top" content={v.title || '-'}>
+                  <div className={`${styles.titleColumn} ${styles.ellipsis}`}>
+                    {v.title || '-'}
+                  </div>
+                </Popover>
+              )}
+              className={styles.titleColumn}
+            />
+            <Table.Column
+              id="authors"
+              display="Authors"
+              className={styles.authorsColumn}
+              getter={(v) => {
+                const authors = v.authors
+                  .map((author) => author.name)
+                  .join(', ')
+                return (
+                  <Popover placement="top" content={authors}>
+                    <div
+                      className={`${styles.authorsColumn} ${styles.ellipsis}`}
+                    >
+                      {authors}
                     </div>
                   </Popover>
-                )}
-                className={styles.titleColumn}
-              />
-              <Table.Column
-                id="authors"
-                display="Authors"
-                className={styles.authorsColumn}
-                getter={(v) => {
-                  const authors = v.authors
-                    .map((author) => author.name)
-                    .join(', ')
-                  return (
-                    <Popover placement="top" content={authors}>
-                      <div
-                        className={`${styles.authorsColumn} ${styles.ellipsis}`}
-                      >
-                        {authors}
-                      </div>
-                    </Popover>
-                  )
-                }}
-              />
-              <Table.Column
-                id="publicationDate"
-                display="Publication date"
-                className={styles.publicationDateColumn}
-                getter={(v) => (
-                  <div className={styles.publicationDateCell}>
-                    {v.publishedDate?.split('T')[0]}
-                  </div>
-                )}
-                icon
-              />
-              <Table.Action>
-                <ExportButton href={sdgUrl}>download csv</ExportButton>
-              </Table.Action>
-            </Tablev2>
-          </>
+                )
+              }}
+            />
+            <Table.Column
+              id="publicationDate"
+              display="Publication date"
+              className={styles.publicationDateColumn}
+              getter={(v) => (
+                <div className={styles.publicationDateCell}>
+                  {v.publishedDate?.split('T')[0]}
+                </div>
+              )}
+              icon
+            />
+            <Table.Action>
+              <ExportButton href={sdgUrl}>download csv</ExportButton>
+            </Table.Action>
+          </Tablev2>
         )}
       </Card>
     )

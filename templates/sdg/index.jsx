@@ -192,7 +192,10 @@ const SdgPageTemplate = observer(
     const [toggle, setToggle] = useState(false)
     const [visibleColumns, setVisibleColumns] = useState(['all'])
     const [activeTab, setActiveTab] = useState('yearly')
-    const [dateRange, setDateRange] = useState({ startDate: '', endDate: '' })
+    const [dateRange, setDateRange] = useState({
+      startDate: '2012',
+      endDate: '2024',
+    })
 
     const toggleColumn = (id) => {
       setVisibleColumns((prev) =>
@@ -204,6 +207,20 @@ const SdgPageTemplate = observer(
     useEffect(() => {
       getSdgYearData(globalStore.dataProvider.id)
     }, [globalStore.dataProvider.id])
+
+    useEffect(() => {
+      if (
+        globalStore.dataProvider.id &&
+        dateRange.startDate &&
+        dateRange.endDate
+      ) {
+        getSdgYearData(
+          globalStore.dataProvider.id,
+          dateRange.startDate,
+          dateRange.endDate
+        )
+      }
+    }, [globalStore.dataProvider.id, dateRange.startDate, dateRange.endDate])
 
     const handleToggle = (event) => {
       setToggle(event.target.checked)
@@ -242,9 +259,6 @@ const SdgPageTemplate = observer(
         outputCount: yearlyDataSum,
       }
     })
-
-    // eslint-disable-next-line no-console
-    console.log(dateRange, 'dateRange')
 
     return (
       <Tag
@@ -317,6 +331,8 @@ const SdgPageTemplate = observer(
           articleAdditionalData={articleAdditionalData}
           articleAdditionalDataLoading={articleAdditionalDataLoading}
           outputCount={updatedSdgTypes[0].outputCount}
+          startDate={dateRange.startDate}
+          endDate={dateRange.endDate}
         />
       </Tag>
     )

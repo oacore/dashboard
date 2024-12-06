@@ -6,10 +6,7 @@ const DateRangePicker = ({ onDateChange }) => {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
 
-  const formatDate = (date) => {
-    const [year, month, day] = date.split(/[-.]/)
-    return `${day}/${month}/${year}`
-  }
+  const formatDate = (date) => new Date(date).getFullYear()
 
   const handleStartDateChange = (event) => {
     const date = event.target.value
