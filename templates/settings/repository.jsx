@@ -796,7 +796,10 @@ const RepositoryPageTemplate = observer(
                       {showSuccess && (
                         <div className={styles.success}>
                           <img className={styles.tick} src={greenTick} alt="" />
-                          <div>Licencing preference updated successfully.</div>
+                          <div>
+                            Licencing preference updated successfully. It may
+                            take up to a week for the change to take affect.
+                          </div>
                         </div>
                       )}
                     </>
