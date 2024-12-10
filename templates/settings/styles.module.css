@@ -104,12 +104,16 @@
 }
 
 .license-note p {
-  margin-bottom: 4px;
+  margin-bottom: 24px;
 }
 
 .license-note li {
   margin-left: 16px;
   list-style-type: disc;
+}
+
+.license-note li p {
+  margin-bottom: 4px;
 }
 
 .license-description {
@@ -186,7 +190,7 @@
 .success {
   display: flex;
   align-items: center;
-  width: 50%;
+  width: 100%;
   padding: 12px 16px;
   margin-top: 24px;
   background: #ecf6df;

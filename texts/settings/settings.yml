@@ -151,6 +151,17 @@ license:
       description: |
         CORE will index metadata and full text, but some functionalities will be affected.
 
+
+        * CORE Search ranks articles that are full Open Access (in accordance with BOAI) first, which means the discoverability of your content is currently limited.
+
+        * CORE Recommender only recommends to users full Open Access articles, which means that papers without explicit OA licences from your repository will not appear as recommendations.
+
+        * CORE duplicate checker will be less accurate.
+
+        * The CORE Discovery will not recommend this content from your repository without an explicit OA licence.
+
+        * The ability of CORE to enable machine readability of your content will be affected. Machine readability of research manuscripts might be mandated by the government or a funder in your country. Note that some countries operate text and data mining exceptions for research purposes, so only non-research use will be affected.
+
   modal:
     title: |
       Changing to an “indexed only” option will have the following consequences:
@@ -164,6 +175,8 @@ license:
       * The CORE Discovery will not recommend this content
 
       * The ability of CORE to enable machine readability of your content will be affected. Machine readability of research manuscripts might be mandated by the government or a funder in your country. Note that some countries operate text and data mining exceptions for research purposes, so only non-research use will be affected.
+
+      Changing to the “indexed only” status requires us to reprocess all papers from the repository. We will do this as soon as possible, but it may take up to one week.
     actions:
       - title: save
       - title: cancel
