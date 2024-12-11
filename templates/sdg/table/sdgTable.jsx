@@ -12,6 +12,7 @@ import ExportButton from '../../../components/export-button'
 import { GlobalContext } from '../../../store'
 import TableArticle from '../../../components/dropdownTableCard/article'
 import texts from '../../../texts/sdg/sdg.yml'
+import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 
 import Table from 'components/table'
 
@@ -27,6 +28,7 @@ const SdgTable = observer(
     outputCount,
     startDate,
     endDate,
+    checkBillingType,
   }) => {
     const router = useRouter()
     const providerId = router.query['data-provider-id']
@@ -172,6 +174,7 @@ const SdgTable = observer(
             localSearchTerm={localSearchTerm}
             searchChange={onSearchChange}
             renderDropDown={articleAdditionalData}
+            excludeFooter={checkBillingType}
             details={
               <TableArticle
                 changeVisibility={changeArticleVisibility}
@@ -268,6 +271,13 @@ const SdgTable = observer(
               <ExportButton href={sdgUrl}>download csv</ExportButton>
             </Table.Action>
           </Tablev2>
+        )}
+        {checkBillingType && (
+          <AccessPlaceholder
+            dataProviderData={globalStore.dataProvider}
+            customWidth
+            description="To see all  SDG labeled papers become our  Supporting or Sustaining member. Try [SDG Insights DEMO]()."
+          />
         )}
       </Card>
     )

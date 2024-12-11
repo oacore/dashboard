@@ -17,6 +17,7 @@ const SdgPage = ({ store, ...props }) => {
       sdgYearData={store.dataProvider?.sdgYearData}
       sdgTableDataLoading={store.dataProvider?.sdgTableDataLoading}
       articleAdditionalData={store.dataProvider?.articleAdditionalData}
+      billingPlan={store.organisation.billingPlan}
       articleAdditionalDataLoading={
         store.dataProvider?.articleAdditionalDataLoading
       }

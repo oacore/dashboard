@@ -13,20 +13,42 @@ import styles from '../styles.module.css'
 
 import { formatNumber } from 'utils/helpers'
 
-const CustomYAxisTick = ({ x, y, data, index }) => {
+const CustomYAxisTick = ({ x, y, data, index, checkBillingType }) => {
   const item = data[index]
+  const shouldRenderDiv = checkBillingType && ![1, 2, 3].includes(index)
+
   return (
     <g transform={`translate(${x},${y})`}>
-      <foreignObject x={-210} y={-22} width={200} height={43}>
-        <div className={styles.iconWrapper}>
-          <img src={item.iconH} alt={item.name} />
-        </div>
+      <foreignObject x={-210} y={-22} width={190} height={43}>
+        {shouldRenderDiv ? (
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#BDBDBD',
+            }}
+          />
+        ) : (
+          <div className={styles.iconWrapper}>
+            <img src={item.iconH} alt={item.name} />
+          </div>
+        )}
       </foreignObject>
     </g>
   )
 }
+const CustomLabel = ({
+  x,
+  y,
+  width,
+  value,
+  totalOutputCount,
+  toggle,
+  index,
+  checkBillingType,
+}) => {
+  if (checkBillingType && ![1, 2, 3].includes(index)) return null
 
-const CustomLabel = ({ x, y, width, value, totalOutputCount, toggle }) => {
   const labelWidth = value.toString().length * 40
   const fitsInside = width > labelWidth
   const displayValue = toggle
@@ -53,7 +75,12 @@ const CustomLabel = ({ x, y, width, value, totalOutputCount, toggle }) => {
   )
 }
 
-const HorizontalChart = ({ data, updatedSdgTypes, toggle }) => {
+const HorizontalChart = ({
+  data,
+  updatedSdgTypes,
+  toggle,
+  checkBillingType,
+}) => {
   const filteredData = data.filter((item) => item.id !== 'all' && item.iconH)
 
   const sortedData = [...filteredData].sort(
@@ -82,7 +109,13 @@ const HorizontalChart = ({ data, updatedSdgTypes, toggle }) => {
           type="category"
           dataKey="name"
           tick={({ x, y, index }) => (
-            <CustomYAxisTick x={x} y={y} data={sortedData} index={index} />
+            <CustomYAxisTick
+              x={x}
+              y={y}
+              data={sortedData}
+              index={index}
+              checkBillingType={checkBillingType}
+            />
           )}
           axisLine={false}
           tickLine={false}
@@ -94,12 +127,20 @@ const HorizontalChart = ({ data, updatedSdgTypes, toggle }) => {
               <CustomLabel
                 totalOutputCount={totalOutputCount}
                 toggle={toggle}
+                checkBillingType={checkBillingType}
               />
             }
           />
           {sortedData.map((entry, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <Cell key={`cell-${index}`} fill={entry.color} />
+            <Cell
+              /* eslint-disable-next-line react/no-array-index-key */
+              key={`cell-${index}`}
+              fill={
+                checkBillingType && ![1, 2, 3].includes(index)
+                  ? '#BDBDBD'
+                  : entry.color
+              }
+            />
           ))}
         </Bar>
       </BarChart>

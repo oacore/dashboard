@@ -16,6 +16,7 @@ const ChartToggler = ({
   visibleColumns,
   activeTab,
   setActiveTab,
+  checkBillingType,
 }) => {
   const handleTabClick = (tab) => {
     setActiveTab(tab)
@@ -78,6 +79,7 @@ const ChartToggler = ({
           sdgTypes={sdgTypes}
           data={updatedSdgTypes}
           toggle={toggle}
+          checkBillingType={checkBillingType}
         />
       )}
     </div>

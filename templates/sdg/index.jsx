@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
+import { Popover } from '@oacore/design'
 
 import DashboardHeader from '../../components/dashboard-header'
 import texts from '../../texts/sdg/sdg.yml'
@@ -187,22 +188,25 @@ const SdgPageTemplate = observer(
     articleAdditionalData,
     articleAdditionalDataLoading,
     sdgYearDataLoading,
+    billingPlan,
     ...restProps
   }) => {
+    const { ...globalStore } = useContext(GlobalContext)
     const [toggle, setToggle] = useState(false)
     const [visibleColumns, setVisibleColumns] = useState(['all'])
     const [activeTab, setActiveTab] = useState('yearly')
+    const [checkBillingType, setCheckBillingType] = useState(false)
     const [dateRange, setDateRange] = useState({
       startDate: '2012',
       endDate: '2024',
     })
 
-    const toggleColumn = (id) => {
+    const toggleColumn = (id, index) => {
+      if (checkBillingType && index > 2) return
       setVisibleColumns((prev) =>
         prev.includes(id) ? prev.filter((col) => col !== id) : [...prev, id]
       )
     }
-    const { ...globalStore } = useContext(GlobalContext)
 
     useEffect(() => {
       getSdgYearData(globalStore.dataProvider.id)
@@ -260,6 +264,10 @@ const SdgPageTemplate = observer(
       }
     })
 
+    useEffect(() => {
+      setCheckBillingType(billingPlan?.billingType === 'starting')
+    }, [billingPlan])
+
     return (
       <Tag
         className={classNames.use(styles.container).join(className)}
@@ -279,13 +287,17 @@ const SdgPageTemplate = observer(
           visibleColumns={visibleColumns}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
+          checkBillingType={checkBillingType}
         />
         {activeTab === 'yearly' && (
           <div className={styles.sdgIcons}>
-            {updatedSdgTypes.map((sdg) => (
+            {updatedSdgTypes.map((sdg, index) => (
               <div key={sdg.id} className={styles.sdgIcon}>
                 {/* eslint-disable-next-line react/button-has-type */}
-                <button onClick={() => toggleColumn(sdg.id)}>
+                <button
+                  onClick={() => toggleColumn(sdg.id, index)}
+                  disabled={checkBillingType && index > 2}
+                >
                   <img
                     className={classNames.use(styles.sdgImg, {
                       [styles.sdgImgMain]: sdg.id === 'all',
@@ -293,30 +305,64 @@ const SdgPageTemplate = observer(
                     src={sdg.icon}
                     alt={sdg.id}
                   />
-                  <div
-                    className={classNames.use(styles.sdgBody, {
-                      [styles.activeSdgBody]: visibleColumns.includes(sdg.id),
-                    })}
-                  >
-                    <span
-                      className={classNames.use(styles.sdgCount, {
-                        [styles.activeSdgCount]: visibleColumns.includes(
-                          sdg.id
-                        ),
+                  {checkBillingType && index > 2 ? (
+                    <Popover
+                      className={styles.popover}
+                      placement="top"
+                      content="Become Supporting or Sustaining member to see all information."
+                    >
+                      <div
+                        className={classNames.use(styles.sdgBody, {
+                          [styles.activeSdgBody]: visibleColumns.includes(
+                            sdg.id
+                          ),
+                          [styles.blurEffect]: checkBillingType && index > 2,
+                        })}
+                      >
+                        <span
+                          className={classNames.use(styles.sdgCount, {
+                            [styles.activeSdgCount]: visibleColumns.includes(
+                              sdg.id
+                            ),
+                          })}
+                        >
+                          {formatNumber(sdg.outputCount)}
+                        </span>
+                        <p
+                          className={classNames.use(styles.sdgDescription, {
+                            [styles.activeSdgDescription]:
+                              visibleColumns.includes(sdg.id),
+                          })}
+                        >
+                          outputs
+                        </p>
+                      </div>
+                    </Popover>
+                  ) : (
+                    <div
+                      className={classNames.use(styles.sdgBody, {
+                        [styles.activeSdgBody]: visibleColumns.includes(sdg.id),
                       })}
                     >
-                      {formatNumber(sdg.outputCount)}
-                    </span>
-                    <p
-                      className={classNames.use(styles.sdgDescription, {
-                        [styles.activeSdgDescription]: visibleColumns.includes(
-                          sdg.id
-                        ),
-                      })}
-                    >
-                      outputs
-                    </p>
-                  </div>
+                      <span
+                        className={classNames.use(styles.sdgCount, {
+                          [styles.activeSdgCount]: visibleColumns.includes(
+                            sdg.id
+                          ),
+                        })}
+                      >
+                        {formatNumber(sdg.outputCount)}
+                      </span>
+                      <p
+                        className={classNames.use(styles.sdgDescription, {
+                          [styles.activeSdgDescription]:
+                            visibleColumns.includes(sdg.id),
+                        })}
+                      >
+                        outputs
+                      </p>
+                    </div>
+                  )}
                 </button>
               </div>
             ))}
@@ -333,6 +379,7 @@ const SdgPageTemplate = observer(
           outputCount={updatedSdgTypes[0].outputCount}
           startDate={dateRange.startDate}
           endDate={dateRange.endDate}
+          checkBillingType={checkBillingType}
         />
       </Tag>
     )
