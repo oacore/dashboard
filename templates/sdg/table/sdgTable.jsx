@@ -159,8 +159,8 @@ const SdgTable = observer(
       <Card className={styles.sdgTableWrapper} id="rrsTable">
         <Card.Title tag="h2">{texts.table.title}</Card.Title>
         <div className={styles.itemCountIndicator}>
-          We have found {formatNumber(outputCount)} paper with SDG. Review and
-          download them below.
+          We have found {formatNumber(outputCount)} papers tagged with SDGs.
+          Review and download them below.
         </div>
         {initialLoad ? (
           <div className={styles.dataSpinnerWrapper}>
