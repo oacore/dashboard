@@ -18,6 +18,7 @@ import Table from 'components/table'
 
 const SdgTable = observer(
   ({
+    visibleColumns,
     sdgUrl,
     getSdgTableData,
     sdgTableList,
@@ -53,21 +54,22 @@ const SdgTable = observer(
         await getSdgTableData(
           providerId,
           0,
-          500,
+          50,
           localSearchTerm,
           startDate,
-          endDate
+          endDate,
+          visibleColumns
         )
         setInitialLoad(false)
       }
       if (providerId) fetchData()
-    }, [providerId, startDate, endDate])
+    }, [providerId, startDate, endDate, visibleColumns])
 
     const fetchData = async () => {
-      if (sdgTableDataLoading) return
+      if (sdgTableDataLoading || sdgTableList?.length === outputCount) return
 
-      const from = (page + 1) * 500
-      const size = 500
+      const from = (page + 1) * 50
+      const size = 50
 
       try {
         await getSdgTableData(
@@ -76,7 +78,8 @@ const SdgTable = observer(
           size,
           localSearchTerm,
           startDate,
-          endDate
+          endDate,
+          visibleColumns
         )
         setPage((prevPage) => prevPage + 1)
       } catch (error) {
@@ -141,7 +144,15 @@ const SdgTable = observer(
       const searchTerm = event.target.value
       setLocalSearchTerm(searchTerm)
       setPage(0)
-      await getSdgTableData(providerId, 0, 500, searchTerm, startDate, endDate)
+      await getSdgTableData(
+        providerId,
+        0,
+        50,
+        searchTerm,
+        startDate,
+        endDate,
+        visibleColumns
+      )
     }
 
     return (

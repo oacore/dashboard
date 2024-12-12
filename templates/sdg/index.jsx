@@ -203,9 +203,14 @@ const SdgPageTemplate = observer(
 
     const toggleColumn = (id, index) => {
       if (checkBillingType && index > 2) return
-      setVisibleColumns((prev) =>
-        prev.includes(id) ? prev.filter((col) => col !== id) : [...prev, id]
-      )
+
+      setVisibleColumns((prev) => {
+        if (prev.includes(id)) {
+          if (prev.length === 1) return prev
+          return prev.filter((col) => col !== id)
+        }
+        return [...prev, id]
+      })
     }
 
     useEffect(() => {
@@ -268,6 +273,13 @@ const SdgPageTemplate = observer(
       setCheckBillingType(billingPlan?.billingType === 'starting')
     }, [billingPlan])
 
+    const selectedSdgTypes = updatedSdgTypes.filter((sdg) =>
+      visibleColumns.includes(sdg.id)
+    )
+    const outputCount = selectedSdgTypes.some((sdg) => sdg.id === 'all')
+      ? selectedSdgTypes.find((sdg) => sdg.id === 'all').outputCount
+      : selectedSdgTypes.reduce((sum, sdg) => sum + sdg.outputCount, 0)
+
     return (
       <Tag
         className={classNames.use(styles.container).join(className)}
@@ -275,6 +287,7 @@ const SdgPageTemplate = observer(
       >
         <DashboardHeader title={texts.title} description={texts.description} />
         <div className={styles.pickerWrapper}>
+          <span className={styles.dateTitle}>Include records from</span>
           <DateRangePicker onDateChange={handleDateChange} />
         </div>
         <ChartToggler
@@ -369,6 +382,7 @@ const SdgPageTemplate = observer(
           </div>
         )}
         <SdgTable
+          visibleColumns={visibleColumns}
           sdgUrl={sdgUrl}
           getSdgTableData={getSdgTableData}
           sdgTableList={sdgTableList}
@@ -376,7 +390,7 @@ const SdgPageTemplate = observer(
           sdgTypes={sdgTypes}
           articleAdditionalData={articleAdditionalData}
           articleAdditionalDataLoading={articleAdditionalDataLoading}
-          outputCount={updatedSdgTypes[0].outputCount}
+          outputCount={outputCount}
           startDate={dateRange.startDate}
           endDate={dateRange.endDate}
           checkBillingType={checkBillingType}

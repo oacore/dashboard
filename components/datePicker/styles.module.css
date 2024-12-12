@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: 40%;
   margin-top: 20px;
   gap: 15px;
 }
@@ -18,12 +17,9 @@
 
 .date-input {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 120px;
+  width: 140px;
   height: 40px;
-  padding: 8px 16px;
+  padding: 8px 16px 8px 20px;
   color: #b75400;
   background: #fff;
   border: 1px solid #e0e0e0;

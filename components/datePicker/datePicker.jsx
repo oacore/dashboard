@@ -28,6 +28,7 @@ const DateRangePicker = ({ onDateChange }) => {
         onChange={handleStartDateChange}
         placeholder="Start Date"
         className={styles.dateInput}
+        min="2012-01-01"
         onFocus={(e) => e.target.showPicker()}
       />
       <span className={styles.separator}>to</span>
@@ -36,7 +37,7 @@ const DateRangePicker = ({ onDateChange }) => {
         value={endDate}
         onChange={handleEndDateChange}
         placeholder="End Date"
-        min={startDate}
+        min={startDate || '2012-01-01'}
         className={styles.dateInput}
         onFocus={(e) => e.target.showPicker()}
       />

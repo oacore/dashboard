@@ -528,24 +528,34 @@ class DataProvider extends Resource {
   getSdgTableData = async (
     id,
     from = 0,
-    size = 500,
+    size = 50,
     searchTerm = '',
     startDate,
-    endDate
+    endDate,
+    visibleColumns = []
   ) => {
     this.sdgTableDataLoading = true
     try {
       const url = new URL(`${process.env.API_URL}/data-providers/${id}/sdg`)
       url.searchParams.append('from', from)
       url.searchParams.append('size', size)
-      if (searchTerm)
-        url.searchParams.append('q', encodeURIComponent(searchTerm))
+
+      let query = ''
+      if (searchTerm) query += `${encodeURIComponent(searchTerm)}`
+
       if (startDate && endDate) {
-        url.searchParams.append(
-          'q',
-          `AND(yearPublished>=${startDate} AND yearPublished<=${endDate})`
-        )
+        if (query) query += ' AND '
+        query += `yearPublished>=${startDate} AND yearPublished<=${endDate}`
       }
+      const filteredColumns = visibleColumns.filter((col) => col !== 'all')
+      if (filteredColumns.length > 0) {
+        if (query) query += ' AND '
+        const sdgQuery = filteredColumns
+          .map((col) => `sdgs:${col}`)
+          .join(' OR ')
+        query += `(${sdgQuery})`
+      }
+      if (query) url.searchParams.append('q', query)
 
       const response = await fetch(url)
       if (response.ok && response.status === 200) {

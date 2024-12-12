@@ -397,10 +397,17 @@
   align-items: center;
   justify-content: flex-end;
   width: 100%;
+  gap: 16px;
 }
 
 .popover {
   width: 280px;
   color: #fff;
   background: rgba(0, 0, 0, 0.8);
+}
+
+.date-title {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #424242;
 }
