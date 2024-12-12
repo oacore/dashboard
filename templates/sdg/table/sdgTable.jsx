@@ -174,7 +174,7 @@ const SdgTable = observer(
             className={styles.sdgTable}
             isHeaderClickable
             rowIdentifier="articleId"
-            data={sdgTableList}
+            data={checkBillingType ? sdgTableList.slice(0, 10) : sdgTableList}
             size={sdgTableList?.length}
             totalLength={formatNumber(outputCount)}
             rowClick={(row) => onSetActiveArticle(row)}
