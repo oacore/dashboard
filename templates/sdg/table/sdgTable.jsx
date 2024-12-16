@@ -174,7 +174,7 @@ const SdgTable = observer(
             className={styles.sdgTable}
             isHeaderClickable
             rowIdentifier="articleId"
-            data={checkBillingType ? sdgTableList.slice(0, 10) : sdgTableList}
+            data={checkBillingType ? sdgTableList.slice(0, 5) : sdgTableList}
             size={sdgTableList?.length}
             totalLength={formatNumber(outputCount)}
             rowClick={(row) => onSetActiveArticle(row)}
@@ -287,7 +287,7 @@ const SdgTable = observer(
           <AccessPlaceholder
             dataProviderData={globalStore.dataProvider}
             customWidth
-            description="To see all  SDG labeled papers become our  Supporting or Sustaining member. Try [SDG Insights DEMO]()."
+            description="To see all  SDG labeled papers become our  Supporting or Sustaining member. Try [SDG Insights DEMO](https://core.ac.uk/labs/sdg)."
           />
         )}
       </Card>
