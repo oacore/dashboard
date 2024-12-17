@@ -548,7 +548,7 @@ const RepositoryPageTemplate = observer(
                 <TextField
                   id="oaiPmhUrl"
                   label="OAI based URL"
-                  name="oaiPmhUrl"
+                  name="oaiPmhEndpoint"
                   defaultValue={oaiUrl}
                   tag="p"
                   value={oaiUrl}
