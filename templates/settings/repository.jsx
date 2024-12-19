@@ -16,7 +16,7 @@ import { FormShell, ResolverSettingsForm } from '../../components/forms'
 import DropdownInput from '../../components/input-select/input-select'
 import warning from './assets/warning.svg'
 import { GlobalContext } from '../../store'
-// import infoGreen from '../../components/upload/assets/infoGreen.svg'
+import infoGreen from '../../components/upload/assets/infoGreen.svg'
 import greenTick from '../../components/upload/assets/greenTick.svg'
 import removeBin from '../../components/upload/assets/removeBin.svg'
 import toggleArrow from '../../components/upload/assets/dropdownArrow.svg'
@@ -108,7 +108,7 @@ const RepositoryPageTemplate = observer(
     const [repositoryName, setRepositoryName] = useState(
       globalStore.dataProvider.name
     )
-    const [oaiUrl, setOaiUrl] = useState()
+    const [oaiUrl, setOaiUrl] = useState(dataProvider.oaiPmhBase || '')
     const [suggestionsId, setSuggestionsId] = useState([])
     const [suggestionsName, setSuggestionsName] = useState([])
     const [isChanged, setChanged] = useState(false)
@@ -117,7 +117,7 @@ const RepositoryPageTemplate = observer(
     const [isNameChanged, setNameChanged] = useState(false)
     const [isEmailChanged, setEmailChanged] = useState(false)
     const [isOaiChanged, setOaiChanged] = useState(false)
-    // const [isFormSubmitted, setFormSubmitted] = useState(false)
+    const [isFormSubmitted, setFormSubmitted] = useState(false)
     const [isLicenseOpen, setIsLicenseOpen] = useState(false)
     const [inputLicenseValue, setLicenseInputValue] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -215,13 +215,13 @@ const RepositoryPageTemplate = observer(
 
       await globalStore.organisation.retrieve()
 
-      // if (event.target.getAttribute('name') === 'data-provider')
-      //   setFormSubmitted(true)
-
-      setFormMessage({
-        ...formMessage,
-        [scope]: { type: result.type, text: result.message },
-      })
+      if (data.fieldId === 'oaiPmhUrl') setFormSubmitted(true)
+      else {
+        setFormMessage({
+          ...formMessage,
+          [scope]: { type: result.type, text: result.message },
+        })
+      }
     }
 
     const handleNameInputChange = (event) => {
@@ -474,7 +474,6 @@ const RepositoryPageTemplate = observer(
                 name="data-provider"
                 onSubmit={handleSubmit}
                 onChange={changeEmail}
-                message={formMessage['data-provider']}
               >
                 <TextField
                   id="settings-repository-email"
@@ -533,6 +532,9 @@ const RepositoryPageTemplate = observer(
                 </div>
                 {isChanged && <Button variant="contained">save</Button>}
               </form>
+              <Markdown className={styles.rorDescription}>
+                {content.organisation.rordescription}
+              </Markdown>
             </div>
             <div className={styles.mainWarningWrapper}>
               {renderRORWarning()}
@@ -544,7 +546,9 @@ const RepositoryPageTemplate = observer(
                 name="data-provider"
                 onSubmit={handleSubmit}
                 onChange={changeOaiUrl}
+                message={formMessage['data-provider']}
               >
+                <input type="hidden" name="fieldId" value="oaiPmhUrl" />
                 <TextField
                   id="oaiPmhUrl"
                   label="OAI based URL"
@@ -554,32 +558,31 @@ const RepositoryPageTemplate = observer(
                   value={oaiUrl}
                   onChange={handleOaiUrlChange}
                 />
-                {isOaiChanged && <Button variant="contained">save</Button>}
+                <Markdown className={styles.rorDescription}>
+                  {content.organisation.oaiDescription}
+                </Markdown>
+                {isOaiChanged && (
+                  <Button className={styles.spacing} variant="contained">
+                    save
+                  </Button>
+                )}
+                {isFormSubmitted && (
+                  <div className={styles.infoIndicatorWrapper}>
+                    <div className={styles.infoIndicator}>
+                      <img src={infoGreen} alt="infogreen" />
+                      <span className={styles.infoText}>
+                        Your request for changing OAI PMH URL has been
+                        successfully sent. Your suggestion will be reviewed by
+                        our technical specialists and it may take a few days for
+                        the changes to propagate across the whole of CORE data.
+                      </span>
+                    </div>
+                  </div>
+                )}
               </FormShell>
-              <Markdown className={styles.rorDescription}>
-                {content.organisation.oaiDescription}
-              </Markdown>
             </div>
             <div className={styles.mainWarningWrapper} />
           </div>
-          <Markdown className={styles.rorDescription}>
-            {content.organisation.rordescription}
-          </Markdown>
-          {/* {isFormSubmitted && ( */}
-          {/*  <div className={styles.infoIndicatorWrapper}> */}
-          {/*    <div className={styles.infoIndicator}> */}
-          {/*      <img src={infoGreen} alt="infogreen" /> */}
-          {/*      <span className={styles.infoText}> */}
-          {/*        Your data has been successfully saved. */}
-          {/*        <br /> */}
-          {/* eslint-disable-next-line max-len */}
-          {/*        Please be aware that it may take a few days for the changes to */}
-          {/*        propagate across the whole of CORE data. */}
-          {/*      </span> */}
-          {/*    </div> */}
-          {/*    <div className={styles.mainWarningWrapper} /> */}
-          {/*  </div> */}
-          {/* )} */}
         </Card>
         {globalStore.enabledList.length >= 0 &&
         globalStore.dataProvider.id === 140 ? (

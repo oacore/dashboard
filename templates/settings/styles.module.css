@@ -679,7 +679,6 @@
 
 .main-warning-wrapper {
   flex: 1;
-  margin-top: 16px;
 }
 
 .warning-wrapper {
@@ -703,6 +702,10 @@
   font-weight: 400;
   line-height: 20px;
   color: #666;
+}
+
+.spacing {
+  margin-top: 10px;
 }
 
 .ror-link {
