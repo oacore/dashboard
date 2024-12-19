@@ -129,6 +129,7 @@ const RepositoryPageTemplate = observer(
     const [isEditing, setIsEditing] = useState({})
     const [showFullList, setShowFullList] = useState(false)
     const [inputValue, setInputValue] = useState('')
+    const [isSaveSuccessful, setIsSaveSuccessful] = useState(false)
     const [storedLicenseValue, setStoredLicenseValue] =
       useState(inputLicenseValue)
 
@@ -222,6 +223,8 @@ const RepositoryPageTemplate = observer(
           [scope]: { type: result.type, text: result.message },
         })
       }
+
+      if (result.type === 'success') setIsSaveSuccessful(true)
     }
 
     const handleNameInputChange = (event) => {
@@ -463,7 +466,9 @@ const RepositoryPageTemplate = observer(
                   value={repositoryName}
                   onChange={handleNameChange}
                 />
-                {isNameChanged && <Button variant="contained">save</Button>}
+                {!isSaveSuccessful && isNameChanged && (
+                  <Button variant="contained">save</Button>
+                )}
               </FormShell>
             </div>
             <div className={styles.mainWarningWrapper} />
@@ -483,7 +488,9 @@ const RepositoryPageTemplate = observer(
                   tag="p"
                   readOnly
                 />
-                {isEmailChanged && <Button variant="contained">save</Button>}
+                {!isSaveSuccessful && isEmailChanged && (
+                  <Button variant="contained">save</Button>
+                )}
               </FormShell>
               <Markdown className={styles.rorDescription}>
                 {content.organisation.emailDescription}
@@ -530,7 +537,9 @@ const RepositoryPageTemplate = observer(
                     required={false}
                   />
                 </div>
-                {isChanged && <Button variant="contained">save</Button>}
+                {!isSaveSuccessful && isChanged && (
+                  <Button variant="contained">save</Button>
+                )}
               </form>
               <Markdown className={styles.rorDescription}>
                 {content.organisation.rordescription}
@@ -554,14 +563,13 @@ const RepositoryPageTemplate = observer(
                   label="OAI based URL"
                   name="oaiPmhEndpoint"
                   defaultValue={oaiUrl}
-                  tag="p"
                   value={oaiUrl}
                   onChange={handleOaiUrlChange}
                 />
                 <Markdown className={styles.rorDescription}>
                   {content.organisation.oaiDescription}
                 </Markdown>
-                {isOaiChanged && (
+                {!isSaveSuccessful && isOaiChanged && (
                   <Button className={styles.spacing} variant="contained">
                     save
                   </Button>
