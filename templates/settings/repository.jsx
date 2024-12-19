@@ -108,12 +108,15 @@ const RepositoryPageTemplate = observer(
     const [repositoryName, setRepositoryName] = useState(
       globalStore.dataProvider.name
     )
+    const [oaiUrl, setOaiUrl] = useState(dataProvider.oaiPmhBase || '')
     const [suggestionsId, setSuggestionsId] = useState([])
     const [suggestionsName, setSuggestionsName] = useState([])
     const [isChanged, setChanged] = useState(false)
     const [isNameOpen, setNameIsOpen] = useState(false)
     const [isIdOpen, setIdIsOpen] = useState(false)
     const [isNameChanged, setNameChanged] = useState(false)
+    const [isEmailChanged, setEmailChanged] = useState(false)
+    const [isOaiChanged, setOaiChanged] = useState(false)
     const [isFormSubmitted, setFormSubmitted] = useState(false)
     const [isLicenseOpen, setIsLicenseOpen] = useState(false)
     const [inputLicenseValue, setLicenseInputValue] = useState('')
@@ -126,6 +129,7 @@ const RepositoryPageTemplate = observer(
     const [isEditing, setIsEditing] = useState({})
     const [showFullList, setShowFullList] = useState(false)
     const [inputValue, setInputValue] = useState('')
+    const [isSaveSuccessful, setIsSaveSuccessful] = useState(false)
     const [storedLicenseValue, setStoredLicenseValue] =
       useState(inputLicenseValue)
 
@@ -203,7 +207,7 @@ const RepositoryPageTemplate = observer(
       const data = Object.fromEntries(formData.entries())
       const scope = target.getAttribute('name', 'ror_id')
       const present = {
-        'data-provider': updateDataProvider,
+        'data-provider': await updateDataProvider,
         'mapping': mappingSubmit,
         'sets': mappingSubmit,
       }[scope]
@@ -212,13 +216,15 @@ const RepositoryPageTemplate = observer(
 
       await globalStore.organisation.retrieve()
 
-      if (event.target.getAttribute('name') === 'data-provider')
-        setFormSubmitted(true)
+      if (data.fieldId === 'oaiPmhUrl') setFormSubmitted(true)
+      else {
+        setFormMessage({
+          ...formMessage,
+          [scope]: { type: result.type, text: result.message },
+        })
+      }
 
-      setFormMessage({
-        ...formMessage,
-        [scope]: { type: result.type, text: result.message },
-      })
+      if (result.type === 'success') setIsSaveSuccessful(true)
     }
 
     const handleNameInputChange = (event) => {
@@ -286,8 +292,19 @@ const RepositoryPageTemplate = observer(
       setNameChanged(true)
     }
 
+    const changeEmail = () => {
+      setEmailChanged(true)
+    }
+    const changeOaiUrl = () => {
+      setOaiChanged(true)
+    }
+
     const handleNameChange = (event) => {
       setRepositoryName(event.target.value)
+    }
+
+    const handleOaiUrlChange = (event) => {
+      setOaiUrl(event.target.value)
     }
 
     const renderRORWarning = () => {
@@ -440,27 +457,44 @@ const RepositoryPageTemplate = observer(
                 onSubmit={handleSubmit}
                 onChange={changeHandler}
               >
-                <>
-                  <TextField
-                    id="settings-repository-name"
-                    label={!dataProvider.name && 'Name'}
-                    name="name"
-                    defaultValue={repositoryName}
-                    tag="p"
-                    value={repositoryName}
-                    onChange={handleNameChange}
-                  />
-                  <TextField
-                    id="settings-repository-email"
-                    label={!dataProvider.email && 'Email'}
-                    name="email"
-                    defaultValue={dataProvider.email}
-                    tag="p"
-                    readOnly
-                  />
-                </>
-                {isNameChanged && <Button variant="contained">save</Button>}
+                <TextField
+                  id="settings-repository-name"
+                  label={!dataProvider.name && 'Name'}
+                  name="name"
+                  defaultValue={repositoryName}
+                  tag="p"
+                  value={repositoryName}
+                  onChange={handleNameChange}
+                />
+                {!isSaveSuccessful && isNameChanged && (
+                  <Button variant="contained">save</Button>
+                )}
               </FormShell>
+            </div>
+            <div className={styles.mainWarningWrapper} />
+          </div>
+          <div className={styles.formWrapper}>
+            <div className={styles.formInnerWrapper}>
+              <FormShell
+                name="data-provider"
+                onSubmit={handleSubmit}
+                onChange={changeEmail}
+              >
+                <TextField
+                  id="settings-repository-email"
+                  label={!dataProvider.email && 'Email'}
+                  name="email"
+                  defaultValue={dataProvider.email}
+                  tag="p"
+                  readOnly
+                />
+                {!isSaveSuccessful && isEmailChanged && (
+                  <Button variant="contained">save</Button>
+                )}
+              </FormShell>
+              <Markdown className={styles.rorDescription}>
+                {content.organisation.emailDescription}
+              </Markdown>
             </div>
             <div className={styles.mainWarningWrapper} />
           </div>
@@ -503,30 +537,60 @@ const RepositoryPageTemplate = observer(
                     required={false}
                   />
                 </div>
-                {isChanged && <Button variant="contained">save</Button>}
+                {!isSaveSuccessful && isChanged && (
+                  <Button variant="contained">save</Button>
+                )}
               </form>
+              <Markdown className={styles.rorDescription}>
+                {content.organisation.rordescription}
+              </Markdown>
             </div>
             <div className={styles.mainWarningWrapper}>
               {renderRORWarning()}
             </div>
           </div>
-          <Markdown className={styles.rorDescription}>
-            {content.organisation.rordescription}
-          </Markdown>
-          {isFormSubmitted && (
-            <div className={styles.infoIndicatorWrapper}>
-              <div className={styles.infoIndicator}>
-                <img src={infoGreen} alt="infogreen" />
-                <span className={styles.infoText}>
-                  Your data has been successfully saved.
-                  <br />
-                  Please be aware that it may take a few days for the changes to
-                  propagate across the whole of CORE data.
-                </span>
-              </div>
-              <div className={styles.mainWarningWrapper} />
+          <div className={styles.formWrapper}>
+            <div className={styles.formInnerWrapper}>
+              <FormShell
+                name="data-provider"
+                onSubmit={handleSubmit}
+                onChange={changeOaiUrl}
+                message={formMessage['data-provider']}
+              >
+                <input type="hidden" name="fieldId" value="oaiPmhUrl" />
+                <TextField
+                  id="oaiPmhUrl"
+                  label="OAI based URL"
+                  name="oaiPmhEndpoint"
+                  defaultValue={oaiUrl}
+                  value={oaiUrl}
+                  onChange={handleOaiUrlChange}
+                />
+                <Markdown className={styles.rorDescription}>
+                  {content.organisation.oaiDescription}
+                </Markdown>
+                {!isSaveSuccessful && isOaiChanged && (
+                  <Button className={styles.spacing} variant="contained">
+                    save
+                  </Button>
+                )}
+                {isFormSubmitted && (
+                  <div className={styles.infoIndicatorWrapper}>
+                    <div className={styles.infoIndicator}>
+                      <img src={infoGreen} alt="infogreen" />
+                      <span className={styles.infoText}>
+                        Your request for changing OAI PMH URL has been
+                        successfully sent. Your suggestion will be reviewed by
+                        our technical specialists and it may take a few days for
+                        the changes to propagate across the whole of CORE data.
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </FormShell>
             </div>
-          )}
+            <div className={styles.mainWarningWrapper} />
+          </div>
         </Card>
         {globalStore.enabledList.length >= 0 &&
         globalStore.dataProvider.id === 140 ? (

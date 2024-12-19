@@ -3,6 +3,10 @@ title: Organisational settings
 organisation:
   title: Your organisation
   rordescription: A ROR id is an identifier for the organisation connected with the repository. To search for ROR ids you can head to [https://ror.org/](https://ror.org)
+  emailDescription: This email address is taken from the adminEmail property in the OAI-PMH Identify response. To change it modify your repository settings and wait for reharvesting.
+  oaiDescription: |
+    Note: In this field you can make a suggestion for the updating OAI PMH URL for your repository. All changes in this field will be reviewed by our technical specialists.
+
 
 invite:
   title: Invite colleagues to the repository dashboard
