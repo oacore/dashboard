@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 import { Popover } from '@oacore/design'
+import { Button } from '@oacore/design/lib/elements'
 
 import DashboardHeader from '../../components/dashboard-header'
 import texts from '../../texts/sdg/sdg.yml'
@@ -40,12 +41,15 @@ import underWaterH from '../../components/upload/assets/belowWaterH.svg'
 import landH from '../../components/upload/assets/landH.svg'
 import peaceH from '../../components/upload/assets/peaceH.svg'
 import goalH from '../../components/upload/assets/goalH.svg'
+import sdgLoad from '../../components/upload/assets/sdgLoad.svg'
 import styles from './styles.module.css'
 import SdgTable from './table/sdgTable'
 import { GlobalContext } from '../../store'
 import ChartToggler from './charts/chartToggler'
 import { formatNumber } from '../../utils/helpers'
 import DateRangePicker from '../../components/datePicker/datePicker'
+import Markdown from '../../components/markdown'
+import Video from '../../components/video/video'
 
 const sdgTypes = [
   {
@@ -285,116 +289,147 @@ const SdgPageTemplate = observer(
         className={classNames.use(styles.container).join(className)}
         {...restProps}
       >
-        <DashboardHeader title={texts.title} description={texts.description} />
-        <div className={styles.pickerWrapper}>
-          <span className={styles.dateTitle}>Include records from</span>
-          <DateRangePicker onDateChange={handleDateChange} />
-        </div>
-        <ChartToggler
-          handleToggle={handleToggle}
-          toggle={toggle}
-          sdgTypes={sdgTypes}
-          updatedSdgTypes={updatedSdgTypes}
-          data={data}
-          sdgYearDataLoading={sdgYearDataLoading}
-          visibleColumns={visibleColumns}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          checkBillingType={checkBillingType}
-        />
-        {activeTab === 'yearly' && (
-          <div className={styles.sdgIcons}>
-            {updatedSdgTypes.map((sdg, index) => (
-              <div key={sdg.id} className={styles.sdgIcon}>
-                {/* eslint-disable-next-line react/button-has-type */}
-                <button
-                  onClick={() => toggleColumn(sdg.id, index)}
-                  disabled={checkBillingType && index > 2}
-                >
-                  <img
-                    className={classNames.use(styles.sdgImg, {
-                      [styles.sdgImgMain]: sdg.id === 'all',
-                    })}
-                    src={sdg.icon}
-                    alt={sdg.id}
-                  />
-                  {checkBillingType && index > 2 ? (
-                    <Popover
-                      className={styles.popover}
-                      placement="top"
-                      content="Become Supporting or Sustaining member to see all information."
+        {sdgYearData.data ? (
+          <>
+            <DashboardHeader
+              title={texts.title}
+              description={texts.description}
+            />
+            <div className={styles.pickerWrapper}>
+              <span className={styles.dateTitle}>Include records from</span>
+              <DateRangePicker onDateChange={handleDateChange} />
+            </div>
+            <ChartToggler
+              handleToggle={handleToggle}
+              toggle={toggle}
+              sdgTypes={sdgTypes}
+              updatedSdgTypes={updatedSdgTypes}
+              data={data}
+              sdgYearDataLoading={sdgYearDataLoading}
+              visibleColumns={visibleColumns}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              checkBillingType={checkBillingType}
+            />
+            {activeTab === 'yearly' && (
+              <div className={styles.sdgIcons}>
+                {updatedSdgTypes.map((sdg, index) => (
+                  <div key={sdg.id} className={styles.sdgIcon}>
+                    {/* eslint-disable-next-line react/button-has-type */}
+                    <button
+                      onClick={() => toggleColumn(sdg.id, index)}
+                      disabled={checkBillingType && index > 2}
                     >
-                      <div
-                        className={classNames.use(styles.sdgBody, {
-                          [styles.activeSdgBody]: visibleColumns.includes(
-                            sdg.id
-                          ),
-                          [styles.blurEffect]: checkBillingType && index > 2,
+                      <img
+                        className={classNames.use(styles.sdgImg, {
+                          [styles.sdgImgMain]: sdg.id === 'all',
                         })}
-                      >
-                        <span
-                          className={classNames.use(styles.sdgCount, {
-                            [styles.activeSdgCount]: visibleColumns.includes(
+                        src={sdg.icon}
+                        alt={sdg.id}
+                      />
+                      {checkBillingType && index > 2 ? (
+                        <Popover
+                          className={styles.popover}
+                          placement="top"
+                          content="Become Supporting or Sustaining member to see all information."
+                        >
+                          <div
+                            className={classNames.use(styles.sdgBody, {
+                              [styles.activeSdgBody]: visibleColumns.includes(
+                                sdg.id
+                              ),
+                              [styles.blurEffect]:
+                                checkBillingType && index > 2,
+                            })}
+                          >
+                            <span
+                              className={classNames.use(styles.sdgCount, {
+                                [styles.activeSdgCount]:
+                                  visibleColumns.includes(sdg.id),
+                              })}
+                            >
+                              {formatNumber(sdg.outputCount)}
+                            </span>
+                            <p
+                              className={classNames.use(styles.sdgDescription, {
+                                [styles.activeSdgDescription]:
+                                  visibleColumns.includes(sdg.id),
+                              })}
+                            >
+                              outputs
+                            </p>
+                          </div>
+                        </Popover>
+                      ) : (
+                        <div
+                          className={classNames.use(styles.sdgBody, {
+                            [styles.activeSdgBody]: visibleColumns.includes(
                               sdg.id
                             ),
                           })}
                         >
-                          {formatNumber(sdg.outputCount)}
-                        </span>
-                        <p
-                          className={classNames.use(styles.sdgDescription, {
-                            [styles.activeSdgDescription]:
-                              visibleColumns.includes(sdg.id),
-                          })}
-                        >
-                          outputs
-                        </p>
-                      </div>
-                    </Popover>
-                  ) : (
-                    <div
-                      className={classNames.use(styles.sdgBody, {
-                        [styles.activeSdgBody]: visibleColumns.includes(sdg.id),
-                      })}
-                    >
-                      <span
-                        className={classNames.use(styles.sdgCount, {
-                          [styles.activeSdgCount]: visibleColumns.includes(
-                            sdg.id
-                          ),
-                        })}
-                      >
-                        {formatNumber(sdg.outputCount)}
-                      </span>
-                      <p
-                        className={classNames.use(styles.sdgDescription, {
-                          [styles.activeSdgDescription]:
-                            visibleColumns.includes(sdg.id),
-                        })}
-                      >
-                        outputs
-                      </p>
-                    </div>
-                  )}
-                </button>
+                          <span
+                            className={classNames.use(styles.sdgCount, {
+                              [styles.activeSdgCount]: visibleColumns.includes(
+                                sdg.id
+                              ),
+                            })}
+                          >
+                            {formatNumber(sdg.outputCount)}
+                          </span>
+                          <p
+                            className={classNames.use(styles.sdgDescription, {
+                              [styles.activeSdgDescription]:
+                                visibleColumns.includes(sdg.id),
+                            })}
+                          >
+                            outputs
+                          </p>
+                        </div>
+                      )}
+                    </button>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            )}
+            <SdgTable
+              visibleColumns={visibleColumns}
+              sdgUrl={sdgUrl}
+              getSdgTableData={getSdgTableData}
+              sdgTableList={sdgTableList}
+              sdgTableDataLoading={sdgTableDataLoading}
+              sdgTypes={sdgTypes}
+              articleAdditionalData={articleAdditionalData}
+              articleAdditionalDataLoading={articleAdditionalDataLoading}
+              outputCount={outputCount}
+              startDate={dateRange.startDate}
+              endDate={dateRange.endDate}
+              checkBillingType={checkBillingType}
+            />
+          </>
+        ) : (
+          <>
+            <DashboardHeader
+              title={texts.noSdg.title}
+              description={texts.noSdg.description}
+            />
+            <div className={styles.sdgSuggestionWrapper}>
+              <div className={styles.sdgInnerSuggestionWrapper}>
+                <img src={sdgLoad} alt="sdgLoad" />
+                <Markdown className={styles.sdgSuggestionDescription}>
+                  {texts.sdgSuggestion.description}
+                </Markdown>
+                <Button variant="contained">Generate SDG report</Button>
+              </div>
+              <Video
+                src="https://www.youtube.com/embed/_r16dXOGdWA"
+                title="sdg labels"
+                tag="p"
+                className={styles.videoWrapper}
+              />
+            </div>
+          </>
         )}
-        <SdgTable
-          visibleColumns={visibleColumns}
-          sdgUrl={sdgUrl}
-          getSdgTableData={getSdgTableData}
-          sdgTableList={sdgTableList}
-          sdgTableDataLoading={sdgTableDataLoading}
-          sdgTypes={sdgTypes}
-          articleAdditionalData={articleAdditionalData}
-          articleAdditionalDataLoading={articleAdditionalDataLoading}
-          outputCount={outputCount}
-          startDate={dateRange.startDate}
-          endDate={dateRange.endDate}
-          checkBillingType={checkBillingType}
-        />
       </Tag>
     )
   }
