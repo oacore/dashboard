@@ -18,6 +18,8 @@ tab:
 noSdg:
   title: Classification of Research Papers in your Repository According to United Nations Sustainable Development Goals
   description: The Sustainable Development Goals or Global Goals are a [collection](https://sdgs.un.org/goals) of 17 interlinked global goals designed to be a "blueprint to achieve a better and more sustainable future for all". The SDGs were set up in 2015 by the United Nations General Assembly and are intended to be achieved by 2030.
+  message: Your request has been successful. When the SDG report is generated, you will see the results in this tab.
+  button: Generate SDG report
 
 sdgSuggestion:
   description: Please note that SDG Insights module is currently in beta stage. To get a detailed report on your repository, click the "Generate SDG Report" button below. The report generation process may take several days. Read more on the [SDG Insights documentation](https://core.ac.uk/documentation/membership-documentation#sdg-insights) or visit our [SDG demo webpage](https://core.ac.uk/labs/sdg).

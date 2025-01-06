@@ -193,6 +193,7 @@ const SdgPageTemplate = observer(
     articleAdditionalDataLoading,
     sdgYearDataLoading,
     billingPlan,
+    generateSdgReport,
     ...restProps
   }) => {
     const { ...globalStore } = useContext(GlobalContext)
@@ -204,6 +205,11 @@ const SdgPageTemplate = observer(
       startDate: '2012',
       endDate: '2024',
     })
+    const [reportGenerated, setReportGenerated] = useState(
+      JSON.parse(
+        localStorage.getItem(`reportGenerated_${globalStore.dataProvider.id}`)
+      ) || false
+    )
 
     const toggleColumn = (id, index) => {
       if (checkBillingType && index > 2) return
@@ -244,8 +250,8 @@ const SdgPageTemplate = observer(
     }
 
     const years =
-      sdgYearData.data && Object.values(sdgYearData?.data).length > 0
-        ? Object.keys(Object.values(sdgYearData?.data)[0].yearlyData)
+      sdgYearData?.data && Object.values(sdgYearData?.data).length > 0
+        ? Object.keys(Object.values(sdgYearData?.data)[0]?.yearlyData || {})
         : []
 
     const data = years.map((year) => {
@@ -261,12 +267,13 @@ const SdgPageTemplate = observer(
         // eslint-disable-next-line no-shadow
         (data) => data.type === sdg.id
       )
-      const yearlyDataSum = sdgDataItem
-        ? Object.values(sdgDataItem.yearlyData).reduce(
-            (sum, value) => sum + value,
-            0
-          )
-        : 0
+      const yearlyDataSum =
+        sdgDataItem && sdgDataItem.yearlyData
+          ? Object.values(sdgDataItem.yearlyData).reduce(
+              (sum, value) => sum + value,
+              0
+            )
+          : 0
       return {
         ...sdg,
         outputCount: yearlyDataSum,
@@ -284,12 +291,38 @@ const SdgPageTemplate = observer(
       ? selectedSdgTypes.find((sdg) => sdg.id === 'all').outputCount
       : selectedSdgTypes.reduce((sum, sdg) => sum + sdg.outputCount, 0)
 
+    const handleGenerateReport = async () => {
+      try {
+        const response = await generateSdgReport(globalStore.dataProvider.id)
+        if (response.ok) {
+          setReportGenerated(true)
+          localStorage.setItem(
+            `reportGenerated_${globalStore.dataProvider.id}`,
+            true
+          )
+        } else {
+          setReportGenerated(false)
+          localStorage.setItem(
+            `reportGenerated_${globalStore.dataProvider.id}`,
+            false
+          )
+        }
+      } catch (error) {
+        setReportGenerated(false)
+        localStorage.setItem(
+          `reportGenerated_${globalStore.dataProvider.id}`,
+          false
+        )
+        console.error('Error generating SDG report:', error)
+      }
+    }
+
     return (
       <Tag
         className={classNames.use(styles.container).join(className)}
         {...restProps}
       >
-        {sdgYearData.data ? (
+        {sdgYearData.data?.all?.yearlyData ? (
           <>
             <DashboardHeader
               title={texts.title}
@@ -419,7 +452,15 @@ const SdgPageTemplate = observer(
                 <Markdown className={styles.sdgSuggestionDescription}>
                   {texts.sdgSuggestion.description}
                 </Markdown>
-                <Button variant="contained">Generate SDG report</Button>
+                {reportGenerated ? (
+                  <div className={styles.messageWrapper}>
+                    {texts.noSdg.message}
+                  </div>
+                ) : (
+                  <Button variant="contained" onClick={handleGenerateReport}>
+                    {texts.noSdg.button}
+                  </Button>
+                )}
               </div>
               <Video
                 src="https://www.youtube.com/embed/_r16dXOGdWA"

@@ -599,6 +599,24 @@ class DataProvider extends Resource {
     }
   }
 
+  @action
+  generateSdgReport = async (dataProviderId) => {
+    try {
+      const url = `https://api.core.ac.uk/internal/data-providers/${dataProviderId}/sdg/email`
+      // https://api-dev.core.ac.uk/internal/data-providers/1/sdg/email
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      return response
+    } catch (error) {
+      console.error('Error generating SDG report:', error)
+      throw error
+    }
+  }
+
   @action async retrieveOaiMapping() {
     try {
       const url = `/data-providers/${this.id}/oairesolver/settings`

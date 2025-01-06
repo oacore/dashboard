@@ -13,6 +13,7 @@ const SdgPage = ({ store, ...props }) => {
       sdgUrl={store.dataProvider?.sdgUrl}
       getSdgTableData={store.dataProvider?.getSdgTableData}
       getSdgYearData={store.dataProvider?.getSdgYearData}
+      generateSdgReport={store.dataProvider?.generateSdgReport}
       sdgTableList={store.dataProvider?.sdgTableList}
       sdgYearData={store.dataProvider?.sdgYearData}
       sdgTableDataLoading={store.dataProvider?.sdgTableDataLoading}

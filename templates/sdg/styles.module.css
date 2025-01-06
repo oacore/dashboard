@@ -437,8 +437,23 @@
   margin: 30px 0 24px;
 }
 
+.message-wrapper {
+  background: #ecf6df;
+  max-width: 493px;
+  width: 100%;
+  padding: 14px 16px;
+  color: #212121;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0.026px;
+}
+
 .video-wrapper {
-  width: 968px;
+  max-width: 968px;
+  width: 100%;
   height: 541px;
 }
 
