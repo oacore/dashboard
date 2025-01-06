@@ -602,8 +602,7 @@ class DataProvider extends Resource {
   @action
   generateSdgReport = async (dataProviderId) => {
     try {
-      const url = `https://api.core.ac.uk/internal/data-providers/${dataProviderId}/sdg/email`
-      // https://api-dev.core.ac.uk/internal/data-providers/1/sdg/email
+      const url = `${process.env.API_URL}/data-providers/${dataProviderId}/sdg/email`
       const response = await fetch(url, {
         method: 'POST',
         headers: {
