@@ -22,4 +22,4 @@ noSdg:
   button: Generate SDG report
 
 sdgSuggestion:
-  description: Please note that SDG Insights module is currently in beta stage. To get a detailed report on your repository, click the "Generate SDG Report" button below. The report generation process may take several days. Read more on the [SDG Insights documentation](https://core.ac.uk/documentation/membership-documentation#sdg-insights) or visit our [SDG demo webpage](https://core.ac.uk/labs/sdg).
+  description: Please note that the SDG Insights module is currently in beta stage. To get a detailed report on your repository, click the "Generate SDG Report" button below. The report generation process may take several days. We will let you know when it’s done. Read more on the [SDG Insights documentation](https://core.ac.uk/documentation/membership-documentation#sdg-insights) or visit our [SDG demo webpage](https://core.ac.uk/labs/sdg).
