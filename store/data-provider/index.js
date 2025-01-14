@@ -86,15 +86,23 @@ class DataProvider extends Resource {
 
   @observable rrsList = []
 
-  @observable rrsAdditionalData = {}
+  @observable articleAdditionalData = {}
 
   @observable rrsDataLoading = false
 
-  @observable rrsAdditionalDataLoading = false
+  @observable articleAdditionalDataLoading = false
 
   @observable rrsPdfLoading = false
 
   @observable statusUpdate = []
+
+  @observable sdgTableDataLoading = false
+
+  @observable sdgYearDataLoading = false
+
+  @observable sdgTableList = []
+
+  @observable sdgYearData = []
 
   @action
   handleTextareaChange = (input) => {
@@ -112,8 +120,8 @@ class DataProvider extends Resource {
   }
 
   @action
-  setRrsAdditionalData(data) {
-    this.rrsAdditionalData = data
+  setArticleAdditionalData(data) {
+    this.articleAdditionalData = data
   }
 
   @action
@@ -129,6 +137,16 @@ class DataProvider extends Resource {
   @action
   setUploadResult = (result) => {
     this.uploadResults = result
+  }
+
+  @action
+  setSdgTableList(data) {
+    this.sdgTableList = data
+  }
+
+  @action
+  setSdgYearData(data) {
+    this.sdgYearData = data
   }
 
   @action
@@ -214,20 +232,20 @@ class DataProvider extends Resource {
 
   @action
   getOutputsAdditionalData = async (id) => {
-    this.rrsAdditionalDataLoading = true
+    this.articleAdditionalDataLoading = true
     try {
       const response = await fetch(
         `https://api.core.ac.uk/internal/articles/${id}`
       )
       if (response.ok) {
         const data = await response.json()
-        this.setRrsAdditionalData(data)
+        this.setArticleAdditionalData(data)
       } else throw new Error('Failed to fetch rrs data')
     } catch (error) {
       console.error('Error fetching rrs data:', error)
-      this.setRrsAdditionalData([])
+      this.setArticleAdditionalData([])
     } finally {
-      this.rrsAdditionalDataLoading = false
+      this.articleAdditionalDataLoading = false
     }
   }
 
@@ -368,6 +386,7 @@ class DataProvider extends Resource {
         this.allMembers = new Membership(url, this.options)
         this.duplicatesUrl = `${process.env.API_URL}${url}/duplicates?accept=text/csv`
         this.rrsUrl = `${process.env.API_URL}${url}/rights-retention?accept=text/csv`
+        this.sdgUrl = `${process.env.API_URL}${url}/sdg?accept=text/csv`
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {
@@ -502,6 +521,98 @@ class DataProvider extends Resource {
       }
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
+    }
+  }
+
+  @action
+  getSdgTableData = async (
+    id,
+    from = 0,
+    size = 50,
+    searchTerm = '',
+    startDate,
+    endDate,
+    visibleColumns = []
+  ) => {
+    this.sdgTableDataLoading = true
+    try {
+      const url = new URL(`${process.env.API_URL}/data-providers/${id}/sdg`)
+      url.searchParams.append('from', from)
+      url.searchParams.append('size', size)
+
+      let query = ''
+      if (searchTerm) query += `${encodeURIComponent(searchTerm)}`
+
+      if (startDate && endDate) {
+        if (query) query += ' AND '
+        query += `yearPublished>=${startDate} AND yearPublished<=${endDate}`
+      }
+      const filteredColumns = visibleColumns.filter((col) => col !== 'all')
+      if (filteredColumns.length > 0) {
+        if (query) query += ' AND '
+        const sdgQuery = filteredColumns
+          .map((col) => `sdgs:${col}`)
+          .join(' OR ')
+        query += `(${sdgQuery})`
+      }
+      if (query) url.searchParams.append('q', query)
+
+      const response = await fetch(url)
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        if (from === 0) this.setSdgTableList(data)
+        else this.setSdgTableList([...this.sdgTableList, ...data])
+      } else throw new Error('Failed to fetch SDG data')
+    } catch (error) {
+      console.error('Error fetching SDG data:', error)
+      this.setSdgTableList([])
+    } finally {
+      this.sdgTableDataLoading = false
+    }
+  }
+
+  @action
+  getSdgYearData = async (id, startDate = '2012', endDate = '2024') => {
+    this.sdgYearDataLoading = true
+    try {
+      const url = new URL(
+        `${process.env.API_URL}/data-providers/${id}/sdg/aggregations?`
+      )
+      if (startDate && endDate) {
+        url.searchParams.append(
+          'q',
+          `AND(yearPublished>=${startDate} AND yearPublished<=${endDate})`
+        )
+      }
+
+      const response = await fetch(url)
+
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        this.setSdgYearData(data)
+      } else throw new Error('Failed to fetch SDG data')
+    } catch (error) {
+      console.error('Error fetching SDG data:', error)
+      this.setSdgYearData([])
+    } finally {
+      this.sdgYearDataLoading = false
+    }
+  }
+
+  @action
+  generateSdgReport = async (dataProviderId) => {
+    try {
+      const url = `${process.env.API_URL}/data-providers/${dataProviderId}/sdg/email`
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      return response
+    } catch (error) {
+      console.error('Error generating SDG report:', error)
+      throw error
     }
   }
 

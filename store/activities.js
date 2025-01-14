@@ -30,6 +30,11 @@ const config = [
     icon: 'calendar-check',
   },
   {
+    id: 'sdg',
+    path: 'sdg',
+    icon: 'sdg',
+  },
+  {
     id: 'rrsPolicy',
     path: 'rights-retention-strategy',
     icon: 'copy-document',
