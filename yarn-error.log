@@ -1,0 +1,125 @@
+Arguments: 
+  /Users/ekachkhaidze/.nvm/versions/node/v16.18.1/bin/node /usr/local/bin/yarn start
+
+PATH: 
+  /Users/ekachkhaidze/.nvm/versions/node/v16.18.1/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Users/ekachkhaidze/Documents/Dev/@qbit/dashboard/node_modules/.bin:/opt/homebrew/bin/
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.18.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: Failed to replace env in config: ${NPM_TOKEN}
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:99004:13
+      at String.replace (<anonymous>)
+      at envReplace (/usr/local/lib/node_modules/yarn/lib/cli.js:98999:16)
+      at Function.normalizeConfig (/usr/local/lib/node_modules/yarn/lib/cli.js:31930:69)
+      at NpmRegistry.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:31960:34)
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "@oacore/dashboard",
+    "description": "CORE Dashboard is a powerful tool for CORE data providers to manage their data in CORE",
+    "main": "pages/index.js",
+    "author": "CORE, The Open University <dev@core.ac.uk>",
+    "license": "UNLICENSED",
+    "private": true,
+    "devDependencies": {
+      "@babel/core": "^7.12.9",
+      "@babel/plugin-proposal-class-properties": "^7.12.1",
+      "@babel/plugin-proposal-decorators": "^7.12.1",
+      "@babel/plugin-proposal-export-default-from": "^7.12.1",
+      "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+      "@babel/plugin-proposal-optional-chaining": "^7.20.7",
+      "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+      "@babel/plugin-transform-runtime": "^7.19.6",
+      "@babel/preset-env": "^7.12.7",
+      "@babel/preset-react": "^7.12.7",
+      "@oacore/eslint-config-react": "^1.0.6",
+      "@oacore/prettier-config": "^1.0.6",
+      "@oacore/stylelint-config-base": "^1.0.6",
+      "babel-eslint": "^10.1.0",
+      "eslint": "^7.15.0",
+      "eslint-plugin-import": "^2.22.1",
+      "eslint-plugin-jsx-a11y": "^6.4.1",
+      "eslint-plugin-prettier": "^3.1.4",
+      "eslint-plugin-react": "^7.21.5",
+      "eslint-plugin-react-hooks": "^4.2.0",
+      "husky": "^4.3.8",
+      "json-loader": "^0.5.7",
+      "lint-staged": "^10.5.3",
+      "lodash.camelcase": "^4.3.0",
+      "npm-run-all": "^4.1.5",
+      "postcss": "8.4.14",
+      "postcss-custom-media": "^8.0.2",
+      "postcss-extend-rule": "^4.0.0",
+      "postcss-preset-env": "^7.7.2",
+      "prettier": "^2.2.1",
+      "stylelint": "^13.8.0",
+      "svgo": "^1.3.2",
+      "yaml-frontmatter-loader": "^0.1.0",
+      "yaml-import-loader": "^1.3.6"
+    },
+    "dependencies": {
+      "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+      "@babel/runtime": "^7.20.13",
+      "@mdi/svg": "^5.8.55",
+      "@oacore/design": "5.0.1",
+      "@octokit/rest": "^19.0.5",
+      "@sentry/browser": "^5.27.2",
+      "@sentry/node": "^5.29.0",
+      "camelize": "^1.0.1",
+      "connect": "^3.7.0",
+      "core-js": "^3.8.1",
+      "cssnano": "^4.1.11",
+      "d3-array": "^2.8.0",
+      "d3-collection": "^1.0.7",
+      "escape-string-regexp": "^4.0.0",
+      "front-matter": "^4.0.2",
+      "html-react-parser": "^3.0.4",
+      "js-yaml": "^4.1.0",
+      "mobx": "5.15.7",
+      "mobx-react-lite": "^2.2.2",
+      "mustache": "^4.0.1",
+      "next": "^10.0.3",
+      "next-images": "^1.8.4",
+      "react": "^17.0.1",
+      "react-dom": "^17.0.1",
+      "react-ga4": "^2.1.0",
+      "react-markdown": "^5.0.0",
+      "react-slick": "^0.29.0",
+      "recharts": "^2.0.0",
+      "remark-heading-id": "^1.0.0",
+      "remark-slug": "^6.0.0",
+      "webpack": "^4.44.2"
+    },
+    "engines": {
+      "node": ">=12"
+    },
+    "scripts": {
+      "dev": "next dev",
+      "dev-api": "NODE_ENV=local next dev",
+      "build": "node ./node_modules/.bin/design build icons && next build",
+      "start": "next start",
+      "lint:json": "prettier --ignore-path .gitignore --check '**/*.json'",
+      "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
+      "lint:css": "stylelint --ignore-path .gitignore '**/*.css'",
+      "lint": "run-p lint:*",
+      "postinstall": "run-p cp:*",
+      "cp:global": "mkdir -p ./public/design && cp -r ./node_modules/@oacore/design/lib/global ./public/design"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
