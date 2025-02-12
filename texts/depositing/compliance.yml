@@ -3,7 +3,9 @@ compliance:
     title: Total outputs
     subTitle: Outputs in the selected timeframe.
     description:  "Number of outputs that are within this REF period (from January 1st 2021), for which CORE has data and can calculate compliance. This number is used to create the compliance percentage of a repository."
-    button: Download
+    buttons:
+      review: Review
+      download: Download
   compliant:
     title: Compliant
     subTitle: Outputs meeting criteria
@@ -23,4 +25,4 @@ compliance:
     title: Cross-repository check
     subTitle: Outputs deposited in other repositories
     description: "Non-compliant outputs in your repository for which compliance is met due to deposits in other repositories"
-    button: Review
+    button: Find out more

@@ -19,9 +19,15 @@ class DepositDates extends Store {
 
   @observable publicationDatesValidate = null
 
+  @observable dateRange = {
+    startDate: null,
+    endDate: null,
+  }
+
   constructor(rootStore, baseUrl, options) {
     super(baseUrl, options)
     this.baseStore = rootStore
+    this.baseUrl = baseUrl // Ensure baseUrl is set
     this.fetchOptions = {
       cache: 'no-store',
     }
@@ -35,6 +41,11 @@ class DepositDates extends Store {
   }
 
   @action
+  setDateRange(startDate, endDate) {
+    this.dateRange = { startDate, endDate }
+  }
+
+  @action
   resetCompliance() {
     this.timeLagData = null
     this.publicReleaseDates = null
@@ -43,11 +54,18 @@ class DepositDates extends Store {
   }
 
   @action
-  updateOaiUrl = (baseUrl) => {
+  updateOaiUrl = (baseUrl, endDate, startDate) => {
+    const dateParams =
+      endDate && startDate
+        ? `?wait=true&refresh=true&toDate=${endDate}&fromDate=${startDate}`
+        : ''
     const datesUrl = `${baseUrl}/public-release-dates${
       this.baseStore.setSelectedItem
-        ? `?set=${this.baseStore.setSelectedItem}`
-        : ''
+        ? `?set=${this.baseStore.setSelectedItem}${dateParams.replace(
+            '?',
+            '&'
+          )}`
+        : `${dateParams}`
     }`
     this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
@@ -55,18 +73,18 @@ class DepositDates extends Store {
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
-    }`
+    }${dateParams}`
     this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
-    }`
+    }${dateParams}`
     this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}?accept=text/csv`
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
-    }`
+    }${dateParams}`
 
     this.retrieve()
   }

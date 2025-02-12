@@ -4,8 +4,6 @@ import { classNames } from '@oacore/design/lib/utils'
 import styles from './styles.module.css'
 import {
   CrossRepositoryCheckCard,
-  CrossRepositoryCheckRedirectCard,
-  DataOverviewCard,
   DepositTimeLagCard,
   PublicationsDatesCard,
   TableCard,
@@ -16,6 +14,8 @@ import ComplianceOptions from './cards/compliance-option'
 import compliance from '../../texts/depositing/compliance.yml'
 import greenTick from '../../components/upload/assets/greenTick.svg'
 import add from '../../components/upload/assets/add.svg'
+import { Button } from '../../design'
+import DateRangePicker from '../../components/oaDatePicker/odDatePicker'
 
 import { Icon, Link, Message } from 'design'
 import { intro as texts } from 'texts/depositing'
@@ -26,6 +26,13 @@ const NotEnoughDataMessage = () => (
     <Link href="https://core.ac.uk/ref-audit">guidelines</Link> and enable the
     required support and then notify us once ready, so that we can initiate
     collecting this information from your repository.
+  </Message>
+)
+
+const NotEnoughDataBasedOnDates = () => (
+  <Message className={styles.errorWrapper}>
+    There is not enough data available for this time period to generate a
+    compliance view.
   </Message>
 )
 
@@ -54,13 +61,49 @@ const DepositComplianceTemplate = ({
   crossDepositLag,
   countryCode,
   billingPlan,
+  retrieveTableData,
+  publicReleaseDatesData,
+  publicReleaseDates,
   tag: Tag = 'main',
   ...restProps
 }) => {
   const checkBillingType = billingPlan?.billingType === 'sustaining'
 
+  function convertTimeFormat(dateString) {
+    const date = new Date(dateString)
+
+    const year = date.getUTCFullYear()
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0')
+    const day = String(date.getUTCDate()).padStart(2, '0')
+
+    return `${year}-${month}-${day}%2000:00:00`
+  }
+
+  const handleDateChange = (startDate, endDate) => {
+    const formattedStartDate = convertTimeFormat(startDate)
+    const formattedEndDate = convertTimeFormat(endDate)
+
+    dataProviderData.depositDates.setDateRange(
+      formattedStartDate,
+      formattedEndDate
+    )
+    dataProviderData.depositDates.updateOaiUrl(
+      dataProviderData.depositDates.baseUrl, // Ensure baseUrl is passed
+      formattedEndDate,
+      formattedStartDate
+    )
+  }
+
   const renderItem = () => {
-    if (totalCount === 0 && checkBillingType) return <NotEnoughDataMessage />
+    if (totalCount === 0 && checkBillingType) {
+      if (
+        dataProviderData.depositDates.dateRange.startDate &&
+        dataProviderData.depositDates.dateRange.endDate
+      )
+        return <NotEnoughDataBasedOnDates />
+
+      return <NotEnoughDataMessage />
+    }
     if (!checkBillingType) {
       return (
         <AccessPlaceholder
@@ -72,73 +115,85 @@ const DepositComplianceTemplate = ({
 
     return (
       <>
+        <div className={styles.pickerWrapper}>
+          <span className={styles.dateTitle}>Include records from</span>
+          <DateRangePicker onDateChange={handleDateChange} />
+        </div>
         <div className={styles.complianceWrapper}>
           <ComplianceOptions
             title={compliance.compliance.total.title}
             caption={compliance.compliance.total.subTitle}
             value={totalCount}
-            button={compliance.compliance.total.button}
+            button={
+              <div className={styles.buttonWrapper}>
+                <Button tag="a" variant="contained" href="#review">
+                  Review
+                </Button>
+                <Button tag="a" variant="text" href="#download">
+                  Download
+                </Button>
+              </div>
+            }
             description={compliance.compliance.total.description}
           />
           <ComplianceOptions
             title={compliance.compliance.compliant.title}
             caption={compliance.compliance.compliant.subTitle}
-            button={compliance.compliance.compliant.button}
             description={compliance.compliance.compliant.description}
             icon={<img className={styles.tick} src={greenTick} alt="" />}
             className={`${styles.wrapper} ${styles.green}`}
+            subValue={totalCount - crossDepositLag?.nonCompliantCount}
+            percentageValue={
+              ((totalCount - crossDepositLag?.nonCompliantCount) / totalCount) *
+              100
+            }
           />
           <ComplianceOptions
-            title={compliance.compliance.cross.title}
-            caption={compliance.compliance.cross.subTitle}
-            button={compliance.compliance.cross.button}
-            description={compliance.compliance.cross.description}
+            title={compliance.compliance.nonCompliant.title}
+            caption={compliance.compliance.nonCompliant.subTitle}
+            description={compliance.compliance.nonCompliant.description}
+            subValue={crossDepositLag?.nonCompliantCount}
+            percentageValue={
+              (crossDepositLag?.nonCompliantCount / totalCount) * 100
+            }
             icon={
               <Icon src="#alert-circle-outline" style={{ color: '#c62828' }} />
             }
             className={`${styles.wrapper} ${styles.red}`}
           />
           <ComplianceOptions
-            title={compliance.compliance.nonCompliant.title}
-            caption={compliance.compliance.nonCompliant.subTitle}
-            button={compliance.compliance.nonCompliant.button}
-            description={compliance.compliance.nonCompliant.description}
-            icon={
-              <Icon src="#alert-circle-outline" style={{ color: '#666' }} />
+            title={compliance.compliance.cross.title}
+            caption={compliance.compliance.cross.subTitle}
+            button={
+              <Button
+                tag="a"
+                variant="contained"
+                href="#cross-repository-check"
+              >
+                {compliance.compliance.cross.button}
+              </Button>
             }
-            className={`${styles.wrapper} ${styles.dark}`}
-          />
-          <ComplianceOptions
-            title={compliance.compliance.unknown.title}
-            caption={compliance.compliance.unknown.subTitle}
-            button={compliance.compliance.unknown.button}
-            description={compliance.compliance.unknown.description}
-            icon={<img className={styles.add} src={add} alt="" />}
+            description={compliance.compliance.cross.description}
+            value={crossDepositLag?.bonusCount}
+            icon={<img className={styles.tick} src={add} alt="" />}
             className={`${styles.wrapper} ${styles.green}`}
           />
         </div>
-        <DataOverviewCard
-          totalCount={totalCount}
-          complianceLevel={complianceLevel}
-        />
-        <CrossRepositoryCheckRedirectCard
-          possibleBonusCount={crossDepositLag?.possibleBonusCount}
-          error={crossDepositLag?.error}
-        />
         <DepositTimeLagCard
           timeLagData={timeLagData}
           isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
         />
-        <CrossRepositoryCheckCard
-          crossDepositLag={crossDepositLag}
-          crossDepositLagCsvUrl={crossDepositLagCsvUrl}
-        />
-
-        <PublicationsDatesCard
-          fullCount={publicationDatesValidate?.fullCount}
-          partialCount={publicationDatesValidate?.partialCount}
-          noneCount={publicationDatesValidate?.noneCount}
-        />
+        <div className={styles.cardWrapper}>
+          <CrossRepositoryCheckCard
+            crossDepositLag={crossDepositLag}
+            crossDepositLagCsvUrl={crossDepositLagCsvUrl}
+          />
+          <PublicationsDatesCard
+            fullCount={publicationDatesValidate?.fullCount}
+            partialCount={publicationDatesValidate?.partialCount}
+            noneCount={publicationDatesValidate?.noneCount}
+          />
+        </div>
         {publicReleaseDatesPages && (
           <TableCard
             publicReleaseDatesPages={publicReleaseDatesPages}

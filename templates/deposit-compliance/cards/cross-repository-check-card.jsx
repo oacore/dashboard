@@ -1,36 +1,127 @@
 import React from 'react'
+import {
+  BarChart,
+  Bar,
+  LabelList,
+  YAxis,
+  ResponsiveContainer,
+  CartesianGrid,
+  Tooltip,
+  Cell,
+} from 'recharts'
+
+import styles from '../styles.module.css'
 
 import { PaymentRequiredError } from 'store/errors'
 import { Card } from 'design'
 import ExportButton from 'components/export-button'
-import Markdown from 'components/markdown'
 import { PaymentRequiredNote } from 'modules/billing'
 import * as texts from 'texts/depositing'
 import { formatNumber } from 'utils/helpers'
+import CustomTooltip from 'design/tooltip'
+
+const CustomStatisticsChart = ({
+  data,
+  className,
+  colors,
+  width = '40%',
+  height = 230,
+  labelsPosition = 'top',
+  ...restProps
+}) => (
+  <ResponsiveContainer
+    className={styles.chartWrapper}
+    width={width}
+    height={height}
+  >
+    <BarChart
+      data={data}
+      {...restProps}
+      margin={{
+        top: 0,
+        left: -10,
+        right: 0,
+        bottom: 0,
+      }}
+    >
+      <YAxis type="number" hide />
+      <CartesianGrid strokeDasharray="3 0" vertical={false} stroke="#eee" />
+      <Tooltip content={<CustomTooltip />} />
+      <Bar dataKey="count" isAnimationActive={false}>
+        {data.map((entry, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <Cell key={`cell-${index}`} fill={colors[entry.name]} />
+        ))}
+        <LabelList
+          formatter={(value) =>
+            `${formatNumber(value, { notation: 'compact' })}`
+          }
+          position={labelsPosition === 'inside' ? 'insideTop' : 'top'}
+          fill={labelsPosition === 'inside' ? '#fff' : '#222'}
+          dataKey="count"
+          className={styles.labelList}
+        />
+      </Bar>
+    </BarChart>
+  </ResponsiveContainer>
+)
 
 const Content = ({
   nonCompliantCount,
-  differentCount,
-  availableCount,
+  resultCount,
+  compliantCount,
   exportUrl,
 }) => {
-  const templateName = differentCount > 0 ? 'success' : 'failure'
-  const template = texts.crossRepositoryCheck[templateName]
-  const text = template.render({
-    nonCompliantCount: nonCompliantCount ? formatNumber(nonCompliantCount) : '',
-    availableCount: availableCount ? formatNumber(availableCount) : '',
-    recordsInAnotherRepository: formatNumber(differentCount),
-  })
+  const chartData = [
+    {
+      name: 'Non-Compliant',
+      value: 'Non-compliant in your repository',
+      count: nonCompliantCount,
+    },
+    {
+      name: 'Result',
+      value: 'Deposited in other repositories',
+      count: resultCount,
+    },
+    {
+      name: 'Compliant',
+      value: 'Compliant in other repositories',
+      count: compliantCount,
+    },
+  ]
+
+  const colors = {
+    'Non-Compliant': '#B75400',
+    'Result': '#F5BB95',
+    'Compliant': '#FAE2D2',
+  }
 
   return (
-    <>
-      <Markdown>{text}</Markdown>
-      {differentCount > 0 && (
-        <ExportButton href={exportUrl}>
-          {texts.crossRepositoryCheck.download}
-        </ExportButton>
-      )}
-    </>
+    <div className={styles.crossWrapper}>
+      <CustomStatisticsChart data={chartData} colors={colors} />
+      <div className={styles.crossStats}>
+        {chartData.map(({ name, count, value }) => (
+          <div key={name} style={{ display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: colors[name],
+                marginRight: '10px',
+              }}
+            />
+            <span>{`${value}: ${count}`}</span>
+          </div>
+        ))}
+        {resultCount > 0 && (
+          <div className={styles.csvButton}>
+            <ExportButton href={exportUrl}>
+              {texts.crossRepositoryCheck.download}
+            </ExportButton>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 
@@ -38,16 +129,20 @@ const CrossRepositoryCheckCard = ({
   crossDepositLag,
   crossDepositLagCsvUrl,
 }) => (
-  <Card id="cross-repository-check" tag="section">
+  <Card
+    id="cross-repository-check"
+    tag="section"
+    className={styles.chartCardWrapper}
+  >
     <Card.Title tag="h2">{texts.crossRepositoryCheck.title}</Card.Title>
-    <Card.Description>
+    <Card.Description className={styles.cardDescription}>
       {texts.crossRepositoryCheck.description}
     </Card.Description>
     {crossDepositLag ? (
       <Content
         nonCompliantCount={crossDepositLag.nonCompliantCount}
-        differentCount={crossDepositLag.bonusCount}
-        availableCount={crossDepositLag.possibleBonusCount}
+        resultCount={crossDepositLag.possibleBonusCount}
+        compliantCount={crossDepositLag.bonusCount}
         exportUrl={crossDepositLagCsvUrl}
       />
     ) : (
