@@ -104,12 +104,16 @@
 }
 
 .license-note p {
-  margin-bottom: 4px;
+  margin-bottom: 24px;
 }
 
 .license-note li {
   margin-left: 16px;
   list-style-type: disc;
+}
+
+.license-note li p {
+  margin-bottom: 4px;
 }
 
 .license-description {
@@ -186,7 +190,7 @@
 .success {
   display: flex;
   align-items: center;
-  width: 50%;
+  width: 100%;
   padding: 12px 16px;
   margin-top: 24px;
   background: #ecf6df;
@@ -543,7 +547,12 @@
 .form-wrapper {
   display: flex;
   align-items: center;
-  margin-top: 1rem;
+  gap: 20px;
+}
+
+.form-ror-wrapper {
+  display: flex;
+  align-items: flex-start;
   gap: 20px;
 }
 
@@ -693,6 +702,10 @@
   font-weight: 400;
   line-height: 20px;
   color: #666;
+}
+
+.spacing {
+  margin-top: 10px;
 }
 
 .ror-link {

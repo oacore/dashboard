@@ -15,12 +15,12 @@ import deny from '../../../components/upload/assets/deny.svg'
 import question from '../../../components/upload/assets/questionMarkLight.svg'
 import redirect from '../../../components/upload/assets/urlRedirect.svg'
 import Menu from '../../../components/menu'
-import Article from '../cards/article'
 import request from '../../../api'
 import StatusCard from '../cards/statusCard'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import { GlobalContext } from '../../../store'
+import TableArticle from '../../../components/dropdownTableCard/article'
 
 import Table from 'components/table'
 
@@ -29,9 +29,9 @@ const RrsTable = observer(
     rrsList,
     getRrslistData,
     updateRrsStatus,
-    rrsAdditionalData,
+    articleAdditionalData,
     getOutputsAdditionalData,
-    rrsAdditionalDataLoading,
+    articleAdditionalDataLoading,
     rrsDataLoading,
     checkBillingType,
     dataProviderData,
@@ -64,8 +64,8 @@ const RrsTable = observer(
           body: { disabled: !article?.disabled },
         })
         setIsDisabled(!isDisabled)
-        Object.assign(rrsAdditionalData, {
-          disabled: !rrsAdditionalData?.disabled,
+        Object.assign(articleAdditionalData, {
+          disabled: !articleAdditionalData?.disabled,
         })
       } catch (error) {
         throw Error(error)
@@ -229,14 +229,14 @@ const RrsTable = observer(
               isHeaderClickable
               rowIdentifier="articleId"
               excludeFooter={checkBillingType}
-              renderDropDown={rrsAdditionalData}
+              renderDropDown={articleAdditionalData}
               details={
-                <Article
+                <TableArticle
                   changeVisibility={changeArticleVisibility}
-                  article={rrsAdditionalData}
+                  article={articleAdditionalData}
                   loading={loading}
                   outputsUrl={outputsUrl}
-                  rrsAdditionalDataLoading={rrsAdditionalDataLoading}
+                  articleAdditionalDataLoading={articleAdditionalDataLoading}
                 />
               }
             >

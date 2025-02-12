@@ -12,7 +12,7 @@ const FlatItem = ({
 }) => (
   <Tag
     className={classNames
-      .use(styles.item, active && styles.active)
+      .use(styles.barMenuItem, active && styles.active)
       .join(className)}
     {...restProps}
   >

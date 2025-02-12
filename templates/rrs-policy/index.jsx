@@ -18,9 +18,9 @@ const RrsPageTemplate = ({
   getRrslistData,
   updateRrsStatus,
   statusUpdate,
-  rrsAdditionalData,
+  articleAdditionalData,
   getOutputsAdditionalData,
-  rrsAdditionalDataLoading,
+  articleAdditionalDataLoading,
   rrsPdfLoading,
   uploadPdf,
   uploadResults,
@@ -76,9 +76,9 @@ const RrsPageTemplate = ({
           getRrslistData={getRrslistData}
           updateRrsStatus={updateRrsStatus}
           statusUpdate={statusUpdate}
-          rrsAdditionalData={rrsAdditionalData}
+          articleAdditionalData={articleAdditionalData}
           getOutputsAdditionalData={getOutputsAdditionalData}
-          rrsAdditionalDataLoading={rrsAdditionalDataLoading}
+          articleAdditionalDataLoading={articleAdditionalDataLoading}
           checkBillingType={checkBillingType}
           rrsUrl={rrsUrl}
           dataProviderData={dataProviderData}
