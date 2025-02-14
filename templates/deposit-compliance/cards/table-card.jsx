@@ -1,5 +1,5 @@
 import React from 'react'
-import { useObserver } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
@@ -77,73 +77,73 @@ class PublicationDateColumn extends Table.Column {
   }
 }
 
-const DepositDatesTable = ({
-  className,
-  datesUrl,
-  publicReleaseDatesPages: pages,
-}) => {
-  const [tableProps, fetchData] = useDynamicTableData({
-    pages,
-    defaultSize: 5,
-  })
-  const hasData = pages.data && pages.data.length > 0
-  const hasError = !!pages.error
-  return (
-    <Table
-      className={classNames.use(styles.browseTable).join(className)}
-      fetchData={fetchData}
-      excludeFooter={!hasData || hasError}
-      searchable={!hasError}
-      {...tableProps}
-    >
-      <Table.Column
-        id="oai"
-        display="OAI"
-        order="any"
-        getter={(v) => v.oai.split(':').pop()}
-        className={styles.oaiColumn}
-      />
-      <Table.Column
-        id="title"
-        display="Title"
-        order="any"
-        className={styles.titleColumn}
-      />
-      <Table.Column
-        id="authors"
-        display="Authors"
-        order="any"
-        className={styles.authorsColumn}
-        getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
-      />
-      <PublicationDateColumn
-        id="publicationDate"
-        display="Publication date"
-        order="any"
-        className={styles.depositDateColumn}
-      />
-      <Table.Column
-        id="publicReleaseDate"
-        display="Deposit date"
-        order="desc"
-        className={styles.depositDateColumn}
-        getter={(v) => formatDate(v.publicReleaseDate)}
-      />
-      {!hasError && (
-        <Table.Sidebar>
-          <SidebarContent />
-        </Table.Sidebar>
-      )}
-      <Table.Action>
-        <ExportButton href={datesUrl}>{texts.exporting.download}</ExportButton>
-      </Table.Action>
-    </Table>
-  )
-}
+const DepositDatesTable = observer(
+  ({ className, datesUrl, publicReleaseDatesPages: pages }) => {
+    const [tableProps, fetchData] = useDynamicTableData({
+      pages,
+      defaultSize: 5,
+    })
+    const hasData = pages.data && pages.data.length > 0
+    const hasError = !!pages.error
+    return (
+      <Table
+        className={classNames.use(styles.browseTable).join(className)}
+        fetchData={fetchData}
+        excludeFooter={!hasData || hasError}
+        searchable={!hasError}
+        {...tableProps}
+      >
+        <Table.Column
+          id="oai"
+          display="OAI"
+          order="any"
+          getter={(v) => v.oai.split(':').pop()}
+          className={styles.oaiColumn}
+        />
+        <Table.Column
+          id="title"
+          display="Title"
+          order="any"
+          className={styles.titleColumn}
+        />
+        <Table.Column
+          id="authors"
+          display="Authors"
+          order="any"
+          className={styles.authorsColumn}
+          getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
+        />
+        <PublicationDateColumn
+          id="publicationDate"
+          display="Publication date"
+          order="any"
+          className={styles.depositDateColumn}
+        />
+        <Table.Column
+          id="publicReleaseDate"
+          display="Deposit date"
+          order="desc"
+          className={styles.depositDateColumn}
+          getter={(v) => formatDate(v.publicReleaseDate)}
+        />
+        {!hasError && (
+          <Table.Sidebar>
+            <SidebarContent />
+          </Table.Sidebar>
+        )}
+        <Table.Action>
+          <ExportButton href={datesUrl}>
+            {texts.exporting.download}
+          </ExportButton>
+        </Table.Action>
+      </Table>
+    )
+  }
+)
 
-const TableCard = ({ datesUrl, publicReleaseDatesPages: pages }) => {
-  const hasData = useObserver(() => pages.data && pages.data.length > 0)
-  const error = useObserver(() => pages.error)
+const TableCard = observer(({ datesUrl, publicReleaseDatesPages: pages }) => {
+  const hasData = pages?.data && pages.data.length > 0
+  const error = pages?.error
 
   return (
     <Card
@@ -167,6 +167,6 @@ const TableCard = ({ datesUrl, publicReleaseDatesPages: pages }) => {
       )}
     </Card>
   )
-}
+})
 
 export default TableCard

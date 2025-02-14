@@ -87,6 +87,7 @@ class DepositDates extends Store {
     }${dateParams}`
 
     this.retrieve()
+    if (endDate && startDate) this.publicReleaseDates.load()
   }
 
   @computed

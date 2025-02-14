@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
+import { observer } from 'mobx-react-lite'
 
 import styles from './styles.module.css'
 import {
@@ -47,172 +48,183 @@ const RegionAlert = ({
   </Tag>
 )
 
-const DepositComplianceTemplate = ({
-  className,
-  datesUrl,
-  publicReleaseDatesPages,
-  dataProviderData,
-  publicationDatesValidate,
-  crossDepositLagCsvUrl,
-  complianceLevel,
-  totalCount,
-  timeLagData,
-  isRetrieveDepositDatesInProgress,
-  crossDepositLag,
-  countryCode,
-  billingPlan,
-  retrieveTableData,
-  publicReleaseDatesData,
-  publicReleaseDates,
-  tag: Tag = 'main',
-  ...restProps
-}) => {
-  const checkBillingType = billingPlan?.billingType === 'sustaining'
+const DepositComplianceTemplate = observer(
+  ({
+    className,
+    datesUrl,
+    publicReleaseDatesPages,
+    dataProviderData,
+    publicationDatesValidate,
+    crossDepositLagCsvUrl,
+    complianceLevel,
+    totalCount,
+    timeLagData,
+    isRetrieveDepositDatesInProgress,
+    crossDepositLag,
+    countryCode,
+    billingPlan,
+    retrieveTableData,
+    publicReleaseDatesData,
+    publicReleaseDates,
+    tag: Tag = 'main',
+    ...restProps
+  }) => {
+    const checkBillingType = billingPlan?.billingType === 'sustaining'
+    const tableRef = useRef(null)
 
-  function convertTimeFormat(dateString) {
-    const date = new Date(dateString)
+    function convertTimeFormat(dateString) {
+      const date = new Date(dateString)
 
-    const year = date.getUTCFullYear()
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0')
-    const day = String(date.getUTCDate()).padStart(2, '0')
+      const year = date.getUTCFullYear()
+      const month = String(date.getUTCMonth() + 1).padStart(2, '0')
+      const day = String(date.getUTCDate()).padStart(2, '0')
 
-    return `${year}-${month}-${day}%2000:00:00`
-  }
-
-  const handleDateChange = (startDate, endDate) => {
-    const formattedStartDate = convertTimeFormat(startDate)
-    const formattedEndDate = convertTimeFormat(endDate)
-
-    dataProviderData.depositDates.setDateRange(
-      formattedStartDate,
-      formattedEndDate
-    )
-    dataProviderData.depositDates.updateOaiUrl(
-      dataProviderData.depositDates.baseUrl, // Ensure baseUrl is passed
-      formattedEndDate,
-      formattedStartDate
-    )
-  }
-
-  const renderItem = () => {
-    if (totalCount === 0 && checkBillingType) {
-      if (
-        dataProviderData.depositDates.dateRange.startDate &&
-        dataProviderData.depositDates.dateRange.endDate
-      )
-        return <NotEnoughDataBasedOnDates />
-
-      return <NotEnoughDataMessage />
+      return `${year}-${month}-${day}%2000:00:00`
     }
-    if (!checkBillingType) {
+
+    const handleDateChange = (startDate, endDate) => {
+      const formattedStartDate = convertTimeFormat(startDate)
+      const formattedEndDate = convertTimeFormat(endDate)
+
+      dataProviderData.depositDates.setDateRange(
+        formattedStartDate,
+        formattedEndDate
+      )
+      dataProviderData.depositDates.updateOaiUrl(
+        dataProviderData.depositDates.baseUrl,
+        formattedEndDate,
+        formattedStartDate
+      )
+
+      // Trigger table data update
+      if (tableRef.current) tableRef.current.fetchData({ force: true })
+    }
+
+    const renderItem = () => {
+      if (totalCount === 0 && checkBillingType) {
+        if (
+          dataProviderData.depositDates.dateRange.startDate &&
+          dataProviderData.depositDates.dateRange.endDate
+        )
+          return <NotEnoughDataBasedOnDates />
+
+        return <NotEnoughDataMessage />
+      }
+      if (!checkBillingType) {
+        return (
+          <AccessPlaceholder
+            dataProviderData={dataProviderData}
+            description="This feature is available only to Sustaining members"
+          />
+        )
+      }
+
       return (
-        <AccessPlaceholder
-          dataProviderData={dataProviderData}
-          description="This feature is available only to Sustaining members"
-        />
+        <>
+          <div className={styles.pickerWrapper}>
+            <span className={styles.dateTitle}>Include records from</span>
+            <DateRangePicker onDateChange={handleDateChange} />
+          </div>
+          <div className={styles.complianceWrapper}>
+            <ComplianceOptions
+              title={compliance.compliance.total.title}
+              caption={compliance.compliance.total.subTitle}
+              value={totalCount}
+              button={
+                <div className={styles.buttonWrapper}>
+                  <Button tag="a" variant="contained" href="#review">
+                    Review
+                  </Button>
+                  <Button tag="a" variant="text" href="#download">
+                    Download
+                  </Button>
+                </div>
+              }
+              description={compliance.compliance.total.description}
+            />
+            <ComplianceOptions
+              title={compliance.compliance.compliant.title}
+              caption={compliance.compliance.compliant.subTitle}
+              description={compliance.compliance.compliant.description}
+              icon={<img className={styles.tick} src={greenTick} alt="" />}
+              className={`${styles.wrapper} ${styles.green}`}
+              subValue={totalCount - crossDepositLag?.nonCompliantCount}
+              percentageValue={
+                ((totalCount - crossDepositLag?.nonCompliantCount) /
+                  totalCount) *
+                100
+              }
+            />
+            <ComplianceOptions
+              title={compliance.compliance.nonCompliant.title}
+              caption={compliance.compliance.nonCompliant.subTitle}
+              description={compliance.compliance.nonCompliant.description}
+              subValue={crossDepositLag?.nonCompliantCount}
+              percentageValue={
+                (crossDepositLag?.nonCompliantCount / totalCount) * 100
+              }
+              icon={
+                <Icon
+                  src="#alert-circle-outline"
+                  style={{ color: '#c62828' }}
+                />
+              }
+              className={`${styles.wrapper} ${styles.red}`}
+            />
+            <ComplianceOptions
+              title={compliance.compliance.cross.title}
+              caption={compliance.compliance.cross.subTitle}
+              button={
+                <Button
+                  tag="a"
+                  variant="contained"
+                  href="#cross-repository-check"
+                >
+                  {compliance.compliance.cross.button}
+                </Button>
+              }
+              description={compliance.compliance.cross.description}
+              value={crossDepositLag?.bonusCount}
+              icon={<img className={styles.tick} src={add} alt="" />}
+              className={`${styles.wrapper} ${styles.green}`}
+            />
+          </div>
+          <DepositTimeLagCard
+            timeLagData={timeLagData}
+            isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
+          />
+          <div className={styles.cardWrapper}>
+            <CrossRepositoryCheckCard
+              crossDepositLag={crossDepositLag}
+              crossDepositLagCsvUrl={crossDepositLagCsvUrl}
+            />
+            <PublicationsDatesCard
+              fullCount={publicationDatesValidate?.fullCount}
+              partialCount={publicationDatesValidate?.partialCount}
+              noneCount={publicationDatesValidate?.noneCount}
+            />
+          </div>
+          {publicReleaseDatesPages && (
+            <TableCard
+              ref={tableRef}
+              publicReleaseDatesPages={publicReleaseDatesPages}
+              datesUrl={datesUrl}
+            />
+          )}
+        </>
       )
     }
 
     return (
-      <>
-        <div className={styles.pickerWrapper}>
-          <span className={styles.dateTitle}>Include records from</span>
-          <DateRangePicker onDateChange={handleDateChange} />
-        </div>
-        <div className={styles.complianceWrapper}>
-          <ComplianceOptions
-            title={compliance.compliance.total.title}
-            caption={compliance.compliance.total.subTitle}
-            value={totalCount}
-            button={
-              <div className={styles.buttonWrapper}>
-                <Button tag="a" variant="contained" href="#review">
-                  Review
-                </Button>
-                <Button tag="a" variant="text" href="#download">
-                  Download
-                </Button>
-              </div>
-            }
-            description={compliance.compliance.total.description}
-          />
-          <ComplianceOptions
-            title={compliance.compliance.compliant.title}
-            caption={compliance.compliance.compliant.subTitle}
-            description={compliance.compliance.compliant.description}
-            icon={<img className={styles.tick} src={greenTick} alt="" />}
-            className={`${styles.wrapper} ${styles.green}`}
-            subValue={totalCount - crossDepositLag?.nonCompliantCount}
-            percentageValue={
-              ((totalCount - crossDepositLag?.nonCompliantCount) / totalCount) *
-              100
-            }
-          />
-          <ComplianceOptions
-            title={compliance.compliance.nonCompliant.title}
-            caption={compliance.compliance.nonCompliant.subTitle}
-            description={compliance.compliance.nonCompliant.description}
-            subValue={crossDepositLag?.nonCompliantCount}
-            percentageValue={
-              (crossDepositLag?.nonCompliantCount / totalCount) * 100
-            }
-            icon={
-              <Icon src="#alert-circle-outline" style={{ color: '#c62828' }} />
-            }
-            className={`${styles.wrapper} ${styles.red}`}
-          />
-          <ComplianceOptions
-            title={compliance.compliance.cross.title}
-            caption={compliance.compliance.cross.subTitle}
-            button={
-              <Button
-                tag="a"
-                variant="contained"
-                href="#cross-repository-check"
-              >
-                {compliance.compliance.cross.button}
-              </Button>
-            }
-            description={compliance.compliance.cross.description}
-            value={crossDepositLag?.bonusCount}
-            icon={<img className={styles.tick} src={add} alt="" />}
-            className={`${styles.wrapper} ${styles.green}`}
-          />
-        </div>
-        <DepositTimeLagCard
-          timeLagData={timeLagData}
-          isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
-        />
-        <div className={styles.cardWrapper}>
-          <CrossRepositoryCheckCard
-            crossDepositLag={crossDepositLag}
-            crossDepositLagCsvUrl={crossDepositLagCsvUrl}
-          />
-          <PublicationsDatesCard
-            fullCount={publicationDatesValidate?.fullCount}
-            partialCount={publicationDatesValidate?.partialCount}
-            noneCount={publicationDatesValidate?.noneCount}
-          />
-        </div>
-        {publicReleaseDatesPages && (
-          <TableCard
-            publicReleaseDatesPages={publicReleaseDatesPages}
-            datesUrl={datesUrl}
-          />
+      <Tag className={[styles.container, className].join(' ')} {...restProps}>
+        <DashboardHeader title={texts.title} description={texts.body} />
+        {countryCode?.toLowerCase() !== 'gb' && (
+          <RegionAlert>{texts.regionWarning}</RegionAlert>
         )}
-      </>
+        {renderItem()}
+      </Tag>
     )
   }
-
-  return (
-    <Tag className={[styles.container, className].join(' ')} {...restProps}>
-      <DashboardHeader title={texts.title} description={texts.body} />
-      {countryCode?.toLowerCase() !== 'gb' && (
-        <RegionAlert>{texts.regionWarning}</RegionAlert>
-      )}
-      {renderItem()}
-    </Tag>
-  )
-}
+)
 
 export default DepositComplianceTemplate
