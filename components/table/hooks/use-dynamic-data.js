@@ -67,7 +67,7 @@ const useDynamicTableData = ({ pages, defaultSize = 100 }) => {
     },
     [dataState.size]
   )
-  return [dataState, fetchData]
+  return [dataState, fetchData, changeDataState]
 }
 
 export default useDynamicTableData

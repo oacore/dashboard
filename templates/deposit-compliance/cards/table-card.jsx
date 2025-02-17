@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
+import * as MobX from 'mobx'
 
 import styles from '../styles.module.css'
 
@@ -79,12 +80,40 @@ class PublicationDateColumn extends Table.Column {
 
 const DepositDatesTable = observer(
   ({ className, datesUrl, publicReleaseDatesPages: pages }) => {
-    const [tableProps, fetchData] = useDynamicTableData({
+    const [tableProps, fetchData, changeDataState] = useDynamicTableData({
       pages,
-      defaultSize: 5,
+      defaultSize: 100,
     })
+
+    useEffect(() => {
+      const disposer = MobX.reaction(
+        () => ({
+          data: MobX.toJS(pages.data),
+          isLastPageLoaded: pages.isLastPageLoaded,
+          totalLength: pages.totalLength,
+        }),
+        (current) => {
+          if (current.data) {
+            changeDataState({
+              type: 'CHANGE_DATA_STATE',
+              value: {
+                data: current.data,
+                size: tableProps.size,
+                isLastPageLoaded: current.isLastPageLoaded,
+                totalLength: current.totalLength,
+              },
+            })
+          }
+        },
+        { fireImmediately: true }
+      )
+
+      return () => disposer()
+    }, [pages])
+
     const hasData = pages.data && pages.data.length > 0
     const hasError = !!pages.error
+
     return (
       <Table
         className={classNames.use(styles.browseTable).join(className)}
