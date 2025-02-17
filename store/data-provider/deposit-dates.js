@@ -1,6 +1,7 @@
 import { action, computed, observable, reaction } from 'mobx'
 
 import { Pages } from '../helpers/pages'
+import getOrder from '../helpers/order'
 import Store from '../store'
 import { PaymentRequiredError } from '../errors'
 
@@ -55,10 +56,15 @@ class DepositDates extends Store {
 
   @action
   updateOaiUrl = (baseUrl, endDate, startDate) => {
+    const currentOrder = this.publicReleaseDates?.columnOrder
+      ? `&orderBy=${getOrder(this.publicReleaseDates.columnOrder)}`
+      : '&orderBy=publicReleaseDate:desc'
+
     const dateParams =
       endDate && startDate
-        ? `?wait=true&refresh=true&toDate=${endDate}&fromDate=${startDate}`
+        ? `?wait=true&refresh=true&toDate=${endDate}&fromDate=${startDate}${currentOrder}`
         : ''
+
     const datesUrl = `${baseUrl}/public-release-dates${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}${dateParams.replace(
@@ -67,6 +73,7 @@ class DepositDates extends Store {
           )}`
         : `${dateParams}`
     }`
+
     this.publicReleaseDates = new Pages(datesUrl, this.options)
     this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag${
