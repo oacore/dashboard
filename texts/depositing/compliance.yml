@@ -1,0 +1,28 @@
+compliance:
+  total:
+    title: Total outputs
+    subTitle: Outputs in the selected timeframe.
+    description:  "Number of outputs that are within this REF period (from January 1st 2021), for which CORE has data and can calculate compliance. This number is used to create the compliance percentage of a repository."
+    buttons:
+      review: Review
+      download: Download
+  compliant:
+    title: Compliant
+    subTitle: Outputs meeting criteria
+    description: "Number of outputs that have been deposited inside the 92 day window. The compliance rate is just an estimation of the actual compliance from the point of view of CORE data. UKRI won’t use the rate calculated here but it will coordinate with the institutions to check for exceptions and additional isses."
+    button: Review
+  nonCompliant:
+    title: Non-compliant
+    subTitle: Outputs not meeting criteria
+    description: "The number of documents that were deposited outside the 92 day window. Data is calculated from the deposit date that CORE collects from the metadata record and from the publication date, which is a combination from other repository data and Crossref."
+    button: Review
+  unknown:
+    title: Unknown
+    subTitle: Outputs need review.
+    description: "Outputs that are  within this REF period, for which CORE hasn’t enough data to calculate compliance. "
+    button: Review
+  cross:
+    title: Cross-repository check
+    subTitle: Outputs deposited in other repositories
+    description: "Non-compliant outputs in your repository for which compliance is met due to deposits in other repositories"
+    button: Find out more
