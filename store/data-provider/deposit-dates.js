@@ -1,6 +1,5 @@
 import { action, computed, observable, reaction } from 'mobx'
 
-import { Pages } from '../helpers/pages'
 import Store from '../store'
 import { PaymentRequiredError } from '../errors'
 
@@ -13,7 +12,9 @@ class DepositDates extends Store {
 
   @observable timeLagData = null
 
-  @observable publicReleaseDates = null
+  @observable publicReleaseDates = []
+
+  @observable isPublicReleaseDatesInProgress = false
 
   @observable crossDepositLag = null
 
@@ -35,6 +36,11 @@ class DepositDates extends Store {
   }
 
   @action
+  setPublicReleaseDates(data) {
+    this.publicReleaseDates = data
+  }
+
+  @action
   resetCompliance() {
     this.timeLagData = null
     this.publicReleaseDates = null
@@ -49,7 +55,11 @@ class DepositDates extends Store {
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
     }`
-    this.publicReleaseDates = new Pages(datesUrl, this.options)
+    this.publicReleaseDatesUrl = `${baseUrl}/public-release-dates${
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
+        : ''
+    }`
     this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag${
       this.baseStore.setSelectedItem
@@ -108,6 +118,39 @@ class DepositDates extends Store {
   }
 
   @action
+  async retrieveDepositDatesTable(
+    from = 0,
+    size = 100,
+    orderBy = null,
+    searchTerm = ''
+  ) {
+    this.isPublicReleaseDatesInProgress = true
+    try {
+      const baseUrl = this.publicReleaseDatesUrl.startsWith('http')
+        ? this.publicReleaseDatesUrl
+        : `${process.env.API_URL}${this.publicReleaseDatesUrl}`
+
+      const url = new URL(baseUrl)
+      url.searchParams.append('from', from)
+      url.searchParams.append('size', size)
+      if (orderBy) url.searchParams.append('orderBy', orderBy)
+      if (searchTerm) url.searchParams.append('q', searchTerm)
+
+      const response = await this.request(url.toString())
+      const { data, error } = response
+
+      if (from === 0) this.setPublicReleaseDates(data)
+      else this.setPublicReleaseDates([...this.publicReleaseDates, ...data])
+
+      this.publicReleaseDatesError = error
+    } catch (error) {
+      if (!(error instanceof NotFoundError)) throw error
+    } finally {
+      this.isPublicReleaseDatesInProgress = false
+    }
+  }
+
+  @action
   async retrieveCrossDepositLag() {
     const response = await this.request(this.crossDepositLagUrl)
 
@@ -142,6 +185,7 @@ class DepositDates extends Store {
 
   retrieve() {
     this.retrieveDepositTimeLag()
+    // this.retrieveDepositDatesTable()
     this.retrievePublicationDatesValidate()
     this.retrieveCrossDepositLag()
   }

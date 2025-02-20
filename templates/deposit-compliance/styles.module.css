@@ -53,6 +53,21 @@
   margin-bottom: 0;
 }
 
+.data-spinner-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.spinner-text {
+  margin: 0 0 0 14px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #666;
+  letter-spacing: 0.021px;
+}
+
 .browse-table {
   width: calc(100% + 2 * var(--card-padding-x));
   margin-right: calc(-1 * var(--card-padding-x));

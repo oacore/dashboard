@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
+import { ProgressSpinner } from '../../../design'
 import styles from '../styles.module.css'
+import Tablev2 from '../../../components/tablev2/tablev2'
+import { GlobalContext } from '../../../store'
 
 import { PaymentRequiredError } from 'store/errors'
 import { Card, Icon } from 'design'
@@ -11,8 +14,7 @@ import Table from 'components/table'
 import ExportButton from 'components/export-button'
 import { PaymentRequiredNote } from 'modules/billing'
 import * as texts from 'texts/depositing'
-import { formatDate } from 'utils/helpers'
-import useDynamicTableData from 'components/table/hooks/use-dynamic-data'
+import { formatDate, formatNumber } from 'utils/helpers'
 
 const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   const { Header, Body, Footer } = Table.Sidebar
@@ -80,21 +82,106 @@ class PublicationDateColumn extends Table.Column {
 const DepositDatesTable = ({
   className,
   datesUrl,
-  publicReleaseDatesPages: pages,
+  checkBillingType,
+  publicReleaseDatesPages,
+  totalCount,
+  isPublicReleaseDatesInProgress,
+  publicReleaseDatesError,
 }) => {
-  const [tableProps, fetchData] = useDynamicTableData({
-    pages,
-    defaultSize: 5,
-  })
-  const hasData = pages.data && pages.data.length > 0
-  const hasError = !!pages.error
-  return (
-    <Table
+  const { ...globalStore } = useContext(GlobalContext)
+  // eslint-disable-next-line max-len
+  // const hasData = publicReleaseDatesPages && publicReleaseDatesPages.length > 0
+  const hasError = !!publicReleaseDatesError
+
+  const [page, setPage] = useState(0)
+  const [localSearchTerm, setLocalSearchTerm] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [initialLoad, setInitialLoad] = useState(true)
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      setPage(0)
+      await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
+        0,
+        100,
+        'publicReleaseDate:desc',
+        localSearchTerm
+      )
+      setInitialLoad(false)
+    }
+    fetchInitialData()
+  }, [])
+
+  const fetchData = async () => {
+    if (
+      loading ||
+      globalStore.dataProvider.depositDates.isPublicReleaseDatesInProgress
+    )
+      return
+
+    const from = (page + 1) * 100
+    const size = 100
+
+    try {
+      setLoading(true)
+      await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
+        from,
+        size,
+        'publicReleaseDate:desc',
+        localSearchTerm
+      )
+      setPage((prevPage) => prevPage + 1)
+    } catch (error) {
+      console.error('Error fetching additional data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onSearchChange = async (event) => {
+    const searchTerm = event.target.value
+    setLocalSearchTerm(searchTerm)
+    setPage(0)
+    await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
+      0,
+      100,
+      'publicReleaseDate:desc',
+      searchTerm
+    )
+  }
+
+  return initialLoad ? (
+    <div className={styles.dataSpinnerWrapper}>
+      <ProgressSpinner className={styles.spinner} />
+      <p className={styles.spinnerText}>
+        This may take a while, longer for larger repositories ...
+      </p>
+    </div>
+  ) : (
+    <Tablev2
       className={classNames.use(styles.browseTable).join(className)}
+      isHeaderClickable
+      rowIdentifier="articleId"
+      data={
+        checkBillingType
+          ? publicReleaseDatesPages.slice(0, 5)
+          : publicReleaseDatesPages
+      }
+      size={publicReleaseDatesPages?.length}
+      totalLength={formatNumber(totalCount)}
+      localSearch
       fetchData={fetchData}
-      excludeFooter={!hasData || hasError}
-      searchable={!hasError}
-      {...tableProps}
+      excludeFooter={checkBillingType}
+      searchable
+      // className={styles.sdgTable}
+      // rowClick={(row) => onSetActiveArticle(row)}
+      isLoading={isPublicReleaseDatesInProgress}
+      localSearchTerm={localSearchTerm}
+      searchChange={onSearchChange}
+      // renderDropDown={articleAdditionalData}
+      // hmmmm
+      // excludeFooter={!hasData || hasError}
+      // searchable={!hasError}
     >
       <Table.Column
         id="oai"
@@ -137,13 +224,22 @@ const DepositDatesTable = ({
       <Table.Action>
         <ExportButton href={datesUrl}>{texts.exporting.download}</ExportButton>
       </Table.Action>
-    </Table>
+    </Tablev2>
   )
 }
 
-const TableCard = ({ datesUrl, publicReleaseDatesPages: pages }) => {
-  const hasData = useObserver(() => pages.data && pages.data.length > 0)
-  const error = useObserver(() => pages.error)
+const TableCard = ({
+  datesUrl,
+  publicReleaseDatesPages,
+  checkBillingType,
+  isPublicReleaseDatesInProgress,
+  publicReleaseDatesError,
+  totalCount,
+}) => {
+  const hasData = useObserver(
+    () => publicReleaseDatesPages && publicReleaseDatesPages.length > 0
+  )
+  const error = useObserver(() => publicReleaseDatesError)
 
   return (
     <Card
@@ -157,8 +253,12 @@ const TableCard = ({ datesUrl, publicReleaseDatesPages: pages }) => {
       </Card.Description>
       <DepositDatesTable
         className={error instanceof PaymentRequiredError && styles.muted}
-        publicReleaseDatesPages={pages}
+        publicReleaseDatesPages={publicReleaseDatesPages}
         datesUrl={datesUrl}
+        checkBillingType={checkBillingType}
+        totalCount={totalCount}
+        isPublicReleaseDatesInProgress={isPublicReleaseDatesInProgress}
+        publicReleaseDatesError={publicReleaseDatesError}
       />
       {error instanceof PaymentRequiredError && (
         <Card.Footer className={classNames.use(hasData && styles.backdrop)}>
