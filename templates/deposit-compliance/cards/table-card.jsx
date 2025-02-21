@@ -97,6 +97,10 @@ const DepositDatesTable = ({
   const [localSearchTerm, setLocalSearchTerm] = useState('')
   const [loading, setLoading] = useState(false)
   const [initialLoad, setInitialLoad] = useState(true)
+  const [sortConfig, setSortConfig] = useState({
+    field: 'publicReleaseDate',
+    direction: 'desc',
+  })
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -127,7 +131,7 @@ const DepositDatesTable = ({
       await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
         from,
         size,
-        'publicReleaseDate:desc',
+        `${sortConfig.field}:${sortConfig.direction}`,
         localSearchTerm
       )
       setPage((prevPage) => prevPage + 1)
@@ -136,6 +140,28 @@ const DepositDatesTable = ({
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSort = (field) => {
+    setSortConfig((prevConfig) => ({
+      field,
+      direction:
+        prevConfig.field === field && prevConfig.direction === 'asc'
+          ? 'desc'
+          : 'asc',
+    }))
+    setPage(0)
+    // Fetch initial data with new sort
+    globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
+      0,
+      100,
+      `${field}:${
+        sortConfig.field === field && sortConfig.direction === 'asc'
+          ? 'desc'
+          : 'asc'
+      }`,
+      localSearchTerm
+    )
   }
 
   const onSearchChange = async (event) => {
@@ -187,6 +213,9 @@ const DepositDatesTable = ({
         id="oai"
         display="OAI"
         order="any"
+        icon
+        sortDirection={sortConfig.field === 'oai' ? sortConfig.direction : null}
+        onClick={() => handleSort('oai')}
         getter={(v) => v.oai.split(':').pop()}
         className={styles.oaiColumn}
       />
@@ -194,12 +223,22 @@ const DepositDatesTable = ({
         id="title"
         display="Title"
         order="any"
+        icon
+        sortDirection={
+          sortConfig.field === 'title' ? sortConfig.direction : null
+        }
+        onClick={() => handleSort('title')}
         className={styles.titleColumn}
       />
       <Table.Column
         id="authors"
         display="Authors"
         order="any"
+        icon
+        sortDirection={
+          sortConfig.field === 'authors' ? sortConfig.direction : null
+        }
+        onClick={() => handleSort('authors')}
         className={styles.authorsColumn}
         getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
       />
@@ -207,12 +246,22 @@ const DepositDatesTable = ({
         id="publicationDate"
         display="Publication date"
         order="any"
+        icon
+        sortDirection={
+          sortConfig.field === 'publicationDate' ? sortConfig.direction : null
+        }
+        onClick={() => handleSort('publicationDate')}
         className={styles.depositDateColumn}
       />
       <Table.Column
         id="publicReleaseDate"
         display="Deposit date"
         order="desc"
+        icon
+        sortDirection={
+          sortConfig.field === 'publicReleaseDate' ? sortConfig.direction : null
+        }
+        onClick={() => handleSort('publicReleaseDate')}
         className={styles.depositDateColumn}
         getter={(v) => formatDate(v.publicReleaseDate)}
       />

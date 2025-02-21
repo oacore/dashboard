@@ -332,6 +332,18 @@
   color: #666;
 }
 
+.sort-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.rotate-icon {
+  transform: rotate(180deg);
+}
+
 @media (max-width: 1200px) {
   .card-wrapper {
     flex-wrap: wrap;
