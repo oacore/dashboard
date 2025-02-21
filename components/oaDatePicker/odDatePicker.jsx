@@ -2,22 +2,37 @@ import React, { useState } from 'react'
 
 import styles from './styles.module.css'
 
-const DateRangePicker = ({ onDateChange }) => {
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
+const DateRangePicker = ({
+  onDateChange,
+  initialStartDate = '',
+  initialEndDate = '',
+}) => {
+  const [startDate, setStartDate] = useState(initialStartDate)
+  const [endDate, setEndDate] = useState(initialEndDate)
 
-  const formatDate = (date) => new Date(date).getFullYear()
+  const formatDateForApi = (date) => {
+    if (!date) return null
+    const formattedDate = new Date(date)
+    return `${formattedDate.getFullYear()}-${String(
+      formattedDate.getMonth() + 1
+    ).padStart(2, '0')}-${String(formattedDate.getDate()).padStart(
+      2,
+      '0'
+    )} 00:00:00`
+  }
 
   const handleStartDateChange = (event) => {
     const date = event.target.value
     setStartDate(date)
-    onDateChange(formatDate(date), formatDate(endDate))
+    if (date && endDate)
+      onDateChange(formatDateForApi(date), formatDateForApi(endDate))
   }
 
   const handleEndDateChange = (event) => {
     const date = event.target.value
     setEndDate(date)
-    onDateChange(formatDate(startDate), formatDate(date))
+    if (startDate && date)
+      onDateChange(formatDateForApi(startDate), formatDateForApi(date))
   }
 
   return (
@@ -28,8 +43,9 @@ const DateRangePicker = ({ onDateChange }) => {
         onChange={handleStartDateChange}
         placeholder="Start Date"
         className={styles.dateInput}
-        min="2012-01-01"
-        onFocus={(e) => e.target.showPicker()}
+        min="2020-01-01"
+        max={endDate || undefined}
+        onClick={(e) => e.target.showPicker()}
       />
       <span className={styles.separator}>to</span>
       <input
@@ -37,9 +53,9 @@ const DateRangePicker = ({ onDateChange }) => {
         value={endDate}
         onChange={handleEndDateChange}
         placeholder="End Date"
-        min={startDate || '2012-01-01'}
+        min={startDate || '2020-01-01'}
         className={styles.dateInput}
-        onFocus={(e) => e.target.showPicker()}
+        onClick={(e) => e.target.showPicker()}
       />
     </div>
   )

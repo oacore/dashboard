@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
@@ -15,6 +15,8 @@ import compliance from '../../texts/depositing/compliance.yml'
 import greenTick from '../../components/upload/assets/greenTick.svg'
 import add from '../../components/upload/assets/add.svg'
 import { Button } from '../../design'
+import DateRangePicker from '../../components/oaDatePicker/odDatePicker'
+import { GlobalContext } from '../../store'
 
 import { Icon, Link, Message } from 'design'
 import { intro as texts } from 'texts/depositing'
@@ -66,6 +68,12 @@ const DepositComplianceTemplate = ({
   ...restProps
 }) => {
   const checkBillingType = billingPlan?.billingType === 'sustaining'
+  const [sortConfig, setSortConfig] = useState({
+    field: 'publicReleaseDate',
+    direction: 'desc',
+  })
+
+  const { ...globalStore } = useContext(GlobalContext)
 
   const renderItem = () => {
     if (totalCount === 0 && checkBillingType) {
@@ -86,12 +94,38 @@ const DepositComplianceTemplate = ({
       )
     }
 
+    const handleDateChange = (startDate, endDate) => {
+      if (startDate && endDate) {
+        globalStore.dataProvider.depositDates.setDateRange(startDate, endDate)
+
+        globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
+          0,
+          100,
+          `${sortConfig.field}:${sortConfig.direction}`,
+          '',
+          {
+            fromDate: startDate,
+            toDate: endDate,
+            wait: true,
+          }
+        )
+      }
+    }
+
     return (
       <>
-        {/* <div className={styles.pickerWrapper}>
+        <div className={styles.pickerWrapper}>
           <span className={styles.dateTitle}>Include records from</span>
-          <DateRangePicker onDateChange={handleDateChange} />
-        </div> */}
+          <DateRangePicker
+            onDateChange={handleDateChange}
+            initialStartDate={
+              dataProviderData.depositDates?.dateRange?.startDate || ''
+            }
+            initialEndDate={
+              dataProviderData.depositDates?.dateRange?.endDate || ''
+            }
+          />
+        </div>
         <div className={styles.complianceWrapper}>
           <ComplianceOptions
             title={compliance.compliance.total.title}
@@ -174,6 +208,8 @@ const DepositComplianceTemplate = ({
             totalCount={totalCount}
             isPublicReleaseDatesInProgress={isPublicReleaseDatesInProgress}
             publicReleaseDatesError={publicReleaseDatesError}
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
           />
         )}
       </>

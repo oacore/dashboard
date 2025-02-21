@@ -20,6 +20,11 @@ class DepositDates extends Store {
 
   @observable publicationDatesValidate = null
 
+  @observable dateRange = {
+    startDate: null,
+    endDate: null,
+  }
+
   constructor(rootStore, baseUrl, options) {
     super(baseUrl, options)
     this.baseStore = rootStore
@@ -41,11 +46,23 @@ class DepositDates extends Store {
   }
 
   @action
+  setDateRange(startDate, endDate) {
+    this.dateRange = {
+      startDate,
+      endDate,
+    }
+  }
+
+  @action
   resetCompliance() {
     this.timeLagData = null
     this.publicReleaseDates = null
     this.crossDepositLag = null
     this.publicationDatesValidate = null
+    this.dateRange = {
+      startDate: null,
+      endDate: null,
+    }
   }
 
   @action
@@ -122,7 +139,8 @@ class DepositDates extends Store {
     from = 0,
     size = 100,
     orderBy = null,
-    searchTerm = ''
+    searchTerm = '',
+    options = {}
   ) {
     this.isPublicReleaseDatesInProgress = true
     try {
@@ -133,8 +151,15 @@ class DepositDates extends Store {
       const url = new URL(baseUrl)
       url.searchParams.append('from', from)
       url.searchParams.append('size', size)
-      if (orderBy) url.searchParams.append('orderBy', orderBy)
+
+      if (options.wait) url.searchParams.append('wait', options.wait)
+      if (options.fromDate)
+        url.searchParams.append('fromDate', options.fromDate)
+      if (options.toDate) url.searchParams.append('toDate', options.toDate)
+
       if (searchTerm) url.searchParams.append('q', searchTerm)
+
+      if (orderBy) url.searchParams.append('orderBy', orderBy)
 
       const response = await this.request(url.toString())
       const { data, error } = response

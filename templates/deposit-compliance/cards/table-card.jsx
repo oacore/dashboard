@@ -87,6 +87,8 @@ const DepositDatesTable = ({
   totalCount,
   isPublicReleaseDatesInProgress,
   publicReleaseDatesError,
+  sortConfig,
+  setSortConfig,
 }) => {
   const { ...globalStore } = useContext(GlobalContext)
   // eslint-disable-next-line max-len
@@ -97,10 +99,6 @@ const DepositDatesTable = ({
   const [localSearchTerm, setLocalSearchTerm] = useState('')
   const [loading, setLoading] = useState(false)
   const [initialLoad, setInitialLoad] = useState(true)
-  const [sortConfig, setSortConfig] = useState({
-    field: 'publicReleaseDate',
-    direction: 'desc',
-  })
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -108,7 +106,7 @@ const DepositDatesTable = ({
       await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
         0,
         100,
-        'publicReleaseDate:desc',
+        `${sortConfig.field}:${sortConfig.direction}`,
         localSearchTerm
       )
       setInitialLoad(false)
@@ -132,7 +130,13 @@ const DepositDatesTable = ({
         from,
         size,
         `${sortConfig.field}:${sortConfig.direction}`,
-        localSearchTerm
+        localSearchTerm,
+        {
+          wait: true,
+          refresh: true,
+          fromDate: globalStore.dataProvider.depositDates.dateRange?.startDate,
+          toDate: globalStore.dataProvider.depositDates.dateRange?.endDate,
+        }
       )
       setPage((prevPage) => prevPage + 1)
     } catch (error) {
@@ -160,7 +164,13 @@ const DepositDatesTable = ({
           ? 'desc'
           : 'asc'
       }`,
-      localSearchTerm
+      localSearchTerm,
+      {
+        wait: true,
+        refresh: true,
+        fromDate: globalStore.dataProvider.depositDates.dateRange?.startDate,
+        toDate: globalStore.dataProvider.depositDates.dateRange?.endDate,
+      }
     )
   }
 
@@ -171,7 +181,7 @@ const DepositDatesTable = ({
     await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
       0,
       100,
-      'publicReleaseDate:desc',
+      `${sortConfig.field}:${sortConfig.direction}`,
       searchTerm
     )
   }
@@ -284,6 +294,8 @@ const TableCard = ({
   isPublicReleaseDatesInProgress,
   publicReleaseDatesError,
   totalCount,
+  sortConfig,
+  setSortConfig,
 }) => {
   const hasData = useObserver(
     () => publicReleaseDatesPages && publicReleaseDatesPages.length > 0
@@ -308,6 +320,8 @@ const TableCard = ({
         totalCount={totalCount}
         isPublicReleaseDatesInProgress={isPublicReleaseDatesInProgress}
         publicReleaseDatesError={publicReleaseDatesError}
+        setSortConfig={setSortConfig}
+        sortConfig={sortConfig}
       />
       {error instanceof PaymentRequiredError && (
         <Card.Footer className={classNames.use(hasData && styles.backdrop)}>
