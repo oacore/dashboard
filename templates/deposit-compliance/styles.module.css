@@ -344,6 +344,47 @@
   transform: rotate(180deg);
 }
 
+.loading-container {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  margin: 16px 0;
+  overflow: hidden;
+  background-color: #f2f2f2;
+  border-radius: 2px;
+}
+
+.loading-stroke {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #e5e5e5;
+  animation: loading 5s linear infinite;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+  margin: 10px 10px 10px 0;
+}
+
+.spinner-small {
+  width: 22px;
+  height: 22px;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
 @media (max-width: 1200px) {
   .card-wrapper {
     flex-wrap: wrap;

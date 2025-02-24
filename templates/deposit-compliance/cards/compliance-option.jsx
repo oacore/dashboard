@@ -4,6 +4,7 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 import Actions from '../../../components/actions'
+import { ProgressSpinner } from '../../../design'
 
 import { Card } from 'design'
 import NumericValue, { formatNumber } from 'components/numeric-value'
@@ -19,10 +20,15 @@ const ComplianceOptions = ({
   percentageValue,
   icon,
   className,
-  // possibleBonusCount,
+  isRetrieveDepositDatesInProgress,
 }) => {
   const displayValue = valueOrDefault(
     value != null && !Number.isNaN(value) ? formatNumber(value) : null,
+    'Loading...'
+  )
+
+  const displaySubValue = valueOrDefault(
+    subValue != null && !Number.isNaN(subValue) ? formatNumber(subValue) : null,
     'Loading...'
   )
 
@@ -33,6 +39,43 @@ const ComplianceOptions = ({
     [styles.success]: title === 'Compliant',
     [styles.nonCompliant]: title === 'Non-compliant',
   })
+
+  const shouldShowSubValue =
+    (subValue !== undefined && subValue !== null) ||
+    (isRetrieveDepositDatesInProgress && subValue !== undefined)
+
+  const getRoundedPercentageValue = () => {
+    switch (true) {
+      case roundedPercentageValue != null && isRetrieveDepositDatesInProgress:
+        return (
+          <div className={styles.loadingContainer}>
+            <div className={styles.loadingStroke} />
+          </div>
+        )
+
+      case roundedPercentageValue != null:
+        return (
+          <div className={styles.percentageBar}>
+            <div
+              className={barFillClass}
+              style={{ width: `${roundedPercentageValue}%` }}
+            >
+              <span className={styles.valuePercentage}>
+                {roundedPercentageValue}%
+              </span>
+            </div>
+          </div>
+        )
+
+      case isRetrieveDepositDatesInProgress:
+        return <ProgressSpinner className={styles.spinner} />
+
+      default:
+        return (
+          <NumericValue value={displayValue} className={styles.outputsMatch} />
+        )
+    }
+  }
 
   return (
     <Card className={styles.cardItem} tag="section" title={title}>
@@ -52,22 +95,18 @@ const ComplianceOptions = ({
           }
         />
       </div>
-      {roundedPercentageValue != null ? (
-        <div className={styles.percentageBar}>
-          <div
-            className={barFillClass}
-            style={{ width: `${roundedPercentageValue}%` }}
-          >
-            <span className={styles.valuePercentage}>
-              {roundedPercentageValue}%
-            </span>
-          </div>
-        </div>
-      ) : (
-        <NumericValue value={displayValue} className={styles.outputsMatch} />
-      )}
+      {getRoundedPercentageValue()}
       {button && button}
-      {subValue && <span className={styles.subValue}>{subValue} outputs</span>}
+      {shouldShowSubValue && (
+        <span className={styles.subValue}>
+          {isRetrieveDepositDatesInProgress ? (
+            <ProgressSpinner className={styles.spinnerSmall} />
+          ) : (
+            `${displaySubValue}`
+          )}{' '}
+          outputs
+        </span>
+      )}
     </Card>
   )
 }

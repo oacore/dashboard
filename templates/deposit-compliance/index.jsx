@@ -151,6 +151,7 @@ const DepositComplianceTemplate = ({
         </div>
         <div className={styles.complianceWrapper}>
           <ComplianceOptions
+            isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
             title={compliance.compliance.total.title}
             caption={compliance.compliance.total.subTitle}
             value={totalCount}
@@ -167,6 +168,7 @@ const DepositComplianceTemplate = ({
             description={compliance.compliance.total.description}
           />
           <ComplianceOptions
+            isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
             title={compliance.compliance.compliant.title}
             caption={compliance.compliance.compliant.subTitle}
             description={compliance.compliance.compliant.description}
@@ -179,6 +181,7 @@ const DepositComplianceTemplate = ({
             }
           />
           <ComplianceOptions
+            isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
             title={compliance.compliance.nonCompliant.title}
             caption={compliance.compliance.nonCompliant.subTitle}
             description={compliance.compliance.nonCompliant.description}
@@ -192,6 +195,7 @@ const DepositComplianceTemplate = ({
             className={`${styles.wrapper} ${styles.red}`}
           />
           <ComplianceOptions
+            isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
             title={compliance.compliance.cross.title}
             caption={compliance.compliance.cross.subTitle}
             button={

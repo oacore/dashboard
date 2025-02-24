@@ -10,6 +10,8 @@ const DateRangePicker = ({
   const [startDate, setStartDate] = useState(initialStartDate)
   const [endDate, setEndDate] = useState(initialEndDate)
 
+  const today = new Date().toISOString().split('T')[0]
+
   const formatDateForApi = (date) => {
     if (!date) return null
     const formattedDate = new Date(date)
@@ -44,7 +46,7 @@ const DateRangePicker = ({
         placeholder="Start Date"
         className={styles.dateInput}
         min="2020-01-01"
-        max={endDate || undefined}
+        max={endDate || today}
         onClick={(e) => e.target.showPicker()}
       />
       <span className={styles.separator}>to</span>
@@ -54,6 +56,7 @@ const DateRangePicker = ({
         onChange={handleEndDateChange}
         placeholder="End Date"
         min={startDate || '2020-01-01'}
+        max={today}
         className={styles.dateInput}
         onClick={(e) => e.target.showPicker()}
       />
