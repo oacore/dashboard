@@ -38,7 +38,7 @@ const CustomStatisticsChart = ({
       data={data}
       {...restProps}
       margin={{
-        top: 0,
+        top: 20,
         left: -10,
         right: 0,
         bottom: 0,
@@ -60,6 +60,7 @@ const CustomStatisticsChart = ({
           fill={labelsPosition === 'inside' ? '#fff' : '#222'}
           dataKey="count"
           className={styles.labelList}
+          offset={5}
         />
       </Bar>
     </BarChart>
