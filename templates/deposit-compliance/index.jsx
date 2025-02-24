@@ -68,6 +68,7 @@ const DepositComplianceTemplate = ({
   ...restProps
 }) => {
   const checkBillingType = billingPlan?.billingType === 'sustaining'
+  const [localSearchTerm, setLocalSearchTerm] = useState('')
   const [sortConfig, setSortConfig] = useState({
     field: 'publicReleaseDate',
     direction: 'desc',
@@ -94,6 +95,22 @@ const DepositComplianceTemplate = ({
       )
     }
 
+    const onSearchChange = async (event) => {
+      const searchTerm = event.target.value
+      setLocalSearchTerm(searchTerm)
+      await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
+        0,
+        100,
+        `${sortConfig.field}:${sortConfig.direction}`,
+        searchTerm,
+        {
+          wait: true,
+          fromDate: globalStore.dataProvider.depositDates.dateRange?.startDate,
+          toDate: globalStore.dataProvider.depositDates.dateRange?.endDate,
+        }
+      )
+    }
+
     const handleDateChange = (startDate, endDate) => {
       if (startDate && endDate) {
         globalStore.dataProvider.depositDates.setDateRange(startDate, endDate)
@@ -102,7 +119,7 @@ const DepositComplianceTemplate = ({
           0,
           100,
           `${sortConfig.field}:${sortConfig.direction}`,
-          '',
+          localSearchTerm,
           {
             fromDate: startDate,
             toDate: endDate,
@@ -216,6 +233,9 @@ const DepositComplianceTemplate = ({
             publicReleaseDatesError={publicReleaseDatesError}
             sortConfig={sortConfig}
             setSortConfig={setSortConfig}
+            localSearchTerm={localSearchTerm}
+            setLocalSearchTerm={setLocalSearchTerm}
+            onSearchChange={onSearchChange}
           />
         )}
       </>

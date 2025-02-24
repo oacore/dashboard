@@ -89,6 +89,8 @@ const DepositDatesTable = ({
   publicReleaseDatesError,
   sortConfig,
   setSortConfig,
+  localSearchTerm,
+  onSearchChange,
 }) => {
   const { ...globalStore } = useContext(GlobalContext)
   // eslint-disable-next-line max-len
@@ -96,7 +98,7 @@ const DepositDatesTable = ({
   const hasError = !!publicReleaseDatesError
 
   const [page, setPage] = useState(0)
-  const [localSearchTerm, setLocalSearchTerm] = useState('')
+
   const [loading, setLoading] = useState(false)
   const [initialLoad, setInitialLoad] = useState(true)
 
@@ -133,7 +135,6 @@ const DepositDatesTable = ({
         localSearchTerm,
         {
           wait: true,
-          refresh: true,
           fromDate: globalStore.dataProvider.depositDates.dateRange?.startDate,
           toDate: globalStore.dataProvider.depositDates.dateRange?.endDate,
         }
@@ -167,22 +168,9 @@ const DepositDatesTable = ({
       localSearchTerm,
       {
         wait: true,
-        refresh: true,
         fromDate: globalStore.dataProvider.depositDates.dateRange?.startDate,
         toDate: globalStore.dataProvider.depositDates.dateRange?.endDate,
       }
-    )
-  }
-
-  const onSearchChange = async (event) => {
-    const searchTerm = event.target.value
-    setLocalSearchTerm(searchTerm)
-    setPage(0)
-    await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
-      0,
-      100,
-      `${sortConfig.field}:${sortConfig.direction}`,
-      searchTerm
     )
   }
 
@@ -296,6 +284,9 @@ const TableCard = ({
   totalCount,
   sortConfig,
   setSortConfig,
+  localSearchTerm,
+  setLocalSearchTerm,
+  onSearchChange,
 }) => {
   const hasData = useObserver(
     () => publicReleaseDatesPages && publicReleaseDatesPages.length > 0
@@ -322,6 +313,9 @@ const TableCard = ({
         publicReleaseDatesError={publicReleaseDatesError}
         setSortConfig={setSortConfig}
         sortConfig={sortConfig}
+        localSearchTerm={localSearchTerm}
+        setLocalSearchTerm={setLocalSearchTerm}
+        onSearchChange={onSearchChange}
       />
       {error instanceof PaymentRequiredError && (
         <Card.Footer className={classNames.use(hasData && styles.backdrop)}>
