@@ -28,6 +28,7 @@ class DepositDates extends Store {
   constructor(rootStore, baseUrl, options) {
     super(baseUrl, options)
     this.baseStore = rootStore
+    this.baseUrl = baseUrl
     this.fetchOptions = {
       cache: 'no-store',
     }
@@ -66,7 +67,7 @@ class DepositDates extends Store {
   }
 
   @action
-  updateOaiUrl = (baseUrl) => {
+  updateOaiUrl = (baseUrl, endDate, startDate) => {
     const datesUrl = `${baseUrl}/public-release-dates${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
@@ -77,23 +78,29 @@ class DepositDates extends Store {
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
     }`
+
+    const dateParams =
+      endDate && startDate
+        ? `?wait=true&refresh=true&toDate=${startDate}&fromDate=${endDate}`
+        : ''
+
     this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
-    }`
+    }${dateParams}`
     this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
-    }`
+    }${dateParams}`
     this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}?accept=text/csv`
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
-    }`
+    }${dateParams}`
 
     this.retrieve()
   }
@@ -210,7 +217,6 @@ class DepositDates extends Store {
 
   retrieve() {
     this.retrieveDepositTimeLag()
-    // this.retrieveDepositDatesTable()
     this.retrievePublicationDatesValidate()
     this.retrieveCrossDepositLag()
   }

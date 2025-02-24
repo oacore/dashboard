@@ -109,6 +109,12 @@ const DepositComplianceTemplate = ({
             wait: true,
           }
         )
+
+        dataProviderData.depositDates.updateOaiUrl(
+          dataProviderData.depositDates.baseUrl,
+          startDate,
+          endDate
+        )
       }
     }
 
