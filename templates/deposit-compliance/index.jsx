@@ -75,6 +75,7 @@ const DepositComplianceTemplate = ({
   })
 
   const { ...globalStore } = useContext(GlobalContext)
+  const HEADER_HEIGHT = 56
 
   const renderItem = () => {
     if (totalCount === 0 && checkBillingType) {
@@ -134,6 +135,17 @@ const DepositComplianceTemplate = ({
         )
       }
     }
+    const handleScrollToSection = (sectionId) => {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        const elementPosition =
+          element.getBoundingClientRect().top + window.pageYOffset
+        window.scrollTo({
+          top: elementPosition - HEADER_HEIGHT,
+          behavior: 'smooth',
+        })
+      }
+    }
 
     return (
       <>
@@ -157,10 +169,18 @@ const DepositComplianceTemplate = ({
             value={totalCount}
             button={
               <div className={styles.buttonWrapper}>
-                <Button tag="a" variant="contained" href="#review">
+                <Button
+                  tag="a"
+                  variant="contained"
+                  href="#deposit-dates-card"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleScrollToSection('deposit-dates-card')
+                  }}
+                >
                   Review
                 </Button>
-                <Button tag="a" variant="text" href="#download">
+                <Button tag="a" variant="text" href={datesUrl}>
                   Download
                 </Button>
               </div>
@@ -203,6 +223,10 @@ const DepositComplianceTemplate = ({
                 tag="a"
                 variant="contained"
                 href="#cross-repository-check"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleScrollToSection('cross-repository-check')
+                }}
               >
                 {compliance.compliance.cross.button}
               </Button>

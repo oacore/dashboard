@@ -304,9 +304,10 @@ const TableCard = ({
       className={styles.browseTableCard}
       tag="section"
     >
-      <Card.Title tag="h2">Deposit dates</Card.Title>
+      <Card.Title tag="h2">All papers in the compliance period</Card.Title>
       <Card.Description>
-        Lists deposit dates discovered from your repository
+        We have found {formatNumber(totalCount)} items. Review and download them
+        below.
       </Card.Description>
       <DepositDatesTable
         className={error instanceof PaymentRequiredError && styles.muted}

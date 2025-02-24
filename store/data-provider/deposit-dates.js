@@ -107,7 +107,7 @@ class DepositDates extends Store {
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
     }${dateParams}`
-    this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}?accept=text/csv`
+    this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}&accept=text/csv`
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
