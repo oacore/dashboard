@@ -68,6 +68,11 @@ class DepositDates extends Store {
 
   @action
   updateOaiUrl = (baseUrl, endDate, startDate) => {
+    const dateParams =
+      endDate && startDate
+        ? `?wait=true&toDate=${startDate}&fromDate=${endDate}`
+        : ''
+
     const datesUrl = `${baseUrl}/public-release-dates${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
@@ -79,12 +84,9 @@ class DepositDates extends Store {
         : ''
     }`
 
-    const dateParams =
-      endDate && startDate
-        ? `?wait=true&refresh=true&toDate=${startDate}&fromDate=${endDate}`
-        : ''
+    const csvParams = endDate && startDate ? dateParams : '?wait=true'
+    this.datesUrl = `${process.env.API_URL}${datesUrl}${csvParams}&accept=text/csv`
 
-    this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
