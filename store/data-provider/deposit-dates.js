@@ -32,11 +32,22 @@ class DepositDates extends Store {
     this.fetchOptions = {
       cache: 'no-store',
     }
-    this.updateOaiUrl(baseUrl)
+
+    const today = `${new Date().toISOString().split('T')[0]} 00:00:00`
+    const defaultStartDate = '2021-01-01 00:00:00'
+
+    this.setDateRange(defaultStartDate, today)
+
+    this.updateOaiUrl(baseUrl, defaultStartDate, today)
+
     reaction(
       () => this.baseStore?.setSelectedItem,
       () => {
-        this.updateOaiUrl(baseUrl)
+        this.updateOaiUrl(
+          baseUrl,
+          this.dateRange.startDate,
+          this.dateRange.endDate
+        )
       }
     )
   }
@@ -67,11 +78,11 @@ class DepositDates extends Store {
   }
 
   @action
-  updateOaiUrl = (baseUrl, endDate, startDate) => {
+  updateOaiUrl = (baseUrl, startDate, endDate) => {
     const dateParams =
-      endDate && startDate
-        ? `?wait=true&toDate=${startDate}&fromDate=${endDate}`
-        : ''
+      startDate && endDate
+        ? `?wait=true&fromDate=${startDate}&toDate=${endDate}`
+        : '?wait=true'
 
     const datesUrl = `${baseUrl}/public-release-dates${
       this.baseStore.setSelectedItem
@@ -84,8 +95,7 @@ class DepositDates extends Store {
         : ''
     }`
 
-    const csvParams = endDate && startDate ? dateParams : '?wait=true'
-    this.datesUrl = `${process.env.API_URL}${datesUrl}${csvParams}&accept=text/csv`
+    this.datesUrl = `${process.env.API_URL}${datesUrl}${dateParams}&accept=text/csv`
 
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag${
       this.baseStore.setSelectedItem

@@ -109,7 +109,12 @@ const DepositDatesTable = ({
         0,
         100,
         `${sortConfig.field}:${sortConfig.direction}`,
-        localSearchTerm
+        localSearchTerm,
+        {
+          wait: true,
+          fromDate: globalStore.dataProvider.depositDates.dateRange?.startDate,
+          toDate: globalStore.dataProvider.depositDates.dateRange?.endDate,
+        }
       )
       setInitialLoad(false)
     }

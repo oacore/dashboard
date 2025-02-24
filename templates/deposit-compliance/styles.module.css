@@ -375,6 +375,20 @@
   height: 22px;
 }
 
+.picker-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 16px;
+}
+
+.date-title {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #424242;
+}
+
 @keyframes loading {
   0% {
     left: -100%;
