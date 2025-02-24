@@ -93,8 +93,7 @@ const DepositDatesTable = ({
   onSearchChange,
 }) => {
   const { ...globalStore } = useContext(GlobalContext)
-  // eslint-disable-next-line max-len
-  // const hasData = publicReleaseDatesPages && publicReleaseDatesPages.length > 0
+  const hasData = publicReleaseDatesPages && publicReleaseDatesPages.length > 0
   const hasError = !!publicReleaseDatesError
 
   const [page, setPage] = useState(0)
@@ -199,18 +198,12 @@ const DepositDatesTable = ({
       size={publicReleaseDatesPages?.length}
       totalLength={formatNumber(totalCount)}
       localSearch
-      fetchData={fetchData}
-      excludeFooter={checkBillingType}
-      searchable
-      // className={styles.sdgTable}
-      // rowClick={(row) => onSetActiveArticle(row)}
-      isLoading={isPublicReleaseDatesInProgress}
       localSearchTerm={localSearchTerm}
+      fetchData={fetchData}
+      excludeFooter={checkBillingType || !hasData || hasError}
+      isLoading={isPublicReleaseDatesInProgress}
       searchChange={onSearchChange}
-      // renderDropDown={articleAdditionalData}
-      // hmmmm
-      // excludeFooter={!hasData || hasError}
-      // searchable={!hasError}
+      searchable={!hasError}
     >
       <Table.Column
         id="oai"
