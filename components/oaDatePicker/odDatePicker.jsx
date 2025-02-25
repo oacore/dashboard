@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styles from './styles.module.css'
 
@@ -39,6 +39,11 @@ const DateRangePicker = ({
     if (startDate && date)
       onDateChange(formatDateForApi(startDate), formatDateForApi(date))
   }
+
+  useEffect(() => {
+    if (initialStartDate) setStartDate(initialStartDate)
+    if (initialEndDate) setEndDate(initialEndDate)
+  }, [initialStartDate, initialEndDate])
 
   return (
     <div className={styles.dateWrapper}>

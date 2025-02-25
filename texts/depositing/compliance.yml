@@ -23,6 +23,6 @@ compliance:
     button: Review
   cross:
     title: Cross-repository check
-    subTitle: Outputs deposited in other repositories
+    subTitle: Deposits in other repositories
     description: "Non-compliant outputs in your repository for which compliance is met due to deposits in other repositories"
     button: Find out more

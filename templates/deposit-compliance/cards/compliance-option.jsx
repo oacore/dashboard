@@ -20,6 +20,7 @@ const ComplianceOptions = ({
   percentageValue,
   icon,
   className,
+  hasTooltip,
   isRetrieveDepositDatesInProgress,
 }) => {
   const displayValue = valueOrDefault(
@@ -83,17 +84,21 @@ const ComplianceOptions = ({
         <div className={styles.innerTitle}>
           <div className={className}>{icon}</div>
           <div className={styles.titleWrapper}>
-            <Card.Title tag="h2">{title}</Card.Title>
+            <Card.Title tag="h2" className={styles.cardTitle}>
+              {title}
+            </Card.Title>
             <span>{caption}</span>
           </div>
         </div>
-        <Actions
-          className={styles.actionItem}
-          description={description}
-          hoverIcon={
-            <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
-          }
-        />
+        {hasTooltip && (
+          <Actions
+            className={styles.actionItem}
+            description={description}
+            hoverIcon={
+              <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+            }
+          />
+        )}
       </div>
       {getRoundedPercentageValue()}
       {button && button}

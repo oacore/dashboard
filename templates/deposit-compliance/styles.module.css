@@ -35,7 +35,7 @@
 }
 
 .outputs-match {
-  margin-bottom: 1rem;
+  margin: 32px 0;
   color: var(--success-dark);
 }
 
@@ -192,6 +192,24 @@
   gap: 8px;
 }
 
+.card-title {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 26px;
+  color: #212121;
+  letter-spacing: 0.03px;
+}
+
+.action-item button {
+  padding: 0;
+}
+
+.action-item button:hover {
+  padding: 0;
+  background: unset;
+}
+
 .title-wrapper {
   display: flex;
   flex-direction: column;
@@ -247,7 +265,7 @@
 
 .cross-wrapper {
   display: flex;
-  gap: 18px;
+  gap: 35px;
 }
 
 .label-list {
@@ -261,6 +279,7 @@
   justify-content: center;
   width: 60%;
   gap: 10px;
+  margin-right: 8px;
 }
 
 .csv-button a {
@@ -290,7 +309,7 @@
 .percentage-bar {
   position: relative;
   height: 36px;
-  margin: 16px 0;
+  margin: 32px 0;
   overflow: hidden;
   background-color: #e0e0e0;
   border-radius: 2px;
@@ -307,12 +326,14 @@
 
 .value-percentage {
   position: absolute;
+  top: 50%;
   left: 10px;
-  font-size: 22px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
   color: #212121;
+  transform: translate(10px, -50%);
 }
 
 .success {
@@ -381,6 +402,7 @@
   justify-content: flex-end;
   width: 100%;
   gap: 16px;
+  margin-bottom: 20px;
 }
 
 .date-title {

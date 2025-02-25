@@ -154,15 +154,20 @@ const DepositComplianceTemplate = ({
           <DateRangePicker
             onDateChange={handleDateChange}
             initialStartDate={
-              dataProviderData.depositDates?.dateRange?.startDate || ''
+              dataProviderData.depositDates?.dateRange?.startDate?.split(
+                ' '
+              )[0] || ''
             }
             initialEndDate={
-              dataProviderData.depositDates?.dateRange?.endDate || ''
+              dataProviderData.depositDates?.dateRange?.endDate?.split(
+                ' '
+              )[0] || ''
             }
           />
         </div>
         <div className={styles.complianceWrapper}>
           <ComplianceOptions
+            hasTooltip
             isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
             title={compliance.compliance.total.title}
             caption={compliance.compliance.total.subTitle}
@@ -188,6 +193,7 @@ const DepositComplianceTemplate = ({
             description={compliance.compliance.total.description}
           />
           <ComplianceOptions
+            hasTooltip
             isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
             title={compliance.compliance.compliant.title}
             caption={compliance.compliance.compliant.subTitle}
@@ -201,6 +207,7 @@ const DepositComplianceTemplate = ({
             }
           />
           <ComplianceOptions
+            hasTooltip
             isRetrieveDepositDatesInProgress={isRetrieveDepositDatesInProgress}
             title={compliance.compliance.nonCompliant.title}
             caption={compliance.compliance.nonCompliant.subTitle}
@@ -231,7 +238,6 @@ const DepositComplianceTemplate = ({
                 {compliance.compliance.cross.button}
               </Button>
             }
-            description={compliance.compliance.cross.description}
             value={crossDepositLag?.bonusCount}
             icon={<img className={styles.tick} src={add} alt="" />}
             className={`${styles.wrapper} ${styles.green}`}
