@@ -78,15 +78,17 @@ const DepositComplianceTemplate = ({
   const HEADER_HEIGHT = 56
 
   const renderItem = () => {
-    if (totalCount === 0 && checkBillingType) {
-      if (
-        dataProviderData.depositDates.dateRange.startDate &&
-        dataProviderData.depositDates.dateRange.endDate
-      )
-        return <NotEnoughDataBasedOnDates />
+    const hasCustomDateRange =
+      dataProviderData.depositDates?.dateRange.startDate !==
+        '2021-01-01 00:00:00' ||
+      dataProviderData.depositDates?.dateRange.endDate !==
+        `${new Date().toISOString().split('T')[0]} 00:00:00`
 
-      return <NotEnoughDataMessage />
-    }
+    if (hasCustomDateRange && totalCount === 0)
+      return <NotEnoughDataBasedOnDates />
+
+    if (totalCount === 0 && checkBillingType) return <NotEnoughDataMessage />
+
     if (!checkBillingType) {
       return (
         <AccessPlaceholder
