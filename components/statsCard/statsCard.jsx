@@ -3,7 +3,7 @@ import { Icon } from '@oacore/design/lib/elements'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
-import { Button } from '../../../design'
+import { Button } from '../../design'
 import { formatNumber } from '../../utils/helpers'
 import Actions from '../actions'
 
