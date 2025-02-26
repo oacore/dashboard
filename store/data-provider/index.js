@@ -104,6 +104,12 @@ class DataProvider extends Resource {
 
   @observable sdgYearData = []
 
+  @observable orcidData = []
+
+  @observable orcidWithoutPaperData = []
+
+  @observable orcidOtherData = []
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -147,6 +153,21 @@ class DataProvider extends Resource {
   @action
   setSdgYearData(data) {
     this.sdgYearData = data
+  }
+
+  @action
+  setOrcidData(data) {
+    this.orcidData = data
+  }
+
+  @action
+  setOrcidWithoutPaperData(data) {
+    this.orcidWithoutPaperData = data
+  }
+
+  @action
+  setOrcidOtherData(data) {
+    this.orcidOtherData = data
   }
 
   @action
@@ -657,6 +678,45 @@ class DataProvider extends Resource {
       this.datasetUserData = data
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
+    }
+  }
+
+  @action
+  getOrcidData = async (id) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${id}/orcid/basic`
+      )
+      const data = await response.json()
+      this.setOrcidData(data)
+    } catch (error) {
+      console.error('Error fetching deduplication data:', error)
+    }
+  }
+
+  @action
+  getOrcidWithoutPaperData = async (id) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${id}/orcid/basic`
+      )
+      const data = await response.json()
+      this.setOrcidWithoutPaperData(data)
+    } catch (error) {
+      console.error('Error fetching deduplication data:', error)
+    }
+  }
+
+  @action
+  getOrcidOtherData = async (id) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${id}/orcid/basic`
+      )
+      const data = await response.json()
+      this.setOrcidOtherData(data)
+    } catch (error) {
+      console.error('Error fetching deduplication data:', error)
     }
   }
 
