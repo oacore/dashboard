@@ -240,7 +240,7 @@ const DepositComplianceTemplate = ({
                 {compliance.compliance.cross.button}
               </Button>
             }
-            value={crossDepositLag?.bonusCount}
+            value={crossDepositLag?.resultCount}
             icon={<img className={styles.tick} src={add} alt="" />}
             className={`${styles.wrapper} ${styles.green}`}
           />
