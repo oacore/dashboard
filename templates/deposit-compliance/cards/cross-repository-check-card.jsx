@@ -57,7 +57,10 @@ const CustomStatisticsChart = ({
         ))}
         <LabelList
           formatter={(value) =>
-            `${formatNumber(value, { notation: 'compact' })}`
+            formatNumber(value, {
+              notation: 'compact',
+              maximumFractionDigits: 1,
+            }).replace('.', ',')
           }
           position={labelsPosition === 'inside' ? 'insideTop' : 'top'}
           fill={labelsPosition === 'inside' ? '#fff' : '#222'}
@@ -114,7 +117,7 @@ const Content = ({
                 marginRight: '10px',
               }}
             />
-            <span>{`${value}: ${count}`}</span>
+            <span>{`${value}: ${formatNumber(count)}`}</span>
           </div>
         ))}
         {resultCount > 0 && (
