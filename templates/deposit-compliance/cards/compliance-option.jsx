@@ -1,11 +1,11 @@
 import React from 'react'
-import { Icon } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../styles.module.css'
 import Actions from '../../../components/actions'
 import { ProgressSpinner } from '../../../design'
 
+import infoAction from 'components/upload/assets/infoAction.svg'
 import { Card } from 'design'
 import NumericValue, { formatNumber } from 'components/numeric-value'
 import { valueOrDefault } from 'utils/helpers'
@@ -95,7 +95,7 @@ const ComplianceOptions = ({
             className={styles.actionItem}
             description={description}
             hoverIcon={
-              <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+              <img src={infoAction} style={{ color: '#757575' }} alt="" />
             }
           />
         )}

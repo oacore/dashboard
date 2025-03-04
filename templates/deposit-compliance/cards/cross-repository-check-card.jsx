@@ -9,11 +9,11 @@ import {
   Tooltip,
   Cell,
 } from 'recharts'
-import { Icon } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import Actions from '../../../components/actions'
 import compliance from '../../../texts/depositing/compliance.yml'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 import { PaymentRequiredError } from 'store/errors'
 import { Card } from 'design'
@@ -143,9 +143,7 @@ const CrossRepositoryCheckCard = ({
       <Actions
         className={styles.actionItem}
         description={compliance.compliance.cross.description}
-        hoverIcon={
-          <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
-        }
+        hoverIcon={<img src={infoAction} style={{ color: '#757575' }} alt="" />}
       />
     </div>
     <Card.Description className={styles.cardDescription}>

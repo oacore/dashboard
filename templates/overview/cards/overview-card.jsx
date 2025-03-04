@@ -4,6 +4,7 @@ import { Icon } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import { GlobalContext } from '../../../store'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 import Actions from 'components/actions'
 import { Card } from 'design'
@@ -39,10 +40,7 @@ const OverviewCard = ({
               downloadUrl={downloadUrl}
               description={tooltip}
               hoverIcon={
-                <Icon
-                  src="#alert-circle-outline"
-                  style={{ color: '#757575' }}
-                />
+                <img src={infoAction} style={{ color: '#757575' }} alt="" />
               }
             />
           </div>
