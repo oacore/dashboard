@@ -3,35 +3,34 @@ title: Open Researcher and Contributor IDentifier (ORCID)
 description: The ORCID is a nonproprietary alphanumeric code to uniquely identify authors and contributors of scholarly communication as well as ORCID's website and services to look up authors and their bibliographic output.
 
 statsCards:
-  - title: Papers with an ORCID
+  withOrcid:
+    title: Papers with an ORCID
     description: within your repository collection
     action: Review
     tooltip: ""
-  - title: Papers without an ORCID
+  withoutOrcid:
+    title: Papers without an ORCID
     description: within your repository collection
     action: Review
     tooltip: Number of authors at your institution with an ORCID.
-    noticeable:  true
-  - title: Unique ORCIDs
-    description: number of authors at your institution with an ORCID
-    action: Review
-    tooltip: Number of outputs without an ORCID within the repository collection.
-  - title: ORCIDs found in other repositories
+    noticeable: true
+  otherOrcid:
+    title: ORCIDs found in other repositories
     description: ""
     action: Review
     tooltip: CORE has discovered more ORCIDs which are not listed in the repository.
-
 table:
   actions:
     - name: Papers with an ORCID
       defaultActive: true
       action: with
+      id: orcid
     - name: Papers without an ORCID
       action: without
-    - name: Unique ORCIDs
-      action: unique
+      id: without
     - name: ORCIDs found in other repositories
       action: other
+      id: other
 
 # UPDATEEE
 upload:
