@@ -4,13 +4,15 @@ import { Table } from '@oacore/design'
 import TableRow from './row'
 import NoDataFoundRow from '../table/no-data-found-row'
 
-const Body = ({ data, columns, handleRowClick, details }) => {
+const Body = ({ data, columns, handleRowClick, details, sidebar }) => {
   const [activeElement, setActiveElement] = useState(null)
 
   const rowClickHandler = (row, index) => {
-    setActiveElement(index)
-    handleRowClick(row)
-    if (index === activeElement) setActiveElement(null)
+    if (sidebar) handleRowClick(row)
+    else {
+      setActiveElement(index === activeElement ? null : index)
+      handleRowClick(row)
+    }
   }
 
   return (
@@ -26,6 +28,7 @@ const Body = ({ data, columns, handleRowClick, details }) => {
           index,
           context: row,
           columns,
+          isClickable: true,
         }
         return (
           <Fragment key={row.id}>
@@ -34,7 +37,8 @@ const Body = ({ data, columns, handleRowClick, details }) => {
               key={row.id}
               {...props}
             />
-            {details &&
+            {!sidebar &&
+              details &&
               index === activeElement &&
               React.cloneElement(details, props)}
           </Fragment>
@@ -44,4 +48,5 @@ const Body = ({ data, columns, handleRowClick, details }) => {
     </Table.Body>
   )
 }
+
 export default Body

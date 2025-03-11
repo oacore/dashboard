@@ -45,11 +45,8 @@
   flex-grow: 1;
   justify-content: space-between;
   padding-left: 0;
+  margin-top: 20px;
   list-style-type: none;
-
-  @media (--screen-at-least-desktop) {
-    display: none;
-  }
 }
 
 .color {
