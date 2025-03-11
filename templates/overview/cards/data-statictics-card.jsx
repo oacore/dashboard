@@ -1,8 +1,8 @@
 import React from 'react'
-import { Icon } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import OverviewCard from './overview-card'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 import AreaChart from 'components/area-chart'
 import useHarvestingDate from 'utils/hooks/use-harvesting-dates'
@@ -33,9 +33,7 @@ const ActionsBar = ({ onSetActiveType, activeType }) => {
       ))}
       <Actions
         description={text.cardTooltip}
-        hoverIcon={
-          <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
-        }
+        hoverIcon={<img src={infoAction} style={{ color: '#757575' }} alt="" />}
       />
     </div>
   )

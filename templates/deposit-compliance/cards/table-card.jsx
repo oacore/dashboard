@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
+import { ProgressSpinner } from '../../../design'
 import styles from '../styles.module.css'
+import Tablev2 from '../../../components/tablev2/tablev2'
+import { GlobalContext } from '../../../store'
 
 import { PaymentRequiredError } from 'store/errors'
 import { Card, Icon } from 'design'
@@ -11,8 +14,7 @@ import Table from 'components/table'
 import ExportButton from 'components/export-button'
 import { PaymentRequiredNote } from 'modules/billing'
 import * as texts from 'texts/depositing'
-import { formatDate } from 'utils/helpers'
-import useDynamicTableData from 'components/table/hooks/use-dynamic-data'
+import { formatDate, formatNumber } from 'utils/helpers'
 
 const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
   const { Header, Body, Footer } = Table.Sidebar
@@ -80,26 +82,136 @@ class PublicationDateColumn extends Table.Column {
 const DepositDatesTable = ({
   className,
   datesUrl,
-  publicReleaseDatesPages: pages,
+  checkBillingType,
+  publicReleaseDatesPages,
+  totalCount,
+  isPublicReleaseDatesInProgress,
+  publicReleaseDatesError,
+  sortConfig,
+  setSortConfig,
+  localSearchTerm,
+  onSearchChange,
 }) => {
-  const [tableProps, fetchData] = useDynamicTableData({
-    pages,
-    defaultSize: 5,
-  })
-  const hasData = pages.data && pages.data.length > 0
-  const hasError = !!pages.error
-  return (
-    <Table
+  const { ...globalStore } = useContext(GlobalContext)
+  const hasData = publicReleaseDatesPages && publicReleaseDatesPages.length > 0
+  const hasError = !!publicReleaseDatesError
+
+  const [page, setPage] = useState(0)
+
+  const [loading, setLoading] = useState(false)
+  const [initialLoad, setInitialLoad] = useState(true)
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      setPage(0)
+      await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
+        0,
+        100,
+        `${sortConfig.field}:${sortConfig.direction}`,
+        localSearchTerm,
+        {
+          wait: true,
+          fromDate: globalStore.dataProvider.depositDates.dateRange?.startDate,
+          toDate: globalStore.dataProvider.depositDates.dateRange?.endDate,
+        }
+      )
+      setInitialLoad(false)
+    }
+    fetchInitialData()
+  }, [])
+
+  const fetchData = async () => {
+    if (
+      loading ||
+      globalStore.dataProvider.depositDates.isPublicReleaseDatesInProgress
+    )
+      return
+
+    const from = (page + 1) * 100
+    const size = 100
+
+    try {
+      setLoading(true)
+      await globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
+        from,
+        size,
+        `${sortConfig.field}:${sortConfig.direction}`,
+        localSearchTerm,
+        {
+          wait: true,
+          fromDate: globalStore.dataProvider.depositDates.dateRange?.startDate,
+          toDate: globalStore.dataProvider.depositDates.dateRange?.endDate,
+        }
+      )
+      setPage((prevPage) => prevPage + 1)
+    } catch (error) {
+      console.error('Error fetching additional data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSort = (field) => {
+    setSortConfig((prevConfig) => ({
+      field,
+      direction:
+        prevConfig.field === field && prevConfig.direction === 'asc'
+          ? 'desc'
+          : 'asc',
+    }))
+    setPage(0)
+    // Fetch initial data with new sort
+    globalStore.dataProvider.depositDates.retrieveDepositDatesTable(
+      0,
+      100,
+      `${field}:${
+        sortConfig.field === field && sortConfig.direction === 'asc'
+          ? 'desc'
+          : 'asc'
+      }`,
+      localSearchTerm,
+      {
+        wait: true,
+        fromDate: globalStore.dataProvider.depositDates.dateRange?.startDate,
+        toDate: globalStore.dataProvider.depositDates.dateRange?.endDate,
+      }
+    )
+  }
+
+  return initialLoad ? (
+    <div className={styles.dataSpinnerWrapper}>
+      <ProgressSpinner className={styles.spinner} />
+      <p className={styles.spinnerText}>
+        This may take a while, longer for larger repositories ...
+      </p>
+    </div>
+  ) : (
+    <Tablev2
       className={classNames.use(styles.browseTable).join(className)}
+      isHeaderClickable
+      rowIdentifier="articleId"
+      data={
+        checkBillingType
+          ? publicReleaseDatesPages.slice(0, 5)
+          : publicReleaseDatesPages
+      }
+      size={publicReleaseDatesPages?.length}
+      totalLength={formatNumber(totalCount)}
+      localSearch
+      localSearchTerm={localSearchTerm}
       fetchData={fetchData}
-      excludeFooter={!hasData || hasError}
+      excludeFooter={checkBillingType || !hasData || hasError}
+      isLoading={isPublicReleaseDatesInProgress}
+      searchChange={onSearchChange}
       searchable={!hasError}
-      {...tableProps}
     >
       <Table.Column
         id="oai"
         display="OAI"
         order="any"
+        icon
+        sortDirection={sortConfig.field === 'oai' ? sortConfig.direction : null}
+        onClick={() => handleSort('oai')}
         getter={(v) => v.oai.split(':').pop()}
         className={styles.oaiColumn}
       />
@@ -107,12 +219,22 @@ const DepositDatesTable = ({
         id="title"
         display="Title"
         order="any"
+        icon
+        sortDirection={
+          sortConfig.field === 'title' ? sortConfig.direction : null
+        }
+        onClick={() => handleSort('title')}
         className={styles.titleColumn}
       />
       <Table.Column
         id="authors"
         display="Authors"
         order="any"
+        icon
+        sortDirection={
+          sortConfig.field === 'authors' ? sortConfig.direction : null
+        }
+        onClick={() => handleSort('authors')}
         className={styles.authorsColumn}
         getter={(v) => v.authors && v.authors.map((a) => a.name).join(' ')}
       />
@@ -120,12 +242,22 @@ const DepositDatesTable = ({
         id="publicationDate"
         display="Publication date"
         order="any"
+        icon
+        sortDirection={
+          sortConfig.field === 'publicationDate' ? sortConfig.direction : null
+        }
+        onClick={() => handleSort('publicationDate')}
         className={styles.depositDateColumn}
       />
       <Table.Column
         id="publicReleaseDate"
         display="Deposit date"
         order="desc"
+        icon
+        sortDirection={
+          sortConfig.field === 'publicReleaseDate' ? sortConfig.direction : null
+        }
+        onClick={() => handleSort('publicReleaseDate')}
         className={styles.depositDateColumn}
         getter={(v) => formatDate(v.publicReleaseDate)}
       />
@@ -137,13 +269,27 @@ const DepositDatesTable = ({
       <Table.Action>
         <ExportButton href={datesUrl}>{texts.exporting.download}</ExportButton>
       </Table.Action>
-    </Table>
+    </Tablev2>
   )
 }
 
-const TableCard = ({ datesUrl, publicReleaseDatesPages: pages }) => {
-  const hasData = useObserver(() => pages.data && pages.data.length > 0)
-  const error = useObserver(() => pages.error)
+const TableCard = ({
+  datesUrl,
+  publicReleaseDatesPages,
+  checkBillingType,
+  isPublicReleaseDatesInProgress,
+  publicReleaseDatesError,
+  totalCount,
+  sortConfig,
+  setSortConfig,
+  localSearchTerm,
+  setLocalSearchTerm,
+  onSearchChange,
+}) => {
+  const hasData = useObserver(
+    () => publicReleaseDatesPages && publicReleaseDatesPages.length > 0
+  )
+  const error = useObserver(() => publicReleaseDatesError)
 
   return (
     <Card
@@ -151,14 +297,24 @@ const TableCard = ({ datesUrl, publicReleaseDatesPages: pages }) => {
       className={styles.browseTableCard}
       tag="section"
     >
-      <Card.Title tag="h2">Deposit dates</Card.Title>
+      <Card.Title tag="h2">All papers in the compliance period</Card.Title>
       <Card.Description>
-        Lists deposit dates discovered from your repository
+        We have found {formatNumber(totalCount)} items. Review and download them
+        below.
       </Card.Description>
       <DepositDatesTable
         className={error instanceof PaymentRequiredError && styles.muted}
-        publicReleaseDatesPages={pages}
+        publicReleaseDatesPages={publicReleaseDatesPages}
         datesUrl={datesUrl}
+        checkBillingType={checkBillingType}
+        totalCount={totalCount}
+        isPublicReleaseDatesInProgress={isPublicReleaseDatesInProgress}
+        publicReleaseDatesError={publicReleaseDatesError}
+        setSortConfig={setSortConfig}
+        sortConfig={sortConfig}
+        localSearchTerm={localSearchTerm}
+        setLocalSearchTerm={setLocalSearchTerm}
+        onSearchChange={onSearchChange}
       />
       {error instanceof PaymentRequiredError && (
         <Card.Footer className={classNames.use(hasData && styles.backdrop)}>

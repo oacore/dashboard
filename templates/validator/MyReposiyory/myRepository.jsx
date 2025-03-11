@@ -1,11 +1,11 @@
 import React from 'react'
-import { Icon } from '@oacore/design'
 
 import ComplianceCard from '../cards/complianceCard'
 import styles from '../styles.module.css'
 import texts from '../../../texts/validator'
 import Actions from '../../../components/actions'
 import Markdown from '../../../components/markdown'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 const MyRepository = ({ filterRepositoryData, repositoryData }) => (
   <>
@@ -28,7 +28,7 @@ const MyRepository = ({ filterRepositoryData, repositoryData }) => (
           <Actions
             description={texts.validator.issueTooltip}
             hoverIcon={
-              <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+              <img src={infoAction} style={{ color: '#757575' }} alt="" />
             }
           />
         </div>
@@ -63,7 +63,12 @@ const MyRepository = ({ filterRepositoryData, repositoryData }) => (
           <Actions
             description={texts.validator.warningTooltip}
             hoverIcon={
-              <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+              <img
+                className={styles.test}
+                src={infoAction}
+                style={{ color: '#757575' }}
+                alt=""
+              />
             }
           />
         </div>
