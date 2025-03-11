@@ -45,6 +45,11 @@ const config = [
     icon: 'barcode',
   },
   {
+    id: 'orcid',
+    path: 'orcid',
+    icon: 'orcid',
+  },
+  {
     id: 'plugins',
     path: 'plugins',
     icon: 'puzzle',
