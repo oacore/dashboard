@@ -1,5 +1,6 @@
 title: Publication dates
 description: Compares publication dates with Crossref
+tooltip: We compared the publication dates from the repository records with the corresponding publication dates from Crossref. If there is a date mismatch we mark it as “partial” if the dates are close to each other (in the same month), “different” otherwise.
 matching: Matching
 incorrect: Partially matches
 different: Different

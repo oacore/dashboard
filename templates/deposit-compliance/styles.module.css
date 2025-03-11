@@ -35,7 +35,7 @@
 }
 
 .outputs-match {
-  margin-bottom: 1rem;
+  margin: 32px 0;
   color: var(--success-dark);
 }
 
@@ -51,6 +51,21 @@
 .browse-table-card {
   flex: 3 3 90%;
   margin-bottom: 0;
+}
+
+.data-spinner-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.spinner-text {
+  margin: 0 0 0 14px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #666;
+  letter-spacing: 0.021px;
 }
 
 .browse-table {
@@ -150,4 +165,267 @@
 .placeholder-img {
   width: 320px;
   height: 284px;
+}
+
+.compliance-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.compliance-wrapper > * {
+  flex: 1 1 calc(20% - 10px);
+  margin: 5px;
+}
+
+.number-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.inner-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 26px;
+  color: #212121;
+  letter-spacing: 0.03px;
+}
+
+.action-item button {
+  padding: 0;
+}
+
+.action-item button:hover {
+  padding: 0;
+  background: unset;
+}
+
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #666;
+  letter-spacing: 0.021px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 46px;
+  padding: 11px 5px;
+  border-radius: 2px;
+}
+
+.button-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.card-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.card-wrapper {
+  display: flex;
+  gap: 24px;
+}
+
+.chart-card-wrapper {
+  width: 50%;
+}
+
+.card-description {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #616161;
+  letter-spacing: 0.035px;
+}
+
+.cross-wrapper {
+  display: flex;
+  gap: 35px;
+}
+
+.label-list {
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.cross-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 60%;
+  gap: 10px;
+  margin-right: 8px;
+}
+
+.csv-button a {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.section-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  gap: 16px;
+}
+
+.red {
+  background: rgba(255, 95, 82, 0.1);
+}
+
+.dark {
+  background: #e0e0e0;
+}
+
+.green {
+  background: rgba(139, 195, 74, 0.1);
+}
+
+.percentage-bar {
+  position: relative;
+  height: 36px;
+  margin: 32px 0;
+  overflow: hidden;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+}
+
+.percentage-bar-fill {
+  height: 100%;
+  line-height: 20px;
+  color: var(--white);
+  text-align: center;
+  background-color: var(--success);
+  border-radius: 2px 0 0 2px;
+}
+
+.value-percentage {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  color: #212121;
+  transform: translate(10px, -50%);
+}
+
+.success {
+  background-color: var(--success);
+}
+
+.non-compliant {
+  background-color: #c62828;
+}
+
+.sub-value {
+  margin-top: 4px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  color: #666;
+}
+
+.sort-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.rotate-icon {
+  transform: rotate(180deg);
+}
+
+.loading-container {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  margin: 16px 0;
+  overflow: hidden;
+  background-color: #f2f2f2;
+  border-radius: 2px;
+}
+
+.loading-stroke {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #e5e5e5;
+  animation: loading 5s linear infinite;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+  margin: 10px 10px 10px 0;
+}
+
+.spinner-small {
+  width: 22px;
+  height: 22px;
+}
+
+.picker-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.date-title {
+  font-size: 14px;
+  color: #424242;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .card-wrapper {
+    flex-wrap: wrap;
+  }
+
+  .chart-card-wrapper {
+    width: 100%;
+  }
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
-import { Icon } from '@oacore/design'
 
 import ValidateCard from '../cards/validateCard'
 import styles from '../styles.module.css'
@@ -11,6 +10,7 @@ import IssueCard from '../cards/issueCard'
 import { Message } from '../../../design'
 import info from '../../../components/upload/assets/info.svg'
 import Actions from '../../../components/actions'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 const RioxValidator = ({
   handleValidateClick,
@@ -63,10 +63,7 @@ const RioxValidator = ({
                 <Actions
                   description={texts.validator.issueTooltip}
                   hoverIcon={
-                    <Icon
-                      src="#alert-circle-outline"
-                      style={{ color: '#757575' }}
-                    />
+                    <img src={infoAction} style={{ color: '#757575' }} alt="" />
                   }
                 />
               </div>
@@ -95,10 +92,7 @@ const RioxValidator = ({
                 <Actions
                   description={texts.validator.warningTooltip}
                   hoverIcon={
-                    <Icon
-                      src="#alert-circle-outline"
-                      style={{ color: '#757575' }}
-                    />
+                    <img src={infoAction} style={{ color: '#757575' }} alt="" />
                   }
                 />
               </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Icon } from '@oacore/design/lib/elements'
 import { useRouter } from 'next/router'
 
 import styles from '../styles.module.css'
@@ -10,6 +9,7 @@ import FormatUploadIssue from './formatUploadIssue'
 import UploadSuccess from './uploadSuccess'
 import UploadFail from './uploadFail'
 import rrs from '../../../texts/rrs-retention'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 import { Card } from 'design'
 
@@ -84,7 +84,7 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
         <Actions
           description={rrs.checkCard.info}
           hoverIcon={
-            <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+            <img src={infoAction} style={{ color: '#757575' }} alt="" />
           }
         />
       </div>

@@ -1,5 +1,6 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Table } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from '../table/styles.module.css'
 import Body from './body'
@@ -26,16 +27,44 @@ const Tablev2 = ({
   rowActionProp,
   renderDropDown,
   details,
-  rowAction,
   isLoading,
   excludeFooter = false,
 }) => {
   const tableRef = useRef(null)
   const containerRef = useRef(null)
-  const { action, columns } = useTableConfig(children)
+  const { action, columns, sidebar } = useTableConfig(children)
+  const [expandedRowId, setExpandedRowId] = React.useState(null)
+
+  const handleSidebarClose = () => {
+    setExpandedRowId(null)
+  }
+
+  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    const instance = containerRef.current
+    if (instance) {
+      instance.addEventListener('sidebar-close', handleSidebarClose)
+      return () => {
+        instance.removeEventListener('sidebar-close', handleSidebarClose)
+      }
+    }
+  }, [])
+
+  const handleRowClick = (row) => {
+    if (sidebar) {
+      setExpandedRowId(expandedRowId?.id === row.id ? null : row)
+      if (rowClick) rowClick(row)
+    } else if (rowClick) rowClick(row)
+  }
 
   return (
-    <div ref={containerRef}>
+    <div
+      ref={containerRef}
+      className={classNames.use({
+        [styles.container]: true,
+        [styles.open]: !!expandedRowId && !!sidebar,
+      })}
+    >
       <div className={styles.table}>
         {searchable && (
           <TextField
@@ -53,11 +82,13 @@ const Tablev2 = ({
             <Header isHeaderClickable={isHeaderClickable} columns={columns} />
             <Body
               renderDropDown={renderDropDown}
-              handleRowClick={rowClick || rowAction}
+              handleRowClick={handleRowClick}
               rowActionProp={rowActionProp}
               columns={columns}
               data={data}
               details={details}
+              sidebar={sidebar}
+              expandedRowId={expandedRowId}
             />
             {!excludeFooter && (
               <Footer
@@ -76,6 +107,11 @@ const Tablev2 = ({
           </Table>
         </div>
       </div>
+      {sidebar &&
+        React.cloneElement(sidebar, {
+          context: expandedRowId,
+          children: expandedRowId ? sidebar.props.children : null,
+        })}
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import React from 'react'
-import { Icon } from '@oacore/design/lib/elements'
 
 import styles from '../styles.module.css'
 import { formatNumber } from '../../../utils/helpers'
 import { Button } from '../../../design'
 import Actions from '../../../components/actions'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 import rrs from 'texts/rrs-retention'
 import { Card } from 'design'
@@ -27,7 +27,7 @@ const RrsReviewCard = ({ rrsList, rrsDataLoading }) => {
           <Actions
             description={rrs.reviewCard.info}
             hoverIcon={
-              <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
+              <img src={infoAction} style={{ color: '#757575' }} alt="" />
             }
           />
         </div>

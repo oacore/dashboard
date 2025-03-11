@@ -1,11 +1,11 @@
 import React from 'react'
-import { Icon } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import texts from '../../../texts/deduplication/deduplication.yml'
 import Actions from '../../../components/actions'
 import ExportButton from '../../../components/export-button'
 import { formatNumber } from '../../../utils/helpers'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 import { ProgressSpinner, Card } from 'design'
 
@@ -26,9 +26,7 @@ const DeduplicationStatistics = ({
       <Actions
         className={styles.actionItem}
         description={texts.info.info}
-        hoverIcon={
-          <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
-        }
+        hoverIcon={<img src={infoAction} style={{ color: '#757575' }} alt="" />}
       />
     </div>
     <div className={styles.innerWrapper}>
