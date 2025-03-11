@@ -69,6 +69,11 @@ const config = new RouteConfig([
     icon: 'sdg',
   },
   {
+    test: /\/das/,
+    path: 'das',
+    icon: 'sdg',
+  },
+  {
     test: /\/rights-retention-strategy/,
     path: 'rights-retention-strategy',
     icon: 'copy-document',

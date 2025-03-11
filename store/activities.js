@@ -35,6 +35,11 @@ const config = [
     icon: 'sdg',
   },
   {
+    id: 'das',
+    path: 'das',
+    icon: 'sdg',
+  },
+  {
     id: 'rrsPolicy',
     path: 'rights-retention-strategy',
     icon: 'copy-document',
