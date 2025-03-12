@@ -37,7 +37,7 @@ const config = [
   {
     id: 'das',
     path: 'das',
-    icon: 'sdg',
+    icon: 'das',
   },
   {
     id: 'rrsPolicy',

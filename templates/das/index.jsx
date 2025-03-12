@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
-import RrsTable from './tables/rrsTable'
 import DashboardHeader from '../../components/dashboard-header'
 import ShowMoreText from '../../components/showMore'
 import StatsCard from '../../components/statsCard/statsCard'
+import DasTable from './tables/DasTable'
 import PdfUploadChecker from '../../components/uploadChecker/PdfUploadChecker'
 
-import rrs from 'texts/rrs-retention'
+import dasText from 'texts/das'
 
-const RrsPageTemplate = ({
+const DasPageTemplate = ({
   tag: Tag = 'main',
   className,
   rrsList,
@@ -46,11 +46,11 @@ const RrsPageTemplate = ({
   return (
     <Tag className={classNames.use(styles.main).join(className)} {...restProps}>
       <DashboardHeader
-        title={rrs.title}
+        title={dasText.title}
         showMore={
           <ShowMoreText
             className={styles.description}
-            text={rrs.description || 'N/A'}
+            text={dasText.description || 'N/A'}
             maxLetters={320}
             showMore={showMore}
             toggleShowMore={toggleShowMore}
@@ -61,34 +61,34 @@ const RrsPageTemplate = ({
       <div className={styles.rrsMainWrapper}>
         <div className={styles.cardsWrapper}>
           <StatsCard
-            title={rrs.statsCard.title}
-            description={rrs.statsCard.description}
+            title={dasText.statsCard.title}
+            description={dasText.statsCard.description}
             count={rrsList.length}
             loading={rrsDataLoading}
-            actionText={rrs.statsCard.action}
+            actionText={dasText.statsCard.action}
             actionHref={rrsUrl}
             checkBillingType={checkBillingType}
           />
           <StatsCard
-            title={rrs.reviewCard.title}
-            description={rrs.reviewCard.description}
+            title={dasText.reviewCard.title}
+            description={dasText.reviewCard.description}
             count={rrsToReviewList.length}
             loading={rrsDataLoading}
-            actionText={rrs.reviewCard.action}
+            actionText={dasText.reviewCard.action}
             actionHref="#rrsTable"
             showInfo
-            infoText={rrs.reviewCard.info}
+            infoText={dasText.reviewCard.info}
             countClassName={styles.inputCount}
           />
           <PdfUploadChecker
             rrsPdfLoading={rrsPdfLoading}
             uploadPdf={uploadPdf}
             uploadResults={uploadResults}
-            text={rrs}
-            title="RRS demo checker"
+            text={dasText}
+            title="Data Availability Statement demo checker"
           />
         </div>
-        <RrsTable
+        <DasTable
           rrsDataLoading={rrsDataLoading}
           rrsList={rrsList}
           getRrslistData={getRrslistData}
@@ -106,4 +106,4 @@ const RrsPageTemplate = ({
   )
 }
 
-export default RrsPageTemplate
+export default DasPageTemplate

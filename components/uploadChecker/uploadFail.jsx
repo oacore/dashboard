@@ -1,33 +1,31 @@
 import React from 'react'
 import { Button } from '@oacore/design'
 
-import success from '../../../components/upload/assets/successSvg.svg'
-import text from '../../../texts/rrs-retention/rrs.yml'
+import fail from '../upload/assets/issue.svg'
 import styles from './styles.module.css'
-import { ProgressSpinner } from '../../../design'
+import { ProgressSpinner } from '../../design'
 
-const UploadSuccess = ({
+const UploadFail = ({
   handleClick,
   handleFileChange,
   uploadRef,
-  uploadResults,
   rrsPdfLoading,
   fileName,
+  text,
 }) => (
   <div className={styles.uploadWrapper}>
-    {!rrsPdfLoading ? (
-      <div className={styles.successWrapper}>
-        <div className={styles.titleWrapper}>
-          <img src={success} alt="issueSvg" />
-          <h3 className={styles.uploadTitle}>{text.upload.success.title}</h3>
-        </div>
-        <div className={styles.statusType}>
-          {uploadResults.licenceRecognised}
-        </div>
+    <div className={styles.successWrapper}>
+      <div className={styles.titleWrapper}>
+        {!rrsPdfLoading ? (
+          <>
+            <img src={fail} alt="issueSvg" />
+            <h3 className={styles.uploadTitle}>{text.upload.fail.title}</h3>
+          </>
+        ) : (
+          <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
+        )}
       </div>
-    ) : (
-      <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
-    )}
+    </div>
     {rrsPdfLoading ? (
       <div className={styles.innerWrapper}>
         <div className={styles.spinnerWrapper}>
@@ -37,8 +35,8 @@ const UploadSuccess = ({
       </div>
     ) : (
       <div className={styles.innerIssueWrapper}>
-        <span className={styles.successTitle}>
-          &quot;{uploadResults.rightsRetentionSentence}&quot;
+        <span className={styles.uploadDescription}>
+          {text.upload.fail.description}
         </span>
         <input
           ref={uploadRef}
@@ -57,10 +55,10 @@ const UploadSuccess = ({
         onClick={handleClick}
         variant="contained"
       >
-        {text.upload.success.action.title}
+        {text.upload.fail.action.title}
       </Button>
     </div>
   </div>
 )
 
-export default UploadSuccess
+export default UploadFail

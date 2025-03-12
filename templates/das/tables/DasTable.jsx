@@ -6,7 +6,7 @@ import { Popover } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import { Card, ProgressSpinner } from '../../../design'
-import texts from '../../../texts/rrs-retention/rrs.yml'
+import texts from '../../../texts/das/das.yml'
 import ExportButton from '../../../components/export-button'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import accept from '../../../components/upload/assets/accept.svg'
@@ -15,16 +15,16 @@ import question from '../../../components/upload/assets/questionMarkLight.svg'
 import redirect from '../../../components/upload/assets/urlRedirect.svg'
 import Menu from '../../../components/menu'
 import request from '../../../api'
-import StatusCard from '../../../components/TableRowActionStatusCard/statusCard'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import { GlobalContext } from '../../../store'
 import TableArticle from '../../../components/dropdownTableCard/article'
+import StatusCard from '../../../components/TableRowActionStatusCard/statusCard'
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
 
 import Table from 'components/table'
 
-const RrsTable = observer(
+const DasTable = observer(
   ({
     rrsList,
     getRrslistData,
@@ -406,4 +406,4 @@ const RrsTable = observer(
   }
 )
 
-export default RrsTable
+export default DasTable

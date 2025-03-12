@@ -1,10 +1,9 @@
 import React from 'react'
 import { Button } from '@oacore/design'
 
-import text from '../../../texts/rrs-retention/rrs.yml'
-import uploadSvg from '../../../components/upload/assets/upload.svg'
+import uploadSvg from '../upload/assets/upload.svg'
 import styles from './styles.module.css'
-import { ProgressSpinner } from '../../../design'
+import { ProgressSpinner } from '../../design'
 
 const DefaultUploadView = ({
   handleClick,
@@ -12,6 +11,7 @@ const DefaultUploadView = ({
   handleFileChange,
   rrsPdfLoading,
   fileName,
+  text,
 }) => (
   <div className={styles.uploadWrapper}>
     <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>

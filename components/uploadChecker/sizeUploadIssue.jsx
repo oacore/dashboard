@@ -1,10 +1,9 @@
 import React from 'react'
 import { Button } from '@oacore/design'
 
-import issueSvg from '../../../components/upload/assets/issue.svg'
-import text from '../../../texts/rrs-retention/rrs.yml'
+import issueSvg from '../upload/assets/issue.svg'
 import styles from './styles.module.css'
-import { ProgressSpinner } from '../../../design'
+import { ProgressSpinner } from '../../design'
 
 const SizeUploadIssue = ({
   handleClick,
@@ -12,6 +11,7 @@ const SizeUploadIssue = ({
   uploadRef,
   rrsPdfLoading,
   fileName,
+  text,
 }) => (
   <div className={styles.uploadWrapper}>
     <div className={styles.titleWrapper}>

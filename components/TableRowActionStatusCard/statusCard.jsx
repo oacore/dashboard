@@ -2,12 +2,11 @@ import { Button } from '@oacore/design/lib/elements'
 import React, { useEffect } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from '../styles.module.css'
-import texts from '../../../texts/rrs-retention/rrs.yml'
-import accept from '../../../components/upload/assets/acceptLight.svg'
-import deny from '../../../components/upload/assets/denyLight.svg'
-import redirect from '../../../components/upload/assets/urlRedirect.svg'
-import { ProgressSpinner } from '../../../design'
+import styles from './styles.module.css'
+import accept from '../upload/assets/acceptLight.svg'
+import deny from '../upload/assets/denyLight.svg'
+import redirect from '../upload/assets/urlRedirect.svg'
+import { ProgressSpinner } from '../../design'
 
 const StatusCard = ({
   onClose,
@@ -16,6 +15,7 @@ const StatusCard = ({
   loadingStatus,
   href,
   rrs,
+  texts,
 }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {

@@ -1,29 +1,33 @@
 import React from 'react'
 import { Button } from '@oacore/design'
 
-import issueSvg from '../../../components/upload/assets/issue.svg'
-import text from '../../../texts/rrs-retention/rrs.yml'
+import success from '../upload/assets/successSvg.svg'
 import styles from './styles.module.css'
-import { ProgressSpinner } from '../../../design'
+import { ProgressSpinner } from '../../design'
 
-const FormatUploadIssue = ({
+const UploadSuccess = ({
   handleClick,
   handleFileChange,
   uploadRef,
+  uploadResults,
   rrsPdfLoading,
   fileName,
+  text,
 }) => (
   <div className={styles.uploadWrapper}>
-    <div className={styles.titleWrapper}>
-      {!rrsPdfLoading ? (
-        <>
-          <img src={issueSvg} alt="issueSvg" />
-          <h3 className={styles.uploadTitle}>{text.upload.noSupport.title}</h3>
-        </>
-      ) : (
-        <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
-      )}
-    </div>
+    {!rrsPdfLoading ? (
+      <div className={styles.successWrapper}>
+        <div className={styles.titleWrapper}>
+          <img src={success} alt="issueSvg" />
+          <h3 className={styles.uploadTitle}>{text.upload.success.title}</h3>
+        </div>
+        <div className={styles.statusType}>
+          {uploadResults.licenceRecognised}
+        </div>
+      </div>
+    ) : (
+      <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
+    )}
     {rrsPdfLoading ? (
       <div className={styles.innerWrapper}>
         <div className={styles.spinnerWrapper}>
@@ -33,8 +37,8 @@ const FormatUploadIssue = ({
       </div>
     ) : (
       <div className={styles.innerIssueWrapper}>
-        <span className={styles.innerIssueTitle}>
-          {text.upload.subInfo.format}
+        <span className={styles.successTitle}>
+          &quot;{uploadResults.rightsRetentionSentence}&quot;
         </span>
         <input
           ref={uploadRef}
@@ -53,10 +57,10 @@ const FormatUploadIssue = ({
         onClick={handleClick}
         variant="contained"
       >
-        {text.upload.noSupport.action}
+        {text.upload.success.action.title}
       </Button>
     </div>
   </div>
 )
 
-export default FormatUploadIssue
+export default UploadSuccess
