@@ -10,12 +10,12 @@ const UploadSuccess = ({
   handleFileChange,
   uploadRef,
   uploadResults,
-  rrsPdfLoading,
+  pdfLoading,
   fileName,
   text,
 }) => (
   <div className={styles.uploadWrapper}>
-    {!rrsPdfLoading ? (
+    {!pdfLoading ? (
       <div className={styles.successWrapper}>
         <div className={styles.titleWrapper}>
           <img src={success} alt="issueSvg" />
@@ -28,7 +28,7 @@ const UploadSuccess = ({
     ) : (
       <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
     )}
-    {rrsPdfLoading ? (
+    {pdfLoading ? (
       <div className={styles.innerWrapper}>
         <div className={styles.spinnerWrapper}>
           <ProgressSpinner className={styles.spinner} />
@@ -52,11 +52,7 @@ const UploadSuccess = ({
       </div>
     )}
     <div className={styles.uploadFooterButton}>
-      <Button
-        disabled={rrsPdfLoading}
-        onClick={handleClick}
-        variant="contained"
-      >
+      <Button disabled={pdfLoading} onClick={handleClick} variant="contained">
         {text.upload.success.action.title}
       </Button>
     </div>

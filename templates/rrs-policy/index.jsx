@@ -81,7 +81,7 @@ const RrsPageTemplate = ({
             countClassName={styles.inputCount}
           />
           <PdfUploadChecker
-            rrsPdfLoading={rrsPdfLoading}
+            pdfLoading={rrsPdfLoading}
             uploadPdf={uploadPdf}
             uploadResults={uploadResults}
             text={rrs}

@@ -16,7 +16,7 @@ const PdfUploadChecker = ({
   text,
   uploadPdf,
   uploadResults,
-  rrsPdfLoading,
+  pdfLoading,
   title,
 }) => {
   const uploadRef = useRef(null)
@@ -44,7 +44,7 @@ const PdfUploadChecker = ({
   }
   const handleFileChange = (event) => {
     event.preventDefault()
-    if (rrsPdfLoading) return
+    if (pdfLoading) return
 
     let file
     const { files } = event.dataTransfer || event.target
@@ -98,7 +98,7 @@ const PdfUploadChecker = ({
           uploadRef={uploadRef}
           handleFileChange={handleFileChange}
           handleClick={handleClick}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
           text={text}
         />
@@ -108,7 +108,7 @@ const PdfUploadChecker = ({
           uploadRef={uploadRef}
           handleClick={handleClick}
           handleFileChange={handleFileChange}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
           text={text}
         />
@@ -118,7 +118,7 @@ const PdfUploadChecker = ({
           uploadRef={uploadRef}
           handleClick={handleClick}
           handleFileChange={handleFileChange}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
           text={text}
         />
@@ -129,7 +129,7 @@ const PdfUploadChecker = ({
           handleClick={handleClick}
           handleFileChange={handleFileChange}
           uploadResults={uploadResults}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
           text={text}
         />
@@ -140,7 +140,7 @@ const PdfUploadChecker = ({
           handleClick={handleClick}
           handleFileChange={handleFileChange}
           uploadResults={uploadResults}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
           text={text}
         />

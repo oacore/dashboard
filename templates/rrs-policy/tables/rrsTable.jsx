@@ -323,7 +323,8 @@ const RrsTable = observer(
                       <StatusCard
                         handleStatusUpdate={handleStatusUpdate}
                         onClose={() => setShowStatusModal(false)}
-                        v={v}
+                        statusSentence={v.rightsRetentionSentence}
+                        articleId={v.articleId}
                         loadingStatus={loadingStatus}
                         href={`https://core.ac.uk/reader/${v.articleId}`}
                         texts={texts}

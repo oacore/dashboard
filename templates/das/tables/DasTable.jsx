@@ -26,20 +26,19 @@ import Table from 'components/table'
 
 const DasTable = observer(
   ({
-    rrsList,
-    getRrslistData,
-    updateRrsStatus,
+    dasList,
+    updateDasStatus,
     articleAdditionalData,
     getOutputsAdditionalData,
     articleAdditionalDataLoading,
-    rrsDataLoading,
+    dataLoading,
     checkBillingType,
     dataProviderData,
-    rrsUrl,
+    dasUrl,
   }) => {
     const { ...globalStore } = useContext(GlobalContext)
     const [visibleHelp, setVisibleHelp] = useState(
-      localStorage.getItem('rrsHelp') === 'true'
+      localStorage.getItem('dasHelp') === 'true'
     )
     const [tableData, setTableData] = useState([])
     const [page, setPage] = useState(0)
@@ -76,24 +75,24 @@ const DasTable = observer(
 
     useEffect(() => {
       if (checkBillingType) {
-        const newRRS = rrsList.slice(0, 5).map((item) => ({
+        const newDas = dasList.slice(0, 5).map((item) => ({
           ...item,
           id: +item.articleId,
           output: null,
         }))
-        setTableData(newRRS)
+        setTableData(newDas)
       } else {
         const startIndex = page * 10
-        const endIndex = Math.min(startIndex + 10, rrsList.length)
-        let newRRS
+        const endIndex = Math.min(startIndex + 10, dasList.length)
+        let newDas
         if (globalStore.setSelectedItem) {
-          newRRS = rrsList.map((item) => ({
+          newDas = dasList.map((item) => ({
             ...item,
             id: +item.articleId,
             output: null,
           }))
         } else {
-          newRRS = [...tableData, ...rrsList.slice(startIndex, endIndex)].map(
+          newDas = [...tableData, ...dasList.slice(startIndex, endIndex)].map(
             (item) => ({
               ...item,
               id: +item.articleId,
@@ -101,17 +100,13 @@ const DasTable = observer(
             })
           )
         }
-        setTableData(newRRS)
+        setTableData(newDas)
       }
-    }, [rrsList, page, checkBillingType])
+    }, [dasList, page, checkBillingType])
 
     useEffect(() => {
-      localStorage.setItem('rrsHelp', visibleHelp)
+      localStorage.setItem('dasHelp', visibleHelp)
     }, [visibleHelp])
-
-    useEffect(() => {
-      getRrslistData(providerId)
-    }, [providerId])
 
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -140,8 +135,8 @@ const DasTable = observer(
       )
       setLoadingStatus(true)
       try {
-        await updateRrsStatus(providerId, articleId, validationStatus)
-        currentArticle.validationStatusRRS = validationStatus
+        await updateDasStatus(providerId, articleId, validationStatus)
+        currentArticle.validationStatusDataAccess = validationStatus
         setTableData((prevTableData) => {
           const updatedTableData = prevTableData.map((item) =>
             item.articleId === articleId ? currentArticle : item
@@ -181,7 +176,7 @@ const DasTable = observer(
     }
 
     const sortByPublicationDate = (direction) => {
-      const sortedData = [...rrsList].sort((a, b) => {
+      const sortedData = [...dasList].sort((a, b) => {
         const dateA = new Date(a.publicationDate).getTime()
         const dateB = new Date(b.publicationDate).getTime()
         return direction === 'asc' ? dateA - dateB : dateB - dateA
@@ -190,20 +185,20 @@ const DasTable = observer(
       setSortDirection(direction)
     }
 
-    const getStatusIcon = (validationStatusRRS) => {
-      if (validationStatusRRS === 0)
+    const getStatusIcon = (validationStatusDataAccess) => {
+      if (validationStatusDataAccess === 0)
         return { icon: question, text: 'To be reviewed' }
-      if (validationStatusRRS === 1)
+      if (validationStatusDataAccess === 1)
         return { icon: deny, text: 'Review not confirmed' }
 
       return { icon: accept, text: 'Review confirmed' }
     }
 
     return (
-      <Card className={styles.rrsTableWrapper} id="rrsTable">
+      <Card className={styles.rrsTableWrapper} id="dasTable">
         <Card.Title tag="h2">{texts.table.title}</Card.Title>
         <div className={styles.itemCountIndicator}>{texts.table.subTitle}</div>
-        {rrsDataLoading ? (
+        {dataLoading ? (
           <div className={styles.dataSpinnerWrapper}>
             <ProgressSpinner className={styles.spinner} />
             <p className={styles.spinnerText}>
@@ -224,7 +219,7 @@ const DasTable = observer(
               className={styles.rrsTable}
               data={tableData}
               size={tableData?.length}
-              totalLength={rrsList?.length}
+              totalLength={dasList?.length}
               fetchData={fetchData}
               isHeaderClickable
               rowIdentifier="articleId"
@@ -285,28 +280,25 @@ const DasTable = observer(
                 icon
               />
               <Table.Column
-                id="licence"
-                display="Identified licence"
+                id="link"
+                display="Dataset link"
                 className={styles.licenceColumn}
                 getter={(v) =>
-                  v.licenceRecognised && (
-                    <Popover
-                      className={styles.popover}
-                      placement="top"
-                      content={v.licenceRecognised}
+                  v.dataAccessUrl && (
+                    // eslint-disable-next-line max-len
+                    // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+                    <div
+                      className={styles.redirectLink}
+                      onClick={() => router.push(`${v.dataAccessUrl}`)}
                     >
-                      <div className={`${styles.licence} ${styles.truncated}`}>
-                        {v.licenceRecognised?.length > 10
-                          ? `${v.licenceRecognised.substring(0, 10)}...`
-                          : v.licenceRecognised}
-                      </div>
-                    </Popover>
+                      <img src={redirect} alt="" />
+                    </div>
                   )
                 }
               />
               <Table.Column
-                id="rrs"
-                display="Extracted RRS"
+                id="das"
+                display="Extracted DAS"
                 className={styles.publicationColumn}
                 getter={(v) => (
                   <>
@@ -316,14 +308,15 @@ const DasTable = observer(
                       onClick={(e) => handleStatusModal(e, v)}
                       rel="noreferrer"
                     >
-                      Review RRS
+                      Review DAS
                       <img src={redirect} alt="" />
                     </Button>
                     {showStatusModal && selectedRowData === v && (
                       <StatusCard
                         handleStatusUpdate={handleStatusUpdate}
                         onClose={() => setShowStatusModal(false)}
-                        v={v}
+                        statusSentence={v.dataAccessSentence}
+                        articleId={v.articleId}
                         loadingStatus={loadingStatus}
                         href={`https://core.ac.uk/reader/${v.articleId}`}
                         texts={texts}
@@ -341,10 +334,12 @@ const DasTable = observer(
                       <Popover
                         className={styles.popover}
                         placement="top"
-                        content={getStatusIcon(v.validationStatusRRS).text}
+                        content={
+                          getStatusIcon(v.validationStatusDataAccess).text
+                        }
                       >
                         <img
-                          src={getStatusIcon(v.validationStatusRRS).icon}
+                          src={getStatusIcon(v.validationStatusDataAccess).icon}
                           alt="status icon"
                           className={styles.visibilityIcon}
                         />
@@ -389,7 +384,7 @@ const DasTable = observer(
                 )}
               />
               <Table.Action>
-                <ExportButton href={rrsUrl}>download csv</ExportButton>
+                <ExportButton href={dasUrl}>download csv</ExportButton>
               </Table.Action>
             </Tablev2>
             {checkBillingType && (

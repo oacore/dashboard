@@ -9,14 +9,14 @@ const UploadFail = ({
   handleClick,
   handleFileChange,
   uploadRef,
-  rrsPdfLoading,
+  pdfLoading,
   fileName,
   text,
 }) => (
   <div className={styles.uploadWrapper}>
     <div className={styles.successWrapper}>
       <div className={styles.titleWrapper}>
-        {!rrsPdfLoading ? (
+        {!pdfLoading ? (
           <>
             <img src={fail} alt="issueSvg" />
             <h3 className={styles.uploadTitle}>{text.upload.fail.title}</h3>
@@ -26,7 +26,7 @@ const UploadFail = ({
         )}
       </div>
     </div>
-    {rrsPdfLoading ? (
+    {pdfLoading ? (
       <div className={styles.innerWrapper}>
         <div className={styles.spinnerWrapper}>
           <ProgressSpinner className={styles.spinner} />
@@ -50,11 +50,7 @@ const UploadFail = ({
       </div>
     )}
     <div className={styles.uploadFooterButton}>
-      <Button
-        disabled={rrsPdfLoading}
-        onClick={handleClick}
-        variant="contained"
-      >
+      <Button disabled={pdfLoading} onClick={handleClick} variant="contained">
         {text.upload.fail.action.title}
       </Button>
     </div>

@@ -11,10 +11,11 @@ import { ProgressSpinner } from '../../design'
 const StatusCard = ({
   onClose,
   handleStatusUpdate,
-  v,
+  statusSentence,
   loadingStatus,
   href,
   rrs,
+  articleId,
   texts,
 }) => {
   useEffect(() => {
@@ -42,9 +43,7 @@ const StatusCard = ({
           </div>
         )}
       </div>
-      <div className={styles.confirmationPopup}>
-        {v.rightsRetentionSentence}
-      </div>
+      <div className={styles.confirmationPopup}>{statusSentence}</div>
       <div className={styles.redirect}>
         <a
           className={styles.redirectBtn}
@@ -59,7 +58,7 @@ const StatusCard = ({
       <div className={styles.modalFooter}>
         {Object.values(texts.statusActions).map(({ button, key }) => (
           <Button
-            onClick={(e) => handleStatusUpdate(e, v.articleId, key)}
+            onClick={(e) => handleStatusUpdate(e, articleId, key)}
             className={classNames.use(styles.modalFooterY, {
               [styles.modalFooterN]: button === 'WRONG',
             })}
