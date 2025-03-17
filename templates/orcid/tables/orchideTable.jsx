@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Card } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
-// import * as MobX from 'mobx'
 
 import { ProgressSpinner, Button } from '../../../design'
 import styles from '../styles.module.css'
@@ -12,6 +11,7 @@ import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import Menu from '../../../components/menu'
 import TableArticle from '../../../components/dropdownTableCard/article'
 import request from '../../../api'
+import ExportButton from '../../../components/export-button'
 
 import idIcon from 'components/upload/assets/id.svg'
 import Table from 'components/table'
@@ -19,6 +19,10 @@ import texts from 'texts/orcid'
 
 const OrcidTable = ({
   tableOrcidDatas,
+  articleAdditionalDataLoading,
+  orcidTableDataLoading,
+  renderDropDown,
+  articleData,
   // tableOrcidWithoutPaperData,
   // tableOrcidOtherData,
   // className,
@@ -27,8 +31,6 @@ const OrcidTable = ({
   const [activeButton, setActiveButton] = useState('with')
   const { ...globalStore } = useContext(GlobalContext)
   const menuRef = useRef(null)
-  const checkBillingType =
-    globalStore.organisation.billingPlan?.billingType === 'sustaining'
 
   const [localSearchTerm, setLocalSearchTerm] = useState('')
   const [visibleMenu, setVisibleMenu] = useState(false)
@@ -36,6 +38,7 @@ const OrcidTable = ({
   const [outputsUrl, setOutputsUrl] = useState()
   const [loading, setLoading] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
+  const [page, setPage] = useState(0)
 
   const handleButtonClick = (action) => {
     setActiveButton(action)
@@ -103,10 +106,29 @@ const OrcidTable = ({
     )
   }
 
-  // console.log(
-  //   MobX.toJS(globalStore.dataProvider.articleAdditionalData),
-  //   'globalStore.dataProvider.articleAdditionalData'
-  // )
+  const fetchData = async () => {
+    //  UPDATE NEEDED WHEN WE GET COUNT
+    if (
+      globalStore.dataProvider.orcidTableDataLoading ||
+      tableOrcidDatas?.length === tableOrcidDatas
+    )
+      return
+
+    const from = (page + 1) * 50
+    const size = 50
+
+    try {
+      await globalStore.dataProvider.getOrcidData(
+        globalStore.dataProvider.id,
+        localSearchTerm,
+        from,
+        size
+      )
+      setPage((prevPage) => prevPage + 1)
+    } catch (error) {
+      console.error('Error fetching additional data:', error)
+    }
+  }
 
   const renderContent = () => {
     switch (activeButton) {
@@ -120,32 +142,28 @@ const OrcidTable = ({
           </div>
         ) : (
           <Tablev2
-            rowClick={(row) => onSetActiveArticle(row)}
             className={styles.orcidTable}
             isHeaderClickable
             rowIdentifier="articleId"
-            data={
-              checkBillingType ? tableOrcidDatas?.slice(0, 5) : tableOrcidDatas
-            }
+            data={tableOrcidDatas}
             size={tableOrcidDatas?.length}
             // totalLength={formatNumber(totalCount)}
             localSearch
             searchable
             searchChange={onSearchChange}
             localSearchTerm={localSearchTerm}
-            // fetchData={fetchData}
+            rowClick={(row) => onSetActiveArticle(row)}
+            fetchData={fetchData}
             // excludeFooter={checkBillingType || !hasData || hasError}
-            // isLoading={isPublicReleaseDatesInProgress}
-            renderDropDown={globalStore.dataProvider.articleAdditionalData}
+            isLoading={orcidTableDataLoading}
+            renderDropDown={renderDropDown}
             details={
               <TableArticle
                 changeVisibility={changeArticleVisibility}
-                article={globalStore.dataProvider.articleAdditionalData}
+                article={articleData}
                 loading={loading}
                 outputsUrl={outputsUrl}
-                articleAdditionalDataLoading={
-                  globalStore.dataProvider.articleAdditionalDataLoading
-                }
+                articleAdditionalDataLoading={articleAdditionalDataLoading}
               />
             }
           >
@@ -234,18 +252,11 @@ const OrcidTable = ({
                 </div>
               )}
             />
-            {/* {!hasError && ( */}
-            {/*  <Table.Sidebar> */}
-            {/*    <SidebarContent /> */}
-            {/*  </Table.Sidebar> */}
-            {/* )} */}
-            {/* <Table.Action> */}
-            {/*  <ExportButton */}
-            {/*  href={datesUrl} */}
-            {/*  > */}
-            {/*    {texts.exporting.download} */}
-            {/*  </ExportButton> */}
-            {/* </Table.Action> */}
+            <Table.Action>
+              <ExportButton href={globalStore.dataProvider.basicOrcidUrl}>
+                download csv
+              </ExportButton>
+            </Table.Action>
           </Tablev2>
         )
       case 'without':

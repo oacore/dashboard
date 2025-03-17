@@ -22,8 +22,8 @@ const OrcidPageTemplate = observer(
           const { id } = globalStore.dataProvider
           try {
             await globalStore.dataProvider.getOrcidData(id, '', 0, 50)
-            await globalStore.dataProvider.getOrcidWithoutPaperData(id)
-            await globalStore.dataProvider.getOrcidOtherData(id)
+            // await globalStore.dataProvider.getOrcidWithoutPaperData(id)
+            // await globalStore.dataProvider.getOrcidOtherData(id)
             setInitialLoad(false)
           } catch (error) {
             console.error('Error fetching ORCID data:', error)
@@ -87,12 +87,18 @@ const OrcidPageTemplate = observer(
           </div>
         </div>
         <OrcidTable
+          orcidTableDataLoading={globalStore.dataProvider.orcidTableDataLoading}
+          renderDropDown={globalStore.dataProvider.articleAdditionalData}
           initialLoad={initialLoad}
           tableOrcidDatas={globalStore.dataProvider.orcidData}
           tableOrcidWithoutPaperData={
             globalStore.dataProvider.orcidWithoutPaperData
           }
           tableOrcidOtherData={globalStore.dataProvider.orcidOtherData}
+          articleAdditionalDataLoading={
+            globalStore.dataProvider.articleAdditionalDataLoading
+          }
+          articleData={globalStore.dataProvider.articleAdditionalData}
         />
       </Tag>
     )

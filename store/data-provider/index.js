@@ -110,6 +110,8 @@ class DataProvider extends Resource {
 
   @observable orcidOtherData = []
 
+  @observable orcidTableDataLoading = false
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -408,6 +410,8 @@ class DataProvider extends Resource {
         this.duplicatesUrl = `${process.env.API_URL}${url}/duplicates?accept=text/csv`
         this.rrsUrl = `${process.env.API_URL}${url}/rights-retention?accept=text/csv`
         this.sdgUrl = `${process.env.API_URL}${url}/sdg?accept=text/csv`
+        this.basicOrcidUrl = `${process.env.API_URL}${url}/orcid/basic?accept=text/csv`
+        this.basicOtherUrl = `${process.env.API_URL}${url}/orcid/other-repos?accept=text/csv`
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {
@@ -683,6 +687,7 @@ class DataProvider extends Resource {
 
   @action
   getOrcidData = async (id, searchTerm = '', from = 0, size = 50) => {
+    this.orcidTableDataLoading = true
     try {
       const url = new URL(
         `${process.env.API_URL}/data-providers/${id}/orcid/basic`
@@ -696,6 +701,8 @@ class DataProvider extends Resource {
       this.setOrcidData(data)
     } catch (error) {
       console.error('Error fetching ORCID data:', error)
+    } finally {
+      this.orcidTableDataLoading = false
     }
   }
 
