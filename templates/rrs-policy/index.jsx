@@ -85,6 +85,8 @@ const RrsPageTemplate = ({
             uploadPdf={uploadPdf}
             uploadResults={uploadResults}
             text={rrs}
+            foundSentence={uploadResults.rightsRetentionSentence}
+            licenseType={uploadResults.licenceRecognised}
             title="RRS demo checker"
           />
         </div>

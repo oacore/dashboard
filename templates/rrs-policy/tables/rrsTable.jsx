@@ -21,6 +21,7 @@ import Tablev2 from '../../../components/tablev2/tablev2'
 import { GlobalContext } from '../../../store'
 import TableArticle from '../../../components/dropdownTableCard/article'
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
+import getSdgIcon from '../../../utils/hooks/use-sdg-icon-renderer'
 
 import Table from 'components/table'
 
@@ -236,6 +237,7 @@ const RrsTable = observer(
                   article={articleAdditionalData}
                   loading={loading}
                   outputsUrl={outputsUrl}
+                  renderSdgIcons={getSdgIcon}
                   articleAdditionalDataLoading={articleAdditionalDataLoading}
                 />
               }

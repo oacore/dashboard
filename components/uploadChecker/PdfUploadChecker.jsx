@@ -17,6 +17,8 @@ const PdfUploadChecker = ({
   uploadPdf,
   uploadResults,
   pdfLoading,
+  foundSentence,
+  licenseType,
   title,
 }) => {
   const uploadRef = useRef(null)
@@ -31,10 +33,10 @@ const PdfUploadChecker = ({
   }
 
   useEffect(() => {
-    if (uploadResults.rightsRetentionSentence) setCurrentView('success')
+    if (foundSentence) setCurrentView('success')
     if (
-      !uploadResults.rightsRetentionSentence &&
-      uploadResults.confidence === 0
+      (!foundSentence && uploadResults.confidence === 0) ||
+      foundSentence === 'na'
     )
       setCurrentView('fail')
   }, [uploadResults])
@@ -132,6 +134,8 @@ const PdfUploadChecker = ({
           pdfLoading={pdfLoading}
           fileName={fileName}
           text={text}
+          foundSentence={foundSentence}
+          licenseType={licenseType}
         />
       )}
       {currentView === 'fail' && (

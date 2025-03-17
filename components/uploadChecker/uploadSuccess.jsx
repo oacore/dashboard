@@ -9,10 +9,11 @@ const UploadSuccess = ({
   handleClick,
   handleFileChange,
   uploadRef,
-  uploadResults,
   pdfLoading,
   fileName,
   text,
+  foundSentence,
+  licenseType,
 }) => (
   <div className={styles.uploadWrapper}>
     {!pdfLoading ? (
@@ -21,9 +22,9 @@ const UploadSuccess = ({
           <img src={success} alt="issueSvg" />
           <h3 className={styles.uploadTitle}>{text.upload.success.title}</h3>
         </div>
-        <div className={styles.statusType}>
-          {uploadResults.licenceRecognised}
-        </div>
+        {licenseType !== 'not found' && (
+          <div className={styles.statusType}>{licenseType}</div>
+        )}
       </div>
     ) : (
       <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
@@ -37,9 +38,7 @@ const UploadSuccess = ({
       </div>
     ) : (
       <div className={styles.innerIssueWrapper}>
-        <span className={styles.successTitle}>
-          &quot;{uploadResults.rightsRetentionSentence}&quot;
-        </span>
+        <span className={styles.successTitle}>&quot;{foundSentence}&quot;</span>
         <input
           ref={uploadRef}
           type="file"

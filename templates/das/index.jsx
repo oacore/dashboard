@@ -91,6 +91,12 @@ const DasPageTemplate = observer(
               uploadPdf={globalStore.dataProvider.uploadDasPdf}
               uploadResults={globalStore.dataProvider.uploadDasResults}
               text={dasText}
+              foundSentence={
+                globalStore.dataProvider.uploadDasResults.dataAccessSentence
+              }
+              licenseType={
+                globalStore.dataProvider.uploadDasResults.dataAccessUrl
+              }
               title="Data Availability Statement demo checker"
             />
           </div>

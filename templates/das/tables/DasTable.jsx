@@ -21,6 +21,7 @@ import { GlobalContext } from '../../../store'
 import TableArticle from '../../../components/dropdownTableCard/article'
 import StatusCard from '../../../components/TableRowActionStatusCard/statusCard'
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
+import getSdgIcon from '../../../utils/hooks/use-sdg-icon-renderer'
 
 import Table from 'components/table'
 
@@ -231,6 +232,7 @@ const DasTable = observer(
                   article={articleAdditionalData}
                   loading={loading}
                   outputsUrl={outputsUrl}
+                  renderSdgIcons={getSdgIcon}
                   articleAdditionalDataLoading={articleAdditionalDataLoading}
                 />
               }
@@ -284,15 +286,12 @@ const DasTable = observer(
                 display="Dataset link"
                 className={styles.licenceColumn}
                 getter={(v) =>
-                  v.dataAccessUrl && (
-                    // eslint-disable-next-line max-len
-                    // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
-                    <div
-                      className={styles.redirectLink}
-                      onClick={() => router.push(`${v.dataAccessUrl}`)}
-                    >
+                  v.dataAccessUrl !== 'not found' ? (
+                    <a href={v.dataAccessUrl} className={styles.redirectLink}>
                       <img src={redirect} alt="" />
-                    </div>
+                    </a>
+                  ) : (
+                    'N/A'
                   )
                 }
               />
