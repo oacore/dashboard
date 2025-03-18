@@ -285,15 +285,17 @@ const DasTable = observer(
                 id="link"
                 display="Dataset link"
                 className={styles.licenceColumn}
-                getter={(v) =>
-                  v.dataAccessUrl !== 'not found' ? (
-                    <a href={v.dataAccessUrl} className={styles.redirectLink}>
-                      <img src={redirect} alt="" />
-                    </a>
-                  ) : (
-                    'N/A'
-                  )
-                }
+                getter={(v) => (
+                  <div className={styles.linkCell}>
+                    {v.dataAccessUrl !== 'not found' ? (
+                      <a href={v.dataAccessUrl} className={styles.redirectLink}>
+                        <img src={redirect} alt="" />
+                      </a>
+                    ) : (
+                      'N/A'
+                    )}
+                  </div>
+                )}
               />
               <Table.Column
                 id="das"
