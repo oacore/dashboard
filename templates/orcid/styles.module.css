@@ -110,9 +110,13 @@
 .action-button {
   min-width: 150px;
   padding: 0.2rem;
-  margin-right: 10px;
   cursor: pointer;
   border: 1px solid #b75400;
+  border-radius: 0;
+}
+
+.action-button:not(:last-child) {
+  border-right: unset;
 }
 
 .active-button {
