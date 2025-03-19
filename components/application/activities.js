@@ -79,6 +79,11 @@ const config = new RouteConfig([
     icon: 'barcode',
   },
   {
+    test: /\/orcid/,
+    path: 'orcid',
+    icon: 'orcid',
+  },
+  {
     test: /\/usrn/,
     path: 'usrn',
     icon: 'file-check',
