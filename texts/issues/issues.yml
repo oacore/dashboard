@@ -73,6 +73,7 @@ type:
     success: Thank you for the request. The latest indexing has completed and it might take a few days for the changes to propagate to the dashboard. Please allow a few days. If you still have an issue [contact us](/about#contact) or send another indexing request
   error:
     success: We are currently unable to process your request, please [contact us]() if you have any issue.
+    error: It looks like your repo hasn't been harvested in a long time. Please review the issues below, and if everything looks good, get in touch with our team.
 
 modal:
   scheduled:
