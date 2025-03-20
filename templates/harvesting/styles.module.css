@@ -104,6 +104,10 @@
   margin-bottom: 35px;
 }
 
+.spaceing {
+  margin-bottom: 0;
+}
+
 .form-footer {
   display: flex;
   flex-direction: column;
@@ -139,6 +143,12 @@
 .data-spinner-wrapper {
   display: flex;
   align-items: center;
+}
+
+.data-spinner-wrapper-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .spinner {
@@ -231,6 +241,15 @@
 
 .cursor-disable {
   cursor: not-allowed;
+}
+
+.info-warning-wrapper {
+  display: flex;
+  gap: 10px;
+  padding: 16px;
+  background: #f5f5f5;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .progress-bar {
