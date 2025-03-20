@@ -1,0 +1,121 @@
+title: Data Availability Statement Identification
+
+statsCard:
+  title: Outputs with DA statements
+  description: within your repository collection
+  action: Download
+
+reviewCard:
+  title: DA statements to review
+  description: action recommended
+  info: By clicking on the Review button in the table below you will find the details of data availability statement found in your records, with the possibility to mark it as “Correct” or “Wrong”.
+  action: Review
+
+checkCard:
+  title: Data Availability Statement demo checker
+  info: DAS checker provides an easy way to find Data Availability statements in papers not yet in CORE. You can test it by uploading a paper (PDF, DOC).
+  action: Upload
+
+upload:
+  default:
+    subTitle: Drag and drop your file here or
+    action:
+      title: upload
+  success:
+    title: Data availability statement checker found
+    action:
+      title: Upload new file
+  fail:
+    title: Data availability statement checker  wasn’t found
+    description: DAS statement not found in this paper.
+    action:
+      title: Upload new file
+  noSupport:
+    title: This format is not supported
+    sizeTitle: File is too big
+    action: Upload new file
+  subInfo:
+    format: |
+      Supported formats: pdf, doc
+    size: |
+      Maximum  size: 10MB
+
+
+
+table:
+  title: Outputs with Data Availability Statement found in your repository
+  subTitle: In the list below you can review and approve all detected Data Availability statements.
+
+
+helpInfo:
+  actionBtn: Hide description
+  description: |
+    The below list contains the list of papers in your repository for which CORE has automatically detected the presence of Data Availability statements.  We recommend that you review the automatically extracted Data Availability statements to check if they are correct. You will be then able to download a .csv file which contains these reviewed Data Availability statements, for instance for the purposes of importing this information into your repository. The Data Availability statements identification runs on your full texts, CORE cannot detect Data Availability statements from papers CORE doesn’t have access to.
+
+    * “**Review Data Availability Statement**”: click on the Review Data Availability Statement link. A pop-up will show up displaying the automatically extracted Data Availability Statement. Review it and click on correct or wrong.
+
+    * “**Status**”: this indicates whether the Data Availability statement has been reviewed and found correct or wrong. Data Availability statements that have not been reviewed will be indicated by a question mark.
+  show: Show description
+  hide: Hide description
+
+statusActions:
+  - title: Deny
+    button: WRONG
+    key: 1
+  - title: Accept
+    button: Correct
+    key: 2
+
+actions:
+  - title: Open in CORE
+    key: coreUrl
+  - title: Open in the repository
+    key: outputUrl
+
+article:
+  fields:
+    - name: Author
+      key: authors
+      findBy: name
+    - name: Type
+      key: documentType
+    - name: Publication Date
+      key: publishedDate
+    - name: Deposited date
+      key: depositedDate
+    - name: SDG
+      key: sdg
+    - name: DOI
+      key: doi
+    - name: OAI
+      key: oai
+    - name: Abstract
+      key: abstract
+  actions:
+    - title: Open in CORE
+      key: coreUrl
+      generatedUrl: https://core.ac.uk/outputs/{{id}}
+    - title: Open in the repository
+      key: outputUrl
+  visibility:
+    - title: Live in core
+      disabled: false
+      icon: eye
+      extraText: Click to disable
+    - title: Taken down
+      disabled: true
+      icon: eye-off
+      extraText: Click to enable
+
+statusModal:
+  title: Data availability statement
+  link: Open full text in the CORE reader
+  buttonsY:
+    title: Correct
+  buttonsN:
+    title: WRONG
+  actions:
+    - title: Accept
+      key: 1
+    - title: Deny
+      key: 0

@@ -13,6 +13,7 @@ import { GlobalContext } from '../../../store'
 import TableArticle from '../../../components/dropdownTableCard/article'
 import texts from '../../../texts/sdg/sdg.yml'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
+import getSdgIcon from '../../../utils/hooks/use-sdg-icon-renderer'
 
 import Table from 'components/table'
 
@@ -22,7 +23,6 @@ const SdgTable = observer(
     sdgUrl,
     getSdgTableData,
     sdgTableList,
-    sdgTypes,
     sdgTableDataLoading,
     articleAdditionalData,
     articleAdditionalDataLoading,
@@ -85,20 +85,6 @@ const SdgTable = observer(
       } catch (error) {
         console.error('Error fetching additional data:', error)
       }
-    }
-
-    const getSdgIcon = (type, score) => {
-      const sdg = sdgTypes.find((sdgItem) => sdgItem.id === type)
-      return sdg ? (
-        <Popover
-          placement="top"
-          content={`${sdg.title} - ${score} (confidence)`}
-        >
-          <img className={styles.sdgItem} src={sdg.icon} alt={type} />
-        </Popover>
-      ) : (
-        type
-      )
     }
 
     const onSetActiveArticle = async (row) => {
@@ -193,7 +179,7 @@ const SdgTable = observer(
                 loading={loading}
                 outputsUrl={outputsUrl}
                 articleAdditionalDataLoading={articleAdditionalDataLoading}
-                getSdgIcon={getSdgIcon}
+                renderSdgIcons={getSdgIcon}
                 removeLiveActions
               />
             }

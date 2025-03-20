@@ -1,19 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import styles from '../styles.module.css'
-import Actions from '../../../components/actions'
+import styles from './styles.module.css'
+import Actions from '../actions'
 import DefaultUploadView from './defaultUpload'
 import SizeUploadIssue from './sizeUploadIssue'
 import FormatUploadIssue from './formatUploadIssue'
 import UploadSuccess from './uploadSuccess'
 import UploadFail from './uploadFail'
-import rrs from '../../../texts/rrs-retention'
-import infoAction from '../../../components/upload/assets/infoAction.svg'
+import infoAction from '../upload/assets/infoAction.svg'
 
 import { Card } from 'design'
 
-const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
+const PdfUploadChecker = ({
+  text,
+  uploadPdf,
+  uploadResults,
+  pdfLoading,
+  foundSentence,
+  licenseType,
+  title,
+}) => {
   const uploadRef = useRef(null)
   const [fileName, setFileName] = useState('')
   const router = useRouter()
@@ -26,10 +33,10 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
   }
 
   useEffect(() => {
-    if (uploadResults.rightsRetentionSentence) setCurrentView('success')
+    if (foundSentence) setCurrentView('success')
     if (
-      !uploadResults.rightsRetentionSentence &&
-      uploadResults.confidence === 0
+      (!foundSentence && uploadResults.confidence === 0) ||
+      foundSentence === 'na'
     )
       setCurrentView('fail')
   }, [uploadResults])
@@ -39,7 +46,7 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
   }
   const handleFileChange = (event) => {
     event.preventDefault()
-    if (rrsPdfLoading) return
+    if (pdfLoading) return
 
     let file
     const { files } = event.dataTransfer || event.target
@@ -75,14 +82,14 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
       onDrop={handleFileChange}
       className={styles.cardWrapperBig}
       tag="section"
-      title="RRS demo checker"
+      title={title}
     >
       <div className={styles.headerWrapper}>
         <Card.Title className={styles.cardTitle} tag="h2">
-          RRS demo checker
+          {title}
         </Card.Title>
         <Actions
-          description={rrs.checkCard.info}
+          description={text.checkCard.info}
           hoverIcon={
             <img src={infoAction} style={{ color: '#757575' }} alt="" />
           }
@@ -93,8 +100,9 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           uploadRef={uploadRef}
           handleFileChange={handleFileChange}
           handleClick={handleClick}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
+          text={text}
         />
       )}
       {currentView === 'sizeIssue' && (
@@ -102,8 +110,9 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           uploadRef={uploadRef}
           handleClick={handleClick}
           handleFileChange={handleFileChange}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
+          text={text}
         />
       )}
       {currentView === 'formatIssue' && (
@@ -111,8 +120,9 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           uploadRef={uploadRef}
           handleClick={handleClick}
           handleFileChange={handleFileChange}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
+          text={text}
         />
       )}
       {currentView === 'success' && (
@@ -121,8 +131,11 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           handleClick={handleClick}
           handleFileChange={handleFileChange}
           uploadResults={uploadResults}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
+          text={text}
+          foundSentence={foundSentence}
+          licenseType={licenseType}
         />
       )}
       {currentView === 'fail' && (
@@ -131,11 +144,12 @@ const RrsCheckCard = ({ uploadPdf, uploadResults, rrsPdfLoading }) => {
           handleClick={handleClick}
           handleFileChange={handleFileChange}
           uploadResults={uploadResults}
-          rrsPdfLoading={rrsPdfLoading}
+          pdfLoading={pdfLoading}
           fileName={fileName}
+          text={text}
         />
       )}
     </Card>
   )
 }
-export default RrsCheckCard
+export default PdfUploadChecker

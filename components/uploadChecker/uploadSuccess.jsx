@@ -1,34 +1,35 @@
 import React from 'react'
 import { Button } from '@oacore/design'
 
-import success from '../../../components/upload/assets/successSvg.svg'
-import text from '../../../texts/rrs-retention/rrs.yml'
+import success from '../upload/assets/successSvg.svg'
 import styles from './styles.module.css'
-import { ProgressSpinner } from '../../../design'
+import { ProgressSpinner } from '../../design'
 
 const UploadSuccess = ({
   handleClick,
   handleFileChange,
   uploadRef,
-  uploadResults,
-  rrsPdfLoading,
+  pdfLoading,
   fileName,
+  text,
+  foundSentence,
+  licenseType,
 }) => (
   <div className={styles.uploadWrapper}>
-    {!rrsPdfLoading ? (
+    {!pdfLoading ? (
       <div className={styles.successWrapper}>
         <div className={styles.titleWrapper}>
           <img src={success} alt="issueSvg" />
           <h3 className={styles.uploadTitle}>{text.upload.success.title}</h3>
         </div>
-        <div className={styles.statusType}>
-          {uploadResults.licenceRecognised}
-        </div>
+        {licenseType !== 'not found' && (
+          <div className={styles.statusType}>{licenseType}</div>
+        )}
       </div>
     ) : (
       <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
     )}
-    {rrsPdfLoading ? (
+    {pdfLoading ? (
       <div className={styles.innerWrapper}>
         <div className={styles.spinnerWrapper}>
           <ProgressSpinner className={styles.spinner} />
@@ -37,9 +38,7 @@ const UploadSuccess = ({
       </div>
     ) : (
       <div className={styles.innerIssueWrapper}>
-        <span className={styles.successTitle}>
-          &quot;{uploadResults.rightsRetentionSentence}&quot;
-        </span>
+        <span className={styles.successTitle}>&quot;{foundSentence}&quot;</span>
         <input
           ref={uploadRef}
           type="file"
@@ -52,11 +51,7 @@ const UploadSuccess = ({
       </div>
     )}
     <div className={styles.uploadFooterButton}>
-      <Button
-        disabled={rrsPdfLoading}
-        onClick={handleClick}
-        variant="contained"
-      >
+      <Button disabled={pdfLoading} onClick={handleClick} variant="contained">
         {text.upload.success.action.title}
       </Button>
     </div>
