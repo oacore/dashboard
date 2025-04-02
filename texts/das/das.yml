@@ -1,5 +1,7 @@
 title: Data Availability Statement Identification
 
+description: We use a matching model to identify Data Availability Statements in research papers. When a Data Availability Statement is detected, it will be marked as “to review.” You can then check it, update the metadata in your system accordingly, and, by marking it, help improve the accuracy of our availability statement checker.
+
 statsCard:
   title: Outputs with DA statements
   description: within your repository collection

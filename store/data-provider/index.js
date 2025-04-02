@@ -323,7 +323,7 @@ class DataProvider extends Resource {
     this.dasDataLoading = true
     try {
       const specData = this.rootStore.setSelectedItem
-      const url = `https://api.core.ac.uk/internal/data-providers/${id}/data-access${
+      const url = `${process.env.API_URL}/data-providers/${id}/data-access${
         specData ? `?set=${specData}` : ''
       }`
 
@@ -345,7 +345,7 @@ class DataProvider extends Resource {
   uploadDasPdf = async (file, dataProviderId) => {
     this.dasPdfLoading = true
     try {
-      const url = `https://api.core.ac.uk/internal/data-providers/data-access-upload-file`
+      const url = `${process.env.API_URL}/data-providers/data-access-upload-file`
       const fd = new FormData()
       fd.set('file', file)
       fd.set('dataProviderId', dataProviderId)
@@ -368,7 +368,7 @@ class DataProvider extends Resource {
   @action
   updateDasStatus = async (dataProviderId, articleId, validationStatus) => {
     try {
-      const url = `https://api.core.ac.uk/internal/data-providers/${dataProviderId}/data-access-update`
+      const url = `${process.env.API_URL}/data-providers/${dataProviderId}/data-access-update`
       const body = { articleId, validationStatus }
       const response = await fetch(url, {
         method: 'POST',
