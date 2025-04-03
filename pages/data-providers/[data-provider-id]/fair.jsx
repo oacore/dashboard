@@ -1,16 +1,9 @@
 import React from 'react'
 
 import { withGlobalStore } from 'store'
-import { USRNTemplateActivated, USRNTemplateDeactivated } from 'templates/usrn'
-import * as texts from 'texts/usrn'
+import { USRNTemplateActivated } from 'templates/usrn'
 
-const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
-  const isUSRNActivated =
-    Object.values(texts.status.usrnListDataProvider).indexOf(dataProvider?.id) >
-    -1
-
-  if (!isUSRNActivated) return <USRNTemplateDeactivated {...props} />
-
+const FAIRPage = ({ store: { dataProvider, organisation }, ...props }) => {
   const formattedDateReport = dataProvider?.usrn?.dateReportUpdate
     ? new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
@@ -46,4 +39,4 @@ const USRNPage = ({ store: { dataProvider, organisation }, ...props }) => {
   return <USRNTemplateActivated usrnParams={usrnParams} {...props} />
 }
 
-export default withGlobalStore(USRNPage)
+export default withGlobalStore(FAIRPage)
