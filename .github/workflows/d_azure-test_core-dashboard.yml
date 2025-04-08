@@ -5,9 +5,6 @@ env:
   API_KEY: ${{ secrets.API_TOKEN }}
 
 on:
-  push:
-    branches:
-      - d_azure-test
   workflow_dispatch:
 
 jobs:
