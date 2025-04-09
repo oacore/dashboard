@@ -3,6 +3,16 @@
   border-radius: 2px;
 }
 
+.card-wrapper-big {
+  width: 40%;
+}
+
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .inner-wrapper {
   display: flex;
   flex-direction: column;

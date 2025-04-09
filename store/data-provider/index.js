@@ -104,6 +104,16 @@ class DataProvider extends Resource {
 
   @observable sdgYearData = []
 
+  @observable dasDataLoading = false
+
+  @observable dasList = []
+
+  @observable dasPdfLoading = false
+
+  @observable uploadDasResults = {}
+
+  @observable dasStatusUpdate = []
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -147,6 +157,21 @@ class DataProvider extends Resource {
   @action
   setSdgYearData(data) {
     this.sdgYearData = data
+  }
+
+  @action
+  setDasList(data) {
+    this.dasList = data
+  }
+
+  @action
+  setDasUploadResult = (result) => {
+    this.uploadDasResults = result
+  }
+
+  @action
+  setDasStatusUpdate = (result) => {
+    this.dasStatusUpdate = result
   }
 
   @action
@@ -294,6 +319,73 @@ class DataProvider extends Resource {
   }
 
   @action
+  getDasListData = async (id) => {
+    this.dasDataLoading = true
+    try {
+      const specData = this.rootStore.setSelectedItem
+      const url = `${process.env.API_URL}/data-providers/${id}/data-access${
+        specData ? `?set=${specData}` : ''
+      }`
+
+      const response = await fetch(url)
+
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        this.setDasList(data)
+      } else throw new Error('Failed to fetch rrs data')
+    } catch (error) {
+      console.error('Error fetching rrs data:', error)
+      this.setDasList([])
+    } finally {
+      this.dasDataLoading = false
+    }
+  }
+
+  @action
+  uploadDasPdf = async (file, dataProviderId) => {
+    this.dasPdfLoading = true
+    try {
+      const url = `${process.env.API_URL}/data-providers/data-access-upload-file`
+      const fd = new FormData()
+      fd.set('file', file)
+      fd.set('dataProviderId', dataProviderId)
+
+      const response = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: fd,
+      })
+
+      const result = await response.json()
+      this.setDasUploadResult(result)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.dasPdfLoading = false
+    }
+  }
+
+  @action
+  updateDasStatus = async (dataProviderId, articleId, validationStatus) => {
+    try {
+      const url = `${process.env.API_URL}/data-providers/${dataProviderId}/data-access-update`
+      const body = { articleId, validationStatus }
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // mode: 'no-cors',
+        body: JSON.stringify(body),
+      })
+      const result = await response.json()
+      this.setDasStatusUpdate(result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  @action
   getDeduplicationInfo = async (workId) => {
     try {
       const response = await fetch(`${process.env.API_URL}/versions/${workId}`)
@@ -386,6 +478,7 @@ class DataProvider extends Resource {
         this.allMembers = new Membership(url, this.options)
         this.duplicatesUrl = `${process.env.API_URL}${url}/duplicates?accept=text/csv`
         this.rrsUrl = `${process.env.API_URL}${url}/rights-retention?accept=text/csv`
+        this.dasUrl = `${process.env.API_URL}${url}/data-access?accept=text/csv`
         this.sdgUrl = `${process.env.API_URL}${url}/sdg?accept=text/csv`
       },
       (error) => {

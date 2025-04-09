@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
-import RrsStatsCard from './cards/rrsStatsCard'
-import RrsReviewCard from './cards/rrsReviewCard'
-import RrsCheckCard from './cards/rrsCheckerCard'
 import RrsTable from './tables/rrsTable'
 import DashboardHeader from '../../components/dashboard-header'
 import ShowMoreText from '../../components/showMore'
+import StatsCard from '../../components/statsCard/statsCard'
+import PdfUploadChecker from '../../components/uploadChecker/PdfUploadChecker'
 
 import rrs from 'texts/rrs-retention'
 
@@ -36,6 +35,10 @@ const RrsPageTemplate = ({
     setShowMore(!showMore)
   }
 
+  const rrsToReviewList = rrsList.filter(
+    (item) => item.validationStatusRRS !== 1 && item.validationStatusRRS !== 2
+  )
+
   useEffect(() => {
     setCheckBillingType(billingPlan?.billingType === 'starting')
   }, [billingPlan])
@@ -57,17 +60,34 @@ const RrsPageTemplate = ({
       />
       <div className={styles.rrsMainWrapper}>
         <div className={styles.cardsWrapper}>
-          <RrsStatsCard
-            rrsUrl={rrsUrl}
-            rrsList={rrsList}
-            rrsDataLoading={rrsDataLoading}
+          <StatsCard
+            title={rrs.statsCard.title}
+            description={rrs.statsCard.description}
+            count={rrsList.length}
+            loading={rrsDataLoading}
+            actionText={rrs.statsCard.action}
+            actionHref={rrsUrl}
             checkBillingType={checkBillingType}
           />
-          <RrsReviewCard rrsList={rrsList} rrsDataLoading={rrsDataLoading} />
-          <RrsCheckCard
-            rrsPdfLoading={rrsPdfLoading}
+          <StatsCard
+            title={rrs.reviewCard.title}
+            description={rrs.reviewCard.description}
+            count={rrsToReviewList.length}
+            loading={rrsDataLoading}
+            actionText={rrs.reviewCard.action}
+            actionHref="#rrsTable"
+            showInfo
+            infoText={rrs.reviewCard.info}
+            countClassName={styles.inputCount}
+          />
+          <PdfUploadChecker
+            pdfLoading={rrsPdfLoading}
             uploadPdf={uploadPdf}
             uploadResults={uploadResults}
+            text={rrs}
+            foundSentence={uploadResults.rightsRetentionSentence}
+            licenseType={uploadResults.licenceRecognised}
+            title="RRS demo checker"
           />
         </div>
         <RrsTable

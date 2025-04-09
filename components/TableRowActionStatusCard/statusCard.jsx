@@ -2,20 +2,21 @@ import { Button } from '@oacore/design/lib/elements'
 import React, { useEffect } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import styles from '../styles.module.css'
-import texts from '../../../texts/rrs-retention/rrs.yml'
-import accept from '../../../components/upload/assets/acceptLight.svg'
-import deny from '../../../components/upload/assets/denyLight.svg'
-import redirect from '../../../components/upload/assets/urlRedirect.svg'
-import { ProgressSpinner } from '../../../design'
+import styles from './styles.module.css'
+import accept from '../upload/assets/acceptLight.svg'
+import deny from '../upload/assets/denyLight.svg'
+import redirect from '../upload/assets/urlRedirect.svg'
+import { ProgressSpinner } from '../../design'
 
 const StatusCard = ({
   onClose,
   handleStatusUpdate,
-  v,
+  statusSentence,
   loadingStatus,
   href,
   rrs,
+  articleId,
+  texts,
 }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -42,9 +43,7 @@ const StatusCard = ({
           </div>
         )}
       </div>
-      <div className={styles.confirmationPopup}>
-        {v.rightsRetentionSentence}
-      </div>
+      <div className={styles.confirmationPopup}>{statusSentence}</div>
       <div className={styles.redirect}>
         <a
           className={styles.redirectBtn}
@@ -59,7 +58,7 @@ const StatusCard = ({
       <div className={styles.modalFooter}>
         {Object.values(texts.statusActions).map(({ button, key }) => (
           <Button
-            onClick={(e) => handleStatusUpdate(e, v.articleId, key)}
+            onClick={(e) => handleStatusUpdate(e, articleId, key)}
             className={classNames.use(styles.modalFooterY, {
               [styles.modalFooterN]: button === 'WRONG',
             })}

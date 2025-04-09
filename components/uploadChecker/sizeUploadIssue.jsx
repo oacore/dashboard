@@ -1,21 +1,21 @@
 import React from 'react'
 import { Button } from '@oacore/design'
 
-import issueSvg from '../../../components/upload/assets/issue.svg'
-import text from '../../../texts/rrs-retention/rrs.yml'
+import issueSvg from '../upload/assets/issue.svg'
 import styles from './styles.module.css'
-import { ProgressSpinner } from '../../../design'
+import { ProgressSpinner } from '../../design'
 
 const SizeUploadIssue = ({
   handleClick,
   handleFileChange,
   uploadRef,
-  rrsPdfLoading,
+  pdfLoading,
   fileName,
+  text,
 }) => (
   <div className={styles.uploadWrapper}>
     <div className={styles.titleWrapper}>
-      {!rrsPdfLoading ? (
+      {!pdfLoading ? (
         <>
           <img src={issueSvg} alt="issueSvg" />
           <h3 className={styles.uploadTitle}>
@@ -26,7 +26,7 @@ const SizeUploadIssue = ({
         <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
       )}
     </div>
-    {rrsPdfLoading ? (
+    {pdfLoading ? (
       <div className={styles.innerWrapper}>
         <div className={styles.spinnerWrapper}>
           <ProgressSpinner className={styles.spinner} />
@@ -50,11 +50,7 @@ const SizeUploadIssue = ({
       </div>
     )}
     <div className={styles.uploadFooterButton}>
-      <Button
-        disabled={rrsPdfLoading}
-        onClick={handleClick}
-        variant="contained"
-      >
+      <Button disabled={pdfLoading} onClick={handleClick} variant="contained">
         {text.upload.noSupport.action}
       </Button>
     </div>

@@ -186,6 +186,11 @@
   z-index: 999;
 }
 
+.link-cell {
+  display: flex;
+  justify-content: center;
+}
+
 .redirect-link {
   display: flex;
   margin-left: 10px;
