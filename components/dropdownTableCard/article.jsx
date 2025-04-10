@@ -20,8 +20,8 @@ const TableArticle = ({
   loading,
   changeVisibility,
   articleAdditionalDataLoading,
-  getSdgIcon,
   removeLiveActions,
+  renderSdgIcons,
 }) => {
   const [visibleMenu, setVisibleMenu] = useState(false)
 
@@ -38,7 +38,7 @@ const TableArticle = ({
       else if (item.key === 'sdg') {
         value = value.map((sdgItem) => (
           <div className={styles.sdgScoreWrapper}>
-            {getSdgIcon(sdgItem.type, sdgItem.score)}
+            {renderSdgIcons(sdgItem.type, sdgItem.score)}
             <span className={styles.sdgScore}>{sdgItem.score}</span>
           </div>
         ))

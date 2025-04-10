@@ -1,9 +1,17 @@
 .card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30%;
+}
+
+.whole-card {
   width: 100%;
 }
 
 .header-wrapper {
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -64,4 +72,18 @@
 
 .sub-footer-red {
   color: #ff5f52;
+}
+
+.inner-content {
+  margin: 26px 0;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
 }

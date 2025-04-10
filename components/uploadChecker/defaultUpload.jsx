@@ -1,21 +1,21 @@
 import React from 'react'
 import { Button } from '@oacore/design'
 
-import text from '../../../texts/rrs-retention/rrs.yml'
-import uploadSvg from '../../../components/upload/assets/upload.svg'
+import uploadSvg from '../upload/assets/upload.svg'
 import styles from './styles.module.css'
-import { ProgressSpinner } from '../../../design'
+import { ProgressSpinner } from '../../design'
 
 const DefaultUploadView = ({
   handleClick,
   uploadRef,
   handleFileChange,
-  rrsPdfLoading,
+  pdfLoading,
   fileName,
+  text,
 }) => (
   <div className={styles.uploadWrapper}>
     <h3 className={styles.uploadTitle}>{text.upload.default.title}</h3>
-    {rrsPdfLoading ? (
+    {pdfLoading ? (
       <div className={styles.innerWrapper}>
         <div className={styles.spinnerWrapper}>
           <ProgressSpinner className={styles.spinner} />
@@ -51,11 +51,7 @@ const DefaultUploadView = ({
       <span className={styles.footerText}>{text.upload.subInfo.size}</span>
     </div>
     <div className={styles.uploadFooterButton}>
-      <Button
-        disabled={rrsPdfLoading}
-        onClick={handleClick}
-        variant="contained"
-      >
+      <Button disabled={pdfLoading} onClick={handleClick} variant="contained">
         {text.upload.default.action.title}
       </Button>
     </div>

@@ -6,7 +6,7 @@ import { Popover } from '@oacore/design'
 
 import styles from '../styles.module.css'
 import { Card, ProgressSpinner } from '../../../design'
-import texts from '../../../texts/rrs-retention/rrs.yml'
+import texts from '../../../texts/das/das.yml'
 import ExportButton from '../../../components/export-button'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import accept from '../../../components/upload/assets/accept.svg'
@@ -15,32 +15,31 @@ import question from '../../../components/upload/assets/questionMarkLight.svg'
 import redirect from '../../../components/upload/assets/urlRedirect.svg'
 import Menu from '../../../components/menu'
 import request from '../../../api'
-import StatusCard from '../../../components/TableRowActionStatusCard/statusCard'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import { GlobalContext } from '../../../store'
 import TableArticle from '../../../components/dropdownTableCard/article'
+import StatusCard from '../../../components/TableRowActionStatusCard/statusCard'
 import DashboardTipMessage from '../../../components/dashboard-tip-message'
 import getSdgIcon from '../../../utils/hooks/use-sdg-icon-renderer'
 
 import Table from 'components/table'
 
-const RrsTable = observer(
+const DasTable = observer(
   ({
-    rrsList,
-    getRrslistData,
-    updateRrsStatus,
+    dasList,
+    updateDasStatus,
     articleAdditionalData,
     getOutputsAdditionalData,
     articleAdditionalDataLoading,
-    rrsDataLoading,
+    dataLoading,
     checkBillingType,
     dataProviderData,
-    rrsUrl,
+    dasUrl,
   }) => {
     const { ...globalStore } = useContext(GlobalContext)
     const [visibleHelp, setVisibleHelp] = useState(
-      localStorage.getItem('rrsHelp') === 'true'
+      localStorage.getItem('dasHelp') === 'true'
     )
     const [tableData, setTableData] = useState([])
     const [page, setPage] = useState(0)
@@ -77,24 +76,24 @@ const RrsTable = observer(
 
     useEffect(() => {
       if (checkBillingType) {
-        const newRRS = rrsList.slice(0, 5).map((item) => ({
+        const newDas = dasList.slice(0, 5).map((item) => ({
           ...item,
           id: +item.articleId,
           output: null,
         }))
-        setTableData(newRRS)
+        setTableData(newDas)
       } else {
         const startIndex = page * 10
-        const endIndex = Math.min(startIndex + 10, rrsList.length)
-        let newRRS
+        const endIndex = Math.min(startIndex + 10, dasList.length)
+        let newDas
         if (globalStore.setSelectedItem) {
-          newRRS = rrsList.map((item) => ({
+          newDas = dasList.map((item) => ({
             ...item,
             id: +item.articleId,
             output: null,
           }))
         } else {
-          newRRS = [...tableData, ...rrsList.slice(startIndex, endIndex)].map(
+          newDas = [...tableData, ...dasList.slice(startIndex, endIndex)].map(
             (item) => ({
               ...item,
               id: +item.articleId,
@@ -102,17 +101,13 @@ const RrsTable = observer(
             })
           )
         }
-        setTableData(newRRS)
+        setTableData(newDas)
       }
-    }, [rrsList, page, checkBillingType])
+    }, [dasList, page, checkBillingType])
 
     useEffect(() => {
-      localStorage.setItem('rrsHelp', visibleHelp)
+      localStorage.setItem('dasHelp', visibleHelp)
     }, [visibleHelp])
-
-    useEffect(() => {
-      getRrslistData(providerId)
-    }, [providerId])
 
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -141,8 +136,8 @@ const RrsTable = observer(
       )
       setLoadingStatus(true)
       try {
-        await updateRrsStatus(providerId, articleId, validationStatus)
-        currentArticle.validationStatusRRS = validationStatus
+        await updateDasStatus(providerId, articleId, validationStatus)
+        currentArticle.validationStatusDataAccess = validationStatus
         setTableData((prevTableData) => {
           const updatedTableData = prevTableData.map((item) =>
             item.articleId === articleId ? currentArticle : item
@@ -182,7 +177,7 @@ const RrsTable = observer(
     }
 
     const sortByPublicationDate = (direction) => {
-      const sortedData = [...rrsList].sort((a, b) => {
+      const sortedData = [...dasList].sort((a, b) => {
         const dateA = new Date(a.publicationDate).getTime()
         const dateB = new Date(b.publicationDate).getTime()
         return direction === 'asc' ? dateA - dateB : dateB - dateA
@@ -191,20 +186,20 @@ const RrsTable = observer(
       setSortDirection(direction)
     }
 
-    const getStatusIcon = (validationStatusRRS) => {
-      if (validationStatusRRS === 0)
+    const getStatusIcon = (validationStatusDataAccess) => {
+      if (validationStatusDataAccess === 0)
         return { icon: question, text: 'To be reviewed' }
-      if (validationStatusRRS === 1)
+      if (validationStatusDataAccess === 1)
         return { icon: deny, text: 'Review not confirmed' }
 
       return { icon: accept, text: 'Review confirmed' }
     }
 
     return (
-      <Card className={styles.rrsTableWrapper} id="rrsTable">
+      <Card className={styles.rrsTableWrapper} id="dasTable">
         <Card.Title tag="h2">{texts.table.title}</Card.Title>
         <div className={styles.itemCountIndicator}>{texts.table.subTitle}</div>
-        {rrsDataLoading ? (
+        {dataLoading ? (
           <div className={styles.dataSpinnerWrapper}>
             <ProgressSpinner className={styles.spinner} />
             <p className={styles.spinnerText}>
@@ -225,7 +220,7 @@ const RrsTable = observer(
               className={styles.rrsTable}
               data={tableData}
               size={tableData?.length}
-              totalLength={rrsList?.length}
+              totalLength={dasList?.length}
               fetchData={fetchData}
               isHeaderClickable
               rowIdentifier="articleId"
@@ -287,28 +282,24 @@ const RrsTable = observer(
                 icon
               />
               <Table.Column
-                id="licence"
-                display="Identified licence"
+                id="link"
+                display="Dataset link"
                 className={styles.licenceColumn}
-                getter={(v) =>
-                  v.licenceRecognised && (
-                    <Popover
-                      className={styles.popover}
-                      placement="top"
-                      content={v.licenceRecognised}
-                    >
-                      <div className={`${styles.licence} ${styles.truncated}`}>
-                        {v.licenceRecognised?.length > 10
-                          ? `${v.licenceRecognised.substring(0, 10)}...`
-                          : v.licenceRecognised}
-                      </div>
-                    </Popover>
-                  )
-                }
+                getter={(v) => (
+                  <div className={styles.linkCell}>
+                    {v.dataAccessUrl !== 'not found' ? (
+                      <a href={v.dataAccessUrl} className={styles.redirectLink}>
+                        <img src={redirect} alt="" />
+                      </a>
+                    ) : (
+                      'N/A'
+                    )}
+                  </div>
+                )}
               />
               <Table.Column
-                id="rrs"
-                display="Extracted RRS"
+                id="das"
+                display="Extracted DAS"
                 className={styles.publicationColumn}
                 getter={(v) => (
                   <>
@@ -318,14 +309,14 @@ const RrsTable = observer(
                       onClick={(e) => handleStatusModal(e, v)}
                       rel="noreferrer"
                     >
-                      Review RRS
+                      Review DAS
                       <img src={redirect} alt="" />
                     </Button>
                     {showStatusModal && selectedRowData === v && (
                       <StatusCard
                         handleStatusUpdate={handleStatusUpdate}
                         onClose={() => setShowStatusModal(false)}
-                        statusSentence={v.rightsRetentionSentence}
+                        statusSentence={v.dataAccessSentence}
                         articleId={v.articleId}
                         loadingStatus={loadingStatus}
                         href={`https://core.ac.uk/reader/${v.articleId}`}
@@ -344,10 +335,12 @@ const RrsTable = observer(
                       <Popover
                         className={styles.popover}
                         placement="top"
-                        content={getStatusIcon(v.validationStatusRRS).text}
+                        content={
+                          getStatusIcon(v.validationStatusDataAccess).text
+                        }
                       >
                         <img
-                          src={getStatusIcon(v.validationStatusRRS).icon}
+                          src={getStatusIcon(v.validationStatusDataAccess).icon}
                           alt="status icon"
                           className={styles.visibilityIcon}
                         />
@@ -392,7 +385,7 @@ const RrsTable = observer(
                 )}
               />
               <Table.Action>
-                <ExportButton href={rrsUrl}>download csv</ExportButton>
+                <ExportButton href={dasUrl}>download csv</ExportButton>
               </Table.Action>
             </Tablev2>
             {checkBillingType && (
@@ -409,4 +402,4 @@ const RrsTable = observer(
   }
 )
 
-export default RrsTable
+export default DasTable

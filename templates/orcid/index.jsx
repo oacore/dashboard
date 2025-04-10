@@ -62,27 +62,32 @@ const OrcidPageTemplate = observer(
             <StatsCard
               title={texts.statsCards.withOrcid.title}
               description={texts.statsCards.withOrcid.description}
-              action={texts.statsCards.withOrcid.action}
-              tooltip={texts.statsCards.withOrcid.tooltip}
-              statList={globalStore.dataProvider.orcidData || []}
-              statLoading={!globalStore.dataProvider.orcidData}
+              actionText={texts.statsCards.withOrcid.action}
+              showInfo={texts.statsCards.withOrcid.tooltip}
+              count={globalStore.dataProvider.orcidData.length || []}
+              loading={!globalStore.dataProvider.orcidData}
+              wholeWidthCard
             />
             <StatsCard
               title={texts.statsCards.withoutOrcid.title}
               description={texts.statsCards.withoutOrcid.description}
-              action={texts.statsCards.withoutOrcid.action}
-              tooltip={texts.statsCards.withoutOrcid.tooltip}
+              actionText={texts.statsCards.withoutOrcid.action}
+              showInfo={texts.statsCards.withoutOrcid.tooltip}
               noticeable={texts.statsCards.withoutOrcid.noticeable}
-              statList={globalStore.dataProvider.orcidWithoutPaperData || []}
-              statLoading={!globalStore.dataProvider.orcidWithoutPaperData}
+              count={
+                globalStore.dataProvider.orcidWithoutPaperData.length || []
+              }
+              loading={!globalStore.dataProvider.orcidWithoutPaperData}
+              wholeWidthCard
             />
             <StatsCard
               title={texts.statsCards.otherOrcid.title}
               description={texts.statsCards.otherOrcid.description}
-              action={texts.statsCards.otherOrcid.action}
-              tooltip={texts.statsCards.otherOrcid.tooltip}
-              statList={globalStore.dataProvider.orcidOtherData || []}
-              statLoading={!globalStore.dataProvider.orcidOtherData}
+              actionText={texts.statsCards.otherOrcid.action}
+              showInfo={texts.statsCards.otherOrcid.tooltip}
+              count={globalStore.dataProvider.orcidOtherData.length || []}
+              loading={!globalStore.dataProvider.orcidOtherData}
+              wholeWidthCard
             />
           </div>
         </div>

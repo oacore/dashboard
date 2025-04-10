@@ -9,6 +9,7 @@ import styles from '../styles.module.css'
 import { Button, ProgressSpinner } from '../../../design'
 import loadingImg from '../../../components/upload/assets/loading.svg'
 import greenTick from '../../../components/upload/assets/greenTick.svg'
+import warning from '../../../components/upload/assets/warningDark.svg'
 import content from '../../../texts/settings'
 import HarvestingModal from './harvesting-modal'
 
@@ -134,133 +135,166 @@ const HarvestingProgressCard = observer(
       setRenderedContent(getContent())
     }, [harvestingError, harvestingStatus])
 
+    const getTimeSinceLastHarvest = () => {
+      if (!harvestingStatus?.lastHarvestingDate) return Infinity
+
+      const lastHarvestingDate = new Date(harvestingStatus.lastHarvestingDate)
+      const currentDate = new Date()
+      const differenceInTime =
+        currentDate.getTime() - lastHarvestingDate.getTime()
+      return differenceInTime / (1000 * 3600 * 24)
+    }
+
     return (
       <Card className={styles.progressWrapper}>
         <div
           className={classNames.use(styles.titleWrapper, {
             [styles.titleOption]: !success,
             [styles.errorMessage]: errorMessage,
+            [styles.spaceing]: getTimeSinceLastHarvest() >= 60,
           })}
         >
           <Card.Title className={styles.maiTitle} tag="h2">
             {texts.progress.title}
           </Card.Title>
         </div>
-        <div className={styles.requestDateWrapper}>
-          {modalOpen &&
-            harvestingStatus?.scheduledState === 'IN_DOWNLOAD_METADATA_QUEUE' &&
-            !result && (
-              <HarvestingModal
-                title={texts.modal.scheduled.title}
-                description={texts.modal.scheduled.description}
-                placeholder={texts.modal.scheduled.input}
-                handleButtonClose={handleButtonClose}
-                handleButtonClick={sendRequest}
-              />
-            )}
-          {modalOpen &&
-            (!result || harvestingStatus?.scheduledState === 'PENDING') && (
-              <HarvestingModal
-                title={texts.modal.progress.title}
-                description={texts.modal.progress.description}
-                placeholder={texts.modal.progress.input}
-                handleButtonClose={handleButtonClose}
-                handleButtonClick={sendRequest}
-              />
-            )}
-          {modalOpen &&
-            result &&
-            harvestingStatus?.scheduledState !== 'PENDING' && (
-              <HarvestingModal
-                title={texts.modal.finished.title}
-                description={texts.modal.finished.description}
-                placeholder={texts.modal.finished.input}
-                handleButtonClose={handleButtonClose}
-                handleButtonClick={sendRequest}
-              />
-            )}
-        </div>
-        <div className={styles.progressBar}>
-          <div className={styles.progressItem}>
-            <Popover
-              className={styles.popover}
-              placement="top"
-              content={texts.type.scheduled.tooltip}
-            >
-              <div
-                className={classNames.use(styles.progressCircle, {
-                  [styles.progressCircleActive]:
-                    harvestingStatus?.scheduledState ===
-                      'IN_DOWNLOAD_METADATA_QUEUE' && !result,
-                })}
-              />
-            </Popover>
-            <span
-              className={classNames.use(styles.progressText, {
-                [styles.progressTextActive]:
-                  harvestingStatus?.scheduledState ===
-                    'IN_DOWNLOAD_METADATA_QUEUE' && !result,
-              })}
-            >
-              {texts.type.scheduled.title}
-            </span>
+        {!harvestingStatus ? (
+          <div className={styles.dataSpinnerWrapperCenter}>
+            <p className={styles.spinnerText}>Loading...</p>
           </div>
-          <div className={styles.border} />
-          <div className={styles.progressItem}>
-            <Popover
-              className={styles.popover}
-              placement="top"
-              content={texts.type.progress.tooltip}
-            >
-              <div
-                className={classNames.use(styles.progressCircle, {
-                  [styles.progressCircleActive]:
-                    (!result &&
-                      harvestingStatus?.scheduledState !==
-                        'IN_DOWNLOAD_METADATA_QUEUE') ||
-                    harvestingStatus?.scheduledState === 'PENDING',
-                })}
-              />
-            </Popover>
-            <span
-              className={classNames.use(styles.progressText, {
-                [styles.progressTextActive]:
-                  (!result &&
-                    harvestingStatus?.scheduledState !==
-                      'IN_DOWNLOAD_METADATA_QUEUE') ||
-                  harvestingStatus?.scheduledState === 'PENDING',
-              })}
-            >
-              {texts.type.progress.title}
-            </span>
-          </div>
-          <div className={styles.border} />
-          <div className={styles.progressItem}>
-            <Popover
-              className={styles.popover}
-              placement="top"
-              content={texts.type.finished.tooltip}
-            >
-              <div
-                className={classNames.use(styles.progressCircle, {
-                  [styles.progressCircleActive]:
-                    result && harvestingStatus?.scheduledState !== 'PENDING',
-                })}
-              />
-            </Popover>
-            <span
-              className={classNames.use(styles.progressText, {
-                [styles.progressTextActive]:
-                  result && harvestingStatus?.scheduledState !== 'PENDING',
-              })}
-            >
-              {texts.type.finished.title}
-            </span>
-          </div>
-        </div>
-        <div className={styles.statusDescription}>
-          {texts.progress.description}
-        </div>
+        ) : (
+          <>
+            {getTimeSinceLastHarvest() >= 60 && (
+              <div className={styles.infoWarningWrapper}>
+                <img src={warning} alt="warning" />
+                <span>{texts.type.error.error}</span>
+              </div>
+            )}
+            <div className={styles.requestDateWrapper}>
+              {modalOpen &&
+                harvestingStatus?.scheduledState ===
+                  'IN_DOWNLOAD_METADATA_QUEUE' &&
+                !result && (
+                  <HarvestingModal
+                    title={texts.modal.scheduled.title}
+                    description={texts.modal.scheduled.description}
+                    placeholder={texts.modal.scheduled.input}
+                    handleButtonClose={handleButtonClose}
+                    handleButtonClick={sendRequest}
+                  />
+                )}
+              {modalOpen &&
+                (!result || harvestingStatus?.scheduledState === 'PENDING') && (
+                  <HarvestingModal
+                    title={texts.modal.progress.title}
+                    description={texts.modal.progress.description}
+                    placeholder={texts.modal.progress.input}
+                    handleButtonClose={handleButtonClose}
+                    handleButtonClick={sendRequest}
+                  />
+                )}
+              {modalOpen &&
+                result &&
+                harvestingStatus?.scheduledState !== 'PENDING' && (
+                  <HarvestingModal
+                    title={texts.modal.finished.title}
+                    description={texts.modal.finished.description}
+                    placeholder={texts.modal.finished.input}
+                    handleButtonClose={handleButtonClose}
+                    handleButtonClick={sendRequest}
+                  />
+                )}
+            </div>
+            {getTimeSinceLastHarvest() < 60 && (
+              <>
+                <div className={styles.progressBar}>
+                  <div className={styles.progressItem}>
+                    <Popover
+                      className={styles.popover}
+                      placement="top"
+                      content={texts.type.scheduled.tooltip}
+                    >
+                      <div
+                        className={classNames.use(styles.progressCircle, {
+                          [styles.progressCircleActive]:
+                            harvestingStatus?.scheduledState ===
+                              'IN_DOWNLOAD_METADATA_QUEUE' && !result,
+                        })}
+                      />
+                    </Popover>
+                    <span
+                      className={classNames.use(styles.progressText, {
+                        [styles.progressTextActive]:
+                          harvestingStatus?.scheduledState ===
+                            'IN_DOWNLOAD_METADATA_QUEUE' && !result,
+                      })}
+                    >
+                      {texts.type.scheduled.title}
+                    </span>
+                  </div>
+                  <div className={styles.border} />
+                  <div className={styles.progressItem}>
+                    <Popover
+                      className={styles.popover}
+                      placement="top"
+                      content={texts.type.progress.tooltip}
+                    >
+                      <div
+                        className={classNames.use(styles.progressCircle, {
+                          [styles.progressCircleActive]:
+                            (!result &&
+                              harvestingStatus?.scheduledState !==
+                                'IN_DOWNLOAD_METADATA_QUEUE') ||
+                            harvestingStatus?.scheduledState === 'PENDING',
+                        })}
+                      />
+                    </Popover>
+                    <span
+                      className={classNames.use(styles.progressText, {
+                        [styles.progressTextActive]:
+                          (!result &&
+                            harvestingStatus?.scheduledState !==
+                              'IN_DOWNLOAD_METADATA_QUEUE') ||
+                          harvestingStatus?.scheduledState === 'PENDING',
+                      })}
+                    >
+                      {texts.type.progress.title}
+                    </span>
+                  </div>
+                  <div className={styles.border} />
+                  <div className={styles.progressItem}>
+                    <Popover
+                      className={styles.popover}
+                      placement="top"
+                      content={texts.type.finished.tooltip}
+                    >
+                      <div
+                        className={classNames.use(styles.progressCircle, {
+                          [styles.progressCircleActive]:
+                            result &&
+                            harvestingStatus?.scheduledState !== 'PENDING',
+                        })}
+                      />
+                    </Popover>
+                    <span
+                      className={classNames.use(styles.progressText, {
+                        [styles.progressTextActive]:
+                          result &&
+                          harvestingStatus?.scheduledState !== 'PENDING',
+                      })}
+                    >
+                      {texts.type.finished.title}
+                    </span>
+                  </div>
+                </div>
+                <div className={styles.statusDescription}>
+                  {texts.progress.description}
+                </div>
+              </>
+            )}
+          </>
+        )}
+
         {renderedContent}
       </Card>
     )

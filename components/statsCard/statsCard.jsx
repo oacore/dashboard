@@ -1,37 +1,48 @@
 import React from 'react'
-import { Icon } from '@oacore/design/lib/elements'
+import { Button } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
-import { Button } from '../../design'
-import { formatNumber } from '../../utils/helpers'
 import Actions from '../actions'
+import { formatNumber } from '../../utils/helpers'
 
+import infoAction from 'components/upload/assets/infoAction.svg'
 import { Card } from 'design'
 
 const StatsCard = ({
   title,
   description,
-  action,
-  tooltip,
-  statUrl,
-  statList,
-  statLoading,
-  noticeable,
+  count,
+  loading,
+  actionText,
+  actionHref,
+  showAction = true,
+  showInfo = false,
+  infoText,
   checkBillingType,
+  countClassName,
+  wholeWidthCard,
 }) => (
-  <Card className={styles.cardWrapper} tag="section" title={title}>
+  <Card
+    className={classNames.use(styles.cardWrapper, {
+      [styles.wholeCard]: wholeWidthCard,
+    })}
+    tag="section"
+    title={title}
+  >
     <div>
       <div className={styles.headerWrapper}>
         <Card.Title className={styles.cardTitle} tag="h2">
           {title}
         </Card.Title>
-        <Actions
-          description={tooltip}
-          hoverIcon={
-            <Icon src="#alert-circle-outline" style={{ color: '#757575' }} />
-          }
-        />
+        {showInfo && (
+          <Actions
+            description={infoText}
+            hoverIcon={
+              <img src={infoAction} style={{ color: '#757575' }} alt="" />
+            }
+          />
+        )}
       </div>
       <div className={styles.innerWrapper} />
       <Card.Description className={styles.cardDescription}>
@@ -39,24 +50,22 @@ const StatsCard = ({
       </Card.Description>
     </div>
     <div>
-      {statLoading ? (
+      {loading ? (
         <div className={styles.loadingContainer}>
           <div className={styles.loadingStroke} />
         </div>
       ) : (
-        <div
-          className={classNames.use(styles.subFooter, {
-            [styles.subFooterRed]: noticeable,
-          })}
-        >
-          {formatNumber(statList.length)}
+        <div className={styles.innerContent}>
+          <p className={countClassName || styles.subFooter}>
+            {formatNumber(count)}
+          </p>
         </div>
       )}
     </div>
     <div className={styles.footerWrapper}>
-      {!checkBillingType && (
-        <Button href={statUrl} variant="contained">
-          {action}
+      {showAction && !checkBillingType && (
+        <Button href={actionHref} variant="contained">
+          {actionText}
         </Button>
       )}
     </div>
