@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 import Actions from '../actions'
@@ -20,8 +21,15 @@ const StatsCard = ({
   infoText,
   checkBillingType,
   countClassName,
+  wholeWidthCard,
 }) => (
-  <Card className={styles.cardWrapper} tag="section" title={title}>
+  <Card
+    className={classNames.use(styles.cardWrapper, {
+      [styles.wholeCard]: wholeWidthCard,
+    })}
+    tag="section"
+    title={title}
+  >
     <div>
       <div className={styles.headerWrapper}>
         <Card.Title className={styles.cardTitle} tag="h2">
@@ -36,6 +44,7 @@ const StatsCard = ({
           />
         )}
       </div>
+      <div className={styles.innerWrapper} />
       <Card.Description className={styles.cardDescription}>
         {description}
       </Card.Description>
