@@ -28,14 +28,21 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Create dummy deploy.sh
+        run: |
+          echo "#!/bin/bash" > deploy.sh
+          echo "echo Dummy deploy.sh running - skipping." >> deploy.sh
+          chmod +x deploy.sh
+
+
       - name: Install dependencies and build
         run: |
           npm install --legacy-peer-deps
           npm run build --if-present
           
       - name: Zip artifact for deployment
-        # run: zip -r release.zip .
-        run: zip -r release.zip . -x "node_modules/*" "deploy.sh"
+        run: zip -r release.zip .
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
