@@ -14,9 +14,6 @@ on:
       - d_azure-test
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
