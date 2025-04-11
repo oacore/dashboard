@@ -49,12 +49,20 @@ jobs:
         with:
           name: app-zip
 
-      - name: Azure Login
-        uses: azure/login@v2
+      # - name: Azure Login
+      #   uses: azure/login@v2
+      #   with:
+      #     client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3FF26F0451A948E69B483D16F8DFFC6D }}
+      #     tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BB21B3BC763B4DD991AF2BB08D56D3A7 }}
+      #     subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B33628D419EB47EA8906FE11B16BCE3B }}
+
+      - name: Azure Login via OIDC
+        uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3FF26F0451A948E69B483D16F8DFFC6D }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BB21B3BC763B4DD991AF2BB08D56D3A7 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B33628D419EB47EA8906FE11B16BCE3B }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
 
       - name: Deploy to Azure using CLI
         run: |
