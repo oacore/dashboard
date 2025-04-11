@@ -34,7 +34,6 @@ jobs:
           echo "echo Dummy deploy.sh running - skipping." >> deploy.sh
           chmod +x deploy.sh
 
-
       - name: Install dependencies and build
         run: |
           npm install --legacy-peer-deps
@@ -76,11 +75,16 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BB21B3BC763B4DD991AF2BB08D56D3A7 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B33628D419EB47EA8906FE11B16BCE3B }}
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+      # - name: 'Deploy to Azure Web App'
+      #   id: deploy-to-webapp
+      #   uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: 'dashboard-core'
+      #     slot-name: 'Production'
+      #     package: .
+
+      - name: Upload artifact for deployment
+        uses: actions/upload-artifact@v4
         with:
-          app-name: 'dashboard-core'
-          slot-name: 'Production'
-          package: .
-          
+          name: node-app
+          path: release.zip
