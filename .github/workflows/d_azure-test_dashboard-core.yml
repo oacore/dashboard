@@ -1,5 +1,10 @@
 name: 2025 deploy azure
 
+env:  
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  API_KEY: ${{ secrets.API_KEY }}
+
+
 on:
   push:
     branches:
@@ -10,36 +15,29 @@ permissions:
   id-token: write
   contents: read
 
-env:
-  AZURE_WEBAPP_NAME: dashboard-core             # <-- Azure Web App name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'                # <-- Project root
-  NODE_VERSION: '18.x'                          # <-- Node version
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  API_KEY: ${{ secrets.API_KEY }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: '16.x'
 
-      - name: Install dependencies and build
+      - name: npm install, build, and test
         run: |
-          npm ci --legacy-peer-deps
+          npm install --legacy-peer-deps  
           npm run build --if-present
 
-      - name: Create deployment package
-        run: |
-          zip -r release.zip .
+      - name: Zip artifact for deployment
+        run: zip -r release.zip .
 
-      - name: Upload artifact
+      - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
@@ -51,12 +49,18 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
-      - name: Download artifact
+      - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
 
       - name: Azure Login
         uses: azure/login@v2
@@ -64,14 +68,12 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3FF26F0451A948E69B483D16F8DFFC6D }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BB21B3BC763B4DD991AF2BB08D56D3A7 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B33628D419EB47EA8906FE11B16BCE3B }}
+    
 
-      - name: Deploy to Azure Web App
+      - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          app-name: 'dashboard-core'
           slot-name: 'Production'
-          package: release.zip
-
-      - name: Logout from Azure
-        run: az logout
+          package: .
