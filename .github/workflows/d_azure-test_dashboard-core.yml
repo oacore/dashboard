@@ -71,4 +71,5 @@ jobs:
           az webapp deployment source config-zip \
             --resource-group test-rg \
             --name dashboard-core \
-            --src release.zip
+            --src release.zip \
+            --settings SCM_DO_BUILD_DURING_DEPLOYMENT=false
