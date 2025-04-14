@@ -67,6 +67,14 @@ jobs:
           slot-name: 'Production'
           package: .
 
+
+      - name: Unzip deployed release.zip on Azure Web App (Linux)
+        run: |
+          curl -X POST "https://dashboard-core.scm.azurewebsites.net/api/command" \
+            -u ${{ secrets.AZURE_KUDU_USER }}:${{ secrets.AZURE_KUDU_PASSWORD }} \
+            -H "Content-Type: application/json" \
+            -d '{"command": "cd site/wwwroot && unzip -o release.zip"}'
+
       # - name: Deploy to Azure using CLI (stable)
       #   run: |
       #     az webapp deployment source config-zip \
