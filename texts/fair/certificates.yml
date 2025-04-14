@@ -1,0 +1,22 @@
+typeCertificates:
+  - id: bronze
+    title: Bronze
+    isEnable: yes
+    description: |
+      Access to basic functionality of CORE services as they are.
+    accessText: |
+      You are a Starting member
+  - id: silver
+    title: Silver
+    isEnable: yes
+    description: |
+      Co-funds the maintenance of CORE services as they are.
+    accessText: |
+      You are a member
+  - id: gold
+    title: Gold
+    isEnable: yes
+    description: |
+      Co-funds the maintenance of CORE services and their continuous improvement.
+    accessText: |
+      You are a member
