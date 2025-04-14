@@ -66,11 +66,9 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
 
-      - name: Deploy to Azure using CLI
+      - name: Deploy to Azure using CLI (stable)
         run: |
-          az webapp deploy \
+          az webapp deployment source config-zip \
             --resource-group test-rg \
             --name dashboard-core \
-            --src-path release.zip \
-            --type zip
-            --restart true
+            --src release.zip
