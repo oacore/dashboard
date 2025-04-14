@@ -14,7 +14,7 @@ import ExportButton from '../../../components/export-button'
 import { GlobalContext } from '../../../store'
 import { formatNumber } from '../../../utils/helpers'
 
-const OrcideTableComponent = observer(
+const OtherOrcideTableComponent = observer(
   ({
     initialLoad,
     data,
@@ -52,7 +52,7 @@ const OrcideTableComponent = observer(
     const onSearchChange = async (event) => {
       const searchTerm = event.target.value
       setLocalSearchTerm(searchTerm)
-      await globalStore.dataProvider.getOrcidData(
+      await globalStore.dataProvider.getOrcidOtherData(
         globalStore?.dataProvider?.id,
         searchTerm,
         0,
@@ -69,7 +69,7 @@ const OrcideTableComponent = observer(
 
     const fetchData = async () => {
       if (
-        globalStore.dataProvider.orcidTableDataLoading ||
+        globalStore.dataProvider.orcidOtherTableDataLoading ||
         data?.length === totalLength
       )
         return
@@ -78,7 +78,7 @@ const OrcideTableComponent = observer(
       const size = 50
 
       try {
-        await globalStore.dataProvider.getOrcidData(
+        await globalStore.dataProvider.getOrcidOtherData(
           globalStore.dataProvider.id,
           localSearchTerm,
           from,
@@ -99,7 +99,7 @@ const OrcideTableComponent = observer(
       </div>
     ) : (
       <Tablev2
-        id="orcideTable"
+        id="otherDataTable"
         className={styles.orcidTable}
         isHeaderClickable
         rowIdentifier="articleId"
@@ -205,7 +205,7 @@ const OrcideTableComponent = observer(
           )}
         />
         <Table.Action>
-          <ExportButton href={globalStore.dataProvider.basicOrcidUrl}>
+          <ExportButton href={globalStore.dataProvider.otherOrcidUrl}>
             download csv
           </ExportButton>
         </Table.Action>
@@ -214,4 +214,4 @@ const OrcideTableComponent = observer(
   }
 )
 
-export default OrcideTableComponent
+export default OtherOrcideTableComponent

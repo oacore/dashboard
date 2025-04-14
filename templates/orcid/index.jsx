@@ -22,8 +22,9 @@ const OrcidPageTemplate = observer(
           const { id } = globalStore.dataProvider
           try {
             await globalStore.dataProvider.getOrcidData(id, '', 0, 50)
-            // await globalStore.dataProvider.getOrcidWithoutPaperData(id)
-            // await globalStore.dataProvider.getOrcidOtherData(id)
+            await globalStore.dataProvider.getOrcidStats(id)
+            await globalStore.dataProvider.getOrcidWithoutPaperData(id)
+            await globalStore.dataProvider.getOrcidOtherData(id)
             setInitialLoad(false)
           } catch (error) {
             console.error('Error fetching ORCID data:', error)
@@ -64,9 +65,10 @@ const OrcidPageTemplate = observer(
               description={texts.statsCards.withOrcid.description}
               actionText={texts.statsCards.withOrcid.action}
               showInfo={texts.statsCards.withOrcid.tooltip}
-              count={globalStore.dataProvider.orcidData.length || []}
-              loading={!globalStore.dataProvider.orcidData}
+              loading={globalStore.dataProvider.orcidStatsLoading}
+              count={globalStore.dataProvider.orcidStatData.basic}
               wholeWidthCard
+              actionHref="#orcideTable"
             />
             <StatsCard
               title={texts.statsCards.withoutOrcid.title}
@@ -74,28 +76,39 @@ const OrcidPageTemplate = observer(
               actionText={texts.statsCards.withoutOrcid.action}
               showInfo={texts.statsCards.withoutOrcid.tooltip}
               noticeable={texts.statsCards.withoutOrcid.noticeable}
+              loading={globalStore.dataProvider.orcidStatsLoading}
               count={
-                globalStore.dataProvider.orcidWithoutPaperData.length || []
+                globalStore.dataProvider?.statistics?.countMetadata -
+                globalStore.dataProvider.orcidStatData.basic
               }
-              loading={!globalStore.dataProvider.orcidWithoutPaperData}
               wholeWidthCard
+              actionHref="#withoutOrcideTable"
             />
             <StatsCard
               title={texts.statsCards.otherOrcid.title}
               description={texts.statsCards.otherOrcid.description}
               actionText={texts.statsCards.otherOrcid.action}
               showInfo={texts.statsCards.otherOrcid.tooltip}
-              count={globalStore.dataProvider.orcidOtherData.length || []}
-              loading={!globalStore.dataProvider.orcidOtherData}
+              loading={globalStore.dataProvider.orcidStatsLoading}
               wholeWidthCard
+              count={
+                globalStore.dataProvider.orcidStatData.fromOtherRepositories
+              }
+              actionHref="#otherDataTable"
             />
           </div>
         </div>
         <OrcidTable
           orcidTableDataLoading={globalStore.dataProvider.orcidTableDataLoading}
+          withoutOrcidTableDataLoading={
+            globalStore.dataProvider.withoutOrcidTableDataLoading
+          }
+          orcidOtherTableDataLoading={
+            globalStore.dataProvider.orcidOtherTableDataLoading
+          }
           renderDropDown={globalStore.dataProvider.articleAdditionalData}
           initialLoad={initialLoad}
-          tableOrcidDatas={globalStore.dataProvider.orcidData}
+          tableOrcidData={globalStore.dataProvider.orcidData}
           tableOrcidWithoutPaperData={
             globalStore.dataProvider.orcidWithoutPaperData
           }

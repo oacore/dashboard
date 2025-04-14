@@ -10,11 +10,10 @@ import idIcon from '../../../components/upload/assets/id.svg'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import Menu from '../../../components/menu'
 import texts from '../../../texts/orcid'
-import ExportButton from '../../../components/export-button'
 import { GlobalContext } from '../../../store'
 import { formatNumber } from '../../../utils/helpers'
 
-const OrcideTableComponent = observer(
+const WithoutOrcideTableComponent = observer(
   ({
     initialLoad,
     data,
@@ -52,7 +51,7 @@ const OrcideTableComponent = observer(
     const onSearchChange = async (event) => {
       const searchTerm = event.target.value
       setLocalSearchTerm(searchTerm)
-      await globalStore.dataProvider.getOrcidData(
+      await globalStore.dataProvider.getOrcidWithoutPaperData(
         globalStore?.dataProvider?.id,
         searchTerm,
         0,
@@ -69,7 +68,7 @@ const OrcideTableComponent = observer(
 
     const fetchData = async () => {
       if (
-        globalStore.dataProvider.orcidTableDataLoading ||
+        globalStore.dataProvider.withoutOrcidTableDataLoading ||
         data?.length === totalLength
       )
         return
@@ -78,7 +77,7 @@ const OrcideTableComponent = observer(
       const size = 50
 
       try {
-        await globalStore.dataProvider.getOrcidData(
+        await globalStore.dataProvider.getOrcidWithoutPaperData(
           globalStore.dataProvider.id,
           localSearchTerm,
           from,
@@ -99,7 +98,7 @@ const OrcideTableComponent = observer(
       </div>
     ) : (
       <Tablev2
-        id="orcideTable"
+        id="withoutOrcideTable"
         className={styles.orcidTable}
         isHeaderClickable
         rowIdentifier="articleId"
@@ -204,14 +203,9 @@ const OrcideTableComponent = observer(
             </div>
           )}
         />
-        <Table.Action>
-          <ExportButton href={globalStore.dataProvider.basicOrcidUrl}>
-            download csv
-          </ExportButton>
-        </Table.Action>
       </Tablev2>
     )
   }
 )
 
-export default OrcideTableComponent
+export default WithoutOrcideTableComponent

@@ -118,9 +118,17 @@ class DataProvider extends Resource {
 
   @observable orcidWithoutPaperData = []
 
+  @observable orcidStatData = []
+
   @observable orcidOtherData = []
 
   @observable orcidTableDataLoading = false
+
+  @observable withoutOrcidTableDataLoading = false
+
+  @observable orcidOtherTableDataLoading = false
+
+  @observable orcidStatsLoading = false
 
   @action
   handleTextareaChange = (input) => {
@@ -195,6 +203,11 @@ class DataProvider extends Resource {
   @action
   setOrcidOtherData(data) {
     this.orcidOtherData = data
+  }
+
+  @action
+  setOrcidStatsData(data) {
+    this.orcidStatData = data
   }
 
   @action
@@ -504,7 +517,7 @@ class DataProvider extends Resource {
         this.dasUrl = `${process.env.API_URL}${url}/data-access?accept=text/csv`
         this.sdgUrl = `${process.env.API_URL}${url}/sdg?accept=text/csv`
         this.basicOrcidUrl = `${process.env.API_URL}${url}/orcid/basic?accept=text/csv`
-        this.basicOtherUrl = `${process.env.API_URL}${url}/orcid/other-repos?accept=text/csv`
+        this.otherOrcidUrl = `${process.env.API_URL}${url}/orcid/other-repos?accept=text/csv`
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {
@@ -790,8 +803,12 @@ class DataProvider extends Resource {
       if (searchTerm) url.searchParams.append('q', searchTerm)
 
       const response = await fetch(url)
-      const data = await response.json()
-      this.setOrcidData(data)
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        if (from === 0)
+          this.setOrcidData(data) // Replace data on the first fetch
+        else this.setOrcidData([...this.orcidData, ...data]) // Append new data
+      } else throw new Error('Failed to fetch ORCID data')
     } catch (error) {
       console.error('Error fetching ORCID data:', error)
     } finally {
@@ -800,28 +817,76 @@ class DataProvider extends Resource {
   }
 
   @action
-  getOrcidWithoutPaperData = async (id) => {
+  getOrcidWithoutPaperData = async (
+    id,
+    searchTerm = '',
+    from = 0,
+    size = 50
+  ) => {
+    this.withoutOrcidTableDataLoading = true
     try {
-      const response = await fetch(
+      const url = new URL(
         `${process.env.API_URL}/data-providers/${id}/orcid/without-papers`
       )
-      const data = await response.json()
-      this.setOrcidWithoutPaperData(data)
+      url.searchParams.append('from', from)
+      url.searchParams.append('size', size)
+      if (searchTerm) url.searchParams.append('q', searchTerm)
+
+      const response = await fetch(url)
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        if (from === 0) this.setOrcidWithoutPaperData(data)
+        else {
+          this.setOrcidWithoutPaperData([
+            ...this.orcidWithoutPaperData,
+            ...data,
+          ])
+        }
+      } else throw new Error('Failed to fetch ORCID data')
     } catch (error) {
-      console.error('Error fetching deduplication data:', error)
+      console.error('Error fetching ORCID data:', error)
+    } finally {
+      this.withoutOrcidTableDataLoading = false
     }
   }
 
   @action
-  getOrcidOtherData = async (id) => {
+  getOrcidOtherData = async (id, searchTerm = '', from = 0, size = 50) => {
+    this.orcidOtherTableDataLoading = true
     try {
-      const response = await fetch(
+      const url = new URL(
         `${process.env.API_URL}/data-providers/${id}/orcid/other-repos`
       )
+      url.searchParams.append('from', from)
+      url.searchParams.append('size', size)
+      if (searchTerm) url.searchParams.append('q', searchTerm)
+
+      const response = await fetch(url)
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        if (from === 0) this.setOrcidOtherData(data)
+        else this.setOrcidOtherData([...this.orcidOtherData, ...data])
+      } else throw new Error('Failed to fetch ORCID data')
+    } catch (error) {
+      console.error('Error fetching ORCID data:', error)
+    } finally {
+      this.orcidOtherTableDataLoading = false
+    }
+  }
+
+  @action
+  getOrcidStats = async (id) => {
+    this.orcidStatsLoading = true
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${id}/orcid/stats`
+      )
       const data = await response.json()
-      this.setOrcidOtherData(data)
+      this.setOrcidStatsData(data)
     } catch (error) {
       console.error('Error fetching deduplication data:', error)
+    } finally {
+      this.orcidStatsLoading = false
     }
   }
 
