@@ -67,6 +67,7 @@ jobs:
           app-name: 'dashboard-core'
           slot-name: 'Production'
           package: release.zip
+          deployment-method: run-from-package
 
       - name: Restart Web App
         run: |
