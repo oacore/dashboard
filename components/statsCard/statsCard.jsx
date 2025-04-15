@@ -22,6 +22,7 @@ const StatsCard = ({
   checkBillingType,
   countClassName,
   wholeWidthCard,
+  onActionClick = false,
 }) => (
   <Card
     className={classNames.use(styles.cardWrapper, {
@@ -64,7 +65,11 @@ const StatsCard = ({
     </div>
     <div className={styles.footerWrapper}>
       {showAction && !checkBillingType && (
-        <Button href={actionHref} variant="contained">
+        <Button
+          onClick={onActionClick || undefined}
+          href={actionHref}
+          variant="contained"
+        >
           {actionText}
         </Button>
       )}

@@ -14,6 +14,7 @@ const OrcidPageTemplate = observer(
   ({ tag: Tag = 'main', className, ...restProps }) => {
     const [showMore, setShowMore] = useState(false)
     const [initialLoad, setInitialLoad] = useState(true)
+    const [activeButton, setActiveButton] = useState('with')
     const { ...globalStore } = useContext(GlobalContext)
 
     useEffect(() => {
@@ -37,6 +38,12 @@ const OrcidPageTemplate = observer(
 
     const toggleShowMore = () => {
       setShowMore(!showMore)
+    }
+
+    const handleStatsCardClick = (tab) => {
+      setActiveButton(tab)
+      const tableSection = document.getElementById('orcideTable')
+      if (tableSection) tableSection.scrollIntoView({ behavior: 'smooth' })
     }
 
     return (
@@ -69,6 +76,7 @@ const OrcidPageTemplate = observer(
               count={globalStore.dataProvider.orcidStatData.basic}
               wholeWidthCard
               actionHref="#orcideTable"
+              onActionClick={() => handleStatsCardClick('with')}
             />
             <StatsCard
               title={texts.statsCards.withoutOrcid.title}
@@ -83,6 +91,7 @@ const OrcidPageTemplate = observer(
               }
               wholeWidthCard
               actionHref="#withoutOrcideTable"
+              onActionClick={() => handleStatsCardClick('without')}
             />
             <StatsCard
               title={texts.statsCards.otherOrcid.title}
@@ -95,10 +104,13 @@ const OrcidPageTemplate = observer(
                 globalStore.dataProvider.orcidStatData.fromOtherRepositories
               }
               actionHref="#otherDataTable"
+              onActionClick={() => handleStatsCardClick('other')}
             />
           </div>
         </div>
         <OrcidTable
+          activeButton={activeButton}
+          setActiveButton={setActiveButton}
           orcidTableDataLoading={globalStore.dataProvider.orcidTableDataLoading}
           withoutOrcidTableDataLoading={
             globalStore.dataProvider.withoutOrcidTableDataLoading

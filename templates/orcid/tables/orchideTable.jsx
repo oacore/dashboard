@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Card } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
@@ -22,16 +22,22 @@ const OrcidTable = ({
   tableOrcidOtherData,
   withoutOrcidTableDataLoading,
   orcidOtherTableDataLoading,
+  setActiveButton,
+  activeButton,
   // className,
   initialLoad,
 }) => {
-  const [activeButton, setActiveButton] = useState('with')
   const { ...globalStore } = useContext(GlobalContext)
   const [visibleMenu, setVisibleMenu] = useState(false)
 
   const [outputsUrl, setOutputsUrl] = useState()
   const [loading, setLoading] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
+  const [currentTab, setCurrentTab] = useState(activeButton)
+
+  useEffect(() => {
+    setCurrentTab(activeButton)
+  }, [activeButton])
 
   const handleButtonClick = (action) => {
     setActiveButton(action)
@@ -70,7 +76,7 @@ const OrcidTable = ({
   }
 
   const renderContent = () => {
-    switch (activeButton) {
+    switch (currentTab) {
       case 'with':
         return (
           <OrcideTableComponent
