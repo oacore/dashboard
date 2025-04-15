@@ -1,7 +1,15 @@
 # Stage 1: Build stage
 FROM node:16 AS builder
 
+# Accept tokens as build args
+ARG NPM_TOKEN
+ARG API_KEY
+
+# Set working directory
 WORKDIR /app
+
+# Configure GitHub Packages auth (do NOT commit this)
+RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
 
 # Install dependencies
 COPY package*.json .npmrc ./
