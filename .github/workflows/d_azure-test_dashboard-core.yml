@@ -1,4 +1,4 @@
-name: 2025 azure deploy
+name: 2025 azure deploy - test
 
 env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -65,7 +65,7 @@ jobs:
         with:
           app-name: 'dashboard-core'
           slot-name: 'Production'
-          package: .
+          package: release.zip
 
       - name: Restart Web App
         run: |
