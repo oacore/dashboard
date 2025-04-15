@@ -15,6 +15,8 @@
 
 .orcid-table-wrapper {
   margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
+  overflow-x: auto;
+  padding: 34px 24px;
 }
 
 .button-group {
@@ -125,7 +127,6 @@
 }
 
 .content-wrapper {
-  padding: 20px;
   margin-top: 20px;
 }
 
@@ -166,4 +167,20 @@
   font-weight: 500;
   line-height: 32px;
   color: #ff5f52;
+}
+
+@media (max-width: 876px) {
+  .button-group {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .action-button {
+    width: 100%;
+    padding: 8px 20px;
+  }
+
+  .action-button:not(:last-child) {
+    border-right: 1px solid #b75400;
+  }
 }
