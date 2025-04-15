@@ -11,7 +11,7 @@ import { Card } from 'design'
 
 const StatsCard = ({
   title,
-  description,
+  description = false,
   count,
   loading,
   actionText,
@@ -45,7 +45,11 @@ const StatsCard = ({
           />
         )}
       </div>
-      <div className={styles.innerWrapper} />
+      <div
+        className={classNames.use(styles.innerWrapper, {
+          [styles.extraSpacing]: !description,
+        })}
+      />
       <Card.Description className={styles.cardDescription}>
         {description}
       </Card.Description>

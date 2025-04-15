@@ -25,6 +25,10 @@
   letter-spacing: 0.021px;
 }
 
+.extra-spacing {
+  margin-top: 18px;
+}
+
 .loading-container {
   position: relative;
   width: 100%;

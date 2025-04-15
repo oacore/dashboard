@@ -92,10 +92,10 @@ const OrcidPageTemplate = observer(
               wholeWidthCard
               actionHref="#withoutOrcideTable"
               onActionClick={() => handleStatsCardClick('without')}
+              countClassName={styles.inputCount}
             />
             <StatsCard
               title={texts.statsCards.otherOrcid.title}
-              description={texts.statsCards.otherOrcid.description}
               actionText={texts.statsCards.otherOrcid.action}
               showInfo={texts.statsCards.otherOrcid.tooltip}
               loading={globalStore.dataProvider.orcidStatsLoading}

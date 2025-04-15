@@ -109,7 +109,7 @@
 
 .action-button {
   min-width: 150px;
-  padding: 0.2rem;
+  padding: 4px 16px;
   cursor: pointer;
   border: 1px solid #b75400;
   border-radius: 0;
@@ -158,4 +158,12 @@
   line-height: 130%;
   color: #666;
   letter-spacing: 0.021px;
+}
+
+.input-count {
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px;
+  color: #ff5f52;
 }
