@@ -1,4 +1,4 @@
-name: Build and Push Dashboard to ACR
+name: Build and Push Dashboard container
 
 on:
   push:
