@@ -79,6 +79,11 @@ const config = new RouteConfig([
     icon: 'copy-document',
   },
   {
+    test: /\/research-software/,
+    path: 'research-software',
+    icon: 'sw',
+  },
+  {
     test: /\/doi/,
     path: 'doi',
     icon: 'barcode',

@@ -15,6 +15,7 @@ items:
   plugins: Plugins
   usrn: USRN
   fair: FAIR
+  research-software: Research software
   plugins/discovery: Discovery Plugin
   plugins/recommender: Recommender Plugin
   statistics: Statistics
