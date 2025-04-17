@@ -337,5 +337,5 @@ statusItems:
     linkToolKit: https://github.com/antleaf/USRN-Discovery/wiki/Security-and-Integrity
 usrnClosed: |
   DataProvider is not supporting USRN
-usrnListDataProvider: [ 292 ]
+#usrnListDataProvider: [ 292 ]
 #usrnListDataProvider: [ 3463, 183, 2145, 1248, 660, 222, 14373, 3559, 21117, 292, 14567, 2812, 196, 3581, 197, 12800, 14335, 1249, 2313, 21853, 15201, 1012, 158 ]
