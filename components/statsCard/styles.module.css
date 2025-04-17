@@ -5,6 +5,10 @@
   width: 30%;
 }
 
+.whole-card {
+  width: 100%;
+}
+
 .header-wrapper {
   display: flex;
   align-items: center;
@@ -21,11 +25,25 @@
   letter-spacing: 0.021px;
 }
 
+.extra-spacing {
+  margin-top: 18px;
+}
+
 .loading-container {
   position: relative;
   width: 100%;
   height: 36px;
   margin: 16px 0;
+  overflow: hidden;
+  background-color: #f2f2f2;
+  border-radius: 2px;
+}
+
+.loading-container-outputs {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  margin: 26px 0;
   overflow: hidden;
   background-color: #f2f2f2;
   border-radius: 2px;
@@ -54,6 +72,10 @@
   font-weight: 500;
   line-height: 32px;
   color: #8bc34a;
+}
+
+.sub-footer-red {
+  color: #ff5f52;
 }
 
 .inner-content {
