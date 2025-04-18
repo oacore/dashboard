@@ -13,7 +13,7 @@ items:
   das: DAS identification
   doi: DOI
   plugins: Plugins
-  usrn: USRN
+  usrn: Desirable Characteristics
   fair: FAIR
   plugins/discovery: Discovery Plugin
   plugins/recommender: Recommender Plugin
