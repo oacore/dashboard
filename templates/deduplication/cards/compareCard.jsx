@@ -18,6 +18,7 @@ import ActionModal from './tableActionModal'
 import togglerArrow from '../../../components/upload/assets/togglerArrow.svg'
 import check from '../../../components/upload/assets/check.svg'
 import { isFalsy } from '../../../utils/helpers'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 const generatedTitle = [
   <div className={styles.metadataTitle}>Metadata title</div>,
@@ -572,9 +573,10 @@ const CompareCard = ({
                                   className={styles.actionIcon}
                                   description={button.info}
                                   hoverIcon={
-                                    <Icon
-                                      src="#alert-circle-outline"
+                                    <img
+                                      src={infoAction}
                                       style={{ color: '#757575' }}
+                                      alt=""
                                     />
                                   }
                                 />
@@ -597,9 +599,10 @@ const CompareCard = ({
                                 texts.comparison.differentButton.info
                               }
                               hoverIcon={
-                                <Icon
-                                  src="#alert-circle-outline"
+                                <img
+                                  src={infoAction}
                                   style={{ color: '#757575' }}
+                                  alt=""
                                 />
                               }
                             />

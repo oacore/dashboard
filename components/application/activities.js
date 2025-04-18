@@ -64,6 +64,16 @@ const config = new RouteConfig([
     icon: 'calendar-check',
   },
   {
+    test: /\/sdg/,
+    path: 'sdg',
+    icon: 'sdg',
+  },
+  {
+    test: /\/das/,
+    path: 'das',
+    icon: 'das',
+  },
+  {
     test: /\/rights-retention-strategy/,
     path: 'rights-retention-strategy',
     icon: 'copy-document',

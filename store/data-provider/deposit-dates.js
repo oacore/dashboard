@@ -1,6 +1,5 @@
 import { action, computed, observable, reaction } from 'mobx'
 
-import { Pages } from '../helpers/pages'
 import Store from '../store'
 import { PaymentRequiredError } from '../errors'
 
@@ -13,25 +12,57 @@ class DepositDates extends Store {
 
   @observable timeLagData = null
 
-  @observable publicReleaseDates = null
+  @observable publicReleaseDates = []
+
+  @observable isPublicReleaseDatesInProgress = false
 
   @observable crossDepositLag = null
 
   @observable publicationDatesValidate = null
 
+  @observable dateRange = {
+    startDate: null,
+    endDate: null,
+  }
+
   constructor(rootStore, baseUrl, options) {
     super(baseUrl, options)
     this.baseStore = rootStore
+    this.baseUrl = baseUrl
     this.fetchOptions = {
       cache: 'no-store',
     }
-    this.updateOaiUrl(baseUrl)
+
+    const today = `${new Date().toISOString().split('T')[0]} 00:00:00`
+    const defaultStartDate = '2021-01-01 00:00:00'
+
+    this.setDateRange(defaultStartDate, today)
+
+    this.updateOaiUrl(baseUrl, defaultStartDate, today)
+
     reaction(
       () => this.baseStore?.setSelectedItem,
       () => {
-        this.updateOaiUrl(baseUrl)
+        this.updateOaiUrl(
+          baseUrl,
+          this.dateRange.startDate,
+          this.dateRange.endDate
+        )
       }
     )
+  }
+
+  @action
+  setPublicReleaseDates(data) {
+    this.publicReleaseDates = data
+  }
+
+  @action
+  setDateRange(startDate, endDate) {
+    this.dateRange = {
+      startDate,
+      endDate,
+    }
   }
 
   @action
@@ -40,33 +71,48 @@ class DepositDates extends Store {
     this.publicReleaseDates = null
     this.crossDepositLag = null
     this.publicationDatesValidate = null
+    this.dateRange = {
+      startDate: null,
+      endDate: null,
+    }
   }
 
   @action
-  updateOaiUrl = (baseUrl) => {
+  updateOaiUrl = (baseUrl, startDate, endDate) => {
+    const dateParams =
+      startDate && endDate
+        ? `?wait=true&fromDate=${startDate}&toDate=${endDate}`
+        : '?wait=true'
+
     const datesUrl = `${baseUrl}/public-release-dates${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
     }`
-    this.publicReleaseDates = new Pages(datesUrl, this.options)
-    this.datesUrl = `${process.env.API_URL}${datesUrl}?accept=text/csv`
+    this.publicReleaseDatesUrl = `${baseUrl}/public-release-dates${
+      this.baseStore.setSelectedItem
+        ? `?set=${this.baseStore.setSelectedItem}`
+        : ''
+    }`
+
+    this.datesUrl = `${process.env.API_URL}${datesUrl}${dateParams}&accept=text/csv`
+
     this.depositTimeLagUrl = `${baseUrl}/statistics/deposit-time-lag${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
-    }`
+    }${dateParams}`
     this.crossDepositLagUrl = `${baseUrl}/cross-deposit-lag${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
-    }`
-    this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}?accept=text/csv`
+    }${dateParams}`
+    this.crossDepositLagCsvUrl = `${process.env.API_URL}${this.crossDepositLagUrl}&accept=text/csv`
     this.publicationDatesValidateUrl = `${baseUrl}/publication-dates-validate${
       this.baseStore.setSelectedItem
         ? `?set=${this.baseStore.setSelectedItem}`
         : ''
-    }`
+    }${dateParams}`
 
     this.retrieve()
   }
@@ -104,6 +150,47 @@ class DepositDates extends Store {
       if (!(error instanceof NotFoundError)) throw error
     } finally {
       this.isRetrieveDepositDatesInProgress = false
+    }
+  }
+
+  @action
+  async retrieveDepositDatesTable(
+    from = 0,
+    size = 100,
+    orderBy = null,
+    searchTerm = '',
+    options = {}
+  ) {
+    this.isPublicReleaseDatesInProgress = true
+    try {
+      const baseUrl = this.publicReleaseDatesUrl.startsWith('http')
+        ? this.publicReleaseDatesUrl
+        : `${process.env.API_URL}${this.publicReleaseDatesUrl}`
+
+      const url = new URL(baseUrl)
+      url.searchParams.append('from', from)
+      url.searchParams.append('size', size)
+
+      if (options.wait) url.searchParams.append('wait', options.wait)
+      if (options.fromDate)
+        url.searchParams.append('fromDate', options.fromDate)
+      if (options.toDate) url.searchParams.append('toDate', options.toDate)
+
+      if (searchTerm) url.searchParams.append('q', searchTerm)
+
+      if (orderBy) url.searchParams.append('orderBy', orderBy)
+
+      const response = await this.request(url.toString())
+      const { data, error } = response
+
+      if (from === 0) this.setPublicReleaseDates(data)
+      else this.setPublicReleaseDates([...this.publicReleaseDates, ...data])
+
+      this.publicReleaseDatesError = error
+    } catch (error) {
+      if (!(error instanceof NotFoundError)) throw error
+    } finally {
+      this.isPublicReleaseDatesInProgress = false
     }
   }
 

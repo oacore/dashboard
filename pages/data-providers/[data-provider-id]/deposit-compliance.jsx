@@ -10,6 +10,12 @@ const DepositCompliance = ({
   <DepositComplianceTemplate
     datesUrl={dataProvider?.depositDates?.datesUrl}
     publicReleaseDatesPages={dataProvider?.depositDates?.publicReleaseDates}
+    publicReleaseDatesError={
+      dataProvider?.depositDates?.publicReleaseDatesError
+    }
+    isPublicReleaseDatesInProgress={
+      dataProvider?.depositDates?.isPublicReleaseDatesInProgress
+    }
     publicationDatesValidate={
       dataProvider?.depositDates?.publicationDatesValidate
     }

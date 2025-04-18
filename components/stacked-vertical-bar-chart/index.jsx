@@ -49,9 +49,7 @@ const StackedVerticalBarChart = React.memo(({ data }) => {
               <span className={styles.color} style={{ background }} />
               {caption}
             </div>
-            <div className={styles.labelTextRight}>
-              <b>{value}</b>
-            </div>
+            <div className={styles.labelTextRight}>{value}</div>
           </li>
         ))}
       </ul>

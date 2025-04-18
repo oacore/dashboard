@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Icon } from '@oacore/design/lib/elements'
 import { observer } from 'mobx-react-lite'
 import { classNames } from '@oacore/design/lib/utils'
 
@@ -14,6 +13,7 @@ import DashboardTipMessage from '../../../components/dashboard-tip-message'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import DashboardCachedMessage from '../../../components/dashboard-cached-message'
 import { GlobalContext } from '../../../store'
+import infoAction from '../../../components/upload/assets/infoAction.svg'
 
 const DeduplicationListTable = observer(
   ({
@@ -105,10 +105,7 @@ const DeduplicationListTable = observer(
             <Actions
               description={texts.info.listOfDuplicates}
               hoverIcon={
-                <Icon
-                  src="#alert-circle-outline"
-                  style={{ color: '#757575' }}
-                />
+                <img src={infoAction} style={{ color: '#757575' }} alt="" />
               }
             />
           ) : (
@@ -116,10 +113,7 @@ const DeduplicationListTable = observer(
               downloadUrl={duplicatesUrl}
               description={texts.info.listOfDuplicates}
               hoverIcon={
-                <Icon
-                  src="#alert-circle-outline"
-                  style={{ color: '#757575' }}
-                />
+                <img src={infoAction} style={{ color: '#757575' }} alt="" />
               }
             />
           )}

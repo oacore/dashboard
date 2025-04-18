@@ -7,7 +7,6 @@ import { Popover } from '@oacore/design'
 import styles from '../styles.module.css'
 import { Card, ProgressSpinner } from '../../../design'
 import texts from '../../../texts/rrs-retention/rrs.yml'
-import RrsWarning from '../cards/warningCard'
 import ExportButton from '../../../components/export-button'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import accept from '../../../components/upload/assets/accept.svg'
@@ -15,12 +14,14 @@ import deny from '../../../components/upload/assets/deny.svg'
 import question from '../../../components/upload/assets/questionMarkLight.svg'
 import redirect from '../../../components/upload/assets/urlRedirect.svg'
 import Menu from '../../../components/menu'
-import Article from '../cards/article'
 import request from '../../../api'
-import StatusCard from '../cards/statusCard'
+import StatusCard from '../../../components/TableRowActionStatusCard/statusCard'
 import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import { GlobalContext } from '../../../store'
+import TableArticle from '../../../components/dropdownTableCard/article'
+import DashboardTipMessage from '../../../components/dashboard-tip-message'
+import getSdgIcon from '../../../utils/hooks/use-sdg-icon-renderer'
 
 import Table from 'components/table'
 
@@ -29,9 +30,9 @@ const RrsTable = observer(
     rrsList,
     getRrslistData,
     updateRrsStatus,
-    rrsAdditionalData,
+    articleAdditionalData,
     getOutputsAdditionalData,
-    rrsAdditionalDataLoading,
+    articleAdditionalDataLoading,
     rrsDataLoading,
     checkBillingType,
     dataProviderData,
@@ -64,8 +65,8 @@ const RrsTable = observer(
           body: { disabled: !article?.disabled },
         })
         setIsDisabled(!isDisabled)
-        Object.assign(rrsAdditionalData, {
-          disabled: !rrsAdditionalData?.disabled,
+        Object.assign(articleAdditionalData, {
+          disabled: !articleAdditionalData?.disabled,
         })
       } catch (error) {
         throw Error(error)
@@ -212,7 +213,7 @@ const RrsTable = observer(
           </div>
         ) : (
           <>
-            <RrsWarning
+            <DashboardTipMessage
               show={texts.helpInfo.show}
               hide={texts.helpInfo.hide}
               description={texts.helpInfo.description}
@@ -229,14 +230,15 @@ const RrsTable = observer(
               isHeaderClickable
               rowIdentifier="articleId"
               excludeFooter={checkBillingType}
-              renderDropDown={rrsAdditionalData}
+              renderDropDown={articleAdditionalData}
               details={
-                <Article
+                <TableArticle
                   changeVisibility={changeArticleVisibility}
-                  article={rrsAdditionalData}
+                  article={articleAdditionalData}
                   loading={loading}
                   outputsUrl={outputsUrl}
-                  rrsAdditionalDataLoading={rrsAdditionalDataLoading}
+                  renderSdgIcons={getSdgIcon}
+                  articleAdditionalDataLoading={articleAdditionalDataLoading}
                 />
               }
             >
@@ -323,9 +325,11 @@ const RrsTable = observer(
                       <StatusCard
                         handleStatusUpdate={handleStatusUpdate}
                         onClose={() => setShowStatusModal(false)}
-                        v={v}
+                        statusSentence={v.rightsRetentionSentence}
+                        articleId={v.articleId}
                         loadingStatus={loadingStatus}
                         href={`https://core.ac.uk/reader/${v.articleId}`}
+                        texts={texts}
                       />
                     )}
                   </>
