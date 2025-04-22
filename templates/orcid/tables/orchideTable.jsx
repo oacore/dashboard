@@ -8,7 +8,6 @@ import { GlobalContext } from '../../../store'
 import request from '../../../api'
 import OrcideTableComponent from './tableComponent'
 import OtherOrcideTableComponent from './otherOrcidtableComponent'
-import WithoutOrcideTableComponent from './withoutOrcideTableComponent'
 
 import texts from 'texts/orcid'
 
@@ -18,13 +17,10 @@ const OrcidTable = ({
   orcidTableDataLoading,
   renderDropDown,
   articleData,
-  tableOrcidWithoutPaperData,
   tableOrcidOtherData,
-  withoutOrcidTableDataLoading,
   orcidOtherTableDataLoading,
   setActiveButton,
   activeButton,
-  // className,
   initialLoad,
 }) => {
   const { ...globalStore } = useContext(GlobalContext)
@@ -75,6 +71,8 @@ const OrcidTable = ({
     }
   }
 
+  // TODO remove if not needed
+
   const renderContent = () => {
     switch (currentTab) {
       case 'with':
@@ -96,28 +94,28 @@ const OrcidTable = ({
             totalLength={globalStore.dataProvider.orcidStatData.basic}
           />
         )
-      case 'without':
-        return (
-          <WithoutOrcideTableComponent
-            initialLoad={initialLoad}
-            data={tableOrcidWithoutPaperData}
-            onSetActiveArticle={onSetActiveArticle}
-            isLoading={withoutOrcidTableDataLoading}
-            renderDropDown={renderDropDown}
-            changeArticleVisibility={changeArticleVisibility}
-            articleData={articleData}
-            loading={loading}
-            outputsUrl={outputsUrl}
-            articleAdditionalDataLoading={articleAdditionalDataLoading}
-            visibleMenu={visibleMenu}
-            setVisibleMenu={setVisibleMenu}
-            handleToggleRedirect={handleToggleRedirect}
-            totalLength={
-              globalStore.dataProvider?.statistics?.countMetadata -
-              globalStore.dataProvider.orcidStatData.basic
-            }
-          />
-        )
+      // case 'without':
+      //   return (
+      //     <WithoutOrcideTableComponent
+      //       initialLoad={initialLoad}
+      //       data={tableOrcidWithoutPaperData}
+      //       onSetActiveArticle={onSetActiveArticle}
+      //       isLoading={withoutOrcidTableDataLoading}
+      //       renderDropDown={renderDropDown}
+      //       changeArticleVisibility={changeArticleVisibility}
+      //       articleData={articleData}
+      //       loading={loading}
+      //       outputsUrl={outputsUrl}
+      //       articleAdditionalDataLoading={articleAdditionalDataLoading}
+      //       visibleMenu={visibleMenu}
+      //       setVisibleMenu={setVisibleMenu}
+      //       handleToggleRedirect={handleToggleRedirect}
+      //       totalLength={
+      //         globalStore.dataProvider?.statistics?.countMetadata -
+      //         globalStore.dataProvider.orcidStatData.basic
+      //       }
+      //     />
+      //   )
       case 'other':
         return (
           <OtherOrcideTableComponent

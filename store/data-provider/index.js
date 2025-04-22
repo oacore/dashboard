@@ -816,39 +816,39 @@ class DataProvider extends Resource {
     }
   }
 
-  @action
-  getOrcidWithoutPaperData = async (
-    id,
-    searchTerm = '',
-    from = 0,
-    size = 50
-  ) => {
-    this.withoutOrcidTableDataLoading = true
-    try {
-      const url = new URL(
-        `${process.env.API_URL}/data-providers/${id}/orcid/without-papers`
-      )
-      url.searchParams.append('from', from)
-      url.searchParams.append('size', size)
-      if (searchTerm) url.searchParams.append('q', searchTerm)
-
-      const response = await fetch(url)
-      if (response.ok && response.status === 200) {
-        const data = await response.json()
-        if (from === 0) this.setOrcidWithoutPaperData(data)
-        else {
-          this.setOrcidWithoutPaperData([
-            ...this.orcidWithoutPaperData,
-            ...data,
-          ])
-        }
-      } else throw new Error('Failed to fetch ORCID data')
-    } catch (error) {
-      console.error('Error fetching ORCID data:', error)
-    } finally {
-      this.withoutOrcidTableDataLoading = false
-    }
-  }
+  // @action
+  // getOrcidWithoutPaperData = async (
+  //   id,
+  //   searchTerm = '',
+  //   from = 0,
+  //   size = 50
+  // ) => {
+  //   this.withoutOrcidTableDataLoading = true
+  //   try {
+  //     const url = new URL(
+  //       `${process.env.API_URL}/data-providers/${id}/orcid/without-papers`
+  //     )
+  //     url.searchParams.append('from', from)
+  //     url.searchParams.append('size', size)
+  //     if (searchTerm) url.searchParams.append('q', searchTerm)
+  //
+  //     const response = await fetch(url)
+  //     if (response.ok && response.status === 200) {
+  //       const data = await response.json()
+  //       if (from === 0) this.setOrcidWithoutPaperData(data)
+  //       else {
+  //         this.setOrcidWithoutPaperData([
+  //           ...this.orcidWithoutPaperData,
+  //           ...data,
+  //         ])
+  //       }
+  //     } else throw new Error('Failed to fetch ORCID data')
+  //   } catch (error) {
+  //     console.error('Error fetching ORCID data:', error)
+  //   } finally {
+  //     this.withoutOrcidTableDataLoading = false
+  //   }
+  // }
 
   @action
   getOrcidOtherData = async (id, searchTerm = '', from = 0, size = 50) => {

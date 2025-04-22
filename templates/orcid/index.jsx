@@ -17,6 +17,8 @@ const OrcidPageTemplate = observer(
     const [activeButton, setActiveButton] = useState('with')
     const { ...globalStore } = useContext(GlobalContext)
 
+    // TODO remove if not needed
+
     useEffect(() => {
       const fetchOrcidData = async () => {
         if (globalStore?.dataProvider?.id) {
@@ -24,7 +26,7 @@ const OrcidPageTemplate = observer(
           try {
             await globalStore.dataProvider.getOrcidData(id, '', 0, 50)
             await globalStore.dataProvider.getOrcidStats(id)
-            await globalStore.dataProvider.getOrcidWithoutPaperData(id)
+            // await globalStore.dataProvider.getOrcidWithoutPaperData(id)
             await globalStore.dataProvider.getOrcidOtherData(id)
             setInitialLoad(false)
           } catch (error) {
@@ -78,22 +80,22 @@ const OrcidPageTemplate = observer(
               actionHref="#orcideTable"
               onActionClick={() => handleStatsCardClick('with')}
             />
-            <StatsCard
-              title={texts.statsCards.withoutOrcid.title}
-              description={texts.statsCards.withoutOrcid.description}
-              actionText={texts.statsCards.withoutOrcid.action}
-              showInfo={texts.statsCards.withoutOrcid.tooltip}
-              noticeable={texts.statsCards.withoutOrcid.noticeable}
-              loading={globalStore.dataProvider.orcidStatsLoading}
-              count={
-                globalStore.dataProvider?.statistics?.countMetadata -
-                globalStore.dataProvider.orcidStatData.basic
-              }
-              wholeWidthCard
-              actionHref="#withoutOrcideTable"
-              onActionClick={() => handleStatsCardClick('without')}
-              countClassName={styles.inputCount}
-            />
+            {/* <StatsCard */}
+            {/*  title={texts.statsCards.withoutOrcid.title} */}
+            {/*  description={texts.statsCards.withoutOrcid.description} */}
+            {/*  actionText={texts.statsCards.withoutOrcid.action} */}
+            {/*  showInfo={texts.statsCards.withoutOrcid.tooltip} */}
+            {/*  noticeable={texts.statsCards.withoutOrcid.noticeable} */}
+            {/*  loading={globalStore.dataProvider.orcidStatsLoading} */}
+            {/*  count={ */}
+            {/*    globalStore.dataProvider?.statistics?.countMetadata -*/}
+            {/*    globalStore.dataProvider.orcidStatData.basic */}
+            {/*  } */}
+            {/*  wholeWidthCard */}
+            {/*  actionHref="#withoutOrcideTable" */}
+            {/*  onActionClick={() => handleStatsCardClick('without')} */}
+            {/*  countClassName={styles.inputCount} */}
+            {/* /> */}
             <StatsCard
               title={texts.statsCards.otherOrcid.title}
               actionText={texts.statsCards.otherOrcid.action}

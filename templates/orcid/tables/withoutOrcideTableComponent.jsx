@@ -13,6 +13,7 @@ import texts from '../../../texts/orcid'
 import { GlobalContext } from '../../../store'
 import { formatNumber } from '../../../utils/helpers'
 
+// TODO remove if not needed
 const WithoutOrcideTableComponent = observer(
   ({
     initialLoad,

@@ -8,12 +8,13 @@ statsCards:
     description: within your repository collection
     action: Review
     tooltip: ""
-  withoutOrcid:
-    title: Papers without an ORCID
-    description: within your repository collection
-    action: Review
-    tooltip: Number of authors at your institution with an ORCID.
-    noticeable: true
+#  TODO remove if not needed
+#  withoutOrcid:
+#    title: Papers without an ORCID
+#    description: within your repository collection
+#    action: Review
+#    tooltip: Number of authors at your institution with an ORCID.
+#    noticeable: true
   otherOrcid:
     title: ORCIDs found in other repositories
     description: ""
@@ -25,14 +26,15 @@ table:
       defaultActive: true
       action: with
       id: orcid
-    - name: Papers without an ORCID
-      action: without
-      id: without
+#  TODO remove if not needed
+#    - name: Papers without an ORCID
+#      action: without
+#      id: without
     - name: ORCIDs found in other repositories
       action: other
       id: other
 
-# UPDATEEE
+# TODO UPDATEEE
 upload:
   default:
     subTitle: Drag and drop your file here or
