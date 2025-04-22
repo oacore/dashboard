@@ -14,7 +14,7 @@ items:
   doi: DOI
   orcid: ORCID
   plugins: Plugins
-  usrn: USRN
+  usrn: Desirable Characteristics
   fair: FAIR
   plugins/discovery: Discovery Plugin
   plugins/recommender: Recommender Plugin
