@@ -1,3 +1,21 @@
 title: Research software
 
 description: Via the CORE Repository Dashboard, a request to validate the extracted mentions is made available to the repository  and, with the authorisation of the repository manager, routed to the author (e.g. by means of an email notification) who validates this request.
+
+statsCards:
+  ready:
+    title: Mentions ready for validation
+    description: action recommended
+    action: Review
+    tooltip: ""
+  sent:
+    title: Sent mentions
+    description: mentions that wait author’s approval
+    action: Review
+    tooltip: Number of authors at your institution with an ORCID.
+    noticeable: true
+  responded:
+    title: Responded to mentions
+    description: reviewed mentions by authors
+    action: Review
+    tooltip: CORE has discovered more ORCIDs which are not listed in the repository.

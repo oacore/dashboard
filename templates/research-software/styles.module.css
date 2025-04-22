@@ -1,3 +1,14 @@
 .main {
   padding-top: var(--component-padding-y, 1rem);
 }
+
+.main-wrapper {
+  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
+}
+
+.cards-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 30px;
+}
