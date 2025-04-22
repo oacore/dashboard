@@ -14,9 +14,9 @@
 }
 
 .orcid-table-wrapper {
+  padding: 34px 24px;
   margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
   overflow-x: auto;
-  padding: 34px 24px;
 }
 
 .button-group {
