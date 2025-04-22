@@ -62,7 +62,7 @@ const StatsCard = ({
       ) : (
         <div className={styles.innerContent}>
           <p className={countClassName || styles.subFooter}>
-            {formatNumber(count)}
+            {formatNumber(count || 0)}
           </p>
         </div>
       )}
