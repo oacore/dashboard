@@ -115,3 +115,7 @@
     calc(-1 * var(--sidebar-padding)) auto;
   color: var(--white);
 }
+
+.active {
+  background-color: #eee;
+}
