@@ -99,6 +99,7 @@ const OrcidPageTemplate = observer(
             <StatsCard
               title={texts.statsCards.otherOrcid.title}
               actionText={texts.statsCards.otherOrcid.action}
+              description={texts.statsCards.otherOrcid.description}
               showInfo={texts.statsCards.otherOrcid.tooltip}
               loading={globalStore.dataProvider.orcidStatsLoading}
               wholeWidthCard

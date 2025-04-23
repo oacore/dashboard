@@ -13,6 +13,7 @@ import texts from '../../../texts/orcid'
 import ExportButton from '../../../components/export-button'
 import { GlobalContext } from '../../../store'
 import { formatNumber } from '../../../utils/helpers'
+import getSdgIcon from '../../../utils/hooks/use-sdg-icon-renderer'
 
 const OtherOrcideTableComponent = observer(
   ({
@@ -123,6 +124,8 @@ const OtherOrcideTableComponent = observer(
                 loading={loading}
                 outputsUrl={outputsUrl}
                 articleAdditionalDataLoading={articleAdditionalDataLoading}
+                renderSdgIcons={getSdgIcon}
+                removeLiveActions
               />
             }
           >

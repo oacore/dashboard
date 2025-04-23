@@ -17,7 +17,7 @@ statsCards:
 #    noticeable: true
   otherOrcid:
     title: ORCIDs found in other repositories
-    description: ""
+    description: which are not listed in your repository
     action: Review
     tooltip: CORE has discovered more ORCIDs which are not listed in the repository.
 table:
