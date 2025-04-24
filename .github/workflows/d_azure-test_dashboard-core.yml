@@ -29,7 +29,8 @@ jobs:
       - name: Install dependencies and build
         run: |
           npm ci --legacy-peer-deps
-          NODE_OPTIONS=--openssl-legacy-provider npm run build --if-present
+          # NODE_OPTIONS=--openssl-legacy-provider npm run build --if-present
+          npm run build --if-present
 
       - name: Create deployment zip (keep node_modules)
         # run: zip -r release.zip . -x ".git/*"
