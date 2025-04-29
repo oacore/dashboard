@@ -26,6 +26,24 @@ const IframeForm = ({ id, className, title, src, ...passProps }) => {
         src={iframeSrc}
         {...passProps}
       />
+      <div className={styles.ruleWrapper}>
+        <a
+          href="https://core.ac.uk/accessibility"
+          target="_blank"
+          className={styles.rule}
+          rel="noreferrer"
+        >
+          Accessibility
+        </a>
+        <a
+          href="https://core.ac.uk/privacy"
+          target="_blank"
+          className={styles.rule}
+          rel="noreferrer"
+        >
+          Privacy
+        </a>
+      </div>
     </Card>
   )
 }
