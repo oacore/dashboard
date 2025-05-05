@@ -161,10 +161,14 @@ const CompareCard = ({
     if (isFalsy(value) && isFalsy(modifiedWorksData[arrayIndex]))
       return isFalsy(value) === isFalsy(modifiedWorksData[arrayIndex])
 
-    return (
-      value?.toLowerCase() &&
-      modifiedWorksData[arrayIndex]?.includes(value?.toLowerCase())
-    )
+    const valueStr = Array.isArray(value)
+      ? value.join(', ').toLowerCase()
+      : value?.toLowerCase?.() || ''
+    const compareStr = Array.isArray(modifiedWorksData[arrayIndex])
+      ? modifiedWorksData[arrayIndex].join(', ').toLowerCase()
+      : modifiedWorksData[arrayIndex]?.toLowerCase?.() || ''
+
+    return valueStr && compareStr && compareStr.includes(valueStr)
   }
 
   useEffect(() => {
