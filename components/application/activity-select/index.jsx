@@ -137,7 +137,9 @@ const ActivitySelectOption = ({
                     alt=""
                     aria-hidden
                   />
-                  {navigation.items[value]}
+                  <span className={styles.navItem}>
+                    {navigation.items[value]}
+                  </span>
                 </>
               )}
             </div>

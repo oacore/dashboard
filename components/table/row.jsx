@@ -6,7 +6,15 @@ import styles from './styles.module.css'
 
 import { Table } from 'design'
 
-const Row = ({ id, index, columns, context, isClickable, onClick }) => {
+const Row = ({
+  id,
+  index,
+  columns,
+  context,
+  isClickable,
+  onClick,
+  isActive,
+}) => {
   const { disabled } = context
   const rowProps = {
     'data-id': id,
@@ -14,6 +22,7 @@ const Row = ({ id, index, columns, context, isClickable, onClick }) => {
     'className': classNames.use([
       isClickable && styles.clickable,
       disabled && styles.disable,
+      isActive && styles.active,
     ]),
   }
 
