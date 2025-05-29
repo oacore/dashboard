@@ -102,6 +102,11 @@
 }
 
 .item-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.nav-item {
   align-items: center;
   width: 100%;
   overflow: hidden;

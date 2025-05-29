@@ -4,7 +4,14 @@ import { Table } from '@oacore/design'
 import TableRow from './row'
 import NoDataFoundRow from '../table/no-data-found-row'
 
-const Body = ({ data, columns, handleRowClick, details, sidebar }) => {
+const Body = ({
+  data,
+  columns,
+  handleRowClick,
+  details,
+  sidebar,
+  expandedRowId,
+}) => {
   const [activeElement, setActiveElement] = useState(null)
 
   const rowClickHandler = (row, index) => {
@@ -29,6 +36,9 @@ const Body = ({ data, columns, handleRowClick, details, sidebar }) => {
           context: row,
           columns,
           isClickable: true,
+          isActive: sidebar
+            ? expandedRowId?.id === row.id
+            : index === activeElement,
         }
         return (
           <Fragment key={row.id}>
