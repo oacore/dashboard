@@ -4,3 +4,18 @@
   /* Some arbitrary height in case browser doesn't support ResizeObserver */
   min-height: 15rem;
 }
+
+.rule-wrapper {
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+  display: flex;
+  gap: 25px;
+}
+
+.rule {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  color: #757575;
+}

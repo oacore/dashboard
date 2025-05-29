@@ -101,9 +101,11 @@ const RepositoryPageTemplate = observer(
   }) => {
     const { ...globalStore } = useContext(GlobalContext)
     const [formMessage, setFormMessage] = useState({})
-    const [rorId, setRorId] = useState(globalStore.dataProvider.rorData.rorId)
+    const [rorId, setRorId] = useState(
+      globalStore.dataProvider.rorData?.rorId ?? ''
+    )
     const [rorName, setRorName] = useState(
-      globalStore.dataProvider.rorData.rorName
+      globalStore.dataProvider.rorData?.rorName ?? ''
     )
     const [repositoryName, setRepositoryName] = useState(
       globalStore.dataProvider.name
@@ -310,9 +312,9 @@ const RepositoryPageTemplate = observer(
     const renderRORWarning = () => {
       if (
         globalStore.organisation.rorId &&
-        globalStore.dataProvider.rorData.rorId &&
+        globalStore.dataProvider.rorData?.rorId &&
         globalStore.organisation.rorId !==
-          globalStore.dataProvider.rorData.rorId
+          globalStore.dataProvider.rorData?.rorId
       ) {
         return (
           <div className={styles.warningWrapper}>
