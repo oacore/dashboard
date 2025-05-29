@@ -131,7 +131,7 @@ const OtherOrcideTableComponent = observer(
           >
             <Table.Column
               id="oai"
-              display="OAI"
+              display="Origin OAI"
               getter={(v) => {
                 if (v?.oai) {
                   return (

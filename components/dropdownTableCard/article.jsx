@@ -9,7 +9,7 @@ import { ProgressSpinner } from '../../design'
 
 import Menu from 'components/menu'
 import { capitalize } from 'utils/helpers'
-import texts from 'texts/rrs-retention'
+import texts from 'texts/orcid'
 import ReadMore from 'components/read-more'
 
 const TableArticle = ({
@@ -43,7 +43,8 @@ const TableArticle = ({
           </div>
         ))
       }
-    }
+    } else if (item.key === 'repositories') value = value?.name
+
     return {
       ...item,
       value,

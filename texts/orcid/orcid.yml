@@ -86,6 +86,10 @@ actions:
 
 article:
   fields:
+    - name: Deposited in
+      key: repositories
+    - name: External OAI
+      key: oai
     - name: Author
       key: authors
       findBy: name
@@ -97,8 +101,6 @@ article:
       key: depositedDate
     - name: DOI
       key: doi
-    - name: OAI
-      key: oai
     - name: Abstract
       key: abstract
   actions:
