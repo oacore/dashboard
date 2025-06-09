@@ -122,7 +122,11 @@ class DataProvider extends Resource {
 
   @observable orcidOtherData = []
 
+  @observable swData = []
+
   @observable orcidTableDataLoading = false
+
+  @observable readySwTableDataLoading = false
 
   @observable withoutOrcidTableDataLoading = false
 
@@ -208,6 +212,11 @@ class DataProvider extends Resource {
   @action
   setOrcidStatsData(data) {
     this.orcidStatData = data
+  }
+
+  @action
+  setSwData(data) {
+    this.swData = data
   }
 
   @action
@@ -887,6 +896,27 @@ class DataProvider extends Resource {
       console.error('Error fetching deduplication data:', error)
     } finally {
       this.orcidStatsLoading = false
+    }
+  }
+
+  @action
+  getReadySwData = async (id, searchTerm = '') => {
+    this.readySwTableDataLoading = true
+    try {
+      const url = new URL(
+        `${process.env.API_URL}/data-providers/${id}/sw-mentions`
+      )
+      if (searchTerm) url.searchParams.append('q', searchTerm)
+
+      const response = await fetch(url)
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        this.setSwData(data)
+      } else throw new Error('Failed to fetch software mentions data')
+    } catch (error) {
+      console.error('Error fetching software mentions data:', error)
+    } finally {
+      this.readySwTableDataLoading = false
     }
   }
 

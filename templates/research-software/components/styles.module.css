@@ -1,0 +1,25 @@
+.notification-container {
+  width: 60%;
+  margin-top: 20px;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+.toggler-text {
+  width: 50%;
+  margin-left: 62px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #666;
+  letter-spacing: 0.048px;
+}
+
+.card-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0 16px 20px;
+}

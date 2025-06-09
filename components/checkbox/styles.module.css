@@ -139,6 +139,11 @@
   margin-left: 40px;
 }
 
+.option-wrapper-direction {
+  display: flex;
+  gap: 42px;
+}
+
 .option {
   display: flex;
   align-items: center;
@@ -146,6 +151,10 @@
 
 .option:not(:last-child) {
   margin-bottom: 24px;
+}
+
+.space-unset:not(:last-child) {
+  margin-bottom: unset;
 }
 
 .disabled-cursor {
