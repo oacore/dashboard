@@ -97,8 +97,6 @@ article:
       key: documentType
     - name: Publication Date
       key: publishedDate
-    - name: Deposited date
-      key: depositedDate
     - name: DOI
       key: doi
     - name: Abstract

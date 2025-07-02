@@ -155,7 +155,9 @@ const TableArticle = ({
                         `${styles[`boxCaption${capitalize(key)}`]}`
                       )}
                     >
-                      {value}
+                      {name.includes('Date') && typeof value === 'string'
+                        ? value.split('T')[0]
+                        : value}
                     </ReadMore>
                   </div>
                 )
