@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { Cookies as CookiesPopup } from '@oacore/design'
 
 import styles from './login.module.css'
 import Title from '../components/title'
@@ -43,6 +44,7 @@ const Login = React.memo(() => {
         title="Login Form"
         src={url}
       />
+      <CookiesPopup />
     </>
   )
 })
