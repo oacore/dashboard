@@ -7,7 +7,7 @@ statsCards:
     title: Papers with an ORCID
     description: within your repository collection
     action: Review
-    tooltip: ""
+    tooltip: The number you see here is the number of ORCID IDs we found while the CSV export will include articles with multiple ORCID authors
 #  TODO remove if not needed
 #  withoutOrcid:
 #    title: Papers without an ORCID

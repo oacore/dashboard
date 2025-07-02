@@ -73,7 +73,8 @@ const OrcidPageTemplate = observer(
               title={texts.statsCards.withOrcid.title}
               description={texts.statsCards.withOrcid.description}
               actionText={texts.statsCards.withOrcid.action}
-              showInfo={texts.statsCards.withOrcid.tooltip}
+              showInfo
+              infoText={texts.statsCards.withOrcid.tooltip}
               loading={globalStore.dataProvider.orcidStatsLoading}
               count={globalStore.dataProvider.orcidStatData.basic}
               wholeWidthCard
@@ -100,7 +101,8 @@ const OrcidPageTemplate = observer(
               title={texts.statsCards.otherOrcid.title}
               actionText={texts.statsCards.otherOrcid.action}
               description={texts.statsCards.otherOrcid.description}
-              showInfo={texts.statsCards.otherOrcid.tooltip}
+              showInfo
+              infoText={texts.statsCards.otherOrcid.tooltip}
               loading={globalStore.dataProvider.orcidStatsLoading}
               wholeWidthCard
               count={

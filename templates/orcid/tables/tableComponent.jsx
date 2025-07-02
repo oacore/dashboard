@@ -178,7 +178,7 @@ const OrcideTableComponent = observer(
               id="publicationDate"
               display="Publication date"
               className={styles.publicationDateColumn}
-              getter={(v) => v?.publicationDate}
+              getter={(v) => v?.publicationDate?.split('T')[0] || '-'}
             />
             <Table.Column
               id="actions"
