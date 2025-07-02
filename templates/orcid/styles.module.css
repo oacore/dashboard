@@ -80,10 +80,8 @@
   border-radius: 5px;
 }
 
-.orcid-cell {
-  display: flex;
-  gap: 6px;
-  align-items: center;
+.orcid-cell img {
+  margin-right: 6px;
 }
 
 .oai-column {
