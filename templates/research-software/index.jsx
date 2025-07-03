@@ -12,11 +12,14 @@ import { GlobalContext } from '../../store'
 import SwTable from './tables/swTables'
 import Markdown from '../../components/markdown'
 import NotificationToggler from './components/settings'
+import DateRangePicker from '../../components/oaDatePicker/odDatePicker'
 
 const SwPageTemplate = observer(
   ({ tag: Tag = 'main', className, ...restProps }) => {
     const [initialLoad, setInitialLoad] = useState(true)
     const [activeButton, setActiveButton] = useState('ready')
+    const [localSearchTerm, setLocalSearchTerm] = useState('')
+    const [page, setPage] = useState(0)
     const { ...globalStore } = useContext(GlobalContext)
 
     useEffect(() => {
@@ -39,6 +42,57 @@ const SwPageTemplate = observer(
       setActiveButton(tab)
       const tableSection = document.getElementById('readySwTable')
       if (tableSection) tableSection.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    //  TODO will need change after we know props we accept
+    const onSearchChange = async (event, startDate, endDate) => {
+      const searchTerm = event.target.value
+      setLocalSearchTerm(searchTerm)
+      await globalStore.dataProvider.getReadySwData(
+        globalStore?.dataProvider?.id,
+        searchTerm,
+        startDate,
+        endDate
+      )
+    }
+
+    //  TODO will need change after we know props we accept
+    const fetchData = async () => {
+      if (
+        globalStore.dataProvider.readySwTableDataLoading ||
+        globalStore.dataProvider.swData.groups?.ready_for_validation?.length ===
+          globalStore.dataProvider.swData.groups?.ready_for_validation.length
+      )
+        return
+
+      const from = (page + 1) * 50
+      const size = 50
+
+      try {
+        await globalStore.dataProvider.getReadySwData(
+          globalStore.dataProvider.id,
+          localSearchTerm,
+          from,
+          size
+        )
+        setPage((prevPage) => prevPage + 1)
+      } catch (error) {
+        console.error('Error fetching additional data:', error)
+      }
+    }
+
+    //  TODO will need change after we know props we accept
+    const handleDateChange = (startDate, endDate) => {
+      if (startDate && endDate) {
+        globalStore.dataProvider.setDateRange(startDate, endDate)
+
+        globalStore.dataProvider.getReadySwData(
+          globalStore.dataProvider.id,
+          localSearchTerm,
+          startDate,
+          endDate
+        )
+      }
     }
 
     return (
@@ -87,6 +141,19 @@ const SwPageTemplate = observer(
             />
           </div>
         </DashboardSettingsHeader>
+        <div className={styles.pickerWrapper}>
+          <span className={styles.dateTitle}>Include records from</span>
+          <DateRangePicker
+            onDateChange={handleDateChange}
+            initialStartDate={
+              globalStore.dataProvider?.dateRange?.startDate?.split(' ')[0] ||
+              ''
+            }
+            initialEndDate={
+              globalStore.dataProvider?.dateRange?.endDate?.split(' ')[0] || ''
+            }
+          />
+        </div>
         <div className={styles.mainWrapper}>
           <div className={styles.cardsWrapper}>
             <StatsCard
@@ -156,6 +223,9 @@ const SwPageTemplate = observer(
           tableSwData={globalStore.dataProvider.swData}
           activeButton={activeButton}
           setActiveButton={setActiveButton}
+          localSearchTerm={localSearchTerm}
+          fetchData={fetchData}
+          onSearchChange={onSearchChange}
         />
       </Tag>
     )

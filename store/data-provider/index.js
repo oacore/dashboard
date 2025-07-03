@@ -16,6 +16,10 @@ class DataProvider extends Resource {
   constructor(rootStore, init, options) {
     super(init, options)
     this.rootStore = rootStore
+    const today = `${new Date().toISOString().split('T')[0]} 00:00:00`
+    const defaultStartDate = '2023-01-01 00:00:00'
+
+    this.setDateRange(defaultStartDate, today)
   }
 
   @observable id = ''
@@ -133,6 +137,19 @@ class DataProvider extends Resource {
   @observable orcidOtherTableDataLoading = false
 
   @observable orcidStatsLoading = false
+
+  @observable dateRange = {
+    startDate: null,
+    endDate: null,
+  }
+
+  @action
+  setDateRange(startDate, endDate) {
+    this.dateRange = {
+      startDate,
+      endDate,
+    }
+  }
 
   @action
   handleTextareaChange = (input) => {
@@ -900,13 +917,20 @@ class DataProvider extends Resource {
   }
 
   @action
-  getReadySwData = async (id, searchTerm = '') => {
+  getReadySwData = async (id, searchTerm = '', startDate, endDate) => {
     this.readySwTableDataLoading = true
     try {
-      const url = new URL(
-        `${process.env.API_URL}/data-providers/${id}/sw-mentions`
-      )
-      if (searchTerm) url.searchParams.append('q', searchTerm)
+      let url = `${process.env.API_URL}/data-providers/${id}/sw-mentions`
+      let queryString = ''
+      if (startDate && endDate)
+        queryString = `?fromDate=${startDate}&toDate=${endDate}`
+
+      if (searchTerm) {
+        queryString += `${
+          queryString.includes('?') ? '&' : '?'
+        }q=${encodeURIComponent(searchTerm)}`
+      }
+      url += queryString
 
       const response = await fetch(url)
       if (response.ok && response.status === 200) {

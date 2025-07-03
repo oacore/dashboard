@@ -13,6 +13,9 @@ const SwTable = ({
   initialLoad,
   setActiveButton,
   activeButton,
+  localSearchTerm,
+  fetchData,
+  onSearchChange,
 }) => {
   const [currentTab, setCurrentTab] = useState(activeButton)
 
@@ -29,6 +32,9 @@ const SwTable = ({
       case 'ready':
         return (
           <ReadySwTableComponent
+            localSearchTerm={localSearchTerm}
+            fetchData={fetchData}
+            onSearchChange={onSearchChange}
             initialLoad={initialLoad}
             data={tableSwData.groups?.ready_for_validation}
             isLoading={swTableDataLoading}

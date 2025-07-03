@@ -88,47 +88,20 @@ const SidebarContent = ({
 }
 
 const ReadySwTableComponent = observer(
-  ({ initialLoad, data, isLoading, totalLength }) => {
+  ({
+    initialLoad,
+    data,
+    isLoading,
+    totalLength,
+    localSearchTerm,
+    fetchData,
+    onSearchChange,
+  }) => {
     const { ...globalStore } = useContext(GlobalContext)
     const menuRef = useRef(null)
-    const [localSearchTerm, setLocalSearchTerm] = useState('')
-    const [page, setPage] = useState(0)
+
     const [visibleMenu, setVisibleMenu] = useState(false)
     const [selectedRowData, setSelectedRowData] = useState(null)
-
-    const onSearchChange = async (event) => {
-      const searchTerm = event.target.value
-      setLocalSearchTerm(searchTerm)
-      await globalStore.dataProvider.getReadySwData(
-        globalStore?.dataProvider?.id,
-        searchTerm,
-        0,
-        50
-      )
-    }
-
-    const fetchData = async () => {
-      if (
-        globalStore.dataProvider.orcidTableDataLoading ||
-        data?.length === totalLength
-      )
-        return
-
-      const from = (page + 1) * 50
-      const size = 50
-
-      try {
-        await globalStore.dataProvider.getReadySwData(
-          globalStore.dataProvider.id,
-          localSearchTerm,
-          from,
-          size
-        )
-        setPage((prevPage) => prevPage + 1)
-      } catch (error) {
-        console.error('Error fetching additional data:', error)
-      }
-    }
 
     useEffect(() => {
       const handleClickOutside = (event) => {
