@@ -7,7 +7,7 @@ statsCards:
     title: Papers with an ORCID
     description: within your repository collection
     action: Review
-    tooltip: The number you see here is the number of ORCID IDs we found while the CSV export will include articles with multiple ORCID authors
+    tooltip: ""
 #  TODO remove if not needed
 #  withoutOrcid:
 #    title: Papers without an ORCID
@@ -19,7 +19,7 @@ statsCards:
     title: ORCIDs found in other repositories
     description: which are not listed in your repository
     action: Review
-    tooltip: CORE has discovered more ORCIDs which are not listed in the repository.
+    tooltip: The number you see here is the number of ORCID IDs we found while the CSV export will include articles with multiple ORCID authors
 table:
   actions:
     - name: Papers with an ORCID
