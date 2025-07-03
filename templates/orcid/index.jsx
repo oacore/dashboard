@@ -1,0 +1,142 @@
+import React, { useContext, useEffect, useState } from 'react'
+import { classNames } from '@oacore/design/lib/utils'
+import { observer } from 'mobx-react-lite'
+
+import styles from './styles.module.css'
+import texts from '../../texts/orcid/orcid.yml'
+import ShowMoreText from '../../components/showMore'
+import DashboardHeader from '../../components/dashboard-header'
+import StatsCard from '../../components/statsCard/statsCard'
+import OrcidTable from './tables/orchideTable'
+import { GlobalContext } from '../../store'
+
+const OrcidPageTemplate = observer(
+  ({ tag: Tag = 'main', className, ...restProps }) => {
+    const [showMore, setShowMore] = useState(false)
+    const [initialLoad, setInitialLoad] = useState(true)
+    const [activeButton, setActiveButton] = useState('with')
+    const { ...globalStore } = useContext(GlobalContext)
+
+    // TODO remove if not needed
+
+    useEffect(() => {
+      const fetchOrcidData = async () => {
+        if (globalStore?.dataProvider?.id) {
+          const { id } = globalStore.dataProvider
+          try {
+            await globalStore.dataProvider.getOrcidData(id, '', 0, 50)
+            await globalStore.dataProvider.getOrcidStats(id)
+            // await globalStore.dataProvider.getOrcidWithoutPaperData(id)
+            await globalStore.dataProvider.getOrcidOtherData(id)
+            setInitialLoad(false)
+          } catch (error) {
+            console.error('Error fetching ORCID data:', error)
+          }
+        }
+      }
+
+      fetchOrcidData()
+    }, [globalStore?.dataProvider?.id])
+
+    const toggleShowMore = () => {
+      setShowMore(!showMore)
+    }
+
+    const handleStatsCardClick = (tab) => {
+      setActiveButton(tab)
+      const tableSection = document.getElementById('orcideTable')
+      if (tableSection) tableSection.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    return (
+      <Tag
+        className={classNames.use(styles.main).join(className)}
+        {...restProps}
+      >
+        <DashboardHeader
+          title={texts.title}
+          identifier="BETA"
+          showMore={
+            <ShowMoreText
+              className={styles.description}
+              text={texts.description || 'N/A'}
+              maxLetters={320}
+              showMore={showMore}
+              toggleShowMore={toggleShowMore}
+              textRestyle
+            />
+          }
+        />
+        <div className={styles.mainWrapper}>
+          <div className={styles.cardsWrapper}>
+            <StatsCard
+              title={texts.statsCards.withOrcid.title}
+              description={texts.statsCards.withOrcid.description}
+              actionText={texts.statsCards.withOrcid.action}
+              infoText={texts.statsCards.withOrcid.tooltip}
+              loading={globalStore.dataProvider.orcidStatsLoading}
+              count={globalStore.dataProvider.orcidStatData.basic}
+              wholeWidthCard
+              actionHref="#orcideTable"
+              onActionClick={() => handleStatsCardClick('with')}
+            />
+            {/* <StatsCard */}
+            {/*  title={texts.statsCards.withoutOrcid.title} */}
+            {/*  description={texts.statsCards.withoutOrcid.description} */}
+            {/*  actionText={texts.statsCards.withoutOrcid.action} */}
+            {/*  showInfo={texts.statsCards.withoutOrcid.tooltip} */}
+            {/*  noticeable={texts.statsCards.withoutOrcid.noticeable} */}
+            {/*  loading={globalStore.dataProvider.orcidStatsLoading} */}
+            {/*  count={ */}
+            {/*    globalStore.dataProvider?.statistics?.countMetadata -*/}
+            {/*    globalStore.dataProvider.orcidStatData.basic */}
+            {/*  } */}
+            {/*  wholeWidthCard */}
+            {/*  actionHref="#withoutOrcideTable" */}
+            {/*  onActionClick={() => handleStatsCardClick('without')} */}
+            {/*  countClassName={styles.inputCount} */}
+            {/* /> */}
+            <StatsCard
+              title={texts.statsCards.otherOrcid.title}
+              actionText={texts.statsCards.otherOrcid.action}
+              description={texts.statsCards.otherOrcid.description}
+              showInfo
+              infoText={texts.statsCards.otherOrcid.tooltip}
+              loading={globalStore.dataProvider.orcidStatsLoading}
+              wholeWidthCard
+              count={
+                globalStore.dataProvider.orcidStatData.fromOtherRepositories
+              }
+              actionHref="#otherDataTable"
+              onActionClick={() => handleStatsCardClick('other')}
+            />
+          </div>
+        </div>
+        <OrcidTable
+          activeButton={activeButton}
+          setActiveButton={setActiveButton}
+          orcidTableDataLoading={globalStore.dataProvider.orcidTableDataLoading}
+          withoutOrcidTableDataLoading={
+            globalStore.dataProvider.withoutOrcidTableDataLoading
+          }
+          orcidOtherTableDataLoading={
+            globalStore.dataProvider.orcidOtherTableDataLoading
+          }
+          renderDropDown={globalStore.dataProvider.articleAdditionalData}
+          initialLoad={initialLoad}
+          tableOrcidData={globalStore.dataProvider.orcidData}
+          tableOrcidWithoutPaperData={
+            globalStore.dataProvider.orcidWithoutPaperData
+          }
+          tableOrcidOtherData={globalStore.dataProvider.orcidOtherData}
+          articleAdditionalDataLoading={
+            globalStore.dataProvider.articleAdditionalDataLoading
+          }
+          articleData={globalStore.dataProvider.articleAdditionalData}
+        />
+      </Tag>
+    )
+  }
+)
+
+export default OrcidPageTemplate
