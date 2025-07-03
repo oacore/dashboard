@@ -162,11 +162,20 @@ const OrcideTableComponent = observer(
               id="orcid"
               display="ORCID ID"
               getter={(v) => {
-                if (v?.author_pid) {
+                if (Array.isArray(v?.author_pid) && v?.author_pid.length > 0) {
+                  const additionalCount =
+                    v?.author_pid.length > 1
+                      ? `+${v?.author_pid.length - 1}`
+                      : ''
                   return (
                     <span className={styles.orcidCell}>
                       <img src={idIcon} alt="idIcon" />
-                      {v?.author_pid || '-'}
+                      {v?.author_pid[0]}
+                      {additionalCount && (
+                        <span className={styles.additionalCount}>
+                          {additionalCount}
+                        </span>
+                      )}
                     </span>
                   )
                 }

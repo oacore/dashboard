@@ -114,6 +114,12 @@
   background-color: var(--gray-200);
 }
 
+.orcide-wrapper {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
 .sdg-score-wrapper {
   display: flex;
   align-items: center;

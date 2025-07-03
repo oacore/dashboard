@@ -93,6 +93,9 @@ article:
     - name: Author
       key: authors
       findBy: name
+    - name: Orcids
+      key: orcids
+      findBy: orcidId
     - name: Type
       key: documentType
     - name: Publication Date

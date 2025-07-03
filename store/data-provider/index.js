@@ -296,7 +296,7 @@ class DataProvider extends Resource {
     this.articleAdditionalDataLoading = true
     try {
       const response = await fetch(
-        `https://api.core.ac.uk/internal/articles/${id}`
+        `https://api-dev.core.ac.uk/internal/articles/${id}`
       )
       if (response.ok) {
         const data = await response.json()
