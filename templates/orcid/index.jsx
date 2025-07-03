@@ -73,7 +73,6 @@ const OrcidPageTemplate = observer(
               title={texts.statsCards.withOrcid.title}
               description={texts.statsCards.withOrcid.description}
               actionText={texts.statsCards.withOrcid.action}
-              showInfo
               infoText={texts.statsCards.withOrcid.tooltip}
               loading={globalStore.dataProvider.orcidStatsLoading}
               count={globalStore.dataProvider.orcidStatData.basic}
