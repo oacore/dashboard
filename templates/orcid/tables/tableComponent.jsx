@@ -14,6 +14,7 @@ import ExportButton from '../../../components/export-button'
 import { GlobalContext } from '../../../store'
 import { formatNumber } from '../../../utils/helpers'
 import getSdgIcon from '../../../utils/hooks/use-sdg-icon-renderer'
+import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 
 const OrcideTableComponent = observer(
   ({
@@ -31,12 +32,14 @@ const OrcideTableComponent = observer(
     articleAdditionalDataLoading,
     handleToggleRedirect,
     totalLength,
+    checkBillingType,
   }) => {
     const { ...globalStore } = useContext(GlobalContext)
     const menuRef = useRef(null)
     const [localSearchTerm, setLocalSearchTerm] = useState('')
     const [page, setPage] = useState(0)
     const [selectedRowData, setSelectedRowData] = useState(null)
+    const [displayedData, setDisplayedData] = useState([])
 
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -49,6 +52,11 @@ const OrcideTableComponent = observer(
         document.removeEventListener('mousedown', handleClickOutside)
       }
     }, [menuRef])
+
+    useEffect(() => {
+      if (checkBillingType) setDisplayedData(data?.slice(0, 5))
+      else setDisplayedData(data)
+    }, [data, checkBillingType])
 
     const onSearchChange = async (event) => {
       const searchTerm = event.target.value
@@ -74,6 +82,8 @@ const OrcideTableComponent = observer(
         data?.length === totalLength
       )
         return
+
+      if (checkBillingType) return
 
       const from = (page + 1) * 50
       const size = 50
@@ -105,16 +115,16 @@ const OrcideTableComponent = observer(
             className={styles.orcidTable}
             isHeaderClickable
             rowIdentifier="articleId"
-            data={data}
-            size={data?.length}
+            data={displayedData}
+            size={displayedData?.length}
             totalLength={formatNumber(totalLength)}
             localSearch
-            searchable
+            searchable={!checkBillingType}
             searchChange={onSearchChange}
             localSearchTerm={localSearchTerm}
             rowClick={(row) => onSetActiveArticle(row)}
             fetchData={fetchData}
-            // excludeFooter={checkBillingType || !hasData || hasError}
+            excludeFooter={checkBillingType}
             isLoading={isLoading}
             renderDropDown={renderDropDown}
             details={
@@ -229,6 +239,13 @@ const OrcideTableComponent = observer(
               </ExportButton>
             </Table.Action>
           </Tablev2>
+        )}
+        {checkBillingType && (
+          <AccessPlaceholder
+            dataProviderData={globalStore.dataProvider}
+            customWidth
+            description="To see a full list of papers become our  Supporting or Sustaining member."
+          />
         )}
       </div>
     )

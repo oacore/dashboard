@@ -15,6 +15,7 @@ const OrcidPageTemplate = observer(
     const [showMore, setShowMore] = useState(false)
     const [initialLoad, setInitialLoad] = useState(true)
     const [activeButton, setActiveButton] = useState('with')
+    const [checkBillingType, setCheckBillingType] = useState(false)
     const { ...globalStore } = useContext(GlobalContext)
 
     // TODO remove if not needed
@@ -47,6 +48,12 @@ const OrcidPageTemplate = observer(
       const tableSection = document.getElementById('orcideTable')
       if (tableSection) tableSection.scrollIntoView({ behavior: 'smooth' })
     }
+
+    useEffect(() => {
+      setCheckBillingType(
+        globalStore.organisation.billingPlan?.billingType === 'starting'
+      )
+    }, [globalStore.organisation.billingPlan])
 
     return (
       <Tag
@@ -133,6 +140,7 @@ const OrcidPageTemplate = observer(
             globalStore.dataProvider.articleAdditionalDataLoading
           }
           articleData={globalStore.dataProvider.articleAdditionalData}
+          checkBillingType={checkBillingType}
         />
       </Tag>
     )
