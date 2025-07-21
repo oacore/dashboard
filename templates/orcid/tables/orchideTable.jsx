@@ -22,6 +22,7 @@ const OrcidTable = ({
   setActiveButton,
   activeButton,
   initialLoad,
+  checkBillingType,
 }) => {
   const { ...globalStore } = useContext(GlobalContext)
   const [visibleMenu, setVisibleMenu] = useState(false)
@@ -92,6 +93,7 @@ const OrcidTable = ({
             setVisibleMenu={setVisibleMenu}
             handleToggleRedirect={handleToggleRedirect}
             totalLength={globalStore.dataProvider.orcidStatData.basic}
+            checkBillingType={checkBillingType}
           />
         )
       // case 'without':
@@ -135,6 +137,7 @@ const OrcidTable = ({
             totalLength={
               globalStore.dataProvider.orcidStatData.fromOtherRepositories
             }
+            checkBillingType={checkBillingType}
           />
         )
       default:
