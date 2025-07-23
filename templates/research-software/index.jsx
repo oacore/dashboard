@@ -45,9 +45,13 @@ const SwPageTemplate = observer(
     }
 
     //  TODO will need change after we know props we accept
-    const onSearchChange = async (event, startDate, endDate) => {
+    const onSearchChange = async (event) => {
       const searchTerm = event.target.value
       setLocalSearchTerm(searchTerm)
+
+      const startDate = globalStore.dataProvider?.dateRange?.startDate
+      const endDate = globalStore.dataProvider?.dateRange?.endDate
+
       await globalStore.dataProvider.getReadySwData(
         globalStore?.dataProvider?.id,
         searchTerm,
