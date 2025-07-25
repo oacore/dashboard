@@ -1,9 +1,9 @@
 .header {
   padding: var(--component-padding-y) var(--component-padding-x);
+  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
   background-color: var(--white);
   border-bottom: 2px solid var(--primary);
   box-shadow: var(--elevation-04);
-  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
 }
 
 .temporary-wrapper {
