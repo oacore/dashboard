@@ -44,11 +44,15 @@
   gap: 10px;
 }
 
+.settings-description-small {
+  width: 60%;
+}
+
 .settings-description-text-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 80%;
+  width: 100%;
 }
 
 .settings-description-text {
@@ -58,6 +62,23 @@
   line-height: 140%;
   color: #212121;
   letter-spacing: 0.022px;
+}
+
+.email-link {
+  color: #b75400;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.email-link:hover {
+  color: #8a3f00;
+  text-decoration: none;
+}
+
+.email-link:focus {
+  outline: 2px solid #b75400;
+  outline-offset: 2px;
 }
 
 .settings-wrapper {
@@ -77,6 +98,10 @@
   padding: 34px 24px;
   margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
   overflow-x: auto;
+}
+
+.notification-input {
+  margin-top: 20px;
 }
 
 .button-group {
@@ -240,9 +265,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: 100%;
   gap: 16px;
-  margin-bottom: 20px;
+  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
 }
 
 .date-title {

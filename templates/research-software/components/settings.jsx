@@ -18,40 +18,49 @@ const NotificationToggler = ({
   notifications,
   updateNotificationsPending,
   notificationsPending,
-}) => (
-  <>
-    <div className={styles.notificationContainer}>
-      <div
-        className={classNames.use({
-          [styles.disabled]: notificationsPending || !notifications,
-        })}
-      >
-        <Switch
-          className={styles.toggler}
-          id={id}
-          checked={checked}
-          nonActive={notificationsPending || !notifications}
-          onChange={notificationsPending || !notifications ? null : onChange}
-          label={label}
-        />
-      </div>
-      <span className={styles.togglerText}>{title}</span>
-      <div className={styles.cardWrapper}>
-        <div>
-          <RadioGroup
-            onChange={handleOptionChange}
-            options={options}
-            name={name}
-            dataProviderId={dataProviderId}
-            checkedStatus={checked}
-            notificationData={notifications}
-            updateNotificationsPending={updateNotificationsPending}
-            direction
+}) => {
+  const isDisabled = notificationsPending || !notifications
+
+  const handleSwitchChange = (newChecked) => {
+    if (!isDisabled) onChange(newChecked)
+  }
+
+  return (
+    <>
+      <div className={styles.notificationContainer}>
+        <div
+          className={classNames.use({
+            [styles.disabled]: isDisabled,
+          })}
+        >
+          <Switch
+            className={styles.toggler}
+            id={id}
+            checked={checked}
+            nonActive={isDisabled}
+            onChange={isDisabled ? null : handleSwitchChange}
+            label={label}
+            disabled={isDisabled}
           />
         </div>
+        <span className={styles.togglerText}>{title}</span>
+        <div className={styles.cardWrapper}>
+          <div>
+            <RadioGroup
+              onChange={handleOptionChange}
+              options={options}
+              name={name}
+              dataProviderId={dataProviderId}
+              checkedStatus={checked}
+              notificationData={notifications}
+              updateNotificationsPending={updateNotificationsPending}
+              direction
+            />
+          </div>
+        </div>
       </div>
-    </div>
-  </>
-)
+    </>
+  )
+}
 
 export default NotificationToggler

@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import styles from '../styles.module.css'
 import { Button, ProgressSpinner } from '../../../design'
 import Tablev2 from '../../../components/tablev2/tablev2'
 import Table from '../../../components/table'
 import ExportButton from '../../../components/export-button'
-import { GlobalContext } from '../../../store'
 import { formatNumber } from '../../../utils/helpers'
 import checkGreen from '../../../components/upload/assets/checkGreen.svg'
 import arrowRight from '../../../components/upload/assets/buttonArrow.svg'
@@ -97,7 +96,6 @@ const ReadySwTableComponent = observer(
     fetchData,
     onSearchChange,
   }) => {
-    const { ...globalStore } = useContext(GlobalContext)
     const menuRef = useRef(null)
 
     const [visibleMenu, setVisibleMenu] = useState(false)
@@ -151,7 +149,6 @@ const ReadySwTableComponent = observer(
             localSearch
             localSearchTerm={localSearchTerm}
             fetchData={fetchData}
-            excludeFooter
             isLoading={isLoading}
             searchChange={onSearchChange}
             searchable
@@ -225,14 +222,12 @@ const ReadySwTableComponent = observer(
                 </div>
               )}
             />
+            <Table.Action>
+              <ExportButton href="">download csv</ExportButton>
+            </Table.Action>
             <Table.Sidebar>
               <SidebarContent />
             </Table.Sidebar>
-            <Table.Action>
-              <ExportButton href={globalStore.dataProvider.basicOrcidUrl}>
-                download csv
-              </ExportButton>
-            </Table.Action>
           </Tablev2>
         )}
       </div>

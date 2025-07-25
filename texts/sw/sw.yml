@@ -5,7 +5,7 @@ description: Via the CORE Repository Dashboard, a request to validate the extrac
 settings:
   title: Settings
   warning: |
-    To support the automatic notification of software mentions you need to integrate this endpoint to your repository:
+    This functionality uses [COAR Notify](https://coar-notify.net) to enable the automatic enrichment of software mentions in your repository record. It is currently in beta version, if you are interested in enabling it please contact us **theteam@core.ac.uk.**
   configure:
     title: |
       Sending settings:
@@ -16,6 +16,9 @@ settings:
         id: all
       - title: Only notifications with high confidence
         id: few
+
+calendar:
+  title: Only papers for the past 5 years included to this tab
 
 statsCards:
   ready:
