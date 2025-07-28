@@ -544,6 +544,13 @@ class DataProvider extends Resource {
         this.sdgUrl = `${process.env.API_URL}${url}/sdg?accept=text/csv`
         this.basicOrcidUrl = `${process.env.API_URL}${url}/orcid/basic?accept=text/csv`
         this.otherOrcidUrl = `${process.env.API_URL}${url}/orcid/other-repos?accept=text/csv`
+        this.swUrl = `${process.env.API_URL}${url}/sw-mentions?accept=text/csv`
+        this.swUrls = {
+          ready: `${process.env.API_URL}${url}/sw-mentions?accept=text/csv&status=ready`,
+          sent: `${process.env.API_URL}${url}/sw-mentions?accept=text/csv&status=sent`,
+          responded: `${process.env.API_URL}${url}/sw-mentions?accept=text/csv&status=responded`,
+          cancelled: `${process.env.API_URL}${url}/sw-mentions?accept=text/csv&status=cancelled`,
+        }
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {
@@ -939,6 +946,7 @@ class DataProvider extends Resource {
       } else throw new Error('Failed to fetch software mentions data')
     } catch (error) {
       console.error('Error fetching software mentions data:', error)
+      throw error
     } finally {
       this.readySwTableDataLoading = false
     }

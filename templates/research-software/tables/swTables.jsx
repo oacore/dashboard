@@ -16,6 +16,7 @@ const SwTable = ({
   localSearchTerm,
   fetchData,
   onSearchChange,
+  hasError,
 }) => {
   const [currentTab, setCurrentTab] = useState(activeButton)
 
@@ -39,6 +40,8 @@ const SwTable = ({
             data={tableSwData.groups?.ready_for_validation}
             isLoading={swTableDataLoading}
             totalLength={tableSwData.groups?.ready_for_validation.length}
+            hasError={hasError}
+            currentTab={currentTab}
           />
         )
       // case 'sent':
@@ -51,6 +54,7 @@ const SwTable = ({
       //       setVisibleMenu={setVisibleMenu}
       //       handleToggleRedirect={handleToggleRedirect}
       //       totalLength={globalStore.dataProvider.orcidStatData.basic}
+      //       currentTab={currentTab}
       //     />
       //   )
       // case 'responded':
@@ -63,6 +67,7 @@ const SwTable = ({
       //       setVisibleMenu={setVisibleMenu}
       //       handleToggleRedirect={handleToggleRedirect}
       //       totalLength={globalStore.dataProvider.orcidStatData.basic}
+      //       currentTab={currentTab}
       //     />
       //   )
       // case 'cancelled':
@@ -75,6 +80,7 @@ const SwTable = ({
       //       setVisibleMenu={setVisibleMenu}
       //       handleToggleRedirect={handleToggleRedirect}
       //       totalLength={globalStore.dataProvider.orcidStatData.basic}
+      //       currentTab={currentTab}
       //     />
       //   )
       default:

@@ -19,6 +19,7 @@ const SwPageTemplate = observer(
     const [activeButton, setActiveButton] = useState('ready')
     const [localSearchTerm, setLocalSearchTerm] = useState('')
     const [page, setPage] = useState(0)
+    const [hasError, setHasError] = useState(false)
     const { ...globalStore } = useContext(GlobalContext)
 
     useEffect(() => {
@@ -26,10 +27,13 @@ const SwPageTemplate = observer(
         if (globalStore?.dataProvider?.id) {
           const { id } = globalStore.dataProvider
           try {
+            setHasError(false)
             await globalStore.dataProvider.getReadySwData(id, '')
             setInitialLoad(false)
           } catch (error) {
             console.error('Error fetching Sw data:', error)
+            setHasError(true)
+            setInitialLoad(false)
           }
         }
       }
@@ -51,12 +55,17 @@ const SwPageTemplate = observer(
       const startDate = globalStore.dataProvider?.dateRange?.startDate
       const endDate = globalStore.dataProvider?.dateRange?.endDate
 
-      await globalStore.dataProvider.getReadySwData(
-        globalStore?.dataProvider?.id,
-        searchTerm,
-        startDate,
-        endDate
-      )
+      try {
+        setHasError(false)
+        await globalStore.dataProvider.getReadySwData(
+          globalStore?.dataProvider?.id,
+          searchTerm,
+          startDate,
+          endDate
+        )
+      } catch (error) {
+        setHasError(true)
+      }
     }
 
     //  TODO will need change after we know props we accept
@@ -72,6 +81,7 @@ const SwPageTemplate = observer(
       const size = 50
 
       try {
+        setHasError(false)
         await globalStore.dataProvider.getReadySwData(
           globalStore.dataProvider.id,
           localSearchTerm,
@@ -81,6 +91,7 @@ const SwPageTemplate = observer(
         setPage((prevPage) => prevPage + 1)
       } catch (error) {
         console.error('Error fetching additional data:', error)
+        setHasError(true)
       }
     }
 
@@ -244,6 +255,7 @@ const SwPageTemplate = observer(
           localSearchTerm={localSearchTerm}
           fetchData={fetchData}
           onSearchChange={onSearchChange}
+          hasError={hasError}
         />
       </Tag>
     )
