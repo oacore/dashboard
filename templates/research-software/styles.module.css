@@ -230,19 +230,9 @@
   gap: 14px;
 }
 
-/* temp disable */
-.disabled-button {
-  color: #9e9e9e;
-  cursor: not-allowed;
-  background: #fff;
-  border-color: #9e9e9e;
-}
-
-.disabled-button-dark {
-  color: #fff;
-  cursor: not-allowed;
-  background: #9e9e9e;
-  border-color: #9e9e9e;
+.close-button {
+  border-radius: 2px;
+  border: 1px solid #b75400;
 }
 
 .status-type {

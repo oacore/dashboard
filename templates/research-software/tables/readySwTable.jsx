@@ -12,11 +12,23 @@ import arrowRight from '../../../components/upload/assets/buttonArrow.svg'
 import kababMenu from '../../../components/upload/assets/kebabMenu.svg'
 import Menu from '../../../components/menu'
 import texts from '../../../texts/sw/sw.yml'
+import NotificationModal from '../components/notificationModal'
 
 const SidebarContent = ({
   context: { oai, authors, title, softwareCitations },
+  onClose,
 }) => {
   const { Header, Body, Footer } = Table.Sidebar
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const triggerModal = () => {
+    setModalOpen(true)
+  }
+
+  const handleButtonClose = () => {
+    setModalOpen(false)
+  }
+
   return (
     <>
       <Header className={styles.header}>{oai}</Header>
@@ -67,21 +79,29 @@ const SidebarContent = ({
       </Body>
       <Footer className={styles.buttonWrapper}>
         <Button
-          className={`${styles.sidebarButton} ${styles.disabledButtonDark}`}
+          className={`${styles.sidebarButton} `}
           variant="contained"
-          disabled
+          onClick={triggerModal}
         >
           Approve and send notification
           <img src={arrowRight} alt="arrowRight" />
         </Button>
         <Button
-          className={`${styles.disabledButton}`}
-          variant="contained"
-          disabled
+          className={`${styles.closeButton}`}
+          variant="outlined"
+          onClick={onClose}
         >
-          Cancel notification{' '}
+          Close
         </Button>
       </Footer>
+      {modalOpen && (
+        <NotificationModal
+          title={texts.notificationModal.title}
+          description={texts.notificationModal.description}
+          action={texts.notificationModal.action}
+          handleButtonClose={handleButtonClose}
+        />
+      )}
     </>
   )
 }

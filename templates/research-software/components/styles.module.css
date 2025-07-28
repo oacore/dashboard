@@ -25,3 +25,19 @@
   justify-content: space-between;
   margin: 20px 0 16px 20px;
 }
+
+.modal-title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.87);
+  letter-spacing: 0.01px;
+}
+
+.end-button {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+}
