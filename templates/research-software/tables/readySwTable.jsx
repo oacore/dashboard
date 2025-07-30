@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Icon } from '@oacore/design/lib/elements'
 
 import styles from '../styles.module.css'
 import { Button, ProgressSpinner } from '../../../design'
@@ -42,41 +43,57 @@ const SidebarContent = ({
           {authors?.map((name) => name).join(' ')}
         </p>
         <div className={styles.sectionMainWrapper}>
-          <div className={styles.sectionWrapper}>
-            <div className={styles.sectionHeader}>
-              <h6>Software name</h6>
-              <img src={checkGreen} alt="" />
-            </div>
-            <p>{softwareCitations[0].software}</p>
-          </div>
-          <div className={styles.sectionWrapper}>
-            <div className={styles.sectionHeader}>
-              <h6>Software mention context</h6>
-              <img src={checkGreen} alt="" />
-            </div>
-            <p>{softwareCitations[0].context}</p>
-          </div>
-          <div className={styles.sectionWrapper}>
-            <div className={styles.sectionHeader}>
-              <h6>Mention type</h6>
-              <img src={checkGreen} alt="" />
-            </div>
-            <p>{softwareCitations[0].type}</p>
-          </div>
-          <div className={styles.sectionWrapper}>
-            <div className={styles.sectionHeader}>
-              <h6>Software repository link</h6>
-              <img src={checkGreen} alt="" />
-            </div>
-            <p>{softwareCitations[0].url}</p>
-          </div>
-          <div className={styles.sectionWrapper}>
-            <div className={styles.sectionHeader}>
-              <h6>Confidence</h6>
-              <img src={checkGreen} alt="" />
-            </div>
-            <p>{softwareCitations[0].confidence || 66}</p>
-          </div>
+          {softwareCitations?.map((citation) => (
+            <>
+              <div className={styles.sectionWrapper}>
+                <div className={styles.sectionHeader}>
+                  <h6>Software name</h6>
+                  <img src={checkGreen} alt="" />
+                </div>
+                <p>{citation.software}</p>
+              </div>
+              <div className={styles.sectionWrapper}>
+                <div className={styles.sectionHeader}>
+                  <h6>Software mention context</h6>
+                  <img src={checkGreen} alt="" />
+                </div>
+                <p>{citation.context}</p>
+              </div>
+              <div className={styles.sectionWrapper}>
+                <div className={styles.sectionHeader}>
+                  <h6>Mention type</h6>
+                  <img src={checkGreen} alt="" />
+                </div>
+                <div className={styles.mentionTypeWrapper}>
+                  <div className={styles.typeWrapper}>
+                    <p className={styles.typeText}>{citation.type}</p>
+                    <Icon className={styles.mentionIcon} src="#pencil" />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.sectionWrapper}>
+                <div className={styles.sectionHeader}>
+                  <h6>Software repository link</h6>
+                  <img src={checkGreen} alt="" />
+                </div>
+                <a
+                  href={citation.url}
+                  target="_blank"
+                  className={styles.repoLink}
+                  rel="noreferrer"
+                >
+                  {citation.url}
+                </a>
+              </div>
+              <div className={styles.sectionWrapper}>
+                <div className={styles.sectionHeader}>
+                  <h6>Confidence</h6>
+                  <img src={checkGreen} alt="" />
+                </div>
+                <p>{citation.confidence || 66}</p>
+              </div>
+            </>
+          ))}
         </div>
       </Body>
       <Footer className={styles.buttonWrapper}>
@@ -171,10 +188,8 @@ const ReadySwTableComponent = observer(
           <div className={styles.dataSpinnerWrapper}>
             <img src={warning} alt="warning" />
             <p className={styles.spinnerText}>
-              {/* eslint-disable-next-line max-len */}
-              {/* eslint-disable-next-line max-len,react/no-unescaped-entities */}
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
               Sorry, we couldn't download the page at the moment. Please try
-              again in a few minutes.
             </p>
           </div>
         )

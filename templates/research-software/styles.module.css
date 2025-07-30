@@ -213,7 +213,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: 140%;
-  color: #212121;
   letter-spacing: 0.024px;
 }
 
@@ -262,4 +261,49 @@
 .date-title {
   font-size: 14px;
   color: #424242;
+}
+
+.mention-type-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.type-wrapper {
+  width: max-content;
+  display: flex;
+  height: 30px;
+  padding: 0 4px 0 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 2px;
+  background: #8bc34a;
+  cursor: pointer;
+}
+
+.mention-icon {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+}
+
+.type-text {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  letter-spacing: 0.026px;
+  margin-bottom: unset;
+}
+
+.repo-link {
+  color: #b75400;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0.024px;
+  cursor: pointer;
 }
