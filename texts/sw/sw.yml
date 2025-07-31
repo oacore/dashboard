@@ -1,0 +1,69 @@
+title: Research software
+
+description: Via the CORE Repository Dashboard, a request to validate the extracted mentions is made available to the repository  and, with the authorisation of the repository manager, routed to the author (e.g. by means of an email notification) who validates this request.
+
+settings:
+  title: Settings
+  warning: |
+    This functionality uses [COAR Notify](https://coar-notify.net) to enable the automatic enrichment of software mentions in your repository record. It is currently in beta version, if you are interested in enabling it please contact us **theteam@core.ac.uk.**
+  configure:
+    title: |
+      Sending settings:
+    description: Authorise CORE to send notification automatically
+    subDescription: Send the request to at most 1 author at your own institution (the first one at your institution appearing in that list)
+    option:
+      - title: All notifications
+        id: all
+      - title: Only notifications with high confidence
+        id: few
+
+calendar:
+  title: Only papers for the past 5 years included to this tab
+
+statsCards:
+  ready:
+    title: Mentions ready for validation
+    description: action recommended
+    action: Review
+    tooltip: Software assets that have been found in papers in your repository. You can send them directly to the author for confirmation.
+  sent:
+    title: Sent mentions
+    description: mentions that wait author’s approval
+    action: Review
+    tooltip: Soft ware assets that has been sent to authors for confirmation.
+    noticeable: true
+    disabled: Your repository is not configured to support the automatic notification of software mentions, please go to [Settings]() to activate it.
+  responded:
+    title: Responded to mentions
+    description: reviewed mentions by authors
+    action: Review
+    tooltip: Soft ware assets that has been responded to by authors.
+    disabled: Your repository is not configured to support the automatic notification of software mentions, please go to [Settings]() to activate it.
+
+table:
+  actions:
+    - name:  Ready for validation
+      defaultActive: true
+      action: ready
+      id: ready
+    - name: Sent
+      action: sent
+      id: sent
+    - name: Responded to
+      action: responded
+      id: responded
+    - name: Cancelled
+      action: cancelled
+      id: cancelled
+
+actions:
+  - title: Open in CORE
+    key: coreUrl
+  - title: Open in the repository
+    key: outputUrl
+
+notificationModal:
+    title: Automatic notification of software mentions
+    description: |
+      This functionality uses [COAR Notify](https://coar-notify.net) to enable the automatic enrichment of software mentions in your repository record. It is currently in beta version, if you are interested in enabling it please contact us at **theteam@core.ac.uk**
+    action: Close

@@ -1,0 +1,49 @@
+.header {
+  padding: var(--component-padding-y) var(--component-padding-x);
+  margin: 0 var(--component-spacer-x, 1rem) var(--component-spacer-y, 1.5rem);
+  background-color: var(--white);
+  border-bottom: 2px solid var(--primary);
+  box-shadow: var(--elevation-04);
+}
+
+.temporary-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  color: #000;
+  letter-spacing: 0.03px;
+}
+
+.beta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 53px;
+  height: 30px;
+  margin-left: 10px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  background: #8bc34a;
+  border-radius: 2px;
+}
+
+.description {
+  margin-top: 12px;
+  color: var(--gray-700);
+}

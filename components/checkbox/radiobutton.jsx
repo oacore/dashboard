@@ -10,6 +10,7 @@ const RadioGroup = ({
   checkedStatus,
   notificationData,
   updateNotificationsPending,
+  direction,
 }) => {
   const [selectedOption, setSelectedOption] = useState(null)
 
@@ -25,9 +26,18 @@ const RadioGroup = ({
   }
 
   return (
-    <div className={styles.optionWrapper}>
+    <div
+      className={classNames.use(styles.optionWrapper, {
+        [styles.optionWrapperDirection]: direction,
+      })}
+    >
       {options.map((item) => (
-        <div className={styles.option} key={item.key}>
+        <div
+          className={classNames.use(styles.option, {
+            [styles.spaceUnset]: direction,
+          })}
+          key={item.key}
+        >
           {checkedStatus ? (
             <input
               className={classNames.use(styles.radioInput, {

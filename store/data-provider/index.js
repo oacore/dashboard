@@ -16,6 +16,10 @@ class DataProvider extends Resource {
   constructor(rootStore, init, options) {
     super(init, options)
     this.rootStore = rootStore
+    const today = `${new Date().toISOString().split('T')[0]} 00:00:00`
+    const defaultStartDate = '2023-01-01 00:00:00'
+
+    this.setDateRange(defaultStartDate, today)
   }
 
   @observable id = ''
@@ -130,6 +134,23 @@ class DataProvider extends Resource {
 
   @observable orcidStatsLoading = false
 
+  @observable swData = []
+
+  @observable readySwTableDataLoading = false
+
+  @observable dateRange = {
+    startDate: null,
+    endDate: null,
+  }
+
+  @action
+  setDateRange(startDate, endDate) {
+    this.dateRange = {
+      startDate,
+      endDate,
+    }
+  }
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -208,6 +229,11 @@ class DataProvider extends Resource {
   @action
   setOrcidStatsData(data) {
     this.orcidStatData = data
+  }
+
+  @action
+  setSwData(data) {
+    this.swData = data
   }
 
   @action
@@ -296,7 +322,7 @@ class DataProvider extends Resource {
     this.articleAdditionalDataLoading = true
     try {
       const response = await fetch(
-        `https://api-dev.core.ac.uk/internal/articles/${id}`
+        `https://api.core.ac.uk/internal/articles/${id}`
       )
       if (response.ok) {
         const data = await response.json()
@@ -518,6 +544,13 @@ class DataProvider extends Resource {
         this.sdgUrl = `${process.env.API_URL}${url}/sdg?accept=text/csv`
         this.basicOrcidUrl = `${process.env.API_URL}${url}/orcid/basic?accept=text/csv`
         this.otherOrcidUrl = `${process.env.API_URL}${url}/orcid/other-repos?accept=text/csv`
+        this.swUrl = `${process.env.API_URL}${url}/sw-mentions?accept=text/csv`
+        this.swUrls = {
+          ready: `${process.env.API_URL}${url}/sw-mentions?accept=text/csv&status=ready`,
+          sent: `${process.env.API_URL}${url}/sw-mentions?accept=text/csv&status=sent`,
+          responded: `${process.env.API_URL}${url}/sw-mentions?accept=text/csv&status=responded`,
+          cancelled: `${process.env.API_URL}${url}/sw-mentions?accept=text/csv&status=cancelled`,
+        }
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {
@@ -887,6 +920,35 @@ class DataProvider extends Resource {
       console.error('Error fetching deduplication data:', error)
     } finally {
       this.orcidStatsLoading = false
+    }
+  }
+
+  @action
+  getReadySwData = async (id, searchTerm = '', startDate, endDate) => {
+    this.readySwTableDataLoading = true
+    try {
+      let url = `${process.env.API_URL}/data-providers/${id}/sw-mentions`
+      let queryString = ''
+      if (startDate && endDate)
+        queryString = `?fromDate=${startDate}&toDate=${endDate}`
+
+      if (searchTerm) {
+        queryString += `${
+          queryString.includes('?') ? '&' : '?'
+        }q=${encodeURIComponent(searchTerm)}`
+      }
+      url += queryString
+
+      const response = await fetch(url)
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        this.setSwData(data)
+      } else throw new Error('Failed to fetch software mentions data')
+    } catch (error) {
+      console.error('Error fetching software mentions data:', error)
+      throw error
+    } finally {
+      this.readySwTableDataLoading = false
     }
   }
 

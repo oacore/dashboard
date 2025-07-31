@@ -47,7 +47,6 @@ const ActivitySelectOption = ({
     setShowSubMenuState(false)
   }
 
-  // eslint-disable-next-line no-nested-ternary
   return subMenu ? (
     <div>
       {/* eslint-disable-next-line max-len */}
