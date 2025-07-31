@@ -924,6 +924,35 @@ class DataProvider extends Resource {
   }
 
   @action
+  getReadySwData = async (id, searchTerm = '', startDate, endDate) => {
+    this.readySwTableDataLoading = true
+    try {
+      let url = `${process.env.API_URL}/data-providers/${id}/sw-mentions`
+      let queryString = ''
+      if (startDate && endDate)
+        queryString = `?fromDate=${startDate}&toDate=${endDate}`
+
+      if (searchTerm) {
+        queryString += `${
+          queryString.includes('?') ? '&' : '?'
+        }q=${encodeURIComponent(searchTerm)}`
+      }
+      url += queryString
+
+      const response = await fetch(url)
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        this.setSwData(data)
+      } else throw new Error('Failed to fetch software mentions data')
+    } catch (error) {
+      console.error('Error fetching software mentions data:', error)
+      throw error
+    } finally {
+      this.readySwTableDataLoading = false
+    }
+  }
+
+  @action
   reset() {
     this.irus = null
     this.rioxx = null
