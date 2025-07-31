@@ -23,7 +23,6 @@ const StatsCard = ({
   countClassName,
   wholeWidthCard,
   onActionClick = false,
-  tempDisabled = false,
 }) => (
   <Card
     className={classNames.use(styles.cardWrapper, {
@@ -55,36 +54,30 @@ const StatsCard = ({
         {description}
       </Card.Description>
     </div>
-    {tempDisabled ? (
-      <div>{tempDisabled}</div>
-    ) : (
-      <>
-        <div>
-          {loading ? (
-            <div className={styles.loadingContainer}>
-              <div className={styles.loadingStroke} />
-            </div>
-          ) : (
-            <div className={styles.innerContent}>
-              <p className={countClassName || styles.subFooter}>
-                {formatNumber(count || 0)}
-              </p>
-            </div>
-          )}
+    <div>
+      {loading ? (
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingStroke} />
         </div>
-        <div className={styles.footerWrapper}>
-          {showAction && !checkBillingType && (
-            <Button
-              onClick={onActionClick || undefined}
-              href={actionHref}
-              variant="contained"
-            >
-              {actionText}
-            </Button>
-          )}
+      ) : (
+        <div className={styles.innerContent}>
+          <p className={countClassName || styles.subFooter}>
+            {formatNumber(count || 0)}
+          </p>
         </div>
-      </>
-    )}
+      )}
+    </div>
+    <div className={styles.footerWrapper}>
+      {showAction && !checkBillingType && (
+        <Button
+          onClick={onActionClick || undefined}
+          href={actionHref}
+          variant="contained"
+        >
+          {actionText}
+        </Button>
+      )}
+    </div>
   </Card>
 )
 

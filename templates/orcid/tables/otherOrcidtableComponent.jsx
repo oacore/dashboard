@@ -14,6 +14,7 @@ import ExportButton from '../../../components/export-button'
 import { GlobalContext } from '../../../store'
 import { formatNumber } from '../../../utils/helpers'
 import getSdgIcon from '../../../utils/hooks/use-sdg-icon-renderer'
+import AccessPlaceholder from '../../../components/access-placeholder/AccessPlaceholder'
 
 const OtherOrcideTableComponent = observer(
   ({
@@ -31,12 +32,14 @@ const OtherOrcideTableComponent = observer(
     articleAdditionalDataLoading,
     handleToggleRedirect,
     totalLength,
+    checkBillingType,
   }) => {
     const { ...globalStore } = useContext(GlobalContext)
     const menuRef = useRef(null)
     const [localSearchTerm, setLocalSearchTerm] = useState('')
     const [page, setPage] = useState(0)
     const [selectedRowData, setSelectedRowData] = useState(null)
+    const [displayedData, setDisplayedData] = useState([])
 
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -49,6 +52,11 @@ const OtherOrcideTableComponent = observer(
         document.removeEventListener('mousedown', handleClickOutside)
       }
     }, [menuRef])
+
+    useEffect(() => {
+      if (checkBillingType) setDisplayedData(data?.slice(0, 5))
+      else setDisplayedData(data)
+    }, [data, checkBillingType])
 
     const onSearchChange = async (event) => {
       const searchTerm = event.target.value
@@ -74,6 +82,8 @@ const OtherOrcideTableComponent = observer(
         data?.length === totalLength
       )
         return
+
+      if (checkBillingType) return
 
       const from = (page + 1) * 50
       const size = 50
@@ -105,16 +115,16 @@ const OtherOrcideTableComponent = observer(
             className={styles.orcidTable}
             isHeaderClickable
             rowIdentifier="articleId"
-            data={data}
-            size={data?.length}
+            data={displayedData}
+            size={displayedData?.length}
             totalLength={formatNumber(totalLength)}
             localSearch
-            searchable
+            searchable={!checkBillingType}
             searchChange={onSearchChange}
             localSearchTerm={localSearchTerm}
             rowClick={(row) => onSetActiveArticle(row)}
             fetchData={fetchData}
-            // excludeFooter={checkBillingType || !hasData || hasError}
+            excludeFooter={checkBillingType}
             isLoading={isLoading}
             renderDropDown={renderDropDown}
             details={
@@ -162,11 +172,20 @@ const OtherOrcideTableComponent = observer(
               id="orcid"
               display="ORCID ID"
               getter={(v) => {
-                if (v?.author_pid) {
+                if (Array.isArray(v?.author_pid) && v?.author_pid.length > 0) {
+                  const additionalCount =
+                    v?.author_pid.length > 1
+                      ? `+${v?.author_pid.length - 1}`
+                      : ''
                   return (
                     <span className={styles.orcidCell}>
                       <img src={idIcon} alt="idIcon" />
-                      {v?.author_pid || '-'}
+                      {v?.author_pid[0]}
+                      {additionalCount && (
+                        <span className={styles.additionalCount}>
+                          {additionalCount}
+                        </span>
+                      )}
                     </span>
                   )
                 }
@@ -178,7 +197,7 @@ const OtherOrcideTableComponent = observer(
               id="publicationDate"
               display="Publication date"
               className={styles.publicationDateColumn}
-              getter={(v) => v?.publicationDate}
+              getter={(v) => v?.publicationDate?.split('T')[0] || '-'}
             />
             <Table.Column
               id="actions"
@@ -220,6 +239,13 @@ const OtherOrcideTableComponent = observer(
               </ExportButton>
             </Table.Action>
           </Tablev2>
+        )}
+        {checkBillingType && (
+          <AccessPlaceholder
+            dataProviderData={globalStore.dataProvider}
+            customWidth
+            description="To see a full list of papers become our  Supporting or Sustaining member."
+          />
         )}
       </div>
     )

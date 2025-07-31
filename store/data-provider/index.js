@@ -126,17 +126,17 @@ class DataProvider extends Resource {
 
   @observable orcidOtherData = []
 
-  @observable swData = []
-
   @observable orcidTableDataLoading = false
-
-  @observable readySwTableDataLoading = false
 
   @observable withoutOrcidTableDataLoading = false
 
   @observable orcidOtherTableDataLoading = false
 
   @observable orcidStatsLoading = false
+
+  @observable swData = []
+
+  @observable readySwTableDataLoading = false
 
   @observable dateRange = {
     startDate: null,
@@ -920,35 +920,6 @@ class DataProvider extends Resource {
       console.error('Error fetching deduplication data:', error)
     } finally {
       this.orcidStatsLoading = false
-    }
-  }
-
-  @action
-  getReadySwData = async (id, searchTerm = '', startDate, endDate) => {
-    this.readySwTableDataLoading = true
-    try {
-      let url = `${process.env.API_URL}/data-providers/${id}/sw-mentions`
-      let queryString = ''
-      if (startDate && endDate)
-        queryString = `?fromDate=${startDate}&toDate=${endDate}`
-
-      if (searchTerm) {
-        queryString += `${
-          queryString.includes('?') ? '&' : '?'
-        }q=${encodeURIComponent(searchTerm)}`
-      }
-      url += queryString
-
-      const response = await fetch(url)
-      if (response.ok && response.status === 200) {
-        const data = await response.json()
-        this.setSwData(data)
-      } else throw new Error('Failed to fetch software mentions data')
-    } catch (error) {
-      console.error('Error fetching software mentions data:', error)
-      throw error
-    } finally {
-      this.readySwTableDataLoading = false
     }
   }
 

@@ -15,6 +15,7 @@ const OrcidPageTemplate = observer(
     const [showMore, setShowMore] = useState(false)
     const [initialLoad, setInitialLoad] = useState(true)
     const [activeButton, setActiveButton] = useState('with')
+    const [checkBillingType, setCheckBillingType] = useState(false)
     const { ...globalStore } = useContext(GlobalContext)
 
     // TODO remove if not needed
@@ -48,6 +49,12 @@ const OrcidPageTemplate = observer(
       if (tableSection) tableSection.scrollIntoView({ behavior: 'smooth' })
     }
 
+    useEffect(() => {
+      setCheckBillingType(
+        globalStore.organisation.billingPlan?.billingType === 'starting'
+      )
+    }, [globalStore.organisation.billingPlan])
+
     return (
       <Tag
         className={classNames.use(styles.main).join(className)}
@@ -73,7 +80,7 @@ const OrcidPageTemplate = observer(
               title={texts.statsCards.withOrcid.title}
               description={texts.statsCards.withOrcid.description}
               actionText={texts.statsCards.withOrcid.action}
-              showInfo={texts.statsCards.withOrcid.tooltip}
+              infoText={texts.statsCards.withOrcid.tooltip}
               loading={globalStore.dataProvider.orcidStatsLoading}
               count={globalStore.dataProvider.orcidStatData.basic}
               wholeWidthCard
@@ -100,7 +107,8 @@ const OrcidPageTemplate = observer(
               title={texts.statsCards.otherOrcid.title}
               actionText={texts.statsCards.otherOrcid.action}
               description={texts.statsCards.otherOrcid.description}
-              showInfo={texts.statsCards.otherOrcid.tooltip}
+              showInfo
+              infoText={texts.statsCards.otherOrcid.tooltip}
               loading={globalStore.dataProvider.orcidStatsLoading}
               wholeWidthCard
               count={
@@ -132,6 +140,7 @@ const OrcidPageTemplate = observer(
             globalStore.dataProvider.articleAdditionalDataLoading
           }
           articleData={globalStore.dataProvider.articleAdditionalData}
+          checkBillingType={checkBillingType}
         />
       </Tag>
     )
