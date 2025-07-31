@@ -230,8 +230,8 @@
 }
 
 .close-button {
-  border-radius: 2px;
   border: 1px solid #b75400;
+  border-radius: 2px;
 }
 
 .status-type {
@@ -270,16 +270,16 @@
 }
 
 .type-wrapper {
-  width: max-content;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
   height: 30px;
   padding: 0 4px 0 8px;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  border-radius: 2px;
-  background: #8bc34a;
   cursor: pointer;
+  background: #8bc34a;
+  border-radius: 2px;
+  gap: 4px;
 }
 
 .mention-icon {
@@ -289,21 +289,21 @@
 }
 
 .type-text {
-  color: #fff;
+  margin-bottom: unset;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 24px; /* 150% */
+  color: #fff;
   letter-spacing: 0.026px;
-  margin-bottom: unset;
 }
 
 .repo-link {
-  color: #b75400;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 140%;
+  color: #b75400;
   letter-spacing: 0.024px;
   cursor: pointer;
 }
