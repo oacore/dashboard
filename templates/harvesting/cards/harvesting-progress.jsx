@@ -21,7 +21,7 @@ const HarvestingProgressCard = observer(
     const { ...globalStore } = useContext(GlobalContext)
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
-    const [modalOpen, setModalOpen] = useState(false)
+    const [modalOpen, setmodalOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
     const [renderedContent, setRenderedContent] = useState(null)
 
@@ -40,7 +40,7 @@ const HarvestingProgressCard = observer(
           return
         }
         setLoading(true)
-        setModalOpen(false)
+        setmodalOpen(false)
         await sendHarvestingRequest(requestText)
         await globalStore.dataProvider.issues.getHarvestingStatus(true)
         setSuccess(true)
@@ -55,11 +55,11 @@ const HarvestingProgressCard = observer(
     }
 
     const triggerModal = () => {
-      if (!loading) setModalOpen(true)
+      if (!loading) setmodalOpen(true)
     }
 
     const handleButtonClose = () => {
-      setModalOpen(false)
+      setmodalOpen(false)
     }
 
     // eslint-disable-next-line consistent-return
