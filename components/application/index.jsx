@@ -289,7 +289,7 @@ const Application = observer(
           </div>
           {children && <Main>{children}</Main>}
         </Container>
-        <FeedbackButton />
+        <FeedbackButton user={user} dataProvider={dataProvider} />
       </>
     )
   }

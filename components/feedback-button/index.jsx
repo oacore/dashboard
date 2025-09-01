@@ -9,7 +9,7 @@ import styles from './styles.module.css'
 import content from '../../texts/feedback/feedback.yml'
 import Markdown from '../markdown'
 
-const FeedbackButton = () => {
+const FeedbackButton = ({ user, dataProvider }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [feedbackText, setFeedbackText] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -44,26 +44,29 @@ const FeedbackButton = () => {
     try {
       // Get current page information
       const currentPage = router.asPath
-      const pageTitle = document.title || 'Dashboard'
 
-      // Here you would typically send the feedback to your backend
-      // For now, we'll just log it and show the success state
+      // Log the required values for the API
       // eslint-disable-next-line no-console
       console.log('Feedback submitted:', {
-        feedback: feedbackText,
+        userEmail: user?.email || 'No email available',
+        repositoryNumber: dataProvider?.id || 'No repository ID available',
         page: currentPage,
-        pageTitle,
-        timestamp: new Date().toISOString(),
+        feedbackText,
+        // Additional context
+        // pageTitle,
       })
 
-      //  can replace this with actual API call:
+      // TODO: Replace this with actual API call:
       // await fetch('/api/feedback', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify({
-      //     feedback: feedbackText,
+      //     userEmail: user?.email,
+      //     repositoryNumber: dataProvider?.id,
       //     page: currentPage,
-      //     pageTitle: pageTitle
+      //     feedbackText: feedbackText,
+      //     pageTitle: pageTitle,
+      //     timestamp: new Date().toISOString()
       //   })
       // })
 
