@@ -289,7 +289,9 @@ const Application = observer(
           </div>
           {children && <Main>{children}</Main>}
         </Container>
-        <FeedbackButton user={user} dataProvider={dataProvider} />
+        {isAuthenticated && user && dataProvider && (
+          <FeedbackButton user={user} dataProvider={dataProvider} />
+        )}
       </>
     )
   }

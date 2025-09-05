@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button, Modal } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
@@ -8,6 +8,7 @@ import message from '../upload/assets/message.svg'
 import styles from './styles.module.css'
 import content from '../../texts/feedback/feedback.yml'
 import Markdown from '../markdown'
+import { GlobalContext } from '../../store'
 
 const FeedbackButton = ({ user, dataProvider }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -15,6 +16,7 @@ const FeedbackButton = ({ user, dataProvider }) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const { ...globalStore } = useContext(GlobalContext)
 
   const handleFeedbackClick = () => {
     setIsModalOpen(true)
@@ -45,30 +47,14 @@ const FeedbackButton = ({ user, dataProvider }) => {
       // Get current page information
       const currentPage = router.asPath
 
-      // Log the required values for the API
-      // eslint-disable-next-line no-console
-      console.log('Feedback submitted:', {
+      const feedbackData = {
         userEmail: user?.email || 'No email available',
         repositoryNumber: dataProvider?.id || 'No repository ID available',
         page: currentPage,
-        feedbackText,
-        // Additional context
-        // pageTitle,
-      })
+        feedbackText: feedbackText.trim(),
+      }
 
-      // TODO: Replace this with actual API call:
-      // await fetch('/api/feedback', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     userEmail: user?.email,
-      //     repositoryNumber: dataProvider?.id,
-      //     page: currentPage,
-      //     feedbackText: feedbackText,
-      //     pageTitle: pageTitle,
-      //     timestamp: new Date().toISOString()
-      //   })
-      // })
+      await globalStore.dataProvider.sendFeedback(feedbackData)
 
       setIsSubmitted(true)
       setError('')
