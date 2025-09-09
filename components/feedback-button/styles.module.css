@@ -1,25 +1,28 @@
 .feedback-container {
   position: fixed;
-  top: 20%;
-  right: -55px;
+  right: 40px;
+  bottom: 0;
   z-index: 1000;
 }
 
 .feedback-button {
   display: flex;
   align-items: center;
-  min-width: 127px;
-  min-height: 36px;
-  padding: 12px 16px;
-  font-size: 14px;
+  justify-content: center;
+  width: 180px;
+  height: 40px;
+  padding: 10px 16px;
+  font-size: 16px;
   font-weight: 500;
   color: #fff;
+  text-transform: capitalize;
   cursor: pointer;
   border: none;
   border-radius: 10px 10px 0 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
-  transform: rotate(-90deg);
+
+  /* transform: rotate(-90deg); */
   gap: 10px;
 }
 
