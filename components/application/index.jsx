@@ -20,6 +20,7 @@ import notification from '../../templates/settings/assets/bell.svg'
 import NotificationPopUp from '../../templates/settings/cards/notificationPopUp'
 import { useNotification } from './useNotification'
 import { GlobalContext } from '../../store'
+import FeedbackButton from '../feedback-button'
 
 const Application = observer(
   ({
@@ -288,6 +289,9 @@ const Application = observer(
           </div>
           {children && <Main>{children}</Main>}
         </Container>
+        {isAuthenticated && user && dataProvider && (
+          <FeedbackButton user={user} dataProvider={dataProvider} />
+        )}
       </>
     )
   }

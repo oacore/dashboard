@@ -130,6 +130,10 @@ class DataProvider extends Resource {
 
   @observable orcidStatsLoading = false
 
+  @observable feedbackData = ''
+
+  @observable feedbackLoading = false
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -208,6 +212,16 @@ class DataProvider extends Resource {
   @action
   setOrcidStatsData(data) {
     this.orcidStatData = data
+  }
+
+  @action
+  setFeedbackData = (data) => {
+    this.feedbackData = data
+  }
+
+  @action
+  setFeedbackLoading = (loading) => {
+    this.feedbackLoading = loading
   }
 
   @action
@@ -887,6 +901,29 @@ class DataProvider extends Resource {
       console.error('Error fetching deduplication data:', error)
     } finally {
       this.orcidStatsLoading = false
+    }
+  }
+
+  @action
+  sendFeedback = async (feedbackData) => {
+    this.setFeedbackLoading = true
+    try {
+      const response = await fetch(`${process.env.API_URL}/email/feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          repositoryNumber: feedbackData.repositoryNumber,
+          feedbackText: feedbackData.feedbackText,
+          page: feedbackData.page,
+          userEmail: feedbackData.userEmail,
+        }),
+      })
+      this.setFeedbackData(response)
+      return response
+    } finally {
+      this.setFeedbackLoading = false
     }
   }
 
