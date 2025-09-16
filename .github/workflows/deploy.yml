@@ -7,10 +7,12 @@ on:
   workflow_dispatch:
 
 env:
-  ACR_NAME: corefrontend
-  IMAGE_NAME: dashboard
-  RESOURCE_GROUP: test-rg
-  WEBAPP_NAME: dashboard-core-container
+  ACR_NAME: corecontainers
+  IMAGE_NAME: core-frontend-dashboard
+  RESOURCE_GROUP: core-frontend
+  CONTAINERAPP_NAME: core-frontend-dashboard
+  CONTAINER_NAME:  core-frontend-dashboard
+  SENTRY_DSN: https://d116b39bd427449799cdd1516f6f97a1@sentry.io/2091955
 
 permissions:
   id-token: write
@@ -43,6 +45,8 @@ jobs:
       - name: Docker Build and Tag
         run: |
           docker build \
+            --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
+            --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             --build-arg API_KEY=${{ secrets.API_KEY }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
@@ -69,25 +73,25 @@ jobs:
       - name: Set image tag from build job
         run: echo "TAG=${{ needs.build-and-push.outputs.tag }}" >> $GITHUB_ENV
 
-      - name: Set app settings (API_KEY & NPM_TOKEN)
+      - name: Deploy container image
         run: |
-          az webapp config appsettings set \
-            --name ${{ env.WEBAPP_NAME }} \
+          az containerapp update \
+            --name ${{ env.CONTAINERAPP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --settings \
-              API_KEY=${{ secrets.API_KEY }} \
-              NPM_TOKEN=${{ secrets.NPM_TOKEN }}
+            --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
+            --container-name ${{ env.CONTAINER_NAME }} \
 
-      - name: Deploy Docker image to Azure Web App
+      - name: Set API_KEY secret
         run: |
-          az webapp config container set \
-            --name ${{ env.WEBAPP_NAME }} \
+          az containerapp secret set \
+            --name ${{ env.CONTAINERAPP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --docker-custom-image-name ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
-            --docker-registry-server-url https://${{ env.ACR_NAME }}.azurecr.io
+            --secrets api-key=${{ secrets.API_KEY }}
 
-      - name: Restart Web App
+      - name: Bind API_KEY env to container
         run: |
-          az webapp restart \
-            --name ${{ env.WEBAPP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }}
+          az containerapp update \
+            --name ${{ env.CONTAINERAPP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --container-name $CONTAINER_NAME \
+            --set-env-vars API_KEY=secretref:api-key

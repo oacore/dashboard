@@ -1,42 +1,28 @@
-# Stage 1: Build stage
-FROM node:16 AS builder
+FROM node:18-alpine
 
-# Accept tokens as build args
+ARG BUILD_TARGET=azure
+ARG SENTRY_DSN
+ARG NODE_ENV=production
 ARG NPM_TOKEN
 ARG API_KEY
+ARG GA_TRACKING_CODE
 
-# Set working directory
+ENV SENTRY_DSN=$SENTRY_DSN \
+    NPM_TOKEN=$NPM_TOKEN \
+    GA_TRACKING_CODE=$GA_TRACKING_CODE \
+    API_KEY=$API_KEY \
+    BUILD_TARGET=$BUILD_TARGET
+
 WORKDIR /app
 
-# Configure GitHub Packages auth (do NOT commit this)
-RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
-
-# Install dependencies
-COPY package*.json .npmrc ./
-RUN npm ci --legacy-peer-deps
-
-# Copy full source (including env.config)
 COPY . .
 
-# Build the Next.js app
+RUN npm ci --include=dev --legacy-peer-deps
+
+ENV NODE_ENV=$NODE_ENV
+ENV NODE_OPTIONS="--openssl-legacy-provider"
+
 RUN npm run build
-
-# Stage 2: Runtime stage
-FROM node:16-alpine
-
-# Add dumb-init for signal handling
-RUN apk add --no-cache dumb-init
-
-WORKDIR /app
-
-# Copy everything from builder
-COPY --from=builder /app /app
-
-# Expose app port
 EXPOSE 8080
 
-# Use dumb-init to handle signals properly
-ENTRYPOINT ["dumb-init", "--"]
-
-# Default command
 CMD ["node_modules/next/dist/bin/next", "start", "-p", "8080"]
