@@ -38,10 +38,10 @@ const GeneralPageTemplate = observer(
     const [formMessage, setFormMessage] = useState({})
     const [inviteCodes, setInviteCodes] = useState(organisationUserInvites)
     const [rorId, setRorId] = useState(
-      globalStore.organisation.rorId ? globalStore.organisation.rorId : ''
+      globalStore.organisation?.rorId ? globalStore.organisation?.rorId : ''
     )
     const [rorName, setRorName] = useState(
-      globalStore.organisation.rorName ? globalStore.organisation.rorName : ''
+      globalStore.organisation?.rorName ? globalStore.organisation?.rorName : ''
     )
     const [organizationName, setOrganizationName] = useState(
       globalStore.organisation.name
@@ -173,10 +173,10 @@ const GeneralPageTemplate = observer(
 
     const renderRORWarning = () => {
       if (
-        globalStore.organisation.rorId &&
-        globalStore.dataProvider.rorData.rorId &&
+        globalStore.organisation?.rorId &&
+        globalStore.dataProvider?.rorData?.rorId &&
         globalStore.organisation.rorId !==
-          globalStore.dataProvider.rorData.rorId
+          globalStore.dataProvider?.rorData?.rorId
       ) {
         return (
           <div className={styles.warningWrapper}>
