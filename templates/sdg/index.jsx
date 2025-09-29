@@ -131,7 +131,7 @@ const SdgPageTemplate = observer(
 
     const handleGenerateReport = async () => {
       try {
-        const response = await generateSdgReport(globalStore.dataProvider.id)
+        const response = await generateSdgReport(globalStore.dataProvider.id, globalStore.user.email)
         if (response.ok) {
           setReportGenerated(true)
           localStorage.setItem(
