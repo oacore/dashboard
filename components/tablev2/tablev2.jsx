@@ -111,6 +111,7 @@ const Tablev2 = ({
         React.cloneElement(sidebar, {
           context: expandedRowId,
           children: expandedRowId ? sidebar.props.children : null,
+          onClose: handleSidebarClose,
         })}
     </div>
   )

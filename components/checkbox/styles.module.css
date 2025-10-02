@@ -139,6 +139,11 @@
   margin-left: 40px;
 }
 
+.option-wrapper-direction {
+  display: flex;
+  gap: 42px;
+}
+
 .option {
   display: flex;
   align-items: center;
@@ -148,6 +153,28 @@
   margin-bottom: 24px;
 }
 
+.space-unset:not(:last-child) {
+  margin-bottom: unset;
+}
+
 .disabled-cursor {
   cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* TODO remove after enabled */
+.radio-input:disabled {
+  cursor: not-allowed;
+  background: #f5f5f5;
+  border-color: #ddd;
+  opacity: 0.5;
+}
+
+.radio-input:disabled:checked {
+  background: #f5f5f5;
+  border-color: #ddd;
+}
+
+.radio-input:disabled:checked::before {
+  background: #ccc;
 }
