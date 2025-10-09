@@ -63,15 +63,22 @@ const DocumentationBlockTemplate = ({
   useEffect(() => {
     const id = route.query?.r
     if (id) {
-      const n = navigation.navItems.findIndex(
+      const currentNavigation =
+        selectedOption === text.documentationSwitcher[1].title
+          ? navigation
+          : dataProviderDocs.navigation
+
+      const n = currentNavigation.navItems.findIndex(
         (item) => normalizeHref(item.href) === id
       )
       setNavActiveIndex(n)
     }
-  }, [])
+  }, [selectedOption, navigation, dataProviderDocs?.navigation, route.query?.r])
 
   const handleSelectChange = (option) => {
     setSelectedOption(option)
+    // Reset navigation active index when switching between documentation types
+    setNavActiveIndex(null)
   }
 
   const handleScrollToTop = () => {

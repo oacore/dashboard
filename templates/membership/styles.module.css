@@ -94,24 +94,24 @@
 }
 
 .nav-wrapper {
-  width: 100%;
   display: flex;
   align-items: center;
+  width: 100%;
   border: 2px solid #b75400;
 
   .nav-title {
     display: flex;
     align-items: center;
-    padding: 4px 24px 4px 32px;
-    background: #b75400;
     width: 450px;
     min-height: 50px;
-    color: #fff;
+    padding: 4px 24px 4px 32px;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
     line-height: 130%;
+    color: #fff;
     letter-spacing: 0.036px;
+    background: #b75400;
     @media (max-width: 48rem) {
       width: 100%;
       font-size: 16px;
@@ -127,11 +127,11 @@
     }
   }
   @media (max-width: 48rem) {
-    flex-wrap: wrap;
     position: fixed;
     top: 52px;
     left: 0;
     z-index: 1000;
+    flex-wrap: wrap;
   }
 }
 
@@ -164,8 +164,8 @@
   display: flex;
   justify-content: space-between;
   max-height: 1472px;
-  overflow-y: scroll;
   padding-top: 24px;
+  overflow-y: scroll;
   border-top: 2px solid #b75400;
 }
 
@@ -258,11 +258,11 @@
 
 .tab-wrapper {
   .btn-wrapper {
-    padding: 3rem 0 1.5rem;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    padding: 3rem 0 1.5rem;
     border-bottom: 2px solid #b75400;
+    gap: 20px;
 
     .tab {
       display: flex;
@@ -280,25 +280,25 @@
       border-top-right-radius: 15px;
 
       .tab-header {
-        color: #b75400;
+        margin-bottom: 14px;
         font-size: 24px;
         font-style: normal;
         font-weight: 500;
         line-height: 130%;
+        color: #b75400;
         text-align: left;
-        margin-bottom: 14px;
         text-transform: initial;
       }
 
       .tab-description {
-        color: #212121;
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
         line-height: 20px;
-        letter-spacing: 0.04px;
+        color: #212121;
         text-align: left;
         text-transform: initial;
+        letter-spacing: 0.04px;
       }
 
       .tab:last-child {
@@ -322,25 +322,25 @@
       border-top-right-radius: 15px;
 
       .tab-header {
-        color: #fff;
+        margin-bottom: 14px;
         font-size: 24px;
         font-style: normal;
         font-weight: 500;
         line-height: 130%;
+        color: #fff;
         text-align: left;
-        margin-bottom: 14px;
         text-transform: initial;
       }
 
       .tab-description {
-        color: #fff;
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
         line-height: 20px;
-        letter-spacing: 0.04px;
+        color: #fff;
         text-align: left;
         text-transform: initial;
+        letter-spacing: 0.04px;
       }
     }
   }
