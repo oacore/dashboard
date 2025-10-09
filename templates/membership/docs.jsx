@@ -72,6 +72,10 @@ const DocumentationBlockTemplate = ({
 
   const handleSelectChange = (option) => {
     setSelectedOption(option)
+    // Reset navigation active index when switching between documentation types
+    setNavActiveIndex(null)
+    // Also reset highlight to clear any previous selection
+    setHighlight(null)
   }
 
   const handleScrollToTop = () => {
@@ -140,6 +144,7 @@ const DocumentationBlockTemplate = ({
             handleScrollToTop={handleScrollToTop}
             nav={
               <DocumentationMembershipNav
+                key="membership-nav"
                 activeIndex={navActiveIndex}
                 setNavActiveIndex={setNavActiveIndex}
                 textData={navigation}
@@ -163,6 +168,7 @@ const DocumentationBlockTemplate = ({
             handleContentOpen={handleContentOpen}
             nav={
               <DocumentationMembershipNav
+                key="data-provider-nav"
                 activeIndex={navActiveIndex}
                 setNavActiveIndex={setNavActiveIndex}
                 textData={dataProviderDocs.navigation}
