@@ -24,3 +24,9 @@ box:
  action:
   caption: Compare features
   url: https://core.ac.uk/membership#comparison-table
+
+documentationSwitcher:
+  - title: CORE Data Provider’s Guide
+    description: These guidelines aim to assist institutions and repository managers in configuring their repositories in way that enables CORE to correctly index them.
+  - title: Membership Documentation
+    description: This documentation explains how to use all features and benefits of CORE Membership.
