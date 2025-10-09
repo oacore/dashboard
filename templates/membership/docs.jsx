@@ -9,8 +9,10 @@ import { useRouter } from 'next/router'
 
 import styles from './styles.module.css'
 import text from '../../texts/memership/membership.yml'
+import Markdown from '../../components/markdown'
 
 import videoIcon from 'components/upload/assets/tutorialActive.svg'
+import videoGuide from 'components/upload/assets/videoGuide.svg'
 import redirectIcon from 'components/upload/assets/redirectLink.svg'
 // import DocumentSelect from '../../../components/docs-select'
 
@@ -19,11 +21,16 @@ function normalizeHref(str) {
   return test.replace('_', '-')
 }
 
-const DocumentationBlockTemplate = ({ docs, navigation }) => {
+const DocumentationBlockTemplate = ({
+  docs,
+  navigation,
+  headerDashboard,
+  dataProviderDocs,
+}) => {
   const [highlight, setHighlight] = useState()
   const [navActiveIndex, setNavActiveIndex] = useState(null)
   const [selectedOption, setSelectedOption] = useState(
-    text.documentationSwitcher[0].title
+    text.documentationSwitcher[1].title
   )
   const [showNavigator, setShowNavigator] = useState(false)
   const [visibleVideo, setVisibleVideo] = useState(null)
@@ -63,12 +70,8 @@ const DocumentationBlockTemplate = ({ docs, navigation }) => {
     }
   }, [])
 
-  const handleButtonClick = () => {
-    route.push('membership-documentation')
-  }
   const handleSelectChange = (option) => {
     setSelectedOption(option)
-    if (option === 'Membership Documentation') handleButtonClick()
   }
 
   const handleScrollToTop = () => {
@@ -92,6 +95,21 @@ const DocumentationBlockTemplate = ({ docs, navigation }) => {
 
   return (
     <div>
+      {selectedOption === text.documentationSwitcher[0].title ? (
+        <>
+          <h2 className={styles.documentationHeader}>
+            {dataProviderDocs.providersHeader.header.title}
+          </h2>
+          <Markdown>{dataProviderDocs.providersHeader.header.caption}</Markdown>
+        </>
+      ) : (
+        <>
+          <h2 className={styles.documentationHeader}>
+            {headerDashboard.header.title}
+          </h2>
+          <Markdown>{headerDashboard.header.caption}</Markdown>
+        </>
+      )}
       <div className={styles.navWrapper}>
         <div className={styles.navTitle}>
           <span>CORE DOCUMENTATION:</span>
@@ -108,27 +126,53 @@ const DocumentationBlockTemplate = ({ docs, navigation }) => {
         </div>
       </div>
       <div className={styles.docsLayout}>
-        <DocumentationMembership
-          docs={docs?.items}
-          handleContentOpen={handleContentOpen}
-          highlight={highlight}
-          setHighlight={setHighlight}
-          docsTitle={text.documentationSwitcher[0].title}
-          mulltyDocs
-          videoIcon={videoIcon}
-          redirectLink={redirectIcon}
-          showNavigator={showNavigator}
-          handleScrollToTop={handleScrollToTop}
-          nav={
-            <DocumentationMembershipNav
-              activeIndex={navActiveIndex}
-              setNavActiveIndex={setNavActiveIndex}
-              textData={navigation}
-              setHighlight={setHighlight}
-              mulltyDocs
-            />
-          }
-        />
+        {selectedOption === text.documentationSwitcher[1].title ? (
+          <DocumentationMembership
+            docs={docs?.items}
+            handleContentOpen={handleContentOpen}
+            highlight={highlight}
+            setHighlight={setHighlight}
+            docsTitle={text.documentationSwitcher[1].title}
+            mulltyDocs
+            videoIcon={videoIcon}
+            redirectLink={redirectIcon}
+            showNavigator={showNavigator}
+            handleScrollToTop={handleScrollToTop}
+            nav={
+              <DocumentationMembershipNav
+                activeIndex={navActiveIndex}
+                setNavActiveIndex={setNavActiveIndex}
+                textData={navigation}
+                setHighlight={setHighlight}
+                mulltyDocs
+              />
+            }
+          />
+        ) : (
+          <DocumentationMembership
+            docs={dataProviderDocs.dataProviderDocs?.items}
+            tutorial={dataProviderDocs.dataProviderDocs?.tutorial}
+            highlight={highlight}
+            setHighlight={setHighlight}
+            imageSource
+            docsTitle={text.documentationSwitcher[0].title}
+            mulltyDocs
+            tutorialIcon={videoGuide}
+            showNavigator={showNavigator}
+            handleScrollToTop={handleScrollToTop}
+            handleContentOpen={handleContentOpen}
+            nav={
+              <DocumentationMembershipNav
+                activeIndex={navActiveIndex}
+                setNavActiveIndex={setNavActiveIndex}
+                textData={dataProviderDocs.navigation}
+                setHighlight={setHighlight}
+                mulltyDocs
+              />
+            }
+          />
+        )}
+
         {visibleVideo && (
           <Video
             visibleModal={visibleVideo}
