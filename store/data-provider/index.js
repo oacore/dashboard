@@ -114,6 +114,26 @@ class DataProvider extends Resource {
 
   @observable dasStatusUpdate = []
 
+  @observable orcidData = []
+
+  @observable orcidWithoutPaperData = []
+
+  @observable orcidStatData = []
+
+  @observable orcidOtherData = []
+
+  @observable orcidTableDataLoading = false
+
+  @observable withoutOrcidTableDataLoading = false
+
+  @observable orcidOtherTableDataLoading = false
+
+  @observable orcidStatsLoading = false
+
+  @observable feedbackData = ''
+
+  @observable feedbackLoading = false
+
   @action
   handleTextareaChange = (input) => {
     this.recordValue = input
@@ -172,6 +192,36 @@ class DataProvider extends Resource {
   @action
   setDasStatusUpdate = (result) => {
     this.dasStatusUpdate = result
+  }
+
+  @action
+  setOrcidData(data) {
+    this.orcidData = data
+  }
+
+  @action
+  setOrcidWithoutPaperData(data) {
+    this.orcidWithoutPaperData = data
+  }
+
+  @action
+  setOrcidOtherData(data) {
+    this.orcidOtherData = data
+  }
+
+  @action
+  setOrcidStatsData(data) {
+    this.orcidStatData = data
+  }
+
+  @action
+  setFeedbackData = (data) => {
+    this.feedbackData = data
+  }
+
+  @action
+  setFeedbackLoading = (loading) => {
+    this.feedbackLoading = loading
   }
 
   @action
@@ -260,7 +310,7 @@ class DataProvider extends Resource {
     this.articleAdditionalDataLoading = true
     try {
       const response = await fetch(
-        `https://api.core.ac.uk/internal/articles/${id}`
+        `https://api-dev.core.ac.uk/internal/articles/${id}`
       )
       if (response.ok) {
         const data = await response.json()
@@ -480,6 +530,8 @@ class DataProvider extends Resource {
         this.rrsUrl = `${process.env.API_URL}${url}/rights-retention?accept=text/csv`
         this.dasUrl = `${process.env.API_URL}${url}/data-access?accept=text/csv`
         this.sdgUrl = `${process.env.API_URL}${url}/sdg?accept=text/csv`
+        this.basicOrcidUrl = `${process.env.API_URL}${url}/orcid/basic?accept=text/csv`
+        this.otherOrcidUrl = `${process.env.API_URL}${url}/orcid/other-repos?accept=text/csv`
       },
       (error) => {
         if (error instanceof NetworkNotFoundError) {
@@ -693,14 +745,16 @@ class DataProvider extends Resource {
   }
 
   @action
-  generateSdgReport = async (dataProviderId) => {
+  generateSdgReport = async (dataProviderId, emailUser) => {
     try {
       const url = `${process.env.API_URL}/data-providers/${dataProviderId}/sdg/email`
+      const body = { emailUser }
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(body),
       })
       return response
     } catch (error) {
@@ -750,6 +804,128 @@ class DataProvider extends Resource {
       this.datasetUserData = data
     } catch (networkOrAccessError) {
       // Ignore errors for this moment
+    }
+  }
+
+  @action
+  getOrcidData = async (id, searchTerm = '', from = 0, size = 50) => {
+    this.orcidTableDataLoading = true
+    try {
+      const url = new URL(
+        `${process.env.API_URL}/data-providers/${id}/orcid/basic`
+      )
+      url.searchParams.append('from', from)
+      url.searchParams.append('size', size)
+      if (searchTerm) url.searchParams.append('q', searchTerm)
+
+      const response = await fetch(url)
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        if (from === 0)
+          this.setOrcidData(data) // Replace data on the first fetch
+        else this.setOrcidData([...this.orcidData, ...data]) // Append new data
+      } else throw new Error('Failed to fetch ORCID data')
+    } catch (error) {
+      console.error('Error fetching ORCID data:', error)
+    } finally {
+      this.orcidTableDataLoading = false
+    }
+  }
+
+  // @action
+  // getOrcidWithoutPaperData = async (
+  //   id,
+  //   searchTerm = '',
+  //   from = 0,
+  //   size = 50
+  // ) => {
+  //   this.withoutOrcidTableDataLoading = true
+  //   try {
+  //     const url = new URL(
+  //       `${process.env.API_URL}/data-providers/${id}/orcid/without-papers`
+  //     )
+  //     url.searchParams.append('from', from)
+  //     url.searchParams.append('size', size)
+  //     if (searchTerm) url.searchParams.append('q', searchTerm)
+  //
+  //     const response = await fetch(url)
+  //     if (response.ok && response.status === 200) {
+  //       const data = await response.json()
+  //       if (from === 0) this.setOrcidWithoutPaperData(data)
+  //       else {
+  //         this.setOrcidWithoutPaperData([
+  //           ...this.orcidWithoutPaperData,
+  //           ...data,
+  //         ])
+  //       }
+  //     } else throw new Error('Failed to fetch ORCID data')
+  //   } catch (error) {
+  //     console.error('Error fetching ORCID data:', error)
+  //   } finally {
+  //     this.withoutOrcidTableDataLoading = false
+  //   }
+  // }
+
+  @action
+  getOrcidOtherData = async (id, searchTerm = '', from = 0, size = 50) => {
+    this.orcidOtherTableDataLoading = true
+    try {
+      const url = new URL(
+        `${process.env.API_URL}/data-providers/${id}/orcid/other-repos`
+      )
+      url.searchParams.append('from', from)
+      url.searchParams.append('size', size)
+      if (searchTerm) url.searchParams.append('q', searchTerm)
+
+      const response = await fetch(url)
+      if (response.ok && response.status === 200) {
+        const data = await response.json()
+        if (from === 0) this.setOrcidOtherData(data)
+        else this.setOrcidOtherData([...this.orcidOtherData, ...data])
+      } else throw new Error('Failed to fetch ORCID data')
+    } catch (error) {
+      console.error('Error fetching ORCID data:', error)
+    } finally {
+      this.orcidOtherTableDataLoading = false
+    }
+  }
+
+  @action
+  getOrcidStats = async (id) => {
+    this.orcidStatsLoading = true
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/data-providers/${id}/orcid/stats`
+      )
+      const data = await response.json()
+      this.setOrcidStatsData(data)
+    } catch (error) {
+      console.error('Error fetching deduplication data:', error)
+    } finally {
+      this.orcidStatsLoading = false
+    }
+  }
+
+  @action
+  sendFeedback = async (feedbackData) => {
+    this.setFeedbackLoading = true
+    try {
+      const response = await fetch(`${process.env.API_URL}/email/feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          repositoryNumber: feedbackData.repositoryNumber,
+          feedbackText: feedbackData.feedbackText,
+          page: feedbackData.page,
+          userEmail: feedbackData.userEmail,
+        }),
+      })
+      this.setFeedbackData(response)
+      return response
+    } finally {
+      this.setFeedbackLoading = false
     }
   }
 

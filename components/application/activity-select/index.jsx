@@ -11,7 +11,6 @@ import navArrow from '../../upload/assets/navArrow.svg'
 
 import { Icon, Drawer } from 'design'
 import { navigation } from 'texts'
-import * as texts from 'texts/usrn'
 
 const toIcon = (value) => `#${activities.get(value).icon}`
 
@@ -47,9 +46,7 @@ const ActivitySelectOption = ({
   const redirectClick = () => {
     setShowSubMenuState(false)
   }
-  const isDataproviderInList = (obj, val) => Object.values(obj).includes(val)
 
-  // eslint-disable-next-line no-nested-ternary
   return subMenu ? (
     <div>
       {/* eslint-disable-next-line max-len */}
@@ -113,9 +110,6 @@ const ActivitySelectOption = ({
         </div>
       )}
     </div>
-  ) : value === 'usrn' &&
-    !isDataproviderInList(texts.status.usrnListDataProvider, dataProviderId) ? (
-    <></>
   ) : (
     // eslint-disable-next-line max-len
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
@@ -142,7 +136,9 @@ const ActivitySelectOption = ({
                     alt=""
                     aria-hidden
                   />
-                  {navigation.items[value]}
+                  <span className={styles.navItem}>
+                    {navigation.items[value]}
+                  </span>
                 </>
               )}
             </div>

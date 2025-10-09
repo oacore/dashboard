@@ -1,0 +1,18 @@
+feedback:
+  form:
+    title: Help us improve
+    description: Use this form to share your thoughts, report issues, or suggest improvements for the Dashboard.
+    placeholder: Type your feedback here...
+  success:
+    title: Thank you!
+    description: We appreciate your input, you're helping us become better.
+    action:
+      title: Close
+      type: contained
+  actions:
+    offAction:
+      title: cancel
+      type: text
+    onAction:
+      title: Send
+      type: contained

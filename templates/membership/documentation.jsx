@@ -11,6 +11,7 @@ const DocumentationPageTemplate = ({
   headerDashboard,
   docs,
   navigation,
+  dataProviderDocs,
   ...restProps
 }) => (
   <Tag
@@ -22,6 +23,7 @@ const DocumentationPageTemplate = ({
         headerDashboard={headerDashboard}
         docs={docs}
         navigation={navigation}
+        dataProviderDocs={dataProviderDocs}
       />
     </article>
   </Tag>

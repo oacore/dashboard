@@ -34,7 +34,15 @@ const config = {
     '*.googletagmanager.com',
   ],
   // Add frame-src to allow YouTube
-  'frame-src': [SELF, 'https://www.youtube.com', 'https://*.youtube.com'],
+  'frame-src': [
+    SELF,
+    'https://www.youtube.com',
+    'https://*.youtube.com',
+    'https://drive.google.com',
+    'https://*.drive.google.com',
+    'https://docs.google.com',
+    'https://*.docs.google.com',
+  ],
 }
 
 if (process.env.NODE_ENV !== 'production') {

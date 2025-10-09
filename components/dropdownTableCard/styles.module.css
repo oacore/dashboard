@@ -13,13 +13,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0 1rem 15.5vw;
+  padding: 1rem 0 1rem 198px;
   background-color: #fffadd;
 }
 
 .article-header h2 {
   max-width: 50vw;
   margin-bottom: 0;
+  font-size: 18px;
   white-space: normal;
 }
 
@@ -111,6 +112,12 @@
 
 .box-caption-doi {
   background-color: var(--gray-200);
+}
+
+.orcide-wrapper {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
 .sdg-score-wrapper {

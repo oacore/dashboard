@@ -84,6 +84,11 @@ const config = new RouteConfig([
     icon: 'barcode',
   },
   {
+    test: /\/orcid/,
+    path: 'orcid',
+    icon: 'orcid',
+  },
+  {
     test: /\/usrn/,
     path: 'usrn',
     icon: 'file-check',
@@ -113,7 +118,7 @@ const config = new RouteConfig([
         test: /\/recommender/,
         path: 'documentation',
         id: 'documentation',
-        value: 'Documentation',
+        value: 'Documentations',
       },
       {
         test: /\/badges/,

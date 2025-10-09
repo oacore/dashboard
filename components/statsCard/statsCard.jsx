@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
 import styles from './styles.module.css'
 import Actions from '../actions'
@@ -10,7 +11,7 @@ import { Card } from 'design'
 
 const StatsCard = ({
   title,
-  description,
+  description = false,
   count,
   loading,
   actionText,
@@ -20,8 +21,16 @@ const StatsCard = ({
   infoText,
   checkBillingType,
   countClassName,
+  wholeWidthCard,
+  onActionClick = false,
 }) => (
-  <Card className={styles.cardWrapper} tag="section" title={title}>
+  <Card
+    className={classNames.use(styles.cardWrapper, {
+      [styles.wholeCard]: wholeWidthCard,
+    })}
+    tag="section"
+    title={title}
+  >
     <div>
       <div className={styles.headerWrapper}>
         <Card.Title className={styles.cardTitle} tag="h2">
@@ -36,6 +45,11 @@ const StatsCard = ({
           />
         )}
       </div>
+      <div
+        className={classNames.use(styles.innerWrapper, {
+          [styles.extraSpacing]: !description,
+        })}
+      />
       <Card.Description className={styles.cardDescription}>
         {description}
       </Card.Description>
@@ -48,14 +62,18 @@ const StatsCard = ({
       ) : (
         <div className={styles.innerContent}>
           <p className={countClassName || styles.subFooter}>
-            {formatNumber(count)}
+            {formatNumber(count || 0)}
           </p>
         </div>
       )}
     </div>
     <div className={styles.footerWrapper}>
       {showAction && !checkBillingType && (
-        <Button href={actionHref} variant="contained">
+        <Button
+          onClick={onActionClick || undefined}
+          href={actionHref}
+          variant="contained"
+        >
           {actionText}
         </Button>
       )}

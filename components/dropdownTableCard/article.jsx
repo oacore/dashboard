@@ -6,10 +6,11 @@ import { useOutsideClick } from '@oacore/design/lib/hooks'
 
 import styles from './styles.module.css'
 import { ProgressSpinner } from '../../design'
+import idIcon from '../upload/assets/id.svg'
 
 import Menu from 'components/menu'
 import { capitalize } from 'utils/helpers'
-import texts from 'texts/rrs-retention'
+import texts from 'texts/orcid'
 import ReadMore from 'components/read-more'
 
 const TableArticle = ({
@@ -35,7 +36,14 @@ const TableArticle = ({
     if (Array.isArray(value)) {
       if (item.key === 'authors')
         value = value.map((author) => author[item.findBy]).join(' ')
-      else if (item.key === 'sdg') {
+      if (item.key === 'orcids') {
+        value = value.map((orcid) => (
+          <div className={styles.orcideWrapper}>
+            <img src={idIcon} alt="idIcon" />
+            {orcid[item.findBy]}
+          </div>
+        ))
+      } else if (item.key === 'sdg') {
         value = value.map((sdgItem) => (
           <div className={styles.sdgScoreWrapper}>
             {renderSdgIcons(sdgItem.type, sdgItem.score)}
@@ -43,7 +51,8 @@ const TableArticle = ({
           </div>
         ))
       }
-    }
+    } else if (item.key === 'repositories') value = value?.name
+
     return {
       ...item,
       value,
@@ -154,7 +163,9 @@ const TableArticle = ({
                         `${styles[`boxCaption${capitalize(key)}`]}`
                       )}
                     >
-                      {value}
+                      {name.includes('Date') && typeof value === 'string'
+                        ? value.split('T')[0]
+                        : value}
                     </ReadMore>
                   </div>
                 )
