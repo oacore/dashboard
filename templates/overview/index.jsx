@@ -134,12 +134,14 @@ const OverviewTemplate = observer(
                 handleButtonClose={handleButtonClose}
               />
             )}
-            <DepositingCard
-              chartData={timeLagData}
-              complianceLevel={complianceLevel}
-              dataProviderId={dataProviderId}
-              countryCode={countryCode}
-            />
+            {countryCode?.toLowerCase() === 'gb' && (
+              <DepositingCard
+                chartData={timeLagData}
+                complianceLevel={complianceLevel}
+                dataProviderId={dataProviderId}
+                countryCode={countryCode}
+              />
+            )}
 
             {rioxxCompliance != null && rioxxCompliance.totalCount > 0 && (
               <RioxxCard compliance={rioxxCompliance} />
