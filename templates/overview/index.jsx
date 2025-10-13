@@ -11,6 +11,7 @@ import NotificationGuide from '../settings/cards/notificationGuide'
 import { GlobalContext } from '../../store'
 import placeholder from '../../components/upload/assets/placeholderChart.svg'
 import { Button } from '../../design'
+import SdgCard from './cards/sdg-card'
 
 import { Card } from 'design'
 
@@ -192,6 +193,7 @@ const OverviewTemplate = observer(
             </div>
           </Card>
         )}
+        <SdgCard />
       </Tag>
     )
   }
