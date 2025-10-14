@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Treemap, ResponsiveContainer, Tooltip } from 'recharts'
 import { Button } from '@oacore/design'
@@ -9,9 +9,53 @@ import { GlobalContext } from '../../../store'
 import { sdgTypes } from '../../../utils/hooks/use-sdg-icon-renderer'
 import { formatNumber } from '../../../utils/helpers'
 import styles from '../styles.module.css'
+import Markdown from '../../../components/markdown'
+import allSdg from '../../../components/upload/assets/allSdg.svg'
 
-const SdgCard = observer(() => {
+const SdgCard = observer(({ billingPlan }) => {
   const { dataProvider } = useContext(GlobalContext)
+  const { ...globalStore } = useContext(GlobalContext)
+  const [checkBillingType, setCheckBillingType] = useState(false)
+  const [reportGenerated, setReportGenerated] = useState(
+    JSON.parse(
+      localStorage.getItem(`reportGenerated_${globalStore.dataProvider.id}`)
+    ) || false
+  )
+
+  useEffect(() => {
+    setCheckBillingType(billingPlan?.billingType === 'starting')
+  }, [billingPlan])
+
+  const handleGenerateReport = async () => {
+    try {
+      const response = await globalStore.dataProvide.generateSdgReport(
+        globalStore.dataProvider.id,
+        globalStore.user.email
+      )
+      if (response.ok) {
+        setReportGenerated(true)
+        localStorage.setItem(
+          `reportGenerated_${globalStore.dataProvider.id}`,
+          true
+        )
+      } else {
+        setReportGenerated(false)
+        localStorage.setItem(
+          `reportGenerated_${globalStore.dataProvider.id}`,
+          false
+        )
+      }
+    } catch (error) {
+      setReportGenerated(false)
+      localStorage.setItem(
+        `reportGenerated_${globalStore.dataProvider.id}`,
+        false
+      )
+      console.error('Error generating SDG report:', error)
+    }
+  }
+
+  const hasSdgData = dataProvider?.sdgYearData?.data?.all?.yearlyData
 
   // Process SDG data
   const treemapData = sdgTypes
@@ -79,28 +123,77 @@ const SdgCard = observer(() => {
     )
   }
 
+  const renderContent = () => {
+    // No SDG
+    if (!hasSdgData) {
+      return (
+        <div className={styles.suggestionContainer}>
+          <Markdown className={styles.generateText}>
+            {texts.sdgSuggestion.description}
+          </Markdown>
+          {reportGenerated ? (
+            <div className={styles.messageWrapper}>{texts.noSdg.message}</div>
+          ) : (
+            <Button
+              className={styles.cardButton}
+              variant="contained"
+              onClick={handleGenerateReport}
+            >
+              {texts.noSdg.button}
+            </Button>
+          )}
+        </div>
+      )
+    }
+
+    // Billing type restriction
+    if (checkBillingType) {
+      return (
+        <div className={styles.restrictedContainer}>
+          <img src={allSdg} alt="" />
+          <div className={styles.innerWrapper}>
+            <h5 className={styles.countHeader}>
+              Number of papers with an SDG label found in your repository:
+            </h5>
+            <div className={styles.count}>2,745 </div>
+            <Button className={styles.cardButton} variant="contained">
+              Review
+            </Button>
+          </div>
+        </div>
+      )
+    }
+
+    // Default view with treemap
+    return (
+      <>
+        {treemapData.length > 0 ? (
+          <div className={styles.treemapContainer}>
+            <ResponsiveContainer width="100%" height="100%">
+              <Treemap
+                data={treemapData}
+                dataKey="size"
+                aspectRatio={4 / 3}
+                stroke="#fff"
+                content={<CustomContent />}
+              >
+                <Tooltip content={<CustomTooltip />} />
+              </Treemap>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <p className={styles.noDataMessage}>No SDG data available</p>
+        )}
+        <Button className={styles.cardButton} variant="outlined">
+          {texts.card.action.title}
+        </Button>
+      </>
+    )
+  }
+
   return (
     <OverviewCard title={texts.card.title} tooltip={texts.card.tooltip}>
-      {treemapData.length > 0 ? (
-        <div className={styles.treemapContainer}>
-          <ResponsiveContainer width="100%" height="100%">
-            <Treemap
-              data={treemapData}
-              dataKey="size"
-              aspectRatio={4 / 3}
-              stroke="#fff"
-              content={<CustomContent />}
-            >
-              <Tooltip content={<CustomTooltip />} />
-            </Treemap>
-          </ResponsiveContainer>
-        </div>
-      ) : (
-        <p className={styles.noDataMessage}>No SDG data available</p>
-      )}
-      <Button className={styles.cardButton} variant="outlined">
-        {texts.card.action.title}
-      </Button>
+      {renderContent()}
     </OverviewCard>
   )
 })

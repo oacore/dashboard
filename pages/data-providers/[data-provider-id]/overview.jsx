@@ -32,6 +32,7 @@ const Overview = ({ store, ...props }) => (
     notificationGuide={store.notificationGuide}
     updateNotifications={store.updateNotifications}
     organisationId={store.organisationId}
+    billingPlan={store.organisation.billingPlan}
     {...props}
   />
 )

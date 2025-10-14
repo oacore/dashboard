@@ -42,6 +42,7 @@ const OverviewTemplate = observer(
     notificationGuide,
     updateNotifications,
     organisationId,
+    billingPlan,
     ...restProps
   }) => {
     const router = useRouter()
@@ -193,7 +194,7 @@ const OverviewTemplate = observer(
             </div>
           </Card>
         )}
-        <SdgCard />
+        <SdgCard billingPlan={billingPlan} />
       </Tag>
     )
   }
