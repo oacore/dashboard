@@ -11,8 +11,9 @@ import { formatNumber } from '../../../utils/helpers'
 import styles from '../styles.module.css'
 import Markdown from '../../../components/markdown'
 import allSdg from '../../../components/upload/assets/allSdg.svg'
+import LinkButton from '../../../components/link-button'
 
-const SdgCard = observer(({ billingPlan }) => {
+const SdgCard = observer(({ billingPlan, dataProviderId }) => {
   const { dataProvider } = useContext(GlobalContext)
   const { ...globalStore } = useContext(GlobalContext)
   const [checkBillingType, setCheckBillingType] = useState(false)
@@ -127,7 +128,7 @@ const SdgCard = observer(({ billingPlan }) => {
     // No SDG
     if (!hasSdgData) {
       return (
-        <div className={styles.suggestionContainer}>
+        <div>
           <Markdown className={styles.generateText}>
             {texts.sdgSuggestion.description}
           </Markdown>
@@ -184,18 +185,19 @@ const SdgCard = observer(({ billingPlan }) => {
         ) : (
           <p className={styles.noDataMessage}>No SDG data available</p>
         )}
-        <Button className={styles.cardButton} variant="outlined">
+        <LinkButton
+          href="sdg"
+          className={styles.cardButton}
+          variant="outlined"
+          dataProviderId={dataProviderId}
+        >
           {texts.card.action.title}
-        </Button>
+        </LinkButton>
       </>
     )
   }
 
-  return (
-    <OverviewCard title={texts.card.title} tooltip={texts.card.tooltip}>
-      {renderContent()}
-    </OverviewCard>
-  )
+  return <OverviewCard title={texts.card.title}>{renderContent()}</OverviewCard>
 })
 
 export default SdgCard

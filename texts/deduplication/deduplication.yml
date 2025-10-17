@@ -177,3 +177,8 @@ guideCard:
   title: Compare metadata records
   description: Click **“Compare metadata records”** button to enter side by side comparison mode
   action: OK
+
+statsCard:
+  title: Versions and near-duplicates
+  description: Number of matches might include potential duplicates, near-duplicates and different versions of papers and metadata records.
+  subAction: Review
