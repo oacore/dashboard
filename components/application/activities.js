@@ -118,7 +118,7 @@ const config = new RouteConfig([
         test: /\/recommender/,
         path: 'documentation',
         id: 'documentation',
-        value: 'Documentations',
+        value: 'Documentation',
       },
       {
         test: /\/badges/,
