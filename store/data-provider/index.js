@@ -519,6 +519,11 @@ class DataProvider extends Resource {
         this.fetchDatasetUsers()
         this.retrieveLogo()
         this.retrieveUSRNStatistics()
+        this.getSdgYearData(this.id)
+        this.getOrcidStats(this.id)
+        this.getRrslistData(this.id)
+        this.getDasListData(this.id)
+        this.getDeduplicationData(this.id)
 
         const url = `/data-providers/${this.id}`
         this.works = new Works(this.rootStore, url, this.options)

@@ -11,6 +11,12 @@ import NotificationGuide from '../settings/cards/notificationGuide'
 import { GlobalContext } from '../../store'
 import placeholder from '../../components/upload/assets/placeholderChart.svg'
 import { Button } from '../../design'
+import SdgCard from './cards/sdg-card'
+import OrcidCard from './cards/orcid-card'
+import StatisticsCards from './cards/statisticsCards'
+import rrsText from '../../texts/rrs-retention/rrs.yml'
+import dasText from '../../texts/das/das.yml'
+import dupText from '../../texts/deduplication/deduplication.yml'
 
 import { Card } from 'design'
 
@@ -41,6 +47,7 @@ const OverviewTemplate = observer(
     notificationGuide,
     updateNotifications,
     organisationId,
+    billingPlan,
     ...restProps
   }) => {
     const router = useRouter()
@@ -134,12 +141,14 @@ const OverviewTemplate = observer(
                 handleButtonClose={handleButtonClose}
               />
             )}
-            <DepositingCard
-              chartData={timeLagData}
-              complianceLevel={complianceLevel}
-              dataProviderId={dataProviderId}
-              countryCode={countryCode}
-            />
+            {countryCode?.toLowerCase() === 'gb' && (
+              <DepositingCard
+                chartData={timeLagData}
+                complianceLevel={complianceLevel}
+                dataProviderId={dataProviderId}
+                countryCode={countryCode}
+              />
+            )}
 
             {rioxxCompliance != null && rioxxCompliance.totalCount > 0 && (
               <RioxxCard compliance={rioxxCompliance} />
@@ -190,6 +199,37 @@ const OverviewTemplate = observer(
             </div>
           </Card>
         )}
+        <SdgCard
+          billingPlan={billingPlan}
+          dataProviderId={globalStore.dataProvider.id}
+        />
+        <OrcidCard
+          count={globalStore.dataProvider.orcidStatData.basic}
+          enrichmentSize={
+            globalStore.dataProvider.orcidStatData.fromOtherRepositories
+          }
+          outputsCount={metadataCount}
+          dataProviderId={globalStore.dataProvider.id}
+          href={globalStore.dataProvider.basicOrcidUrl}
+        />
+        <StatisticsCards
+          href="deduplication"
+          dataProviderId={globalStore.dataProvider.id}
+          text={dupText}
+          dataCount={globalStore.dataProvider?.duplicateList.count}
+        />
+        <StatisticsCards
+          href="das"
+          dataProviderId={globalStore.dataProvider.id}
+          text={dasText}
+          dataCount={globalStore.dataProvider?.dasList?.length}
+        />
+        <StatisticsCards
+          href="rrs"
+          dataProviderId={globalStore.dataProvider.id}
+          text={rrsText}
+          dataCount={globalStore.dataProvider?.rrsList?.length}
+        />
       </Tag>
     )
   }

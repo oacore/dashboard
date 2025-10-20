@@ -132,3 +132,12 @@ statusModal:
       key: 1
     - title: Deny
       key: 0
+
+orcidCard:
+  title: ORCID coverage
+  description: We can enrich your ORCID coverage <b>{{count}}</b>. Download your CSV below.
+  actions:
+   - title: See the list
+   - title: Download
+
+  tooltip: test

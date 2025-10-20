@@ -299,3 +299,127 @@
 .action-button {
   margin-bottom: 64px;
 }
+
+/* sdg card */
+.treemap-text {
+  font-weight: 400;
+  fill: #fff;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.treemap-container {
+  width: 100%;
+  height: 300px;
+  margin-top: 24px;
+}
+
+.no-data-message {
+  padding: 20px;
+  font-style: italic;
+  color: #666;
+  text-align: center;
+}
+
+.tooltip {
+  padding: 8px 12px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.tooltip-count {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.card-button {
+  align-self: flex-start;
+  margin-top: 30px;
+}
+
+.restricted-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+  text-align: center;
+  gap: 45px;
+}
+
+.restricted-container img {
+  width: 100%;
+  max-width: 204px;
+  height: 100%;
+  max-height: 204px;
+}
+
+.inner-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.generate-text {
+  margin-top: 32px;
+}
+
+.count-header {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%; /* 20.8px */
+  color: #212121;
+  letter-spacing: 0.026px;
+}
+
+.count {
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  padding: 20px;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px;
+  color: #212121;
+  background: #f5f5f5;
+  border-radius: 4px;
+  gap: 4px;
+}
+
+/* stats card */
+.statistics-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.statistics-description {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  color: #666;
+  letter-spacing: 0.021px;
+}
+
+.statistics-count {
+  width: max-content;
+  padding: 20px;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px;
+  color: #212121;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
