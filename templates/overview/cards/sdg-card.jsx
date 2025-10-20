@@ -75,6 +75,7 @@ const SdgCard = observer(({ billingPlan, dataProviderId }) => {
       return outputCount > 0
         ? {
             name: sdg.id,
+            title: sdg.title,
             size: outputCount,
             color: sdg.color,
           }
@@ -113,11 +114,11 @@ const SdgCard = observer(({ billingPlan, dataProviderId }) => {
   const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload?.[0]) return null
 
-    const { name, size, color } = payload[0].payload
+    const { name, title, size, color } = payload[0].payload
     return (
       <div className={styles.tooltip}>
         <p className={styles.tooltipTitle} style={{ color }}>
-          {name}
+          {name} - {title}
         </p>
         <p className={styles.tooltipCount}>{formatNumber(size)} outputs</p>
       </div>

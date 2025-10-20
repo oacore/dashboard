@@ -45,11 +45,11 @@ const PerformanceChart = ({
       </PieChart>
     </ResponsiveContainer>
 
-    {value && (
+    {value !== undefined && (
       <NumericValue
         className={styles.label}
         value={valueOrDefault(value, 'Loading...')}
-        append={value ? '%' : null}
+        append="%"
         size={valueSize}
         caption={caption}
         maximumFractionDigits={0}
