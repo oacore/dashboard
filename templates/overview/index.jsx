@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
 
 import styles from './styles.module.css'
-import { DataStatisticsCard, DoiCard, DepositingCard, IrusCard } from './cards'
+import { DataStatisticsCard, DoiCard, DepositingCard } from './cards'
 import RioxxCard from './cards/rioxx-card'
 import DashboardGuide from '../../components/dashboard-tutorial/dashboardGuide'
 import NotificationGuide from '../settings/cards/notificationGuide'
@@ -153,7 +153,9 @@ const OverviewTemplate = observer(
             {rioxxCompliance != null && rioxxCompliance.totalCount > 0 && (
               <RioxxCard compliance={rioxxCompliance} />
             )}
-            {viewStatistics != null && <IrusCard statistics={viewStatistics} />}
+            {/* TODO temporary disablled */}
+            {/* eslint-disable-next-line max-len */}
+            {/* {viewStatistics != null && <IrusCard statistics={viewStatistics} />} */}
             {doiCount && (
               <DoiCard
                 outputsCount={metadataCount}
