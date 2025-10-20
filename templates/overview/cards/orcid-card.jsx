@@ -13,21 +13,26 @@ import COLORS from 'utils/colors'
 
 const OrcidCard = ({
   count,
-  dataProviderId,
-  enrichmentSize,
   outputsCount,
+  enrichmentSize,
+  dataProviderId,
   href,
 }) => {
   const chartValues = [
     {
-      name: 'outputs have at least one ORCID',
+      name: 'Outputs have at least one ORCID',
       value: valueOrDefault(count, '🔁'),
       color: COLORS.successDark,
     },
     {
       name: 'Discovered ORCID enrichments',
-      value: valueOrDefault(outputsCount, '🔁'),
+      value: valueOrDefault(enrichmentSize, '🔁'),
       color: COLORS.success,
+    },
+    {
+      name: 'Outputs without ORCID',
+      value: valueOrDefault(outputsCount - enrichmentSize - count, null),
+      color: COLORS.gray200,
     },
   ]
 
