@@ -158,9 +158,14 @@ const SdgCard = observer(({ billingPlan, dataProviderId }) => {
               Number of papers with an SDG label found in your repository:
             </h5>
             <div className={styles.count}>2,745 </div>
-            <Button className={styles.cardButton} variant="contained">
+            <LinkButton
+              variant="contained"
+              href="sdg"
+              dataProviderId={dataProviderId}
+              className={styles.cardButton}
+            >
               Review
-            </Button>
+            </LinkButton>
           </div>
         </div>
       )

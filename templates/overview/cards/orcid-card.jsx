@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import OverviewCard from './overview-card'
 import styles from '../styles.module.css'
@@ -17,7 +17,14 @@ const OrcidCard = ({
   enrichmentSize,
   dataProviderId,
   href,
+  billingPlan,
 }) => {
+  const [checkBillingType, setCheckBillingType] = useState(false)
+
+  useEffect(() => {
+    setCheckBillingType(billingPlan?.billingType === 'starting')
+  }, [billingPlan])
+
   const chartValues = [
     {
       name: 'Outputs have at least one ORCID',
@@ -53,21 +60,34 @@ const OrcidCard = ({
           </div>
           <Legend values={chartValues} />
           <div className={styles.doiCardActions}>
-            <LinkButton
-              variant="text"
-              href="orcid"
-              dataProviderId={dataProviderId}
-              className={styles.linkButton}
-            >
-              {texts.orcidCard.actions[0].title}
-            </LinkButton>
-            <ExportButton
-              href={href}
-              variant="contained"
-              className={styles.linkButton}
-            >
-              {texts.orcidCard.actions[1].title}
-            </ExportButton>
+            {!checkBillingType ? (
+              <>
+                <LinkButton
+                  variant="text"
+                  href="orcid"
+                  dataProviderId={dataProviderId}
+                  className={styles.linkButton}
+                >
+                  {texts.orcidCard.actions[0].title}
+                </LinkButton>
+                <ExportButton
+                  href={href}
+                  variant="contained"
+                  className={styles.linkButton}
+                >
+                  {texts.orcidCard.actions[1].title}
+                </ExportButton>
+              </>
+            ) : (
+              <LinkButton
+                variant="contained"
+                href="orcid"
+                dataProviderId={dataProviderId}
+                className={styles.linkButton}
+              >
+                details
+              </LinkButton>
+            )}
           </div>
         </div>
       </div>

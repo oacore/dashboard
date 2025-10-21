@@ -206,6 +206,7 @@ const OverviewTemplate = observer(
           dataProviderId={globalStore.dataProvider.id}
         />
         <OrcidCard
+          billingPlan={billingPlan}
           count={globalStore.dataProvider.orcidStatData.basic}
           enrichmentSize={
             globalStore.dataProvider.orcidStatData.fromOtherRepositories
