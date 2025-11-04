@@ -19,11 +19,6 @@ const IframeForm = ({ id, className, title, src, ...passProps }) => {
 
   return (
     <Card className={className}>
-      <div className={styles.infoWrapper}>
-        We are performing a migration of our systems on Monday 3rd November.
-        There may be some temporary issues with logging in. Please try again in
-        a few minutes if that happens.
-      </div>
       <iframe
         id={id}
         className={styles.iframeForm}
