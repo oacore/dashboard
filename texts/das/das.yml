@@ -6,6 +6,7 @@ statsCard:
   title: Outputs with DA statements
   description: within your repository collection
   action: Download
+  subAction: Review
 
 reviewCard:
   title: DA statements to review

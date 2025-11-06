@@ -62,7 +62,6 @@ const OrcidPageTemplate = observer(
       >
         <DashboardHeader
           title={texts.title}
-          identifier="BETA"
           showMore={
             <ShowMoreText
               className={styles.description}

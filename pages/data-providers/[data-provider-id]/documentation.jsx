@@ -9,6 +9,7 @@ const ASSETS_BASE_URL = 'https://oacore.github.io/content/'
 
 const DocumentationPage = ({ store: { dataProvider }, ...props }) => {
   const [stateData, setStateData] = useState({})
+  const [dataProviderDocs, setDataProviderDocs] = useState(null)
 
   const setAssetsUrl = (object) => {
     Object.entries(object).forEach(([, value]) => {
@@ -40,16 +41,36 @@ const DocumentationPage = ({ store: { dataProvider }, ...props }) => {
 
     return content
   }
-  if (Object.getOwnPropertyNames(stateData).length === 0) {
-    getSections().then((val) => {
-      setStateData(val)
+
+  const getDataProviderSections = async ({ ref } = {}) => {
+    const content = await retrieveContent('docs-dataProvider', {
+      ref,
+      transform: 'object',
     })
+    // Remove header for About repo
+    delete content.headerAbout
+    Object.values(content).forEach((section) => {
+      if (section.items) setAssetsUrl(section.items)
+    })
+
+    return content
+  }
+
+  if (Object.getOwnPropertyNames(stateData).length === 0) {
+    // Load both content types
+    Promise.all([getSections(), getDataProviderSections()]).then(
+      ([membershipContent, dataProviderContent]) => {
+        setStateData(membershipContent)
+        setDataProviderDocs(dataProviderContent)
+      }
+    )
     return <></>
   }
 
   return (
     <DocumentationPageTemplate
       membershipPlan={dataProvider.membershipPlan}
+      dataProviderDocs={dataProviderDocs}
       {...props}
       {...stateData}
     />

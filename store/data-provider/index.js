@@ -545,6 +545,11 @@ class DataProvider extends Resource {
         this.fetchDatasetUsers()
         this.retrieveLogo()
         this.retrieveUSRNStatistics()
+        this.getSdgYearData(this.id)
+        this.getOrcidStats(this.id)
+        this.getRrslistData(this.id)
+        this.getDasListData(this.id)
+        this.getDeduplicationData(this.id)
 
         const url = `/data-providers/${this.id}`
         this.works = new Works(this.rootStore, url, this.options)
@@ -778,14 +783,16 @@ class DataProvider extends Resource {
   }
 
   @action
-  generateSdgReport = async (dataProviderId) => {
+  generateSdgReport = async (dataProviderId, emailUser) => {
     try {
       const url = `${process.env.API_URL}/data-providers/${dataProviderId}/sdg/email`
+      const body = { emailUser }
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(body),
       })
       return response
     } catch (error) {
