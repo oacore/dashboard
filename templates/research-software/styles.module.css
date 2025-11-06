@@ -243,6 +243,10 @@
   letter-spacing: 0.175px;
 }
 
+.sw-table tr {
+  position: relative;
+}
+
 .menu-button {
   position: absolute;
   top: 3rem;
