@@ -64,6 +64,18 @@
   letter-spacing: 0.022px;
 }
 
+.click-action {
+  padding: 0;
+  text-transform: capitalize;
+  letter-spacing: 0.022px;
+  margin-bottom: 3px;
+  cursor: pointer;
+}
+
+.click-action:hover {
+  background: transparent;
+}
+
 .email-link {
   color: #b75400;
   text-decoration: underline;
@@ -220,6 +232,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding-bottom: 52px;
 }
 
 .sidebar-button {

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react-lite'
+import { Button } from '@oacore/design'
 
 import styles from './styles.module.css'
 import texts from '../../texts/sw/sw.yml'
@@ -20,7 +21,12 @@ const SwPageTemplate = observer(
     const [localSearchTerm, setLocalSearchTerm] = useState('')
     const [page, setPage] = useState(0)
     const [hasError, setHasError] = useState(false)
+    const [isDescriptionVisible, setDescriptionVisible] = useState(false)
     const { ...globalStore } = useContext(GlobalContext)
+
+    const toggleDescription = () => {
+      setDescriptionVisible(!isDescriptionVisible)
+    }
 
     useEffect(() => {
       const fetchSwData = async () => {
@@ -117,6 +123,8 @@ const SwPageTemplate = observer(
         <DashboardSettingsHeader
           title={texts.title}
           description={texts.description}
+          isDescriptionVisible={isDescriptionVisible}
+          toggleDescription={toggleDescription}
         >
           <h2>{texts.settings.title}</h2>
           <div
@@ -216,9 +224,18 @@ const SwPageTemplate = observer(
                 <div className={styles.settingsDescriptionWrapper}>
                   <Icon src="#alert" className={styles.cardIconWarning} />
                   <div className={styles.settingsDescriptionTextWrapper}>
-                    <Markdown className={styles.settingsDescriptionText}>
-                      {texts.statsCards.sent.disabled}
-                    </Markdown>
+                    <div className={styles.settingsDescriptionText}>
+                      Your repository is not configured to support the automatic
+                      notification of software mentions, please go to
+                      <Button
+                        className={styles.clickAction}
+                        variant="text"
+                        onClick={toggleDescription}
+                      >
+                        Settings
+                      </Button>{' '}
+                      to activate it.
+                    </div>
                   </div>
                 </div>
               }
@@ -237,9 +254,18 @@ const SwPageTemplate = observer(
                 <div className={styles.settingsDescriptionWrapper}>
                   <Icon src="#alert" className={styles.cardIconWarning} />
                   <div className={styles.settingsDescriptionTextWrapper}>
-                    <Markdown className={styles.settingsDescriptionText}>
-                      {texts.statsCards.responded.disabled}
-                    </Markdown>
+                    <div className={styles.settingsDescriptionText}>
+                      Your repository is not configured to support the automatic
+                      notification of software mentions, please go to
+                      <Button
+                        className={styles.clickAction}
+                        variant="text"
+                        onClick={toggleDescription}
+                      >
+                        Settings
+                      </Button>{' '}
+                      to activate it.
+                    </div>
                   </div>
                 </div>
               }
