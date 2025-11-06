@@ -209,7 +209,7 @@ const ReadySwTableComponent = observer(
 
       return (
         <Tablev2
-          className={styles.orcidTable}
+          className={styles.swTable}
           isHeaderClickable
           rowIdentifier="articleId"
           data={data}

@@ -307,3 +307,31 @@
   letter-spacing: 0.024px;
   cursor: pointer;
 }
+
+.sw-table td,
+.sw-table th {
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title-column {
+  width: 50%;
+  max-width: 5rem;
+}
+
+.authors-column {
+  width: 30%;
+  max-width: 5rem;
+}
+
+.status-column {
+  width: 10%;
+  max-width: 5rem;
+}
+
+.oai-column {
+  width: 10%;
+  max-width: 5rem;
+}
