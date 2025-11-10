@@ -11,6 +11,7 @@ const Body = ({
   details,
   sidebar,
   expandedRowId,
+  rowIdIdentifier,
 }) => {
   const [activeElement, setActiveElement] = useState(null)
 
@@ -31,20 +32,20 @@ const Body = ({
       )}
       {data?.map((row, index) => {
         const props = {
-          id: row.id,
+          id: row[rowIdIdentifier],
           index,
           context: row,
           columns,
           isClickable: true,
           isActive: sidebar
-            ? expandedRowId?.id === row.id
+            ? expandedRowId?.[rowIdIdentifier] === row[rowIdIdentifier]
             : index === activeElement,
         }
         return (
-          <Fragment key={row.id}>
+          <Fragment key={row[rowIdIdentifier]}>
             <TableRow
               onClick={() => rowClickHandler(row, index)}
-              key={row.id}
+              key={row[rowIdIdentifier]}
               {...props}
             />
             {!sidebar &&
