@@ -228,7 +228,7 @@ const RrsTable = observer(
               totalLength={rrsList?.length}
               fetchData={fetchData}
               isHeaderClickable
-              rowIdentifier="articleId"
+              rowIdIdentifier="articleId"
               excludeFooter={checkBillingType}
               renderDropDown={articleAdditionalData}
               details={
