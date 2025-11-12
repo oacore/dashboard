@@ -45,6 +45,11 @@ const config = [
     icon: 'copy-document',
   },
   {
+    id: 'sw',
+    path: 'research-software',
+    icon: 'sw',
+  },
+  {
     id: 'doi',
     path: 'doi',
     icon: 'barcode',

@@ -29,6 +29,7 @@ const Tablev2 = ({
   details,
   isLoading,
   excludeFooter = false,
+  rowIdentifier = 'id',
 }) => {
   const tableRef = useRef(null)
   const containerRef = useRef(null)
@@ -52,7 +53,9 @@ const Tablev2 = ({
 
   const handleRowClick = (row) => {
     if (sidebar) {
-      setExpandedRowId(expandedRowId?.id === row.id ? null : row)
+      setExpandedRowId(
+        expandedRowId?.[rowIdentifier] === row[rowIdentifier] ? null : row
+      )
       if (rowClick) rowClick(row)
     } else if (rowClick) rowClick(row)
   }
@@ -81,6 +84,7 @@ const Tablev2 = ({
           <Table ref={tableRef}>
             <Header isHeaderClickable={isHeaderClickable} columns={columns} />
             <Body
+              rowIdIdentifier={rowIdentifier}
               renderDropDown={renderDropDown}
               handleRowClick={handleRowClick}
               rowActionProp={rowActionProp}
@@ -111,6 +115,7 @@ const Tablev2 = ({
         React.cloneElement(sidebar, {
           context: expandedRowId,
           children: expandedRowId ? sidebar.props.children : null,
+          onClose: handleSidebarClose,
         })}
     </div>
   )
