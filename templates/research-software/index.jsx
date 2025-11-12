@@ -226,7 +226,7 @@ const SwPageTemplate = observer(
                   <div className={styles.settingsDescriptionTextWrapper}>
                     <div className={styles.settingsDescriptionText}>
                       Your repository is not configured to support the automatic
-                      notification of software mentions, please go to
+                      notification of software mentions, please go to{' '}
                       <Button
                         className={styles.clickAction}
                         variant="text"
@@ -256,7 +256,7 @@ const SwPageTemplate = observer(
                   <div className={styles.settingsDescriptionTextWrapper}>
                     <div className={styles.settingsDescriptionText}>
                       Your repository is not configured to support the automatic
-                      notification of software mentions, please go to
+                      notification of software mentions, please go to{' '}
                       <Button
                         className={styles.clickAction}
                         variant="text"
