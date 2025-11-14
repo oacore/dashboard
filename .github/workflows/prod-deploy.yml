@@ -1,4 +1,4 @@
-name: Build and Deploy Dashboard to Azure web app for Containers
+name: prod deploy azure
 
 on:
   push:
