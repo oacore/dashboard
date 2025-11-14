@@ -3,15 +3,15 @@ name: Build and Deploy Dashboard to Azure web app for Containers
 on:
   push:
     branches:
-      - container_deploy
+      - stage
   workflow_dispatch:
 
 env:
   ACR_NAME: corecontainers
-  IMAGE_NAME: core-frontend-dashboard
-  RESOURCE_GROUP: core-frontend
-  CONTAINERAPP_NAME: core-frontend-dashboard
-  CONTAINER_NAME:  core-frontend-dashboard
+  IMAGE_NAME: core-frontend-stage-dashboard
+  RESOURCE_GROUP: core-frontend-stage
+  CONTAINERAPP_NAME: core-frontend-stage-dashboard
+  CONTAINER_NAME:  core-frontend-stage-dashboard
   SENTRY_DSN: https://d116b39bd427449799cdd1516f6f97a1@sentry.io/2091955
 
 permissions:
