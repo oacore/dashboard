@@ -43,11 +43,6 @@ const SdgTable = observer(
     const [isDisabled, setIsDisabled] = useState(false)
     const [initialLoad, setInitialLoad] = useState(true)
 
-    //  TEMP UNTIL WE WILL HAVE SDG IN API CALL
-    const [updatedArticleData, setUpdatedArticleData] = useState(
-      articleAdditionalData
-    )
-
     useEffect(() => {
       const fetchData = async () => {
         setPage(0)
@@ -110,22 +105,6 @@ const SdgTable = observer(
       }
     }
 
-    //  TEMP UNTIL WE WILL HAVE SDG IN API CALL
-    useEffect(() => {
-      if (articleAdditionalData && sdgTableList) {
-        const sdgItem = sdgTableList.find(
-          (sdg) => sdg.id === articleAdditionalData.id
-        )
-        if (sdgItem) {
-          const updatedData = {
-            ...articleAdditionalData,
-            sdg: sdgItem.sdg,
-          }
-          setUpdatedArticleData(updatedData)
-        }
-      }
-    }, [articleAdditionalData, sdgTableList])
-
     const onSearchChange = async (event) => {
       const searchTerm = event.target.value
       setLocalSearchTerm(searchTerm)
@@ -175,7 +154,7 @@ const SdgTable = observer(
             details={
               <TableArticle
                 changeVisibility={changeArticleVisibility}
-                article={updatedArticleData}
+                article={articleAdditionalData}
                 loading={loading}
                 outputsUrl={outputsUrl}
                 articleAdditionalDataLoading={articleAdditionalDataLoading}

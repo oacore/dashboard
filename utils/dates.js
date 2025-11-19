@@ -85,7 +85,7 @@ const transformDates = (data) => {
 }
 
 const setDatesByType = (initialDates, activeType) => {
-  let formattedDates
+  let formattedDates = []
 
   switch (activeType) {
     case 'Year': {
@@ -96,7 +96,7 @@ const setDatesByType = (initialDates, activeType) => {
       formattedDates = getDatesByMonth(initialDates)
       break
     }
-    case '6 month': {
+    case '6 months': {
       formattedDates = getDatesByHalfYear(initialDates)
       break
     }
