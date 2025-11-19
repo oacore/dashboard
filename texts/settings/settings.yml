@@ -44,9 +44,19 @@ mapping:
 upload:
   title: Upload logo
   description: |
-    You can now upload your official logo to make it easier for users to identify your content. The logo will be displayed next to your content in searches, in the CORE reader and on your data provider’s page.
+    You can now upload your official logo to make it easier for users to identify your institution. The logo will be displayed in a range of places across the CORE ecosystem including:
 
-    **Note**: This option available only for Supporting and Sustaining members
+    * Your data provider’s page in CORE
+
+    * CORE works and outputs pages whenever we are referencing you as a data provider having an available version of the research work
+
+    * Membership list
+
+    * CORE Search results (for Supporting and Sustaining members only)
+
+    * CORE Recommender (for Supporting and Sustaining members only)
+
+    * CORE Discovery (for Supporting and Sustaining members only)
   imageCaption: 100х100, png, jpg.
   buttonCaptions:
     save: Save

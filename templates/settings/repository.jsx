@@ -23,33 +23,13 @@ import toggleArrow from '../../components/upload/assets/dropdownArrow.svg'
 
 import dropdown from 'components/upload/assets/dropdownArrow.svg'
 
-const UploadSection = ({
-  className,
-  handleUpload,
-  logoUrl,
-  isStartingMember,
-}) => (
+const UploadSection = ({ className, handleUpload, logoUrl }) => (
   <Card
     className={classNames.use(styles.section).join(className)}
     tag="section"
   >
     <Card.Title tag="h2">{content.upload.title}</Card.Title>
     <div className={styles.uploadContainer}>
-      {isStartingMember && (
-        <Card.Description className={styles.uploadDescription} tag="div">
-          <>
-            <Markdown className={styles.uploadNote}>
-              {content.upload.memberNote.title}
-            </Markdown>
-            <Button
-              href={content.upload.memberNote.action.url}
-              variant="contained"
-            >
-              {content.upload.memberNote.action.caption}
-            </Button>
-          </>
-        </Card.Description>
-      )}
       <div className={styles.uploadWrapper}>
         <div className={styles.uploadText}>
           <Markdown>{content.upload.description}</Markdown>
@@ -173,8 +153,6 @@ const RepositoryPageTemplate = observer(
     const licenseRef = useRef(null)
     const icenseDropdownRef = useRef(null)
     const setRef = useRef(null)
-
-    const isStartingMember = membershipPlan.billing_type === 'starting'
 
     const scrollTarget = {
       upload: uploadRef,
@@ -914,11 +892,7 @@ const RepositoryPageTemplate = observer(
           )}
         </div>
         <div ref={uploadRef}>
-          <UploadSection
-            isStartingMember={isStartingMember}
-            logoUrl={dataProviderLogo}
-            handleUpload={updateLogo}
-          />
+          <UploadSection logoUrl={dataProviderLogo} handleUpload={updateLogo} />
         </div>
       </Tag>
     )
