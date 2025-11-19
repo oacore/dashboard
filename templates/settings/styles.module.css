@@ -94,7 +94,8 @@
   color: var(--gray-900);
 }
 
-.license-note {
+.license-note,
+.upload-text {
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -110,6 +111,15 @@
 .license-note li {
   margin-left: 16px;
   list-style-type: disc;
+}
+
+.upload-text li {
+  margin-left: 16px;
+  list-style-type: disc;
+}
+
+.upload-text li p {
+  margin-bottom: 4px;
 }
 
 .license-note li p {
