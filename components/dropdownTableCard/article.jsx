@@ -37,12 +37,15 @@ const TableArticle = ({
       if (item.key === 'authors')
         value = value.map((author) => author[item.findBy]).join(' ')
       if (item.key === 'orcids') {
-        value = value.map((orcid) => (
-          <div className={styles.orcideWrapper}>
-            <img src={idIcon} alt="idIcon" />
-            {orcid[item.findBy]}
-          </div>
-        ))
+        value =
+          value.length === 0
+            ? 'Unavailable'
+            : value.map((orcid) => (
+                <div className={styles.orcideWrapper}>
+                  <img src={idIcon} alt="idIcon" />
+                  {orcid[item.findBy]}
+                </div>
+              ))
       } else if (item.key === 'sdg') {
         value = value.map((sdgItem) => (
           <div className={styles.sdgScoreWrapper}>
