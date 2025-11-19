@@ -102,6 +102,8 @@ article:
       key: publishedDate
     - name: Deposited date
       key: depositedDate
+    - name: SDG
+      key: sdg
     - name: DOI
       key: doi
     - name: Abstract
