@@ -9,6 +9,7 @@ import useTypes from './hooks/use-types'
 import HarvestingProgressCard from './cards/harvesting-progress'
 import { GlobalContext } from '../../store'
 import info from '../../components/upload/assets/infoLight.svg'
+import success from '../../components/upload/assets/success.svg'
 
 import Title from 'components/title'
 import { Button, Card } from 'design'
@@ -112,8 +113,13 @@ const HarvestingPageTemplate = observer(
               ))}
             </div>
           </div>
-          {issueList && (
+          {issueList.length > 0 ? (
             <TypesList issuesByType={issuesByType} typesList={issueList} />
+          ) : (
+            <div className={styles.issueDescription}>
+              <img className={styles.img} src={success} alt="" />
+              <p className={styles.issuerText}>No issues found</p>
+            </div>
           )}
         </Card>
       </Tag>
