@@ -74,7 +74,7 @@ const RioxValidator = ({
                 <div className={styles.issueDescription}>
                   <img className={styles.img} src={success} alt="" />
                   <p className={styles.errorText}>
-                    {texts.validator.issues.warningPlaceholder}
+                    {texts.validator.issues.placeholder}
                   </p>
                 </div>
               )}
@@ -103,7 +103,7 @@ const RioxValidator = ({
                 <div className={styles.issueDescription}>
                   <img className={styles.img} src={success} alt="" />
                   <p className={styles.errorText}>
-                    {texts.validator.issues.placeholder}
+                    {texts.validator.issues.warningPlaceholder}
                   </p>
                 </div>
               )}
