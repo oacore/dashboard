@@ -13,6 +13,14 @@
   gap: 30px;
 }
 
+.send-count {
+  color: #c6a700;
+}
+
+.responded-count {
+  color: #424242;
+}
+
 .data-spinner-wrapper {
   display: flex;
   align-items: center;

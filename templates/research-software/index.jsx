@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { observer } from 'mobx-react-lite'
-import { Button } from '@oacore/design'
 
 import styles from './styles.module.css'
 import texts from '../../texts/sw/sw.yml'
@@ -219,29 +218,12 @@ const SwPageTemplate = observer(
               wholeWidthCard
               actionHref="#sendSwTable"
               onActionClick={() => handleStatsCardClick('sent')}
-              countClassName={styles.inputCount}
-              tempDisabled={
-                <div className={styles.settingsDescriptionWrapper}>
-                  <Icon src="#alert" className={styles.cardIconWarning} />
-                  <div className={styles.settingsDescriptionTextWrapper}>
-                    <div className={styles.settingsDescriptionText}>
-                      Your repository is not configured to support the automatic
-                      notification of software mentions, please go to{' '}
-                      <Button
-                        className={styles.clickAction}
-                        variant="text"
-                        onClick={toggleDescription}
-                      >
-                        Settings
-                      </Button>{' '}
-                      to activate it.
-                    </div>
-                  </div>
-                </div>
-              }
+              countClassName={styles.sendCount}
+              tempDisabled
             />
             <StatsCard
               title={texts.statsCards.responded.title}
+              description={texts.statsCards.responded.description}
               actionText={texts.statsCards.responded.action}
               showInfo
               infoText={texts.statsCards.responded.tooltip}
@@ -250,25 +232,8 @@ const SwPageTemplate = observer(
               count={globalStore.dataProvider.swData.counts?.responded}
               actionHref="#respondSwTable"
               onActionClick={() => handleStatsCardClick('responded')}
-              tempDisabled={
-                <div className={styles.settingsDescriptionWrapper}>
-                  <Icon src="#alert" className={styles.cardIconWarning} />
-                  <div className={styles.settingsDescriptionTextWrapper}>
-                    <div className={styles.settingsDescriptionText}>
-                      Your repository is not configured to support the automatic
-                      notification of software mentions, please go to{' '}
-                      <Button
-                        className={styles.clickAction}
-                        variant="text"
-                        onClick={toggleDescription}
-                      >
-                        Settings
-                      </Button>{' '}
-                      to activate it.
-                    </div>
-                  </div>
-                </div>
-              }
+              countClassName={styles.respondedCount}
+              tempDisabled
             />
           </div>
         </div>
