@@ -27,6 +27,7 @@ const config = {
     SELF,
     PRODUCTION,
     'sentry.io',
+    'https://api.core.ac.uk',
     '*.google-analytics.com',
     'api.github.com:*',
     '*.ror.org',
