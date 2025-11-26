@@ -74,7 +74,9 @@ const StatsCard = ({
           <Button
             onClick={onActionClick || undefined}
             // href={actionHref}
-            {...(tempDisabled ? { disabled: true } : { href: actionHref })}
+            {...(tempDisabled && count === 0
+              ? { disabled: true }
+              : { href: actionHref })}
             variant="contained"
           >
             {actionText}
