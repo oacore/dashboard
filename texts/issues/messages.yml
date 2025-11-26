@@ -36,13 +36,15 @@
 
 - type: SSL_CERTIFICATE_ERROR
   title: SSL certificate error
-  severity: DEBUG
-  level: internal
+  severity: ERROR
+  description: A SSL certificate error occurred.
+  trigger: A SSL certificate error occurred.
+
 - type: EXTERNAL_UNKNOWN
   title: No full text was found due to unknown external reasons
-  severity: DEBUG
+  severity: OTHER
   resolution: No recommendation available for this issue.
-  level: internal
+  hidden: true
   description: |
     We were unable to identify what kind of error happend during the indexing.
     If this issue impacts a lot of records, please contact us.
@@ -63,8 +65,8 @@
 
     {{ url }}
   resolution: |
-    This might be a temporary issue. If the issue persists, please test the
-    OAI-PMH configuration of your repository. You can check and edit the OAI-PMH endpoint in the Dashboard settings.
+    This might be a temporary issue. If the issue persists, please test the [OAI-PMH configuration](https://core.ac.uk/documentation/data-providers-guide#configuration) of your repository.
+    You can check and [edit](https://core.ac.uk/documentation/data-providers-guide#changing-repository) the OAI-PMH endpoint in the [Dashboard settings](https://core.ac.uk/documentation/data-providers-guide#changing-repository).
   details: [url]
 
 - type: INVALID_OAIPMH_ENDPOINT
@@ -78,7 +80,7 @@
     If you changed the endpoint recently, please, update it in
     [Settings](./settings#oai-pmh).
   resolution: |
-    You may update the OAI-PMH endpoint using the Repository Dashboard settings.
+    You may [update the OAI-PMH](https://core.ac.uk/documentation/data-providers-guide#changing-repository) endpoint in the [settings](https://dashboard.core.ac.uk/data-providers/1/repository) (Dashboard > Settings > Repository > Your Repository > OAI-based URL)
   details: [oaiPmhEndpoint]
 
 # Metadata Extract
@@ -96,7 +98,7 @@
     We recommend to update OAI identifier with your own website address instead
     `generic.eprints.org` preffix.
   resolution: |
-    Review your documentation to update the OAI identifier
+    Review your documentation to update the OAI identifier. Find out why a [well configured OAI identifier](https://core.ac.uk/documentation/data-providers-guide#oai-identifier) is important.
   details: [oai]
 
 - type: GENERIC_ATTACHMENT_URL
@@ -107,11 +109,11 @@
   title: Unconfigured handle.net urls
   description: |
     The repository is exposing an unconfigured handle.net url. This means we
-    are unlikely to find full texts from your repository
+    are unlikely to find full texts from your repository.
 
     {{ affectedUrl }}
   resolution: |
-    Review the configuration for your handle.net persistent links
+    Review the [configuration](https://core.ac.uk/documentation/data-providers-guide#Direct-full-text) for your handle.net persistent links
   details: [affectedUrl]
 
 # Document Download
@@ -119,65 +121,56 @@
 #
 # Affects fulltext
 
-- type: ROBOTS_URL_DISALLOWED
+- type: ROBOTS_TXT_PREVENTS_DOWNLOAD
   matches: [ROBOTS]
   severity: ERROR
-  title: URL blocked by `robots.txt` rule
+  title: URL Blocked by `robots.txt` rule
   description: |
-    A rule in robots.txt prevents us from downloaded content from
-    {{ currentUrl }}
+    A rule in robots.txt prevents us from downloading content from <currentUrl>.
   resolution: |
-    Revise your robots.txt rules in order to allow CORE to download content.
+    Revise your [robots.txt rules](https://core.ac.uk/documentation/data-providers-guide#machine-agents) in order to allow CORE to download content.
   trigger: |
-    When we identify a rule in robots.txt which prevents us from downloading
-    from a url
+    A rule in robots.txt prevents us from downloading from a url
   details: [currentUrl]
 
 - type: ROBOTS_MAXIMUM_CRAWL_DELAY_EXCEEDED
   matches: []
   severity: ERROR
-  title: Long crawl delay
+  title: Long Crawl Delay
   description: |
-    In [`robots.txt` file]({{ link to robots }}),
-    a crawl delay has been set to {{ currentCrawlDelay }}.
-    It is longer than the maximum allowed rate of {{ maximumCrawlDelayLimit }}.
+    In `robots.txt` file <link to robots> a crawl delay has been set to <currentCrawlDelay>.
+
+    It is longer than the maximum allowed rate of <maximumCrawlDelayLimit>.
   resolution: |
-    In order for CORE to harvest your repository in a reasonable amount of
-    time, we recommend lowering your crawl delay
+    In order for CORE to harvest your repository in a reasonable amount of time, we recommend [lowering your crawl delay](https://core.ac.uk/documentation/data-providers-guide#machine-agents).
   trigger: |
-    If a crawl delay is longer than {{ maximumCrawlDelayLimit }}ms
+    If a crawl delay is longer than {{ maximumCrawlDelayLimit }} ms
   details: [maximumCrawlDelayLimit, currentCrawlDelay]
 
 - type: ATTACHMENT_MALFORMED_URL
   severity: ERROR
   trigger: |
-    When attempting a download in Document Download task, if a URL does not
-    conform to a standard URL, this issue is triggered.
+    When attempting a download in Document Download task, if a url does not conform to a standard url, this issue is triggered
   title: URL is malformed
   description: |
-    The URL {{ currentUrl }} is malformed.
-    {{#if sourceUrl }}It was discovered at {{ sourceUrl }}{{/if}}
+    The URL <currentUrl>is malformed. It was discovered at <sourceUrl >.
   resolution: |
-    Ensure that `dc:identifier` fields contain valid URLs and are correctly
-    URL encoded. For example, spaces should be replaced with `%20`. Further
-    details can be found at [should we write a guide or link elsewhere?]
+    Ensure that [dc:identifier](https://core.ac.uk/documentation/data-providers-guide#Direct-full-text) fields contain valid URLs and are correctly URL encoded. For example, spaces should be replaced with `%20`.
   details: [currentUrl, sourceUrl]
 
 - type: ATTACHMENT_NOT_VALID
+  # Not used
   severity: ERROR
   trigger: |
-    We check that a download is a pdf or a doc by checking the first 5 bytes of a file
-    If this fails, we set the PDF_NOT_VALID. In most cases, the issue
-    is replaced by a more specific issue as this issue is always triggered
-    when downloading HTML files.
+    We check that a download is a pdf by checking the first 5 bytes contain %pdf-
+    If this is false, we set the PDF_NOT_VALID. In most cases, the issue
+    is replaced by a more specific issue as this issue is always triggered when
+    downloading HTML files.
   title: The downloaded file was not a valid validate
   description: |
-    We were unable to read the
-    {currentUrl}
+    We were unable to read the <currentUrl>.
   resolution: |
-    We currently only support downloading pdf and doc files. If the file is a pdf or a doc, it
-    may not conform to the standards that we support. We suggest recreating the file or
-    opening it in Adobe Reader or MS Word or equivalent to validate that the file is well-formed.
+    We are only [able to index](https://core.ac.uk/documentation/data-providers-guide#full-text), PDF and Word Documents (.doc and .docx). If the file is a pdf, it may not conform to the pdf standard. We suggest recreating the file or opening it in Adobe Reader to validate the file.
   details: [currentUrl]
 
 - type: NO_VALID_FULLTEXT_LINKS_EXTRACTED
@@ -191,15 +184,16 @@
     We downloaded the metadata, but we were unable to find any full text links.
   resolution: |
     Ensure that dc:identifier contains a direct link to the full text.
-    We only support the following file types: .pdf, .doc, .docx
+
+    We only [support](https://core.ac.uk/documentation/data-providers-guide#full-text) the following file types: .pdf, .doc, .docx.
   details: [currentUrl]
 
 - hidden: true
   type: NO_ATTACHMENT_FOUND_NO_REPORTED_FAILURES
   matches: [NON_EXISTENT_PAGE_ATTACHMENT]
   title: No attachment found, no other issues happend
-  severity: DEBUG
-  resoltion: No full text was found due to unknown external reasons
+  severity: WARNING
+  resolution: No full text was found due to unknown
   trigger: |
     This issue is triggered when no specific issue was detected and reported.
 
@@ -215,6 +209,8 @@
   matches: []
   resolution: No full text was found due to unknown external reasons
   severity: ERROR
+  trigger: |
+    When we attempted to view the url, the server returned a 404 page not found
 
 - type: ATTACHMENT_ENCRYPTED
   matches: [ENCRYPTED_ATTACHMENT]
@@ -222,9 +218,9 @@
   trigger: |
     This issue is triggered when a pdf has DRM enabled.
 
-    If we are able to bypass, a WARNING is given
+    If we are able to bypass, a Warning is given
 
-    If we are not, an ERROR
+    If we are not, an Error
   title: The pdf is encrypted
   description: |
     The pdf has Document Security enabled. This digitally restricts how the
@@ -232,61 +228,54 @@
     viewing the full text via a screen reader.
 
     If this is message is issued with a Warning, we were able to bypass the
-    security settings
+    security settings.
 
     If this message is an error, we were unable to bypass the security and we
     have not imported the fulltext.
   resolution: |
-    We recommend that Document Security is removed from the PDF.
-    [https://helpx.adobe.com/uk/acrobat/using/securing-pdfs-passwords.html#remove_password_security]
+    We recommend that Document Security is removed from the PDF. [https://helpx.adobe.com/uk/acrobat/using/securing-pdfs-passwords.html#remove_password_security]
   details: [currentUrl]
 
 - type: ATTACHMENT_TITLE_MISMATCH
   severity: WARNING
   trigger: |
-    We check that the pdf or doc contains the title provided in the metadata. If the
-    first 50 lines of the file do not contain an exact match of the title
-    **OR** is similar.
+    We check that the pdf contains the title provided in the metadata.
+    If the first 50 lines of the pdf do not contain an exact match of the title OR is similar.
   title: Title in the metadata doesn't match the full text
   description: |
     To ensure we link the correct metadata and full text, we check that the
     metadata title text is contained within the full text.
+
     An exact match is not required, but must be similar.
 
     This issue is common and can be ignored for  scanned documents,
-    where Optical Character Recognition&nbsp;(OCR) has not been performed
+    where Optical Character Recognition (OCR) has not been performed
     and articles with special characters in their title.
 
     Ensure that the Metadata Title is the same as the document title or
     include a link to the full text in `dc:identifier` (if you use Dublin Core)
     or follow the RIOXX or OpenAIREv4.1 specifications.
   resolution: |
-    We used this as a security measure to not display wrong documents. If the
-    issue is present in many documents, please get in touch with us.
-  # should be moved to separate place or deleted
-  extra-intructions: |
-    Ensure that the Metadata Title is the same as the document title. For
-    example:
+    Ensure that the Metadata Title is the same as the document title. For example:
 
     Failed match example:
-    - `dc:title:` _An Open Access Paper: a study_
-    - PDF title: _A study of Open Access Papers_
+        - `dc:title:` _An Open Access Paper: a study_
+        - PDF title: _A study of Open Access Papers_
 
     A successful partial match:
-    - `dc:title`: _A study of Open Access Papers in Europe_
-    - PDF title: _Studying Open Access papers in Europe_
+        - `dc:title`: _A study of Open Access Papers in Europe_
+        - PDF title: _Studying Open Access papers in Europe_
 
     The closer the match, the more likely we will accept the change.
 
-    You may bypass this check by including a link to the full text
-    in `dc:identifier`.
+    You may bypass this check by including a link to the full text in `dc:identifier`.
   details: [currentUrl]
 
 - type: ATTACHMENT_EMBARGOED
   matches: [RESTRICTED_ATTACHMENT]
   severity: WARNING
   trigger: |
-    The PDF link redirected to a login page
+    The attachment link redirected to a login page
   title: Embargoed full text
   description: |
     The full text download URL has restricted access.
@@ -301,55 +290,50 @@
 - type: UNSUPPORTED_FILETYPE
   severity: WARNING
   trigger: |
-    We correctly extracted urls, but we didn’t find any supported file formats
+    We correctly extracted urls, but we didn't find any supported file formats
   title: Unsupported file format
   description: |
     We found a link to a full text, but it was an unsupported file format.
-    We are only able to harvest PDF documents currently.
   resolution: |
-    We are only able to harvest PDF documents.
+    We are only able to index, PDF and Word Documents (.doc and .docx)
   details: [currentUrl]
 
 - type: ATTACHMENT_NO_VALID_SEED_URLS_FOUND
   matches: [NO_VALID_ATTACHMENT_DOWNLOAD_URLS]
   severity: WARNING
   trigger: |
-    The downloaded metadata contained no urls.
+    The downloaded metadata contained no urls
   title: No download links found
   description: |
     The metadata provided contained no urls so we are unable to find a full text.
   resolution: |
     Ensure dc:identifier contains a url to the full text.
     Ensure any links on the metadata contain correct urls to the fulltext.
-    Consider linking directly to the fulltext from the metadata.
+    Consider linking directly to the fulltext from the metadata. Find out more in [full text configuration guide](https://core.ac.uk/documentation/data-providers-guide#text-configuration).
   details: []
 
 - type: ATTACHMENT_IO_EXCEPTION
   severity: ERROR
   trigger: |
-    Temporary System Error
+    This issue is triggered when an IO failure occurs, usually during text extraction. This is usually a temporary issue and will be fixed during the next harvest.
   title: System Error
   description: |
     A network or server error occurred. We do not have any further information
     but we will attempt to download this document soon.
   resolution: |
-    No action needed, it is probably a temporary issue. If the issue persists
-    there might be problems with your repository configuration.
-  details: []
+    No action needed, it is probably a temporary issue. If the issue persists there might be problems with your repository configuration.
+  details: [currentUrl]
+
 
 - type: SLOW_NETWORK
   severity: ERROR
   trigger: |
-    If a document download takes longer than 20 seconds, we abort the download.
+    If a document download takes longer than 20 seconds, we abort the download
   title: Slow Network
   description: |
-    We aborted the download because it took too long. Please check the
-    performance of your repository. We will try again later.
-
-    {{ currentUrl }}
+    We aborted the download because it took too long. Please check the performance of your repository. We will try again later.
   resolution: |
-    No action needed, our system identified issues of speed with your repository,
-    if the issue persists you might want to check your repository network configuration.
+    No action needed, our system identified issues of speed with your repository, if the issue persists you might want to check your repository network configuration.
   details: [currentUrl]
 
 - type: ATTACHMENT_URL_ERROR
@@ -364,7 +348,7 @@
     We visited {{ currentUrl }}
     From this page: {{ sourceUrl }}
   resolution: |
-    Check the page for any broken links and consider fixing it.
+    Check the page for any broken links and consider fixing it. Find out more in [full text configuration guide](https://core.ac.uk/documentation/data-providers-guide#text-configuration).
   details: [sourceUrl, currentUrl]
 
 - type: UNSPECIFIED_NETWORK_ERROR
@@ -399,34 +383,33 @@
   severity: ERROR
   trigger: |
     File size too big
-  title: Unable to download large file
+  title: Unable to download large files
   description: |
-    The file size is larger than 512&nbsp;MB so we aborted the download
+    The file size is larger than 512MB so we aborted the download.
   resolution: |
-    We are unable to support downloading files larger than 512&nbsp;MB
+    We are unable to support downloading files larger than 512MB.
   details: [currentUrl]
 
 - type: ATTACHMENT_SAME_DOMAIN_POLICY_ENFORCED
   severity: ERROR
   trigger: |
-    Download a file from another domain is forbidden due to the “Same Domain
-    Policy”
-  title: Unable to download files “Same Domain Policy”
+    Download a file from another domain is forbidden due to the "Same Domain Policy"
+  title: Unable to download files "Same Domain Policy"
   description: |
     We enforce a policy where we restrict the download of fulltexts to the
     same domain as the OAI-PMH endpoint.
   resolution: |
     It is perfectly normal to have external URLs in your repository metadata.
+
     However, sometimes this issue might relate to a misconfiguration on your repository. Please review
     the url of the records, if you are using multiple domains in your repository configuration, please
-    get in touch with us to ensure an exception is added.
+    get in touch with us to ensure an exception is added. Find out more in [Same-domain policy guide](https://core.ac.uk/documentation/data-providers-guide#same-domain).
   details: []
 
-- type: LINK_REDIRECTED_TO_DISALLOWED_URL
-  severity: ERROR
+- type: ATTACHMENT_NOT_DISCOVERED
+  severity: INFO
   trigger: |
-    Download a file from another domain is forbidden due to the “Same Domain
-    Policy”
+    No attachment was found, no error was detected, no other issue was set
   title: Link redirected to disallowed URL.
   description: |
     We enforce a policy where we restrict the download of fulltexts to the
@@ -434,7 +417,7 @@
   resolution: |
     This issue might relate to a misconfiguration on your repository's records. Please review
     the url of the records, if everything is correct please get in touch with us to
-    ensure an exception is added.
+    ensure an exception is added. Find out more in [full text configuration guide](https://core.ac.uk/documentation/data-providers-guide#text-configuration).
   details: []
 
 - type: POTENTIAL_LANGUAGE_MISMATCH
@@ -448,6 +431,7 @@
   resolution: |
     Please review your record's language and make sure it matches the document.
   details: []
+
 - type: UNPARSABLE_LANGUAGE
   severity: ERROR
   trigger: |
@@ -458,4 +442,81 @@
     record metadata doesn't match the one's we recognise.
   resolution: |
     Please check the language settings on your records.
+  details: []
+
+- type: CHECK_REPOSITORY_URI_ERROR
+  severity: ERROR
+  trigger: |
+    We tried to follow the redirect from http to https, but the https version returned an error
+  title: Check your repository URL configuration
+  description: |
+    It is recommended that your repository provide an https endpoint. However, your server returned an error when we tried to access the https version.
+  resolution: |
+    [Update the OAI-PMH url](https://core.ac.uk/documentation/data-providers-guide#changing-repository), or check that your http and https configurations are correct. Please make sure also that your https certificate is valid and there is no other server misconfiguration.
+  details: []
+
+- type: REPOSITORY_RESPONSE_ERROR
+  severity: ERROR
+  trigger: |
+    Your OAI-PMH endpoint returned an error, and we weren't able to continue harvesting
+  title: HTTP Errors on OAI-PMH processing
+  description: |
+    Your OAI-PMH endpoint returned an error. The error caused an HTTP Error code.
+  resolution: |
+    The issue may be caused by a misconfiguration in one of your records. In certain cases, your server has a setup to block harvesting from our system, for example, as a bot protection. We recommend updating your configuration to allow non-reckless [harvesting of OAI-PMH](https://core.ac.uk/documentation/data-providers-guide#machine-agents)
+  details: []
+
+- type: REPOSITORY_XML_PARSING_ERROR
+  severity: ERROR
+  trigger: |
+    Your OAI-PMH endpoint is returning malformed XML.
+  title: Wrongly formatted XML.
+  description: |
+    For some reason, your OAI-PMH point is returning non-well-formatted XML.
+  resolution: |
+    This issue is mostly caused by malformed records. We have various measures in place to make sure we are resistant to many common encoding issues; however, in this case, we are not able to find a workaround for the problem.
+  details: []
+
+- type: RESUMPTION_TOKEN_ERROR
+  severity: ERROR
+  trigger: |
+    Issues with the resumption token in the ListRecord of your OAI-PMH endpoint.
+  title: OAI-PMH Resumption token error
+  description: |
+    Your OAI-PMH worked correctly for a while; however, it failed when providing a resumption token for the full record harvesting.
+  resolution: |
+    Most of the time, this issue is connected with malformed records. Please check that your records don't have any errors. In certain cases, the error might be caused by repository software limitations and bugs. Please [check](https://core.ac.uk/documentation/data-providers-guide#oai-pmh) and [update](https://core.ac.uk/documentation/data-providers-guide#changing-repository) your repository software.
+  details: []
+
+- type: OAI_ENDPOINT
+  severity: ERROR
+  trigger: |
+    There are issues with the OAI Endpoint
+  title: Error in using the current OAI Endpoint
+  description: |
+    Your OAI-PMH endpoint has been causing an unexpected error.
+  resolution: |
+    We are not able to diagnose what is the issue with the OAI-PMH endpoint, but we are not able to process it. Please [check](https://core.ac.uk/documentation/data-providers-guide#oai-pmh) and [update](https://core.ac.uk/documentation/data-providers-guide#changing-repository) your repository software and validate its functionality.
+  details: []
+
+- type: NORMALISED_LANGUAGE
+  severity: WARNING
+  trigger: |
+    The language of the record is not reported using the ISO standard
+  title: Issue with understanding language from the record.
+  description: |
+    Your records are reporting language in a non-standard way.
+  resolution: |
+    We are still able to parse the language in your records, but we recommend that your records have an ISO compliant language so that it simplifies machine readability.
+  details: []
+
+- type: UNRECOGNIZED_LICENSE_STRING
+  severity: WARNING
+  trigger: |
+    The license of the records is not reported in a machine-readable way.
+  title: Issue with reading the license from the record
+  description: |
+    Your records are reporting a license that is not machine-readable
+  resolution: |
+    We are not able to understand the license for your records. Please update it using one of the well-known URIs.
   details: []
