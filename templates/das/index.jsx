@@ -84,7 +84,7 @@ const DasPageTemplate = observer(
               actionHref="#dasTable"
               showInfo
               infoText={dasText.reviewCard.info}
-              countClassName={styles.inputCount}
+              countClassName={styles.inputDark}
             />
             <PdfUploadChecker
               pdfLoading={globalStore.dataProvider.dasPdfLoading}
