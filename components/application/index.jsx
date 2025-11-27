@@ -122,8 +122,13 @@ const Application = observer(
       'deduplication',
       'content',
       'deposit-compliance',
+      'sdg',
+      'das',
       'doi',
       'rights-retention-strategy',
+      'research-software',
+      'orcid',
+      'usrn',
       'settings',
     ]
 
