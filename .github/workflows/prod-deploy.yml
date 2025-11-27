@@ -1,9 +1,8 @@
-name: Build and Deploy Dashboard to Azure web app for Containers
-
+name: Azure prod deploy
 on:
   push:
     branches:
-      - container_deploy
+      - containerapp_deploy
   workflow_dispatch:
 
 env:
