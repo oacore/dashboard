@@ -189,7 +189,7 @@ const DepositDatesTable = ({
     <Tablev2
       className={classNames.use(styles.browseTable).join(className)}
       isHeaderClickable
-      rowIdentifier="articleId"
+      rowIdentifier="id"
       data={
         checkBillingType
           ? publicReleaseDatesPages.slice(0, 5)

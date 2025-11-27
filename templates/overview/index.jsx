@@ -165,6 +165,38 @@ const OverviewTemplate = observer(
                 dataProviderId={dataProviderId}
               />
             )}
+            <SdgCard
+              billingPlan={billingPlan}
+              dataProviderId={globalStore.dataProvider.id}
+            />
+            <OrcidCard
+              billingPlan={billingPlan}
+              count={globalStore.dataProvider.orcidStatData.basic}
+              enrichmentSize={
+                globalStore.dataProvider.orcidStatData.fromOtherRepositories
+              }
+              outputsCount={metadataCount}
+              dataProviderId={globalStore.dataProvider.id}
+              href={globalStore.dataProvider.basicOrcidUrl}
+            />
+            <StatisticsCards
+              href="deduplication"
+              dataProviderId={globalStore.dataProvider.id}
+              text={dupText}
+              dataCount={globalStore.dataProvider?.duplicateList.count}
+            />
+            <StatisticsCards
+              href="das"
+              dataProviderId={globalStore.dataProvider.id}
+              text={dasText}
+              dataCount={globalStore.dataProvider?.dasList?.length}
+            />
+            <StatisticsCards
+              href="rrs"
+              dataProviderId={globalStore.dataProvider.id}
+              text={rrsText}
+              dataCount={globalStore.dataProvider?.rrsList?.length}
+            />
           </>
         ) : (
           <Card className={styles.placeholderCard}>
@@ -201,38 +233,6 @@ const OverviewTemplate = observer(
             </div>
           </Card>
         )}
-        <SdgCard
-          billingPlan={billingPlan}
-          dataProviderId={globalStore.dataProvider.id}
-        />
-        <OrcidCard
-          billingPlan={billingPlan}
-          count={globalStore.dataProvider.orcidStatData.basic}
-          enrichmentSize={
-            globalStore.dataProvider.orcidStatData.fromOtherRepositories
-          }
-          outputsCount={metadataCount}
-          dataProviderId={globalStore.dataProvider.id}
-          href={globalStore.dataProvider.basicOrcidUrl}
-        />
-        <StatisticsCards
-          href="deduplication"
-          dataProviderId={globalStore.dataProvider.id}
-          text={dupText}
-          dataCount={globalStore.dataProvider?.duplicateList.count}
-        />
-        <StatisticsCards
-          href="das"
-          dataProviderId={globalStore.dataProvider.id}
-          text={dasText}
-          dataCount={globalStore.dataProvider?.dasList?.length}
-        />
-        <StatisticsCards
-          href="rrs"
-          dataProviderId={globalStore.dataProvider.id}
-          text={rrsText}
-          dataCount={globalStore.dataProvider?.rrsList?.length}
-        />
       </Tag>
     )
   }
