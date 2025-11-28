@@ -382,6 +382,10 @@
   background-color: var(--gray-100);
 }
 
+.type-card-section-space {
+  justify-content: unset;
+}
+
 .type-card-section:nth-child(1) {
   padding-right: 1rem;
   border-right: 1px dashed var(--primary);

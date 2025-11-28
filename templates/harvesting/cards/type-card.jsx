@@ -41,7 +41,11 @@ const TypeCard = ({
       })}
     >
       <div className={styles.typeCard}>
-        <div className={styles.typeCardSection}>
+        <div
+          className={classNames.use(styles.typeCardSection, {
+            [styles.typeCardSectionSpace]: count === 1,
+          })}
+        >
           <div className={styles.typeCardHeader}>
             <Icon
               src="#alert"
@@ -50,14 +54,16 @@ const TypeCard = ({
             <h3 className={styles.typeCardTitle}>{title}</h3>
           </div>
           <p>{description}</p>
-          <div
-            className={classNames.use(
-              styles.typeCardCount,
-              `${styles[`typeCardCount${type}`]}`
-            )}
-          >
-            <span>{count.toLocaleString()}</span> {texts.issues.affected}
-          </div>
+          {count !== 1 && (
+            <div
+              className={classNames.use(
+                styles.typeCardCount,
+                `${styles[`typeCardCount${type}`]}`
+              )}
+            >
+              <span>{count.toLocaleString()}</span> {texts.issues.affected}
+            </div>
+          )}
         </div>
         <div className={styles.typeCardSection}>
           <div className={styles.typeCardHeader}>
@@ -67,20 +73,22 @@ const TypeCard = ({
             </h3>
           </div>
           <Markdown>{resolution}</Markdown>
-          <div className={styles.typeCardActions}>
-            <Button variant="contained" href={issuesList?.downloadUrl}>
-              {texts.issues.downloadAction}
-            </Button>
-            <Button
-              variant="outlined"
-              disabled={articlesLoading}
-              onClick={toggleVisibleList}
-            >
-              {visibleList
-                ? texts.issues.listActions.hide
-                : texts.issues.listActions.show}
-            </Button>
-          </div>
+          {count !== 1 && (
+            <div className={styles.typeCardActions}>
+              <Button variant="contained" href={issuesList?.downloadUrl}>
+                {texts.issues.downloadAction}
+              </Button>
+              <Button
+                variant="outlined"
+                disabled={articlesLoading}
+                onClick={toggleVisibleList}
+              >
+                {visibleList
+                  ? texts.issues.listActions.hide
+                  : texts.issues.listActions.show}
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       {visibleList && Object.keys(articles).length > 0 && (
