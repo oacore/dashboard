@@ -208,7 +208,7 @@ const OverviewTemplate = observer(
                 className={styles.logo}
               />
               <h5 className={styles.placeholderTitle}>
-                You repository is still indexing.
+                Your repository is still indexing.
               </h5>
               <p className={styles.placeholderDescription}>
                 This can take up to 3 weeks depending on the size of the data
