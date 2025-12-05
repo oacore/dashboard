@@ -5,6 +5,8 @@ on:
     branches:
       - stage
   workflow_dispatch:
+  repository_dispatch:
+    types: [trigger-stage-deploy]
 
 env:
   ACR_NAME: corecontainers
@@ -35,9 +37,18 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      # - name: Set Git SHA tag
+      #   id: vars
+      #   run: echo "tag=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+
       - name: Set Git SHA tag
         id: vars
-        run: echo "tag=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+        run: |
+          if [ -n "${{ github.sha }}" ]; then
+            echo "tag=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+          else
+            echo "tag=external-$(date +%s)" >> $GITHUB_OUTPUT
+          fi
 
       - name: ACR Login
         run: az acr login --name ${{ env.ACR_NAME }}
