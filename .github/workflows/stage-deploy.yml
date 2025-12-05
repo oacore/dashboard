@@ -23,6 +23,7 @@ permissions:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    environment: azure
     outputs:
       tag: ${{ steps.vars.outputs.tag }}
 
@@ -72,6 +73,7 @@ jobs:
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+    environment: azure
 
     steps:
       - name: Azure Login
