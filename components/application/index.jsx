@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import { DataProviderLogo } from '@oacore/design/lib/elements'
 import { useRouter } from 'next/router'
@@ -38,7 +38,7 @@ const Application = observer(
   }) => {
     const logoRef = useRef(null)
     const siderRef = useRef(null)
-    const [redirect, setRedirect] = useState(false)
+    const settingsRef = useRef(null)
     const [showNotification, setShowNotification] = useState(false)
     const router = useRouter()
     const { notifications, refetch } = useNotification(userID)
@@ -89,21 +89,11 @@ const Application = observer(
     }
 
     const restartModal = () => {
-      setRedirect(true)
-      if (localStorage.getItem('onboardingDone') !== null) {
-        localStorage.removeItem('onboardingDone')
-        tutorial.currentStep = 1
-        tutorial.openModal()
-      }
-    }
-
-    useEffect(() => {
-      if (redirect) {
+      tutorial.currentStep = 1
+      tutorial.openModal()
+      if (!pathname.includes('overview'))
         router.push(`/data-providers/${dataProvider.id}/overview`)
-        setRedirect(false)
-      }
-    }, [redirect, dataProvider])
-
+    }
     const displayedNotifications = notifications?.slice(0, 10)
 
     const unseenNotification = displayedNotifications.filter(
@@ -191,9 +181,8 @@ const Application = observer(
             {tutorial && tutorial.currentStep === 2 && (
               <DashboardGuide
                 dataProviderData={dataProvider}
-                refElement={logoRef.current}
                 tutorial={tutorial}
-                placement="bottom"
+                targetRef={logoRef}
               />
             )}
           </div>
@@ -255,6 +244,9 @@ const Application = observer(
                             showSubMenu={showSubMenuState[path] || false}
                             setShowSubMenu={() => handleShowSubMenu(path)}
                             setShowSubMenuState={setShowSubMenuState}
+                            settingsRef={
+                              path === 'settings' ? settingsRef : null
+                            }
                           />
                         ))}
                       {/* eslint-disable-next-line max-len */}
@@ -278,17 +270,15 @@ const Application = observer(
             {tutorial && tutorial.currentStep === 3 && (
               <DashboardGuide
                 dataProviderData={dataProvider}
-                refElement={siderRef.current}
                 tutorial={tutorial}
-                placement="left"
+                targetRef={settingsRef}
               />
             )}
             {tutorial && tutorial.currentStep === 4 && (
               <DashboardGuide
                 dataProviderData={dataProvider}
-                refElement={siderRef.current}
                 tutorial={tutorial}
-                placement="left"
+                targetRef={settingsRef}
               />
             )}
           </div>

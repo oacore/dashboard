@@ -51,7 +51,6 @@ const OverviewTemplate = observer(
     ...restProps
   }) => {
     const router = useRouter()
-    const [shouldRender, setShouldRender] = useState(false)
     const [hasNotificationGuideBeenShown, setNotificationGuideShown] = useState(
       localStorage.getItem('notificationGuideShown') === 'true'
     )
@@ -92,21 +91,17 @@ const OverviewTemplate = observer(
       if (hasNotificationGuideBeenShown) notificationGuide.closeModal()
     }, [hasNotificationGuideBeenShown])
 
-    useEffect(() => {
-      const t = localStorage.getItem('onboardingDone')
-      setShouldRender(t === 'true')
-    }, [shouldRender])
-
     const modal = useRef(null)
     const { pathname } = window.location
 
     useEffect(() => {
+      const onboardingDone = localStorage.getItem('onboardingDone')
       if (
         pathname === `/data-providers/${dataProviderData.id}/overview` &&
-        !shouldRender
+        onboardingDone === null
       )
         tutorial.openModal()
-    }, [pathname])
+    }, [pathname, dataProviderData.id, tutorial])
 
     return (
       <Tag
