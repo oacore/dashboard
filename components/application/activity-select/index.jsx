@@ -28,6 +28,7 @@ const ActivitySelectOption = ({
   showSubMenu,
   setShowSubMenu,
   setShowSubMenuState,
+  settingsRef,
 }) => {
   const [selectedSubMenu, setSelectedSubMenu] = useState(null)
   const router = useRouter()
@@ -57,6 +58,7 @@ const ActivitySelectOption = ({
           title={navigation.tooltips[value]}
         >
           <div
+            ref={value === 'settings' ? settingsRef : null}
             className={classNames.use(styles.settingItemWrapper, {
               [styles.settingItemWrapperBorder]: value === 'settings',
               [styles.disabled]: disabled,
