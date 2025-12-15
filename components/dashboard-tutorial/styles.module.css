@@ -51,6 +51,7 @@
 }
 
 .small-modal {
+  position: relative;
   max-width: 320px;
   padding: 16px;
   overflow: visible;
@@ -58,22 +59,12 @@
 
 .arrow {
   position: absolute;
-  top: 59%;
+  top: 50%;
   left: -38px;
+  z-index: 10;
   width: 0;
   height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 20px;
-  border-right-color: #fff;
-}
-
-.arrow-bottom {
-  position: absolute;
-  top: 18%;
-  left: -38px;
-  width: 0;
-  height: 0;
+  filter: drop-shadow(-3px 0 2px rgba(0, 0, 0, 0.1));
   border-color: transparent;
   border-style: solid;
   border-width: 20px;
@@ -173,34 +164,22 @@
   margin: 0 4px;
 }
 
-.bottom {
-  position: absolute;
-  top: 235px;
-  left: 375px;
+.positioned {
+  position: fixed;
+  max-height: calc(100vh - 40px);
+  overflow: visible;
+  transform: none;
 }
 
-.left {
-  position: absolute;
-  top: 650px;
-  left: 375px;
-}
-
+/* stylelint-disable declaration-no-important */
 @media (max-width: 728px) {
-  .left {
-    top: 50%;
-    left: 50%;
-  }
-
-  .bottom {
-    top: 50%;
-    left: 50%;
+  .positioned {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
   }
 
   .arrow {
-    border-color: transparent;
-  }
-
-  .arrow-bottom {
     border-color: transparent;
   }
 }
