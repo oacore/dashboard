@@ -133,7 +133,7 @@ const HarvestingProgressCard = observer(
 
     useEffect(() => {
       setRenderedContent(getContent())
-    }, [harvestingError, harvestingStatus])
+    }, [harvestingError, harvestingStatus, loading])
 
     const getTimeSinceLastHarvest = () => {
       if (!harvestingStatus?.lastHarvestingDate) return Infinity
