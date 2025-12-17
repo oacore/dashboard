@@ -81,11 +81,11 @@
 }
 
 .sub-item-text {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  min-width: 0;
-  flex: 1;
 }
 
 .sub-item:hover {
