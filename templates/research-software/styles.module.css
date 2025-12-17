@@ -352,3 +352,11 @@
   width: 10%;
   max-width: 5rem;
 }
+
+.send-count {
+  color: #c6a700;
+}
+
+.responded-count {
+  color: #424242;
+}
