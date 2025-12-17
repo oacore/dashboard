@@ -80,6 +80,14 @@
   cursor: pointer;
 }
 
+.sub-item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
+}
+
 .sub-item:hover {
   color: inherit;
   background: #0000000a;
