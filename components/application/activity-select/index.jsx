@@ -105,7 +105,7 @@ const ActivitySelectOption = ({
                 })}
                 onClick={() => handleSubMenuClick(item)}
               >
-                {item.value}
+                <span className={styles.subItemText}>{item.value}</span>
               </div>
             </Link>
           ))}
