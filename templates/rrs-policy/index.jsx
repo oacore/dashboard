@@ -78,7 +78,7 @@ const RrsPageTemplate = ({
             actionHref="#rrsTable"
             showInfo
             infoText={rrs.reviewCard.info}
-            countClassName={styles.inputCount}
+            countClassName={styles.inputDark}
           />
           <PdfUploadChecker
             pdfLoading={rrsPdfLoading}
