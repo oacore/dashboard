@@ -100,7 +100,9 @@ const NotificationPopUp = ({
             <div className={styles.buttonWrapper}>
               <Button
                 key={content.notifications.actions.read.name}
-                onClick={() => handleNotificationClick(userID, 'all')}
+                onClick={() =>
+                  handleNotificationClick(userID, 'all', dataProviderId)
+                }
                 variant={content.notifications.actions.read.variant}
                 className={styles.actionButton}
               >
