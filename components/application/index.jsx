@@ -97,7 +97,7 @@ const Application = observer(
     const displayedNotifications = notifications?.slice(0, 10)
 
     const unseenNotification = displayedNotifications.filter(
-      (item) => !item.notificationRead?.readStatus
+      (item) => !item?.readStatus
     )
 
     const truncate = (str, maxLength) => {

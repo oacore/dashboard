@@ -90,7 +90,7 @@ const NotificationPopUp = ({
                 <p className={styles.createdDate}>
                   {formatDate(item.createdDate)}
                 </p>
-                {!item?.notificationRead?.readStatus ? (
+                {!item?.readStatus ? (
                   <div className={styles.status} />
                 ) : (
                   <div className={styles.placeholder} />
