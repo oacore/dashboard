@@ -187,7 +187,7 @@ const OverviewTemplate = observer(
               dataCount={globalStore.dataProvider?.dasList?.length}
             />
             <StatisticsCards
-              href="rrs"
+              href="rights-retention-strategy"
               dataProviderId={globalStore.dataProvider.id}
               text={rrsText}
               dataCount={globalStore.dataProvider?.rrsList?.length}
