@@ -18,10 +18,21 @@ const DropdownInput = ({
   defaultValue,
   required,
 }) => {
+  const getRorDisplayName = (suggestion) => {
+    if (!suggestion.names || !Array.isArray(suggestion.names))
+      return suggestion.name || ''
+
+    const rorDisplayName = suggestion.names.find(
+      (nameItem) => nameItem.types && nameItem.types.includes('ror_display')
+    )
+    return rorDisplayName?.value || ''
+  }
+
   const handleSuggestionClick = (suggestion) => {
     handleOptionClick()
     setRorId(suggestion.id)
-    setRorName(suggestion.name)
+    const rorName = getRorDisplayName(suggestion)
+    setRorName(rorName)
   }
 
   return (
@@ -48,7 +59,9 @@ const DropdownInput = ({
               className={styles.dropdownOption}
               onClick={() => handleSuggestionClick(suggestion)}
             >
-              {name === 'rorName' ? suggestion.name : suggestion.id}
+              {name === 'rorName'
+                ? getRorDisplayName(suggestion)
+                : suggestion.id}
             </div>
           ))}
         </div>
