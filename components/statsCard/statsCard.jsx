@@ -55,36 +55,35 @@ const StatsCard = ({
         {description}
       </Card.Description>
     </div>
-    {tempDisabled ? (
-      <div>{tempDisabled}</div>
-    ) : (
-      <>
-        <div>
-          {loading ? (
-            <div className={styles.loadingContainer}>
-              <div className={styles.loadingStroke} />
-            </div>
-          ) : (
-            <div className={styles.innerContent}>
-              <p className={countClassName || styles.subFooter}>
-                {formatNumber(count || 0)}
-              </p>
-            </div>
-          )}
-        </div>
-        <div className={styles.footerWrapper}>
-          {showAction && !checkBillingType && (
-            <Button
-              onClick={onActionClick || undefined}
-              href={actionHref}
-              variant="contained"
-            >
-              {actionText}
-            </Button>
-          )}
-        </div>
-      </>
-    )}
+    <>
+      <div>
+        {loading ? (
+          <div className={styles.loadingContainer}>
+            <div className={styles.loadingStroke} />
+          </div>
+        ) : (
+          <div className={styles.innerContent}>
+            <p className={classNames.use(styles.subFooter, countClassName)}>
+              {formatNumber(count || 0)}
+            </p>
+          </div>
+        )}
+      </div>
+      <div className={styles.footerWrapper}>
+        {showAction && !checkBillingType && (
+          <Button
+            onClick={onActionClick || undefined}
+            // href={actionHref}
+            {...(tempDisabled && count === 0
+              ? { disabled: true }
+              : { href: actionHref })}
+            variant="contained"
+          >
+            {actionText}
+          </Button>
+        )}
+      </div>
+    </>
   </Card>
 )
 

@@ -63,7 +63,7 @@ actions:
     key: outputUrl
 
 notificationModal:
-    title: Automatic notification of software mentions
+    title: Notification successfully sent
     description: |
-      This functionality uses [COAR Notify](https://coar-notify.net) to enable the automatic enrichment of software mentions in your repository record. It is currently in beta version, if you are interested in enabling it please contact us at **theteam@core.ac.uk**
+      The software mention should now be in your repository inbox.
     action: Close
