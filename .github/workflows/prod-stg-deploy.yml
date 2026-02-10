@@ -138,13 +138,15 @@ jobs:
             INSTALL_DEV=false
           fi
 
+          NODE_ENV=$([ "${INSTALL_DEV}" = "true" ] && echo "developer" || echo "production")
+
           docker build \
             --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
             --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             --build-arg API_KEY=${{ secrets.API_KEY }} \
             --build-arg INSTALL_DEV=${INSTALL_DEV} \
-            -e NODE_ENV=$([ "${INSTALL_DEV}" = "true" ] && echo "developer" || echo "production") \
+            --build-arg NODE_ENV=${NODE_ENV} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }} .
 
