@@ -23,9 +23,11 @@ ENV NODE_OPTIONS="--openssl-legacy-provider"
 
 RUN set -eux; \
     if [ "$INSTALL_DEV" = "true" ]; then \
-      NODE_ENV=developer npm run build; \
+      export NODE_ENV=developer; \
+      npm run build; \
     else \
-      NODE_ENV=production npm run build; \
+      export NODE_ENV=production; \
+      npm run build; \
     fi
 
 EXPOSE 8080
