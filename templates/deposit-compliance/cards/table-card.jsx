@@ -16,7 +16,7 @@ import { PaymentRequiredNote } from 'modules/billing'
 import * as texts from 'texts/depositing'
 import { formatDate, formatNumber } from 'utils/helpers'
 
-const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
+const SidebarContent = ({ context: { oai, id, authors, title } }) => {
   const { Header, Body, Footer } = Table.Sidebar
 
   return (
@@ -29,7 +29,7 @@ const SidebarContent = ({ context: { oai, originalId, authors, title } }) => {
         <p>{authors?.map((a) => a.name).join(' ')}</p>
       </Body>
       <Footer>
-        <DocumentLink href={`https://core.ac.uk/display/${originalId}`}>
+        <DocumentLink href={`https://core.ac.uk/display/${id}`}>
           Open
         </DocumentLink>
       </Footer>
