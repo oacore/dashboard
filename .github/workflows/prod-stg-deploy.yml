@@ -91,7 +91,13 @@ jobs:
             IMAGE_TAG="stg-${BRANCH_TAG}"
           fi
 
-          echo "tag=${SHA7}" >> "$GITHUB_OUTPUT"
+          if [[ "${DEPLOY_ENV}" == "prod" ]]; then
+            TAG="${SHA7}-prod"
+          else
+            TAG="${SHA7}-stg"
+          fi
+
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
           echo "deploy_env=${DEPLOY_ENV}" >> "$GITHUB_OUTPUT"
           echo "app_name=${APP_NAME}" >> "$GITHUB_OUTPUT"
           echo "ref_to_build=${REF_TO_BUILD}" >> "$GITHUB_OUTPUT"
