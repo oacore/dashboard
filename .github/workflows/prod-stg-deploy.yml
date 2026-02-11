@@ -152,7 +152,6 @@ jobs:
             --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             --build-arg API_KEY=${{ secrets.API_KEY }} \
-            --build-arg NODE_ENV=${NODE_ENV} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }} .
 
