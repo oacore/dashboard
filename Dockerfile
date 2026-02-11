@@ -22,22 +22,15 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 RUN set -eux; \
-    if [ -n "$NPM_TOKEN" ]; then \
-      echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc; \
-    fi; \
-    npm --version; node --version; \
-    \
-    if [ -f package-lock.json ]; then \
-      npm ci --include=dev --legacy-peer-deps; \
-    else \
-      echo "WARNING: package-lock.json not found - using npm install"; \
-      npm install --include=dev --legacy-peer-deps; \
-    fi; \
+    echo "@oacore:registry=https://npm.pkg.github.com" > .npmrc; \
+    echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> .npmrc; \
+    npm ci --include=dev --legacy-peer-deps; \
     rm -f .npmrc
 
 COPY . .
 
-RUN echo "BUILD NODE_ENV=$NODE_ENV" && npm run build
+RUN npm run build
 
 EXPOSE 8080
+
 CMD ["node_modules/next/dist/bin/next", "start", "-p", "8080"]
