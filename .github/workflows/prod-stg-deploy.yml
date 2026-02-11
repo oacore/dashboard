@@ -230,6 +230,5 @@ jobs:
           az containerapp update \
             --name ${{ steps.target.outputs.APP }} \
             --resource-group ${{ steps.target.outputs.RG }} \
-            # === CHANGED: deploy by unique tag so ACA always creates a new revision and it matches selected branch SHA
             --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.UNIQUE_TAG }} \
             --set configuration.ingress.targetPort=${{ env.PORT }}
