@@ -138,7 +138,7 @@ jobs:
             INSTALL_DEV=false
           fi
 
-          NODE_ENV=$([ "${INSTALL_DEV}" = "true" ] && echo "developer" || echo "production")
+          NODE_ENV=$([ "${INSTALL_DEV}" = "true" ] && echo "development" || echo "production")
 
           docker build \
             --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
