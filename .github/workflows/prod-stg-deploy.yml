@@ -133,19 +133,19 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ steps.vars.outputs.deploy_env }}" == "staging" ]]; then
-            INSTALL_DEV=true
+            NODE_ENV=development
           else
-            INSTALL_DEV=false
+            NODE_ENV=production
           fi
 
-          NODE_ENV=$([ "${INSTALL_DEV}" = "true" ] && echo "development" || echo "production")
+          echo "Building with NODE_ENV=$NODE_ENV"
 
           docker build \
+            --build-arg NODE_ENV=$NODE_ENV \
             --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
             --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             --build-arg API_KEY=${{ secrets.API_KEY }} \
-            --build-arg INSTALL_DEV=${INSTALL_DEV} \
             --build-arg NODE_ENV=${NODE_ENV} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }} .
