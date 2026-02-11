@@ -100,6 +100,7 @@ function changePassword(event) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  console.log("hello world")
   form.addEventListener('submit', changePassword)
   newPassword.oninput = checkNewPasswordsMatch
   newPasswordAgain.oninput = checkNewPasswordsMatch
