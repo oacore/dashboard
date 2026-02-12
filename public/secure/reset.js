@@ -62,7 +62,6 @@ function resetInputs() {
 }
 
 function changePassword(event) {
-  console.log('test/workflow-helloworld')
   event.preventDefault()
 
   const identityProviderUrl =
@@ -101,6 +100,7 @@ function changePassword(event) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  console.log('test/workflow-helloworld')
   form.addEventListener('submit', changePassword)
   newPassword.oninput = checkNewPasswordsMatch
   newPasswordAgain.oninput = checkNewPasswordsMatch
