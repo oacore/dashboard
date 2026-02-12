@@ -62,6 +62,7 @@ function resetInputs() {
 }
 
 function changePassword(event) {
+  console.log('test/workflow-helloworld')
   event.preventDefault()
 
   const identityProviderUrl =
