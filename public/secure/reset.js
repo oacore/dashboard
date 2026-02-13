@@ -70,8 +70,9 @@ function changePassword(event) {
   const formData = new FormData(event.target)
   const data = {
     email: formData.get('email'),
-    password: formData.get('newPassword'),
-    newPassword: formData.get('newPasswordAgain'),
+    password: formData.get('password'),
+    newPassword: formData.get('newPassword'),
+    newPasswordAgain: formData.get('newPasswordAgain'),
     confirmationToken: formData.get('token'),
   }
 
