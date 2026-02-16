@@ -8,7 +8,7 @@ const PRODUCTION = '*.core.ac.uk core.ac.uk'
 
 const config = {
   'default-src': [SELF, PRODUCTION],
-  'script-src': [SELF, '*.google-analytics.com', '*.googletagmanager.com'],
+  'script-src': [SELF, '*.google-analytics.com', '*.googletagmanager.com', '*.cloudflareinsights.com'],
   // TODO: Move 'unsafe-inline' to development when the Next.js' bug is resolved
   // See more: https://github.com/vercel/next.js/issues/17445
   'style-src': [SELF, "'unsafe-inline'"],
