@@ -29,6 +29,8 @@ const ActivitySelectOption = ({
   setShowSubMenu,
   setShowSubMenuState,
   settingsRef,
+  disabledTabs = [],
+  hasMetadata = false,
 }) => {
   const [selectedSubMenu, setSelectedSubMenu] = useState(null)
   const router = useRouter()
@@ -89,26 +91,40 @@ const ActivitySelectOption = ({
       </div>
       {showSubMenu && (
         <div className={styles.subMenuItems}>
-          {subMenu?.map((item) => (
-            <Link
-              href={path.join('/data-providers/[data-provider-id]', item.id)}
-              as={path.join('/data-providers', String(dataProviderId), item.id)}
-              passHref
-              key={item.id}
-            >
-              {/* eslint-disable-next-line max-len */}
-              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+          {subMenu?.map((item) => {
+            const isSubItemDisabled =
+              !hasMetadata && disabledTabs.includes(item.id)
+            const subItemContent = (
+              // eslint-disable-next-line max-len
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
               <div
                 className={classNames.use(styles.subItem, {
                   [styles.subItemActive]: selectedSubMenu === item.id,
                   [styles.itemNon]: !router.route.includes(item.id),
+                  [styles.disabled]: isSubItemDisabled,
                 })}
-                onClick={() => handleSubMenuClick(item)}
+                onClick={() => !isSubItemDisabled && handleSubMenuClick(item)}
               >
                 <span className={styles.subItemText}>{item.value}</span>
               </div>
-            </Link>
-          ))}
+            )
+            return isSubItemDisabled ? (
+              <div key={item.id}>{subItemContent}</div>
+            ) : (
+              <Link
+                href={path.join('/data-providers/[data-provider-id]', item.id)}
+                as={path.join(
+                  '/data-providers',
+                  String(dataProviderId),
+                  item.id
+                )}
+                passHref
+                key={item.id}
+              >
+                {subItemContent}
+              </Link>
+            )
+          })}
         </div>
       )}
     </div>

@@ -103,13 +103,51 @@ const OverviewTemplate = observer(
         tutorial.openModal()
     }, [pathname, dataProviderData.id, tutorial])
 
+    const showPlaceholder =
+      globalStore.dataProvider?.statistics?.countMetadata === null ||
+      globalStore.dataProvider?.issues?.harvestingStatus?.lastHarvestingDate ===
+        null
+
     return (
       <Tag
         className={classNames.use(styles.container).join(className)}
         {...restProps}
       >
-        {globalStore.dataProvider?.issues?.harvestingStatus
-          ?.lastHarvestingDate !== null ? (
+        {showPlaceholder ? (
+          <Card className={styles.placeholderCard}>
+            <Card.Title tag="h2">General information</Card.Title>
+            <div className={styles.innerContent}>
+              <img
+                src={placeholder}
+                alt="placeholder"
+                className={styles.logo}
+              />
+              <h5 className={styles.placeholderTitle}>
+                Your repository is still indexing.
+              </h5>
+              <p className={styles.placeholderDescription}>
+                This can take up to 3 weeks depending on the size of the data
+                provider and our workload. You will receive an email once this
+                has been done. In the meantime, find out more about how to
+                ensure your repository is indexed to maximum effect in the Data
+                Provider’s Guide.
+              </p>
+              <Button
+                className={styles.actionButton}
+                variant="contained"
+                tag="div"
+                onClick={() =>
+                  window.open(
+                    'https://core.ac.uk/documentation/membership-documentation',
+                    '_blank'
+                  )
+                }
+              >
+                Data Provider’s Guide
+              </Button>
+            </div>
+          </Card>
+        ) : (
           <>
             <DataStatisticsCard
               metadatadaHistory={metadatadaHistory}
@@ -193,40 +231,6 @@ const OverviewTemplate = observer(
               dataCount={globalStore.dataProvider?.rrsList?.length}
             />
           </>
-        ) : (
-          <Card className={styles.placeholderCard}>
-            <Card.Title tag="h2">General information</Card.Title>
-            <div className={styles.innerContent}>
-              <img
-                src={placeholder}
-                alt="placeholder"
-                className={styles.logo}
-              />
-              <h5 className={styles.placeholderTitle}>
-                Your repository is still indexing.
-              </h5>
-              <p className={styles.placeholderDescription}>
-                This can take up to 3 weeks depending on the size of the data
-                provider and our workload. You will receive an email once this
-                has been done. In the meantime, find out more about how to
-                ensure your repository is indexed to maximum effect in the Data
-                Provider’s Guide.
-              </p>
-              <Button
-                className={styles.actionButton}
-                variant="contained"
-                tag="div"
-                onClick={() =>
-                  window.open(
-                    'https://core.ac.uk/documentation/membership-documentation',
-                    '_blank'
-                  )
-                }
-              >
-                Data Provider’s Guide
-              </Button>
-            </div>
-          </Card>
         )}
       </Tag>
     )

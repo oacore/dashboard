@@ -80,3 +80,10 @@
   height: 1rem;
   margin-right: 0.9rem;
 }
+
+.loading-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}

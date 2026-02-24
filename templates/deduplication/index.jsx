@@ -45,6 +45,9 @@ const DeduplicationPageTemplate = observer(
     const id = router.query['data-provider-id']
 
     useEffect(() => {
+      setShowCompareView(false)
+      setRowData(undefined)
+      clearOutputsData()
       getDeduplicationData(id)
     }, [id])
 

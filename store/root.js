@@ -85,6 +85,8 @@ class Root extends Store {
 
   @observable dataProvider = null
 
+  @observable dataProviderLoading = false
+
   @observable depositDates = null
 
   @observable harvestNotifications = null
@@ -252,6 +254,7 @@ class Root extends Store {
     // Clean-up or initial request
     if (id == null) {
       this.dataProvider = null
+      this.dataProviderLoading = false
       return
     }
 
@@ -270,9 +273,13 @@ class Root extends Store {
 
     const dataProviderInit = this.findDataProvider(id)
 
+    this.dataProviderLoading = true
     this.dataProvider = new DataProvider(this, dataProviderInit, {
       ...this.options,
       prefetch: true,
+      onLoad: () => {
+        this.dataProviderLoading = false
+      },
     })
   }
 
