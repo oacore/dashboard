@@ -533,10 +533,10 @@ class DataProvider extends Resource {
 
   @action retrieve() {
     super.retrieve().then(
-      () => {
+      async () => {
         this.reset()
-        this.retrieveStatistics()
-        // this.retrieveInternalStatistics()
+        await this.retrieveStatistics()
+        this.options.onLoad?.()
         this.retrievePluginConfig()
         this.retrieveIrusStats()
         this.retrieveRioxxStats()
@@ -572,6 +572,7 @@ class DataProvider extends Resource {
         }
       },
       (error) => {
+        this.options.onLoad?.()
         if (error instanceof NetworkNotFoundError) {
           this.error = new NotFoundError(
             `DataProvider(${this.url}) could not be found.`
@@ -597,22 +598,6 @@ class DataProvider extends Resource {
       const { data } = await await apiRequest(url.href, {
         method: 'GET',
       })
-
-      Object.assign(this.statistics, data)
-    } catch (error) {
-      // Ignore errors for this moment
-    }
-  }
-
-  @action
-  async retrieveInternalStatistics() {
-    const url = new URL(
-      `/internal/data-providers/${this.id}/statistics`,
-      process.env.API_URL
-    ).href
-
-    try {
-      const { data } = await await apiRequest(url)
 
       Object.assign(this.statistics, data)
     } catch (error) {

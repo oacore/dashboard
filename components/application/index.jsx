@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { DataProviderLogo } from '@oacore/design/lib/elements'
 import { useRouter } from 'next/router'
@@ -21,6 +21,7 @@ import NotificationPopUp from '../../templates/settings/cards/notificationPopUp'
 import { useNotification } from './useNotification'
 import { GlobalContext } from '../../store'
 import FeedbackButton from '../feedback-button'
+import Loader from '../loader'
 
 const Application = observer(
   ({
@@ -121,6 +122,29 @@ const Application = observer(
       'usrn',
       'settings',
     ]
+
+    const hasMetadata =
+      globalStore.dataProvider?.statistics?.countMetadata !== null &&
+      globalStore.dataProvider?.issues?.harvestingStatus?.lastHarvestingDate !==
+        null
+
+    const routeDataProviderId = router.query['data-provider-id']
+    const isDataProviderLoading =
+      (routeDataProviderId != null &&
+        String(routeDataProviderId) !==
+          String(globalStore.dataProvider?.id ?? '')) ||
+      globalStore.dataProviderLoading
+
+    useEffect(() => {
+      if (!dataProvider?.id || variant !== 'internal' || hasMetadata) return
+
+      const [, routePath] =
+        pathname.split('?')[0].match(/\/data-providers\/[^/]+\/(.*)/) || []
+      const currentTab = routePath?.split('/').filter(Boolean)[0]
+
+      if (currentTab && disabledTabs.includes(currentTab))
+        router.replace(`/data-providers/${dataProvider.id}/overview`)
+    }, [pathname, dataProvider?.id, variant, hasMetadata])
 
     return (
       <>
@@ -233,9 +257,7 @@ const Application = observer(
                           <ActivitySelect.Option
                             key={path}
                             disabled={
-                              globalStore.dataProvider?.issues?.harvestingStatus
-                                ?.lastHarvestingDate === null &&
-                              disabledTabs.includes(path)
+                              !hasMetadata && disabledTabs.includes(path)
                             }
                             value={path}
                             selected={test(pathname)}
@@ -247,6 +269,8 @@ const Application = observer(
                             settingsRef={
                               path === 'settings' ? settingsRef : null
                             }
+                            disabledTabs={disabledTabs}
+                            hasMetadata={hasMetadata}
                           />
                         ))}
                       {/* eslint-disable-next-line max-len */}
@@ -282,7 +306,17 @@ const Application = observer(
               />
             )}
           </div>
-          {children && <Main>{children}</Main>}
+          {children && (
+            <Main>
+              {isDataProviderLoading ? (
+                <div className={styles.loadingView}>
+                  <Loader />
+                </div>
+              ) : (
+                children
+              )}
+            </Main>
+          )}
         </Container>
         {isAuthenticated && user && dataProvider && (
           <FeedbackButton user={user} dataProvider={dataProvider} />
