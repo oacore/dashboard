@@ -133,6 +133,7 @@ const DocumentationBlockTemplate = ({
         {selectedOption === text.documentationSwitcher[1].title ? (
           <DocumentationMembership
             docs={docs?.items}
+            tutorial={docs?.tutorial}
             handleContentOpen={handleContentOpen}
             highlight={highlight}
             setHighlight={setHighlight}
@@ -142,6 +143,7 @@ const DocumentationBlockTemplate = ({
             redirectLink={redirectIcon}
             showNavigator={showNavigator}
             handleScrollToTop={handleScrollToTop}
+            utorialIcon={videoGuide}
             nav={
               <DocumentationMembershipNav
                 key="membership-nav"
