@@ -143,7 +143,7 @@ const DocumentationBlockTemplate = ({
             redirectLink={redirectIcon}
             showNavigator={showNavigator}
             handleScrollToTop={handleScrollToTop}
-            utorialIcon={videoGuide}
+            tutorialIcon={videoGuide}
             nav={
               <DocumentationMembershipNav
                 key="membership-nav"
