@@ -1,0 +1,14 @@
+{
+  "title": "Enable notifications for your repository",
+  "description": "To ensure you're always informed about the latest updates concerning your repository, we'll send you email notifications. You have the freedom to customise the type and frequency of notifications in your settings.\n\nWe promise that by enabling the notifications in the dashboard we won't spam you with non-informative content but we will provide you email notifications on events happening in your repository life with CORE.",
+  "actions": {
+    "offAction": {
+      "title": "Disable notification",
+      "type": "default"
+    },
+    "onAction": {
+      "title": "Enable notification",
+      "type": "primary"
+    }
+  }
+}

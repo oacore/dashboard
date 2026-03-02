@@ -1,0 +1,401 @@
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.card-container-whole {
+  flex: 1;
+}
+
+.card-container-default {
+  flex: 1;
+}
+
+.cr-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.card-title {
+  margin: 0 0 8px 0;
+  text-align: left;
+  font-size: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-description {
+  margin-bottom: unset;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #666;
+  letter-spacing: 0.021px;
+  text-align: left;
+}
+
+.extra-spacing {
+  margin-top: 18px;
+}
+
+.loading-container {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  margin: 16px 0;
+  overflow: hidden;
+  background-color: #f2f2f2;
+  border-radius: 2px;
+}
+
+.loading-container-outputs {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  margin: 26px 0;
+  overflow: hidden;
+  background-color: #f2f2f2;
+  border-radius: 2px;
+}
+
+.loading-stroke {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #e5e5e5;
+  animation: loading 5s linear infinite;
+}
+
+.card-footer-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.footer-button {
+  padding: 8px 15px;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: .08rem;
+}
+
+.sub-footer {
+  margin: 28px 0;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px;
+  color: var(--success);
+  text-align: left;
+}
+
+.sub-footer-red {
+  color: var(--danger-light);
+}
+
+.inner-content {
+  margin: 26px 0;
+  text-align: left;
+}
+
+.statistic-value {
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 32px;
+  color: var(--success);
+  margin: 28px 0;
+  text-align: left;
+}
+
+.loading-skeleton {
+  width: 100%;
+  height: 36px;
+  margin: 16px 0;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+.ant-card {
+  padding: 16px;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 2px 1px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.14);
+}
+
+.card-container .ant-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  padding: 0;
+  border-bottom: none;
+}
+
+.card-container .ant-card-head {
+  border-bottom: none;
+  padding: 0;
+  text-align: left;
+  justify-content: flex-start;
+  min-height: unset;
+  margin-bottom: 4px;
+}
+
+/* Tooltip arrow color - inner styles moved to global theme.css */
+.ant-tooltip-arrow::before {
+  background: rgba(0, 0, 0, 0.8784313725490196);
+  opacity: 0.8;
+}
+
+.skeleton-wrapper {
+  margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .sub-footer {
+    font-size: 40px;
+    margin: 24px 0;
+  }
+
+  .statistic-value {
+    font-size: 40px;
+    margin: 24px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-container-default {
+    min-width: 100%;
+    flex: none;
+  }
+
+  .sub-footer {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+
+  .statistic-value {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+
+  .card-title {
+    font-size: 16px;
+  }
+
+  .card-description {
+    font-size: 13px;
+  }
+
+  .ant-card {
+    padding: 12px;
+  }
+}
+
+.tooltip-button {
+  flex-shrink: 0;
+  padding: 4px;
+}
+
+.tooltip-button .info-icon {
+  display: block;
+}
+
+.info-icon {
+  color: var(--gray-600);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.icon-success {
+  color: #8BC34A;
+}
+
+.icon-fail {
+  color: #C62828;
+}
+
+.icon-success_wrapper,
+.icon-fail_wrapper
+{
+  width: 36px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-success_wrapper{
+  background-color: #8BC34A1A;
+
+}
+.icon-fail_wrapper {
+  background-color: #FF5F521A;
+}
+
+@media (max-width: 480px) {
+  .sub-footer {
+    font-size: 32px;
+    margin: 16px 0;
+  }
+
+  .statistic-value {
+    font-size: 32px;
+    margin: 16px 0;
+  }
+
+  .card-title {
+    font-size: 14px;
+  }
+
+  .card-description {
+    font-size: 12px;
+  }
+
+  .ant-card {
+    padding: 8px;
+  }
+}
+
+/* Additional responsive improvements */
+@media (max-width: 360px) {
+  .card-container-default {
+    min-width: 100%;
+  }
+
+  .sub-footer {
+    font-size: 28px;
+    margin: 12px 0;
+  }
+
+  .statistic-value {
+    font-size: 28px;
+    margin: 12px 0;
+  }
+
+  .card-title {
+    font-size: 13px;
+  }
+
+  .footer-button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+.placeholder-div {
+  height: 32px;
+}
+
+/* Progress bar styles */
+.progress-bar {
+  width: 100%;
+  height: 36px;
+  background-color: #f2f2f2;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 16px 0;
+  position: relative;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 8px;
+  min-width: fit-content;
+}
+
+.progress-bar__fill--success {
+  background-color: var(--color-success);
+}
+
+.progress-bar__fill--nonCompliant {
+  background-color: var(--danger);
+}
+
+.progress-bar__label {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+/* Sub value styles */
+.sub-value {
+  display: block;
+  text-align: left;
+  margin-top: 4px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  color: #666;
+}
+
+.cr-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Header left with icon */
+.header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Header right - tooltip icon must always stay visible */
+.header-right {
+  flex-shrink: 0;
+}
+
+/* Spinner styles */
+.spinner {
+  margin: 16px 0;
+}
+
+.spinner-small {
+  margin-right: 4px;
+}
+
+/* Icon wrapper styles */
+.cr-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 46px;
+  padding: 11px 5px;
+  border-radius: 2px;
+}
+
+.no-data-message.cr-stats-card-error-message {
+  color: var(--danger);
+}

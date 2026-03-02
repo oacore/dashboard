@@ -1,0 +1,103 @@
+.container {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector  {
+    border: 1px solid transparent;
+    border-radius: 2px;
+    padding: 4px 11px;
+}
+
+.ant-select-focused .ant-select-selector,
+.ant-select:focus .ant-select-selector {
+    border: 1px solid var(--color-primary);
+    box-shadow: none;
+    outline: none;
+}
+
+/* Custom dropdown arrow */
+.repository-select::after {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    width: 0;
+    height: 0;
+    content: '';
+    border-top: 5px solid var(--color-dark);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Hide default arrow and clear button */
+.repository-select .ant-select-arrow,
+.repository-select .ant-select-clear {
+    display: none;
+}
+
+/* Dropdown styling */
+.ant-select-dropdown {
+    font-weight: initial;
+    padding: 0;
+    border-radius: 2px;
+}
+.ant-select-single {
+    height: 40px;
+}
+
+.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: var(--color-main-bg-layout)
+}
+
+.ant-select-item-option-content {
+    color: var(--color-primary);
+    font-size: 16px;
+}
+
+/* Placeholder styling */
+.repository-select .ant-select-selection-placeholder {
+    color: #9e9e9e !important;
+    padding-right: 24px !important;
+    text-align: left !important;
+    justify-self: flex-start !important;
+}
+
+.ant-select .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left !important;
+}
+
+.ant-select .ant-select-selection-wrap {
+    padding: 4px 12px;
+}
+
+/* Responsive adjustments for RepositorySelect */
+@media (max-width: 992px) {
+    .ant-select .ant-select-selection-item {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ant-select .ant-select-selection-item {
+        font-size: 13px;
+    }
+
+    .repository-select .ant-select-selector {
+        padding: 0.25rem 0.5rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .ant-select .ant-select-selection-item {
+        font-size: 12px;
+    }
+}

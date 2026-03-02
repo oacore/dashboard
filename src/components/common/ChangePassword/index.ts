@@ -1,0 +1,2 @@
+export { ChangePassword } from './ChangePassword';
+

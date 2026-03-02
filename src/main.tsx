@@ -1,13 +1,31 @@
+import '@ant-design/v5-patch-for-react-19';
+import '@core/core-ui/styles';
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+import { ConfigProvider } from 'antd'
+import './styles/index.css'
+import './styles/theme.css'
+import { antdTheme as coreTheme } from '@core/core-ui';
+import { antdTheme as localTheme } from './config/theme'
+
 import App from './App'
-import './index.css'
+
+const mergedTheme = {
+  ...coreTheme,
+  token: {
+    ...coreTheme.token,
+    ...localTheme.token,
+  },
+  components: {
+    ...coreTheme.components,
+    ...localTheme.components,
+  },
+};
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <ConfigProvider theme={mergedTheme}>
       <App />
-    </BrowserRouter>
-  </StrictMode>
+    </ConfigProvider>
+  </StrictMode>,
 )

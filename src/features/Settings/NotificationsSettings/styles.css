@@ -1,0 +1,239 @@
+.notification-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+
+.notification-container .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.toggler {
+    margin-right: 8px;
+}
+
+.switch-label {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.toggler-text {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    color: #424242;
+    letter-spacing: .042px;
+    margin-left: 62px;
+    margin-top: 4px;
+}
+
+.card-wrapper {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    padding: 24px 0;
+    margin-top: 10px;
+    margin-bottom: 0;
+    border-top: 1px solid var(--color-border-primary);
+    border-bottom: 1px solid var(--color-border-primary);
+}
+
+.card-wrapper img {
+    /*max-width: 200px;*/
+    height: auto;
+}
+
+.option-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-left: 40px;
+}
+
+.option-wrapper-direction {
+    flex-direction: row;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+}
+
+.option .space-unset {
+    margin: 0;
+}
+
+.notification-type-text {
+    margin-left: 8px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+/*notification header*/
+.header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.header-wrapper-title {
+    margin: 0;
+}
+
+.notification-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-text {
+    margin-left: 4px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    color: var(--color-primary);
+    letter-spacing: 0.0125em;
+    cursor: pointer;
+}
+
+.notification-text-disable {
+    margin-left: 4px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    color: var(--color-text-disabled);
+    letter-spacing: 0.0125em;
+    cursor: pointer;
+}
+
+.header-sub-title {
+    margin-bottom: 24px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    color: #424242;
+    letter-spacing: 0.04px;
+    text-align: left;
+}
+
+/*notification view*/
+.main-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 200px;
+    margin-top: 24px;
+}
+
+.switch-title {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+    color: var(--color-dark);
+    letter-spacing: 0.026px;
+}
+
+/* Responsive styles */
+@media (max-width: 1380px) {
+    .main-wrapper {
+        gap: 80px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .header-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .notification-wrapper {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .main-wrapper {
+        flex-direction: column;
+        gap: 32px;
+        margin-top: 16px;
+    }
+
+    .card-wrapper {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .card-wrapper img {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .option-wrapper {
+        margin-left: 0;
+        gap: 16px;
+    }
+
+    .toggler-text {
+        margin-left: 0;
+        margin-top: 8px;
+    }
+
+    .switch-label {
+        font-size: 14px;
+    }
+
+    .switch-title {
+        font-size: 14px;
+    }
+
+    .notification-type-text {
+        font-size: 13px;
+    }
+
+    .notification-text,
+    .notification-text-disable {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-sub-title {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .card-wrapper {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 0;
+        margin-top: 8px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .header-sub-title {
+        font-size: 13px;
+    }
+
+    .main-wrapper {
+        gap: 24px;
+    }
+
+    .card-wrapper {
+        padding: 12px 0;
+    }
+
+    .option-wrapper {
+        gap: 12px;
+    }
+
+    .toggler-text {
+        font-size: 13px;
+    }
+}

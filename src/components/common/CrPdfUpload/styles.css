@@ -1,0 +1,287 @@
+.pdf-upload-card {
+    width: 40%;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-upload-card .ant-card-body {
+    padding: 0;
+}
+
+.pdf-upload-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.pdf-upload-title {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    font-size: 20px;
+    font-style: normal;
+    line-height: 26px;
+    letter-spacing: 0.03px;
+}
+
+.ant-upload-wrapper .ant-upload-drag .ant-upload {
+    padding: 22px;
+}
+
+/* View Components Common Styles */
+.pdf-upload-view-title {
+    margin: 0;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.036px;
+}
+
+.pdf-upload-title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.pdf-upload-success-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pdf-upload-success-wrapper {
+    text-align: center;
+}
+
+/* Icon Styles */
+.pdf-upload-view-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+/* Default View Styles */
+.pdf-upload-dragger-view {
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+}
+
+.pdf-upload-dragger-view .ant-upload-drag {
+    background: var(--color-bg-light);
+    border-radius: 0px;
+    border-color: var(--color-primary);
+}
+
+.pdf-upload-drag-inner {
+    text-align: center;
+}
+
+.pdf-upload-inner-title {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    color: var(--color-text-secondary);
+    text-align: center;
+    letter-spacing: 0.021px;
+}
+
+.pdf-upload-link-text {
+    margin-left: 5px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 16px;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.021px;
+    text-decoration-line: underline;
+}
+
+.pdf-upload-current-file {
+    margin-top: 16px;
+    padding: 8px 12px;
+    background: #e8f5e8;
+    border-radius: 4px;
+    color: var(--color-success);
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Loading Styles */
+.pdf-upload-loading-wrapper {
+    padding: 22px;
+    margin: 8px 0;
+    cursor: pointer;
+    background: var(--color-bg-light);
+    border: 1px dashed var(--color-border-primary);
+}
+
+.pdf-upload-spinner-wrapper {
+    margin-bottom: 16px;
+}
+
+.pdf-upload-file-name {
+    margin-top: 16px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 130%;
+    letter-spacing: .024px;
+    font-style: normal;
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+/* Success View Styles */
+.pdf-upload-license-type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    padding: 4px;
+    background: var(--color-bg-light);
+    border-radius: 2px;
+    gap: 10px;
+}
+
+.pdf-upload-found-sentence {
+    height: max-content;
+    padding: 16px;
+    margin: 8px 0;
+    background: var(--color-bg-layout);
+    text-align: left;
+}
+
+.pdf-upload-sentence-text {
+    font-size: 16px;
+    font-style: normal;
+    line-height: 130%;
+    color: var(--color-text-secondary);
+}
+
+/* Fail and Error View Styles */
+.pdf-upload-error-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.upload-title {
+    font-size: 16px;
+    font-style: normal;
+    line-height: 130%;
+    color: var(--color-text-secondary);
+    margin: 0;
+    font-weight: 500;
+}
+
+.inner-wrapper {
+    height: max-content;
+    padding: 16px;
+    margin: 8px 0;
+    background: var(--color-bg-layout);
+    text-align: start;
+}
+
+.inner-title {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    color: var(--color-text-disabled);
+    letter-spacing: 0.009px;
+}
+
+/* Footer Styles */
+.pdf-upload-footer-info {
+    margin: 8px 0 14px 0;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.pdf-upload-footer-text {
+    display: block;
+    color: var(--gray-600);
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.pdf-upload-footer-button {
+    text-align: end;
+    margin-top: 14px;
+}
+
+.pdf-upload-footer-button .ant-btn {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .pdf-upload-drag-inner {
+        padding: 24px 16px;
+    }
+
+    .pdf-upload-view-icon {
+        font-size: 36px;
+        margin-bottom: 12px;
+    }
+
+    .pdf-upload-view-title {
+        font-size: 16px;
+    }
+
+    .pdf-upload-inner-title {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pdf-upload-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .pdf-upload-drag-inner {
+        padding: 20px 12px;
+    }
+
+    .pdf-upload-view-icon {
+        font-size: 32px;
+        margin-bottom: 8px;
+    }
+
+    .pdf-upload-footer-button .ant-btn {
+        min-width: 140px;
+        height: 36px;
+        font-size: 12px;
+    }
+}
+
+/* Disabled state */
+.pdf-upload-dragger-view.ant-upload-disabled {
+    background: var(--color-bg-layout);
+    border-color: var(--color-border);
+    cursor: not-allowed;
+}
+
+.pdf-upload-dragger-view.ant-upload-disabled .pdf-upload-view-icon,
+.pdf-upload-dragger-view.ant-upload-disabled .pdf-upload-inner-title,
+.pdf-upload-dragger-view.ant-upload-disabled .pdf-upload-link-text {
+    color: #bdbdbd;
+}
+
+@media (max-width: 1414px) {
+    .pdf-upload-card {
+        width: 100%;
+    }
+}

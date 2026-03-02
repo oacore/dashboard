@@ -1,0 +1,50 @@
+{
+    "title": "CORE Membership for organisations",
+    "description": "CORE is a mission-driven and not-for-profit endeavour and we rely on the generous support of our members to support and sustain the service.",
+    "plans": {
+        "selected": {
+            "header": "Current membership",
+            "card": "You are a {{title}} member"
+        },
+        "cards": [
+            {
+                "title": "Starting",
+                "description": "Access to basic functionality of CORE services as they are.",
+                "default": true
+            },
+            {
+                "title": "Supporting",
+                "description": "Co-funds the maintenance of CORE services as they are.",
+                "action": {
+                    "caption": "Register interest",
+                    "url": "https://docs.google.com/forms/d/e/1FAIpQLSfFJmMIspYfOEM5aOKG4FTZoK4qeqozyds47O75Wm4dJ1ta2w/viewform"
+                }
+            },
+            {
+                "title": "Sustaining",
+                "description": "Co-funds the maintenance of CORE services and their continuous improvement.",
+                "action": {
+                    "caption": "Register interest",
+                    "url": "https://docs.google.com/forms/d/e/1FAIpQLSfFJmMIspYfOEM5aOKG4FTZoK4qeqozyds47O75Wm4dJ1ta2w/viewform"
+                }
+            }
+        ]
+    },
+    "box": {
+        "text": "Here you can find a comparison table with detailed information about each features. It can help you choose the most suitable membership plan for you.",
+        "action": {
+            "caption": "Compare features",
+            "url": "https://core.ac.uk/membership#comparison-table"
+        }
+    },
+    "documentationSwitcher": [
+        {
+            "title": "CORE Data Provider's Guide",
+            "description": "These guidelines aim to assist institutions and repository managers in configuring their repositories in way that enables CORE to correctly index them."
+        },
+        {
+            "title": "Membership Documentation",
+            "description": "This documentation explains how to use all features and benefits of CORE Membership."
+        }
+    ]
+}

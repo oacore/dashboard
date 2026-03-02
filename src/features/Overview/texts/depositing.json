@@ -1,0 +1,18 @@
+{
+  "title": "OA compliance (REF)",
+  "tooltip": "  Check compliance of content with REF 2021 Open Access policy. Access the data overview count, view your outputs’\n  time lag, see the matching of your outputs’ publication dates and get an insight of your outputs’ deposit dates.",
+  "action": "Details",
+  "description": {
+    "missingData": "Your repository is not configured to expose information on dates of\n    deposit in a machine-readable format. For more information check our\n    [guidelines](https://core.ac.uk/ref-audit) and contact us at\n    [thet&#101;&#97;m&#64;c&#111;re&#46;&#97;c&#46;&#117;k](mailto:t%68%65t%65am%40core%2e%61c%2eu%6b)",
+    "regionWarning": "Specific to UK repositories.",
+    "complianceLevel": {
+      "render": "{{amount}}% of outputs are non-compliant."
+    },
+    "allNonCompliant": {
+      "render": "We could not find any compliant outputs."
+    },
+    "allCompliant": {
+      "render": "We could not find any non-compliant outputs."
+    }
+  }
+}

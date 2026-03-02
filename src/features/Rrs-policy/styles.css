@@ -1,0 +1,163 @@
+.count-red {
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px;
+    color: #ff5f52;
+}
+
+.overflow-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 190px;
+}
+
+.oai-column {
+    width: 10%;
+    min-width: 5rem;
+    font-weight: 700;
+}
+
+.oai-cell {
+    padding: 0.2rem 0.5rem;
+    margin-left: 0.2rem;
+    background-color: var(--color-bg-layout);
+    border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.licence {
+    padding: 4px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    color: var(--color-text-secondary);
+    text-align: center;
+    letter-spacing: 0.026px;
+    background: var(--color-bg-layout);
+    border-radius: 4px;
+}
+
+.truncated {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.reusable-table .ant-table-expanded-row {
+    background: var(--color-bg-container);
+}
+
+.reusable-table .ant-table-expanded-row:hover {
+    background: var(--color-bg-container);
+}
+
+.ant-table-wrapper tr.ant-table-expanded-row>td {
+    background: var(--color-bg-container);
+}
+
+.ant-table-wrapper tr.ant-table-expanded-row>td:hover {
+    background: var(--color-bg-container);
+}
+
+/*table header*/
+.table-header-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.table-header {
+    margin: 0;
+}
+
+.table-sub-header {
+    margin-bottom: 14px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    color: var(--color-text-primary);
+    letter-spacing: 0.035px;
+}
+
+/* Table Responsive Styles */
+@media (max-width: 768px) {
+    .ant-table {
+        font-size: 12px;
+    }
+
+    .ant-table-thead>tr>th,
+    .ant-table-tbody>tr>td {
+        padding: 8px 4px;
+    }
+
+    .oai-cell {
+        max-width: 100px;
+        font-size: 11px;
+    }
+
+    .overflow-text {
+        max-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ant-table {
+        font-size: 11px;
+    }
+
+    .ant-table-thead>tr>th,
+    .ant-table-tbody>tr>td {
+        padding: 6px 2px;
+    }
+
+    .oai-cell {
+        max-width: 80px;
+        font-size: 10px;
+    }
+
+    .overflow-text {
+        max-width: 80px;
+    }
+}
+
+/* RRS Column and Popover Styles */
+.rrs-column-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.redirect-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.redirect-link:hover {
+    text-decoration: underline;
+}
+
+/* Popover specific styling */
+.rrs-status-popover .ant-popover-content {
+    padding: 0;
+}
+
+.rrs-status-popover .ant-popover-arrow {
+    display: none;
+}
+
+.rrs-status-popover .ant-popover-inner {
+    padding: 0;
+    border-radius: 2px;
+}

@@ -1,17 +1,15 @@
-import { Routes, Route } from 'react-router-dom'
+import '@styles/App.css'
+import { SWRConfig } from 'swr';
+import { swrConfig } from '@config/swr';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes';
 
-function Home() {
+function App() {
   return (
-    <main>
-      <h1>Welcome to Dashboard</h1>
-    </main>
+    <SWRConfig value={swrConfig}>
+      <RouterProvider router={router} />
+    </SWRConfig>
   )
 }
 
-export default function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
-  )
-}
+export default App

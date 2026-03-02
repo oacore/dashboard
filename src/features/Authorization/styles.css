@@ -1,0 +1,238 @@
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-content {
+    width: 100%;
+    min-width: 400px;
+}
+
+.login-content .ant-card-body {
+    padding: unset;
+}
+
+.login-content .ant-alert-success {
+    background: transparent;
+    border: 1px solid  var(--success);
+}
+
+.login-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 24px;
+}
+
+.auth-title {
+    color: var(--color-text-secondary);
+    font-size: 24px;
+    margin: 0 0 24px 0;
+    text-align: left;
+}
+
+.login-subtitle {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 16px;
+}
+
+.login-card {
+    background: #FFF;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.login-alert {
+    margin-bottom: 24px;
+    border-radius: 2px;
+    text-align: left;
+    width: 400px;
+}
+
+.auth-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .08rem;
+}
+
+.auth-button {
+    height: 32px;
+    font-size: 14px;
+}
+
+.redirect-button {
+    padding: 0;
+}
+
+.login-links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.login-links a {
+    color: var(--gray-600);
+    text-decoration: none;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.login-links a:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+.login-form.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.login-form.loading .auth-button {
+    cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 16px;
+    }
+
+    .login-content {
+        max-width: 100%;
+    }
+}
+
+/*RESET*/
+.reset-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.reset-button {
+    height: 32px;
+    width: max-content;
+    font-size: 14px;
+    display: flex;
+}
+
+.reset-alert {
+    margin-top: 16px;
+    text-align: left;
+    border-radius: 2px;
+    width: 400px;
+}
+
+.login-content .ant-form-item-additional {
+    margin: 4px 0;
+    text-align: left;
+}
+
+/*UPDATE*/
+
+.create-password-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+}
+
+.create-password-content {
+    width: 100%;
+    max-width: 25rem;
+}
+
+.create-password-content .ant-card-body {
+    padding: unset;
+}
+
+.create-password-card-invalid .ant-card-body {
+    padding: 24px;
+}
+
+.create-password-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.create-password-card {
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.create-password-form-wrapper {
+    padding: 24px;
+}
+
+.create-password-invalid-alert {
+    margin-bottom: 0;
+}
+
+.create-password-invalid-alert .ant-alert-message,
+.create-password-invalid-alert .ant-alert-icon {
+    display: none;
+}
+
+.create-password-invalid-links {
+    margin-top: 24px;
+}
+
+.create-password-invalid-links a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.create-password-invalid-links a:hover {
+    text-decoration: underline;
+}
+
+.create-password-links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.create-password-links a {
+    color: var(--gray-600);
+    text-decoration: none;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.create-password-links a:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .create-password-container {
+        padding: 16px;
+    }
+
+    .create-password-content {
+        max-width: 100%;
+    }
+}

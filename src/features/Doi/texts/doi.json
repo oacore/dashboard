@@ -1,0 +1,44 @@
+{
+  "title": "DOI",
+  "coverage": {
+    "title": "Coverage",
+    "numberLabel": "outputs with DOIs",
+    "numberLabelTooltip": "Number of outputs with a DOI within the repository collection.",
+    "percentLabel": "of records covered",
+    "percentLabelTooltip": "Percentage of outputs with a DOI within the repository collection.",
+    "enrichmentLabel": "more available",
+    "enrichmentLabelTooltip": "CORE has discovered more DOIs which are not listed in the repository.",
+    "footer": "We have found <span class='doi-message__footer-count'>{{ count }}</span> more DOIs that can be added to your repository. Review and download them below.",
+    "noRecords": "No records found.",
+    "failed": "Failed to load DOI data:",
+    "loading": "Loading DOI data...",
+    "upgradeBillingPlanText": "To see a full list of papers become our  Supporting or Sustaining member.",
+    "upgradeBillingPlanBtn": "Upgrade"
+  },
+  "card": {
+    "title": "DOI coverage",
+    "description": "We can enrich your DOI coverage by **{{ count }}**.  Download your CSV below.",
+    "action": "Details",
+    "cardTooltip": "Obtain identifier enrichments detected by CORE for your content, such as for DOIs missing in your repository"
+  },
+  "tabs": [
+    {
+      "key": "withDoi",
+      "label": "Outputs with a DOI",
+      "helper": "Number of outputs with a DOI within the repository collection.",
+      "description": "within your repository collection"
+    },
+    {
+      "key": "withoutDoi",
+      "label": "Outputs without a DOI",
+      "helper": "Number of outputs without a DOI within the repository collection.",
+      "description": "within your repository collection"
+    },
+    {
+      "key": "otherRepositories",
+      "label": "DOIs found in other repositories",
+      "helper": "CORE has discovered more DOIs which are not listed in the repository.",
+      "description": "which are not listed in your repository"
+    }
+  ]
+}

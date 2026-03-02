@@ -1,0 +1,62 @@
+{
+    "title": "Open Access compliance",
+    "regionWarning": "This section is not specific to your country",
+    "description": "We are now working on tools to provide OA compliance checking according to other policies. If you are interested in us helping\nyou to check compliance against a specific policy, please [contact us](https://core.ac.uk/about#contact).",
+    "compliance": {
+        "total": {
+            "title": "Total outputs",
+            "subTitle": "Outputs in the selected timeframe.",
+            "description": "Number of outputs that are within this REF period (from January 1st 2021), for which CORE has data and can calculate compliance. This number is used to create the compliance percentage of a repository.",
+            "buttons": {
+                "review": "Review",
+                "download": "Download"
+            }
+        },
+        "compliant": {
+            "title": "Compliant",
+            "subTitle": "Outputs meeting criteria",
+            "description": "Number of outputs that have been deposited inside the 92 day window. The compliance rate is just an estimation of the actual compliance from the point of view of CORE data. UKRI won't use the rate calculated here but it will coordinate with the institutions to check for exceptions and additional isses.",
+            "button": "Review"
+        },
+        "nonCompliant": {
+            "title": "Non-compliant",
+            "subTitle": "Outputs not meeting criteria",
+            "description": "The number of documents that were deposited outside the 92 day window. Data is calculated from the deposit date that CORE collects from the metadata record and from the publication date, which is a combination from other repository data and Crossref.",
+            "button": "Review"
+        },
+        "unknown": {
+            "title": "Unknown",
+            "subTitle": "Outputs need review.",
+            "description": "Outputs that are  within this REF period, for which CORE hasn't enough data to calculate compliance. ",
+            "button": "Review"
+        },
+        "cross": {
+            "title": "Cross-repository check",
+            "subTitle": "Deposits in other repositories\n",
+            "description": "Non-compliant outputs in your repository for which compliance is met due to deposits in other repositories",
+            "button": "Find out more"
+        }
+    },
+    "chart": {
+        "title": "Deposit time lag",
+        "body": "The chart displays outputs' distribution according to deposit time lag.\n\n- **Time lag** is the difference between deposit and publication date\n  in the repository.\n- **Publication date** is taken from [Crossref](https://www.crossref.org).\n  When this is not available, the repository's one used.\n- **Deposit date** is calculated using specific techniques.\n  On EPrints repositories it is extracted from the *Date Deposited* field,\n  while on DSpace the *dc.date.available* field is used.",
+        "warning": "Check our  [guidelines](https://core.ac.uk/ref-audit) and enable the\n    required support and then notify us once ready, so that we can initiate\n    collecting this information from your repository."
+    },
+    "noData": {
+        "body": "No deposit time lag data available for the selected time period."
+    },
+    "crossRepositoryCheck": {
+        "title": "Cross-repository check",
+        "description": "Non-compliant outputs in your repository for which compliance is met due to deposits in other repositories",
+        "download": "Download",
+        "paymentRequired": "Payment required to access this feature"
+    },
+    "publicationDates": {
+        "title": "Publication dates",
+        "description": "Compares publication dates with Crossref\n\n",
+        "tooltip": "We compared the publication dates from the repository records with the corresponding publication dates from Crossref. If there is a date mismatch we mark it as “partial” if the dates are close to each other (in the same month), “different” otherwise.",
+        "matching": "Matching",
+        "incorrect": "Partially matches",
+        "different": "Different"
+    }
+}
