@@ -2,7 +2,17 @@
 FROM node:20-alpine AS builder
 
 ARG NODE_ENV=production
+# API URL - defaults to dev API for staging; override for prod
+ARG VITE_APP_API_BASE_URL=https://api-dev.core.ac.uk
+ARG VITE_APP_NAME=CORE Dashboard
+ARG VITE_API_URL=https://api.core.ac.uk
+ARG VITE_IDP_URL=https://api.core.ac.uk
+
 ENV NODE_ENV=$NODE_ENV
+ENV VITE_APP_API_BASE_URL=$VITE_APP_API_BASE_URL
+ENV VITE_APP_NAME=$VITE_APP_NAME
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_IDP_URL=$VITE_IDP_URL
 
 WORKDIR /app
 
