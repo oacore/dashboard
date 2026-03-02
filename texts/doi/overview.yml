@@ -1,6 +1,0 @@
-title: DOI coverage
-description: We can enrich your DOI coverage by <b>{{count}}</b>.  Download your CSV below.
-
-action: Details
-
-cardTooltip: Obtain identifier enrichments detected by CORE for your content, such as for DOIs missing in your repository

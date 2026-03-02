@@ -1,9 +1,0 @@
-.login-iframe-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  max-width: 25rem;
-  min-height: 16rem;
-  transform: translate(-50%, -50%);
-}

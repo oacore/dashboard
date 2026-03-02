@@ -1,9 +1,0 @@
-.invitation-register-iframe {
-  --card-padding-x: 0;
-  --card-padding-y: 0;
-  --card-box-shadow: 0;
-
-  width: 100%;
-  max-width: 50rem;
-  margin-top: -1rem;
-}
