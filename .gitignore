@@ -24,6 +24,9 @@ public/design
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables (never commit secrets)
 .env
-.env.development
-.env.production
+.env.*
+.env.local
+.env*.local
