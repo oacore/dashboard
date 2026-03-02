@@ -77,10 +77,6 @@ export const LoginFeature = () => {
             autoComplete="off"
             layout="vertical"
             size="large"
-            initialValues={{
-              email: 'theteam@core.ac.uk',
-              password: 'core345'
-            }}
           >
             <Form.Item
               name="email"
