@@ -297,6 +297,7 @@ export const DocumentationFeature: React.FC<DocumentationFeatureProps> = ({
             width={1100}
             centered
             className="video-modal"
+            rootClassName="video-modal-root"
             closable={false}
             styles={{
               body: {

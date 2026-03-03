@@ -28,6 +28,7 @@ export const ConfirmationDeleteInviteModal: React.FC<ConfirmationDeleteInviteMod
     return (
         <Modal
             className="delete-modal"
+            rootClassName="delete-modal-root"
             open={open}
             closable={false}
             title={notificationText.invite.confirmation.title}

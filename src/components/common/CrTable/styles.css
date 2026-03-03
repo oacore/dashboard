@@ -102,6 +102,7 @@
     }
 }
 
+
 .table-loading-text {
     color: var(--gray-600, #666);
     font-size: 14px;
@@ -140,9 +141,7 @@
     min-height: 400px;
 }
 
-.reusable-table .ant-spin-nested-loading >div>.ant-spin .ant-spin-dot  {
-    transform: translate(-50%, 0);
-     margin: unset;
+.reusable-table .ant-spin .ant-spin-dot {
     width: 100%;
 }
 

@@ -286,6 +286,9 @@ export const HarvestingProgressCard = ({
                   items={steps}
                   className="harvesting-steps"
                   responsive
+                  iconRender={(_, { components }) =>
+                    <components.Icon />
+                  }
                 />
               </div>
               <div className="status-description">

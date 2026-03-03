@@ -118,6 +118,7 @@ export const FeedbackButton: React.FC<FeedbackButtonProps> = ({
                 closable={false}
                 aria-label="Feedback modal"
                 className="feedback-modal"
+                rootClassName="feedback-modal-root"
             >
                 {!isSubmitted ? (
                     <div className="feedback-form-wrapper">

@@ -59,6 +59,7 @@ const DashboardGuide: React.FC = () => {
             footer={null}
             closable={false}
             width={currentStep === 1 ? 600 : 320}
+            rootClassName="dashboard-guide-modal-root"
             className={classNames('dashboard-guide-modal', {
                 'dashboard-guide-modal-center': currentStep === 1,
                 'dashboard-guide-modal-small': currentStep !== 1,

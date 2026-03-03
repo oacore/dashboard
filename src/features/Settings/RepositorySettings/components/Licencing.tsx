@@ -144,6 +144,7 @@ export const Licencing: React.FC<LicencingProps> = ({ className }) => {
           </Button>,
         ]}
         className="licensing-modal"
+        rootClassName="licensing-modal-root"
         centered
       >
         <div className="licensingguide">

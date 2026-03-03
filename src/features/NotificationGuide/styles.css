@@ -1,8 +1,8 @@
-.notification-guide-modal {
+.notification-guide-modal-root .notification-guide-modal {
     max-width: 42rem;
 }
 
-.notification-guide-modal .ant-modal-content {
+.notification-guide-modal-root .notification-guide-modal .ant-modal-container {
     max-width: 42rem;
     padding: 16px;
     border-radius: 2px;
@@ -74,8 +74,7 @@
         width: 90% !important;
     }
 
-    .notification-guide-modal .ant-modal-container,
-    .notification-guide-modal .ant-modal-content {
+    .notification-guide-modal-root .notification-guide-modal .ant-modal-container {
         max-width: 100%;
     }
 

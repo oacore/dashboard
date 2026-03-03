@@ -439,12 +439,12 @@ a.clickable {
     max-width: 5rem;
 }
 
-/* Notification Modal */
-.sw-notification-modal.ant-modal {
+/* Notification Modal - Ant Design 6 uses .ant-modal-container */
+.sw-notification-modal-root .sw-notification-modal.ant-modal {
     width: 100%;
 }
 
-.sw-notification-modal .ant-modal-content {
+.sw-notification-modal-root .sw-notification-modal .ant-modal-container {
     max-width: 42rem;
     margin: 0 auto;
     border-radius: 2px;

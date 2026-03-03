@@ -852,7 +852,7 @@
     margin-bottom: 0;
 }
 
-.deduplication-action-modal .ant-modal-content {
+.deduplication-action-modal-root .deduplication-action-modal .ant-modal-container {
     padding: 1rem;
     border-radius: 2px;
 }

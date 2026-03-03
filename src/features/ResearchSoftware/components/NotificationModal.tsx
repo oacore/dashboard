@@ -24,6 +24,7 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({
             closable={false}
             aria-label="modal"
             className="sw-notification-modal"
+            rootClassName="sw-notification-modal-root"
             width="100%"
             centered
         >

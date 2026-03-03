@@ -14,7 +14,7 @@
     justify-content: center;
 }
 
-.button-loader {
+.spinner-wrapper .button-loader {
     color: var(--color-text-white);
 }
 
@@ -210,14 +210,13 @@
     border-color: var(--color-primary);
 }
 
-.harvesting-steps .ant-steps-item-finish .ant-steps-item-icon {
-    background: var(--color-text-white);
-    border-color: var(--color-primary);
+.harvesting-steps .ant-steps-item-wait .ant-steps-item-icon {
+    background: var(--color-text-white) !important;
+    border-color: var(--color-primary) !important;
 }
 
-.harvesting-steps .ant-steps-item-wait .ant-steps-item-icon {
-    background: var(--color-text-white);
-    border-color: var(--color-primary);
+.progress-steps-wrapper .ant-steps .ant-steps-item-wrapper {
+    align-items: center;
 }
 
 .status-description {
@@ -230,12 +229,12 @@
     text-align: left;
 }
 
-/*Modal*/
-.harvesting-modal.ant-modal {
+/* Modal - Ant Design 6 uses .ant-modal-container (was .ant-modal-content) */
+.harvesting-modal-root .harvesting-modal.ant-modal {
     width: 100%;
 }
 
-.harvesting-modal .ant-modal-content {
+.harvesting-modal-root .harvesting-modal .ant-modal-container {
     max-width: 42rem;
     margin: 0 auto;
     border-radius: 2px;

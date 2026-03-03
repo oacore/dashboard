@@ -36,8 +36,8 @@
   text-transform: capitalize;
 }
 
-/* Modal content */
-.feedback-modal .ant-modal-content {
+/* Modal - Ant Design 6 uses .ant-modal-container (was .ant-modal-content) */
+.feedback-modal-root .feedback-modal .ant-modal-container {
   padding: 16px;
   border-radius: 2px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
@@ -45,7 +45,7 @@
   transform: translate(0, 50%);
 }
 
-.feedback-modal .ant-modal-body {
+.feedback-modal-root .feedback-modal .ant-modal-body {
   padding: 0;
 }
 
@@ -160,11 +160,11 @@
   }
 
   /* Modal responsive - overrides only at breakpoint */
-  .feedback-modal.ant-modal {
+  .feedback-modal-root .feedback-modal.ant-modal {
     max-width: calc(100vw - 32px);
   }
 
-  .feedback-modal .ant-modal-content {
+  .feedback-modal-root .feedback-modal .ant-modal-container {
     width: 100%;
     max-width: 100%;
   }

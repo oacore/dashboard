@@ -29,6 +29,7 @@ const ActionModal: React.FC<ActionModalProps> = ({
         onCancel={onCancel}
         closable={false}
         className="deduplication-action-modal"
+        rootClassName="deduplication-action-modal-root"
         footer={
             <div className="action-modal-footer">
                 <Button type="primary" onClick={onConfirm}>

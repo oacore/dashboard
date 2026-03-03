@@ -25,6 +25,7 @@ export const NotificationGuide: React.FC<NotificationGuideProps> = ({
       closable={false}
       aria-label="modal"
       className="notification-guide-modal"
+      rootClassName="notification-guide-modal-root"
       centered
       width="auto"
     >

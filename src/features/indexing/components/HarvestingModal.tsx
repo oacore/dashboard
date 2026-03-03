@@ -42,6 +42,7 @@ const HarvestingModal = ({
                 closable={false}
                 aria-label="modal"
                 className="harvesting-modal"
+                rootClassName="harvesting-modal-root"
                 width="100%"
                 centered
             >

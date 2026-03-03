@@ -1,40 +1,40 @@
-/*guide */
-.dashboard-guide-modal {
+/* Guide - Ant Design 6 uses .ant-modal-container */
+.dashboard-guide-modal-root .dashboard-guide-modal {
     padding: 0;
 }
 
-.dashboard-guide-modal .ant-modal-content  {
+.dashboard-guide-modal-root .dashboard-guide-modal .ant-modal-container {
     padding: 16px;
     border-radius: 2px;
 }
 
-.dashboard-guide-modal-center {
+.dashboard-guide-modal-root .dashboard-guide-modal-center {
     transform: translate(0, -50%);
     top: 50%;
     max-width: 1199px;
     width: auto !important;
 }
 
-.dashboard-guide-modal-center .ant-modal-content {
+.dashboard-guide-modal-root .dashboard-guide-modal-center .ant-modal-container {
     padding: 24px !important;
 }
 
-.dashboard-guide-modal-center .ant-modal-body {
+.dashboard-guide-modal-root .dashboard-guide-modal-center .ant-modal-body {
     max-height: calc(100vh - 120px);
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
 
-.dashboard-guide-modal-center .ant-modal-body::-webkit-scrollbar {
+.dashboard-guide-modal-root .dashboard-guide-modal-center .ant-modal-body::-webkit-scrollbar {
     display: none;
 }
 
-.dashboard-guide-modal-small {
+.dashboard-guide-modal-root .dashboard-guide-modal-small {
     width: 320px;
 }
 
-.dashboard-guide-modal-positioned {
+.dashboard-guide-modal-root .dashboard-guide-modal-positioned {
     position: fixed;
 }
 
@@ -75,22 +75,22 @@
         max-height: calc(100vh - 180px);
     }
 
-    .dashboard-guide-modal-center {
+    .dashboard-guide-modal-root .dashboard-guide-modal-center {
         width: 90% !important;
         max-width: 100%;
     }
 
-    .dashboard-guide-modal-center .ant-modal-body {
+    .dashboard-guide-modal-root .dashboard-guide-modal-center .ant-modal-body {
         max-height: calc(100vh - 100px);
     }
 
     /* Steps 2-4: Center on mobile */
-    .dashboard-guide-modal-small {
+    .dashboard-guide-modal-root .dashboard-guide-modal-small {
         width: 90% !important;
         max-width: 320px;
     }
 
-    .dashboard-guide-modal-positioned {
+    .dashboard-guide-modal-root .dashboard-guide-modal-positioned {
         position: fixed !important;
         top: 50% !important;
         left: 50% !important;
