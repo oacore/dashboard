@@ -1,11 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Select, Spin } from 'antd';
-import {type RepositorySelectProps} from '@hooks/useDataProviders.ts';
+import { type RepositorySelectProps } from '@hooks/useDataProviders.ts';
 import './styles.css';
-
-const { Option } = Select;
-
-
 
 export const RepositorySelect: React.FC<RepositorySelectProps> = ({
   dataProviders = [],
@@ -15,33 +11,40 @@ export const RepositorySelect: React.FC<RepositorySelectProps> = ({
   placeholder = 'Search repositories',
   showSearch = true,
 }) => {
+  const options = useMemo(
+    () =>
+      dataProviders.map((provider) => ({
+        label: provider.name,
+        value: provider.id.toString(),
+      })),
+    [dataProviders]
+  );
+
   return (
     <div className="container">
       <Select
         id="repository"
         className="repository-select"
-        showSearch={showSearch}
+        showSearch={
+          showSearch
+            ? {
+              filterOption: (input: string, option?: { label?: React.ReactNode; value?: string }) =>
+                (option?.label as string)?.toLowerCase().includes(input.toLowerCase()) ?? false,
+            }
+            : false
+        }
         placeholder={placeholder}
         value={selectedDataProvider?.id != null ? selectedDataProvider.id.toString() : undefined}
         onChange={(value) => {
           const provider = dataProviders.find((p) => p.id.toString() === value);
           onSelectChange?.(provider ?? null);
         }}
-        optionFilterProp="label"
-        filterOption={(input, option) =>
-          (option?.label as string)?.toLowerCase().includes(input.toLowerCase()) ?? false
-        }
+        options={options}
         loading={isLoading}
         allowClear={false}
         style={{ width: '100%' }}
         notFoundContent={isLoading ? <Spin size="small" /> : 'No repositories found'}
-      >
-        {dataProviders.map((provider) => (
-          <Option key={provider.id} value={provider.id.toString()} label={provider.name}>
-            {provider.name}
-          </Option>
-        ))}
-      </Select>
+      />
     </div>
   );
 };

@@ -51,8 +51,6 @@ import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks
 import { FeedbackButton } from '@components/common/FeedbackButton/FeedbackButton';
 import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus';
 
-const { Option } = Select;
-
 const { Header, Sider, Content } = Layout;
 const { Text } = Typography;
 
@@ -402,11 +400,12 @@ export function DashboardLayout() {
                                         placeholder="Sets"
                                         value={undefined}
                                         onChange={handleHeaderSetChange}
-                                        filterOption={(input, option) =>
-                                            (option?.children as unknown as string)
-                                                ?.toLowerCase()
-                                                .includes(input.toLowerCase()) ?? false
-                                        }
+                                        options={enabledList
+                                            .filter((item) => item && (item.id != null || item.setSpec))
+                                            .map((item) => ({
+                                                label: item.setNameDisplay ?? item.setName ?? item.setSpec ?? '-',
+                                                value: getSetValue(item),
+                                            }))}
                                         loading={loadingSets}
                                         notFoundContent={
                                             loadingSets ? (
@@ -416,18 +415,7 @@ export function DashboardLayout() {
                                             )
                                         }
                                         aria-label="Select set"
-                                    >
-                                        {enabledList
-                                            .filter((item) => item && (item.id != null || item.setSpec))
-                                            .map((item) => {
-                                                const value = getSetValue(item);
-                                                return (
-                                                    <Option key={value} value={value}>
-                                                        {item.setNameDisplay ?? item.setName ?? item.setSpec ?? '-'}
-                                                    </Option>
-                                                );
-                                            })}
-                                    </Select>
+                                    />
                                 </div>
                             )}
                         </div>

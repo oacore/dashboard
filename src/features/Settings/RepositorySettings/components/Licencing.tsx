@@ -7,8 +7,6 @@ import { useLicencing } from '../hooks/useLicencing';
 import notificationText from '@features/Settings/texts';
 import '../styles.css';
 
-const { Option } = Select;
-
 const SUCCESS_MESSAGE_DURATION = 5000;
 
 interface LicenseOption {
@@ -109,13 +107,11 @@ export const Licencing: React.FC<LicencingProps> = ({ className }) => {
                       className="select-item"
                       placeholder="Select license type"
                       style={{ width: '100%' }}
-                    >
-                      {content.options.map((option) => (
-                        <Option key={option.type} value={option.value}>
-                          {option.value}
-                        </Option>
-                      ))}
-                    </Select>
+                      options={content.options?.map((option) => ({
+                        label: option.value,
+                        value: option.value,
+                      })) ?? []}
+                    />
                   </div>
                 </div>
                 {selectedOption && (

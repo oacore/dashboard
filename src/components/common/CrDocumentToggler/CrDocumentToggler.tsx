@@ -2,8 +2,6 @@ import React from 'react';
 import { Select } from 'antd';
 import "./styles.css"
 
-const { Option } = Select;
-
 type CrDocumentTogglerProps = {
   selectedOption: string;
   handleSelectChange: (value: string) => void;
@@ -30,13 +28,11 @@ export const CrDocumentToggler: React.FC<CrDocumentTogglerProps> = ({
           aria-label="Select documentation type"
           tabIndex={0}
           onKeyDown={handleKeyDown}
-        >
-          {optionsList.map((option: string) => (
-            <Option key={option} value={option}>
-              {option}
-            </Option>
-          ))}
-        </Select>
+          options={optionsList.map((option) => ({
+            label: option,
+            value: option,
+          }))}
+        />
       </div>
     </div>
   );
