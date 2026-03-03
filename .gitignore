@@ -28,5 +28,5 @@ public/design
 # Environment variables (never commit secrets)
 .env
 .env.*
-.env.local
-.env*.local
+.env.development
+.env.production
