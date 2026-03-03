@@ -37,6 +37,15 @@
   margin-right: 1rem;
 }
 
+.ror-form-description p {
+  margin: 6px 0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #666;
+}
+
 /* Upload Component Styles */
 .container {
   position: relative;
@@ -165,12 +174,12 @@
   max-width: 500px;
 }
 
-.dropdown-wrapper .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+.dropdown-wrapper .ant-select-single{
   padding: 4px 15px;
   height: 48px;
 }
 
-.dropdown-wrapper .select-item .ant-select-selector {
+.dropdown-wrapper .ant-select-single {
   border: 1px solid #b75400;
   border-radius: 2px;
 }
@@ -664,7 +673,7 @@
   flex: 1;
 }
 
-.fields-wrapper {
+.repo-fields-wrapper {
   display: flex;
   gap: 16px;
 }
@@ -752,7 +761,7 @@
 
 /* Responsive styles for Repository Section */
 @media (max-width: 1280px) {
-  .fields-wrapper {
+  .repo-fields-wrapper {
     flex-direction: column;
     gap: 12px;
   }
@@ -1057,6 +1066,10 @@
     margin-top: 20px;
   }
 
+  .main-warning-wrapper {
+    margin-bottom: 20px;
+  }
+
   .set-outer-header {
     flex-direction: column;
     gap: 12px;
@@ -1159,4 +1172,9 @@
   .show-btn {
     margin-top: 10px;
   }
+}
+
+.form-start {
+  display: flex;
+  align-items: flex-start;
 }

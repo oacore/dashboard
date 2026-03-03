@@ -249,7 +249,7 @@ export const Repository: React.FC<RepositoryProps> = ({ className }) => {
               </div>
             )}
           </form>
-          <Markdown className="ror-description">
+          <Markdown className="ror-form-description">
             {content.emailDescription}
           </Markdown>
         </div>
@@ -257,14 +257,14 @@ export const Repository: React.FC<RepositoryProps> = ({ className }) => {
       </div>
 
       {/* ROR Form */}
-      <div className="form-wrapper">
+      <div className="form-wrapper form-start">
         <div className="form-inner-wrapper">
           <form
             name="data-provider"
             onSubmit={handleSubmit}
             onChange={handleChange}
           >
-            <div className="fields-wrapper">
+            <div className="repo-fields-wrapper">
               <div className="input-item">
                 <DropdownInput
                   id="ror-id"
@@ -307,7 +307,7 @@ export const Repository: React.FC<RepositoryProps> = ({ className }) => {
               </div>
             )}
           </form>
-          <Markdown className="ror-description">
+          <Markdown className="ror-form-description">
             {content.rordescription}
           </Markdown>
         </div>
@@ -335,7 +335,7 @@ export const Repository: React.FC<RepositoryProps> = ({ className }) => {
               onChange={handleOaiUrlChange}
               placeholder="OAI based URL"
             />
-            <Markdown className="ror-description">
+            <Markdown className="ror-form-description">
               {content.oaiDescription}
             </Markdown>
             {isOaiChanged && !isOaiSaveSuccessful && (
