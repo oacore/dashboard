@@ -84,7 +84,7 @@ const DasColumn: React.FC<DasColumnProps> = React.memo(({ record, onStatusUpdate
             >
                 <Button
                     type="link"
-                    className="redirect-link"
+                    className="table-redirect-link"
                 >
                     Review DAS
                     <img src={externalLink} alt="" />

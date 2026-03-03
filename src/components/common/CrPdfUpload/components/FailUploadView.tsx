@@ -31,7 +31,7 @@ export const FailUploadView: React.FC<FailUploadViewProps> = ({
             <img src={issueSvg} alt="issueSvg" />
             <h3 className="upload-title">{texts.fail.title}</h3>
           </div>
-          <div className="inner-wrapper">
+          <div className="pdf-inner-wrapper">
             <span className="inner-title">
               {texts.fail.description}
             </span>

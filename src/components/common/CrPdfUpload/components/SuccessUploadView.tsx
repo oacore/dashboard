@@ -31,7 +31,7 @@ export const SuccessUploadView: React.FC<SuccessUploadViewProps> = ({
                     <div className="pdf-upload-success-wrapper">
                         <div className="pdf-upload-title-wrapper">
                             <img src={tickGreen} alt="" />
-                            <p className="pdf-upload-view-title success">
+                            <p className="pdf-upload-view-title">
                                 {texts.success.title}
                             </p>
                         </div>

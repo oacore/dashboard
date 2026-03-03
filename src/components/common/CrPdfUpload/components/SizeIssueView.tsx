@@ -32,7 +32,7 @@ export const SizeIssueView: React.FC<SizeIssueViewProps> = ({
             <img src={issueSvg} alt="issueSvg" />
             <h3 className="upload-title">{texts.noSupport.sizeTitle}</h3>
           </div>
-          <div className="inner-wrapper">
+          <div className="pdf-inner-wrapper">
             <span className="inner-title">
               {texts.subInfo.size}
             </span>

@@ -32,7 +32,7 @@ export const UploadErrorView: React.FC<UploadErrorViewProps> = ({
             <img src={issueSvg} alt="issueSvg" />
             <h3 className="upload-title">{texts.error.title}</h3>
           </div>
-          <div className="inner-wrapper">
+          <div className="pdf-inner-wrapper">
             <span className="inner-title">
               {texts.error.description}
             </span>

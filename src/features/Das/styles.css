@@ -134,7 +134,7 @@
     justify-content: center;
 }
 
-.redirect-link {
+.table-redirect-link {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -142,9 +142,10 @@
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
+    text-transform: capitalize;
 }
 
-.redirect-link:hover {
+.table-redirect-link:hover {
     text-decoration: underline;
 }
 

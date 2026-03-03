@@ -31,7 +31,7 @@ export const FormatIssueView: React.FC<FormatIssueViewProps> = ({
             <img src={issueSvg} alt="issueSvg" />
             <h3 className="upload-title">{texts.noSupport.title}</h3>
           </div>
-          <div className="inner-wrapper">
+          <div className="pdf-inner-wrapper">
             <span className="inner-title">
               {texts.subInfo.format}
             </span>
