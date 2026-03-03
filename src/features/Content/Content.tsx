@@ -39,7 +39,7 @@ export const ContentFeature = () => {
       searchPlaceholder="Search by title, OAI, authors..."
       onSearch={setSearchTerm}
       searchValue={searchTerm}
-      onDownloadCsv={() => downloadCsv('/works?accept=text/csv')}
+      onDownloadCsv={downloadCsv}
       showLoadMore={hasMore}
       onLoadMore={loadMore}
       loadMoreText="Show more"

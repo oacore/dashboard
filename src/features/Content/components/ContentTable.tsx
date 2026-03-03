@@ -55,6 +55,7 @@ export const ContentTable: React.FC<ContentTableProps> = ({
 
   const sidebarConfig: SidebarConfig<ContentData> = {
     enabled: true,
+    width: 480,
     title: (record: ContentData) => <div className={"sidebar-header"}>{record.oai}</div>,
     content: (record: ContentData) => (
       <div className="sider-drawer">

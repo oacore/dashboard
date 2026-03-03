@@ -256,7 +256,7 @@ body {
 }
 
 .dashboard-content {
-  padding: 16px;
+  padding: 24px 16px 16px 16px;
   min-height: 280px;
 }
 

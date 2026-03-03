@@ -42,6 +42,7 @@ export const PublicReleaseDatesTable: React.FC<PublicReleaseDatesTableProps> = (
 
   const sidebarConfig: SidebarConfig<PublicReleaseDatesItem> = {
     enabled: true,
+    width: 480,
     title: (record: PublicReleaseDatesItem) => <div className="sidebar-header">{record.oai}</div>,
     content: (record: PublicReleaseDatesItem) => (
       <div className="sider-drawer">

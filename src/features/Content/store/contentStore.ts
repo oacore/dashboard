@@ -8,7 +8,7 @@ interface ContentActions {
   setSearchTerm: (term: string) => void;
   setSortField: (field: string | null) => void;
   setSortOrder: (order: 'asc' | 'desc' | null) => void;
-  downloadCsv: (endpoint: string) => void;
+  downloadCsv: () => void;
   resetPagination: () => void;
   handleSort: (field: string, order: 'asc' | 'desc' | null) => void;
   setCurrentPage: (page: number) => void;
@@ -129,7 +129,7 @@ export const useContentTableStore = create<ContentStore>()(
         });
       },
 
-      downloadCsv: (endpoint: string) => {
+      downloadCsv: () => {
         const { selectedDataProvider } = useDataProviderStore.getState();
 
         if (!selectedDataProvider?.id) {
@@ -138,7 +138,7 @@ export const useContentTableStore = create<ContentStore>()(
         }
 
         const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
-        const csvUrl = `${baseUrl}/internal/data-providers/${selectedDataProvider.id}${endpoint}`;
+        const csvUrl = `${baseUrl}/internal/data-providers/${selectedDataProvider.id}/works?accept=text/csv`;
 
         downloadCsv(csvUrl, 'content-data');
       },

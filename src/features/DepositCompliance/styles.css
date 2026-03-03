@@ -102,14 +102,12 @@
 
 /* Cross Repository Check Card */
 .compliance-card-wrapper {
-  margin-top: 1.5rem;
   display: flex;
   flex-direction: row;
   gap: 24px;
 }
 
 .compliance-cards-wrapper {
-  margin-top: 1.5rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
