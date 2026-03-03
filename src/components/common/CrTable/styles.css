@@ -24,6 +24,7 @@
 
 .reusable-table .ant-table-expanded-row-content {
     padding: 16px;
+    min-height: 30px;
 }
 
 .reusable-table .ant-table-row-expand-icon-cell {

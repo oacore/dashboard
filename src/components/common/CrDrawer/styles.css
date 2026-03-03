@@ -1,5 +1,10 @@
+.drawer-wrapper {
+    min-height: 30px;
+}
+
 .article {
     margin: 0 auto;
+    min-height: 30px;
     animation: 0.5s bounce;
 }
 
@@ -84,6 +89,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 30px;
 }
 
 .spinner {
