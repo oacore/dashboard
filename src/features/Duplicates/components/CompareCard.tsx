@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useWindowWidth } from '@hooks/useScrollView.ts';
 import { Carousel, Button, Tooltip } from 'antd';
 import type { CarouselRef } from 'antd/es/carousel';
 import { EyeOutlined } from '@ant-design/icons';
@@ -73,6 +74,8 @@ export const CompareCard: React.FC<CompareCardProps> = ({
         id?: string | number;
     } | null>(null);
     const carouselRef = useRef<CarouselRef | null>(null);
+    const windowWidth = useWindowWidth();
+    const slidesToShow = windowWidth <= 768 ? 1 : 2;
 
     const { workData, isLoading } = useWorkData(workId);
     const { outputs } = useMultipleOutputs(documentIds);
@@ -229,9 +232,8 @@ export const CompareCard: React.FC<CompareCardProps> = ({
         }));
 
     const totalSlides = outputsData.length;
-    const slidesToShow = 2;
-    const totalDots = totalSlides > 2 ? totalSlides - 1 : 0;
-    const showIndicators = totalSlides > 2;
+    const totalDots = totalSlides > slidesToShow ? totalSlides - slidesToShow + 1 : 0;
+    const showIndicators = totalSlides > slidesToShow;
 
     if (isLoading || !workDataTyped) {
         return null;
@@ -329,7 +331,7 @@ export const CompareCard: React.FC<CompareCardProps> = ({
                     <div className="carousel-container">
                         <Carousel
                             ref={carouselRef}
-                            slidesToShow={2}
+                            slidesToShow={slidesToShow}
                             slidesToScroll={1}
                             infinite={false}
                             autoplay={false}

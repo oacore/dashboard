@@ -67,31 +67,33 @@ export const InnerTableHeader: React.FC<InnerTableHeaderProps> = ({
                 <p className={classNames('date-item')}>
                     {rowData?.publicationDate || '-'}
                 </p>
-                <div className="visible-icon-wrapper">
-                    <Button
-                        type="text"
-                        icon={<EyeOutlined />}
-                        className="visible-icon"
-                        onClick={() => openLink('coreUrl')}
-                        aria-label="View in CORE"
-                    />
-                </div>
-                <div className="action-button-wrapper">
-                    <Dropdown
-                        menu={{ items: menuItems, onClick: handleMenuClick }}
-                        trigger={['click']}
-                        placement="bottomRight"
-                        open={visibleMenu}
-                        onOpenChange={setVisibleMenu}
-                    >
+                <div className="compare-item-actions">
+                    <div className="visible-icon-wrapper">
                         <Button
-                            className="action-button-pure"
-                            onClick={(e) => e.stopPropagation()}
-                            aria-label="Open actions menu"
+                            type="text"
+                            icon={<EyeOutlined />}
+                            className="visible-icon"
+                            onClick={() => openLink('coreUrl')}
+                            aria-label="View in CORE"
+                        />
+                    </div>
+                    <div className="action-button-wrapper">
+                        <Dropdown
+                            menu={{ items: menuItems, onClick: handleMenuClick }}
+                            trigger={['click']}
+                            placement="bottomRight"
+                            open={visibleMenu}
+                            onOpenChange={setVisibleMenu}
                         >
-                            <img src={BurgerMenu} alt="Menu" />
-                        </Button>
-                    </Dropdown>
+                            <Button
+                                className="action-button-pure"
+                                onClick={(e) => e.stopPropagation()}
+                                aria-label="Open actions menu"
+                            >
+                                <img src={BurgerMenu} alt="Menu" />
+                            </Button>
+                        </Dropdown>
+                    </div>
                 </div>
             </CrMessage>
         </>
