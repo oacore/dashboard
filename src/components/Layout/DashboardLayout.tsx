@@ -98,7 +98,7 @@ export function DashboardLayout() {
     );
 
     const shouldDisableTabs =
-      harvestingStatus?.lastHarvestingDate == null || statistics?.countMetadata == null;
+        harvestingStatus?.lastHarvestingDate == null || statistics?.countMetadata == null;
 
     useCurrentUser();
 

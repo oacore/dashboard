@@ -58,7 +58,6 @@ const DashboardGuide: React.FC = () => {
             onCancel={handleNext}
             footer={null}
             closable={false}
-            maskClosable={true}
             width={currentStep === 1 ? 600 : 320}
             className={classNames('dashboard-guide-modal', {
                 'dashboard-guide-modal-center': currentStep === 1,
@@ -68,13 +67,6 @@ const DashboardGuide: React.FC = () => {
             style={modalStyle}
             transitionName=""
             maskTransitionName=""
-            styles={{
-                body: { padding: 0 },
-                content: {
-                    padding: '16px',
-                    borderRadius: "2px",
-                },
-            }}
         >
             <div
                 className={classNames('dashboard-guide-arrow', {

@@ -23,19 +23,10 @@ export const NotificationGuide: React.FC<NotificationGuideProps> = ({
       onCancel={handleButtonClose}
       footer={null}
       closable={false}
-      maskClosable={false}
       aria-label="modal"
       className="notification-guide-modal"
       centered
       width="auto"
-      styles={{
-        body: { padding: 0 },
-        content: {
-          padding: '16px',
-          borderRadius: "2px",
-          maxWidth: '42rem',
-        },
-      }}
     >
       <div className="notification-guide-wrapper">
         <h5 className="notification-title">
