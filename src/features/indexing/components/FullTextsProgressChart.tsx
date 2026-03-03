@@ -27,12 +27,12 @@ const FullTextsProgressChart = ({
     caption,
     fullTextCount,
     className,
-                                    tooltip,
+    tooltip,
 }: FullTextsProgressChartProps) => (
     <div
         className={classNames('fulltexts-progress-chart', 'info-box', className)}
     >
-        <InfoTooltip className="positioned" title={tooltip} />
+        <InfoTooltip positioned title={tooltip} />
         <PerformanceChart
             minHeight={110}
             rounded

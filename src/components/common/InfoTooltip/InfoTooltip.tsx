@@ -1,10 +1,12 @@
 import { Button, Tooltip } from 'antd';
 import type { TooltipProps } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
+import classNames from 'classnames';
 
 type InfoTooltipProps = {
   title: TooltipProps['title'];
   ariaLabel?: string;
+  positioned?: boolean;
   iconStyle?: React.CSSProperties;
 } & Omit<TooltipProps, 'title'>;
 
@@ -16,12 +18,15 @@ const InfoTooltip = ({
   title,
   ariaLabel,
   iconStyle,
+  positioned,
   ...tooltipProps
 }: InfoTooltipProps) => (
   <Tooltip title={title} {...tooltipProps}>
     <Button
       type="text"
-      className="tooltip-button"
+      className={classNames('tooltip-button', {
+        'positioned-tooltip-button': positioned,
+      })}
       aria-label={ariaLabel ?? (typeof title === 'string' ? title : undefined)}
       tabIndex={0}
     >

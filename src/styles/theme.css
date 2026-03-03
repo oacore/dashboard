@@ -166,25 +166,27 @@ p {
     margin: 0;
 }
 
-.ant-tooltip-inner {
-    font-size: 0.9rem ;
-    color: var(--color-text-white) ;
-    background-color: rgba(0, 0, 0, 0.8784313725490196) ;
-    border-radius: 0.3rem ;
-    opacity: 0.8;
+/* Ant Design tooltips */
+.ant-tooltip .ant-tooltip-inner,
+.ant-tooltip .ant-tooltip-container,
+.ant-tooltip .ant-tooltip-unique-container {
+    border-radius: 4px;
 }
 
-.ant-tooltip-inner .tooltip-markdown,
-.ant-tooltip-inner .tooltip-markdown p,
-.ant-tooltip-inner .tooltip-markdown a {
-    color: var(--color-text-white) ;
+.ant-tooltip .tooltip-markdown,
+.ant-tooltip .tooltip-markdown p,
+.ant-tooltip .tooltip-markdown a,
+.ant-tooltip .tooltip-markdown a.markdown-link {
+    color: var(--color-text-white) !important;
 }
 
-.ant-tooltip-inner .tooltip-markdown a {
+.ant-tooltip .tooltip-markdown a,
+.ant-tooltip .tooltip-markdown a.markdown-link {
     text-decoration: underline;
 }
 
-.ant-tooltip-inner .tooltip-markdown a:hover {
+.ant-tooltip .tooltip-markdown a:hover,
+.ant-tooltip .tooltip-markdown a.markdown-link:hover {
     opacity: 0.9;
 }
 

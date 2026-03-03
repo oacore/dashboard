@@ -381,12 +381,6 @@
     gap: 8px;
 }
 
-.positioned {
-    position: absolute;
-    top: 8px;
-    right: 16px;
-}
-
 .info-box {
     width: 100%;
 }
