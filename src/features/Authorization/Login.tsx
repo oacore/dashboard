@@ -56,8 +56,7 @@ export const LoginFeature = () => {
             <Alert
               description={error}
               type="error"
-              closable
-              onClose={clearError}
+              closable={{ onClose: clearError }}
               className="login-alert"
             />
           )}

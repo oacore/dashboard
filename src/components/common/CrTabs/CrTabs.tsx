@@ -19,7 +19,7 @@ export interface CrTabsProps extends Omit<TabsProps, 'items'> {
     onChange?: (activeKey: string) => void;
     type?: 'line' | 'card' | 'editable-card';
     size?: 'large' | 'middle' | 'small';
-    tabPosition?: 'top' | 'right' | 'bottom' | 'left';
+    tabPlacement?: 'top' | 'end' | 'bottom' | 'start';
     centered?: boolean;
     animated?: boolean | { tabPane: boolean };
     className?: string;
@@ -34,7 +34,7 @@ export const CrTabs: React.FC<CrTabsProps> = ({
     onChange,
     type = 'card',
     size = 'middle',
-    tabPosition = 'top',
+    tabPlacement = 'top',
     centered = false,
     animated = true,
     ...restProps
@@ -62,7 +62,7 @@ export const CrTabs: React.FC<CrTabsProps> = ({
                     onChange={onChange}
                     type={type}
                     size={size}
-                    tabPosition={isMobile ? 'left' : tabPosition}
+                    tabPlacement={isMobile ? 'start' : tabPlacement}
                     centered={centered}
                     animated={animated}
                     items={items}

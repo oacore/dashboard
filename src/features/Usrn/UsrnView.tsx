@@ -102,7 +102,7 @@ export const UsrnViewPage = () => {
           type="error"
           showIcon
           icon={<ExclamationCircleFilled />}
-          message="Data loading error"
+          title="Data loading error"
           description={errorMessage}
           className="page-support__error-alert"
           role="alert"

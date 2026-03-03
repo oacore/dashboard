@@ -227,7 +227,7 @@ export const CrTable = <T = unknown>({
                     placement={sidebar.placement || "right"}
                     onClose={handleSidebarClose}
                     open={sidebarVisible}
-                    width={sidebar.width || 400}
+                    size={sidebar.width || 400}
                     className="reusable-table-sidebar"
                     rootClassName={selectedRecord && sidebar.getState
                         ? `reusable-table-sidebar-${sidebar.getState(selectedRecord)}`
