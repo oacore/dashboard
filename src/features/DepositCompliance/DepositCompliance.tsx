@@ -5,7 +5,7 @@ import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { DepositTimeLagCard } from './components/DepositTimeLagCard';
 import { CrossRepositoryCheckCard } from './components/CrossRepositoryCheckCard';
 import { PublicationsDatesCard } from './components/PublicationsDatesCard';
-import { DepositDateRangePicker } from './components/DepositDateRangePicker';
+import { CrDateRangePicker } from '@components/common/CrDatePicker/CrDatePicker';
 import { NotEnoughDataMessage, NotEnoughDataBasedOnDates } from './components/NotEnoughDataMessage';
 import { AccessPlaceholder } from '@components/common/AccessPlaceholder';
 import { useDepositTimeLag } from './hooks/useDepositTimeLag';
@@ -91,7 +91,7 @@ export const DepositComplianceFeature = () => {
       <>
         <div className="picker-wrapper">
           <span className="date-title">Include records from</span>
-          <DepositDateRangePicker
+          <CrDateRangePicker
             onDateChange={handleDateChange}
             initialStartDate={dateRange.startDate}
             initialEndDate={dateRange.endDate}

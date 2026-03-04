@@ -45,7 +45,7 @@ export const useSdgTableStore = create<SdgStore>()(
             selectedArticleId: null,
             dateRange: {
                 startDate: '2012',
-                endDate: '2024',
+                endDate: String(new Date().getFullYear()),
             },
             isDownloading: false,
             isGeneratingReport: false,

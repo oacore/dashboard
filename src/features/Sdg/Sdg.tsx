@@ -3,7 +3,7 @@ import { TextData } from '@features/Sdg/texts';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { CrFeatureLayout } from '@components/common/CrFeatureLayout';
 import { useState } from 'react';
-import { DateRangePicker } from '@components/common/CrDatePicker/CrDatePicker.tsx';
+import { CrDateRangePicker } from '@components/common/CrDatePicker/CrDatePicker.tsx';
 import ChartToggler from '@features/Sdg/components/chartToggler.tsx';
 import { sdgTypes } from '@components/common/CrSdgRendered/use-sdg-icon-renderer.tsx';
 import { useSdgYearData } from '@features/Sdg/hooks/useSdgYearData';
@@ -26,8 +26,8 @@ export const SdgFeature = () => {
   // Get selected data provider from store
   const { selectedDataProvider } = useDataProviderStore()
 
-  // Get search term from SDG store
-  const { searchTerm, setDateRange } = useSdgTableStore()
+  // Get search term and date range from SDG store
+  const { searchTerm, setDateRange, dateRange } = useSdgTableStore()
 
   // Get billing plan info
   const { organisation } = useOrganisation();
@@ -131,7 +131,12 @@ export const SdgFeature = () => {
       />
       <div className="picker-wrapper">
         <span className="date-title">Include records from</span>
-        <DateRangePicker onDateChange={handleDateChange} />
+        <CrDateRangePicker
+          outputFormat="year"
+          onDateChange={handleDateChange}
+          initialStartDate={dateRange.startDate}
+          initialEndDate={dateRange.endDate}
+        />
       </div>
       <ChartToggler
         handleToggle={handleToggle}
