@@ -52,7 +52,11 @@ export const OverviewFeature = () => {
     isLoading: rrsIsLoading,
   } = useRrsData(selectedDataProvider?.id || 0);
 
-  const { statistics, error: statisticsError, isLoading: statisticsIsLoading } = useDataProviderStatistics(
+  const {
+    statistics,
+    error: statisticsError,
+    isLoading: statisticsIsLoading,
+  } = useDataProviderStatistics(
     selectedDataProvider?.id ?? null,
     selectedSetSpec
   );
@@ -99,7 +103,13 @@ export const OverviewFeature = () => {
     );
   }
 
-  if (harvestingStatus?.lastHarvestingDate == null || statistics?.countMetadata == null) {
+  const hasHarvestingData = harvestingStatus != null && !harvestingError;
+  const hasStatisticsData = statistics != null && !statisticsError;
+  const shouldShowBlockedView =
+    (hasHarvestingData && harvestingStatus?.lastHarvestingDate == null) ||
+    (hasStatisticsData && statistics?.countMetadata == null);
+
+  if (shouldShowBlockedView) {
     return (
       <CrPaper className="placeholder-card">
         <h2 className="placeholder-card-title">General information</h2>

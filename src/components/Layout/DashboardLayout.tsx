@@ -87,16 +87,26 @@ export function DashboardLayout() {
         setSelectedDataProvider,
         setSelectedSetSpec,
         selectedSetSpec,
-        statistics,
     } = useDataProviderStore();
 
-    const { harvestingStatus } = useHarvestingStatus(
+    const { statistics, error: statisticsError } = useDataProviderStatistics(
+        selectedDataProvider?.id ?? null,
+        selectedSetSpec
+    );
+
+    const {
+        harvestingStatus,
+        harvestingError,
+    } = useHarvestingStatus(
         false,
         selectedDataProvider?.id ?? undefined
     );
 
+    const hasHarvestingData = harvestingStatus != null && !harvestingError;
+    const hasStatisticsData = statistics != null && !statisticsError;
     const shouldDisableTabs =
-        harvestingStatus?.lastHarvestingDate == null || statistics?.countMetadata == null;
+        (hasHarvestingData && harvestingStatus?.lastHarvestingDate == null) ||
+        (hasStatisticsData && statistics?.countMetadata == null);
 
     useCurrentUser();
 

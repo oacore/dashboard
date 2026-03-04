@@ -28,18 +28,26 @@ export const RestrictedRoute = ({ children }: MetadataRestrictedRouteProps) => {
         selectedSetSpec,
     } = useDashboardDataProviderSync(user?.id ?? null);
 
-    const { statistics, isLoading: statisticsIsLoading } = useDataProviderStatistics(
+    const {
+        statistics,
+        error: statisticsError,
+        isLoading: statisticsIsLoading,
+    } = useDataProviderStatistics(
         effectiveDataProviderId ?? null,
         selectedSetSpec
     );
 
-    const { harvestingStatus, isLoading: harvestingIsLoading } = useHarvestingStatus(
-        false,
-        effectiveDataProviderId ?? undefined
-    );
+    const {
+        harvestingStatus,
+        harvestingError,
+        isLoading: harvestingIsLoading,
+    } = useHarvestingStatus(false, effectiveDataProviderId ?? undefined);
 
+    const hasHarvestingData = harvestingStatus != null && !harvestingError;
+    const hasStatisticsData = statistics != null && !statisticsError;
     const shouldDisableTabs =
-        harvestingStatus?.lastHarvestingDate == null || statistics?.countMetadata == null;
+        (hasHarvestingData && harvestingStatus?.lastHarvestingDate == null) ||
+        (hasStatisticsData && statistics?.countMetadata == null);
 
     const baseSubPath = currentSubPath?.split('/')[0] ?? '';
     const isDataReady = !statisticsIsLoading && !harvestingIsLoading;
