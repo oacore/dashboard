@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import useSWR from 'swr';
-import { fetcher, createSWRKey } from '@/config/swr';
+import { fetcher, createSWRKey, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import type { DataProviderStatistics } from '@features/Doi/types/statistics.types.ts';
 
@@ -30,10 +30,7 @@ export const useDataProviderStatistics = (
         key,
         () => fetcher(key!).then((res) => res as DataProviderStatistics),
         {
-            revalidateOnFocus: false,
-            dedupingInterval: 0, // Always refetch when key changes (e.g. switching providers)
-            shouldRetryOnError: false,
-            errorRetryCount: 0,
+            ...swrDefaultConfig,
             onError: () => {
                 // Silently fail - ignore errors as per original code
             },

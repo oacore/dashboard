@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import { swrDefaultConfig } from '@/config/swr';
 import type { ContentData } from '@features/Content/types/data.types';
 import { useCallback, useEffect, useRef } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore';
@@ -108,8 +109,7 @@ export const useWorksListData = (
         key,
         fetchWithHeaders,
         {
-            revalidateOnFocus: false,
-            dedupingInterval: 0,
+            ...swrDefaultConfig,
             onSuccess: (data) => {
                 if (!data || data.length === 0) return;
 

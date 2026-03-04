@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher } from '@/config/swr';
+import { fetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 export interface IrusStats {
@@ -19,10 +19,7 @@ export const useIrusStats = (dataProviderId?: number) => {
     key,
     key ? () => fetcher(key).then((res) => res as IrusStats) : null,
     {
-      revalidateOnFocus: false,
-      dedupingInterval: 60000,
-      shouldRetryOnError: false,
-      errorRetryCount: 0,
+      ...swrDefaultConfig,
       onError: () => {
         // Ignore errors (as per original implementation)
       },

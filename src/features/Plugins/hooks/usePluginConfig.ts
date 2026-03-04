@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import useSWR from 'swr';
-import { fetcher } from '@config/swr';
+import { fetcher, swrDefaultConfig } from '@config/swr';
 import { useDataProviderStore, type PluginsConfig } from '@/store/dataProviderStore';
 
 interface PluginItem {
@@ -31,8 +31,7 @@ export const usePluginConfig = () => {
     swrKey,
     swrKey ? () => fetcher(swrKey).then(parsePluginsResponse) : null,
     {
-      revalidateOnFocus: false,
-      revalidateIfStale: true,
+      ...swrDefaultConfig,
       onSuccess: (res) => setPlugins(toPluginsConfig(res ?? [])),
       onError: () => setPlugins({}),
     }

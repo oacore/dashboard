@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { createSWRKey, fetcher } from '@/config/swr';
+import { createSWRKey, fetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import type { DoiData } from '@features/Doi/types/data.types';
 
@@ -27,10 +27,7 @@ export const useDoiData = (
     const { data, error, isLoading, mutate } = useSWR<DoiData[]>(
         key,
         () => fetcher(key!).then((res) => res as DoiData[]),
-        {
-            revalidateOnFocus: false,
-            dedupingInterval: 0,
-        }
+        swrDefaultConfig,
     );
 
     const errorMessage = error instanceof Error ? error.message : error ? 'Failed to fetch DOI data' : null;

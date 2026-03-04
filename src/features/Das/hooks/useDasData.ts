@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher, postRequestFetcher } from '@/config/swr';
+import { fetcher, postRequestFetcher, swrDefaultConfig } from '@/config/swr';
 import type { DasData } from '@features/Das/types/data.types';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
@@ -13,11 +13,7 @@ export const useDasData = (dataProviderId: number) => {
     const { data, error, isLoading, mutate } = useSWR<DasData[]>(
         key,
         () => fetcher(key!).then(res => res as DasData[]),
-        {
-            revalidateOnFocus: false,
-            revalidateIfStale: false, // Don't revalidate when navigating back to page
-            revalidateOnReconnect: false, // Don't revalidate on network reconnect
-        },
+        swrDefaultConfig,
     );
 
     return {

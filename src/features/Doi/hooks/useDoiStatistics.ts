@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher, createSWRKey } from '@config/swr.ts';
+import { fetcher, createSWRKey, swrDefaultConfig } from '@config/swr.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import type {DoiStatistics} from '@features/Doi/types/statistics.types.ts';
 
@@ -18,10 +18,7 @@ export const useDoiStatistics = (
         key,
         () => fetcher(key!).then((res) => res as DoiStatistics),
         {
-            revalidateOnFocus: false,
-            dedupingInterval: 300000,
-            shouldRetryOnError: false,
-            errorRetryCount: 0,
+            ...swrDefaultConfig,
             onError: () => {
                 // Ignore errors
             },

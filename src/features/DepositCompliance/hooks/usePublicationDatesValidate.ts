@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { createSWRKey } from '@config/swr';
+import { createSWRKey, swrDefaultConfig } from '@config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useDepositDatesStore } from '../store/depositDatesStore';
 import { useMemo } from 'react';
@@ -88,10 +88,7 @@ export const usePublicationDatesValidate = () => {
       }
       : null,
     {
-      revalidateOnFocus: false,
-      dedupingInterval: 60000, // 1 minute cache
-      shouldRetryOnError: true,
-      errorRetryCount: 3,
+      ...swrDefaultConfig,
       keepPreviousData: true,
       onError: (err) => {
         console.error('SWR Error fetching publication dates validate:', err);

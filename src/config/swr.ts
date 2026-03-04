@@ -89,6 +89,26 @@ export const swrConfig: SWRConfiguration = {
   compare: (a, b) => JSON.stringify(a) === JSON.stringify(b),
 }
 
+/**
+ * Shared SWR config used by all API calls. Same options everywhere.
+ *
+ * - revalidateOnFocus: Refetch when window/tab gains focus
+ * - revalidateIfStale: Refetch when component mounts and data is stale
+ * - revalidateOnReconnect: Refetch when network reconnects
+ * - dedupingInterval: ms to deduplicate identical requests
+ * - shouldRetryOnError: Retry failed requests
+ * - errorRetryCount: Number of retries when shouldRetryOnError is true
+ */
+export const swrDefaultConfig: SWRConfiguration = {
+  revalidateOnFocus: false,
+  revalidateIfStale: false,
+  revalidateOnReconnect: false,
+  dedupingInterval: 60000,
+  shouldRetryOnError: true,
+  errorRetryCount: 1,
+  // keepPreviousData: true,
+};
+
 // Custom hooks for common patterns
 export const createSWRKey = (endpoint: string, params?: Record<string, any>) => {
   if (!params) return endpoint

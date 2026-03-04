@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher } from '@/config/swr';
+import { fetcher, swrDefaultConfig } from '@/config/swr';
 import { useState, useCallback, useEffect } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useSdgTableStore } from '../store/sdgStore';
@@ -100,8 +100,7 @@ const useSdgTableData = ({
         key,
         () => fetcher(key!).then(res => res as SdgTableDataItem[]),
         {
-            revalidateOnFocus: false,
-            dedupingInterval: 0,
+            ...swrDefaultConfig,
             onSuccess: (responseData) => {
                 if (!responseData || responseData.length === 0) return;
 

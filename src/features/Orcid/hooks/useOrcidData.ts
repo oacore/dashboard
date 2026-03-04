@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher } from '@/config/swr';
+import { fetcher, swrDefaultConfig } from '@/config/swr';
 import type { OrcidData, OrcidStats } from '@features/Orcid/types/data.types';
 import { useState, useCallback } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore';
@@ -48,8 +48,7 @@ const usePaginatedOrcidData = (
     key,
     () => fetcher(key!).then(res => res as OrcidData[]),
     {
-      revalidateOnFocus: false,
-      dedupingInterval: 0,
+      ...swrDefaultConfig,
       onSuccess: (data) => {
         if (!data || data.length === 0) return;
 
@@ -113,11 +112,7 @@ export const useOrcidStats = (dataProviderId: number) => {
   const { data, error, isLoading, mutate } = useSWR<OrcidStats>(
     key,
     () => fetcher(key!).then(res => res as OrcidStats),
-    {
-      revalidateOnFocus: false,
-      revalidateIfStale: false, // Don't revalidate when navigating back to page
-      revalidateOnReconnect: false, // Don't revalidate on network reconnect
-    },
+    swrDefaultConfig,
   );
 
   return {

@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { createSWRKey, fetcher } from '@config/swr.ts';
+import { createSWRKey, fetcher, swrDefaultConfig } from '@config/swr.ts';
 import { useEffect } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 
@@ -77,12 +77,7 @@ export const useUserDataProviders = (userId: string | null) => {
                 logo: provider.logoBase64 || provider.logoPath || undefined
             }));
         }),
-        {
-            revalidateOnFocus: false,
-            dedupingInterval: 300000, // 5 minutes cache
-            shouldRetryOnError: true,
-            errorRetryCount: 3,
-        },
+        swrDefaultConfig,
     );
 
 

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import useSWR from 'swr';
-import { postRequestFetcher } from '@/config/swr';
+import { postRequestFetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 export interface HarvestingRequestResponse {
@@ -20,11 +20,7 @@ export const useHarvestingRequest = () => {
     const { data, error, isLoading, mutate } = useSWR<HarvestingRequestResponse>(
         key,
         key && requestBody ? () => postRequestFetcher(key, requestBody, true).then(res => res as HarvestingRequestResponse) : null,
-        {
-            revalidateOnFocus: false,
-            shouldRetryOnError: false,
-            errorRetryCount: 0,
-        }
+        swrDefaultConfig,
     );
 
     const sendHarvestingRequest = useCallback((message: string) => {

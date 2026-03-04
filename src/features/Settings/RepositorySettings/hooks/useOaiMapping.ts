@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import useSWR from 'swr';
-import { fetcher, patchRequest } from '@config/swr';
+import { fetcher, patchRequest, swrDefaultConfig } from '@config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { message } from 'antd';
 
@@ -23,9 +23,7 @@ export const useOaiMapping = () => {
     key,
     key ? () => fetcher(key).then(res => res as OaiMappingData).catch(() => ({})) : null,
     {
-      revalidateOnFocus: false,
-      revalidateIfStale: true, // Revalidate when key becomes available after data providers load
-      revalidateOnReconnect: false,
+      ...swrDefaultConfig,
       onError: () => {
         // Ignore errors silently as per original implementation
       },

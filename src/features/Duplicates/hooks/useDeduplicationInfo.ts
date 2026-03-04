@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import useSWR from 'swr';
-import { fetcher, patchRequest } from '@/config/swr';
+import { fetcher, patchRequest, swrDefaultConfig } from '@/config/swr';
 import type { DeduplicationDetailsItem } from '@features/Duplicates/types/data.types';
 
 const getDeduplicationInfoKey = (workId: string | number | undefined) =>
@@ -12,10 +12,7 @@ export const useDeduplicationInfo = (workId: string | number | undefined) => {
     const { data, error, isLoading, mutate } = useSWR<DeduplicationDetailsItem[] | null>(
         key,
         key ? () => fetcher(key).then((res) => res as DeduplicationDetailsItem[]) : null,
-        {
-            revalidateOnFocus: false,
-            dedupingInterval: 0,
-        }
+        swrDefaultConfig,
     );
 
     const updateWork = useCallback(

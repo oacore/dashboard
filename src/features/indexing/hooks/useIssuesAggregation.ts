@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher } from '@/config/swr';
+import { fetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useCallback, useMemo } from 'react';
 import type { IssuesAggregation } from '../types';
@@ -16,10 +16,7 @@ export const useIssuesAggregation = (dataProviderId?: number) => {
     key,
     key ? () => fetcher(key, true).then(res => res as IssuesAggregation) : null,
     {
-      revalidateOnFocus: false,
-      dedupingInterval: 60000,
-      shouldRetryOnError: true,
-      errorRetryCount: 3,
+      ...swrDefaultConfig,
       keepPreviousData: true,
     }
   );

@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { createSWRKey, fetcher } from '@config/swr';
+import { createSWRKey, fetcher, swrDefaultConfig } from '@config/swr';
 import type { DataProvider } from '@hooks/useDataProviders';
 
 const normalizeDataProvider = (provider: DataProvider): DataProvider => ({
@@ -26,12 +26,7 @@ export const useDataProviderById = (
             fetcher(key!).then((res) =>
                 normalizeDataProvider(res as DataProvider)
             ),
-        {
-            revalidateOnFocus: false,
-            dedupingInterval: 300000,
-            shouldRetryOnError: true,
-            errorRetryCount: 3,
-        }
+        swrDefaultConfig,
     );
 
     return {

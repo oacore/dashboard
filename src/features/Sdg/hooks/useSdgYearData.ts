@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { createSWRKey, fetcher } from '@config/swr.ts'
+import { createSWRKey, fetcher, swrDefaultConfig } from '@config/swr.ts'
 import type { SdgYearDataResponse, SdgYearDataParams } from '../types/sdg.types'
 import { useSdgTableStore } from '../store/sdgStore'
 import { buildDateRangeQuery } from '../utils/queryUtils'
@@ -32,13 +32,8 @@ export const useSdgYearData = ({
     key,
     key ? () => fetcher(key).then(res => res as SdgYearDataResponse) : null,
     {
-      revalidateOnFocus: false,  // Don't refetch when the window regains focus
-      dedupingInterval: 300000, // 5 minutes cache
-      shouldRetryOnError: true,
-      errorRetryCount: 3,
-      keepPreviousData: true, // Keep previous data while fetching new data (prevents flicker)
-      revalidateIfStale: false, // Don't revalidate when navigating back to page
-      revalidateOnReconnect: false, // Don't revalidate on network reconnect
+      ...swrDefaultConfig,
+      keepPreviousData: true,
     }
   )
 

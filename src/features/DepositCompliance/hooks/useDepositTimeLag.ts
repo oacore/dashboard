@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher, createSWRKey } from '@config/swr';
+import { fetcher, createSWRKey, swrDefaultConfig } from '@config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useDepositDatesStore } from '../store/depositDatesStore';
 import { useMemo } from 'react';
@@ -68,10 +68,7 @@ export const useDepositTimeLag = () => {
     swrKey,
     swrKey ? () => fetcher(swrKey).then((res) => res as DepositTimeLagItem[]) : null,
     {
-      revalidateOnFocus: false,
-      dedupingInterval: 60000, // 1 minute cache
-      shouldRetryOnError: true,
-      errorRetryCount: 3,
+      ...swrDefaultConfig,
       keepPreviousData: true,
       onError: (err) => {
         // Handle 404 (NotFoundError) silently as per original code

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import useSWR from 'swr';
-import { fetcher } from '@/config/swr';
+import { fetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useUsrnStore, type UsrnData } from '../store/usrnStore';
 
@@ -16,8 +16,7 @@ export const useUsrnData = (dataProviderId?: number) => {
     key,
     () => fetcher(key!).then((res) => res as UsrnData),
     {
-      revalidateOnFocus: false,
-      dedupingInterval: 0,
+      ...swrDefaultConfig,
       onSuccess: (responseData) => {
         setUsrnData(responseData);
         setError(null);

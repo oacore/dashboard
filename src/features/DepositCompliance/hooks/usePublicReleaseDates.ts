@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import { useMemo, useCallback, useEffect, useState } from 'react';
-import { fetcher } from '@/config/swr';
+import { fetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useDepositDatesStore } from '../store/depositDatesStore';
 import { usePublicReleaseDatesStore, type PublicReleaseDatesItem } from '../store/publicReleaseDatesStore';
@@ -123,8 +123,7 @@ export const usePublicReleaseDates = () => {
     key,
     key ? typedFetcher : null,
     {
-      revalidateOnFocus: false,
-      dedupingInterval: 0,
+      ...swrDefaultConfig,
       onSuccess: (data: PublicReleaseDatesItem[]) => {
         if (!data || data.length === 0) return;
 

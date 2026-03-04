@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { postRequestFetcher } from '@config/swr';
+import { postRequestFetcher, swrDefaultConfig } from '@config/swr';
 import { useValidatorStore } from '../store/validatorStore';
 
 export const useValidation = (id: string | null, shouldValidate: boolean = false) => {
@@ -12,11 +12,7 @@ export const useValidation = (id: string | null, shouldValidate: boolean = false
   const { data, error, isLoading, mutate } = useSWR(
     key,
     key ? () => postRequestFetcher(key, { record: recordValue }) : null,
-    {
-      revalidateOnFocus: false,
-      shouldRetryOnError: false,
-      errorRetryCount: 0,
-    }
+    swrDefaultConfig,
   );
 
   return {

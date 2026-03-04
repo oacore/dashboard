@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { createSWRKey, fetcher } from '@config/swr.ts';
+import { createSWRKey, fetcher, swrDefaultConfig } from '@config/swr.ts';
 import { http } from '@/config/axios';
 import type { User } from '@/store/authStore';
 import { useAuthStore } from '@/store/authStore';
@@ -24,8 +24,7 @@ export const useCurrentUser = () => {
         key,
         () => getCurrentUser(),
         {
-            revalidateOnFocus: false,
-            dedupingInterval: 60000,
+            ...swrDefaultConfig,
             onSuccess: (userData) => {
                 setUser(userData);
             },

@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher, createSWRKey } from '@/config/swr';
+import { fetcher, createSWRKey, swrDefaultConfig } from '@/config/swr';
 import type { DuplicatesResponse, DuplicateData } from '@features/Duplicates/types/data.types';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
@@ -25,11 +25,7 @@ export const useDuplicatesData = (
     const { data, error, isLoading, mutate } = useSWR<DuplicatesResponse>(
         key,
         () => fetcher(key!).then(res => res as DuplicatesResponse),
-        {
-            revalidateOnFocus: false,
-            revalidateIfStale: false, // Don't revalidate when navigating back to page
-            revalidateOnReconnect: false, // Don't revalidate on network reconnect
-        },
+        swrDefaultConfig,
     );
 
     return {

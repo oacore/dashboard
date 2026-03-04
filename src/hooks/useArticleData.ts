@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { createSWRKey, fetcher } from '@config/swr.ts';
+import { createSWRKey, fetcher, swrDefaultConfig } from '@config/swr.ts';
 import { http } from '@config/axios.ts';
 import { useState } from 'react';
 
@@ -93,12 +93,7 @@ export const useArticleData = (id: string | null) => {
     const { data, error, isLoading, mutate } = useSWR<ArticleAdditionalData>(
         key,
         key ? () => fetcher(key).then(res => res as ArticleAdditionalData) : null,
-        {
-            revalidateOnFocus: false,
-            dedupingInterval: 60000, // 1 minute cache
-            shouldRetryOnError: false,
-            errorRetryCount: 0,
-        },
+        swrDefaultConfig,
     );
 
     const changeArticleVisibility = async (article: ArticleAdditionalData) => {

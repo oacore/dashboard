@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher, createSWRKey } from '@/config/swr';
+import { fetcher, createSWRKey, swrDefaultConfig } from '@/config/swr';
 
 type OutputResult = {
     documentId: string | number;
@@ -34,10 +34,7 @@ export const useMultipleOutputs = (documentIds: (string | number | undefined)[])
                 } as OutputResult;
             });
         },
-        {
-            revalidateOnFocus: false,
-            dedupingInterval: 0,
-        },
+        swrDefaultConfig,
     );
 
     const outputs = data || [];

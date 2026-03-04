@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher } from '@/config/swr';
+import { fetcher, swrDefaultConfig } from '@/config/swr';
 import type { RioxxStats } from '../types/index';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
@@ -23,11 +23,7 @@ export const useRioxxStats = (dataProviderId?: number) => {
     key,
     key ? () => fetcher(key, true).then(res => res as RioxxAggregationResponse) : null,
     {
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
-      shouldRetryOnError: false,
-      errorRetryCount: 0,
+      ...swrDefaultConfig,
       onError: () => {
         // Ignore errors for this moment (as per original implementation)
       },

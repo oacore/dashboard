@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher, createSWRKey } from '@/config/swr';
+import { fetcher, createSWRKey, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useCallback } from 'react';
 import type { HarvestingStatus } from '../types';
@@ -26,10 +26,7 @@ export const useHarvestingStatus = (refresh = false, dataProviderId?: number) =>
     key,
     key ? () => fetcher(key, true).then(res => res as HarvestingStatus) : null,
     {
-      revalidateOnFocus: false,
-      dedupingInterval: refresh ? 0 : 60000,
-      shouldRetryOnError: true,
-      errorRetryCount: 3,
+      ...swrDefaultConfig,
       keepPreviousData: true,
     }
   );

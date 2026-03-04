@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import useSWR from 'swr';
-import { fetcher, patchRequest, deleteRequest } from '@config/swr';
+import { fetcher, patchRequest, deleteRequest, swrDefaultConfig } from '@config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { message } from 'antd';
 
@@ -45,11 +45,7 @@ export const useSets = () => {
   } = useSWR<SetItem[]>(
     enabledKey,
     enabledKey ? () => fetcher(enabledKey).then((res) => res as SetItem[]) : null,
-    {
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
-    }
+    swrDefaultConfig,
   );
 
   const {
@@ -61,11 +57,7 @@ export const useSets = () => {
     availableKey
       ? () => fetcher(availableKey).then((res) => res as SetItem[])
       : null,
-    {
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
-    }
+    swrDefaultConfig,
   );
 
   const triggerFetchAvailable = useCallback(() => {

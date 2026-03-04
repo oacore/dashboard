@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useSWR from 'swr';
-import { fetcher, createSWRKey } from '@/config/swr';
+import { fetcher, createSWRKey, swrDefaultConfig } from '@/config/swr';
 import { http } from '@/config/axios';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
@@ -31,13 +31,7 @@ export const useNotification = ({ userId, enabled = true }: UseNotificationParam
   const { data, error, isLoading, mutate } = useSWR<NotificationItem[]>(
     key,
     key ? () => fetcher(key).then((res) => res as NotificationItem[]) : null,
-    {
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
-      shouldRetryOnError: false,
-      errorRetryCount: 0,
-    }
+    swrDefaultConfig,
   );
 
   const markNotificationAsRead = async (

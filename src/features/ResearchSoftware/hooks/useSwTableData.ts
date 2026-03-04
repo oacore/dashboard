@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { fetcher } from '@/config/swr'
+import { fetcher, swrDefaultConfig } from '@/config/swr'
 import { useState, useCallback, useEffect } from 'react'
 import { useDataProviderStore } from '@/store/dataProviderStore'
 import { useSwStore } from '../store/swStore'
@@ -101,8 +101,7 @@ const useSwTableData = ({
         key,
         () => fetcher(key!).then((res) => res as SwResponse),
         {
-            revalidateOnFocus: false,
-            dedupingInterval: 0,
+            ...swrDefaultConfig,
             onSuccess: (response) => {
                 const incoming = pickRows(response, tab)
                 if (incoming.length === 0) {

@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher, postRequestFetcher, patchRequest, deleteRequest } from '@config/swr';
+import { fetcher, postRequestFetcher, patchRequest, deleteRequest, swrDefaultConfig } from '@config/swr';
 import { useAuthStore } from '@/store/authStore';
 import { message } from 'antd';
 import axios from 'axios';
@@ -67,9 +67,7 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
     enabled && ORGANISATION_KEY ? ORGANISATION_KEY : null,
     ORGANISATION_KEY ? () => fetcher(ORGANISATION_KEY).then((res) => res as OrganisationData) : null,
     {
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
+      ...swrDefaultConfig,
       onSuccess: (data) => {
         setOrganisation(data);
         clearError();
@@ -104,9 +102,7 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
       return [];
     }) : null,
     {
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
+      ...swrDefaultConfig,
       onSuccess: (data) => {
         setInviteCodes(data);
         clearError();
@@ -138,9 +134,7 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
       return [];
     }),
     {
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
+      ...swrDefaultConfig,
       onError: (err) => {
         // Ignore errors for this moment (as per original implementation)
         console.error('Error fetching API users:', err);
@@ -167,9 +161,7 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
       return [];
     }),
     {
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
+      ...swrDefaultConfig,
       onError: (err) => {
         // Ignore errors for this moment (as per original implementation)
         console.error('Error fetching dataset users:', err);

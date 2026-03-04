@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useSWR from 'swr';
-import { fetcher, createSWRKey, postRequestFetcher } from '@config/swr.ts';
+import { fetcher, createSWRKey, postRequestFetcher, swrDefaultConfig } from '@config/swr.ts';
 import { http } from '@config/axios.ts';
 import { useAuthStore } from '@/store/authStore.ts';
 import {
@@ -44,9 +44,7 @@ export const useNotifications = ({
     key,
     key ? () => fetcher(key).then((res) => res as NotificationData[] | NotificationSettings) : null,
     {
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
+      ...swrDefaultConfig,
       onSuccess: (responseData) => {
         if (type === 'harvest-completed') {
           setHarvestNotifications(responseData);
