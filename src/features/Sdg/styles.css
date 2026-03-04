@@ -340,3 +340,16 @@
     background: #f5f5f5;
     border-radius: 1px;
 }
+
+/* SDG table - allow columns to use more space, override global max-width */
+#sdgTable .reusable-table td:not(:last-child),
+#sdgTable .reusable-table th:not(:last-child) {
+    max-width: 18rem;
+}
+
+.sdg-overflow-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}

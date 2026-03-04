@@ -68,7 +68,9 @@ export const CrTableColumns = <T = unknown>({
     cols.push({
         key: 'actions',
         title: '',
-        align: 'start',
+        align: 'right',
+        width: 56,
+        className: 'cr-table-actions-column',
         render: (_, record) => {
             const menuItems = getActionMenuItems(record);
             if (!menuItems || menuItems.length === 0) return null;

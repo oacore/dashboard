@@ -55,16 +55,24 @@ export const createColumns = (): ReusableTableColumn<SdgTableDataItem>[] => [
         key: 'title',
         title: 'Title',
         dataIndex: 'title',
-        render: (value: unknown) => <span>{value as string}</span>,
+        className: 'sdg-title-column',
+        render: (value: unknown) => (
+            <span className="sdg-overflow-text">{value as string}</span>
+        ),
     },
     {
         key: 'authors',
         title: 'Authors',
         dataIndex: 'authors',
+        className: 'sdg-authors-column',
         render: (value: unknown) => {
             const authors = value as { name: string }[];
             if (!authors || authors.length === 0) return '-';
-            return <span>{authors.map(a => a.name).join(', ')}</span>;
+            return (
+                <span className="sdg-overflow-text">
+                    {authors.map(a => a.name).join(', ')}
+                </span>
+            );
         },
     },
     {
@@ -72,6 +80,8 @@ export const createColumns = (): ReusableTableColumn<SdgTableDataItem>[] => [
         title: 'Published Date',
         dataIndex: 'publishedDate',
         sortable: true,
+        align: 'right',
+        width: 120,
         render: (value: unknown) => {
             const date = value as string;
             if (!date) return '-';

@@ -11,6 +11,19 @@
     cursor: pointer;
 }
 
+/* Allow actions column (always last) to stay narrow - overrides global max-width for compact columns */
+.reusable-table .cr-table-actions-column,
+.reusable-table .ant-table-thead>tr>th:last-child,
+.reusable-table .ant-table-tbody>tr>td:last-child {
+    max-width: 4rem;
+}
+
+.reusable-table .ant-table-thead>tr>th:last-child,
+.reusable-table .ant-table-tbody>tr>td:last-child {
+    width: 56px !important;
+    min-width: 56px !important;
+}
+
 .reusable-table {
     grid-column: 1 / -1;
     margin-top: 8px;
