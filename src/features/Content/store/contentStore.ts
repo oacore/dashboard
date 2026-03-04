@@ -17,6 +17,7 @@ interface ContentActions {
   setTotalLength: (length: number) => void;
   setIsLoadingMore: (loading: boolean) => void;
   resetDataState: () => void;
+  resetOnPageEnter: () => void;
   updateLastParams: (searchTerm: string, dataProviderId: number, sortField: string | null, sortOrder: 'asc' | 'desc' | null) => void;
   updateWorkVisibility: (id: string, disabled: boolean) => void;
 }
@@ -117,6 +118,17 @@ export const useContentTableStore = create<ContentStore>()(
           allData: [],
           totalLength: 0,
           isLoadingMore: false
+        });
+      },
+
+      resetOnPageEnter: () => {
+        set({
+          searchTerm: '',
+          currentPage: 0,
+          allData: [],
+          totalLength: 0,
+          isLoadingMore: false,
+          lastSearchTerm: '',
         });
       },
 

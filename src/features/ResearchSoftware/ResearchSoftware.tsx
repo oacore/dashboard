@@ -24,8 +24,12 @@ const UI_ACTIVE_TAB: SwTab = 'ready';
 
 export const SwFeature = () => {
   const { selectedDataProvider } = useDataProviderStore();
-  const { activeTab, setActiveTab, searchTerm } = useSwStore();
+  const { activeTab, setActiveTab, searchTerm, resetOnPageEnter } = useSwStore();
   const [showSettings, setShowSettings] = useState(false);
+
+  useEffect(() => {
+    resetOnPageEnter();
+  }, [resetOnPageEnter]);
 
   useEffect(() => {
     if (activeTab !== UI_ACTIVE_TAB) {

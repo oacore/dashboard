@@ -5,6 +5,7 @@ import { downloadCsv as downloadCsvUtil } from '@utils/downloadUtils';
 
 interface DoiActions {
     setSearchTerm: (term: string) => void;
+    resetOnPageEnter: () => void;
     downloadCsv: () => void;
 }
 
@@ -20,6 +21,8 @@ export const useDoiStore = create<DoiStore>()(
             searchTerm: '',
 
             setSearchTerm: (searchTerm) => set({ searchTerm }),
+
+            resetOnPageEnter: () => set({ searchTerm: '' }),
 
             downloadCsv: () => {
                 const { selectedDataProvider } = useDataProviderStore.getState();

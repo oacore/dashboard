@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ContentTable } from '@features/Content/components/ContentTable.tsx';
 import { useWorksListData } from '@features/Content/hooks/useWorksData';
 import { useDataProviderStore } from '@/store/dataProviderStore';
@@ -8,11 +9,18 @@ export const ContentFeature = () => {
   const {
     searchTerm,
     setSearchTerm,
+    resetOnPageEnter,
     downloadCsv,
     sortField,
     sortOrder,
     handleSort,
   } = useContentTableStore();
+
+  useEffect(() => {
+    return () => {
+      resetOnPageEnter()
+    }
+  }, [resetOnPageEnter]);
 
   const {
     data: worksData,

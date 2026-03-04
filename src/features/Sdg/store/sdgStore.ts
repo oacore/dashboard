@@ -16,6 +16,7 @@ interface SdgActions {
     setLastGeneratedReportId: (dataProviderId: number | null) => void;
     getReportGenerated: (dataProviderId: number) => boolean;
     clearReportError: () => void;
+    resetOnPageEnter: () => void;
 }
 
 export interface SdgStoreState {
@@ -119,6 +120,19 @@ export const useSdgTableStore = create<SdgStore>()(
 
             clearReportError: () => {
                 set({ reportGenerationError: null });
+            },
+
+            resetOnPageEnter: () => {
+                set({
+                    searchTerm: '',
+                    sortField: null,
+                    sortOrder: null,
+                    selectedArticleId: null,
+                    dateRange: {
+                        startDate: '2012',
+                        endDate: String(new Date().getFullYear()),
+                    },
+                });
             },
         }),
         {

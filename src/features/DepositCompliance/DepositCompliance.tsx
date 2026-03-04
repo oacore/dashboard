@@ -20,7 +20,7 @@ import { RegionAlert } from '@features/DepositCompliance/components';
 import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import {Button, Spin} from 'antd';
 import {ExclamationCircleOutlined, CheckOutlined, PlusCircleOutlined, LoadingOutlined} from '@ant-design/icons';
-import  { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { scrollToSection } from '@utils/helpers';
 import { PublicReleaseDatesTable } from './components/PublicReleaseDatesTable';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData';
@@ -30,8 +30,14 @@ export const DepositComplianceFeature = () => {
   const { organisation } = useOrganisation();
   const {
     downloadCsv,
+    resetOnPageEnter,
   } = usePublicReleaseDatesStore();
-  const { dateRange, setDateRange } = useDepositDatesStore();
+  const { dateRange, setDateRange, resetDateRange } = useDepositDatesStore();
+
+  useEffect(() => {
+    resetOnPageEnter();
+    resetDateRange();
+  }, [resetOnPageEnter, resetDateRange]);
   const { timeLagData, isLoading, error, isError } = useDepositTimeLag();
   const { crossDepositLag, crossDepositLagCsvUrl, isLoading: isCrossDepositLagLoading, error: crossDepositLagError } = useCrossDepositLag();
   const { publicationDatesValidate, error: publicationDatesError } = usePublicationDatesValidate();

@@ -1,6 +1,6 @@
 import { BasicOrcidTable } from './components/basicOrcid/BasicOrcidtable.tsx';
 import { OtherOrcidTable } from './components/otherOrcide/OtherOrcidtable.tsx';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import "./styles.css"
 import { CrTabs } from '@components/common/CrTabs/CrTabs.tsx';
 import { CrHeader } from '@components/common/CrHeader/CrHeader.tsx';
@@ -10,12 +10,19 @@ import { CrFeatureLayout, CrCardsWrapper } from '@components/common/CrFeatureLay
 import { useOrcidStats } from '@features/Orcid/hooks/useOrcidData.ts';
 import { TextData } from './texts/index.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
+import { useOrcidTableStore } from '@features/Orcid/store/orcidStore.ts';
 
 export const OrcideFeature = () => {
   const [activeTab, setActiveTab] = useState('basic')
   const tableRef = useRef<HTMLDivElement>(null)
   const { selectedDataProvider } = useDataProviderStore();
-  const { stats,error, isLoading } = useOrcidStats(selectedDataProvider?.id || 0);
+  const { resetOnPageEnter } = useOrcidTableStore();
+
+  useEffect(() => {
+    resetOnPageEnter();
+  }, [resetOnPageEnter]);
+
+  const { stats, error, isLoading } = useOrcidStats(selectedDataProvider?.id || 0);
 
   const tabs = [
     {

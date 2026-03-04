@@ -28,6 +28,7 @@ interface PublicReleaseDatesActions {
   appendData: (data: PublicReleaseDatesItem[]) => void;
   setIsLoadingMore: (loading: boolean) => void;
   resetDataState: () => void;
+  resetOnPageEnter: () => void;
   downloadCsv: () => void;
 }
 
@@ -94,6 +95,15 @@ export const usePublicReleaseDatesStore = create<PublicReleaseDatesStore>()(
 
       resetDataState: () => {
         set({
+          currentPage: 0,
+          allData: [],
+          isLoadingMore: false,
+        });
+      },
+
+      resetOnPageEnter: () => {
+        set({
+          searchTerm: '',
           currentPage: 0,
           allData: [],
           isLoadingMore: false,

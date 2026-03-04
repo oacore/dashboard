@@ -2,7 +2,7 @@ import { CrHeader } from '@components/common/CrHeader/CrHeader.tsx';
 import { TextData } from '@features/Sdg/texts';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { CrFeatureLayout } from '@components/common/CrFeatureLayout';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CrDateRangePicker } from '@components/common/CrDatePicker/CrDatePicker.tsx';
 import ChartToggler from '@features/Sdg/components/chartToggler.tsx';
 import { sdgTypes } from '@components/common/CrSdgRendered/use-sdg-icon-renderer.tsx';
@@ -27,7 +27,11 @@ export const SdgFeature = () => {
   const { selectedDataProvider } = useDataProviderStore()
 
   // Get search term and date range from SDG store
-  const { searchTerm, setDateRange, dateRange } = useSdgTableStore()
+  const { searchTerm, setDateRange, dateRange, resetOnPageEnter } = useSdgTableStore()
+
+  useEffect(() => {
+    resetOnPageEnter();
+  }, [resetOnPageEnter])
 
   // Get billing plan info
   const { organisation } = useOrganisation();

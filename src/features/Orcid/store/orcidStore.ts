@@ -6,6 +6,7 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 interface OrcActions {
     setSearchTerm: (term: string) => void;
     setSelectedArticleId: (id: string | null) => void;
+    resetOnPageEnter: () => void;
     downloadCsv: (endpoint: string) => void;
 }
 
@@ -32,6 +33,10 @@ export const useOrcidTableStore = create<OrcidStore>()(
 
             setSelectedArticleId: (id: string | null) => {
                 set({ selectedArticleId: id });
+            },
+
+            resetOnPageEnter: () => {
+                set({ searchTerm: '', selectedArticleId: null });
             },
 
             downloadCsv: (endpoint: string) => {

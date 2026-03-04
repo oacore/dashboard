@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useDoiData } from '@/features/Doi/hooks/useDoiData';
 import { useDoiStatistics } from '@/features/Doi/hooks/useDoiStatistics';
 import { useDataProviderStatistics } from '@/hooks/useDataProviderStatistics';
@@ -17,7 +17,12 @@ const TABS = Object.fromEntries(
 ) as Record<string, (typeof articleTemplateData.tabs)[0]>;
 
 export const DoiFeature = () => {
-    const { searchTerm, setSearchTerm, downloadCsv } = useDoiStore();
+    const { searchTerm, setSearchTerm, downloadCsv, resetOnPageEnter } = useDoiStore();
+
+    useEffect(() => {
+        resetOnPageEnter();
+    }, [resetOnPageEnter]);
+
     const { selectedDataProvider, selectedSetSpec, statistics, doiStatistics } = useDataProviderStore();
     const { isLoading: isStatisticsLoading, error: statisticsError } = useDataProviderStatistics(
         selectedDataProvider?.id ?? null,

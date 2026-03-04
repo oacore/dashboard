@@ -19,6 +19,7 @@ interface SwActions {
     closeSidebar: () => void
 
     setDateRange: (startDate: string, endDate: string) => void
+    resetOnPageEnter: () => void
 }
 
 export interface SwStoreState {
@@ -87,6 +88,18 @@ export const useSwStore = create<SwStore>()(
                         startDate,
                         endDate,
                     },
+                }),
+
+            resetOnPageEnter: () =>
+                set({
+                    searchTerm: '',
+                    sortField: null,
+                    sortOrder: null,
+                    selectedArticleId: null,
+                    activeTab: 'ready',
+                    selectedRow: null,
+                    isSidebarOpen: false,
+                    dateRange: getDefaultDateRange(),
                 }),
 
             downloadCsv: () => {
