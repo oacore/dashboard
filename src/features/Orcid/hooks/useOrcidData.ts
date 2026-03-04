@@ -42,11 +42,9 @@ const usePaginatedOrcidData = (
     return `${baseUrl}?${params.toString()}`;
   };
 
-  const key = (isLoaded && effectiveDataProviderId) ? buildUrl(from) : null;
-
   const { error, isLoading, mutate } = useSWR<OrcidData[]>(
-    key,
-    () => fetcher(key!).then(res => res as OrcidData[]),
+    buildUrl(from),
+    () => fetcher(buildUrl(from)!).then(res => res as OrcidData[]),
     {
       ...swrDefaultConfig,
       onSuccess: (data) => {

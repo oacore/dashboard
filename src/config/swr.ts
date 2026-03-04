@@ -101,12 +101,10 @@ export const swrConfig: SWRConfiguration = {
  */
 export const swrDefaultConfig: SWRConfiguration = {
   revalidateOnFocus: false,
-  revalidateIfStale: false,
   revalidateOnReconnect: false,
-  dedupingInterval: 60000,
+  dedupingInterval: 0,
   shouldRetryOnError: true,
   errorRetryCount: 1,
-  // keepPreviousData: true,
 };
 
 // Custom hooks for common patterns
