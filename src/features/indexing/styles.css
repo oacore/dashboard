@@ -1,7 +1,10 @@
 /*progress view*/
 .indexing-button {
+    display: flex;
     text-transform: uppercase;
     letter-spacing: .08rem;
+    width: max-content;
+    justify-self: flex-end;
 }
 
 .cursor-disable {
@@ -38,6 +41,7 @@
 .info-success {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;

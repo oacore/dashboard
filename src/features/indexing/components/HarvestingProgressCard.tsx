@@ -150,7 +150,7 @@ export const HarvestingProgressCard = ({
       );
     }
 
-    return <div className="button-wrapper">{renderView()}</div>;
+    return <div>{renderView()}</div>
   }, [harvestingError, harvestingStatus, renderView, isHarvestingLoading]);
 
   const getTimeSinceLastHarvest = useCallback(() => {

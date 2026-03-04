@@ -3,6 +3,7 @@ import { CrPaper } from '@core/core-ui';
 import { formatNumber } from '@utils/helpers.ts';
 import { TextData } from '@features/Sdg/texts';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';
+import { getScrollConfig } from '@hooks/useScrollView.ts';
 import type { SdgTableDataItem } from '@features/Sdg/types/sdg.types';
 import type { DrawerConfig } from '@components/common/CrTable/types';
 import '@features/Sdg/styles.css';
@@ -99,6 +100,7 @@ export const SdgTable = ({ outputCount, sdgTableData, hasMore, loadMore, isLoadi
           loadMoreLoading={isLoadingMore}
           size="middle"
           bordered={false}
+          scroll={getScrollConfig()}
           rowKey={(record) => `${record.id}-${record.oai}`}
           showFooter={!isStartingPlan}
         />

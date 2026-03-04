@@ -58,6 +58,7 @@ export const createColumns = (): ReusableTableColumn<ContentData>[] => [
         align: 'center',
         className: 'last-update-column',
         showSortIcon: true,
+        searchable: true,
         render: (_, record: ContentData) => {
             const formatDate = (dateString: string) => {
                 return dateString?.split('T')[0] || '-';

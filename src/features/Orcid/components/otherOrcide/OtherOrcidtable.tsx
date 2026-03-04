@@ -99,9 +99,9 @@ export const OtherOrcidTable: React.FC = () => {
                 scroll={getScrollConfig()}
             />
             {isStartingPlan && (
-              <AccessPlaceholder
-                description="Upgrade your membership to access all ORCID data and unlock advanced features."
-              />
+                <AccessPlaceholder
+                    description="Upgrade your membership to access all ORCID data and unlock advanced features."
+                />
             )}
         </div>
     );
