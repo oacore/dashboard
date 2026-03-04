@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Button, Input, Spin } from 'antd';
-import { DeleteFilled, DownOutlined } from '@ant-design/icons';
+import {DeleteFilled, DownOutlined, LoadingOutlined} from '@ant-design/icons';
 import classNames from 'classnames';
 import { CrPaper } from '@components/common/CrPapper/CrPapper.tsx';
 import Markdown from '@components/common/Markdown/Markdown';
@@ -229,7 +229,7 @@ export const Sets: React.FC<{ className?: string }> = ({ className }) => {
                       <div className="remove-wrapper">
                         {deletingId === item.id ? (
                           <div className="wrapper">
-                            <Spin size="small" />
+                            <Spin  indicator={<LoadingOutlined spin />} size="small" />
                           </div>
                         ) : (
                           <Button

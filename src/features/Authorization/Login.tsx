@@ -3,6 +3,7 @@ import { CrInput } from '@components/common/CrInput/CrInput.tsx';
 import { useAuthStore } from '@/store/authStore.ts';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import "./styles.css"
+import {LoadingOutlined} from '@ant-design/icons';
 
 export const LoginFeature = () => {
   const { login, isLoading, error, clearError } = useAuthStore();
@@ -118,7 +119,7 @@ export const LoginFeature = () => {
                   loading={isLoading}
                   block
                 >
-                  {isLoading ? <Spin size="small" /> : 'Log In'}
+                  {isLoading ? <Spin  indicator={<LoadingOutlined spin />} size="small" /> : 'Log In'}
                 </Button>
               </Form.Item>
               <Form.Item>

@@ -4,6 +4,7 @@ import InfoTooltip from '@components/common/InfoTooltip'
 import "./styles.css"
 import classNames from 'classnames';
 import { valueOrDefault, formatNumber } from '@/utils/helpers';
+import {LoadingOutlined} from '@ant-design/icons';
 
 interface CrStatsCardProps {
   title: string
@@ -130,7 +131,7 @@ export const CrStatsCard: React.FC<CrStatsCardProps> = ({
       }
 
       case loading:
-        return <Spin className="spinner" />
+        return <Spin  indicator={<LoadingOutlined spin />} className="spinner" />
 
       default:
         return (
@@ -208,7 +209,7 @@ export const CrStatsCard: React.FC<CrStatsCardProps> = ({
         {(subValue && !loading) && (
           <span className="sub-value">
             {loading ? (
-              <Spin className="spinner-small" />
+              <Spin  indicator={<LoadingOutlined spin />} className="spinner-small" />
             ) : (
               `${displaySubValue}`
             )}{' '}

@@ -1,6 +1,6 @@
 import { Badge, Layout, Menu, theme, Typography, Select, Spin } from 'antd';
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import { CloseOutlined, FolderOutlined } from '@ant-design/icons';
+import  { useState, useEffect, useMemo, useCallback } from 'react';
+import {CloseOutlined, FolderOutlined, LoadingOutlined} from '@ant-design/icons';
 import { MenuFoldOutlined, MenuUnfoldOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
@@ -419,7 +419,7 @@ export function DashboardLayout() {
                                         loading={loadingSets}
                                         notFoundContent={
                                             loadingSets ? (
-                                                <Spin size="small" />
+                                                <Spin  indicator={<LoadingOutlined spin />} size="small" />
                                             ) : (
                                                 'No sets found'
                                             )

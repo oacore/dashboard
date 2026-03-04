@@ -3,6 +3,7 @@ import { Spin } from 'antd';
 import { useAuthStore } from '@/store/authStore.ts';
 import { useUserDataProviders } from '@hooks/useDataProviders.ts';
 import { ROUTES, DEFAULT_DASHBOARD_PATH } from '@utils/routes.ts';
+import {LoadingOutlined} from '@ant-design/icons';
 
 type RootRedirectProps = {
     subPath?: string;
@@ -28,7 +29,7 @@ export const RootRedirect = ({ subPath }: RootRedirectProps) => {
                     height: '100vh',
                 }}
             >
-                <Spin size="large" />
+                <Spin indicator={<LoadingOutlined spin />} size="large" />
             </div>
         );
     }
@@ -44,7 +45,7 @@ export const RootRedirect = ({ subPath }: RootRedirectProps) => {
                 height: '100vh',
             }}
         >
-            <Spin size="large" />
+            <Spin  indicator={<LoadingOutlined spin />} size="large" />
         </div>
     );
 };

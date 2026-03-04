@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Select, Spin } from 'antd';
 import { type RepositorySelectProps } from '@hooks/useDataProviders.ts';
 import './styles.css';
+import {LoadingOutlined} from '@ant-design/icons';
 
 export const RepositorySelect: React.FC<RepositorySelectProps> = ({
   dataProviders = [],
@@ -43,7 +44,7 @@ export const RepositorySelect: React.FC<RepositorySelectProps> = ({
         loading={isLoading}
         allowClear={false}
         style={{ width: '100%' }}
-        notFoundContent={isLoading ? <Spin size="small" /> : 'No repositories found'}
+        notFoundContent={isLoading ? <Spin  indicator={<LoadingOutlined spin />} size="small" /> : 'No repositories found'}
       />
     </div>
   );

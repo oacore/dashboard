@@ -1,10 +1,11 @@
 import { Popover, Spin, Button } from 'antd';
-import { cloneElement, isValidElement, useState, useCallback, useMemo } from 'react';
+import React, { cloneElement, isValidElement, useState, useCallback, useMemo } from 'react';
 import arrows from '@/assets/icons/greenArrowBig.svg';
 import success from '@/assets/icons/successHarvesting.svg';
 import failIcon from '@/assets/icons/faillHarvesting.svg';
 import './styles.css';
 import notificationText from '@features/Settings/texts';
+import {LoadingOutlined} from '@ant-design/icons';
 
 interface NotificationItem {
   id: string;
@@ -107,7 +108,7 @@ export const NotificationPopover = ({
     <div className="notification-popover-content">
       {isLoading ? (
         <div className="notification-popover-loading">
-          <Spin size="large" />
+          <Spin  indicator={<LoadingOutlined spin />} size="large" />
         </div>
       ) : !hasUnreadNotifications ? (
         <div className="no-notifications">

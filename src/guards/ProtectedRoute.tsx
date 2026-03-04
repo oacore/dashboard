@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore.ts';
 import { Spin } from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -25,7 +26,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
                 alignItems: 'center',
                 height: '100vh'
             }}>
-                <Spin size="large" />
+                <Spin  indicator={<LoadingOutlined spin />} size="large" />
             </div>
         );
     }
