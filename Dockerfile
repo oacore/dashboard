@@ -19,9 +19,9 @@ ENV VITE_API_KEY=$API_KEY
 
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
+COPY package.json pnpm-lock.yaml ./
 
-RUN npm ci
+RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
 COPY . .
 
