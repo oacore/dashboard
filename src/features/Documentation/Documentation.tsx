@@ -241,6 +241,7 @@ export const DocumentationFeature: React.FC<DocumentationFeatureProps> = ({
           <DocumentationMembership
             key="membership-docs"
             docs={docs?.items}
+            tutorial={docs?.tutorial}
             handleContentOpen={handleContentOpen}
             highlight={highlight}
             docsTitle={documentationSwitcher[1]?.title}
