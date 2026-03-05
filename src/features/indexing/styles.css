@@ -444,3 +444,7 @@
     padding: 0 3px;
     width: max-content;
 }
+
+.visibility-icon.visibility-icon-dark {
+    background: var(--color-danger);
+}

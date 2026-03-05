@@ -39,54 +39,54 @@ export const useIssues = ({ pages }: UseIssuesParams) => {
     const [loading, setLoading] = useState(false);
 
     const loadMore = useCallback(
-        async ({ initial = false }: { initial?: boolean } = {}) => {
-            if (!pages) return;
-            setLoading(true);
+      async ({ initial = false }: { initial?: boolean } = {}) => {
+          if (!pages) return;
+          setLoading(true);
 
-            const data = initial
-                ? await pages.slice(0, 10)
-                : await pages.slice(0, issues.length + 10);
+          const data = initial
+            ? await pages.slice(0, 10)
+            : await pages.slice(0, issues.length + 10);
 
-            await Promise.allSettled(
-                data
-                    .filter(({ output }) => output == null)
-                    .map((issue) =>
-                        issue.outputUrl
-                            ? pages.request(issue.outputUrl).then((response) => {
-                                issue.output = response.data;
-                            })
-                            : Promise.resolve()
-                    )
-            );
+          await Promise.allSettled(
+            data
+              .filter(({ output }) => output == null)
+              .map((issue) =>
+                issue.outputUrl
+                  ? pages.request(issue.outputUrl).then((response) => {
+                      issue.output = response.data;
+                  })
+                  : Promise.resolve()
+              )
+          );
 
-            setLoading(false);
-            setIssueWithArticles({
-                ...pages,
-                data,
-                size: pages.totalLength ?? data.length,
-                isLastPageLoaded: pages.isLastPageLoaded,
-                totalLength: pages.totalLength,
-            } as IssueWithArticles);
-            setIssues(data);
-        },
-        [issues, pages]
+          setLoading(false);
+          setIssueWithArticles({
+              ...pages,
+              data,
+              size: pages.totalLength ?? data.length,
+              isLastPageLoaded: pages.isLastPageLoaded,
+              totalLength: pages.totalLength,
+          } as IssueWithArticles);
+          setIssues(data);
+      },
+      [issues, pages]
     );
 
     const onSetActiveArticle = useCallback(
-        (id: string) => {
-            const output = issueWithArticles?.data.find(
-                (issue) => issue.id === id
-            )?.output;
+      (id: string) => {
+          const output = issueWithArticles?.data.find(
+            (issue) => issue.id === id
+          )?.output;
 
-            if (output && output.id) {
-                const outputWithUrl = {
-                    ...output,
-                    outputUrl: `https://core.ac.uk/outputs/${output.id}`,
-                };
-                setActiveArticle(outputWithUrl);
-            }
-        },
-        [issueWithArticles]
+          if (output && output.id) {
+              const outputWithUrl = {
+                  ...output,
+                  outputUrl: `https://core.ac.uk/outputs/${output.id}`,
+              };
+              setActiveArticle(outputWithUrl);
+          }
+      },
+      [issueWithArticles]
     );
 
     const changeArticleVisibility = async (article: Issue['output']) => {
@@ -98,11 +98,18 @@ export const useIssues = ({ pages }: UseIssuesParams) => {
                 disabled: !article?.disabled,
             });
 
-            setActiveArticle(
-                Object.assign(article, {
-                    disabled: !article?.disabled,
-                })
-            );
+            const updatedArticle = { ...article, disabled: !article?.disabled };
+            setActiveArticle(updatedArticle);
+
+            setIssueWithArticles((prev) => {
+                if (!prev) return prev;
+                const updatedData = prev.data.map((issue) =>
+                  issue.output?.id === article.id
+                    ? { ...issue, output: { ...issue.output, disabled: !article?.disabled } }
+                    : issue
+                );
+                return { ...prev, data: updatedData };
+            });
         } catch (error) {
             throw new Error(error instanceof Error ? error.message : 'Failed to change visibility');
         } finally {
@@ -130,3 +137,4 @@ export const useIssues = ({ pages }: UseIssuesParams) => {
         onReset,
     };
 };
+
