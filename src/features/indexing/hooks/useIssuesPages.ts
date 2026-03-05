@@ -1,14 +1,27 @@
-import { useMemo, useState, useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { http } from '@/config/axios';
 import { useDataProviderStore } from '@/store/dataProviderStore';
-import type { Pages, Issue } from './useIssues';
+import type { Issue } from '../types';
+
+export interface Pages {
+    slice: (start: number, end: number) => Promise<Issue[]>;
+    request: (url: string) => Promise<{ data: Issue['output'] }>;
+    reset: (params: { type: string }) => void;
+    isLastPageLoaded?: boolean;
+    type?: string;
+    totalLength?: number | null;
+}
 
 const PAGE_SIZE = 100;
 
-export const useIssuesPages = (type: string | undefined, outputsAffectedCount?: number): Pages | null => {
+export const useIssuesPages = (
+    type: string | undefined,
+    outputsAffectedCount?: number
+): Pages | null => {
     const { selectedDataProvider, isLoaded } = useDataProviderStore();
     const [isLastPageLoaded, setIsLastPageLoaded] = useState(false);
     const [totalLength, setTotalLength] = useState<number | null>(outputsAffectedCount ?? null);
+
     const dataRef = useRef<Issue[]>([]);
     const pageNumberRef = useRef(0);
     const totalLengthRef = useRef<number | null>(outputsAffectedCount ?? null);
@@ -18,69 +31,48 @@ export const useIssuesPages = (type: string | undefined, outputsAffectedCount?: 
 
     const load = useCallback(
         async (signal?: AbortSignal): Promise<Issue[]> => {
-            if (!dataProviderId || !type || !isLoaded) {
-                return [];
-            }
+            if (!dataProviderId || !type || !isLoaded) return [];
 
             const currentDataLength = dataRef.current.length;
-            const from = currentDataLength >= PAGE_SIZE
-                ? Math.round(currentDataLength / PAGE_SIZE)
-                : currentDataLength;
-
-            const params: Record<string, string> = {
-                from: from.toString(),
-                size: PAGE_SIZE.toString(),
-            };
-
-            if (type) {
-                params.type = type;
-            }
+            const from =
+                currentDataLength >= PAGE_SIZE
+                    ? Math.round(currentDataLength / PAGE_SIZE)
+                    : currentDataLength;
 
             try {
                 const response = await http.get<Issue[]>(
                     `/internal/data-providers/${dataProviderId}/issues`,
-                    {
-                        params,
-                        signal,
-                    }
+                    { params: { from, size: PAGE_SIZE, type }, signal }
                 );
+                const newData = response.data ?? [];
 
-                // Set totalLength from outputsAffectedCount on first page load
                 if (pageNumberRef.current === 0 && outputsAffectedCount) {
                     totalLengthRef.current = outputsAffectedCount;
                     setTotalLength(outputsAffectedCount);
                 }
 
                 pageNumberRef.current += 1;
-                const newData = (response.data || []).map((item) => ({
+                const mappedData = newData.map((item) => ({
                     ...item,
                     id: `${pageNumberRef.current}-${item.id}`,
                     originalId: item.id,
                 }));
 
-                dataRef.current.push(...newData);
+                dataRef.current.push(...mappedData);
+                const reachedEnd = newData.length === 0;
+                isLastPageLoadedRef.current = isLastPageLoadedRef.current || reachedEnd;
+                setIsLastPageLoaded((prev) => prev || reachedEnd);
 
-                isLastPageLoadedRef.current = isLastPageLoadedRef.current || newData.length === 0;
-                setIsLastPageLoaded(prev => prev || newData.length === 0);
-
-                return newData;
+                return mappedData;
             } catch (error: unknown) {
-                // Handle AbortError (intentional cancellation)
-                if (error && typeof error === 'object' && 'name' in error && error.name === 'AbortError') {
-                    throw error;
-                }
+                const isAbort = error && typeof error === 'object' && 'name' in error && (error as Error).name === 'AbortError';
+                if (isAbort) throw error;
 
-                // Set isLastPageLoaded to prevent further pagination attempts
                 isLastPageLoadedRef.current = true;
                 setIsLastPageLoaded(true);
 
-                // Handle 404 (end of data stream)
-                if (error && typeof error === 'object' && 'response' in error) {
-                    const axiosError = error as { response?: { status?: number } };
-                    if (axiosError.response?.status === 404) {
-                        return [];
-                    }
-                }
+                const axiosError = error as { response?: { status?: number } } | undefined;
+                if (axiosError?.response?.status === 404) return [];
 
                 throw error;
             }
@@ -90,37 +82,27 @@ export const useIssuesPages = (type: string | undefined, outputsAffectedCount?: 
 
     const slice = useCallback(
         async (start: number, end: number): Promise<Issue[]> => {
-            if (!dataProviderId || !type || !isLoaded) {
-                return [];
-            }
+            if (!dataProviderId || !type || !isLoaded) return [];
 
-            // Load data incrementally until we have enough or reach last page
             while (dataRef.current.length < end && !isLastPageLoadedRef.current) {
                 try {
                     await load();
                 } catch (error: unknown) {
-                    // AbortError is intentional, break the loop
-                    if (error && typeof error === 'object' && 'name' in error && error.name === 'AbortError') {
-                        break;
-                    }
-                    // Re-throw other errors
+                    const isAbort = error && typeof error === 'object' && 'name' in error && (error as Error).name === 'AbortError';
+                    if (isAbort) break;
                     throw error;
                 }
             }
 
-            // Return the requested slice
             return dataRef.current.slice(start, end);
         },
         [dataProviderId, type, isLoaded, load]
     );
 
-    const request = useCallback(
-        async (url: string): Promise<{ data: Issue['output'] }> => {
-            const response = await http.get<Issue['output']>(url);
-            return { data: response.data };
-        },
-        []
-    );
+    const request = useCallback(async (url: string): Promise<{ data: Issue['output'] }> => {
+        const response = await http.get<Issue['output']>(url);
+        return { data: response.data };
+    }, []);
 
     const reset = useCallback(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -135,10 +117,8 @@ export const useIssuesPages = (type: string | undefined, outputsAffectedCount?: 
         [outputsAffectedCount]
     );
 
-    const pages: Pages | null = useMemo(() => {
-        if (!dataProviderId || !type || !isLoaded) {
-            return null;
-        }
+    return useMemo(() => {
+        if (!dataProviderId || !type || !isLoaded) return null;
 
         return {
             slice,
@@ -149,7 +129,4 @@ export const useIssuesPages = (type: string | undefined, outputsAffectedCount?: 
             totalLength: totalLengthRef.current ?? totalLength,
         };
     }, [dataProviderId, type, isLoaded, slice, request, reset, isLastPageLoaded, totalLength]);
-
-    return pages;
 };
-

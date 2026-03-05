@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Button } from 'antd';
 import classNames from 'classnames';
-import { useIssues, type Pages } from '../hooks/useIssues';
-import { useIssuesPages } from '../hooks/useIssuesPages';
+import { useIssues } from '../hooks/useIssues';
+import { useIssuesPages, type Pages } from '../hooks/useIssuesPages';
 import texts from '../texts';
 import { WarningFilled, WechatFilled } from '@ant-design/icons';
 import { ArticlesList } from './ArticlesList';
@@ -42,15 +42,11 @@ export const TypeCard: React.FC<TypeCardProps> = ({
         onSetActiveArticle,
         activeArticle,
         changeArticleVisibility,
-    } = useIssues({
-        pages: pages || null
-    });
+    } = useIssues({ pages: pages || null });
 
     const handleToggleVisibleList = () => {
         const newVisibleState = !visibleList;
         setVisibleList(newVisibleState);
-
-        // Only load data if we're showing the list AND there's no cached data
         if (newVisibleState && (!articles || articles.data.length === 0)) {
             onReset();
         }

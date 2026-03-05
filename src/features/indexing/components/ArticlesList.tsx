@@ -8,7 +8,7 @@ import { EyeInvisibleFilled, EyeFilled } from '@ant-design/icons';
 import { formatDate } from '@/utils/helpers.ts';
 import classNames from 'classnames';
 import '../styles.css';
-import {getScrollConfig} from '@hooks/useScrollView.ts';
+import { getScrollConfig } from '@hooks/useScrollView.ts';
 
 interface Issue {
     id: string;

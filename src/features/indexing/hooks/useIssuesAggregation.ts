@@ -1,36 +1,23 @@
+import { useCallback, useMemo } from 'react';
 import useSWR from 'swr';
 import { fetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
-import { useCallback, useMemo } from 'react';
 import type { IssuesAggregation } from '../types';
 
 export const useIssuesAggregation = (dataProviderId?: number) => {
   const { selectedDataProvider, isLoaded } = useDataProviderStore();
-  const effectiveDataProviderId = dataProviderId || selectedDataProvider?.id;
+  const effectiveDataProviderId = dataProviderId ?? selectedDataProvider?.id;
 
-  const key = (isLoaded && effectiveDataProviderId)
-    ? `/internal/data-providers/${effectiveDataProviderId}/issues/aggregation`
-    : null;
+  const key =
+    isLoaded && effectiveDataProviderId
+      ? `/internal/data-providers/${effectiveDataProviderId}/issues/aggregation`
+      : null;
 
   const { data, error, isLoading, mutate } = useSWR<IssuesAggregation>(
     key,
-    key ? () => fetcher(key, true).then(res => res as IssuesAggregation) : null,
-    {
-      ...swrDefaultConfig,
-      keepPreviousData: true,
-    }
+    key ? () => fetcher(key, true).then((res) => res as IssuesAggregation) : null,
+    { ...swrDefaultConfig, keepPreviousData: true }
   );
-
-  const refreshData = useCallback(() => {
-    return mutate();
-  }, [mutate]);
-
-  const issuesByType = useMemo<Record<string, number>>(() => {
-    if (!data?.countByType) {
-      return {};
-    }
-    return data.countByType;
-  }, [data]);
 
   const getDownloadUrl = useCallback((type: string): string | undefined => {
     if (!selectedDataProvider?.id) return undefined;
@@ -38,11 +25,13 @@ export const useIssuesAggregation = (dataProviderId?: number) => {
     return `${baseUrl}/internal/data-providers/${selectedDataProvider.id}/issues?type=${type}&accept=text/csv`;
   }, [selectedDataProvider?.id]);
 
+  const issuesByType = useMemo<Record<string, number>>(() => data?.countByType ?? {}, [data?.countByType]);
+
   return {
-    aggregation: data || null,
+    aggregation: data ?? null,
     aggregationError: !!error,
     isLoading: isLoading || !isLoaded,
-    mutate: refreshData,
+    mutate,
     error,
     issuesByType,
     typesCount: data?.typesCount ?? 0,

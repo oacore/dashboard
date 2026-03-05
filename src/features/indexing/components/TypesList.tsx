@@ -1,4 +1,3 @@
-// import useTypes from '../hooks/useTypes';
 import texts from '../texts';
 import type { IssuesAggregation, IssueMessage } from '@features/indexing/types';
 import { CrIssuesDisplay } from '@/components/common/CrIssues/CrIssues';

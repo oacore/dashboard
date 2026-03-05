@@ -24,3 +24,21 @@ export interface IssueMessage {
     matches?: string[];
 }
 
+export interface Issue {
+    id: string;
+    output?: {
+        id: string;
+        [key: string]: unknown;
+    } | null;
+    outputUrl?: string;
+    [key: string]: unknown;
+}
+
+export interface IssueWithArticles {
+    data: Issue[];
+    size: number;
+    isLastPageLoaded?: boolean;
+    totalLength?: number | null;
+    [key: string]: unknown;
+}
+

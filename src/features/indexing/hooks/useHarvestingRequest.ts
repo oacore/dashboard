@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
-import useSWR from 'swr';
-import { postRequestFetcher, swrDefaultConfig } from '@/config/swr';
+import { useCallback } from 'react';
+import useSWRMutation from 'swr/mutation';
+import { postRequestFetcher } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 export interface HarvestingRequestResponse {
@@ -9,45 +9,34 @@ export interface HarvestingRequestResponse {
 
 export const useHarvestingRequest = () => {
     const { selectedDataProvider } = useDataProviderStore();
-    const [requestKey, setRequestKey] = useState<string | null>(null);
-    const [requestBody, setRequestBody] = useState<{ message: string } | null>(null);
-    const [shouldFetch, setShouldFetch] = useState(false);
 
-    const key = requestKey && requestBody && selectedDataProvider?.id && shouldFetch
-        ? `/internal/data-providers/${selectedDataProvider.id}/harvesting/request`
-        : null;
-
-    const { data, error, isLoading, mutate } = useSWR<HarvestingRequestResponse>(
-        key,
-        key && requestBody ? () => postRequestFetcher(key, requestBody, true).then(res => res as HarvestingRequestResponse) : null,
-        swrDefaultConfig,
+    const { data, error, isMutating, trigger, reset } = useSWRMutation(
+        'harvesting/request',
+        async (
+            _key: string,
+            { arg }: { arg: { dataProviderId: number; message: string } }
+        ) => {
+            const url = `/internal/data-providers/${arg.dataProviderId}/harvesting/request`;
+            return (await postRequestFetcher(url, { message: arg.message }, true)) as HarvestingRequestResponse;
+        }
     );
 
-    const sendHarvestingRequest = useCallback((message: string) => {
-        const dataProviderId = selectedDataProvider?.id;
-
-        if (!dataProviderId) {
-            throw new Error('No data provider selected');
-        }
-
-        setRequestBody({ message });
-        setRequestKey(`harvesting-request-${Date.now()}`);
-        setShouldFetch(true);
-    }, [selectedDataProvider?.id]);
-
-    const resetResponse = useCallback(() => {
-        setRequestKey(null);
-        setRequestBody(null);
-        setShouldFetch(false);
-        mutate(undefined, { revalidate: false });
-    }, [mutate]);
+    const sendHarvestingRequest = useCallback(
+        (message: string) => {
+            const dataProviderId = selectedDataProvider?.id;
+            if (!dataProviderId) {
+                throw new Error('No data provider selected');
+            }
+            return trigger({ dataProviderId, message });
+        },
+        [selectedDataProvider?.id, trigger]
+    );
 
     return {
         sendHarvestingRequest,
-        responseData: data || null,
-        isLoading,
-        error,
-        resetResponse,
+        responseData: data ?? null,
+        isLoading: isMutating,
+        error: error ?? null,
+        resetResponse: reset,
     };
 };
-
