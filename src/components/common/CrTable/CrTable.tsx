@@ -233,7 +233,7 @@ export const CrTable = <T = unknown>({
                         ? `reusable-table-sidebar-${sidebar.getState(selectedRecord)}`
                         : 'reusable-table-sidebar-default'}
                 >
-                    {selectedRecord && sidebar.content(selectedRecord)}
+                    {selectedRecord && sidebar.content(selectedRecord, { onClose: handleSidebarClose })}
                 </Drawer>
             )}
 

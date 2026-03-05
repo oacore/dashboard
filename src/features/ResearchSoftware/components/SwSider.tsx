@@ -1,22 +1,34 @@
 import { useState, useCallback } from 'react';
-import type { SwRow } from '@features/ResearchSoftware/types/sw.types';
+import '@/components/common/CrSider/styles.css';
 import {
   CheckCircleFilled,
-  CloseOutlined,
   LinkOutlined,
   EditFilled,
   CaretRightOutlined,
 } from '@ant-design/icons';
-import { Button } from "antd";
-import { NotificationModal } from './NotificationModal';
+import { Button } from 'antd';
+import type { SwRow } from '@features/ResearchSoftware/types/sw.types';
+import { CrSider } from '@components/common/CrSider';
+import { NotificationModal } from '@features/ResearchSoftware/components/NotificationModal';
 import { TextData } from '@features/ResearchSoftware/texts';
 
-type Props = {
-  row: SwRow
-  onClose: () => void
+interface SwSiderProps {
+  row: SwRow;
+  onClose?: () => void;
+  className?: string;
+  id?: string;
+  isOpen?: boolean;
+  onClick?: (event: React.MouseEvent) => void;
 }
 
-export const SwSidebar = ({ row, onClose }: Props) => {
+export const SwSider: React.FC<SwSiderProps> = ({
+  row,
+  onClose,
+  className,
+  id,
+  isOpen = true,
+  onClick,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleApproveClick = useCallback(() => {
@@ -26,25 +38,20 @@ export const SwSidebar = ({ row, onClose }: Props) => {
   const handleButtonClose = useCallback(() => {
     setModalOpen(false);
   }, []);
-  return (
-    <div className="sw-sidebar">
-      <div className="sw-sidebar-topbar">
-        <div className="sw-sidebar-topbar-left">{row.oai}</div>
-        <button
-          type="button"
-          className="sw-sidebar-close"
-          onClick={onClose}
-          aria-label="Close sidebar"
-        >
-          <CloseOutlined />
-        </button>
-      </div>
 
-      <div className="sw-sidebar-body">
+  return (
+    <CrSider
+      id={id}
+      className={className}
+      isOpen={isOpen}
+      onClose={onClose}
+      onClick={onClick}
+    >
+      <div className="cr-sider-body">
         <h3 className="sw-sidebar-title">{row.title}</h3>
 
         {(Array.isArray(row.authors) ? row.authors.join(' ') : row.authors || '') && (
-          <div className="sw-sidebar-authors">
+          <div className="cr-sider-authors">
             {Array.isArray(row.authors) ? row.authors.join(' ') : row.authors || ''}
           </div>
         )}
@@ -127,15 +134,24 @@ export const SwSidebar = ({ row, onClose }: Props) => {
         )}
       </div>
 
-      <div className="sw-sidebar-footer sw-sidebar-footer-fixed">
-        <Button type="primary" className="sw-btn sw-btn-primary" onClick={handleApproveClick}>
+      <div className="cr-sider-footer">
+        <Button
+          type="primary"
+          className="cr-sider-document-button"
+          onClick={handleApproveClick}
+        >
           APPROVE AND SEND NOTIFICATION <CaretRightOutlined />
         </Button>
 
-        <Button className="sw-btn sw-btn-secondary" onClick={onClose}>
+        <Button
+          type="default"
+          className="cr-sider-document-button"
+          onClick={onClose}
+        >
           CLOSE
         </Button>
       </div>
+
       {modalOpen && (
         <NotificationModal
           title={TextData.notificationModal.title}
@@ -144,6 +160,6 @@ export const SwSidebar = ({ row, onClose }: Props) => {
           handleButtonClose={handleButtonClose}
         />
       )}
-    </div>
-  )
-}
+    </CrSider>
+  );
+};

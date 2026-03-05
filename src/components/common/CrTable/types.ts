@@ -23,10 +23,15 @@ export interface ReusableTableColumn<T = unknown> {
     showSortIcon?: boolean;
 }
 
+// Sidebar content helpers (e.g. for close button in sider footer)
+export interface SidebarContentHelpers {
+    onClose: () => void;
+}
+
 // Sidebar configuration
 export interface SidebarConfig<T = unknown> {
     enabled: boolean;
-    content: (record: T) => React.ReactNode;
+    content: (record: T, helpers?: SidebarContentHelpers) => React.ReactNode;
     title?: string | ((record: T) => React.ReactNode);
     width?: number;
     placement?: 'left' | 'right';
