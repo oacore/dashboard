@@ -2,8 +2,8 @@ import React from 'react';
 import { Button } from 'antd';
 import externalLinkIcon from '@/assets/icons/externalLink.svg';
 import type { PublicReleaseDatesItem } from '../store/publicReleaseDatesStore';
-import { SiderBase } from '@/components/common/CrSider/components/SiderBase';
 import '@/components/common/CrSider/styles.css';
+import {CrSider} from '@components/common/CrSider';
 
 interface PublicReleaseDatesSiderProps {
   record: PublicReleaseDatesItem;
@@ -26,7 +26,7 @@ export const PublicReleaseDatesSider: React.FC<PublicReleaseDatesSiderProps> = (
   const displayUrl = `https://core.ac.uk/display/${originalId}`;
 
   return (
-    <SiderBase
+    <CrSider
       id={id}
       className={className}
       isOpen={isOpen}
@@ -55,6 +55,6 @@ export const PublicReleaseDatesSider: React.FC<PublicReleaseDatesSiderProps> = (
           <img src={externalLinkIcon} alt="" className="cr-sider-external-icon" />
         </Button>
       </div>
-    </SiderBase>
+    </CrSider>
   );
 };

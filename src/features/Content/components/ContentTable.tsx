@@ -5,10 +5,10 @@ import { getScrollConfig } from '@hooks/useScrollView.ts';
 import type { ContentData } from '@features/Content/types/data.types.ts';
 import { createColumns } from '@features/Content/components/tableColumns.tsx';
 import type { SidebarConfig } from '@/components/common/CrTable/types.ts';
-import { CrSider } from '@/components/common/CrSider/CrSider.tsx';
 import { useContentTableStore } from '@features/Content/store/contentStore';
 
 import "../styles.css"
+import {ContentSider} from '@features/Content/components/ContentSider.tsx';
 
 interface ContentTableProps {
   data: ContentData[];
@@ -59,7 +59,7 @@ export const ContentTable: React.FC<ContentTableProps> = ({
     title: (record: ContentData) => <div className={"sidebar-header"}>{record.oai}</div>,
     content: (record: ContentData) => (
       <div className="sider-drawer">
-        <CrSider record={record} />
+        <ContentSider record={record} />
       </div>
     ),
     getState: (record: ContentData) => {

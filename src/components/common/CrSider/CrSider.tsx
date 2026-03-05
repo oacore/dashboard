@@ -1,33 +1,58 @@
 import React from 'react';
-import type { ContentData } from '@features/Content/types/data.types.ts';
-import { ContentRecordSider } from './components/ContentRecordSider';
-import './styles.css';
+import classNames from 'classnames';
+import deny from '@/assets/icons/deny.svg';
 
-interface CrSiderProps {
+interface SiderBaseProps {
+  children: React.ReactNode;
   className?: string;
   id?: string;
-  onClick?: (event: React.MouseEvent) => void;
-  record: ContentData; // Made required since it's always provided
-  onClose?: () => void;
   isOpen?: boolean;
+  onClose?: () => void;
+  onClick?: (event: React.MouseEvent) => void;
+  showCloseButton?: boolean;
 }
 
-export const CrSider: React.FC<CrSiderProps> = ({
-  className,
-  id,
-  onClick,
-  record,
-  onClose,
-  isOpen = true,
-}) => {
+export const CrSider: React.FC<SiderBaseProps> = ({
+                                                      children,
+                                                      className,
+                                                      id,
+                                                      isOpen = true,
+                                                      onClose,
+                                                      onClick,
+                                                      showCloseButton = false,
+                                                      ...restProps
+                                                    }) => {
+  const handleClick = (event: React.MouseEvent) => {
+    onClick?.(event);
+
+    const element = event.target as HTMLElement;
+    if (element.dataset.autoClose) {
+      onClose?.();
+    }
+  };
+
   return (
-    <ContentRecordSider
-      record={record}
-      className={className}
+    <div
       id={id}
-      isOpen={isOpen}
-      onClose={onClose}
-      onClick={onClick}
-    />
+      className={classNames('cr-sider', className, {
+        'open': isOpen,
+      })}
+      onClick={handleClick}
+      {...restProps}
+    >
+      {showCloseButton && onClose && (
+        <div className="cr-sider-app-bar">
+          <button
+            type="button"
+            className="cr-sider-close-btn"
+            data-auto-close="true"
+            aria-label="Close sidebar"
+          >
+            <img src={deny} alt="Close" />
+          </button>
+        </div>
+      )}
+      {children}
+    </div>
   );
 };
