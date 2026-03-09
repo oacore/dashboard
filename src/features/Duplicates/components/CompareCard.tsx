@@ -6,7 +6,7 @@ import { EyeOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { CrMessage } from '@components/common/CrMessage/CrMessage.tsx';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import InfoTooltip from '@components/common/InfoTooltip/InfoTooltip.tsx';
 import { useWorkData } from '@features/Duplicates/hooks/useWorkData.ts';
 import { useMultipleOutputs } from '@features/Duplicates/hooks/useMultipleOutputs.ts';

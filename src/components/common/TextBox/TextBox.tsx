@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Button } from 'antd';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import './styles.css';
 
 interface TextBoxProps {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Tag } from 'antd';
 import { ArrowUpOutlined, PlayCircleOutlined, VideoCameraFilled } from '@ant-design/icons';
 import classNames from 'classnames';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import redirectLinkIcon from '@/assets/icons/redirectLink.svg';
 import './styles.css';
 

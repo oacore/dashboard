@@ -3,7 +3,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import InfoTooltip from '@components/common/InfoTooltip';
 import { TimeLagChart } from '@features/DepositCompliance/components/TimeLagChart';
 import { RegionAlert } from '@features/DepositCompliance/components/RegionAlert';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import { TextData } from '../texts';
 import type { DepositTimeLagItem } from '@features/DepositCompliance/hooks/useDepositTimeLag';
 import { useDashboardRoute } from '@hooks/useDashboardRoute';

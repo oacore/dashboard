@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 import classNames from 'classnames';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import { processTemplate } from '@utils/helpers.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { texts } from '../texts';

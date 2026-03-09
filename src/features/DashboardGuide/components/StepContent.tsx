@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import Markdown from '@components/common/Markdown/Markdown';
+import { Markdown } from '@core/core-ui';
 import OnboardingGuideContent from './OnboardingGuideContent';
 import { getStepConfig, TOTAL_STEPS } from '../config/stepsConfig';
 import { useDataProviderStore } from '@/store/dataProviderStore';

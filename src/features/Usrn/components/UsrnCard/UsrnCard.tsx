@@ -1,6 +1,6 @@
 import React from 'react';
 import { FileTextFilled, InfoOutlined } from '@ant-design/icons';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import { PercentBar } from '@components/common/PercentBar/PercentBar.tsx';
 import { formatNumber } from '@utils/helpers.ts';
 import type { SupportStatusVariant } from '@features/Usrn/types/data.types';

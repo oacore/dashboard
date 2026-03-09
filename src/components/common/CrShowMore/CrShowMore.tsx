@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import "./styles.css"
 import { Button } from 'antd';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 
 interface CrShowMoreProps {
   text: string;

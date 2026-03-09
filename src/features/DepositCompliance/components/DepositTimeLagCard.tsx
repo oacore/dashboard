@@ -1,4 +1,4 @@
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import { TimeLagChart } from './TimeLagChart';
 import { TextData } from '../texts';
 import type { DepositTimeLagItem } from '../hooks/useDepositTimeLag';

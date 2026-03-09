@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Typography } from 'antd';
 import {  ArrowRightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import './styles.css';
 
 const { Text } = Typography;

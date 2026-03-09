@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import Markdown from '@components/common/Markdown/Markdown';
+import { Markdown } from '@core/core-ui';
 import { patchValue } from '@utils/helpers';
 import notificationText from '@features/Settings/texts';
 import type { InviteItem } from '../store/organisationStore';

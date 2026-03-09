@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal, Button, Input } from 'antd';
 import classNames from 'classnames';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import '../styles.css';
 
 const { TextArea } = Input;

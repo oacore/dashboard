@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
 import { CrPaper } from '@core/core-ui';
 import { CrInput } from '@core/core-ui';
-import Markdown from '@components/common/Markdown/Markdown';
+import { Markdown } from '@core/core-ui';
 import { ExclamationCircleOutlined, DeleteFilled } from '@ant-design/icons';
 import '../styles.css';
 import notificationText from '@features/Settings/texts';

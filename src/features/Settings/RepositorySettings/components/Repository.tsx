@@ -4,7 +4,7 @@ import { ExclamationCircleOutlined, CheckCircleOutlined } from '@ant-design/icon
 import classNames from 'classnames';
 import { CrPaper } from '@core/core-ui';
 import { CrInput } from '@core/core-ui';
-import Markdown from '@components/common/Markdown/Markdown';
+import { Markdown } from '@core/core-ui';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 import { useRorSuggestions } from '@features/Settings/OrganisationalSettings/hooks/useRorSuggestions';

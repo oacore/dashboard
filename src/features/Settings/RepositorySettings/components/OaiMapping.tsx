@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
 import { CrPaper } from '@core/core-ui';
 import { CrInput } from '@core/core-ui';
-import Markdown from '@components/common/Markdown/Markdown';
+import { Markdown } from '@core/core-ui';
 import { useOaiMapping } from '../hooks/useOaiMapping';
 import notificationText from '@features/Settings/texts';
 import '../styles.css';

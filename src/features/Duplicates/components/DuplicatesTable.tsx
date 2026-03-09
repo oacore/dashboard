@@ -5,7 +5,7 @@ import { CrPaper } from '@core/core-ui';
 import '../styles.css';
 import { CrMessage } from '@components/common/CrMessage/CrMessage.tsx';
 import info from '@/assets/icons/info.svg';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';
 import type { DuplicateData } from '@features/Duplicates/types/data.types.ts';
 import { getScrollConfig } from '@hooks/useScrollView.ts';

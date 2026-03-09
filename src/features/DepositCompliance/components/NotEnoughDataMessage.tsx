@@ -1,7 +1,7 @@
 import { CrMessage } from '@components/common/CrMessage/CrMessage.tsx';
 import { WarningOutlined } from '@ant-design/icons';
 import '../styles.css';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import { TextData } from '../texts';
 
 export const NotEnoughDataMessage = () => (

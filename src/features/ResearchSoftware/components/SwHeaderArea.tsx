@@ -5,7 +5,7 @@ import { Radio, Switch } from 'antd'
 import { CrInput } from '@core/core-ui'
 import { CrHeader } from '@core/core-ui';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore'
-import Markdown from '@components/common/Markdown/Markdown.tsx'
+import { Markdown } from '@core/core-ui';
 
 import { TextData } from '@features/ResearchSoftware/texts'
 import '@features/ResearchSoftware/style.css'

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {  Modal } from 'antd';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import { DocumentationMembership } from '@components/common/CrDocumentation/DocumentationMembership.tsx';
 import { DocumentationMembershipNav, type TextData } from '@components/common/CrDocumentationNav/DocumentationMembershipNav.tsx';
 import type { DocumentationItem, Tutorial } from '@components/common/CrDocumentation/DocumentationMembership.tsx';

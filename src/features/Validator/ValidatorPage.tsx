@@ -6,7 +6,7 @@ import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import validatorData from './texts';
 import { CrMessage } from '@components/common/CrMessage/CrMessage.tsx';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import info from '@/assets/icons/info.svg';
 import "./styles.css"
 import MyRepository from '@features/Validator/MyReposiyory/MyRepository.tsx';

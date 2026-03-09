@@ -1,7 +1,7 @@
 import "../styles.css"
 import validatorData from '../texts';
 import ComplianceCard from '@features/Validator/cards/ComplianceCard.tsx';
-import Markdown from '@components/common/Markdown/Markdown.js';
+import { Markdown } from '@core/core-ui';
 import InfoTooltip from '@components/common/InfoTooltip';
 
 const MyRepository = () => (

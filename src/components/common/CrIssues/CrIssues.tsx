@@ -3,7 +3,7 @@ import { Card, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import InfoTooltip from '@components/common/InfoTooltip';
 import { CrMessage } from '@components/common/CrMessage/CrMessage.tsx';
-import Markdown from '@components/common/Markdown/Markdown.js';
+import { Markdown } from '@core/core-ui';
 import error from '@/assets/icons/errorPlaceholder.svg';
 import success from '@/assets/icons/success.svg';
 import info from '@/assets/icons/info.svg';

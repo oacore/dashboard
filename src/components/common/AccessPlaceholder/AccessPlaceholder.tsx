@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import classNames from 'classnames';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import placeholderImg from '@/assets/icons/introMembership.svg';
 import './styles.css';
 import { useDashboardRoute } from '@hooks/useDashboardRoute';

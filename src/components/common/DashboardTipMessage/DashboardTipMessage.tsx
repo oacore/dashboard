@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Typography } from 'antd';
 import info from '@/assets/icons/info.svg';
-import Markdown from '../Markdown/Markdown';
+import { Markdown } from '@core/core-ui';
 import './styles.css';
 
 const { Text } = Typography;

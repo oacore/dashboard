@@ -12,7 +12,7 @@ import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks
 import { sdgTypes } from '@components/common/CrSdgRendered/use-sdg-icon-renderer.tsx';
 import { TextData as sdgTextData } from '@features/Sdg/texts';
 import { formatNumber } from '@/utils/helpers.ts';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 import allSdg from '@/assets/icons/allSdg.svg';
 import '../styles.css';
 import type { CustomContentProps, CustomTooltipProps, TreemapDataItem } from '@features/Overview/types.ts';

@@ -11,7 +11,7 @@ import { patchValueFull, formatDate } from '@utils/helpers.ts';
 import infoIcon from '@/assets/icons/info.svg';
 import './styles.css';
 import { TypesList } from '@features/indexing/components/TypesList.tsx';
-import Markdown from '@components/common/Markdown/Markdown.tsx';
+import { Markdown } from '@core/core-ui';
 
 export const IndexingFeature = () => {
   const { selectedDataProvider, selectedSetSpec } = useDataProviderStore();
@@ -23,7 +23,7 @@ export const IndexingFeature = () => {
   const fullTextPercentage = statistics?.countMetadata && statistics.countMetadata > 0
     ? (statistics?.countFulltext ?? 0) / statistics.countMetadata * 100
     : undefined;
-  
+
   return (
     <div className="indexing-feature-wrapper">
       <div className="harvesting-header-wrapper">
