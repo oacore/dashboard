@@ -1,5 +1,5 @@
 import { CrFeatureLayout } from '@components/common/CrFeatureLayout';
-import { CrHeader } from '@components/common/CrHeader/CrHeader.tsx';
+import { CrHeader } from '@core/core-ui';
 import { TextData } from '@features/DepositCompliance/texts';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { DepositTimeLagCard } from './components/DepositTimeLagCard';

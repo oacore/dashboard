@@ -3,7 +3,7 @@ import { Form, Button } from 'antd';
 import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
 import { CrPaper } from '@core/core-ui';
-import { CrInput } from '@components/common/CrInput/CrInput';
+import { CrInput } from '@core/core-ui';
 import Markdown from '@components/common/Markdown/Markdown';
 import { ExclamationCircleOutlined, DeleteFilled } from '@ant-design/icons';
 import '../styles.css';

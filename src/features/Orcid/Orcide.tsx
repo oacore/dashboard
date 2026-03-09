@@ -3,7 +3,7 @@ import { OtherOrcidTable } from './components/otherOrcide/OtherOrcidtable.tsx';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import "./styles.css"
 import { CrTabs } from '@components/common/CrTabs/CrTabs.tsx';
-import { CrHeader } from '@components/common/CrHeader/CrHeader.tsx';
+import { CrHeader } from '@core/core-ui';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import { CrFeatureLayout, CrCardsWrapper } from '@components/common/CrFeatureLayout';

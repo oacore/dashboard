@@ -1,4 +1,4 @@
-import { CrHeader } from '@components/common/CrHeader/CrHeader.tsx';
+import { CrHeader } from '@core/core-ui';
 import { TextData } from '@features/Sdg/texts';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { CrFeatureLayout } from '@components/common/CrFeatureLayout';

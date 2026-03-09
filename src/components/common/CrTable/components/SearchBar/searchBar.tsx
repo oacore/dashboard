@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { CrInput } from '../../../CrInput/CrInput';
+import { CrInput } from '@core/core-ui';
 
 export interface SearchBarProps {
     placeholder?: string;

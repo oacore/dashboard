@@ -1,5 +1,5 @@
 import { CrFeatureLayout } from '@components/common/CrFeatureLayout';
-import { CrHeader } from '@components/common/CrHeader/CrHeader.tsx';
+import { CrHeader } from '@core/core-ui';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Tabs } from 'antd';

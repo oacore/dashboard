@@ -10,7 +10,7 @@ import { useDoiStatistics } from '@features/Doi/hooks/useDoiStatistics';
 import { useIrusStats } from '@/hooks/useIrusStats';
 import { formatReportDate } from './utils/formatReportDate';
 import './style.css';
-import { CrHeader } from '@components/common/CrHeader/CrHeader.tsx';
+import { CrHeader } from '@core/core-ui';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { CrPaper } from '@core/core-ui';
 import { CrFeatureLayout } from '@components/common/CrFeatureLayout';

@@ -1,4 +1,4 @@
-import { CrHeader } from '@components/common/CrHeader/CrHeader.tsx';
+import { CrHeader } from '@core/core-ui';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { CrFeatureLayout, CrCardsWrapper } from '@components/common/CrFeatureLayout';
 import { TextData } from '@features/Rrs-policy/texts';

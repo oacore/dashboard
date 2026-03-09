@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Form, Spin } from 'antd';
-import { CrInput } from '@components/common/CrInput/CrInput.tsx';
+import { CrInput } from '@core/core-ui';
 import { useAuthStore } from '@/store/authStore.ts';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import "./styles.css"

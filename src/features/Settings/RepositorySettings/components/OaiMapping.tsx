@@ -3,7 +3,7 @@ import { Form, Switch, Button, message } from 'antd';
 import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
 import { CrPaper } from '@core/core-ui';
-import { CrInput } from '@components/common/CrInput/CrInput.tsx';
+import { CrInput } from '@core/core-ui';
 import Markdown from '@components/common/Markdown/Markdown';
 import { useOaiMapping } from '../hooks/useOaiMapping';
 import notificationText from '@features/Settings/texts';

@@ -1,4 +1,4 @@
-import { CrHeader } from '@components/common/CrHeader/CrHeader.tsx';
+import { CrHeader } from '@core/core-ui';
 import { TextBox } from '@components/common/TextBox';
 import { MembershipCard } from '@features/Membership/components';
 import { TextData } from '@features/Membership/texts';

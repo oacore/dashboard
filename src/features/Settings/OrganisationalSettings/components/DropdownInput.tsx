@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { CrInput } from '@components/common/CrInput/CrInput';
+import { CrInput } from '@core/core-ui';
 import '../styles.css';
 
 interface RorSuggestion {
