@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs as AntdTabs } from 'antd';
 import type { TabsProps } from 'antd';
 import './styles.css';
-import { CrPaper } from '@components/common/CrPapper/CrPapper.tsx';
+import { CrPaper } from '@core/core-ui';
 import { useResponsive } from '@hooks/useResponsive.ts';
 
 export interface TabItem {

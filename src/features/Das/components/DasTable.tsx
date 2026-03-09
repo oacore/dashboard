@@ -7,7 +7,7 @@ import { getScrollConfig } from '@hooks/useScrollView.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { createColumns } from '@features/Das/components/tableColumns.tsx';
 import { actions } from '@features/Das/components/tableActions.tsx';
-import { CrPaper } from '@/components/common/CrPapper/CrPapper';
+import { CrPaper } from '@core/core-ui';
 import DashboardTipMessage from '@/components/common/DashboardTipMessage/DashboardTipMessage';
 import { TextData } from '@features/Das/texts';
 import { useDasStore } from '@features/Das/store/dasStore.ts';

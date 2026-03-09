@@ -1,29 +1,32 @@
 /// <reference lib="dom" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const resolvePath = (path: string) => new URL(path, import.meta.url).pathname
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const coreUiPath = path.resolve(__dirname, '../@dashboard/core-ui')
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@core/core-ui/styles': resolvePath('./src/core-ui/styles.ts'),
-      '@core/core-ui': resolvePath('./src/core-ui/index.ts'),
-      '@': resolvePath('./src'),
-      '@components': resolvePath('./src/components'),
-      '@features': resolvePath('./src/features'),
-      '@hooks': resolvePath('./src/hooks'),
-      '@services': resolvePath('./src/services'),
-      '@stores': resolvePath('./src/stores'),
-      '@styles': resolvePath('./src/styles'),
-      '@types': resolvePath('./src/types'),
-      '@utils': resolvePath('./src/utils'),
-      '@config': resolvePath('./src/config'),
-      '@routes': resolvePath('./src/routes'),
-      'react': resolvePath('./node_modules/react'),
-      'react-dom': resolvePath('./node_modules/react-dom')
+      '@core/core-ui/styles': path.resolve(coreUiPath, 'dist/core-ui.css'),
+      '@core/core-ui': coreUiPath,
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@features': path.resolve(__dirname, './src/features'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@services': path.resolve(__dirname, './src/services'),
+      '@stores': path.resolve(__dirname, './src/stores'),
+      '@styles': path.resolve(__dirname, './src/styles'),
+      '@types': path.resolve(__dirname, './src/types'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@config': path.resolve(__dirname, './src/config'),
+      '@routes': path.resolve(__dirname, './src/routes'),
+      'react': path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom')
     }
   }
 })

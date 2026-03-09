@@ -10,7 +10,7 @@ import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import type { RrsData } from '@features/Rrs-policy/types/data.types.ts';
 import { createColumns } from '@features/Rrs-policy/components/tableColumns.tsx';
 import { actions } from '@features/Rrs-policy/components/tableActions.tsx';
-import { CrPaper } from '@/components/common/CrPapper/CrPapper';
+import { CrPaper } from '@core/core-ui';
 import DashboardTipMessage from '@/components/common/DashboardTipMessage/DashboardTipMessage';
 import { TextData } from '@features/Rrs-policy/texts';
 import { useTablePaginationAndSort } from '@/hooks/useTablePaginationAndSort.ts';

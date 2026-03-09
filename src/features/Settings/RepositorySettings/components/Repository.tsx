@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from 'antd';
 import { ExclamationCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { CrPaper } from '@components/common/CrPapper/CrPapper.tsx';
+import { CrPaper } from '@core/core-ui';
 import { CrInput } from '@components/common/CrInput/CrInput.tsx';
 import Markdown from '@components/common/Markdown/Markdown';
 import { useDataProviderStore } from '@/store/dataProviderStore';

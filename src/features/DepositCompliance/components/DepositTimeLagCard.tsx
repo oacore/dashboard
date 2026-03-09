@@ -2,7 +2,7 @@ import Markdown from '@components/common/Markdown/Markdown.tsx';
 import { TimeLagChart } from './TimeLagChart';
 import { TextData } from '../texts';
 import type { DepositTimeLagItem } from '../hooks/useDepositTimeLag';
-import {CrPaper} from '@core/core-ui';
+import { CrPaper } from '@core/core-ui';
 
 interface DepositTimeLagCardProps {
   timeLagData: DepositTimeLagItem[];

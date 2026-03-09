@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Form, Switch, Button, message } from 'antd';
 import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
-import { CrPaper } from '@components/common/CrPapper/CrPapper.tsx';
+import { CrPaper } from '@core/core-ui';
 import { CrInput } from '@components/common/CrInput/CrInput.tsx';
 import Markdown from '@components/common/Markdown/Markdown';
 import { useOaiMapping } from '../hooks/useOaiMapping';

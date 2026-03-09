@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Button, Input, Spin } from 'antd';
 import {DeleteFilled, DownOutlined, LoadingOutlined} from '@ant-design/icons';
 import classNames from 'classnames';
-import { CrPaper } from '@components/common/CrPapper/CrPapper.tsx';
+import { CrPaper } from '@core/core-ui';
 import Markdown from '@components/common/Markdown/Markdown';
 import notificationText from '@features/Settings/texts';
 import { useSets, type SetItem } from '../hooks/useSets';
