@@ -1,14 +1,4 @@
 # Build stage
-# IMPORTANT: Build context must be the parent directory containing BOTH dashboard and core-ui
-# Run: cd <parent-of-dashboard> && docker build -f dashboard/Dockerfile -t dashboard .
-#
-# Expected structure in context:
-#   ./
-#   ├── dashboard/
-#   └── @dashboard/
-#       └── core-ui/
-#   (ln creates ../core-ui for file:../core-ui resolution)
-#
 FROM node:20-alpine AS builder
 
 ARG NODE_ENV=production
@@ -29,24 +19,18 @@ ENV VITE_API_KEY=$API_KEY
 
 WORKDIR /app
 
-# Copy entire context (must include dashboard/ and @dashboard/core-ui/, or core-ui/)
+COPY package.json pnpm-lock.yaml ./
+
+RUN corepack enable pnpm && pnpm install --frozen-lockfile
+
 COPY . .
 
-# Ensure file:../core-ui resolves (dashboard expects sibling core-ui)
-RUN ln -sf @dashboard/core-ui core-ui 2>/dev/null || true
-
-# Build core-ui first (dashboard depends on it via path alias)
-WORKDIR /app/@dashboard/core-ui
-RUN corepack enable pnpm && pnpm install --frozen-lockfile && pnpm run build
-
-# Build dashboard
-WORKDIR /app/dashboard
-RUN corepack enable pnpm && pnpm install --frozen-lockfile && npm run build
+RUN npm run build
 
 # Serve stage
 FROM nginx:alpine
 
-COPY --from=builder /app/dashboard/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # SPA fallback: serve index.html for client-side routing
 RUN echo 'server { \
