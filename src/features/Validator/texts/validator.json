@@ -1,7 +1,7 @@
 {
     "title": "RIOXX metadata validator",
     "description": "This metadata validator helps you to assess how well your metadata comply with RIOXX and provide recommendations on improving this compliance.",
-    "rioxInfo": "The validator works for both [RIOXX v2](https://www.rioxx.net/profiles/v2-0-rc-2/) and [RIOXX v3](https://rioxx.net/profiles/v3-0-final/). You can input a sample Rioxx record into the below text field to see how it complies with it. Where issues are detected, we provide recommendations to help you improve your metadata quality. We recommend all repositories to migrate to [RIOXX v3](https://rioxx.net/profiles/v3-0-final/) as it provides a wide range of [benefits](https://core.ac.uk/documentations#rioxx) over the previous version.",
+    "rioxInfo": "The validator works for both [RIOXX v2](https://www.rioxx.net/profiles/v2-0-rc-2/) and [RIOXX v3](https://rioxx.net/profiles/v3-0-final/). You can input a sample Rioxx record into the below text field to see how it complies with it. Where issues are detected, we provide recommendations to help you improve your metadata quality. We recommend all repositories to migrate to [RIOXX v3](https://rioxx.net/profiles/v3-0-final/) as it provides a wide range of [benefits](https://core.ac.uk/documentation/membership-documentation#rioxx-validator) over the previous version.",
     "validator": {
         "actions": [
             {
