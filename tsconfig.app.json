@@ -26,8 +26,6 @@
     /* Path mapping */
     "baseUrl": ".",
     "paths": {
-      "@core/core-ui": ["../@dashboard/core-ui"],
-      "@core/core-ui/*": ["../@dashboard/core-ui/*"],
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@features/*": ["src/features/*"],

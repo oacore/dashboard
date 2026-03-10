@@ -5,15 +5,12 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const coreUiPath = path.resolve(__dirname, '../@dashboard/core-ui')
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@core/core-ui/styles': path.resolve(coreUiPath, 'dist/core-ui.css'),
-      '@core/core-ui': coreUiPath,
       '@': path.resolve(__dirname, './src'),
       '@components': path.resolve(__dirname, './src/components'),
       '@features': path.resolve(__dirname, './src/features'),
