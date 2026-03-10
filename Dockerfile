@@ -1,8 +1,8 @@
 # Build stage
 # IMPORTANT: Build context must be the parent directory containing BOTH dashboard and @dashboard
-# Run from parent of dashboard: docker build -f dashboard/Dockerfile -t dashboard .
+# Run: cd <parent-of-dashboard> && docker build -f dashboard/Dockerfile -t dashboard .
 #
-# Expected structure:
+# Expected structure in context:
 #   ./
 #   ├── dashboard/
 #   └── @dashboard/
@@ -28,22 +28,16 @@ ENV VITE_API_KEY=$API_KEY
 
 WORKDIR /app
 
-# 1. Copy @core/core-ui dependency (must exist at ../@dashboard/core-ui for dashboard build)
-COPY @dashboard/core-ui ./@dashboard/core-ui
+# Copy entire context (must include dashboard/ and @dashboard/core-ui/)
+COPY . .
 
-# 2. Build core-ui first (dashboard depends on it via path alias)
+# Build core-ui first (dashboard depends on it via path alias)
 WORKDIR /app/@dashboard/core-ui
 RUN corepack enable pnpm && pnpm install --frozen-lockfile && pnpm run build
 
-# 3. Copy dashboard and build
-WORKDIR /app
-COPY dashboard/package.json dashboard/pnpm-lock.yaml ./dashboard/
+# Build dashboard
 WORKDIR /app/dashboard
-RUN corepack enable pnpm && pnpm install --frozen-lockfile
-
-COPY dashboard/ ./
-
-RUN npm run build
+RUN corepack enable pnpm && pnpm install --frozen-lockfile && npm run build
 
 # Serve stage
 FROM nginx:alpine
