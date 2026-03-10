@@ -3,10 +3,9 @@ import { OtherOrcidTable } from './components/otherOrcide/OtherOrcidtable.tsx';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import "./styles.css"
 import { CrTabs } from '@components/common/CrTabs/CrTabs.tsx';
-import { CrHeader } from '@core/core-ui';
+import { CrHeader, CrFeatureLayout, CrCardsWrapper } from '@core/core-ui';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
-import { CrFeatureLayout, CrCardsWrapper } from '@components/common/CrFeatureLayout';
 import { useOrcidStats } from '@features/Orcid/hooks/useOrcidData.ts';
 import { TextData } from './texts/index.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';

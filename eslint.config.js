@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { globalIgnores } from 'eslint/config'
 
 export default tseslint.config([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', '.next']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -21,6 +21,10 @@ export default tseslint.config([
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'preserve-caught-error': 'off',
+      'no-duplicate-imports': [
+        'error',
+        { allowSeparateTypeImports: true },
+      ],
     },
     languageOptions: {
       ecmaVersion: 2020,

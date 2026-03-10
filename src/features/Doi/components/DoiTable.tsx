@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper, AccessPlaceholder } from '@core/core-ui';
 import '../styles.css';
 import type { DoiData } from '@features/Doi/types/data.types';
 import { CrTable } from '@/components/common/CrTable/CrTable.tsx';
@@ -8,7 +8,6 @@ import { useTablePaginationAndSort } from '@/hooks/useTablePaginationAndSort.ts'
 import { articleTemplateData } from '@features/Doi/texts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
-import { AccessPlaceholder } from '@components/common/AccessPlaceholder';
 import { getScrollConfig } from '@hooks/useScrollView.ts';
 
 interface DoiTableProps {

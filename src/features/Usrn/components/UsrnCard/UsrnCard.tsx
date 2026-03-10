@@ -3,9 +3,8 @@ import { FileTextFilled, InfoOutlined } from '@ant-design/icons';
 import { Markdown } from '@core/core-ui';
 import { PercentBar } from '@components/common/PercentBar/PercentBar.tsx';
 import { formatNumber } from '@utils/helpers.ts';
-import type { SupportStatusVariant } from '@features/Usrn/types/data.types';
+import type { SupportStatusVariant, UsrnData } from '@features/Usrn/types/data.types';
 import { getCardStatusConfig } from '@features/Usrn/utils/getCardStatusConfig';
-import type { UsrnData } from '@features/Usrn/types/data.types';
 import '../../style.css';
 
 const DEFAULT_CTA_TEXT = 'Go to the toolkit';

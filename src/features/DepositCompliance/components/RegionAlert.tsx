@@ -1,6 +1,6 @@
 import '../styles.css';
 import {WarningOutlined} from '@ant-design/icons';
-import {CrMessage} from '@components/common/CrMessage/CrMessage.tsx';
+import {CrMessage} from '@core/core-ui';
 
 interface RegionAlertProps {
   className?: string;

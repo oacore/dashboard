@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {  Modal } from 'antd';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { Markdown } from '@core/core-ui';
 import { DocumentationMembership } from '@components/common/CrDocumentation/DocumentationMembership.tsx';
 import { DocumentationMembershipNav, type TextData } from '@components/common/CrDocumentationNav/DocumentationMembershipNav.tsx';
 import type { DocumentationItem, Tutorial } from '@components/common/CrDocumentation/DocumentationMembership.tsx';
 import './styles.css';
-import { CrPaper } from '@core/core-ui';
-import {CrDocumentToggler} from '@components/common/CrDocumentToggler/CrDocumentToggler.tsx';
+import { CrPaper, CrDocumentToggler, Markdown } from '@core/core-ui';
 
 
 // Types

@@ -1,8 +1,7 @@
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import "../styles.css";
 import validatorData from "../texts";
 import type { ValidateCardProps } from '../types';
-import { Input } from 'antd';
 
 export const ValidateCard: React.FC<ValidateCardProps> = ({
   handleValidateClick,

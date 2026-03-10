@@ -4,7 +4,7 @@ import { useDoiStatistics } from '@/features/Doi/hooks/useDoiStatistics';
 import { useDataProviderStatistics } from '@/hooks/useDataProviderStatistics';
 import { DoiTable } from '@features/Doi/components/DoiTable';
 import { useDoiStore } from '@features/Doi/store/doiStore';
-import { CrFeatureLayout } from '@components/common/CrFeatureLayout';
+import { CrFeatureLayout } from '@core/core-ui';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import { ExclamationCircleOutlined, CheckOutlined } from '@ant-design/icons';

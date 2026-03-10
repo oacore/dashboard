@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper, AccessPlaceholder } from '@core/core-ui';
 import { formatNumber } from '@utils/helpers.ts';
 import { TextData } from '@features/Sdg/texts';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';
@@ -13,7 +13,6 @@ import { useSdgTableStore } from '@features/Sdg/store/sdgStore.ts';
 import { createColumns } from '@features/Sdg/components/tableColumns.tsx';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
-import { AccessPlaceholder } from '@components/common/AccessPlaceholder';
 
 interface SdgTableProps {
   outputCount: number;
@@ -69,6 +68,8 @@ export const SdgTable = ({ outputCount, sdgTableData, hasMore, loadMore, isLoadi
       }
     },
   };
+
+  console.log(isStartingPlan, "isStartingPlan")
 
   return (
     <CrPaper>

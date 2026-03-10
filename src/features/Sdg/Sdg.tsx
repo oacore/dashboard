@@ -1,9 +1,7 @@
-import { CrHeader } from '@core/core-ui';
+import { CrHeader, CrFeatureLayout, CrDateRangePicker } from '@core/core-ui';
 import { TextData } from '@features/Sdg/texts';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
-import { CrFeatureLayout } from '@components/common/CrFeatureLayout';
 import { useState, useEffect } from 'react';
-import { CrDateRangePicker } from '@components/common/CrDatePicker/CrDatePicker.tsx';
 import ChartToggler from '@features/Sdg/components/chartToggler.tsx';
 import { sdgTypes } from '@components/common/CrSdgRendered/use-sdg-icon-renderer.tsx';
 import { useSdgYearData } from '@features/Sdg/hooks/useSdgYearData';

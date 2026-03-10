@@ -1,11 +1,10 @@
 import useSWR from 'swr';
 import { swrDefaultConfig } from '@/config/swr';
 import type { ContentData } from '@features/Content/types/data.types';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useContentTableStore } from '@features/Content/store/contentStore';
 import { http } from '@/config/axios';
-import { useState } from 'react';
 
 export const useWorksListData = (
     pageSize = 100,

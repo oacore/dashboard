@@ -1,7 +1,14 @@
 import { Badge, Layout, Menu, theme, Typography, Select, Spin } from 'antd';
 import  { useState, useEffect, useMemo, useCallback } from 'react';
-import {CloseOutlined, FolderOutlined, LoadingOutlined} from '@ant-design/icons';
-import { MenuFoldOutlined, MenuUnfoldOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import {
+  BellOutlined,
+  CloseOutlined,
+  FolderOutlined,
+  LoadingOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  PlayCircleOutlined,
+} from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { menuItems, DISABLED_TABS_WHEN_NO_METADATA } from './menuItems';
@@ -41,7 +48,6 @@ import { useTutorialStore } from '@features/DashboardGuide/store/tutorialStore.t
 import './styles.css';
 import { NotificationGuide } from '@features/NotificationGuide/NotificationGuide.tsx';
 import { useNotificationGuide } from '@features/NotificationGuide/hooks/useNotificationGuide';
-import { BellOutlined } from '@ant-design/icons';
 import { NotificationPopover } from '@components/common/NotificationPopover/NotificationPopover';
 import { useNotification } from '@hooks/useNotification';
 import { useOaiMapping } from '@features/Settings/RepositorySettings/hooks/useOaiMapping';

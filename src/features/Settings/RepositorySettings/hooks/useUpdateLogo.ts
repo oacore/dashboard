@@ -1,9 +1,8 @@
 import { useState, useCallback } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
-import { postRequestFetcher } from '@config/swr.ts';
+import { postRequestFetcher, createSWRKey } from '@config/swr.ts';
 import { message } from 'antd';
 import { useSWRConfig } from 'swr';
-import { createSWRKey } from '@config/swr.ts';
 import type { DataProvider } from '@hooks/useDataProviders.ts';
 import { useAuthStore } from '@/store/authStore.ts';
 

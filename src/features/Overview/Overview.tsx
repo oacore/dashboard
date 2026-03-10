@@ -1,4 +1,3 @@
-import { Button } from 'antd';
 import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import { TextData as duplicatesTextData } from '@features/Duplicates/texts';
 import { TextData as daTextData } from '@features/Das/texts';
@@ -25,7 +24,7 @@ import { useComplianceLevel } from '@features/DepositCompliance/hooks/useComplia
 import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus.ts';
 import placeholder from '@/assets/icons/chartPlaceholder.svg';
 import { CrPaper } from '@core/core-ui';
-import { Spin } from 'antd';
+import { Button, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 export const OverviewFeature = () => {

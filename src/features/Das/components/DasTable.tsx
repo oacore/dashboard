@@ -7,7 +7,7 @@ import { getScrollConfig } from '@hooks/useScrollView.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { createColumns } from '@features/Das/components/tableColumns.tsx';
 import { actions } from '@features/Das/components/tableActions.tsx';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper, AccessPlaceholder } from '@core/core-ui';
 import DashboardTipMessage from '@/components/common/DashboardTipMessage/DashboardTipMessage';
 import { TextData } from '@features/Das/texts';
 import { useDasStore } from '@features/Das/store/dasStore.ts';
@@ -16,7 +16,6 @@ import type { DasData } from '@features/Das/types/data.types.ts';
 import { useTablePaginationAndSort } from '@/hooks/useTablePaginationAndSort.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
-import { AccessPlaceholder } from '@components/common/AccessPlaceholder';
 
 export const DasTable: React.FC = () => {
   const [showHelpInfo, setShowHelpInfo] = useState(false);

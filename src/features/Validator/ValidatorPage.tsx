@@ -1,12 +1,9 @@
-import { CrFeatureLayout } from '@components/common/CrFeatureLayout';
-import { CrHeader } from '@core/core-ui';
+import { CrFeatureLayout, CrHeader, Markdown, CrMessage } from '@core/core-ui';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import validatorData from './texts';
-import { CrMessage } from '@components/common/CrMessage/CrMessage.tsx';
-import { Markdown } from '@core/core-ui';
 import info from '@/assets/icons/info.svg';
 import "./styles.css"
 import MyRepository from '@features/Validator/MyReposiyory/MyRepository.tsx';

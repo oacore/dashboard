@@ -12,7 +12,7 @@ import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { useArticleData } from '@hooks/useArticleData.ts';
 import { getScrollConfig } from '@hooks/useScrollView.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
-import { AccessPlaceholder } from '@components/common/AccessPlaceholder';
+import { AccessPlaceholder } from '@core/core-ui';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
 
 export const OtherOrcidTable: React.FC = () => {

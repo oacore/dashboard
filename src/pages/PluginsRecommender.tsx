@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDocumentTitle } from '@hooks/useDocumentTitle';
-import { CrFeatureLayout } from '@components/common/CrFeatureLayout';
+import { CrFeatureLayout } from '@core/core-ui';
 import { PluginDetailCard } from '@features/Plugins/components';
 
 export const PluginsRecommenderPage: React.FC = () => {

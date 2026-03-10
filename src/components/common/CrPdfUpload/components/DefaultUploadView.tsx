@@ -1,8 +1,7 @@
 import React from 'react'
-import { Button, Typography, Spin } from 'antd'
+import { Button, Typography, Spin, Upload } from 'antd'
 import { FileTextOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd/es/upload'
-import { Upload } from 'antd'
 import upload from "@/assets/icons/upload.svg"
 import type { UploadTexts } from '../CrPdfUpload'
 

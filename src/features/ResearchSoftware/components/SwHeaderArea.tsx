@@ -2,10 +2,8 @@ import { useCallback, useRef } from 'react'
 import { WarningFilled } from '@ant-design/icons'
 import { Radio, Switch } from 'antd'
 
-import { CrInput } from '@core/core-ui'
-import { CrHeader } from '@core/core-ui';
+import { CrInput, CrHeader, Markdown } from '@core/core-ui'
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore'
-import { Markdown } from '@core/core-ui';
 
 import { TextData } from '@features/ResearchSoftware/texts'
 import '@features/ResearchSoftware/style.css'

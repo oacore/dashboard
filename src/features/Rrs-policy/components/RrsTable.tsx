@@ -10,13 +10,12 @@ import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import type { RrsData } from '@features/Rrs-policy/types/data.types.ts';
 import { createColumns } from '@features/Rrs-policy/components/tableColumns.tsx';
 import { actions } from '@features/Rrs-policy/components/tableActions.tsx';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper, AccessPlaceholder } from '@core/core-ui';
 import DashboardTipMessage from '@/components/common/DashboardTipMessage/DashboardTipMessage';
 import { TextData } from '@features/Rrs-policy/texts';
 import { useTablePaginationAndSort } from '@/hooks/useTablePaginationAndSort.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
-import { AccessPlaceholder } from '@components/common/AccessPlaceholder';
 
 export const RrsTable: React.FC = () => {
   const [showHelpInfo, setShowHelpInfo] = useState(false);

@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Select, Modal, Button } from 'antd';
 import classNames from 'classnames';
-import { CrPaper } from '@core/core-ui';
-import { Markdown } from '@core/core-ui';
+import { CrPaper, Markdown } from '@core/core-ui';
 import { useLicencing } from '../hooks/useLicencing';
 import notificationText from '@features/Settings/texts';
 import '../styles.css';

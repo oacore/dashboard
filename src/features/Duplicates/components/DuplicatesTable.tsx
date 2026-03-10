@@ -1,11 +1,9 @@
 import React, { useState, useMemo, } from 'react';
 import DashboardTipMessage from '@components/common/DashboardTipMessage/DashboardTipMessage.tsx';
 import { TextData } from '@features/Duplicates/texts';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper, Markdown, CrMessage, AccessPlaceholder } from '@core/core-ui';
 import '../styles.css';
-import { CrMessage } from '@components/common/CrMessage/CrMessage.tsx';
 import info from '@/assets/icons/info.svg';
-import { Markdown } from '@core/core-ui';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';
 import type { DuplicateData } from '@features/Duplicates/types/data.types.ts';
 import { getScrollConfig } from '@hooks/useScrollView.ts';
@@ -13,7 +11,6 @@ import { createColumns, getCustomSorters } from '@features/Duplicates/components
 import { useTablePaginationAndSort } from '@/hooks/useTablePaginationAndSort.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
-import { AccessPlaceholder } from '@components/common/AccessPlaceholder';
 
 interface DeduplicationTableProps {
   count: number;

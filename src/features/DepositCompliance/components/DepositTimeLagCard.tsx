@@ -1,8 +1,7 @@
-import { Markdown } from '@core/core-ui';
+import { Markdown, CrPaper } from '@core/core-ui';
 import { TimeLagChart } from './TimeLagChart';
 import { TextData } from '../texts';
 import type { DepositTimeLagItem } from '../hooks/useDepositTimeLag';
-import { CrPaper } from '@core/core-ui';
 
 interface DepositTimeLagCardProps {
   timeLagData: DepositTimeLagItem[];

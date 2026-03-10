@@ -8,7 +8,7 @@ import { TextData } from '@features/Duplicates/texts';
 import BurgerMenu from '@/assets/icons/burgerMenu.svg';
 import gamePad from '@/assets/icons/gamepad.svg';
 import '../styles.css';
-import { CrMessage } from '@components/common/CrMessage/CrMessage.tsx';
+import { CrMessage } from '@core/core-ui';
 
 interface InnerTableHeaderProps {
     onClick: () => void;

@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import { CrTable } from '@/components/common/CrTable/CrTable.tsx';
 import { CrDrawer } from '@/components/common/CrDrawer/CrDrawer.tsx';
-import type { ReusableTableColumn } from '@/components/common/CrTable/types.ts';
-import type { DrawerConfig } from '@/components/common/CrTable/types.ts';
+import type { ReusableTableColumn, DrawerConfig } from '@/components/common/CrTable/types.ts';
 import type { ArticleAdditionalData } from '@/hooks/useArticleData.ts';
 import { EyeInvisibleFilled, EyeFilled } from '@ant-design/icons';
 import { formatDate } from '@/utils/helpers.ts';

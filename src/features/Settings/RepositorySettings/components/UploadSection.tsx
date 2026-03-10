@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
-import { CrPaper } from '@core/core-ui';
-import {Markdown} from '@core/core-ui';
+import { CrPaper, Markdown } from '@core/core-ui';
 import { LogoUpload } from './Upload.tsx';
 import { useUpdateLogo } from '@features/Settings/RepositorySettings/hooks/useUpdateLogo.ts';
 import notificationText from '@features/Settings/texts';
