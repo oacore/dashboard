@@ -1,5 +1,5 @@
 # Build stage
-# IMPORTANT: Build context must be the parent directory containing BOTH dashboard and @dashboard
+# IMPORTANT: Build context must be the parent directory containing BOTH dashboard and core-ui
 # Run: cd <parent-of-dashboard> && docker build -f dashboard/Dockerfile -t dashboard .
 #
 # Expected structure in context:
@@ -7,6 +7,7 @@
 #   ├── dashboard/
 #   └── @dashboard/
 #       └── core-ui/
+#   (ln creates ../core-ui for file:../core-ui resolution)
 #
 FROM node:20-alpine AS builder
 
@@ -28,8 +29,11 @@ ENV VITE_API_KEY=$API_KEY
 
 WORKDIR /app
 
-# Copy entire context (must include dashboard/ and @dashboard/core-ui/)
+# Copy entire context (must include dashboard/ and @dashboard/core-ui/, or core-ui/)
 COPY . .
+
+# Ensure file:../core-ui resolves (dashboard expects sibling core-ui)
+RUN ln -sf @dashboard/core-ui core-ui 2>/dev/null || true
 
 # Build core-ui first (dashboard depends on it via path alias)
 WORKDIR /app/@dashboard/core-ui

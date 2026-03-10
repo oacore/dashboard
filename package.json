@@ -1,6 +1,9 @@
 {
   "name": "dashboard-test-structure",
   "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": ["@core/core-ui"]
+  },
   "version": "0.0.0",
   "type": "module",
   "engines": {
