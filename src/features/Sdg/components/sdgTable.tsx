@@ -69,7 +69,6 @@ export const SdgTable = ({ outputCount, sdgTableData, hasMore, loadMore, isLoadi
     },
   };
 
-  console.log(isStartingPlan, "isStartingPlan")
 
   return (
     <CrPaper>
