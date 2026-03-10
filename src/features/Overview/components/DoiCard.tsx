@@ -4,8 +4,7 @@ import PerformanceChart from '@features/indexing/components/PerformanceChart.tsx
 import { valueOrDefault, getPercent, formatNumber, patchValue } from '@/utils/helpers.ts';
 import { articleTemplateData } from '@features/Doi/texts';
 import type { DiffStatisticsProps, ChartItem } from '../types.ts';
-import { Markdown } from '@core/core-ui';
-import InfoTooltip from '@components/common/InfoTooltip';
+import { Markdown, InfoTooltip } from '@core/core-ui';
 import { useDashboardRoute } from '@hooks/useDashboardRoute';
 import '../styles.css';
 

@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import NumericValue from '@/components/common/NumericValue/NumericValue';
 import PerformanceChart from './PerformanceChart';
 import '../styles.css';
-import InfoTooltip from '@components/common/InfoTooltip';
+import { InfoTooltip } from '@core/core-ui';
 import React from 'react';
 
 interface ChartValue {

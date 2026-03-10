@@ -6,7 +6,7 @@ import { valueOrDefault, getPercent, formatNumber } from '@/utils/helpers.ts';
 import { TextData as OrcidTextData } from '@features/Orcid/texts';
 import type { OrcidCardProps, DiffStatisticsProps, ChartItem } from '../types.ts';
 import '../styles.css';
-import InfoTooltip from '@components/common/InfoTooltip';
+import { InfoTooltip } from '@core/core-ui';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useDashboardRoute } from '@hooks/useDashboardRoute';

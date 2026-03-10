@@ -1,6 +1,6 @@
 import texts from '../texts';
 import type { IssuesAggregation, IssueMessage } from '@features/indexing/types';
-import { CrIssuesDisplay } from '@/components/common/CrIssues/CrIssues';
+import { CrIssuesDisplay } from '@core/core-ui';
 import { IssuesList } from './IssuesList';
 import { useIssuesAggregation } from '../hooks/useIssuesAggregation';
 import { useMemo } from 'react';

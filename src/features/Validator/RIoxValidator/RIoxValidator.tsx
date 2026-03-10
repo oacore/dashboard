@@ -3,7 +3,7 @@ import { IssueCard } from '../cards/IssueCard.tsx'
 import validatorData from "../texts"
 import type { RioxValidatorProps } from '../types';
 import "../styles.css"
-import {CrIssuesDisplay} from '@components/common/CrIssues/CrIssues.tsx';
+import { CrIssuesDisplay } from '@core/core-ui';
 
 const RioxValidator: React.FC<RioxValidatorProps> = ({
   handleValidateClick,

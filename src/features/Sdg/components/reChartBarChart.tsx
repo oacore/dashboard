@@ -9,6 +9,7 @@ import {
   LabelList,
   ResponsiveContainer,
 } from 'recharts'
+import type { TooltipContentProps } from 'recharts'
 import "../styles.css"
 
 import { formatNumber } from '@utils/helpers.ts';
@@ -32,18 +33,6 @@ interface ReChartBarChartProps {
   toggle: boolean;
 }
 
-interface TooltipPayload {
-  value: number;
-  color: string;
-  name: string;
-  dataKey: string;
-}
-
-interface TooltipProps {
-  payload?: readonly TooltipPayload[];
-  label?: string | number;
-}
-
 const ReChartBarChart = ({
   sdgTypes,
   updatedSdgTypes,
@@ -62,7 +51,8 @@ const ReChartBarChart = ({
     return formatNumber(value);
   };
 
-  const renderTooltip = ({ payload, label }: TooltipProps) => {
+  const renderTooltip = (props: TooltipContentProps) => {
+    const { payload, label } = props;
     if (!payload || !payload.length) return null;
 
     const countMetadata = statistics?.countMetadata || 1;
@@ -72,12 +62,13 @@ const ReChartBarChart = ({
         <p>{label}</p>
         {payload.map((entry, index) => {
           const { value, color, name } = entry;
+          const numValue = typeof value === 'number' ? value : 0;
           if (toggle) {
             const firstPercentage = (
-              (value / countMetadata) *
+              (numValue / countMetadata) *
               100
             ).toFixed(2);
-            const secondPercentage = ((value / totalOutputCount) * 100).toFixed(
+            const secondPercentage = ((numValue / totalOutputCount) * 100).toFixed(
               2
             );
             return (
@@ -91,7 +82,7 @@ const ReChartBarChart = ({
           }
           return (
             <p key={`item-${index}`} style={{ color }}>
-              {name}: {formatNumber(value)}
+              {name}: {formatNumber(numValue)}
             </p>
           );
         })}
