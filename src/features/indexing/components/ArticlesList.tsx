@@ -8,6 +8,7 @@ import { formatDate } from '@/utils/helpers.ts';
 import classNames from 'classnames';
 import '../styles.css';
 import { getScrollConfig } from '@hooks/useScrollView.ts';
+import { downloadCsv } from '@/utils/downloadUtils.ts';
 
 interface Issue {
     id: string;
@@ -34,6 +35,7 @@ interface IssueWithArticles {
 
 interface ArticlesListProps {
     issuesList: IssueWithArticles | null;
+    downloadUrl?: string;
     fetchData: () => void;
     onSetActiveArticle: (id: string) => void;
     activeArticle: Issue['output'] | null;
@@ -149,6 +151,7 @@ const createColumns = (): ReusableTableColumn<Issue>[] => [
 
 export const ArticlesList: React.FC<ArticlesListProps> = ({
     issuesList,
+    downloadUrl,
     fetchData,
     onSetActiveArticle,
     activeArticle,
@@ -195,6 +198,7 @@ export const ArticlesList: React.FC<ArticlesListProps> = ({
                 columns={columns}
                 loading={isInitialLoading}
                 drawer={drawerConfig}
+                onDownloadCsv={downloadUrl ? () => downloadCsv(downloadUrl, 'issues') : undefined}
                 showLoadMore={hasMore}
                 onLoadMore={fetchData}
                 loadMoreText="Load more"

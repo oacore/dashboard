@@ -129,6 +129,7 @@ export const TypeCard: React.FC<TypeCardProps> = ({
                 <ArticlesList
                     fetchData={loadMoreArticles}
                     issuesList={articles}
+                    downloadUrl={issuesList?.downloadUrl}
                     loading={articlesLoading}
                     activeArticle={activeArticle}
                     onSetActiveArticle={onSetActiveArticle}
