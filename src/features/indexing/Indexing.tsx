@@ -28,6 +28,7 @@ export const IndexingFeature = () => {
     <div className="indexing-feature-wrapper">
       <div className="harvesting-header-wrapper">
         <BaseHarvestingCard
+          className="indexing-card"
           value={
             harvestingError ? (
               <div className="harvesting-errors-wrapper">
@@ -57,6 +58,7 @@ export const IndexingFeature = () => {
           )}
         </BaseHarvestingCard>
         <BaseHarvestingCard
+          className="indexing-card"
           value={
             statisticsError ? (
               <div className="harvesting-errors-wrapper">
