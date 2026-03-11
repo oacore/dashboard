@@ -26,9 +26,9 @@ export function CrTableActions<T extends TableActionRecord>(): ActionItem<T>[] {
             key: 'repo',
             label: 'Open in the repository',
             onClick: (record: T) => {
-                if (record.oai) {
-                    const baseUrl = import.meta.env.VITE_IDP_URL || 'https://api-dev.core.ac.uk';
-                    window.open(`${baseUrl}/oai/${record.oai}`, '_blank');
+                const idpUrl = import.meta.env.VITE_IDP_URL;
+                if (record.oai && idpUrl) {
+                    window.open(`${idpUrl}/oai/${record.oai}`, '_blank');
                 }
             },
         },

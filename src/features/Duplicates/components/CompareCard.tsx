@@ -146,8 +146,8 @@ export const CompareCard: React.FC<CompareCardProps> = ({
     };
 
     const handleRepositoryRedirect = (oaiId?: string) => {
-        if (!oaiId) return;
-        const idpUrl = import.meta.env.VITE_IDP_URL || 'https://api-dev.core.ac.uk';
+        const idpUrl = import.meta.env.VITE_IDP_URL;
+        if (!oaiId || !idpUrl) return;
         window.open(`${idpUrl}/oai/${oaiId}`, '_blank');
     };
 

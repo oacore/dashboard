@@ -7,7 +7,7 @@ import { Markdown } from '@core/core-ui';
 import '../styles.css';
 import validatorData from "../../Validator/texts";
 
-const RIOXX_SPEC_URL = 'https://www.rioxx.net/profiles/v2-0-rc-2/';
+const RIOXX_SPEC_URL = 'https://rioxx.net/profiles/v3-0-final/';
 
 const PercentageChart = ({
     compliantCount,

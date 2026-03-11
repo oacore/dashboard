@@ -27,8 +27,10 @@ export const InnerTableHeader: React.FC<InnerTableHeaderProps> = ({
             return;
         }
         if (key === 'outputUrl' && rowData.oai) {
-            const idpUrl = import.meta.env.VITE_IDP_URL || 'https://api-dev.core.ac.uk';
-            window.open(`${idpUrl}/oai/${rowData.oai}`, '_blank');
+            const idpUrl = import.meta.env.VITE_IDP_URL;
+            if (idpUrl) {
+                window.open(`${idpUrl}/oai/${rowData.oai}`, '_blank');
+            }
         }
     };
 
