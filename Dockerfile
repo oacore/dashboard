@@ -18,7 +18,8 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml .npmrc ./
 
-RUN corepack enable pnpm && pnpm install --frozen-lockfile
+RUN --mount=type=secret,id=GITHUB_TOKEN \
+    sh -ec 'echo "//npm.pkg.github.com/:_authToken=$(cat /run/secrets/GITHUB_TOKEN)" >> .npmrc && corepack enable pnpm && pnpm install --frozen-lockfile'
 
 COPY . .
 
