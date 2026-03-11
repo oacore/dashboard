@@ -218,14 +218,15 @@ body {
   background-color: rgba(0, 0, 0, 0.0392156862745098);
 }
 
-.dashboard-sider-menu .ant-menu-submenu-selected .ant-menu-submenu-title {
-  color: #fff;
-  background-color: #b75400;
+/* Parent submenu should NOT appear selected when a child is selected - only the child item gets active styling */
+.dashboard-sider-menu .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  color: #424242;
+  background-color: transparent;
 }
 
-.dashboard-sider-menu .ant-menu-submenu-selected .ant-menu-submenu-title:hover {
-  color: #fff;
-  background-color: #b75400;
+.dashboard-sider-menu .ant-menu-submenu-selected > .ant-menu-submenu-title:hover {
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.0392156862745098);
 }
 
 /* Submenu Icon Styles */
@@ -238,12 +239,13 @@ body {
   filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
 }
 
-.dashboard-sider-menu .ant-menu-submenu-selected .ant-menu-submenu-title img {
-  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+/* Parent submenu icon - keep default (non-selected) appearance when only child is selected */
+.dashboard-sider-menu .ant-menu-submenu-selected > .ant-menu-submenu-title img {
+  filter: brightness(0) saturate(100%) invert(47%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
 }
 
-.dashboard-sider-menu .ant-menu-submenu-selected .ant-menu-submenu-title:hover img {
-  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+.dashboard-sider-menu .ant-menu-submenu-selected > .ant-menu-submenu-title:hover img {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
 }
 
 .dashboard-content-layout {
