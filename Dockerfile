@@ -6,6 +6,7 @@ ARG VITE_APP_NAME=CORE Dashboard
 ARG VITE_API_URL=https://api.core.ac.uk
 ARG VITE_IDP_URL=https://api.core.ac.uk
 ARG API_KEY
+ARG NPM_TOKEN
 
 ENV NODE_ENV=$NODE_ENV
 ENV VITE_APP_API_BASE_URL=$VITE_APP_API_BASE_URL
@@ -16,10 +17,14 @@ ENV VITE_API_KEY=$API_KEY
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml ./
 
-RUN --mount=type=secret,id=GITHUB_TOKEN \
-    sh -ec 'echo "//npm.pkg.github.com/:_authToken=$(cat /run/secrets/GITHUB_TOKEN)" >> .npmrc && corepack enable pnpm && pnpm install --frozen-lockfile'
+RUN set -eux; \
+    echo "@oacore:registry=https://npm.pkg.github.com" > .npmrc; \
+    echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> .npmrc; \
+    corepack enable pnpm; \
+    pnpm install --frozen-lockfile; \
+    rm -f .npmrc
 
 COPY . .
 
@@ -39,5 +44,4 @@ RUN echo 'server { \
 }' > /etc/nginx/conf.d/default.conf
 
 EXPOSE 8080
-
 CMD ["nginx", "-g", "daemon off;"]
