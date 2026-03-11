@@ -11,7 +11,7 @@ import { patchValueFull, formatDate } from '@utils/helpers.ts';
 import infoIcon from '@/assets/icons/info.svg';
 import './styles.css';
 import { TypesList } from '@features/indexing/components/TypesList.tsx';
-import { Markdown } from '@core/core-ui';
+import { Markdown } from '@oacore/core-ui';
 
 export const IndexingFeature = () => {
   const { selectedDataProvider, selectedSetSpec } = useDataProviderStore();

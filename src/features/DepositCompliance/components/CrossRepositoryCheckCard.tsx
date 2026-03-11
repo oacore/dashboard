@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Button } from 'antd';
-import { CrPaper, InfoTooltip } from '@core/core-ui';
+import { CrPaper, InfoTooltip } from '@oacore/core-ui';
 import { formatNumber } from '@utils/helpers';
 import type { CrossDepositLagData } from '../hooks/useCrossDepositLag';
 import { TextData } from '../texts';

@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import classNames from 'classnames';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper } from '@oacore/core-ui';
 import "../styles.css"
 
 export interface AccessUserItem {

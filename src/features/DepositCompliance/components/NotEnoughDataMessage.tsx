@@ -1,6 +1,6 @@
 import { WarningOutlined } from '@ant-design/icons';
 import '../styles.css';
-import { Markdown, CrMessage } from '@core/core-ui';
+import { Markdown, CrMessage } from '@oacore/core-ui';
 import { TextData } from '../texts';
 
 export const NotEnoughDataMessage = () => (

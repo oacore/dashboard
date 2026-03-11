@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { CrTable } from '@/components/common/CrTable/CrTable.tsx';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper } from '@oacore/core-ui';
 import { getScrollConfig } from '@hooks/useScrollView.ts';
 import type { ContentData } from '@features/Content/types/data.types.ts';
 import { createColumns } from '@features/Content/components/tableColumns.tsx';

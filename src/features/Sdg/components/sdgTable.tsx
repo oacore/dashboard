@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { CrPaper, AccessPlaceholder } from '@core/core-ui';
+import { CrPaper, AccessPlaceholder } from '@oacore/core-ui';
 import { formatNumber } from '@utils/helpers.ts';
 import { TextData } from '@features/Sdg/texts';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';

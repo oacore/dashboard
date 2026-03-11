@@ -1,7 +1,7 @@
 import React, { useState, useMemo, } from 'react';
 import DashboardTipMessage from '@components/common/DashboardTipMessage/DashboardTipMessage.tsx';
 import { TextData } from '@features/Duplicates/texts';
-import { CrPaper, Markdown, CrMessage, AccessPlaceholder } from '@core/core-ui';
+import { CrPaper, Markdown, CrMessage, AccessPlaceholder } from '@oacore/core-ui';
 import '../styles.css';
 import info from '@/assets/icons/info.svg';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';

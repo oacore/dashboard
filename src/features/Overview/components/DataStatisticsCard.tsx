@@ -1,6 +1,6 @@
 import { Card, Button } from 'antd';
 import classNames from 'classnames';
-import { Markdown, InfoTooltip } from '@core/core-ui';
+import { Markdown, InfoTooltip } from '@oacore/core-ui';
 import NumericValue from '@/components/common/NumericValue/NumericValue.tsx';
 import FullTextsProgressChart from '@features/indexing/components/FullTextsProgressChart';
 import { valueOrDefault, formatDate } from '@/utils/helpers.ts';

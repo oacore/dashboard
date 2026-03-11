@@ -23,7 +23,7 @@ import { useDepositTimeLag } from '@features/DepositCompliance/hooks/useDepositT
 import { useComplianceLevel } from '@features/DepositCompliance/hooks/useComplianceLevel';
 import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus.ts';
 import placeholder from '@/assets/icons/chartPlaceholder.svg';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper } from '@oacore/core-ui';
 import { Button, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 

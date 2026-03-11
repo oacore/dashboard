@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Form, Switch, Button, message } from 'antd';
 import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
-import { CrPaper, CrInput, Markdown } from '@core/core-ui';
+import { CrPaper, CrInput, Markdown } from '@oacore/core-ui';
 import { useOaiMapping } from '../hooks/useOaiMapping';
 import notificationText from '@features/Settings/texts';
 import '../styles.css';

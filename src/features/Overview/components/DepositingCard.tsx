@@ -2,7 +2,7 @@ import { Card, Button, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { TimeLagChart } from '@features/DepositCompliance/components/TimeLagChart';
 import { RegionAlert } from '@features/DepositCompliance/components/RegionAlert';
-import { Markdown, InfoTooltip } from '@core/core-ui';
+import { Markdown, InfoTooltip } from '@oacore/core-ui';
 import { TextData } from '../texts';
 import type { DepositTimeLagItem } from '@features/DepositCompliance/hooks/useDepositTimeLag';
 import { useDashboardRoute } from '@hooks/useDashboardRoute';

@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-declare module '@core/core-ui/styles';
+declare module '@oacore/core-ui/styles';
 
 interface ImportMetaEnv {
     readonly MODE: 'development' | 'production' | 'local'

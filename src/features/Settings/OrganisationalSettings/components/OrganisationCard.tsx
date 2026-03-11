@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { Form, Button } from 'antd';
 import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
-import { CrPaper, CrInput, Markdown } from '@core/core-ui';
+import { CrPaper, CrInput, Markdown } from  '@oacore/core-ui';
 import { ExclamationCircleOutlined, DeleteFilled } from '@ant-design/icons';
 import '../styles.css';
 import notificationText from '@features/Settings/texts';

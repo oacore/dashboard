@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { Markdown } from '@core/core-ui';
+import { Markdown } from '@oacore/core-ui';
 
 interface ActionModalProps {
     title: string;

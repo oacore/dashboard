@@ -5,7 +5,7 @@ import { usePublicReleaseDatesStore } from '../store/publicReleaseDatesStore';
 import { useDownloadPublicReleaseDatesCsv } from '../hooks/useDownloadPublicReleaseDatesCsv';
 import type { PublicReleaseDatesItem } from '../store/publicReleaseDatesStore';
 import { createColumns } from './tableColumns';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper } from '@oacore/core-ui';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 import type { SidebarConfig } from '@/components/common/CrTable/types.ts';

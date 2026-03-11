@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Button } from 'antd';
-import { Markdown } from '@core/core-ui';
+import { Markdown } from '@oacore/core-ui';
 import './styles.css';
 
 interface TextBoxProps {

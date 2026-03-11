@@ -12,7 +12,7 @@ import { CrDrawer } from '@components/common/CrDrawer/CrDrawer.tsx';
 import { useArticleData } from '@hooks/useArticleData.ts';
 import { getScrollConfig } from '@hooks/useScrollView.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
-import { AccessPlaceholder } from '@core/core-ui';
+import { AccessPlaceholder } from '@oacore/core-ui';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
 
 export const BasicOrcidTable: React.FC = () => {

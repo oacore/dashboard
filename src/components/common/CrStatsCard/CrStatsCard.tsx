@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Button, Skeleton, Spin } from 'antd'
-import { InfoTooltip } from '@core/core-ui';
+import { InfoTooltip } from '@oacore/core-ui';
 import "./styles.css"
 import classNames from 'classnames';
 import { valueOrDefault, formatNumber } from '@/utils/helpers';

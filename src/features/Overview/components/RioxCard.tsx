@@ -3,7 +3,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import type { PercentageChartProps, ContentProps, RioxCardProps } from '../types';
 import { formatNumber } from '@/utils/helpers.ts';
-import { Markdown } from '@core/core-ui';
+import { Markdown } from '@oacore/core-ui';
 import '../styles.css';
 import validatorData from "../../Validator/texts";
 

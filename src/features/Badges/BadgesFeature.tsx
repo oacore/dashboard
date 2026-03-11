@@ -2,7 +2,7 @@ import { useBadgesData } from './hooks/useBadgesData';
 import { BadgeRow } from './components/BadgeRow';
 import './style.css';
 import {useRef} from "react";
-import { CrPaper } from '@core/core-ui';
+import { CrPaper } from '@oacore/core-ui';
 
 
 export function BadgesFeature() {

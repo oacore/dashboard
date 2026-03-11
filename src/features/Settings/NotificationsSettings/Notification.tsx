@@ -1,5 +1,5 @@
 import { NotificationCard } from '@features/Settings/NotificationsSettings/components/NotificationCard.tsx';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper } from '@oacore/core-ui';
 import notificationText from '@features/Settings/texts';
 import classNames from 'classnames';
 import notification from '@/assets/icons/notification.svg';

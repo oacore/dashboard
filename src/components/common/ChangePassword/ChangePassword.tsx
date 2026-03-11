@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Form, Button } from 'antd';
-import { CrInput, CrPaper } from '@core/core-ui';
+import { CrInput, CrPaper } from '@oacore/core-ui';
 import { useChangePassword } from './hooks/useChangePassword';
 import './styles.css';
 

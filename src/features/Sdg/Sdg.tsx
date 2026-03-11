@@ -1,4 +1,4 @@
-import { CrHeader, CrFeatureLayout } from '@core/core-ui';
+import { CrHeader, CrFeatureLayout } from '@oacore/core-ui';
 import { TextData } from '@features/Sdg/texts';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { useState, useEffect } from 'react';

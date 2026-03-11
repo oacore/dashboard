@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'antd';
-import { InfoTooltip } from '@core/core-ui';
+import { InfoTooltip } from '@oacore/core-ui';
 import {
     DefaultUploadView,
     SuccessUploadView,

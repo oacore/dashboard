@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { CrPaper } from '@core/core-ui';
+import { CrPaper } from '@oacore/core-ui';
 import type { DuplicateData } from '@features/Duplicates/types/data.types.ts';
 import { InnerTableHeader } from './InnerTableHeader.tsx';
 import { InnerTable, type InnerTableItem } from './InnerTable.tsx';

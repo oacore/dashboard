@@ -4,7 +4,7 @@ import { Carousel, Button, Tooltip } from 'antd';
 import type { CarouselRef } from 'antd/es/carousel';
 import { EyeOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { CrMessage, Markdown, InfoTooltip } from '@core/core-ui';
+import { CrMessage, Markdown, InfoTooltip } from '@oacore/core-ui';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { useWorkData } from '@features/Duplicates/hooks/useWorkData.ts';
 import { useMultipleOutputs } from '@features/Duplicates/hooks/useMultipleOutputs.ts';

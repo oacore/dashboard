@@ -1,5 +1,5 @@
 import React from 'react';
-import { CrFeatureLayout } from '@core/core-ui';
+import { CrFeatureLayout } from '@oacore/core-ui';
 import { PluginCard } from './components';
 import type { PluginType } from './components';
 import { texts } from './texts';

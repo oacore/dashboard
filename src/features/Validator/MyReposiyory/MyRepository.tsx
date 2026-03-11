@@ -1,7 +1,7 @@
 import "../styles.css"
 import validatorData from '../texts';
 import ComplianceCard from '@features/Validator/cards/ComplianceCard.tsx';
-import { Markdown, InfoTooltip } from '@core/core-ui';
+import { Markdown, InfoTooltip } from '@oacore/core-ui';
 
 const MyRepository = () => (
   <>

@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Button, Input, Spin } from 'antd';
 import {DeleteFilled, DownOutlined, LoadingOutlined} from '@ant-design/icons';
 import classNames from 'classnames';
-import { CrPaper, Markdown } from '@core/core-ui';
+import { CrPaper, Markdown } from '@oacore/core-ui';
 import notificationText from '@features/Settings/texts';
 import { useSets, type SetItem } from '../hooks/useSets';
 import '../styles.css';

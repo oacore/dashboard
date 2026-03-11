@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useRequestResetToken} from '@hooks/useRequestResetToken.ts';
 import "./styles.css"
 import { Card, Form, Button, Alert } from 'antd';
-import { CrInput } from '@core/core-ui';
+import { CrInput } from '@oacore/core-ui';
 export const ResetFeature= () => {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const { requestResetToken, isLoading } = useRequestResetToken();

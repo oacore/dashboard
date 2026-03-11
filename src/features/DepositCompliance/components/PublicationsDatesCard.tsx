@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CrPaper, InfoTooltip } from '@core/core-ui';
+import { CrPaper, InfoTooltip } from '@oacore/core-ui';
 import { formatNumber } from '@utils/helpers';
 import { TextData } from '../texts';
 import '../styles.css';

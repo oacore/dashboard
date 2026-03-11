@@ -5,7 +5,7 @@ import { DocumentationMembership } from '@components/common/CrDocumentation/Docu
 import { DocumentationMembershipNav, type TextData } from '@components/common/CrDocumentationNav/DocumentationMembershipNav.tsx';
 import type { DocumentationItem, Tutorial } from '@components/common/CrDocumentation/DocumentationMembership.tsx';
 import './styles.css';
-import { CrPaper, CrDocumentToggler, Markdown } from '@core/core-ui';
+import { CrPaper, CrDocumentToggler, Markdown } from '@oacore/core-ui';
 
 
 // Types

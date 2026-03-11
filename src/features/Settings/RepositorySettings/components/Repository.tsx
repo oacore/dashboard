@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from 'antd';
 import { ExclamationCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { CrPaper, CrInput, Markdown } from '@core/core-ui';
+import { CrPaper, CrInput, Markdown } from '@oacore/core-ui';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 import { useRorSuggestions } from '@features/Settings/OrganisationalSettings/hooks/useRorSuggestions';

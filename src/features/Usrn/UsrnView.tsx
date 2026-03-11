@@ -10,7 +10,7 @@ import { useDoiStatistics } from '@features/Doi/hooks/useDoiStatistics';
 import { useIrusStats } from '@/hooks/useIrusStats';
 import { formatReportDate } from './utils/formatReportDate';
 import './style.css';
-import { CrHeader, CrPaper, CrFeatureLayout } from '@core/core-ui';
+import { CrHeader, CrPaper, CrFeatureLayout } from '@oacore/core-ui';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 
 // SHOW which part has issues
