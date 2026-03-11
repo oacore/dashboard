@@ -1,13 +1,10 @@
-# Build stage
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 
 ARG NODE_ENV=production
-# API URL - defaults to dev API for staging; override for prod
 ARG VITE_APP_API_BASE_URL=https://api-dev.core.ac.uk
 ARG VITE_APP_NAME=CORE Dashboard
 ARG VITE_API_URL=https://api.core.ac.uk
 ARG VITE_IDP_URL=https://api.core.ac.uk
-# API key for /v3/ endpoints - passed from CI secrets.API_KEY
 ARG API_KEY
 
 ENV NODE_ENV=$NODE_ENV
@@ -19,20 +16,18 @@ ENV VITE_API_KEY=$API_KEY
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 
 RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build
 
-# Serve stage
 FROM nginx:alpine
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# SPA fallback: serve index.html for client-side routing
 RUN echo 'server { \
     listen 8080; \
     root /usr/share/nginx/html; \
