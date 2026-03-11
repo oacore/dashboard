@@ -1,4 +1,4 @@
-import { CrFeatureLayout, CrHeader, CrPaper, AccessPlaceholder, CrDateRangePicker } from '@core/core-ui';
+import { CrFeatureLayout, CrHeader, CrPaper, AccessPlaceholder } from '@core/core-ui';
 import { TextData } from '@features/DepositCompliance/texts';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { DepositTimeLagCard } from './components/DepositTimeLagCard';
@@ -23,6 +23,7 @@ import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData';
 import { usePublicReleaseDatesStore } from '@features/DepositCompliance/store/publicReleaseDatesStore.ts';
 import { useDownloadPublicReleaseDatesCsv } from '@features/DepositCompliance/hooks/useDownloadPublicReleaseDatesCsv';
 import { useDownloadCrossDepositLagCsv } from '@features/DepositCompliance/hooks/useDownloadCrossDepositLagCsv';
+import {CrDateRangePicker} from '@components/common/CrDatePicker/CrDatePicker.tsx';
 
 export const DepositComplianceFeature = () => {
   const { organisation } = useOrganisation();

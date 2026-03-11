@@ -1,4 +1,4 @@
-import { CrHeader, CrFeatureLayout, CrDateRangePicker } from '@core/core-ui';
+import { CrHeader, CrFeatureLayout } from '@core/core-ui';
 import { TextData } from '@features/Sdg/texts';
 import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { useState, useEffect } from 'react';
@@ -15,6 +15,7 @@ import { useSdgTableStore } from '@features/Sdg/store/sdgStore.ts';
 import { Popover } from 'antd';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
+import {CrDateRangePicker} from '@components/common/CrDatePicker/CrDatePicker.tsx';
 
 export const SdgFeature = () => {
   const [toggle, setToggle] = useState(false)
