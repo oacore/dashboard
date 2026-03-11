@@ -1,7 +1,5 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import {downloadCsv} from '@utils/downloadUtils.ts';
-import {useDataProviderStore} from '@/store/dataProviderStore.ts';
 
 interface DasStoreState {
     dasList: never[];
@@ -19,7 +17,6 @@ interface DasActions {
   setSortField: (field: string | null) => void;
   setSortOrder: (order: 'asc' | 'desc' | null) => void;
   setSelectedArticleId: (id: string | null) => void;
-  downloadCsv: () => void;
 }
 
 type DasStore = DasStoreState & DasActions;
@@ -54,13 +51,6 @@ export const useDasStore = create<DasStore>()(
 
           setSelectedArticleId: (id: string | null) => {
             set({ selectedArticleId: id });
-          },
-          downloadCsv: () => {
-            const { selectedDataProvider } = useDataProviderStore.getState();
-
-            const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
-            const csvUrl = `${baseUrl}/internal/data-providers/${selectedDataProvider?.id}/data-access?accept=text/csv`;
-            downloadCsv(csvUrl, 'das');
           },
         }),
         {

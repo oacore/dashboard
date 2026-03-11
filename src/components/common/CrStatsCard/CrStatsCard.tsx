@@ -28,6 +28,7 @@ interface CrStatsCardProps {
   wholeWidthCard?: boolean
   isStartingPlan?: boolean
   onActionClick?: (() => void) | false
+  actionLoading?: boolean
   tempDisabled?: React.ReactNode | false
   error?: Error | null
   icon?: React.ReactNode
@@ -58,6 +59,7 @@ export const CrStatsCard: React.FC<CrStatsCardProps> = ({
   countClassName,
   wholeWidthCard,
   onActionClick = false,
+  actionLoading = false,
   tempDisabled = false,
   error = null,
   icon,
@@ -199,6 +201,7 @@ export const CrStatsCard: React.FC<CrStatsCardProps> = ({
               type="primary"
               onClick={onActionClick || undefined}
               href={actionHref}
+              loading={actionLoading}
               className="footer-button"
             >
               {actionText}

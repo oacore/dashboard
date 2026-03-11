@@ -1,7 +1,5 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { downloadCsv } from '@utils/downloadUtils.ts';
-import { useDataProviderStore } from '@/store/dataProviderStore';
 
 interface SdgActions {
     setSearchTerm: (term: string) => void;
@@ -10,7 +8,6 @@ interface SdgActions {
     handleSort: (field: string, order: 'asc' | 'desc' | null) => void;
     setSelectedArticleId: (id: string | null) => void;
     setDateRange: (startDate: string, endDate: string) => void;
-    downloadCsv: (endpoint: string) => void;
     setIsGeneratingReport: (isLoading: boolean) => void;
     setReportGenerationError: (error: string | null) => void;
     setLastGeneratedReportId: (dataProviderId: number | null) => void;
@@ -28,7 +25,6 @@ export interface SdgStoreState {
         startDate: string;
         endDate: string;
     };
-    isDownloading: boolean;
     isGeneratingReport: boolean;
     reportGenerationError: string | null;
     lastGeneratedReportId: number | null;
@@ -48,7 +44,6 @@ export const useSdgTableStore = create<SdgStore>()(
                 startDate: '2012',
                 endDate: String(new Date().getFullYear()),
             },
-            isDownloading: false,
             isGeneratingReport: false,
             reportGenerationError: null,
             lastGeneratedReportId: null,
@@ -84,20 +79,6 @@ export const useSdgTableStore = create<SdgStore>()(
                         endDate,
                     },
                 });
-            },
-
-            downloadCsv: (endpoint: string) => {
-                const { selectedDataProvider } = useDataProviderStore.getState();
-
-                if (!selectedDataProvider?.id) {
-                    console.error('No data provider selected');
-                    return;
-                }
-
-                const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
-                const csvUrl = `${baseUrl}/internal/data-providers/${selectedDataProvider.id}${endpoint}`;
-
-                downloadCsv(csvUrl, 'sdg-data');
             },
 
             setIsGeneratingReport: (isLoading: boolean) => {

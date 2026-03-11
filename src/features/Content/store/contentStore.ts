@@ -1,14 +1,11 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { downloadCsv } from '@utils/downloadUtils.ts';
-import { useDataProviderStore } from '@/store/dataProviderStore';
 import type { ContentData } from '@features/Content/types/data.types';
 
 interface ContentActions {
   setSearchTerm: (term: string) => void;
   setSortField: (field: string | null) => void;
   setSortOrder: (order: 'asc' | 'desc' | null) => void;
-  downloadCsv: () => void;
   resetPagination: () => void;
   handleSort: (field: string, order: 'asc' | 'desc' | null) => void;
   setCurrentPage: (page: number) => void;
@@ -26,7 +23,6 @@ export interface ContentStoreState {
   searchTerm: string;
   sortField: string | null;
   sortOrder: 'asc' | 'desc' | null;
-  isDownloading: boolean;
   currentPage: number;
   allData: ContentData[];
   totalLength: number;
@@ -46,7 +42,6 @@ export const useContentTableStore = create<ContentStore>()(
       searchTerm: '',
       sortField: 'lastUpdate',
       sortOrder: 'desc',
-      isDownloading: false,
       currentPage: 0,
       allData: [],
       totalLength: 0,
@@ -139,20 +134,6 @@ export const useContentTableStore = create<ContentStore>()(
           lastSortField: sortField,
           lastSortOrder: sortOrder
         });
-      },
-
-      downloadCsv: () => {
-        const { selectedDataProvider } = useDataProviderStore.getState();
-
-        if (!selectedDataProvider?.id) {
-          console.error('No data provider selected');
-          return;
-        }
-
-        const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
-        const csvUrl = `${baseUrl}/internal/data-providers/${selectedDataProvider.id}/works?accept=text/csv`;
-
-        downloadCsv(csvUrl, 'content-data');
       },
 
       updateWorkVisibility: (id: string, disabled: boolean) => {

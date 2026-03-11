@@ -1,7 +1,5 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { downloadCsv } from '@utils/downloadUtils.ts';
-import { useDataProviderStore } from '@/store/dataProviderStore';
 
 interface DuplicatesStoreState {
     duplicatesList: unknown[];
@@ -17,7 +15,6 @@ interface DuplicatesActions {
     setSortField: (field: string | null) => void;
     setSortOrder: (order: 'asc' | 'desc' | null) => void;
     setSelectedArticleId: (id: string | null) => void;
-    downloadCsv: () => void;
 }
 
 type DuplicatesStore = DuplicatesStoreState & DuplicatesActions;
@@ -51,14 +48,6 @@ export const useDuplicatesStore = create<DuplicatesStore>()(
 
             setSelectedArticleId: (id: string | null) => {
                 set({ selectedArticleId: id });
-            },
-
-            downloadCsv: () => {
-                const { selectedDataProvider } = useDataProviderStore.getState();
-
-                const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
-                const csvUrl = `${baseUrl}/internal/data-providers/${selectedDataProvider?.id}/duplicates?accept=text/csv`;
-                downloadCsv(csvUrl, 'duplicates');
             },
         }),
         {

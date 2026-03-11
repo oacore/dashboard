@@ -6,6 +6,7 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 import { TextData } from '@features/ResearchSoftware/texts';
 import useSwTableData from '@features/ResearchSoftware/hooks/useSwTableData';
 import { useSwStore } from '@features/ResearchSoftware/store/swStore';
+import { useDownloadSwCsv } from '@features/ResearchSoftware/hooks/useDownloadSwCsv';
 import type { SwCounts, SwTab } from '@features/ResearchSoftware/types/sw.types';
 import { SwHeaderArea } from '@features/ResearchSoftware/components/SwHeaderArea'
 
@@ -25,6 +26,7 @@ const UI_ACTIVE_TAB: SwTab = 'ready';
 export const SwFeature = () => {
   const { selectedDataProvider } = useDataProviderStore();
   const { activeTab, setActiveTab, searchTerm, resetOnPageEnter } = useSwStore();
+  const { downloadCsv, isLoading: isDownloadingCsv } = useDownloadSwCsv();
   const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
@@ -77,11 +79,13 @@ export const SwFeature = () => {
               hasMore={isActive ? hasMore : false}
               loadMore={isActive ? loadMore : undefined}
               isLoadingMore={isActive ? isLoadingMore : false}
+              downloadCsv={downloadCsv}
+              downloadCsvLoading={isDownloadingCsv}
             />
           ),
         };
       }),
-    [tabsConfig, rows, counts, isLoading, hasMore, loadMore, isLoadingMore]
+    [tabsConfig, rows, counts, isLoading, hasMore, loadMore, isLoadingMore, downloadCsv, isDownloadingCsv]
   );
 
   const handleTabChange = (tabKey: string) => {

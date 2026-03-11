@@ -18,6 +18,7 @@ interface DeduplicationTableProps {
   isLoading: boolean;
   error: unknown;
   downloadCsv: () => void;
+  downloadCsvLoading?: boolean;
   onRowClick?: (record: DuplicateData) => void;
 }
 
@@ -27,6 +28,7 @@ export const DeduplicationTable: React.FC<DeduplicationTableProps> = ({
   isLoading,
   error,
   downloadCsv,
+  downloadCsvLoading = false,
   onRowClick
 }) => {
   const [showHelpInfo, setShowHelpInfo] = useState(false);
@@ -83,6 +85,7 @@ export const DeduplicationTable: React.FC<DeduplicationTableProps> = ({
           sortable={!isStartingPlan}
           onSort={handleSort}
           onDownloadCsv={downloadCsv}
+          downloadCsvLoading={downloadCsvLoading}
           showLoadMore={!isStartingPlan && hasMore}
           onLoadMore={handleLoadMore}
           loadMoreText="Show more"

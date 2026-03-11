@@ -1,12 +1,9 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { useDataProviderStore } from '@/store/dataProviderStore';
-import { downloadCsv as downloadCsvUtil } from '@utils/downloadUtils';
 
 interface DoiActions {
     setSearchTerm: (term: string) => void;
     resetOnPageEnter: () => void;
-    downloadCsv: () => void;
 }
 
 export interface DoiStoreState {
@@ -23,13 +20,6 @@ export const useDoiStore = create<DoiStore>()(
             setSearchTerm: (searchTerm) => set({ searchTerm }),
 
             resetOnPageEnter: () => set({ searchTerm: '' }),
-
-            downloadCsv: () => {
-                const { selectedDataProvider } = useDataProviderStore.getState();
-                const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
-                const csvUrl = `${baseUrl}/internal/data-providers/${selectedDataProvider?.id}/doi?accept=text/csv`;
-                downloadCsvUtil(csvUrl, 'doi-csv');
-            },
         }),
         { name: 'doi-store' }
     )

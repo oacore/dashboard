@@ -21,6 +21,7 @@ export interface CrFooterProps {
     onDownloadCsv?: () => void;
     onLoadMore?: () => void;
     loadMoreLoading?: boolean;
+    downloadCsvLoading?: boolean;
 }
 
 export const CrFooter = ({
@@ -35,6 +36,7 @@ export const CrFooter = ({
     onDownloadCsv,
     onLoadMore,
     loadMoreLoading = false,
+    downloadCsvLoading = false,
 }: CrFooterProps) => {
     if (!showFooter && !showLoadMore) return null;
 
@@ -42,16 +44,18 @@ export const CrFooter = ({
         <Row className="footer-container">
             {showFooter && (
                 <div className="footer-wrapper">
-                    <Col className="footer-download-col">
-                        <Button
-                            type="primary"
-                            onClick={onDownloadCsv}
-                            loading={false}
-                            className="footer-download-btn"
-                        >
-                            Download CSV
-                        </Button>
-                    </Col>
+                    {onDownloadCsv && (
+                        <Col className="footer-download-col">
+                            <Button
+                                type="primary"
+                                onClick={onDownloadCsv}
+                                loading={downloadCsvLoading}
+                                className="footer-download-btn"
+                            >
+                                Download CSV
+                            </Button>
+                        </Col>
+                    )}
                     <div className="inner-footer-wrapper">
                         <Col className="footer-text-col">
                             <Text className="footer-text">

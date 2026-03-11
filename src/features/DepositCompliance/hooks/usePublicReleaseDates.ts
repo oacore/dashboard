@@ -5,10 +5,6 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useDepositDatesStore } from '../store/depositDatesStore';
 import { usePublicReleaseDatesStore, type PublicReleaseDatesItem } from '../store/publicReleaseDatesStore';
 
-const extractDatePart = (dateTimeString: string): string => {
-  return dateTimeString.split(' ')[0];
-};
-
 const buildPublicReleaseDatesUrl = (
   dataProviderId: number,
   from: number,
@@ -36,8 +32,8 @@ const buildPublicReleaseDatesUrl = (
   }
 
   if (startDate && endDate) {
-    params.append('fromDate', extractDatePart(startDate));
-    params.append('toDate', extractDatePart(endDate));
+    params.append('fromDate', startDate);
+    params.append('toDate', endDate);
   }
 
   if (setSpec) {

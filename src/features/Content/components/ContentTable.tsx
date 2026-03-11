@@ -6,6 +6,7 @@ import type { ContentData } from '@features/Content/types/data.types.ts';
 import { createColumns } from '@features/Content/components/tableColumns.tsx';
 import type { SidebarConfig } from '@/components/common/CrTable/types.ts';
 import { useContentTableStore } from '@features/Content/store/contentStore';
+import { useDownloadContentCsv } from '@features/Content/hooks/useDownloadContentCsv';
 
 import "../styles.css"
 import {ContentSider} from '@features/Content/components/ContentSider.tsx';
@@ -18,7 +19,6 @@ interface ContentTableProps {
   searchPlaceholder?: string;
   onSearch?: (term: string) => void;
   searchValue?: string;
-  onDownloadCsv?: () => void;
   showLoadMore?: boolean;
   onLoadMore?: () => void;
   loadMoreText?: string;
@@ -37,7 +37,6 @@ export const ContentTable: React.FC<ContentTableProps> = ({
   searchPlaceholder = "Search content...",
   onSearch,
   searchValue,
-  onDownloadCsv,
   showLoadMore = false,
   onLoadMore,
   loadMoreText = "Show more",
@@ -50,6 +49,7 @@ export const ContentTable: React.FC<ContentTableProps> = ({
 
 
   const { allData } = useContentTableStore();
+  const { downloadCsv, isLoading: isDownloadingCsv } = useDownloadContentCsv();
 
   const columns = useMemo(() => createColumns(), []);
 
@@ -88,7 +88,8 @@ export const ContentTable: React.FC<ContentTableProps> = ({
           defaultSortField={defaultSortField || undefined} // Initial field: 'lastUpdate'
           defaultSortOrder={defaultSortOrder || undefined} // Initial order: 'desc'
           sidebar={sidebarConfig}
-          onDownloadCsv={onDownloadCsv}
+          onDownloadCsv={downloadCsv}
+          downloadCsvLoading={isDownloadingCsv}
           showLoadMore={showLoadMore}
           onLoadMore={onLoadMore}
           loadMoreText={loadMoreText}

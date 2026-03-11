@@ -1,7 +1,5 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import {downloadCsv} from '@utils/downloadUtils.ts';
-import {useDataProviderStore} from '@/store/dataProviderStore.ts';
 
 interface RrsStoreState {
     rrsList: never[];
@@ -19,7 +17,6 @@ interface RrsActions {
   setSortField: (field: string | null) => void;
   setSortOrder: (order: 'asc' | 'desc' | null) => void;
   setSelectedArticleId: (id: string | null) => void;
-  downloadCsv: () => void;
 }
 
 type RrsStore = RrsStoreState & RrsActions;
@@ -54,13 +51,6 @@ export const useRrsStore = create<RrsStore>()(
 
           setSelectedArticleId: (id: string | null) => {
             set({ selectedArticleId: id });
-          },
-          downloadCsv: () => {
-            const { selectedDataProvider } = useDataProviderStore.getState();
-
-            const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
-            const csvUrl = `${baseUrl}/internal/data-providers/${selectedDataProvider?.id}/rights-retention?accept=text/csv`;
-            downloadCsv(csvUrl, 'rights-retention');
           },
         }),
         {

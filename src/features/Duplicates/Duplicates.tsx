@@ -4,7 +4,7 @@ import { TextData } from '@features/Duplicates/texts';
 import { useDuplicatesData } from '@features/Duplicates/hooks/useDuplicatesData';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
-import { useDuplicatesStore } from '@features/Duplicates/store/duplicatesStore.ts';
+import { useDownloadDuplicatesCsv } from '@features/Duplicates/hooks/useDownloadDuplicatesCsv';
 import { useState } from 'react';
 import type { DuplicateData } from '@features/Duplicates/types/data.types.ts';
 import "./styles.css"
@@ -36,7 +36,7 @@ export const DeduplicationFeature = () => {
 
   const { isStartingPlan } = useBillingPlanData(data, organisation);
 
-  const { downloadCsv } = useDuplicatesStore();
+  const { downloadCsv, isLoading: isDownloadingCsv } = useDownloadDuplicatesCsv();
 
   const handleRowClick = (record: DuplicateData) => {
     setSelectedRow(record);
@@ -93,6 +93,7 @@ export const DeduplicationFeature = () => {
           actionText={TextData.info.action}
           infoText={TextData.info.info}
           onActionClick={downloadCsv}
+          actionLoading={isDownloadingCsv}
           showInfo
           isStartingPlan={isStartingPlan}
         />
@@ -109,6 +110,7 @@ export const DeduplicationFeature = () => {
           isLoading={isLoading}
           error={error}
           downloadCsv={downloadCsv}
+          downloadCsvLoading={isDownloadingCsv}
           onRowClick={handleRowClick}
         />
       )}

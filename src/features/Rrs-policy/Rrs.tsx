@@ -8,16 +8,14 @@ import { RrsTable } from '@features/Rrs-policy/components/RrsTable.tsx';
 import { CrPdfUpload } from '@components/common/CrPdfUpload/CrPdfUpload.tsx';
 import { usePdfUpload } from '@/hooks/usePdfUpload';
 import "./styles.css"
-import { useRrsStore } from '@features/Rrs-policy/store/rrsStore.ts';
+import { useDownloadRrsCsv } from '@features/Rrs-policy/hooks/useDownloadRrsCsv';
 import {useBillingPlanData} from '@features/Orcid/hooks/useBillingPlanData.ts';
 import {useOrganisation} from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 
 export const RrsFeature = () => {
   const { selectedDataProvider } = useDataProviderStore();
   const { organisation } = useOrganisation();
-  const {
-    downloadCsv,
-  } = useRrsStore();
+  const { downloadCsv, isLoading: isDownloadingCsv } = useDownloadRrsCsv();
 
   const {
     data,
@@ -61,6 +59,7 @@ export const RrsFeature = () => {
           error={error}
           actionText={TextData.statsCard.action}
           onActionClick={downloadCsv}
+          actionLoading={isDownloadingCsv}
           isStartingPlan={isStartingPlan}
         />
         <CrStatsCard
@@ -89,7 +88,10 @@ export const RrsFeature = () => {
           texts={TextData.upload}
         />
       </CrCardsWrapper>
-      <RrsTable />
+      <RrsTable
+        downloadCsv={downloadCsv}
+        downloadCsvLoading={isDownloadingCsv}
+      />
     </CrFeatureLayout>
   );
 };

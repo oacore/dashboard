@@ -108,6 +108,7 @@ export interface ReusableTableProps<T = unknown> {
     totalLength?: number;
     footerText?: (start: number, end: number, total: number) => string;
     onDownloadCsv?: () => void;
+    downloadCsvLoading?: boolean;
 
     // Table props
     size?: 'small' | 'middle' | 'large';

@@ -1,8 +1,5 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { downloadCsv } from '@utils/downloadUtils';
-import { useDataProviderStore } from '@/store/dataProviderStore';
-import { useDepositDatesStore } from './depositDatesStore';
 
 export interface PublicReleaseDatesItem {
   id: string;
@@ -13,10 +10,6 @@ export interface PublicReleaseDatesItem {
   publicationDateMatchingLevel?: 'full' | 'partial' | 'none';
   publicReleaseDate?: string;
 }
-
-const extractDatePart = (dateTimeString: string): string => {
-  return dateTimeString.split(' ')[0];
-};
 
 interface PublicReleaseDatesActions {
   setSearchTerm: (term: string) => void;
@@ -29,7 +22,6 @@ interface PublicReleaseDatesActions {
   setIsLoadingMore: (loading: boolean) => void;
   resetDataState: () => void;
   resetOnPageEnter: () => void;
-  downloadCsv: () => void;
 }
 
 export interface PublicReleaseDatesStoreState {
@@ -108,31 +100,6 @@ export const usePublicReleaseDatesStore = create<PublicReleaseDatesStore>()(
           allData: [],
           isLoadingMore: false,
         });
-      },
-
-      downloadCsv: () => {
-        const { selectedDataProvider } = useDataProviderStore.getState();
-        const { dateRange } = useDepositDatesStore.getState();
-
-        if (!selectedDataProvider?.id) {
-          console.error('No data provider selected');
-          return;
-        }
-
-        const baseUrl = import.meta.env.VITE_APP_API_BASE_URL || '';
-        const endpoint = `/internal/data-providers/${selectedDataProvider.id}/public-release-dates`;
-        const params = new URLSearchParams({
-          wait: 'true',
-          accept: 'text/csv',
-        });
-
-        if (dateRange.startDate && dateRange.endDate) {
-          params.append('fromDate', extractDatePart(dateRange.startDate));
-          params.append('toDate', extractDatePart(dateRange.endDate));
-        }
-
-        const csvUrl = `${baseUrl}${endpoint}?${params.toString()}`;
-        downloadCsv(csvUrl, 'public-release-dates');
       },
     }),
     {

@@ -10,21 +10,24 @@ import { actions } from '@features/Das/components/tableActions.tsx';
 import { CrPaper, AccessPlaceholder } from '@core/core-ui';
 import DashboardTipMessage from '@/components/common/DashboardTipMessage/DashboardTipMessage';
 import { TextData } from '@features/Das/texts';
-import { useDasStore } from '@features/Das/store/dasStore.ts';
+import { useDasStore } from '@features/Das/store/dasStore';
 import { useDasData } from '@features/Das/hooks/useDasData.ts';
 import type { DasData } from '@features/Das/types/data.types.ts';
 import { useTablePaginationAndSort } from '@/hooks/useTablePaginationAndSort.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
 
-export const DasTable: React.FC = () => {
-  const [showHelpInfo, setShowHelpInfo] = useState(false);
+interface DasTableProps {
+  downloadCsv: () => void;
+  downloadCsvLoading?: boolean;
+}
 
-  const {
-    downloadCsv,
-    selectedArticleId,
-    setSelectedArticleId,
-  } = useDasStore();
+export const DasTable: React.FC<DasTableProps> = ({
+  downloadCsv,
+  downloadCsvLoading = false,
+}) => {
+  const [showHelpInfo, setShowHelpInfo] = useState(false);
+  const { selectedArticleId, setSelectedArticleId } = useDasStore();
 
   const { selectedDataProvider } = useDataProviderStore();
   const { organisation } = useOrganisation();
@@ -111,6 +114,7 @@ export const DasTable: React.FC = () => {
           onSort={handleSort}
           drawer={drawerConfig}
           onDownloadCsv={downloadCsv}
+          downloadCsvLoading={downloadCsvLoading}
           showLoadMore={!isStartingPlan && hasMore}
           onLoadMore={handleLoadMore}
           loadMoreText="Show more"

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from 'antd';
 import classNames from 'classnames';
 import { useIssues } from '../hooks/useIssues';
+import { useDownloadIssuesCsv } from '../hooks/useDownloadIssuesCsv';
 import { useIssuesPages, type Pages } from '../hooks/useIssuesPages';
 import texts from '../texts';
 import { WarningFilled, WechatFilled } from '@ant-design/icons';
@@ -34,6 +35,8 @@ export const TypeCard: React.FC<TypeCardProps> = ({
 }) => {
     const [visibleList, setVisibleList] = useState(false);
     const pages = useIssuesPages(issuesList?.type, count);
+    const { downloadCsv, isLoading: isDownloadingCsv } =
+        useDownloadIssuesCsv(issuesList?.type);
     const {
         loading: articlesLoading,
         onReset,
@@ -108,7 +111,12 @@ export const TypeCard: React.FC<TypeCardProps> = ({
                 {count !== 1 && (
                     <div className="type-card-actions">
                         {issuesList?.downloadUrl && (
-                            <Button className="issue-button" type="primary" href={issuesList.downloadUrl}>
+                            <Button
+                                className="issue-button"
+                                type="primary"
+                                onClick={downloadCsv}
+                                loading={isDownloadingCsv}
+                            >
                                 {texts.issues['download-action']}
                             </Button>
                         )}
@@ -129,7 +137,6 @@ export const TypeCard: React.FC<TypeCardProps> = ({
                 <ArticlesList
                     fetchData={loadMoreArticles}
                     issuesList={articles}
-                    downloadUrl={issuesList?.downloadUrl}
                     loading={articlesLoading}
                     activeArticle={activeArticle}
                     onSetActiveArticle={onSetActiveArticle}

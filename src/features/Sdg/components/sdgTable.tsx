@@ -10,6 +10,7 @@ import '@features/Sdg/styles.css';
 import { useArticleData } from '@hooks/useArticleData.ts';
 import { CrDrawer } from '@components/common/CrDrawer/CrDrawer.tsx';
 import { useSdgTableStore } from '@features/Sdg/store/sdgStore.ts';
+import { useDownloadSdgCsv } from '@features/Sdg/hooks/useDownloadSdgCsv';
 import { createColumns } from '@features/Sdg/components/tableColumns.tsx';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
@@ -27,13 +28,13 @@ export const SdgTable = ({ outputCount, sdgTableData, hasMore, loadMore, isLoadi
   const {
     searchTerm,
     setSearchTerm,
-    downloadCsv,
     selectedArticleId,
     setSelectedArticleId,
     sortField,
     sortOrder,
     handleSort,
   } = useSdgTableStore();
+  const { downloadCsv, isLoading: isDownloadingCsv } = useDownloadSdgCsv();
   const { organisation } = useOrganisation();
   const { isStartingPlan, displayData: billingPlanData } = useBillingPlanData(sdgTableData, organisation);
 
@@ -93,7 +94,8 @@ export const SdgTable = ({ outputCount, sdgTableData, hasMore, loadMore, isLoadi
           defaultSortField={sortField || undefined}
           defaultSortOrder={sortOrder || undefined}
           drawer={drawerConfig}
-          onDownloadCsv={() => downloadCsv('/sdg?accept=text/csv')}
+          onDownloadCsv={downloadCsv}
+          downloadCsvLoading={isDownloadingCsv}
           showLoadMore={!isStartingPlan && hasMore}
           onLoadMore={loadMore}
           loadMoreText="Show more"

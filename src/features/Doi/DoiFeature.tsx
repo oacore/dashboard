@@ -4,6 +4,7 @@ import { useDoiStatistics } from '@/features/Doi/hooks/useDoiStatistics';
 import { useDataProviderStatistics } from '@/hooks/useDataProviderStatistics';
 import { DoiTable } from '@features/Doi/components/DoiTable';
 import { useDoiStore } from '@features/Doi/store/doiStore';
+import { useDownloadDoiCsv } from '@features/Doi/hooks/useDownloadDoiCsv';
 import { CrFeatureLayout } from '@core/core-ui';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
@@ -17,7 +18,8 @@ const TABS = Object.fromEntries(
 ) as Record<string, (typeof articleTemplateData.tabs)[0]>;
 
 export const DoiFeature = () => {
-    const { searchTerm, setSearchTerm, downloadCsv, resetOnPageEnter } = useDoiStore();
+    const { searchTerm, setSearchTerm, resetOnPageEnter } = useDoiStore();
+    const { downloadCsv, isLoading: isDownloadingCsv } = useDownloadDoiCsv();
 
     useEffect(() => {
         resetOnPageEnter();
@@ -96,6 +98,7 @@ export const DoiFeature = () => {
                 isLoading={doiLoading}
                 error={doiError}
                 downloadCsv={downloadCsv}
+                downloadCsvLoading={isDownloadingCsv}
             />
         </CrFeatureLayout>
     );

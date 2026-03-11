@@ -1,7 +1,5 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { downloadCsv } from '@utils/downloadUtils'
-import { useDataProviderStore } from '@/store/dataProviderStore'
 import type { SwRow, SwTab } from '../types/sw.types'
 
 interface SwActions {
@@ -12,7 +10,6 @@ interface SwActions {
     setSelectedArticleId: (id: string | null) => void
 
     setActiveTab: (tab: SwTab) => void
-    downloadCsv: () => void
 
     setSelectedRow: (row: SwRow | null) => void
     setSidebarOpen: (open: boolean) => void
@@ -28,7 +25,6 @@ export interface SwStoreState {
     sortOrder: 'asc' | 'desc' | null
     selectedArticleId: string | null
     activeTab: SwTab
-    isDownloading: boolean
 
     selectedRow: SwRow | null
     isSidebarOpen: boolean
@@ -59,7 +55,6 @@ export const useSwStore = create<SwStore>()(
             sortOrder: null,
             selectedArticleId: null,
             activeTab: 'ready',
-            isDownloading: false,
 
             selectedRow: null,
             isSidebarOpen: false,
@@ -101,14 +96,6 @@ export const useSwStore = create<SwStore>()(
                     isSidebarOpen: false,
                     dateRange: getDefaultDateRange(),
                 }),
-
-            downloadCsv: () => {
-                const { selectedDataProvider } = useDataProviderStore.getState()
-
-                const baseUrl = import.meta.env.VITE_APP_API_BASE_URL
-                const csvUrl = `${baseUrl}/internal/data-providers/${selectedDataProvider?.id}/sw-mentions?accept=text/csv`
-                downloadCsv(csvUrl, 'sw-data')
-            },
         }),
         { name: 'sw-table-store' }
     )

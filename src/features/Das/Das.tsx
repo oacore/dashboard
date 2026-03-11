@@ -7,16 +7,14 @@ import { CrPdfUpload } from '@components/common/CrPdfUpload/CrPdfUpload.tsx';
 import { usePdfUpload } from '@/hooks/usePdfUpload';
 import "./styles.css"
 import { DasTable } from '@features/Das/components/DasTable.tsx';
-import { useDasStore } from '@features/Das/store/dasStore.ts';
+import { useDownloadDasCsv } from '@features/Das/hooks/useDownloadDasCsv';
 import { useDasData } from '@features/Das/hooks/useDasData.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 
 export const DasFeature = () => {
   const { selectedDataProvider } = useDataProviderStore();
-  const {
-    downloadCsv,
-  } = useDasStore();
+  const { downloadCsv, isLoading: isDownloadingCsv } = useDownloadDasCsv();
   const { organisation } = useOrganisation();
 
   const {
@@ -61,6 +59,7 @@ export const DasFeature = () => {
           error={error}
           actionText={TextData.statsCard.action}
           onActionClick={downloadCsv}
+          actionLoading={isDownloadingCsv}
           isStartingPlan={isStartingPlan}
         />
         <CrStatsCard
@@ -89,7 +88,10 @@ export const DasFeature = () => {
           texts={TextData.upload}
         />
       </CrCardsWrapper>
-      <DasTable />
+      <DasTable
+        downloadCsv={downloadCsv}
+        downloadCsvLoading={isDownloadingCsv}
+      />
     </CrFeatureLayout>
   );
 };

@@ -5,6 +5,7 @@ import { createColumns } from '@features/Orcid/components/tableColumns.tsx';
 import { actions } from '@features/Orcid/components/tableActions.tsx';
 import { useBasicOrcidData, useOrcidStats } from '@features/Orcid/hooks/useOrcidData.ts';
 import { useOrcidTableStore } from '@features/Orcid/store/orcidStore.ts';
+import { useDownloadOrcidBasicCsv } from '@features/Orcid/hooks/useDownloadOrcidBasicCsv';
 import type { DrawerConfig } from '@/components/common/CrTable/types.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { CrDrawer } from '@components/common/CrDrawer/CrDrawer.tsx';
@@ -19,10 +20,10 @@ export const BasicOrcidTable: React.FC = () => {
     const {
         searchTerm,
         setSearchTerm,
-        downloadCsv,
         selectedArticleId,
         setSelectedArticleId,
     } = useOrcidTableStore();
+    const { downloadCsv, isLoading: isDownloadingCsv } = useDownloadOrcidBasicCsv();
 
     const { selectedDataProvider } = useDataProviderStore();
     const { organisation } = useOrganisation();
@@ -85,7 +86,8 @@ export const BasicOrcidTable: React.FC = () => {
                 onSearch={setSearchTerm}
                 searchValue={searchTerm}
                 drawer={drawerConfig}
-                onDownloadCsv={() => downloadCsv('/orcid/basic?accept=text/csv')}
+                onDownloadCsv={downloadCsv}
+                downloadCsvLoading={isDownloadingCsv}
                 showLoadMore={!isStartingPlan}
                 onLoadMore={loadMore}
                 loadMoreText="Show more"

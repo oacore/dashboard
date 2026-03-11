@@ -11,7 +11,7 @@ import { useDuplicatesData } from '@features/Duplicates/hooks/useDuplicatesData.
 import { useOrcidStats } from '@features/Orcid/hooks/useOrcidData.ts';
 import { useDataProviderStatistics } from '@hooks/useDataProviderStatistics.ts';
 import { useDoiStatistics } from '@features/Doi/hooks/useDoiStatistics.ts';
-import { useOrcidTableStore } from '@features/Orcid/store/orcidStore.ts';
+import { useDownloadOrcidBasicCsv } from '@features/Orcid/hooks/useDownloadOrcidBasicCsv';
 import { DoiCard } from '@features/Overview/components/DoiCard.tsx';
 import { OrcidCard } from '@features/Overview/components/OrcidCard.tsx';
 import { SdgCard } from '@features/Overview/components/SdgCard.tsx';
@@ -31,7 +31,7 @@ export const OverviewFeature = () => {
 
   const { selectedDataProvider, selectedSetSpec } = useDataProviderStore();
   const { buildPath } = useDashboardRoute();
-  const { downloadCsv } = useOrcidTableStore();
+  const { downloadCsv, isLoading: isDownloadingOrcidCsv } = useDownloadOrcidBasicCsv();
 
   const {
     data: duplicatesData,
@@ -185,7 +185,8 @@ export const OverviewFeature = () => {
           stats.fromOtherRepositories
         }
         outputsCount={statistics?.countMetadata ?? 0}
-        onDownloadCsv={() => downloadCsv('/orcid/basic?accept=text/csv')}
+        onDownloadCsv={downloadCsv}
+        downloadCsvLoading={isDownloadingOrcidCsv}
         error={orcidError}
       />
       <CrStatsCard

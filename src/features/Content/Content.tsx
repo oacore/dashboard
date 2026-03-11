@@ -3,19 +3,16 @@ import { ContentTable } from '@features/Content/components/ContentTable.tsx';
 import { useWorksListData } from '@features/Content/hooks/useWorksData';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useContentTableStore } from '@features/Content/store/contentStore';
-
 export const ContentFeature = () => {
   const { selectedDataProvider } = useDataProviderStore();
   const {
     searchTerm,
     setSearchTerm,
     resetOnPageEnter,
-    downloadCsv,
     sortField,
     sortOrder,
     handleSort,
   } = useContentTableStore();
-
   useEffect(() => {
     return () => {
       resetOnPageEnter()
@@ -47,7 +44,6 @@ export const ContentFeature = () => {
       searchPlaceholder="Search by title, OAI, authors..."
       onSearch={setSearchTerm}
       searchValue={searchTerm}
-      onDownloadCsv={downloadCsv}
       showLoadMore={hasMore}
       onLoadMore={loadMore}
       loadMoreText="Show more"

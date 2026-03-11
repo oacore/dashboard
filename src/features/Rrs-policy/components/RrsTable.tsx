@@ -17,14 +17,17 @@ import { useTablePaginationAndSort } from '@/hooks/useTablePaginationAndSort.ts'
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
 
-export const RrsTable: React.FC = () => {
-  const [showHelpInfo, setShowHelpInfo] = useState(false);
+interface RrsTableProps {
+  downloadCsv: () => void;
+  downloadCsvLoading?: boolean;
+}
 
-  const {
-    downloadCsv,
-    selectedArticleId,
-    setSelectedArticleId,
-  } = useRrsStore();
+export const RrsTable: React.FC<RrsTableProps> = ({
+  downloadCsv,
+  downloadCsvLoading = false,
+}) => {
+  const [showHelpInfo, setShowHelpInfo] = useState(false);
+  const { selectedArticleId, setSelectedArticleId } = useRrsStore();
 
   const { selectedDataProvider } = useDataProviderStore();
   const { organisation } = useOrganisation();
@@ -111,6 +114,7 @@ export const RrsTable: React.FC = () => {
           onSort={handleSort}
           drawer={drawerConfig}
           onDownloadCsv={downloadCsv}
+          downloadCsvLoading={downloadCsvLoading}
           showLoadMore={!isStartingPlan && hasMore}
           onLoadMore={handleLoadMore}
           loadMoreText="Show more"

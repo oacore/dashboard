@@ -15,6 +15,7 @@ interface DoiTableProps {
   isLoading: boolean;
   error: unknown;
   downloadCsv: () => void;
+  downloadCsvLoading?: boolean;
   onSearch?: (term: string) => void;
   searchValue?: string;
 }
@@ -24,6 +25,7 @@ export const DoiTable: React.FC<DoiTableProps> = ({
   isLoading,
   error,
   downloadCsv,
+  downloadCsvLoading = false,
   onSearch,
   searchValue,
 }) => {
@@ -67,6 +69,7 @@ export const DoiTable: React.FC<DoiTableProps> = ({
         sortable={!isStartingPlan}
         onSort={handleSort}
         onDownloadCsv={downloadCsv}
+        downloadCsvLoading={downloadCsvLoading}
         showLoadMore={!isStartingPlan && hasMore}
         onLoadMore={handleLoadMore}
         loadMoreText="Show more"

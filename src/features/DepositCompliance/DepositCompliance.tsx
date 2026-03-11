@@ -20,14 +20,19 @@ import { useEffect, useRef } from 'react';
 import { scrollToSection } from '@utils/helpers';
 import { PublicReleaseDatesTable } from './components/PublicReleaseDatesTable';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData';
-import {usePublicReleaseDatesStore} from '@features/DepositCompliance/store/publicReleaseDatesStore.ts';
+import { usePublicReleaseDatesStore } from '@features/DepositCompliance/store/publicReleaseDatesStore.ts';
+import { useDownloadPublicReleaseDatesCsv } from '@features/DepositCompliance/hooks/useDownloadPublicReleaseDatesCsv';
+import { useDownloadCrossDepositLagCsv } from '@features/DepositCompliance/hooks/useDownloadCrossDepositLagCsv';
 
 export const DepositComplianceFeature = () => {
   const { organisation } = useOrganisation();
+  const { resetOnPageEnter } = usePublicReleaseDatesStore();
+  const { downloadCsv, isLoading: isDownloadingPublicReleaseCsv } =
+    useDownloadPublicReleaseDatesCsv();
   const {
-    downloadCsv,
-    resetOnPageEnter,
-  } = usePublicReleaseDatesStore();
+    downloadCsv: downloadCrossDepositLagCsv,
+    isLoading: isDownloadingCrossDepositLagCsv,
+  } = useDownloadCrossDepositLagCsv();
   const { dateRange, setDateRange, resetDateRange } = useDepositDatesStore();
 
   useEffect(() => {
@@ -35,7 +40,7 @@ export const DepositComplianceFeature = () => {
     resetDateRange();
   }, [resetOnPageEnter, resetDateRange]);
   const { timeLagData, isLoading, error, isError } = useDepositTimeLag();
-  const { crossDepositLag, crossDepositLagCsvUrl, isLoading: isCrossDepositLagLoading, error: crossDepositLagError } = useCrossDepositLag();
+  const { crossDepositLag, isLoading: isCrossDepositLagLoading, error: crossDepositLagError } = useCrossDepositLag();
   const { publicationDatesValidate, error: publicationDatesError } = usePublicationDatesValidate();
   const { selectedDataProvider } = useDataProviderStore();
 
@@ -116,7 +121,11 @@ export const DepositComplianceFeature = () => {
                 >
                   {TextData.compliance.total.buttons.review}
                 </Button>
-                <Button onClick={downloadCsv} type="text">
+                <Button
+                  onClick={downloadCsv}
+                  loading={isDownloadingPublicReleaseCsv}
+                  type="text"
+                >
                   {TextData.compliance.total.buttons.download}
                 </Button>
               </div>
@@ -182,7 +191,8 @@ export const DepositComplianceFeature = () => {
         <div ref={crossRepositoryCheckRef} className="compliance-card-wrapper">
           <CrossRepositoryCheckCard
             crossDepositLag={crossDepositLag}
-            crossDepositLagCsvUrl={crossDepositLagCsvUrl}
+            onDownloadCsv={downloadCrossDepositLagCsv}
+            downloadCsvLoading={isDownloadingCrossDepositLagCsv}
             error={!!crossDepositLagError}
           />
           <PublicationsDatesCard

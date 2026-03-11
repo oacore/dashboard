@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { CrTable } from '@/components/common/CrTable/CrTable.tsx';
 import { usePublicReleaseDates } from '../hooks/usePublicReleaseDates';
 import { usePublicReleaseDatesStore } from '../store/publicReleaseDatesStore';
+import { useDownloadPublicReleaseDatesCsv } from '../hooks/useDownloadPublicReleaseDatesCsv';
 import type { PublicReleaseDatesItem } from '../store/publicReleaseDatesStore';
 import { createColumns } from './tableColumns';
 import { CrPaper } from '@core/core-ui';
@@ -35,8 +36,8 @@ export const PublicReleaseDatesTable: React.FC<PublicReleaseDatesTableProps> = (
     sortOrder,
     setSearchTerm,
     handleSort,
-    downloadCsv,
   } = usePublicReleaseDatesStore();
+  const { downloadCsv, isLoading: isDownloadingCsv } = useDownloadPublicReleaseDatesCsv();
 
   const columns = useMemo(() => createColumns(), []);
 
@@ -89,6 +90,7 @@ export const PublicReleaseDatesTable: React.FC<PublicReleaseDatesTableProps> = (
         defaultSortOrder={sortOrder || undefined}
         sidebar={sidebarConfig}
         onDownloadCsv={downloadCsv}
+        downloadCsvLoading={isDownloadingCsv}
         showLoadMore={!isStartingPlan && hasMore}
         scroll={getScrollConfig()}
         onLoadMore={loadMore}

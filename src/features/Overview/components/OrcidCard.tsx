@@ -52,6 +52,7 @@ export const OrcidCard = ({
   outputsCount,
   enrichmentSize,
   onDownloadCsv,
+  downloadCsvLoading = false,
   showInfo = false,
   error = null,
 }: OrcidCardProps) => {
@@ -145,6 +146,7 @@ export const OrcidCard = ({
                   className="doi-card-button"
                   type="primary"
                   onClick={onDownloadCsv}
+                  loading={downloadCsvLoading}
                   disabled={!onDownloadCsv}
                 >
                   {OrcidTextData.orcidCard.actions[1].title}

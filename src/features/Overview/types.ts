@@ -9,6 +9,7 @@ export type OrcidCardProps = {
     outputsCount: number;
     enrichmentSize: number;
     onDownloadCsv?: () => void;
+    downloadCsvLoading?: boolean;
     billingPlan?: BillingPlan;
     showInfo?: boolean;
     error?: Error | null;

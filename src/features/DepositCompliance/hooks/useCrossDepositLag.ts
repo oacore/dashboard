@@ -48,12 +48,6 @@ const buildCrossDepositLagUrl = (
   return createSWRKey(baseUrl, params);
 };
 
-const buildCrossDepositLagCsvUrl = (baseUrl: string): string => {
-  const apiUrl = import.meta.env.VITE_APP_API_BASE_URL || '';
-  const separator = baseUrl.includes('?') ? '&' : '?';
-  return `${apiUrl}${baseUrl}${separator}accept=text/csv`;
-};
-
 export const useCrossDepositLag = () => {
   const { selectedDataProvider, isLoaded, selectedSetSpec } = useDataProviderStore();
   const { dateRange } = useDepositDatesStore();
@@ -84,14 +78,11 @@ export const useCrossDepositLag = () => {
           const responseData: Partial<CrossDepositLagData> =
             status === 200 || status === 0 ? (response.data as Partial<CrossDepositLagData>) : {};
 
-          // Build CSV URL and check availability with HEAD request
+          // Check CSV availability with HEAD request
           let csvError: Error | null = null;
-          const csvUrl = buildCrossDepositLagCsvUrl(swrKey);
+          const csvPath = swrKey + (swrKey.includes('?') ? '&' : '?') + 'accept=text/csv';
 
           try {
-            // Extract path from full URL for API.head
-            const apiBaseUrl = import.meta.env.VITE_APP_API_BASE_URL || '';
-            const csvPath = csvUrl.replace(apiBaseUrl, '');
             await API.head(csvPath);
           } catch (err) {
             if (axios.isAxiosError(err)) {
@@ -135,14 +126,8 @@ export const useCrossDepositLag = () => {
     }
   );
 
-  const csvUrl = useMemo(() => {
-    if (!swrKey) return null;
-    return buildCrossDepositLagCsvUrl(swrKey);
-  }, [swrKey]);
-
   return {
     crossDepositLag: data || null,
-    crossDepositLagCsvUrl: csvUrl || null,
     isLoading,
     error,
     mutate,

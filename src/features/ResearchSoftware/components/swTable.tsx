@@ -17,6 +17,8 @@ interface SwTableProps {
     hasMore?: boolean;
     loadMore?: () => void;
     isLoadingMore?: boolean;
+    downloadCsv: () => void;
+    downloadCsvLoading?: boolean;
 }
 
 const getRowKey = (r: SwRow): string => `${r.articleId}-${r.oai}`;
@@ -25,8 +27,10 @@ export const SwTable = ({
     rows,
     loading,
     isLoadingMore,
+    downloadCsv,
+    downloadCsvLoading = false,
 }: SwTableProps) => {
-    const { searchTerm, setSearchTerm, sortField, sortOrder, handleSort, downloadCsv } = useSwStore();
+    const { searchTerm, setSearchTerm, sortField, sortOrder, handleSort } = useSwStore();
 
     const columns = useMemo(() => createSwColumns(), []);
 
@@ -64,6 +68,7 @@ export const SwTable = ({
                 defaultSortField={sortField || undefined}
                 defaultSortOrder={sortOrder || undefined}
                 onDownloadCsv={downloadCsv}
+                downloadCsvLoading={downloadCsvLoading}
                 showLoadMore={hasMore}
                 onLoadMore={handleLoadMore}
                 loadMoreText="Show more"

@@ -43,6 +43,7 @@ export const CrTable = <T = unknown>({
     footerText = (start: number, end: number, totalLength: number) =>
         `Showing ${start} - ${end} records of ${totalLength} records`,
     onDownloadCsv,
+    downloadCsvLoading = false,
     // Table props
     size = 'middle',
     bordered = false,
@@ -249,6 +250,7 @@ export const CrTable = <T = unknown>({
                 onDownloadCsv={onDownloadCsv}
                 onLoadMore={onLoadMore}
                 loadMoreLoading={loadMoreLoading}
+                downloadCsvLoading={downloadCsvLoading}
             />
         </div>
     );

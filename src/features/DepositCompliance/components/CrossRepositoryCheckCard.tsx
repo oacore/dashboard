@@ -100,14 +100,16 @@ interface ContentProps {
   nonCompliantCount: number;
   resultCount: number;
   compliantCount: number;
-  exportUrl: string | null;
+  onDownloadCsv?: () => void;
+  downloadCsvLoading?: boolean;
 }
 
 const Content = ({
   nonCompliantCount,
   resultCount,
   compliantCount,
-  exportUrl,
+  onDownloadCsv,
+  downloadCsvLoading = false,
 }: ContentProps) => {
   const chartData = React.useMemo<Array<{
     name: ChartDataName;
@@ -150,9 +152,13 @@ const Content = ({
             <span>{`${value}: ${formatNumber(count)}`}</span>
           </div>
         ))}
-        {resultCount > 0 && exportUrl && (
+        {resultCount > 0 && onDownloadCsv && (
           <div className="csv-button">
-            <Button type="primary" href={exportUrl}>
+            <Button
+              type="primary"
+              onClick={onDownloadCsv}
+              loading={downloadCsvLoading}
+            >
               {TextData.crossRepositoryCheck?.download || 'Download'}
             </Button>
           </div>
@@ -164,13 +170,15 @@ const Content = ({
 
 interface CrossRepositoryCheckCardProps {
   crossDepositLag: CrossDepositLagData | null;
-  crossDepositLagCsvUrl: string | null;
+  onDownloadCsv?: () => void;
+  downloadCsvLoading?: boolean;
   error?: boolean;
 }
 
 export const CrossRepositoryCheckCard = ({
   crossDepositLag,
-  crossDepositLagCsvUrl,
+  onDownloadCsv,
+  downloadCsvLoading = false,
   error = false,
 }: CrossRepositoryCheckCardProps) => {
   const title = TextData.crossRepositoryCheck?.title || TextData.compliance.cross.title;
@@ -196,7 +204,8 @@ export const CrossRepositoryCheckCard = ({
           nonCompliantCount={crossDepositLag.nonCompliantCount ?? 0}
           resultCount={crossDepositLag.resultCount ?? 0}
           compliantCount={crossDepositLag.bonusCount ?? 0}
-          exportUrl={crossDepositLagCsvUrl}
+          onDownloadCsv={onDownloadCsv}
+          downloadCsvLoading={downloadCsvLoading}
         />
       ) : !error && (
         <div className="loading-placeholder">Loading data...</div>
