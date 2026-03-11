@@ -1,10 +1,10 @@
 import { Switch } from 'antd';
-import { CrToggleTabs } from '@components/common/CrToggleTabs';
 
 import { TextData } from '@features/Sdg/texts';
 import HorizontalChart from './horizontalSdgChart'
 import ReChartBarChart from './reChartBarChart'
 import "../styles.css"
+import {CrToggleTabs} from '@oacore/core-ui';
 
 interface SdgType {
   id: string;

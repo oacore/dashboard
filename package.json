@@ -13,12 +13,13 @@
     "build:core-ui": "cd ../core-ui && pnpm run build:lib",
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "docker:build": "sh scripts/docker-build.sh",
     "lint": "eslint . --format compact",
     "preview": "vite preview",
     "prepare": "husky"
   },
   "dependencies": {
-    "@oacore/core-ui": "0.0.1",
+    "@oacore/core-ui": "latest",
     "@ant-design/icons": "^5.5.1",
     "@octokit/rest": "^22.0.1",
     "antd": "^6.3.1",
