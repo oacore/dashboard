@@ -20,6 +20,7 @@ interface DataProviderState {
     selectedSetSpec: string | null;
     dataProviders: DataProvider[];
     isLoading: boolean;
+    isUpdating: boolean;
     isLoaded: boolean;
     error: string | null;
     statistics: DataProviderStatistics | null;
@@ -33,6 +34,7 @@ interface DataProviderActions {
     setDataProviders: (dataProviders: DataProvider[]) => void;
     addDataProvider: (dataProvider: DataProvider) => void;
     setLoading: (isLoading: boolean) => void;
+    setUpdating: (isUpdating: boolean) => void;
     setError: (error: string | null) => void;
     setLoaded: (isLoaded: boolean) => void;
     setStatistics: (statistics: DataProviderStatistics | null) => void;
@@ -45,6 +47,7 @@ export const useDataProviderStore = create<DataProviderState & DataProviderActio
     selectedSetSpec: null,
     dataProviders: [],
     isLoading: false,
+    isUpdating: false,
     isLoaded: false,
     error: null,
     statistics: null,
@@ -75,6 +78,10 @@ export const useDataProviderStore = create<DataProviderState & DataProviderActio
 
     setLoading: (isLoading) => {
         set({ isLoading, error: null });
+    },
+
+    setUpdating: (isUpdating) => {
+        set({ isUpdating });
     },
 
     setError: (error) => {

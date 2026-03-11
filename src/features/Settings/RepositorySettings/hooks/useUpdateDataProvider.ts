@@ -9,7 +9,12 @@ interface UpdateDataProviderResponse {
 }
 
 export const useUpdateDataProvider = () => {
-  const { selectedDataProvider, setSelectedDataProvider } = useDataProviderStore();
+  const {
+    selectedDataProvider,
+    setSelectedDataProvider,
+    isUpdating,
+    setUpdating,
+  } = useDataProviderStore();
   const dataProviderId = selectedDataProvider?.id;
 
   const updateDataProvider = useCallback(
@@ -22,6 +27,8 @@ export const useUpdateDataProvider = () => {
           message: errorMessage,
         };
       }
+
+      setUpdating(true);
 
       try {
         const url = `/internal/data-providers/${dataProviderId}`;
@@ -82,12 +89,15 @@ export const useUpdateDataProvider = () => {
           type: 'danger',
           message: 'Something went wrong. Please try again later!',
         };
+      } finally {
+        setUpdating(false);
       }
     },
-    [dataProviderId, selectedDataProvider, setSelectedDataProvider]
+    [dataProviderId, selectedDataProvider, setSelectedDataProvider, setUpdating]
   );
 
   return {
     updateDataProvider,
+    isUpdating,
   };
 };

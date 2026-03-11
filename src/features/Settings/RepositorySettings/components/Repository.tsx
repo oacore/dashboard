@@ -18,7 +18,7 @@ interface RepositoryProps {
 export const Repository: React.FC<RepositoryProps> = ({ className }) => {
   const { selectedDataProvider } = useDataProviderStore();
   const { organisation } = useOrganisation();
-  const { updateDataProvider } = useUpdateDataProvider();
+  const { updateDataProvider, isUpdating } = useUpdateDataProvider();
 
   const [rorId, setRorId] = useState(selectedDataProvider?.rorData?.rorId ?? '');
   const [rorName, setRorName] = useState(selectedDataProvider?.rorData?.rorName ?? '');
@@ -200,7 +200,7 @@ export const Repository: React.FC<RepositoryProps> = ({ className }) => {
             />
             {isNameChanged && !isNameSaveSuccessful && (
               <div style={{ marginTop: '16px' }}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isUpdating}>
                   Save
                 </Button>
               </div>
@@ -236,7 +236,7 @@ export const Repository: React.FC<RepositoryProps> = ({ className }) => {
             />
             {isEmailChanged && !isEmailSaveSuccessful && (
               <div style={{ marginTop: '16px' }}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isUpdating}>
                   Save
                 </Button>
               </div>
@@ -294,7 +294,7 @@ export const Repository: React.FC<RepositoryProps> = ({ className }) => {
             </div>
             {isChanged && !isRorSaveSuccessful && (
               <div style={{ marginTop: '16px' }}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isUpdating}>
                   Save
                 </Button>
               </div>
@@ -338,7 +338,7 @@ export const Repository: React.FC<RepositoryProps> = ({ className }) => {
             </Markdown>
             {isOaiChanged && !isOaiSaveSuccessful && (
               <div style={{ marginTop: '16px' }}>
-                <Button className="spacing" type="primary" htmlType="submit">
+                <Button className="spacing" type="primary" htmlType="submit" loading={isUpdating}>
                   Save
                 </Button>
               </div>

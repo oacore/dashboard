@@ -179,7 +179,7 @@ export const CrDrawer: React.FC<OrcidDrawerContentProps> = ({
                                 <Button
                                     type="default"
                                     target="_blank"
-                                    href={`https://api-dev.core.ac.uk/oai/${article?.oai}`}
+                                    href={`https://api.core.ac.uk/oai/${article?.oai}`}
                                 >
                                     Open in the Repository
                                 </Button>
@@ -212,7 +212,7 @@ export const CrDrawer: React.FC<OrcidDrawerContentProps> = ({
                                                     href={
                                                         generatedUrl
                                                             ? outputsUrl
-                                                            : `https://api-dev.core.ac.uk/oai/${article?.oai}`
+                                                            : `https://api.core.ac.uk/oai/${article?.oai}`
                                                     }
                                                 >
                                                     {title}
@@ -240,7 +240,7 @@ export const CrDrawer: React.FC<OrcidDrawerContentProps> = ({
                                         <div className="box-caption">
                                             <div className={`box-caption-text ${[`box-caption-${key.toLowerCase()}`]} ${name === 'SDG' ? 'sdg-wrapper' : ''}`}>
                                                 {Array.isArray(value) ? (
-                                                        value
+                                                    value
                                                 ) : (
                                                     <CrShowMore
                                                         text={name.includes('Date') && typeof value === 'string'
