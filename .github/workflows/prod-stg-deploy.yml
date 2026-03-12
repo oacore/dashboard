@@ -129,19 +129,6 @@ jobs:
       - name: Docker ACR Login
         run: az acr login --name ${{ env.ACR_NAME }}
 
-      - name: Docker Build test
-        shell: bash
-        env:
-            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-            if [[ "${{ steps.vars.outputs.deploy_env }}" == "staging" ]]; then
-            NODE_ENV=development
-            else
-            NODE_ENV=production
-            fi
-
-            CLEAN_NPM_TOKEN="$(printf %s "$NPM_TOKEN" | tr -d '\r\n')"
-
       - name: Docker Build
         shell: bash
         run: |
@@ -152,8 +139,11 @@ jobs:
           fi
 
           docker build \
-            --build-arg APP_SECRET=${{ secrets.APP_SECRET }} \
-            --build-arg INSTALL_DEV=$INSTALL_DEV \
+            --build-arg NODE_ENV=$NODE_ENV \
+            --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
+            --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
+            --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
+            --build-arg API_KEY=${{ secrets.API_KEY }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }} .
 
