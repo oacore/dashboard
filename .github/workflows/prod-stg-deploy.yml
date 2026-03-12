@@ -53,7 +53,6 @@ jobs:
       ref_to_build: ${{ steps.vars.outputs.ref_to_build }}
       branch_tag: ${{ steps.vars.outputs.branch_tag }}
       image_tag: ${{ steps.vars.outputs.image_tag }}
-      unique_tag: ${{ steps.img.outputs.unique_tag }}
 
     steps:
       - name: Compute variables
@@ -62,6 +61,7 @@ jobs:
         run: |
           SHA7="$(echo "${GITHUB_SHA}" | cut -c1-7)"
 
+          # ✅ ADDED: schedule always deploys PROD from the frozen branch
           if [[ "${GITHUB_EVENT_NAME}" == "schedule" ]]; then
             DEPLOY_ENV="prod"
             REF_TO_BUILD="${{ env.ALLOWED_PROD_BRANCH }}"
@@ -70,6 +70,7 @@ jobs:
             DEPLOY_ENV="${{ inputs.target_env }}"
             REF_TO_BUILD="${{ inputs.branch }}"
 
+            # existing: Freeze PROD to only one branch; fail if any other branch is selected for PROD
             if [[ "${DEPLOY_ENV}" == "prod" && "${REF_TO_BUILD}" != "${{ env.ALLOWED_PROD_BRANCH }}" ]]; then
               echo "::error title=Blocked prod deployment::Prod deployments are only allowed from '${{ env.ALLOWED_PROD_BRANCH }}'. You selected '${REF_TO_BUILD}'."
               exit 1
@@ -90,18 +91,13 @@ jobs:
             IMAGE_TAG="stg-${BRANCH_TAG}"
           fi
 
-          if [[ "${DEPLOY_ENV}" == "prod" ]]; then
-            TAG="${SHA7}-prod"
-          else
-            TAG="${SHA7}-stg"
-          fi
-
-          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "tag=${SHA7}" >> "$GITHUB_OUTPUT"
           echo "deploy_env=${DEPLOY_ENV}" >> "$GITHUB_OUTPUT"
           echo "app_name=${APP_NAME}" >> "$GITHUB_OUTPUT"
           echo "ref_to_build=${REF_TO_BUILD}" >> "$GITHUB_OUTPUT"
           echo "branch_tag=${BRANCH_TAG}" >> "$GITHUB_OUTPUT"
           echo "image_tag=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
+
 
       - name: Summary
         run: |
@@ -115,30 +111,13 @@ jobs:
             echo "- **Image:** ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}"
             echo "- **Tag (sha7):** ${{ steps.vars.outputs.tag }}"
             echo "- **Tag (env):** ${{ steps.vars.outputs.image_tag }}"
-            echo "- **Unique tag:** (computed after checkout)"
           } >> "$GITHUB_STEP_SUMMARY"
+
 
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.vars.outputs.ref_to_build }}
-
-      - name: Compute tags from checked-out code
-        id: img
-        shell: bash
-        run: |
-          SHA7="$(git rev-parse --short=7 HEAD)"
-          DEPLOY_ENV="${{ steps.vars.outputs.deploy_env }}"
-          BRANCH_TAG="${{ steps.vars.outputs.branch_tag }}"
-          UNIQUE_TAG="${DEPLOY_ENV}-${BRANCH_TAG}-${SHA7}-${GITHUB_RUN_NUMBER}"
-          echo "unique_tag=${UNIQUE_TAG}" >> "$GITHUB_OUTPUT"
-
-          {
-            echo ""
-            echo "## Image tags (post-checkout)"
-            echo "- **Checked-out SHA7:** ${SHA7}"
-            echo "- **Unique tag:** ${UNIQUE_TAG}"
-          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Azure Login
         uses: azure/login@v2
@@ -154,27 +133,19 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ steps.vars.outputs.deploy_env }}" == "staging" ]]; then
-            NODE_ENV=development
+            INSTALL_DEV=true
           else
-            NODE_ENV=production
+            INSTALL_DEV=false
           fi
 
-          echo "Building with NODE_ENV=$NODE_ENV"
-          echo "Using unique tag: ${{ steps.img.outputs.unique_tag }}"
-
           docker build \
-            --build-arg NODE_ENV=$NODE_ENV \
-            --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
-            --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
-            --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
-            --build-arg API_KEY=${{ secrets.API_KEY }} \
-            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.img.outputs.unique_tag }} \
+            --build-arg APP_SECRET=${{ secrets.APP_SECRET }} \
+            --build-arg INSTALL_DEV=$INSTALL_DEV \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }} .
 
       - name: Docker Push
         run: |
-          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.img.outputs.unique_tag }}
           docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
           docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }}
 
@@ -185,7 +156,6 @@ jobs:
     env:
       TAG: ${{ needs.build-and-push.outputs.tag }}
       IMAGE_TAG: ${{ needs.build-and-push.outputs.image_tag }}
-      UNIQUE_TAG: ${{ needs.build-and-push.outputs.unique_tag }}
 
     steps:
       - name: Azure Login
