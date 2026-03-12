@@ -5,7 +5,7 @@ dist
 .gitignore
 .next
 *.md
-# Exclude local .env (may have secrets) but keep .env.production for build
+# Exclude local .env (may have secrets); keep .env.staging, .env.production for Vite modes
 .env
 .env.local
 .env.*.local

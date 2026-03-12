@@ -1,7 +1,8 @@
 FROM node:24-alpine AS builder
 
-# Build args passed from .env via scripts/docker-build.sh or --build-arg (no defaults)
-ARG NODE_ENV
+# Build args passed from .env via scripts/docker-build.sh or --build-arg
+# VITE_MODE: development (.env.development) or production (.env.production)
+ARG VITE_MODE=production
 ARG BUILD_TARGET
 ARG SENTRY_DSN
 ARG NPM_TOKEN
@@ -9,13 +10,11 @@ ARG API_KEY
 ARG GA_TRACKING_CODE
 ARG VITE_APP_NAME
 ARG VITE_APP_API_BASE_URL
-ARG VITE_API_URL
-ARG VITE_IDP_URL
 ARG VITE_SENTRY_DSN
 ARG VITE_GA_TRACKING_CODE
 
-ENV NODE_ENV=${NODE_ENV} \
-    BUILD_TARGET=${BUILD_TARGET} \
+# VITE_API_URL and VITE_IDP_URL come from .env.development /.env.production (via VITE_MODE)
+ENV BUILD_TARGET=${BUILD_TARGET} \
     SENTRY_DSN=${SENTRY_DSN} \
     NPM_TOKEN=${NPM_TOKEN} \
     API_KEY=${API_KEY} \
@@ -25,8 +24,6 @@ ENV NODE_ENV=${NODE_ENV} \
     VITE_API_KEY=${API_KEY} \
     VITE_APP_NAME=${VITE_APP_NAME} \
     VITE_APP_API_BASE_URL=${VITE_APP_API_BASE_URL} \
-    VITE_API_URL=${VITE_API_URL} \
-    VITE_IDP_URL=${VITE_IDP_URL} \
     VITE_SENTRY_DSN=${VITE_SENTRY_DSN} \
     VITE_GA_TRACKING_CODE=${VITE_GA_TRACKING_CODE}
 
@@ -44,7 +41,7 @@ RUN set -eux; \
 
 COPY . .
 
-RUN pnpm run build
+RUN pnpm exec tsc -b && pnpm exec vite build --mode ${VITE_MODE}
 
 FROM nginx:1.27-alpine AS runtime
 
