@@ -129,10 +129,18 @@ jobs:
       - name: Docker ACR Login
         run: az acr login --name ${{ env.ACR_NAME }}
 
-      - name: Show hash of NPM_TOKEN (safe)
+      - name: Docker Build test
         shell: bash
+        env:
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "${{ secrets.NPM_TOKEN }}" 
+            if [[ "${{ steps.vars.outputs.deploy_env }}" == "staging" ]]; then
+            NODE_ENV=development
+            else
+            NODE_ENV=production
+            fi
+
+            CLEAN_NPM_TOKEN="$(printf %s "$NPM_TOKEN" | tr -d '\r\n')"
 
       - name: Docker Build
         shell: bash
