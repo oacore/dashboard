@@ -1,5 +1,6 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
+import { handleUnauthorized } from './auth401Handler';
 
 export const API = axios.create({
   baseURL: import.meta.env.VITE_APP_API_BASE_URL,
@@ -121,7 +122,14 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      cookieManager.clearAuthCookies();
+      const requestUrl = String(error.config?.url ?? error.config?.baseURL ?? '');
+      const isInternalApi = requestUrl.includes('/internal/');
+      const isAuthEndpoint = requestUrl.includes('login_check') || requestUrl.includes('/logout');
+
+      if (isInternalApi && !isAuthEndpoint) {
+        cookieManager.clearAuthCookies();
+        handleUnauthorized();
+      }
     }
     return Promise.reject(error);
   }

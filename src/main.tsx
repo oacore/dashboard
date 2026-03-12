@@ -7,8 +7,15 @@ import './styles/index.css'
 import './styles/theme.css'
 import { antdTheme as coreTheme } from '@oacore/core-ui';
 import { antdTheme as localTheme } from '@/config/theme'
+import { setUnauthorizedHandler } from '@/config/auth401Handler';
+import { useAuthStore } from '@/store/authStore';
 
 import App from './App'
+
+setUnauthorizedHandler(() => {
+  useAuthStore.getState().clearSession();
+  window.location.href = '/login?reason=logout_unexpectedly';
+});
 
 const mergedTheme = {
   ...coreTheme,

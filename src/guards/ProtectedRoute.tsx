@@ -33,7 +33,12 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     if (!isAuthenticated) {
         const continueUrl = encodeURIComponent(location.pathname + location.search);
-        return <Navigate to={`/login?continue=${continueUrl}`} replace />;
+        return (
+            <Navigate
+                to={`/login?continue=${continueUrl}&reason=logout_unexpectedly`}
+                replace
+            />
+        );
     }
 
     return <>{children}</>;

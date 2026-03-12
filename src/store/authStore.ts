@@ -28,6 +28,7 @@ export interface AuthState {
 export interface AuthActions {
     login: (email: string, password: string, rememberMe?: boolean) => Promise<void>;
     logout: () => void;
+    clearSession: () => void;
     clearError: () => void;
     setUser: (user: User) => void;
     checkAuth: () => Promise<void>;
@@ -103,6 +104,20 @@ export const useAuthStore = create<AuthState & AuthActions>()(
                         hasCheckedAuth: false,
                     });
                 }
+            },
+
+            /**
+             * Clears auth state without calling the logout API.
+             * Use when handling 401 to avoid triggering another request.
+             */
+            clearSession: () => {
+                set({
+                    user: null,
+                    isAuthenticated: false,
+                    isLoading: false,
+                    error: null,
+                    hasCheckedAuth: false,
+                });
             },
 
             clearError: () => {
