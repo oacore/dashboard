@@ -1,8 +1,11 @@
 .env
+.env.production
+.env.development
 .next
 dist
 build
 node_modules
+.pnpm-store
 public/design
 public/icons.svg
 /public/edit*

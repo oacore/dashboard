@@ -5,7 +5,7 @@ tooltip:
 description:
   # Displays when we have no deposit dates collected
   missing-data: |
-    Your repository is not configured to expose information on dates of
+    Your repository is NOT configured to expose information on dates of
     deposit in a machine-readable format. For more information check our
     [guidelines](https://core.ac.uk/ref) and contact us at
     [thet&#101;&#97;m&#64;c&#111;re&#46;&#97;c&#46;&#117;k](mailto:t%68%65t%65am%40core%2e%61c%2eu%6b)
