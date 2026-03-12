@@ -30,8 +30,9 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 RUN set -eux; \
-    echo "@oacore:registry=https://npm.pkg.github.com" > .npmrc; \
-    echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> .npmrc; \
+    TOKEN="$(printf %s "${NPM_TOKEN}" | tr -d '\r\n')"; \
+    test -n "$TOKEN"; \
+    printf "@oacore:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\n" "$TOKEN" > .npmrc; \
     corepack enable; \
     pnpm install --frozen-lockfile; \
     rm -f .npmrc
