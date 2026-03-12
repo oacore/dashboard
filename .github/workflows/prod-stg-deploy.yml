@@ -129,6 +129,18 @@ jobs:
       - name: Docker ACR Login
         run: az acr login --name ${{ env.ACR_NAME }}
 
+      - name: Test GitHub Packages access from runner
+        shell: bash
+        run: |
+          cat > .npmrc <<EOF
+          @oacore:registry=https://npm.pkg.github.com
+          //npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}
+          always-auth=true
+          EOF
+
+          npm view @oacore/core-ui@0.2.2 version --registry=https://npm.pkg.github.com
+          rm -f .npmrc
+
       - name: Docker Build
         shell: bash
         run: |
