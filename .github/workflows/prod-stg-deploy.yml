@@ -141,6 +141,20 @@ jobs:
           npm view @oacore/core-ui@0.2.2 version --registry=https://npm.pkg.github.com
           rm -f .npmrc
 
+      - name: Check NPM token presence
+        shell: bash
+        run: |
+          if [[ -z "${{ secrets.NPM_TOKEN }}" ]]; then
+            echo "::error::NPM_TOKEN is empty in Actions"
+            exit 1
+          fi
+          echo "NPM_TOKEN is present"
+
+      - name: Show hash of NPM_TOKEN (safe)
+        shell: bash
+        run: |
+          echo -n "${{ secrets.NPM_TOKEN }}" | sha256sum
+
       - name: Docker Build
         shell: bash
         run: |
