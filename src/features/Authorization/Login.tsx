@@ -2,8 +2,9 @@ import { Alert, Button, Card, Form, Spin } from 'antd';
 import { CrInput } from '@oacore/core-ui';
 import { useAuthStore } from '@/store/authStore.ts';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import Cookies from '@components/common/cookies';
 import "./styles.css"
-import {LoadingOutlined} from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export const LoginFeature = () => {
   const { login, isLoading, error, clearError } = useAuthStore();
@@ -144,6 +145,7 @@ export const LoginFeature = () => {
             Privacy Policy
           </a>
         </div>
+        <Cookies />
       </div>
     </div>
   )
