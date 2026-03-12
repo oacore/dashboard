@@ -100,35 +100,20 @@ export const cookieManager = {
 // V3 API uses API key auth; /internal uses session/JWT
 const V3_API_KEY = import.meta.env.VITE_API_KEY;
 
-// Request interceptor - add cookies as headers if needed
+// Request interceptor
+// Session auth: credentials: 'include' sends cookies automatically; server sets session via Set-Cookie
 API.interceptors.request.use((config) => {
   const requestUrl = config.url ?? config.baseURL ?? '';
   const useV3Auth = String(requestUrl).includes('/v3/');
 
-  // /v3 endpoints require API key (Bearer), not JWT - CORE API v3 expects API key auth
+  // /v3 endpoints require API key - CORE API v3 expects API key auth
   if (useV3Auth) {
     config.headers.Authorization = `Bearer ${V3_API_KEY}`;
     return config;
   }
 
-  // /internal and other endpoints use session auth
-  const authToken = cookieManager.get('AUTH_TOKEN_DEV');
-  const sessionId = cookieManager.get('API_SESSION_ID_DEV');
-
-  if (authToken) {
-    config.headers['X-Auth-Token'] = authToken;
-  }
-  if (sessionId) {
-    config.headers['X-Session-ID'] = sessionId;
-  }
-
-  if (!authToken && !sessionId) {
-    const accessToken = localStorage.getItem('auth-token') || V3_API_KEY;
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-  }
-
+  // /internal and other session endpoints: no manual auth headers
+  // Cookies are sent automatically via withCredentials: true
   return config;
 });
 
@@ -136,13 +121,7 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Clear all authentication data
       cookieManager.clearAuthCookies();
-      localStorage.setItem("isLoggedIn", "false");
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("auth-token");
-
-      // window.location.href = "/login";
     }
     return Promise.reject(error);
   }
