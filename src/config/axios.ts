@@ -1,9 +1,10 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
 import { handleUnauthorized } from './auth401Handler';
+import { env } from './env';
 
 export const API = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_BASE_URL,
+  baseURL: env.IDP_URL,
   headers: {
     "Content-Type": "application/json",
     'x-custom-dashboard-header': 'true',
@@ -61,7 +62,7 @@ export const cookieManager = {
       expires: 7, // 7 days
       path: '/',
       sameSite: 'lax',
-      secure: import.meta.env.NODE_ENV === 'production', // Only secure in production
+      secure: import.meta.env.MODE === 'production',
     };
 
     Cookies.set(name, value, { ...defaultOptions, ...options });
@@ -99,7 +100,7 @@ export const cookieManager = {
 };
 
 // V3 API uses API key auth; /internal uses session/JWT
-const V3_API_KEY = import.meta.env.VITE_API_KEY;
+const V3_API_KEY = env.API_KEY;
 
 // Request interceptor
 // Session auth: credentials: 'include' sends cookies automatically; server sets session via Set-Cookie

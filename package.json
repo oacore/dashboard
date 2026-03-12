@@ -2,7 +2,9 @@
   "name": "dashboard-test-structure",
   "private": true,
   "pnpm": {
-    "onlyBuiltDependencies": ["@oacore/core-ui"]
+    "onlyBuiltDependencies": [
+      "@oacore/core-ui"
+    ]
   },
   "version": "0.0.0",
   "type": "module",
@@ -11,8 +13,10 @@
   },
   "scripts": {
     "build:core-ui": "cd ../core-ui && pnpm run build:lib",
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "vite --mode development",
+    "dev:local": "vite --mode local",
+    "build": "tsc -b && vite build --mode production",
+    "build:dev": "tsc -b && vite build --mode development",
     "docker:build": "sh scripts/docker-build.sh",
     "lint": "eslint . --format compact",
     "preview": "vite preview",
