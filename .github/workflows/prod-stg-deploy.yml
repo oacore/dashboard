@@ -41,6 +41,7 @@ env:
 permissions:
   id-token: write
   contents: read
+  packages: read
 
 jobs:
   build-and-push:
