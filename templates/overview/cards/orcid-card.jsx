@@ -54,7 +54,7 @@ const OrcidCard = ({
         />
         <div className={styles.doiCardContent}>
           <div>
-            We can enrich your orcid coverage by{' '}
+            We can enrich your ORCID coverage by{' '}
             <b>{getPercent(enrichmentSize, count, enrichmentSize || '...')}</b>{' '}
             Download your CSV below.
           </div>
