@@ -1,20 +1,18 @@
 FROM node:24-alpine AS builder
 
-# Build args passed from .env via scripts/docker-build.sh or --build-arg
-# VITE_MODE: development (.env.development) or production (.env.production)
-ARG VITE_MODE=production
-ARG BUILD_TARGET
+ARG NODE_ENV=production
+ARG BUILD_TARGET=azure
 ARG SENTRY_DSN
 ARG NPM_TOKEN
 ARG API_KEY
 ARG GA_TRACKING_CODE
-ARG VITE_APP_NAME
-ARG VITE_APP_API_BASE_URL
-ARG VITE_SENTRY_DSN
-ARG VITE_GA_TRACKING_CODE
+ARG VITE_APP_NAME="CORE Dashboard"
+ARG VITE_APP_API_BASE_URL="https://api.core.ac.uk"
+ARG VITE_API_URL="https://api.core.ac.uk"
+ARG VITE_IDP_URL="https://api.core.ac.uk"
 
-# VITE_API_URL and VITE_IDP_URL come from .env.development /.env.production (via VITE_MODE)
-ENV BUILD_TARGET=${BUILD_TARGET} \
+ENV NODE_ENV=${NODE_ENV} \
+    BUILD_TARGET=${BUILD_TARGET} \
     SENTRY_DSN=${SENTRY_DSN} \
     NPM_TOKEN=${NPM_TOKEN} \
     API_KEY=${API_KEY} \
@@ -24,8 +22,8 @@ ENV BUILD_TARGET=${BUILD_TARGET} \
     VITE_API_KEY=${API_KEY} \
     VITE_APP_NAME=${VITE_APP_NAME} \
     VITE_APP_API_BASE_URL=${VITE_APP_API_BASE_URL} \
-    VITE_SENTRY_DSN=${VITE_SENTRY_DSN} \
-    VITE_GA_TRACKING_CODE=${VITE_GA_TRACKING_CODE}
+    VITE_API_URL=${VITE_API_URL} \
+    VITE_IDP_URL=${VITE_IDP_URL}
 
 WORKDIR /app
 
@@ -41,7 +39,7 @@ RUN set -eux; \
 
 COPY . .
 
-RUN pnpm exec tsc -b && pnpm exec vite build --mode ${VITE_MODE}
+RUN pnpm run build
 
 FROM nginx:1.27-alpine AS runtime
 
