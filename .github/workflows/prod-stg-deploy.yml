@@ -168,8 +168,12 @@ jobs:
         run: |
           if [[ "${{ steps.vars.outputs.deploy_env }}" == "staging" ]]; then
             NODE_ENV=development
+            VITE_API_URL="https://api-dev.core.ac.uk"
+            VITE_IDP_URL="https://api-dev.core.ac.uk"
           else
             NODE_ENV=production
+            VITE_API_URL="https://api.core.ac.uk"
+            VITE_IDP_URL="https://api.core.ac.uk"
           fi
 
           echo "Building with NODE_ENV=$NODE_ENV"
@@ -181,8 +185,8 @@ jobs:
             --build-arg GA_TRACKING_CODE=${{ secrets.GA_TRACKING_CODE }} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             --build-arg API_KEY=${{ secrets.API_KEY }} \
-            --build-arg VITE_API_URL=${{ steps.vars.outputs.vite_api_url }} \
-            --build-arg VITE_IDP_URL=${{ steps.vars.outputs.vite_idp_url }} \
+            --build-arg VITE_API_URL="$VITE_API_URL" \
+            --build-arg VITE_IDP_URL="$VITE_IDP_URL" \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.img.outputs.unique_tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }} .
