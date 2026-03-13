@@ -1,4 +1,12 @@
-.git
 node_modules
-.idea
+dist
+.git
+.github
+.gitignore
 .next
+*.md
+# Exclude local .env (may have secrets) but keep .env.production for build
+.env
+.env.local
+.env.*.local
+.DS_Store

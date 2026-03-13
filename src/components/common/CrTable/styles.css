@@ -1,0 +1,214 @@
+.footer-container {
+    margin: 12px 16px;
+}
+
+.reusable-table td,
+.reusable-table th {
+    max-width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* Allow actions column (always last) to stay narrow - overrides global max-width for compact columns */
+.reusable-table .cr-table-actions-column,
+.reusable-table .ant-table-thead>tr>th:last-child,
+.reusable-table .ant-table-tbody>tr>td:last-child {
+    max-width: 4rem;
+}
+
+.reusable-table .ant-table-thead>tr>th:last-child,
+.reusable-table .ant-table-tbody>tr>td:last-child {
+    width: 56px !important;
+    min-width: 56px !important;
+}
+
+.reusable-table {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+}
+
+/* Expandable row styles */
+.reusable-table .ant-table-expanded-row {
+    background-color: #fafafa;
+    border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.reusable-table .ant-table-expanded-row-content {
+    padding: 16px;
+    min-height: 30px;
+}
+
+.reusable-table .ant-table-row-expand-icon-cell {
+    display: none;
+}
+
+.reusable-table .ant-table-tbody>tr:hover>td {
+    background-color: var(--color-bg-layout);
+}
+
+.footer-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.inner-footer-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Footer text responsive display */
+.footer-text-short {
+    display: none;
+}
+
+@media (max-width: 866px) {
+
+    .inner-footer-wrapper {
+        justify-content: space-between;
+    }
+
+    .footer-text {
+        font-size: 14px;
+    }
+
+    .footer-text-full {
+        display: none;
+    }
+
+    .footer-text-short {
+        display: inline;
+    }
+
+    .footer-download-btn {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        margin: 12px 8px;
+    }
+
+    .footer-wrapper {
+        flex-direction: column-reverse;
+    }
+
+    .inner-footer-wrapper {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .footer-text {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .footer-loadmore-btn {
+        width: 100%;
+    }
+}
+
+
+.table-loading-text {
+    color: var(--gray-600, #666);
+    font-size: 14px;
+    text-align: center;
+    margin-top: 8px;
+}
+
+/* Center the loading spinner in the table */
+.table-loading-centered .ant-table-tbody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.table-loading-centered .ant-spin-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.table-loading-centered .ant-table-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+/* Ensure loading overlay is properly centered */
+.reusable-table .ant-spin-nested-loading {
+    min-height: 400px;
+}
+
+.reusable-table .ant-spin-container {
+    min-height: 400px;
+}
+
+.reusable-table .ant-spin .ant-spin-dot {
+    width: 100%;
+}
+
+.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover {
+    background: transparent;
+}
+
+
+.ant-dropdown-menu {
+    padding: 0 !important;
+}
+
+.ant-dropdown-menu-item {
+    padding: 8px 16px !important;
+    color: var(--gray-600) !important;
+    font-size: 16px !important;
+    cursor: pointer;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s ease;
+    border-radius: 2px !important;
+}
+
+.ant-dropdown-menu-item:last-child {
+    border-bottom: none;
+}
+
+/* General hover effect for all table headers */
+.reusable-table th:hover {
+    background-color: var(--color-bg-layout) !important;
+}
+
+/* Remove background styling from sorted column headers by default, but allow hover */
+.reusable-table th.ant-table-column-sort {
+    background-color: transparent !important;
+}
+
+/* Ensure hover effect works on sorted column headers with higher specificity */
+.reusable-table th.ant-table-column-sort:hover {
+    background-color: var(--color-bg-layout) !important;
+}
+
+/* Remove sorting background from data cells only when row is not hovered */
+.reusable-table .ant-table-tbody>tr:not(:hover)>td.ant-table-column-sort {
+    background-color: transparent !important;
+}
+
+/* Explicitly maintain hover effect for sorted column data cells */
+.reusable-table .ant-table-tbody>tr:hover>td.ant-table-column-sort {
+    background-color: var(--color-bg-layout) !important;
+}
+
+.reusable-table-sidebar {
+    .ant-drawer-body {
+        padding: 0;
+    }
+}

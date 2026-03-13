@@ -1,0 +1,468 @@
+/*progress view*/
+.indexing-button {
+    display: flex;
+    text-transform: uppercase;
+    letter-spacing: .08rem;
+    width: max-content;
+    justify-self: flex-end;
+}
+
+.cursor-disable {
+    cursor: not-allowed;
+}
+
+.spinner-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-wrapper .button-loader {
+    color: var(--color-text-white);
+}
+
+/*NOT SURE*/
+.spinner-wrapper span {
+    margin-right: 5px;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*NOT SURE*/
+
+.info-success {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    color: #666;
+    letter-spacing: 0.024px;
+    gap: 16px;
+}
+
+.warning-text {
+    text-align: left;
+}
+
+.tick {
+    color: var(--success-dark);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.errors-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 48px;
+    padding: 12px 16px;
+    font-size: 14px;
+    background: #f5f5f5;
+    gap: 10px;
+}
+
+.info-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.error-text {
+    margin-top: unset;
+}
+
+.no-data-message.indexing-card-error-message {
+    color: var(--color-danger);
+}
+
+.data-spinner-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+
+.spinner-text {
+    margin: 0 0 0 14px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    color: #666;
+    letter-spacing: 0.021px;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.progress-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.progress-wrapper .ant-card-body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.error-message {
+    margin-bottom: 35px;
+}
+
+.mai-title {
+    margin: 0 0 8px 0;
+    text-align: left;
+    font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-text-secondary);
+    font-weight: 700;
+}
+
+.data-spinner-wrapper-harvesting {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.info-warning-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 16px;
+    background: #f5f5f5;
+    gap: 10px;
+}
+
+.info-text {
+    text-align: left;
+}
+
+.info-warning {
+    color: var(--color-danger);
+    font-size: 20px;
+}
+
+.request-date-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.progress-steps-wrapper .ant-steps .ant-steps-item-title::after {
+    border: 1px dashed #b75400;
+    background: transparent;
+    text-align: center;
+    margin-top: -4px;
+}
+
+.harvesting-steps {
+    width: 100%;
+}
+
+.harvesting-steps .ant-steps-item-title {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.024px;
+    cursor: pointer;
+}
+
+.harvesting-steps .ant-steps-item-process .ant-steps-item-title {
+    color: var(--color-text-secondary);
+}
+
+.harvesting-steps .ant-steps-item-finish .ant-steps-item-title {
+    color: var(--color-text-disabled);
+}
+
+.harvesting-steps .ant-steps-item-wait .ant-steps-item-title {
+    color: var(--color-text-disabled);
+}
+
+.harvesting-steps .ant-steps-item-icon {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color-primary);
+    background: var(--color-text-white);
+}
+
+.harvesting-steps .ant-steps-item-icon>.ant-steps-icon {
+    display: none;
+}
+
+.harvesting-steps .ant-steps-item-process .ant-steps-item-icon {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.harvesting-steps .ant-steps-item-wait .ant-steps-item-icon {
+    background: var(--color-text-white) !important;
+    border-color: var(--color-primary) !important;
+}
+
+.progress-steps-wrapper .ant-steps .ant-steps-item-wrapper {
+    align-items: center;
+}
+
+.status-description {
+    padding: 10px 0;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    color: var(--color-text-secondary);
+    text-align: left;
+}
+
+/* Modal - Ant Design 6 uses .ant-modal-container (was .ant-modal-content) */
+.harvesting-modal-root .harvesting-modal.ant-modal {
+    width: 100%;
+}
+
+.harvesting-modal-root .harvesting-modal .ant-modal-container {
+    max-width: 42rem;
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.modal-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-title {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.87);
+    letter-spacing: 0.01px;
+    margin: 0;
+}
+
+.modal-description p {
+    font-size: 16px;
+    color: var(--color-dark);
+    padding: 24px 0;
+    line-height: 1.5rem;
+}
+
+.modal-input {
+    width: 100%;
+    min-height: 102px;
+    margin-bottom: 4px;
+}
+
+.form-footer {
+    display: flex;
+    flex-direction: column;
+}
+
+.error-message-text {
+    margin-bottom: 0;
+    font-weight: 400;
+    color: var(--danger);
+}
+
+.word-count {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: #424242;
+    letter-spacing: 0.035px;
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.indexing-button {
+    text-transform: uppercase;
+}
+
+/* HarvestingStatusCard styles */
+.harvesting-card-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    height: 325px;
+}
+
+.harvesting-card-wrapper .ant-card-body {
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.indexing-card .numeric-value-title {
+    margin: 0 0 8px 0;
+    text-align: left;
+    font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-text-secondary);
+    font-weight: 700;
+}
+
+.harvesting-errors-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 48px;
+    padding: 12px 16px;
+    font-size: 14px;
+    background: #f5f5f5;
+    gap: 10px;
+}
+
+.error-wrapper {
+    background: var(--color-bg-layout);
+    padding: 8px 16px;
+}
+
+.errors-info {
+    font-size: 1.2em;
+    color: var(--color-text-secondary);
+}
+
+.numbers-count {
+    color: var(--color-primary);
+    font-weight: 400;
+}
+
+/**/
+
+/* PerformanceChart styles */
+.performance-chart-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.performance-chart-inner {
+    width: 100%;
+}
+
+.performance-chart-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.performance-chart-container .recharts-tooltip-wrapper {
+    z-index: 10;
+}
+
+/* FullTextsProgressChart styles */
+.fulltexts-progress-chart {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-box {
+    width: 100%;
+}
+
+.info-chart {
+    width: 100%;
+}
+
+.fulltexts-progress-label {
+    text-align: center;
+}
+
+.harvesting-header-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1024px) {
+    .harvesting-header-wrapper {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .harvesting-header-wrapper>*:last-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .harvesting-header-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+.performance-chart-count {
+    color: #212121;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28.636px;
+    /* 96% */
+    letter-spacing: 0.045px;
+}
+
+.performance-chart-count-big {
+    font-size: 48px;
+    line-height: 46px;
+}
+
+/*column*/
+
+.visibility-icon {
+    color: var(--color-text-white);
+    font-size: 16px;
+    background: var(--success-dark);
+    padding: 0 3px;
+    width: max-content;
+}
+
+.visibility-icon.visibility-icon-dark {
+    background: var(--color-danger);
+}

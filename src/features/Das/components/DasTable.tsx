@@ -1,0 +1,137 @@
+import React, { useState, useMemo, useCallback } from 'react';
+import { CrTable } from '@/components/common/CrTable/CrTable.tsx';
+import type { DrawerConfig } from '@/components/common/CrTable/types.ts';
+import { CrDrawer } from '@components/common/CrDrawer/CrDrawer.tsx';
+import { useArticleData } from '@hooks/useArticleData.ts';
+import { getScrollConfig } from '@hooks/useScrollView.ts';
+import { useDataProviderStore } from '@/store/dataProviderStore.ts';
+import { createColumns } from '@features/Das/components/tableColumns.tsx';
+import { actions } from '@features/Das/components/tableActions.tsx';
+import { CrPaper, AccessPlaceholder, DashboardTipMessage } from '@oacore/core-ui';
+import { TextData } from '@features/Das/texts';
+import { useDasStore } from '@features/Das/store/dasStore';
+import { useDasData } from '@features/Das/hooks/useDasData.ts';
+import type { DasData } from '@features/Das/types/data.types.ts';
+import { useTablePaginationAndSort } from '@/hooks/useTablePaginationAndSort.ts';
+import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
+import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
+
+interface DasTableProps {
+  downloadCsv: () => void;
+  downloadCsvLoading?: boolean;
+}
+
+export const DasTable: React.FC<DasTableProps> = ({
+  downloadCsv,
+  downloadCsvLoading = false,
+}) => {
+  const [showHelpInfo, setShowHelpInfo] = useState(false);
+  const { selectedArticleId, setSelectedArticleId } = useDasStore();
+
+  const { selectedDataProvider } = useDataProviderStore();
+  const { organisation } = useOrganisation();
+
+  const {
+    data: accumulatedData,
+    error: dataError,
+    isLoading: dataLoading,
+    mutate
+  } = useDasData(selectedDataProvider?.id || 0);
+
+  const { isStartingPlan, displayData: billingPlanData } = useBillingPlanData(accumulatedData, organisation);
+
+  const {
+    data: articleData,
+    error: articleError,
+    isLoading: articleLoading,
+    changeArticleVisibility,
+    loading: articleActionLoading
+  } = useArticleData(selectedArticleId);
+
+  // Use the reusable hook for sorting and pagination
+  const {
+    visibleData,
+    hasMore,
+    handleSort,
+    handleLoadMore,
+    totalLength,
+  } = useTablePaginationAndSort<DasData>({
+    data: billingPlanData as DasData[],
+    itemsPerPage: 10,
+  });
+
+  // callback to handle status updates
+  const handleStatusUpdate = useCallback(() => {
+    mutate(); // Refresh the data when status is updated
+  }, [mutate]);
+
+  const columns = useMemo(() => createColumns(handleStatusUpdate), [handleStatusUpdate]);
+
+  const drawerConfig: DrawerConfig<DasData> = {
+    enabled: true,
+    content: (record: DasData) => (
+      <div className="drawer-wrapper">
+        <CrDrawer
+          article={articleData}
+          error={articleError}
+          isLoading={articleLoading}
+          isChangingVisibility={articleActionLoading}
+          onVisibilityChange={changeArticleVisibility}
+          outputsUrl={`https://core.ac.uk/outputs/${record.articleId}`}
+        />
+      </div>
+    ),
+    onRowClick: (record: DasData) => {
+      const articleId = record.articleId;
+      if (articleId) {
+        setSelectedArticleId(articleId);
+      }
+    },
+  };
+
+  return (
+    <CrPaper>
+      <div className="table-header-wrapper">
+        <h2 className="table-header">{TextData.table.title}</h2>
+        <div className="table-sub-header">{TextData.table.subTitle}</div>
+      </div>
+      <DashboardTipMessage
+        show={TextData.helpInfo.show}
+        hide={TextData.helpInfo.hide}
+        description={TextData.helpInfo.description}
+        activeText={showHelpInfo}
+        setText={setShowHelpInfo}
+      />
+      <div id="dasTable">
+        <CrTable<DasData>
+          data={visibleData}
+          columns={columns}
+          loading={dataLoading}
+          error={dataError}
+          actions={actions}
+          sortable={!isStartingPlan}
+          onSort={handleSort}
+          drawer={drawerConfig}
+          onDownloadCsv={downloadCsv}
+          downloadCsvLoading={downloadCsvLoading}
+          showLoadMore={!isStartingPlan && hasMore}
+          onLoadMore={handleLoadMore}
+          loadMoreText="Show more"
+          size="middle"
+          bordered={false}
+          rowKey={(record) => `${record.articleId}-${record.oai}`}
+          scroll={getScrollConfig()}
+          totalLength={totalLength}
+          showFooter={!isStartingPlan}
+        />
+        {isStartingPlan && (
+          <AccessPlaceholder
+            customWidth
+            description="To see and download the full list of outputs with DAS statements found in your repository become our Supporting or Sustaining member."
+          />
+        )}
+      </div>
+    </CrPaper>
+  );
+};
+

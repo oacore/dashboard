@@ -1,0 +1,607 @@
+/*ORG*/
+.section-title {
+  text-align: left;
+  margin: 54px 0 24px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  color: #212121;
+}
+
+.organisation-card {
+  width: 100%;
+}
+
+.section form {
+  max-width: 50rem;
+}
+
+.form-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.form-ror-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.form-inner-wrapper {
+  flex: 2;
+}
+
+.form-inner-wrapper form {
+  max-width: unset;
+}
+
+.save-button {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.form-message-success {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+  padding: 8px;
+  color: var(--success-dark);
+}
+
+.form-message-error {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+  padding: 8px;
+  color: var(--danger-dark);
+}
+
+.select-item .ant-select-selector {
+  border: 1px solid #ccc;
+}
+
+.select-item .ant-select-selector:hover {
+  border-color: var(--color-border-primary);
+}
+
+.select-item.ant-select-focused .ant-select-selector {
+  border-color: var(--color-border-primary);
+}
+
+.fields-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.input-item {
+  width: 50%;
+  margin: 0;
+}
+@media (max-width: 1280px) {
+  .input-item {
+    width: 100%;
+  }
+}
+
+.main-warning-wrapper {
+  flex: 1;
+}
+
+.warning-wrapper {
+  display: flex;
+  width: 350px;
+  height: max-content;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  color: var(--color-text-secondary);
+  background: rgba(253, 216, 53, 0.15);
+  gap: 10px;
+}
+
+.select-item:not(.ant-select-customize-input) .ant-select-selector {
+  border: 1px solid #ccc;
+}
+
+.select-item:not(.ant-select-customize-input) .ant-select-selection-placeholder {
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+.ror-description p {
+  margin-top: 6px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #666;
+}
+
+.spacing {
+  margin-top: 10px;
+}
+
+.ror-link {
+  text-decoration-line: underline;
+}
+
+.info-indicator-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.info-indicator {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  padding: 14px 16px;
+  margin-top: 24px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  background: rgba(139, 195, 74, 0.15);
+}
+
+.info-text {
+  margin-left: 10px;
+}
+
+.organisation-form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.invitation-user-delete {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.input-input {
+  flex: 1 1 auto;
+}
+
+.form-item {
+  margin-bottom: 0;
+}
+
+.invite-button {
+  flex: 0 0 auto;
+  width: 180px;
+  height: 44px;
+  margin-left: 1.5rem;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: .08rem;
+  padding: 7px 15px;
+}
+
+.invitation-user-delete>div {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-start;
+}
+
+.invitation-user-delete .p {
+  flex: 0 0 100%;
+  margin-top: 0.5rem;
+}
+
+.invitation-user-delete {
+  max-width: 50rem;
+  color:  var(--color-primary);;
+}
+
+.confirmation-popup span {
+  color:  var(--color-primary);
+}
+
+.invite-status {
+  width: 20px;
+  line-height: 38px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.invite-email {
+  width: 20px;
+  line-height: 38px;
+}
+
+.invite-activated {
+  color: var(--success, #52c41a);
+}
+
+.btn-delete {
+  width: 2rem;
+  height: 38px;
+  fill: var(--color-text-white);
+}
+
+.btn-delete:hover {
+  color: var(--color-text-disabled);
+  cursor: pointer;
+  fill: var(--color-text-disabled);
+}
+
+.invite-list-title {
+  margin: 8px 0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 130%;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.01px;
+  text-align: left;
+}
+
+.invite-list {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.show-btn {
+  margin-top: 14px;
+  background: transparent;
+}
+
+.show-btn:hover {
+  background: transparent;
+}
+
+/* Access Users Styles */
+.access-users-section {
+  width: 100%;
+  margin-top: 24px;
+  text-align: start;
+}
+
+.access-header-wrapper {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.access-users-subtitle {
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: var(--color-text-secondary);
+}
+
+.access-users-subtitle .highlite {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.access-users-subtitle a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.access-users-subtitle a:hover {
+  text-decoration: underline;
+}
+
+.user-main-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.access-user-name {
+  width: 50%;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.026px;
+  background: var(--color-bg-layout);
+  border-radius: 2px;
+}
+
+.sub-title {
+  margin: 14px 0 8px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04px;
+}
+
+.additional-info {
+  padding: 15px 14px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  color: #666;
+  letter-spacing: 0.042px;
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+}
+
+.dataSetAccess {
+  margin-top: 24px;
+}
+
+/* Responsive styles */
+@media (max-width: 380px) {
+  .invitation-user-delete>button,
+  .organisation-form>button {
+    margin-top: 0.5rem;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 992px) {
+  .form-wrapper {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .main-warning-wrapper {
+    min-width: 100%;
+  }
+
+  .fields-wrapper {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .invitation-user-delete {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .invite-email {
+    width: 100%;
+  }
+
+  .invite-status {
+    width: auto;
+  }
+}
+
+/* Delete modal - Ant Design 6 uses .ant-modal-container */
+.delete-modal-root .delete-modal .ant-modal-container {
+  border-radius: 2px;
+  padding: 16px;
+  width: 42rem;
+}
+
+.delete-modal-root .delete-modal .ant-modal-title {
+  font-size: 24px;
+  color: #424242;
+}
+
+.delete-modal-root .delete-modal .confirmation-modal-btn-yes {
+  background-color: var(--color-primary);
+  border-color: var(--color-border-primary);
+  color: var(--color-text-white);
+}
+
+.delete-modal-root .delete-modal .confirmation-modal-btn-yes:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: var(--color-text-white);
+}
+
+.delete-modal-root .delete-modal .confirmation-modal-btn-no {
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.delete-modal-root .delete-modal .confirmation-modal-btn-no:hover {
+  border-color: var(--color-text-disabled);
+  color: var(--color-text-secondary);
+}
+
+.delete-modal-root .delete-modal .ant-modal-footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.delete-modal-root .delete-modal .ant-modal-header {
+  margin-bottom: 16px;
+}
+
+/* Responsive styles for delete modal */
+@media (max-width: 768px) {
+  .delete-modal-root .delete-modal .ant-modal-container {
+    width: calc(100vw - 32px);
+    max-width: 100%;
+    padding: 12px;
+  }
+
+  .delete-modal-root .delete-modal .ant-modal-title {
+    font-size: 20px;
+  }
+
+  .delete-modal-root .delete-modal .confirmation-modal-content {
+    padding: 16px 0;
+  }
+
+  .delete-modal-root .delete-modal .ant-modal-footer {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .delete-modal-root .delete-modal .ant-modal-footer .ant-btn {
+    flex: 1;
+    margin: 0 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .delete-modal-root .delete-modal .ant-modal-container {
+    width: calc(100vw - 24px);
+    padding: 10px;
+  }
+
+  .delete-modal-root .delete-modal .ant-modal-title {
+    font-size: 18px;
+  }
+
+  .delete-modal-root .delete-modal .confirmation-modal-content {
+    padding: 12px 0;
+  }
+
+  .delete-modal-root .delete-modal .ant-modal-footer {
+    flex-direction: column-reverse;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .delete-modal-root .delete-modal .ant-modal-footer .ant-btn {
+    width: 100%;
+    margin: 0;
+    margin-inline-start: 0 !important;
+    padding: 4px;
+  }
+}
+
+/* Responsive styles for OrganisationCard */
+@media (max-width: 992px) {
+  .organisation-form {
+    flex-direction: column;
+  }
+
+  .invite-button {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 12px;
+  }
+
+  .form-inner-wrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .organisation-card {
+    padding: 16px;
+  }
+
+  .header-wrapper-title {
+    font-size: 20px;
+  }
+
+  .invite-list-title {
+    font-size: 13px;
+    margin: 6px 0;
+  }
+
+  .invitation-user-delete {
+    gap: 8px;
+  }
+
+  .invite-email {
+    flex: 1 1 100%;
+    word-break: break-word;
+  }
+
+  .invite-status {
+    flex: 0 0 auto;
+  }
+
+  .save-button {
+    width: 100%;
+  }
+
+  .show-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .organisation-card {
+    padding: 12px;
+  }
+
+  .header-wrapper-title {
+    font-size: 18px;
+  }
+
+  .form-wrapper {
+    gap: 12px;
+  }
+
+  .invite-button {
+    height: 40px;
+    font-size: 13px;
+  }
+
+  .invitation-user-delete {
+    padding: 8px 0;
+  }
+}
+
+/* DropdownInput Styles */
+.dropdown-input {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--color-text-white);
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 2px 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  margin-top: -1px;
+}
+
+.dropdown-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  transition: background-color 0.2s;
+}
+
+.dropdown-option:hover,
+.dropdown-option:focus {
+  background-color: var(--color-bg-layout);
+  outline: none;
+}
+
+.modal-form-input-org {
+  width: 100%;
+}

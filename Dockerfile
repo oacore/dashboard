@@ -1,36 +1,47 @@
-FROM node:18-alpine
+FROM node:24-alpine AS builder
 
 ARG NODE_ENV=production
 ARG BUILD_TARGET=azure
-ARG SENTRY_DSN
 ARG NPM_TOKEN
 ARG API_KEY
-ARG GA_TRACKING_CODE
+ARG SENTRY_DSN=""
+ARG GA_TRACKING_CODE=""
 
-ENV NODE_ENV=$NODE_ENV 
-ENV BUILD_TARGET=$BUILD_TARGET 
-ENV SENTRY_DSN=$SENTRY_DSN 
-ENV NPM_TOKEN=$NPM_TOKEN 
-ENV API_KEY=$API_KEY 
-ENV GA_TRACKING_CODE=$GA_TRACKING_CODE 
-ENV NEXT_TELEMETRY_DISABLED=1 
-ENV NODE_OPTIONS="--openssl-legacy-provider"
+# VITE_API_URL, VITE_IDP_URL come from committed .env.development / .env.production
+# VITE_API_KEY is injected from API_KEY (GitHub secret) – never commit the real key
+ENV NODE_ENV=${NODE_ENV} \
+    BUILD_TARGET=${BUILD_TARGET} \
+    NPM_TOKEN=${NPM_TOKEN} \
+    VITE_API_KEY=${API_KEY} \
+    VITE_SENTRY_DSN=${SENTRY_DSN} \
+    VITE_GA_TRACKING_CODE=${GA_TRACKING_CODE}
 
 WORKDIR /app
 
-
-COPY package.json package-lock.json* ./
+COPY package.json pnpm-lock.yaml ./
 
 RUN set -eux; \
-    echo "@oacore:registry=https://npm.pkg.github.com" > .npmrc; \
-    echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> .npmrc; \
-    npm ci --include=dev --legacy-peer-deps; \
+    TOKEN="$(printf %s "${NPM_TOKEN}" | tr -d '\r\n')"; \
+    test -n "$TOKEN"; \
+    printf "@oacore:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\n" "$TOKEN" > .npmrc; \
+    corepack enable; \
+    pnpm install --frozen-lockfile; \
     rm -f .npmrc
 
 COPY . .
 
-RUN npm run build
+RUN if [ "$NODE_ENV" = "production" ]; then pnpm run build; else pnpm run build:dev; fi
+
+FROM nginx:1.27-alpine AS runtime
+
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf /usr/share/nginx/html/* \
+    && rm -f /etc/nginx/conf.d/default.conf
+
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 8080
 
-CMD ["node_modules/next/dist/bin/next", "start", "-p", "8080"]
+CMD ["nginx", "-g", "daemon off;"]

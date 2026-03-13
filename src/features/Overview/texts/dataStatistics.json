@@ -1,0 +1,25 @@
+{
+  "title": "General information",
+  "cardTooltip": "Manage and control aggregated repository content by taking down full text or viewing the harvested metadata details",
+  "actions": [
+    {
+      "name": "Month",
+      "defaultActive": false
+    },
+    {
+      "name": "6 months",
+      "defaultActive": true
+    },
+    {
+      "name": "Year",
+      "defaultActive": false
+    }
+  ],
+  "metadata": {
+    "title": "Metadata records",
+    "caption": "Full texts"
+  },
+  "downloads": {
+    "caption": "downloads today"
+  }
+}

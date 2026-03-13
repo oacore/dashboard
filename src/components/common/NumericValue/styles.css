@@ -1,0 +1,65 @@
+.numeric-value-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.numeric-value-tooltip-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.numeric-value-title {
+  font-size: 20px;
+  color: var(--color-text-primary);
+}
+
+.numeric-value-value {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-dark);
+}
+
+.numeric-value-small .numeric-value-value {
+  font-size: 18px;
+}
+
+.numeric-value-medium .numeric-value-value {
+  font-size: 24px;
+}
+
+.numeric-value-large .numeric-value-value {
+  font-size: 32px;
+}
+
+
+.numeric-value-value.numeric-value-bold {
+  font-weight: 400;
+}
+
+.numeric-value-append {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666;
+  margin-left: 4px;
+}
+
+.numeric-value-append.numeric-value-bold {
+  font-weight: 600;
+}
+
+.numeric-value-diff {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.numeric-value-caption {
+  font-size: 14px;
+  color: var(--color-dark);
+  line-height: 1.4;
+  width: max-content;
+}

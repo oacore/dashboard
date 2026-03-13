@@ -1,0 +1,554 @@
+.message-text p {
+    margin: 0 0 0 12px;
+    text-align: start;
+    line-height: 24px;
+}
+
+.validation-field .ant-tabs-nav-wrap {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.validation-field .ant-tabs-nav-list {
+    gap: 10px;
+}
+
+.validation-field .ant-tabs-nav-wrap .ant-tabs-nav-list .ant-tabs-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    width: 247px;
+    height: 46px;
+    color: #000;
+    letter-spacing: .0015em;
+    cursor: pointer;
+    background: #fff;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .15));
+    border: unset;
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+}
+
+.validation-field .ant-tabs-nav-wrap .ant-tabs-nav-list .ant-tabs-tab .ant-tabs-tab-btn {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+/*CARDS*/
+.content {
+    padding: 2rem 1.2rem;
+    background-color: var(--color-bg-container);
+}
+
+.content-title {
+    text-align: left;
+    margin: 0 0 8px 0;
+}
+
+.soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.soon h5 {
+    margin: 0 0 24px 0;
+    font-size: 14px;
+}
+
+.inner {
+    padding: 24px 24px 48px;
+    background: #f5f5f5;
+    border-radius: 2px;
+}
+
+.riox-info {
+    margin-top: 0;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    color: #212121;
+    margin-bottom: unset;
+}
+
+.image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    width: 100%;
+    margin-top: 34px;
+}
+
+.riox-image {
+    max-width: 495px;
+}
+
+/*card*/
+.validator-sub-title-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.sub-title {
+    margin: 0 24px 0 0;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+}
+
+.validator-action-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: 24px;
+}
+
+.link-button {
+    padding: 8px 16px;
+    background: #f5f5f5;
+    border: 1px solid #b75400;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1.28px;
+}
+
+.text-field {
+    width: 100%;
+    height: 245px;
+    margin: 25px 0;
+    color: #9e9e9e;
+    resize: none;
+}
+
+.input-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.validation-button {
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1.28px;
+}
+
+/*issue card*/
+.validation-list-item {
+    margin: 24px 0;
+}
+
+.validation-card-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 1.5rem;
+    background-color: var(--color-bg-layout);
+    font-size: 16px;
+}
+
+.recomendation-text {
+    margin-top: 8px;
+}
+
+.type-card-header {
+    display: flex;
+}
+
+.card-wrapper .type-card-header {
+    margin-bottom: 14px;
+}
+
+.type-card-title {
+    margin: 0 1rem;
+    min-width: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.count-wrapper {
+    display: flex;
+    align-items: center;
+    height: max-content;
+}
+
+.count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    height: 100%;
+    padding: 4px 8px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--gray-900);
+}
+
+@media (max-width: 768px) {
+    .count {
+        font-size: 12px;
+    }
+}
+
+.warning-description {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    height: 100%;
+    padding: 4px 8px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: #212121;
+}
+
+@media (max-width: 1069px) {
+    .warning-description {
+        font-size: 12px;
+    }
+}
+
+.card-warning {
+    background: var(--warning);
+}
+
+.card-error {
+    background: var(--danger-light);
+}
+
+.card-warning-background {
+    background: rgba(225, 201, 74, 0.2);
+}
+
+.card-error-background {
+    background: #f7dfdd;
+}
+
+.card-icon-warning {
+    color: var(--warning);
+    font-size: 24px;
+}
+
+.card-icon-error {
+    color: var(--danger-light);
+    font-size: 24px;
+}
+
+
+.card-icon-comment {
+    color: #f5bb95;
+    font-size: 24px;
+}
+
+/*validator*/
+.data-error-wrapper {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--danger-dark);
+    border-radius: 2px;
+}
+
+.version-text {
+    margin-top: 0;
+    margin-left: 12px;
+}
+
+.issue-inner-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.inner-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/**/
+
+.type-card-actions {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+}
+
+.issue-button {
+    width: 50%;
+}
+
+/* content-wrapper (MyRepository) - matches CrIssuesDisplay layout */
+article.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 2rem 1.2rem;
+    margin-top: 2rem;
+    background-color: var(--color-bg-container);
+}
+
+article.content-wrapper .issue-wrapper {
+    width: 48%;
+}
+
+article.content-wrapper .issue-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 6px solid #b75400;
+}
+
+article.content-wrapper .issue-inner-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+article.content-wrapper .issue-count,
+article.content-wrapper .issue-count-red {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+    color: #fff;
+    border-radius: 50%;
+}
+
+article.content-wrapper .issue-count {
+    background: #ff5f52;
+}
+
+article.content-wrapper .issue-count-red {
+    background: #fdd835;
+}
+
+article.content-wrapper .issue-text {
+    margin: 0;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    color: #212121;
+    text-transform: uppercase;
+}
+
+article.content-wrapper .explain-text-header {
+    margin-top: 24px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    color: #212121;
+    text-align: left;
+}
+
+article.content-wrapper .explain-text {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    color: #666;
+    text-align: left;
+    margin-top: 24px;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .validator-sub-title-wrapper {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .sub-title {
+        margin: 0;
+    }
+
+    .image-wrapper {
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: center;
+    }
+
+    .riox-image {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 1024px) {
+    article.content-wrapper {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    article.content-wrapper .issue-wrapper {
+        width: 100%;
+    }
+}
+
+@media (max-width: 992px) {
+    .validator-action-wrapper {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 1.5rem 1rem;
+    }
+
+    article.content-wrapper {
+        padding: 1rem 0.75rem;
+        margin-top: 1rem;
+    }
+
+    article.content-wrapper .issue-title {
+        padding-bottom: 12px;
+    }
+
+    article.content-wrapper .issue-text {
+        font-size: 16px;
+    }
+
+    .validator-sub-title-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .sub-title {
+        margin: 0;
+    }
+
+    .text-field {
+        margin: 16px 0;
+        height: auto;
+        min-height: 180px;
+    }
+
+    .input-button {
+        justify-content: stretch;
+    }
+
+    .input-button .validation-button {
+        width: 100%;
+    }
+
+    .image-wrapper {
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+    .riox-image {
+        max-width: 100%;
+    }
+
+    .inner {
+        padding: 16px 16px 32px;
+    }
+
+    .validation-field .ant-tabs-nav-wrap {
+        justify-content: stretch;
+    }
+
+    .validation-field .ant-tabs-nav-list {
+        flex: 1;
+        justify-content: stretch;
+    }
+
+    .validation-field .ant-tabs-nav-wrap .ant-tabs-nav-list .ant-tabs-tab {
+        flex: 1;
+        width: auto;
+        min-width: 0;
+    }
+
+    .validation-field .ant-tabs-nav-wrap .ant-tabs-nav-list .ant-tabs-tab .ant-tabs-tab-btn {
+        font-size: 14px;
+    }
+
+    .validation-card-section {
+        padding: 1rem;
+        font-size: 14px;
+    }
+
+    .issue-inner-wrapper {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .type-card-actions {
+        flex-direction: column;
+    }
+
+    .issue-button {
+        width: 100%;
+    }
+
+    .data-error-wrapper {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .version-text {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .content {
+        padding: 1rem 0.75rem;
+    }
+
+    .content-title {
+        font-size: 1.25rem;
+    }
+
+    article.content-wrapper {
+        padding: 0.75rem 0.5rem;
+        margin-top: 0.75rem;
+        gap: 16px;
+    }
+
+    article.content-wrapper .issue-count,
+    article.content-wrapper .issue-count-red {
+        width: 26px;
+        height: 26px;
+        margin-right: 10px;
+        font-size: 14px;
+    }
+
+    article.content-wrapper .issue-text {
+        font-size: 14px;
+    }
+
+    .sub-title {
+        font-size: 14px;
+    }
+
+    .link-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .text-field {
+        height: auto;
+        min-height: 150px;
+    }
+
+    .validation-button {
+        font-size: 13px;
+    }
+}
