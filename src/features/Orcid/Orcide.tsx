@@ -2,14 +2,13 @@ import { BasicOrcidTable } from './components/basicOrcid/BasicOrcidtable.tsx';
 import { OtherOrcidTable } from './components/otherOrcide/OtherOrcidtable.tsx';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import "./styles.css"
-import { CrTabs } from '@components/common/CrTabs/CrTabs.tsx';
-import { CrHeader, CrFeatureLayout, CrCardsWrapper } from '@oacore/core-ui';
-import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
+import {CrHeader, CrFeatureLayout, CrCardsWrapper, CrTabs, CrShowMore} from '@oacore/core-ui';
 import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import { useOrcidStats } from '@features/Orcid/hooks/useOrcidData.ts';
 import { TextData } from './texts/index.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { useOrcidTableStore } from '@features/Orcid/store/orcidStore.ts';
+
 
 export const OrcideFeature = () => {
   const [activeTab, setActiveTab] = useState('basic')

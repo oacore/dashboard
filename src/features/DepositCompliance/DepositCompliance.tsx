@@ -1,6 +1,5 @@
-import { CrFeatureLayout, CrHeader, CrPaper, AccessPlaceholder } from '@oacore/core-ui';
+import { CrFeatureLayout, CrHeader, CrPaper, AccessPlaceholder, CrShowMore } from '@oacore/core-ui';
 import { TextData } from '@features/DepositCompliance/texts';
-import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { DepositTimeLagCard } from './components/DepositTimeLagCard';
 import { CrossRepositoryCheckCard } from './components/CrossRepositoryCheckCard';
 import { PublicationsDatesCard } from './components/PublicationsDatesCard';

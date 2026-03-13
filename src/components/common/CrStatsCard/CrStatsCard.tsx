@@ -4,7 +4,7 @@ import { InfoTooltip } from '@oacore/core-ui';
 import "./styles.css"
 import classNames from 'classnames';
 import { valueOrDefault, formatNumber } from '@/utils/helpers';
-import {LoadingOutlined} from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface CrStatsCardProps {
   title: string
@@ -133,7 +133,7 @@ export const CrStatsCard: React.FC<CrStatsCardProps> = ({
       }
 
       case loading:
-        return <Spin  indicator={<LoadingOutlined spin />} className="spinner" />
+        return <Spin indicator={<LoadingOutlined spin />} className="spinner" />
 
       default:
         return (
@@ -161,7 +161,7 @@ export const CrStatsCard: React.FC<CrStatsCardProps> = ({
           {loading ? (
             <Skeleton.Input
               active
-              size="default"
+              size="medium"
               className="loading-skeleton"
             />
           ) : (
@@ -212,7 +212,7 @@ export const CrStatsCard: React.FC<CrStatsCardProps> = ({
         {(subValue && !loading) && (
           <span className="sub-value">
             {loading ? (
-              <Spin  indicator={<LoadingOutlined spin />} className="spinner-small" />
+              <Spin indicator={<LoadingOutlined spin />} className="spinner-small" />
             ) : (
               `${displaySubValue}`
             )}{' '}

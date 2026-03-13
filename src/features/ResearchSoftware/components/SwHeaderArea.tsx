@@ -2,8 +2,7 @@ import { useCallback, useRef } from 'react'
 import { WarningFilled } from '@ant-design/icons'
 import { Radio, Switch } from 'antd'
 
-import { CrInput, CrHeader, Markdown } from '@oacore/core-ui';
-import { CrShowMore } from '@components/common/CrShowMore/CrShowMore'
+import { CrInput, CrHeader, Markdown, CrShowMore } from '@oacore/core-ui';
 
 import { TextData } from '@features/ResearchSoftware/texts'
 import '@features/ResearchSoftware/style.css'

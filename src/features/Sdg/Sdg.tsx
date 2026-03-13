@@ -1,6 +1,5 @@
-import { CrHeader, CrFeatureLayout } from '@oacore/core-ui';
+import { CrHeader, CrFeatureLayout, CrShowMore } from '@oacore/core-ui';
 import { TextData } from '@features/Sdg/texts';
-import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { useState, useEffect } from 'react';
 import ChartToggler from '@features/Sdg/components/chartToggler.tsx';
 import { sdgTypes } from '@components/common/CrSdgRendered/use-sdg-icon-renderer.tsx';

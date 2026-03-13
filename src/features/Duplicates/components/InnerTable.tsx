@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import classNames from 'classnames';
-import DashboardTipMessage from '@components/common/DashboardTipMessage/DashboardTipMessage.tsx';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';
 import type { ReusableTableColumn } from '@components/common/CrTable/types.ts';
 import { TextData } from '@features/Duplicates/texts';
@@ -8,6 +7,7 @@ import { createColumns } from './InnerTableColumn.tsx';
 import { getScrollConfig } from '@hooks/useScrollView.ts';
 import '../styles.css';
 import { actions } from '@features/Duplicates/components/tableActions.tsx';
+import {DashboardTipMessage} from '@oacore/core-ui';
 
 export interface InnerTableItem {
     oai?: string;

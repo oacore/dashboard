@@ -6,7 +6,7 @@ import idIcon from '@/assets/icons/id.svg';
 import { LoadingOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { TextData } from '@features/Orcid/texts';
 import "./styles.css"
-import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
+import { CrShowMore } from '@oacore/core-ui';
 import classNames from 'classnames';
 import { getSdgIcon } from '@components/common/CrSdgRendered/use-sdg-icon-renderer.tsx';
 

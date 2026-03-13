@@ -1,7 +1,6 @@
 import React from 'react';
 import { FileTextFilled, InfoOutlined } from '@ant-design/icons';
-import { Markdown } from '@oacore/core-ui';
-import { PercentBar } from '@components/common/PercentBar/PercentBar.tsx';
+import { Markdown, PercentBar } from '@oacore/core-ui';
 import { formatNumber } from '@utils/helpers.ts';
 import type { SupportStatusVariant, UsrnData } from '@features/Usrn/types/data.types';
 import { getCardStatusConfig } from '@features/Usrn/utils/getCardStatusConfig';

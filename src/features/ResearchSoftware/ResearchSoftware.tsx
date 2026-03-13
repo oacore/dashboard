@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useState } from 'react';
-import { CrTabs } from '@components/common/CrTabs/CrTabs.tsx';
-import { CrFeatureLayout, CrCardsWrapper } from '@oacore/core-ui';
+import {CrFeatureLayout, CrCardsWrapper, CrTabs} from '@oacore/core-ui';
+
 
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { TextData } from '@features/ResearchSoftware/texts';

@@ -1,5 +1,4 @@
-import { CrHeader, CrCardsWrapper, CrFeatureLayout } from '@oacore/core-ui';
-import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
+import { CrHeader, CrCardsWrapper, CrFeatureLayout, CrShowMore } from '@oacore/core-ui';
 import { TextData } from '@features/Duplicates/texts';
 import { useDuplicatesData } from '@features/Duplicates/hooks/useDuplicatesData';
 import { useDataProviderStore } from '@/store/dataProviderStore';

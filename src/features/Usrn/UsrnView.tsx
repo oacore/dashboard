@@ -10,8 +10,7 @@ import { useDoiStatistics } from '@features/Doi/hooks/useDoiStatistics';
 import { useIrusStats } from '@/hooks/useIrusStats';
 import { formatReportDate } from './utils/formatReportDate';
 import './style.css';
-import { CrHeader, CrPaper, CrFeatureLayout } from '@oacore/core-ui';
-import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
+import { CrHeader, CrPaper, CrFeatureLayout, CrShowMore } from '@oacore/core-ui';
 
 // SHOW which part has issues
 const ERROR_SECTION_LABELS = {

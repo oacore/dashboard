@@ -1,8 +1,7 @@
-import { CrHeader, CrPaper } from '@oacore/core-ui';
+import { CrHeader, CrPaper, CrShowMore } from '@oacore/core-ui';
 import { TextBox } from '@components/common/TextBox';
 import { MembershipCard } from '@features/Membership/components';
 import { TextData } from '@features/Membership/texts';
-import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import './styles.css';
 

@@ -1,5 +1,4 @@
-import { CrFeatureLayout, CrHeader, Markdown, CrMessage } from '@oacore/core-ui';
-import { CrShowMore } from '@components/common/CrShowMore/CrShowMore.tsx';
+import { CrFeatureLayout, CrHeader, Markdown, CrMessage, CrShowMore } from '@oacore/core-ui';
 import { useEffect, useMemo, useState } from 'react';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
