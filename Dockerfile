@@ -6,15 +6,13 @@ ARG NPM_TOKEN
 ARG API_KEY
 ARG SENTRY_DSN=""
 ARG GA_TRACKING_CODE=""
-ARG VITE_API_URL
-ARG VITE_IDP_URL
 
+# VITE_API_URL, VITE_IDP_URL come from committed .env.development / .env.production
+# VITE_API_KEY is injected from API_KEY (GitHub secret) – never commit the real key
 ENV NODE_ENV=${NODE_ENV} \
     BUILD_TARGET=${BUILD_TARGET} \
     NPM_TOKEN=${NPM_TOKEN} \
     VITE_API_KEY=${API_KEY} \
-    VITE_API_URL=${VITE_API_URL} \
-    VITE_IDP_URL=${VITE_IDP_URL} \
     VITE_SENTRY_DSN=${SENTRY_DSN} \
     VITE_GA_TRACKING_CODE=${GA_TRACKING_CODE}
 

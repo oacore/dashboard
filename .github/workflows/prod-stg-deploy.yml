@@ -55,8 +55,6 @@ jobs:
       branch_tag: ${{ steps.vars.outputs.branch_tag }}
       image_tag: ${{ steps.vars.outputs.image_tag }}
       unique_tag: ${{ steps.img.outputs.unique_tag }}
-      vite_api_url: ${{ steps.vars.outputs.vite_api_url }}
-      vite_idp_url: ${{ steps.vars.outputs.vite_idp_url }}
 
     steps:
       - name: Compute variables
@@ -99,22 +97,12 @@ jobs:
             TAG="${SHA7}-stg"
           fi
 
-          if [[ "${DEPLOY_ENV}" == "prod" ]]; then
-            VITE_API_URL="https://api.core.ac.uk"
-            VITE_IDP_URL="https://api.core.ac.uk"
-          else
-            VITE_API_URL="https://api-dev.core.ac.uk"
-            VITE_IDP_URL="https://api-dev.core.ac.uk"
-          fi
-
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
           echo "deploy_env=${DEPLOY_ENV}" >> "$GITHUB_OUTPUT"
           echo "app_name=${APP_NAME}" >> "$GITHUB_OUTPUT"
           echo "ref_to_build=${REF_TO_BUILD}" >> "$GITHUB_OUTPUT"
           echo "branch_tag=${BRANCH_TAG}" >> "$GITHUB_OUTPUT"
           echo "image_tag=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
-          echo "vite_api_url=${VITE_API_URL}" >> "$GITHUB_OUTPUT"
-          echo "vite_idp_url=${VITE_IDP_URL}" >> "$GITHUB_OUTPUT"
 
       - name: Summary
         run: |
@@ -168,25 +156,17 @@ jobs:
         run: |
           if [[ "${{ steps.vars.outputs.deploy_env }}" == "staging" ]]; then
             NODE_ENV=development
-            VITE_API_URL="https://api-dev.core.ac.uk"
-            VITE_IDP_URL="https://api-dev.core.ac.uk"
           else
             NODE_ENV=production
-            VITE_API_URL="https://api.core.ac.uk"
-            VITE_IDP_URL="https://api.core.ac.uk"
           fi
 
           echo "Building with NODE_ENV=$NODE_ENV"
-          echo "Using unique tag: ${{ steps.img.outputs.unique_tag }}"
-
           docker build \
             --build-arg NODE_ENV=$NODE_ENV \
             --build-arg SENTRY_DSN=${{ env.SENTRY_DSN }} \
             --build-arg GA_TRACKING_CODE=${{ secrets.GA_TRACKING_CODE }} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             --build-arg API_KEY=${{ secrets.API_KEY }} \
-            --build-arg VITE_API_URL="$VITE_API_URL" \
-            --build-arg VITE_IDP_URL="$VITE_IDP_URL" \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.img.outputs.unique_tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }} .
