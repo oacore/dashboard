@@ -98,24 +98,8 @@ export const cookieManager = {
     Cookies.remove('access_token', { path: '/' });
   }
 };
-
-// V3 API uses API key auth; /internal uses session/JWT
-const V3_API_KEY = env.API_KEY;
-
-// Request interceptor
-// Session auth: credentials: 'include' sends cookies automatically; server sets session via Set-Cookie
+// TODO test key
 API.interceptors.request.use((config) => {
-  const requestUrl = config.url ?? config.baseURL ?? '';
-  const useV3Auth = String(requestUrl).includes('/v3/');
-
-  // /v3 endpoints require API key - CORE API v3 expects API key auth
-  if (useV3Auth) {
-    config.headers.Authorization = `Bearer ${V3_API_KEY}`;
-    return config;
-  }
-
-  // /internal and other session endpoints: no manual auth headers
-  // Cookies are sent automatically via withCredentials: true
   return config;
 });
 
