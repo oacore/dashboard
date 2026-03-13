@@ -2,28 +2,21 @@ FROM node:24-alpine AS builder
 
 ARG NODE_ENV=production
 ARG BUILD_TARGET=azure
-ARG SENTRY_DSN
 ARG NPM_TOKEN
 ARG API_KEY
-ARG GA_TRACKING_CODE
-ARG VITE_APP_NAME="CORE Dashboard"
-ARG VITE_APP_API_BASE_URL="https://api.core.ac.uk"
-ARG VITE_API_URL="https://api.core.ac.uk"
-ARG VITE_IDP_URL="https://api.core.ac.uk"
+ARG SENTRY_DSN=""
+ARG GA_TRACKING_CODE=""
+ARG VITE_API_URL
+ARG VITE_IDP_URL
 
 ENV NODE_ENV=${NODE_ENV} \
     BUILD_TARGET=${BUILD_TARGET} \
-    SENTRY_DSN=${SENTRY_DSN} \
     NPM_TOKEN=${NPM_TOKEN} \
-    API_KEY=${API_KEY} \
-    GA_TRACKING_CODE=${GA_TRACKING_CODE} \
-    NEXT_TELEMETRY_DISABLED=1 \
-    NODE_OPTIONS="--openssl-legacy-provider" \
     VITE_API_KEY=${API_KEY} \
-    VITE_APP_NAME=${VITE_APP_NAME} \
-    VITE_APP_API_BASE_URL=${VITE_APP_API_BASE_URL} \
     VITE_API_URL=${VITE_API_URL} \
-    VITE_IDP_URL=${VITE_IDP_URL}
+    VITE_IDP_URL=${VITE_IDP_URL} \
+    VITE_SENTRY_DSN=${SENTRY_DSN} \
+    VITE_GA_TRACKING_CODE=${GA_TRACKING_CODE}
 
 WORKDIR /app
 
@@ -39,7 +32,7 @@ RUN set -eux; \
 
 COPY . .
 
-RUN pnpm run build
+RUN if [ "$NODE_ENV" = "production" ]; then pnpm run build; else pnpm run build:dev; fi
 
 FROM nginx:1.27-alpine AS runtime
 

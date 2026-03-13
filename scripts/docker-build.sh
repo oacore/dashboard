@@ -20,8 +20,6 @@ exec docker build \
   --build-arg NPM_TOKEN="$NPM_TOKEN" \
   --build-arg API_KEY="$API_KEY" \
   --build-arg GA_TRACKING_CODE="$GA_TRACKING_CODE" \
-  --build-arg VITE_APP_NAME="${VITE_APP_NAME:-CORE Dashboard}" \
-  --build-arg VITE_APP_API_BASE_URL="${VITE_APP_API_BASE_URL:-https://api.core.ac.uk}" \
-  --build-arg VITE_API_URL="${VITE_API_URL:-https://api.core.ac.uk}" \
-  --build-arg VITE_IDP_URL="${VITE_IDP_URL:-https://api.core.ac.uk}" \
+  --build-arg VITE_API_URL="$VITE_API_URL" \
+  --build-arg VITE_IDP_URL="$VITE_IDP_URL" \
   "$@"
