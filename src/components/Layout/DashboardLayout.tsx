@@ -16,7 +16,6 @@ import { useDashboardRoute } from '@hooks/useDashboardRoute';
 import { DEFAULT_DASHBOARD_PATH } from '@/utils/routes';
 import RepositorySelect from '../common/RepositorySelect/RepositorySelect';
 import { useDataProviderStore } from '@/store/dataProviderStore';
-import DataProviderLogo from '@components/common/DataProviderLogo/DataProviderLogo.tsx';
 import { useDataProviderStatistics } from '@hooks/useDataProviderStatistics';
 import { useDoiStatistics } from '@features/Doi/hooks/useDoiStatistics.ts';
 
@@ -56,6 +55,7 @@ import { usePluginConfig } from '@features/Plugins/hooks/usePluginConfig';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 import { FeedbackButton } from '@components/common/FeedbackButton/FeedbackButton';
 import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus';
+import {DataProviderLogo} from '@oacore/core-ui';
 
 const { Header, Sider, Content } = Layout;
 const { Text } = Typography;
