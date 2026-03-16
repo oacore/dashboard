@@ -133,9 +133,9 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ steps.vars.outputs.deploy_env }}" == "staging" ]]; then
-            INSTALL_DEV=true
+            NODE_ENV=development
           else
-            INSTALL_DEV=false
+            NODE_ENV=production
           fi
 
           docker build \
