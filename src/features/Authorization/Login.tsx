@@ -3,8 +3,8 @@ import { CrInput } from '@oacore/core-ui';
 import { useAuthStore } from '@/store/authStore.ts';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import "./styles.css"
-import { Cookies } from "@components/common/Cookies/Cookies.tsx";
 import { LoadingOutlined } from '@ant-design/icons';
+import {CookiesView} from '@components/common/cookies/Cookies.tsx';
 
 export const LoginFeature = () => {
   const { login, isLoading, error, clearError } = useAuthStore();
@@ -145,7 +145,7 @@ export const LoginFeature = () => {
             Privacy Policy
           </a>
         </div>
-        <Cookies />
+        <CookiesView />
       </div>
     </div>
   )

@@ -1,10 +1,10 @@
 import { useCallback, useState, useEffect } from 'react';
 import { getCookie, useCookieHandler } from '@/hooks/useCookies';
-import {CookiesPopup} from '@components/common/Cookies/CookiesPopup.tsx';
+import {CookiesPopup} from '@components/common/cookies/CookiesPopup.tsx';
 
 const COOKIE_CONSENT_KEY = 'essential_cookies_allowed';
 
-export const Cookies = () => {
+export const CookiesView = () => {
   const cookieHandler = useCookieHandler();
   const [visibleCookiePopup, setVisibleCookiePopup] = useState(
     () => !getCookie(COOKIE_CONSENT_KEY)
