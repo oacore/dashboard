@@ -1,4 +1,4 @@
-import { CrFeatureLayout, CrHeader, CrPaper, AccessPlaceholder, CrShowMore } from '@oacore/core-ui';
+import {CrFeatureLayout, CrHeader, CrPaper, AccessPlaceholder, CrShowMore, CrStatsCard} from '@oacore/core-ui';
 import { TextData } from '@features/DepositCompliance/texts';
 import { DepositTimeLagCard } from './components/DepositTimeLagCard';
 import { CrossRepositoryCheckCard } from './components/CrossRepositoryCheckCard';
@@ -12,7 +12,6 @@ import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks
 import './styles.css';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { RegionAlert } from '@features/DepositCompliance/components';
-import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import {Button, Spin} from 'antd';
 import {ExclamationCircleOutlined, CheckOutlined, PlusCircleOutlined, LoadingOutlined} from '@ant-design/icons';
 import { useEffect, useRef } from 'react';

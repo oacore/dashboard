@@ -1,9 +1,9 @@
-import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard'
 import type { SwCounts, SwTab } from '@features/ResearchSoftware/types/sw.types'
 import { TextData } from '@features/ResearchSoftware/texts'
 import {
     WarningFilled
 } from '@ant-design/icons'
+import {CrStatsCard} from '@oacore/core-ui';
 
 type Props = {
     counts?: SwCounts

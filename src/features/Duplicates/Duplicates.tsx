@@ -1,8 +1,7 @@
-import { CrHeader, CrCardsWrapper, CrFeatureLayout, CrShowMore } from '@oacore/core-ui';
+import {CrHeader, CrCardsWrapper, CrFeatureLayout, CrShowMore, CrStatsCard} from '@oacore/core-ui';
 import { TextData } from '@features/Duplicates/texts';
 import { useDuplicatesData } from '@features/Duplicates/hooks/useDuplicatesData';
 import { useDataProviderStore } from '@/store/dataProviderStore';
-import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import { useDownloadDuplicatesCsv } from '@features/Duplicates/hooks/useDownloadDuplicatesCsv';
 import { useState } from 'react';
 import type { DuplicateData } from '@features/Duplicates/types/data.types.ts';
