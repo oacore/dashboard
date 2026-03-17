@@ -2,10 +2,10 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { Button, Popover, message } from 'antd';
 import type { RrsData } from '@features/Rrs-policy/types/data.types.ts';
 import externalLink from '@/assets/icons/externalLink.svg';
-import CrStatusCard from '@/components/common/CrStatusCard';
 import { TextData } from '@features/Rrs-policy/texts';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { updateRrsStatus } from '@features/Rrs-policy/hooks/useRrsData';
+import {CrStatusCard} from '@oacore/core-ui';
 
 interface RrsColumnProps {
     record: RrsData;

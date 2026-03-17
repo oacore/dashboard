@@ -1,8 +1,7 @@
 import classNames from 'classnames';
-import NumericValue from '@/components/common/NumericValue/NumericValue';
 import PerformanceChart from './PerformanceChart';
 import '../styles.css';
-import { InfoTooltip } from '@oacore/core-ui';
+import {InfoTooltip, NumericValue} from '@oacore/core-ui';
 import React from 'react';
 
 interface ChartValue {
