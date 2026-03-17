@@ -2,8 +2,7 @@ import { BasicOrcidTable } from './components/basicOrcid/BasicOrcidtable.tsx';
 import { OtherOrcidTable } from './components/otherOrcide/OtherOrcidtable.tsx';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import "./styles.css"
-import {CrHeader, CrFeatureLayout, CrCardsWrapper, CrTabs, CrShowMore} from '@oacore/core-ui';
-import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
+import {CrHeader, CrFeatureLayout, CrCardsWrapper, CrTabs, CrShowMore, CrStatsCard} from '@oacore/core-ui';
 import { useOrcidStats } from '@features/Orcid/hooks/useOrcidData.ts';
 import { TextData } from './texts/index.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';

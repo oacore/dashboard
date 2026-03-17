@@ -1,4 +1,3 @@
-import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import { TextData as duplicatesTextData } from '@features/Duplicates/texts';
 import { TextData as daTextData } from '@features/Das/texts';
 import { TextData as rrsTextData } from '@features/Rrs-policy/texts';
@@ -23,7 +22,7 @@ import { useDepositTimeLag } from '@features/DepositCompliance/hooks/useDepositT
 import { useComplianceLevel } from '@features/DepositCompliance/hooks/useComplianceLevel';
 import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus.ts';
 import placeholder from '@/assets/icons/chartPlaceholder.svg';
-import { CrPaper } from '@oacore/core-ui';
+import {CrPaper, CrStatsCard} from '@oacore/core-ui';
 import { Button, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 

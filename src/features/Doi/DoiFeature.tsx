@@ -5,9 +5,8 @@ import { useDataProviderStatistics } from '@/hooks/useDataProviderStatistics';
 import { DoiTable } from '@features/Doi/components/DoiTable';
 import { useDoiStore } from '@features/Doi/store/doiStore';
 import { useDownloadDoiCsv } from '@features/Doi/hooks/useDownloadDoiCsv';
-import { CrFeatureLayout } from '@oacore/core-ui';
+import {CrFeatureLayout, CrStatsCard} from '@oacore/core-ui';
 import { useDataProviderStore } from '@/store/dataProviderStore';
-import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import { ExclamationCircleOutlined, CheckOutlined } from '@ant-design/icons';
 import { articleTemplateData } from '@features/Doi/texts';
 

@@ -1,6 +1,5 @@
-import { CrHeader, CrFeatureLayout, CrCardsWrapper, CrShowMore } from '@oacore/core-ui';
+import {CrHeader, CrFeatureLayout, CrCardsWrapper, CrShowMore, CrStatsCard} from '@oacore/core-ui';
 import { TextData } from '@features/Rrs-policy/texts';
-import { CrStatsCard } from '@components/common/CrStatsCard/CrStatsCard.tsx';
 import { useRrsData } from '@features/Rrs-policy/hooks/useRrsData.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { RrsTable } from '@features/Rrs-policy/components/RrsTable.tsx';

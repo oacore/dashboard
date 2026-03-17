@@ -1,6 +1,6 @@
 import { Card } from 'antd';
-import NumericValue from '@/components/common/NumericValue/NumericValue';
 import '../styles.css';
+import {NumericValue} from '@oacore/core-ui';
 
 interface BaseHarvestingCardProps {
   value: number | string | React.ReactNode;

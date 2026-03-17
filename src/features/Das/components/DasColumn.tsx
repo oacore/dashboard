@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Button, Popover, message } from 'antd';
 import externalLink from '@/assets/icons/externalLink.svg';
-import CrStatusCard from '@/components/common/CrStatusCard';
 import { TextData } from '@features/Das/texts';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import type { DasData } from '@features/Das/types/data.types.ts';
 import { updateDasStatus } from '@features/Das/hooks/useDasData.ts';
+import {CrStatusCard} from '@oacore/core-ui';
 
 interface DasColumnProps {
     record: DasData;
