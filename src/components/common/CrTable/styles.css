@@ -116,12 +116,19 @@
     }
 }
 
+.table-loading-indicator {
+    gap: 12px;
+}
+
+.table-loading-indicator .ant-spin {
+    position: static;
+    transform: translate(-50%, 0);
+}
 
 .table-loading-text {
     color: var(--gray-600, #666);
     font-size: 14px;
-    text-align: center;
-    margin-top: 8px;
+    margin: 0;
 }
 
 /* Center the loading spinner in the table */
@@ -157,6 +164,9 @@
 
 .reusable-table .ant-spin .ant-spin-dot {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover {

@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import { Table, Drawer } from 'antd';
+import {Table, Drawer, Spin} from 'antd';
 import type { MenuProps } from 'antd';
 import type { SorterResult, TablePaginationConfig, FilterValue } from 'antd/es/table/interface';
 import classNames from 'classnames';
@@ -9,6 +9,7 @@ import { CrFooter } from '@components/common/CrTable/components/CrFooter/CrFoote
 import { CrTableColumns } from '@components/common/CrTable/components/CrColumns/CrTableColumns.tsx';
 import { CrExpandableRowConfig } from '@components/common/CrTable/components/CrExpandableRow/CrExpandableRowConfig.tsx';
 import type { ReusableTableProps } from './types';
+import {LoadingOutlined} from '@ant-design/icons';
 
 export const CrTable = <T = unknown>({
     // Data props
@@ -162,6 +163,7 @@ export const CrTable = <T = unknown>({
     // Custom loading indicator with spinner and text
     const loadingIndicator = useMemo(() => (
         <div className="table-loading-indicator">
+            <Spin  indicator={<LoadingOutlined spin />} size="medium" />
             <div className="table-loading-text">
                 This may take a while, longer for larger repositories...
             </div>
