@@ -16,6 +16,7 @@ interface HarvestingProgressCardProps {
   requestError: Error | null;
   requestResponse: { [key: string]: unknown } | null;
   isHarvestingLoading: boolean;
+  isHarvestingValidating: boolean;
 }
 
 export const HarvestingProgressCard = ({
@@ -27,6 +28,7 @@ export const HarvestingProgressCard = ({
   requestError,
   requestResponse,
   isHarvestingLoading,
+  isHarvestingValidating = false,
 }: HarvestingProgressCardProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -75,10 +77,10 @@ export const HarvestingProgressCard = ({
   }, [sendHarvestingRequest]);
 
   const triggerModal = useCallback(() => {
-    if (!isRequestLoading) {
+    if (!isRequestLoading && !isHarvestingValidating) {
       setModalOpen(true);
     }
-  }, [isRequestLoading]);
+  }, [isRequestLoading, isHarvestingValidating]);
 
   const handleButtonClose = useCallback(() => {
     setModalOpen(false);
@@ -94,16 +96,21 @@ export const HarvestingProgressCard = ({
       currentDate.getTime() - lastHarvestingDate.getTime();
     const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
+    const isButtonLoading =
+      isRequestLoading ||
+      isHarvestingLoading ||
+      (Boolean(requestResponse) && isHarvestingValidating);
+
     if (differenceInDays > 5 || !harvestingStatus?.lastHarvestingRequestDate) {
       return (
         <Button
           className={classNames('indexing-button', {
-            'cursor-disable': isRequestLoading || isHarvestingLoading,
+            'cursor-disable': isButtonLoading,
           })}
           onClick={triggerModal}
           type="primary"
         >
-          {(isRequestLoading || isHarvestingLoading) ? (
+          {isButtonLoading ? (
             <div className="spinner-wrapper">
               <span>Loading</span>
               <Spin indicator={<LoadingOutlined spin />} className="button-loader" />
@@ -127,7 +134,7 @@ export const HarvestingProgressCard = ({
     }
 
     return null;
-  }, [harvestingStatus?.lastHarvestingRequestDate, isRequestLoading, isHarvestingLoading, triggerModal]);
+  }, [harvestingStatus?.lastHarvestingRequestDate, isRequestLoading, isHarvestingLoading, isHarvestingValidating, requestResponse, triggerModal]);
 
   const renderedContent = useMemo(() => {
     if (harvestingError) {

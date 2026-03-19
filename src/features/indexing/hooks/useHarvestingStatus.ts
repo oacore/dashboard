@@ -14,7 +14,7 @@ export const useHarvestingStatus = (refresh = false, dataProviderId?: number) =>
         : `/internal/data-providers/${effectiveDataProviderId}/harvesting`
       : null;
 
-  const { data, error, isLoading, mutate } = useSWR<HarvestingStatus>(
+  const { data, error, isLoading, isValidating, mutate } = useSWR<HarvestingStatus>(
     key,
     key ? () => fetcher(key, true).then((res) => res as HarvestingStatus) : null,
     { ...swrDefaultConfig, keepPreviousData: true }
@@ -24,6 +24,7 @@ export const useHarvestingStatus = (refresh = false, dataProviderId?: number) =>
     harvestingStatus: data ?? null,
     harvestingError: !!error,
     isLoading: isLoading || !isLoaded,
+    isValidating,
     mutate,
     error,
   };

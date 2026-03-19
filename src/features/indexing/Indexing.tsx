@@ -15,7 +15,7 @@ import { Markdown } from '@oacore/core-ui';
 
 export const IndexingFeature = () => {
   const { selectedDataProvider, selectedSetSpec } = useDataProviderStore();
-  const { harvestingStatus, harvestingError, mutate: refreshHarvestingStatus, isLoading: isHarvestingLoading } = useHarvestingStatus(false);
+  const { harvestingStatus, harvestingError, mutate: refreshHarvestingStatus, isLoading: isHarvestingLoading, isValidating: isHarvestingValidating } = useHarvestingStatus(false);
   const { sendHarvestingRequest, isLoading: isRequestLoading, error: requestError, responseData } = useHarvestingRequest();
   const issuesAggregation = useIssuesAggregation();
   const { statistics, error: statisticsError } = useDataProviderStatistics(selectedDataProvider?.id ?? null, selectedSetSpec);
@@ -108,6 +108,7 @@ export const IndexingFeature = () => {
           requestError={requestError}
           requestResponse={responseData}
           isHarvestingLoading={isHarvestingLoading}
+          isHarvestingValidating={isHarvestingValidating}
         />
       </div>
       <TypesList
