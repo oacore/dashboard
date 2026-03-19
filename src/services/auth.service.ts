@@ -77,4 +77,12 @@ export const authService = {
     async requestResetToken(data: { email: string }): Promise<void> {
         await http.post('/internal/auth/reset', data);
     },
+
+    async registerFromInvitation(data: {
+        email: string;
+        password: string;
+        invitationCode: string;
+    }): Promise<void> {
+        await http.post('/internal/auth/register', data);
+    },
 };

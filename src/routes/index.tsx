@@ -5,6 +5,7 @@ import { RestrictedRoute} from '@/guards/MetadataRestrictedRoute.tsx';
 import { RootRedirect } from '@/guards/RootRedirect.tsx';
 import { LoginPage } from '@/pages/Login';
 import { ResetPage } from '@/pages/Reset';
+import { InvitationPage } from '@/pages/Invitation';
 import { CreatePasswordPage } from '@/pages/CreatePassword';
 import { OrcidPage, OverviewPage, IndexingPage, ValidatorPage, DeduplicationPage, ContentPage, DepositCompliancePage, SdgPage, DasPage, RightsRetentionStrategyPage, ResearchSoftwarePage, DoiPage, UsrnPage, PluginsPage, PluginsDiscoveryPage, PluginsRecommenderPage, MembershipPage, SettingsPage } from '@/pages';
 import { MembershipTypePage } from '@/pages/MembershipType';
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
     {
         path: '/reset/:token',
         element: <CreatePasswordPage />,
+    },
+    {
+        path: '/invitation',
+        element: <InvitationPage />,
     },
     {
         path: '/',
