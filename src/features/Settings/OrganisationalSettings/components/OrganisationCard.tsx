@@ -122,12 +122,12 @@ export const OrganisationCard = () => {
     }
   }, []);
 
-  const handleRorChange = useCallback(() => {
+  // Derive isRorChanged from state - ensures it updates correctly for both typing and pasting
+  useEffect(() => {
     setRorChanged(
       rorId !== (organisation?.rorId ?? '') ||
       rorName !== (organisation?.rorName ?? '')
     );
-    setRorFormMessage(null);
   }, [rorId, rorName, organisation?.rorId, organisation?.rorName]);
 
   const handleInviteSubmit = useCallback(
@@ -293,7 +293,6 @@ export const OrganisationCard = () => {
             <form
               name="ror"
               onSubmit={handleRorSubmit}
-              onChange={handleRorChange}
             >
               <div className="fields-wrapper">
                 <div className="input-item">
