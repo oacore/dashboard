@@ -83,7 +83,6 @@ export const LoginFeature = () => {
               name="email"
               rules={[
                 { required: true, message: 'Please input your email!' },
-                { type: 'email', message: 'Please enter a valid email!' }
               ]}
             >
               <CrInput
