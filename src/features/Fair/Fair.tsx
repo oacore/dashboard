@@ -49,7 +49,10 @@ export const FairFeature = ({ data }: FairFeatureProps) => {
       <div className="fair-certification">
         <section className="certification-how-it-works" aria-labelledby="fair-how-title">
           <div>
-            <h2 id="fair-how-title" className="fair-certification-ection-title">
+            <h2
+              id="fair-how-title"
+              className="certification-section-title fair-certification-section-title"
+            >
               {howItWorks.title}
             </h2>
             <Markdown className="fair-certification-markdown">{howItWorks.description}</Markdown>
@@ -62,19 +65,34 @@ export const FairFeature = ({ data }: FairFeatureProps) => {
             height={280}
           />
         </section>
-        <section aria-labelledby="fair-application-title">
-          <h2 id="fair-application-title" className="fair-certification__section-title">
-            {applicationProcess.title}
+        <section
+          className="fair-certification-application"
+          aria-labelledby="fair-application-title"
+        >
+          <h2
+            id="fair-application-title"
+            className="certification-section-title fair-certification-section-title"
+          >
+            How to Get Started
           </h2>
-          <div className="fair-certification-steps">
+          <div className="fair-certification-steps" role="list">
             {applicationProcess.steps.map((step, index) => (
-              <div key={`step-${index}`} className="fair-certification-step">
-                <span className="fair-certification-step-num" aria-hidden>
-                  {step.step ?? index + 1}
-                </span>
-                <div>
+              <div
+                key={`step-${index}`}
+                className="fair-certification-step"
+                role="listitem"
+              >
+                <div className="fair-certification-step-track" aria-hidden>
+                  <span className="fair-certification-step-num">
+                    {step.step ?? index + 1}
+                  </span>
+                  <span className="fair-certification-step-track-line" />
+                </div>
+                <div className="fair-certification-step-content">
                   <h3 className="fair-certification-feature-title">{step.title}</h3>
-                  <Markdown className="fair-certification-markdown">{step.description}</Markdown>
+                  <Markdown className="fair-certification-markdown fair-certification-step-markdown">
+                    {step.description}
+                  </Markdown>
                 </div>
               </div>
             ))}
