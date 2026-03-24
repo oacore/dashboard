@@ -22,12 +22,15 @@
   text-align: center;
 }
 
+.fair-certification-intro-badge-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .fair-certification-intro-badge {
-  display: block;
+  height: 260px;
   width: 100%;
-  max-width: 280px;
-  height: auto;
-  margin: 0 0 32px;
 }
 
 .fair-certification-intro-text {
@@ -229,6 +232,11 @@
   gap: 16px;
   border-radius: 6px;
   background: #f5f5f5;
+}
+
+.cert-image {
+  width: 120px;
+  height: 120px;
 }
 
 .certification-title {
