@@ -47,23 +47,43 @@ export const FairFeature = ({ data }: FairFeatureProps) => {
   return (
     <CrPaper>
       <div className="fair-certification">
-        <section className="certification-how-it-works" aria-labelledby="fair-how-title">
-          <div>
+        <section className="fair-certification-intro" aria-labelledby="fair-how-title">
+          <div className="fair-certification-intro-inner">
+            <img
+              src={howItWorksImageUrl}
+              alt=""
+              className="fair-certification-intro-badge"
+              width={280}
+              height={280}
+            />
             <h2
               id="fair-how-title"
-              className="certification-section-title fair-certification-section-title"
+              className="fair-certification-intro-title certification-section-title fair-certification-section-title"
             >
-              {howItWorks.title}
+              FAIR Repository Certification
             </h2>
-            <Markdown className="fair-certification-markdown">{howItWorks.description}</Markdown>
+            <Markdown className="fair-certification-markdown fair-certification-intro-text">
+              {howItWorks.description}
+            </Markdown>
+            <p className="fair-certification-intro-cta">
+              <a
+                className="fair-certification-intro-read-more"
+                href={"https://core.ac.uk/services/fair-certification"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read more about CORE FAIR Certification on our website.
+              </a>
+              <a
+                className="fair-certification-intro-register"
+                href={"https://docs.google.com/forms/d/e/1FAIpQLScVAzXyEoPNBno9qorv2pQU9QmUalagtcoRn9Tze4V5TQZ1Pw/viewform?usp=dialog"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Register your interest
+              </a>
+            </p>
           </div>
-          <img
-            src={howItWorksImageUrl}
-            alt=""
-            className="fair-certification-how-image"
-            width={400}
-            height={280}
-          />
         </section>
         <section
           className="fair-certification-application"
@@ -71,7 +91,7 @@ export const FairFeature = ({ data }: FairFeatureProps) => {
         >
           <h2
             id="fair-application-title"
-            className="certification-section-title fair-certification-section-title"
+            className="fair-certification-application-title certification-section-title fair-certification-section-title"
           >
             How to Get Started
           </h2>
