@@ -123,6 +123,12 @@ export const menuItems = [
     ],
   },
   {
+    test: /\/fair-certification/,
+    path: 'fair-certification',
+    icon: 'fair',
+    label: 'FAIR Certification',
+  },
+  {
     test: /\/plugins/,
     path: 'plugins',
     icon: 'puzzle',
