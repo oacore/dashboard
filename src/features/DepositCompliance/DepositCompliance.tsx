@@ -17,7 +17,7 @@ import {ExclamationCircleOutlined, CheckOutlined, PlusCircleOutlined, LoadingOut
 import { useEffect, useRef } from 'react';
 import { scrollToSection } from '@utils/helpers';
 import { PublicReleaseDatesTable } from './components/PublicReleaseDatesTable';
-import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData';
+import { useStartingOrSupportingBillingPlanData } from '@features/Orcid/hooks/useStartingOrSupportingBillingPlanData';
 import { usePublicReleaseDatesStore } from '@features/DepositCompliance/store/publicReleaseDatesStore.ts';
 import { useDownloadPublicReleaseDatesCsv } from '@features/DepositCompliance/hooks/useDownloadPublicReleaseDatesCsv';
 import { useDownloadCrossDepositLagCsv } from '@features/DepositCompliance/hooks/useDownloadCrossDepositLagCsv';
@@ -47,7 +47,10 @@ export const DepositComplianceFeature = () => {
   const crossRepositoryCheckRef = useRef<HTMLDivElement>(null);
 
   const totalCount = timeLagData.reduce((sum, item) => sum + item.worksCount, 0);
-  const { isStartingPlan } = useBillingPlanData(timeLagData, organisation);
+  const { isStartingOrSupportingPlan } = useStartingOrSupportingBillingPlanData(
+    timeLagData,
+    organisation
+  );
   const isRetrieveDepositDatesInProgress = isLoading || isCrossDepositLagLoading;
 
   const handleDateChange = (startDate: string, endDate: string) => {
@@ -78,15 +81,15 @@ export const DepositComplianceFeature = () => {
       return <NotEnoughDataBasedOnDates />;
     }
 
-    if (totalCount === 0 && !isStartingPlan) {
+    if (totalCount === 0 && !isStartingOrSupportingPlan) {
       return <NotEnoughDataMessage />;
     }
 
-    if (isStartingPlan) {
+    if (isStartingOrSupportingPlan) {
       return (
         <CrPaper>
           <AccessPlaceholder
-            description="This feature is available only to Supporting or Sustaining members"
+            description="This feature is available only for Sustaining members"
           />
         </CrPaper>
       );
