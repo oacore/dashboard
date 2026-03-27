@@ -1,7 +1,7 @@
 import { CrHeader, CrPaper, CrShowMore, TextBox } from '@oacore/core-ui';
 import { MembershipCard } from '@features/Membership/components';
 import { TextData } from '@features/Membership/texts';
-import { useDataProviderStore } from '@/store/dataProviderStore.ts';
+import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import './styles.css';
 
 const getDefaultPlanName = (): string => {
@@ -10,9 +10,12 @@ const getDefaultPlanName = (): string => {
 };
 
 export const MembershipTypeFeature = () => {
-  const { selectedDataProvider } = useDataProviderStore();
-  const membershipPlan = selectedDataProvider as { billing_type?: string } | null;
-  const planName = membershipPlan?.billing_type ?? getDefaultPlanName();
+  const { organisation } = useOrganisation();
+  const billingTypeRaw = organisation?.billingPlan?.billingType?.trim();
+  const planName =
+    billingTypeRaw && billingTypeRaw.length > 0
+      ? billingTypeRaw.toLowerCase()
+      : getDefaultPlanName();
 
   return (
     <div>
