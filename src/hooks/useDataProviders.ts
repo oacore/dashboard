@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import { createSWRKey, fetcher, swrDefaultConfig } from '@config/swr.ts';
 import { useEffect } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
+import { useDashboardRoute } from '@hooks/useDashboardRoute';
 
 interface Location {
     idRepository: number;
@@ -58,6 +59,7 @@ export interface DataProvider {
 
 
 export const useUserDataProviders = (userId: string | null) => {
+    const { dataProviderId: urlDataProviderId } = useDashboardRoute();
     const key = userId ? createSWRKey(`/internal/users/${userId}/data-providers`) : null;
     const {
         selectedDataProvider,
@@ -67,6 +69,9 @@ export const useUserDataProviders = (userId: string | null) => {
         setError,
         isLoaded
     } = useDataProviderStore();
+
+    const hasDataProviderIdInUrl =
+        urlDataProviderId != null && Number.isFinite(urlDataProviderId);
 
     const { data, error, isLoading, mutate } = useSWR<DataProvider[]>(
         key,
@@ -97,9 +102,18 @@ export const useUserDataProviders = (userId: string | null) => {
         if (data == null) return;
         setDataProviders(data);
         if (data.length > 0 && !selectedDataProvider) {
+            if (hasDataProviderIdInUrl) {
+                return;
+            }
             setSelectedDataProvider(data[0]);
         }
-    }, [data, selectedDataProvider, setSelectedDataProvider, setDataProviders]);
+    }, [
+        data,
+        hasDataProviderIdInUrl,
+        selectedDataProvider,
+        setSelectedDataProvider,
+        setDataProviders,
+    ]);
 
     return {
         dataProviders: data || [],
