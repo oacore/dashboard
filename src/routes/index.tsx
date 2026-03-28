@@ -7,7 +7,27 @@ import { LoginPage } from '@/pages/Login';
 import { ResetPage } from '@/pages/Reset';
 import { InvitationPage } from '@/pages/Invitation';
 import { CreatePasswordPage } from '@/pages/CreatePassword';
-import { OrcidPage, OverviewPage, IndexingPage, ValidatorPage, DeduplicationPage, ContentPage, DepositCompliancePage, SdgPage, DasPage, RightsRetentionStrategyPage, ResearchSoftwarePage, DoiPage, UsrnPage, PluginsPage, PluginsDiscoveryPage, PluginsRecommenderPage, MembershipPage, SettingsPage } from '@/pages';
+import {
+    OrcidPage,
+    OverviewPage,
+    IndexingPage,
+    ValidatorPage,
+    DeduplicationPage,
+    ContentPage,
+    DepositCompliancePage,
+    SdgPage,
+    DasPage,
+    RightsRetentionStrategyPage,
+    ResearchSoftwarePage,
+    DoiPage,
+    UsrnPage,
+    PluginsPage,
+    PluginsDiscoveryPage,
+    PluginsRecommenderPage,
+    MembershipPage,
+    SettingsPage,
+    FAIRCertificationPage,
+} from '@/pages';
 import { MembershipTypePage } from '@/pages/MembershipType';
 import { DocumentationPage } from '@/pages/Documentation';
 import { BadgesPage } from '@/pages/Badges';
@@ -110,6 +130,10 @@ export const router = createBrowserRouter([
             {
                 path: 'usrn',
                 element: <UsrnPage />,
+            },
+            {
+                path: 'fair-certification',
+                element: <FAIRCertificationPage />,
             },
             {
                 path: 'plugins',

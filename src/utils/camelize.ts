@@ -1,8 +1,10 @@
 /**
- * Converts a string from snake_case to camelCase
+ * Converts a string from snake_case or kebab-case to camelCase
  */
 const camelizeKey = (str: string): string => {
-  return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+  return str
+    .replace(/_([a-z])/g, (_, letter) => letter.toUpperCase())
+    .replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 };
 
 const isObject = (value: unknown): value is Record<string, unknown> => {

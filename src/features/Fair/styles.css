@@ -1,0 +1,273 @@
+/* FAIR certification page layout */
+.fair-certification {
+  padding: 0 0 24px;
+}
+
+/* Intro (Frame 1194) — full width within the paper */
+.fair-certification-intro {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 40px;
+  padding: 40px 24px 48px;
+  background: #f5f5f5;
+  border-radius: 2px;
+}
+
+.fair-certification-intro-inner {
+  display: flex;
+  max-width: 720px;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.fair-certification-intro-badge-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fair-certification-intro-badge {
+  height: 260px;
+  width: 100%;
+}
+
+.fair-certification-intro-text {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.fair-certification-intro-text p {
+  margin: 0 0 12px;
+}
+
+.fair-certification-intro-text p:last-child {
+  margin-bottom: 0;
+}
+
+.fair-certification-intro-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  margin: 28px 0 0;
+}
+
+.fair-certification-intro-read-more {
+  color: #a65e17;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.fair-certification-intro-read-more:hover {
+  color: #8a4d12;
+}
+
+.fair-certification-intro-register {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-radius: 2px;
+  background: #a65e17;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+  line-height: 16px;
+  letter-spacing: 0.2px;
+}
+
+.fair-certification-intro-register:hover {
+  background: #8a4d12;
+  color: #fff;
+}
+
+.fair-certification-intro-text p {
+  text-align: center;
+}
+
+/* How to Get Started — separate block, no shared background with intro */
+.fair-certification-application {
+  padding: 8px 0 48px;
+  background: transparent;
+}
+
+.fair-certification-application-title {
+  margin: 0 0 40px;
+  text-align: center;
+}
+
+.fair-certification-markdown {
+  color: #212121;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.fair-certification-markdown p {
+  margin: 0 0 12px;
+}
+
+.fair-certification-markdown p:last-child {
+  margin-bottom: 0;
+}
+
+/* How to Get Started — vertical timeline */
+.fair-certification-steps {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.fair-certification-step {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  padding-bottom: 5px;
+}
+
+.fair-certification-step:last-child {
+  padding-bottom: 0;
+}
+
+.fair-certification-step-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 40px;
+}
+
+.fair-certification-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #a65e17;
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.fair-certification-step-track-line {
+  flex: 1;
+  width: 2px;
+  min-height: 24px;
+  margin-top: 8px;
+  background: #e0e0e0;
+}
+
+.fair-certification-step:last-child .fair-certification-step-track-line {
+  display: none;
+}
+
+.fair-certification-step-content {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  min-width: 0;
+  padding-bottom: 40px;
+}
+
+.fair-certification-feature-title {
+  margin: 0 0 16px;
+  font-style: normal;
+  color: #212121;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 130%; /* 31.2px */
+  letter-spacing: 0.036px;
+}
+
+
+.fair-certification-step-markdown p {
+  margin: 0 0 10px;
+  color: #212121;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  letter-spacing: 0.026px;
+}
+
+.fair-certification-step-markdown p:last-child {
+  margin-bottom: 0;
+}
+
+.certification-section-title {
+  color: #212121;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  margin: 0 0 26px 0;
+}
+
+.certificate-item-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+}
+
+.certificate-item {
+  display: flex;
+  padding: 16px 24px 34px 24px;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  border-radius: 6px;
+  background: #f5f5f5;
+}
+
+.cert-image {
+  width: 120px;
+  height: 120px;
+}
+
+.certification-title {
+  color: #212121;
+  text-align: center;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: 0.036px;
+  margin: 0;
+}
+
+.certification-markdown {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  /* 22.4px */
+  letter-spacing: 0.026px;
+}
+
+@media (max-width: 1280px) {
+  .certificate-item-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .certificate-item-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
