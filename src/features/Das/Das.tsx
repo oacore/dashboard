@@ -1,7 +1,6 @@
-import {CrHeader, CrFeatureLayout, CrCardsWrapper, CrShowMore, CrStatsCard} from '@oacore/core-ui';
+import {CrHeader, CrFeatureLayout, CrCardsWrapper, CrShowMore, CrStatsCard, CrPdfUpload} from '@oacore/core-ui';
 import { TextData } from '@features/Das/texts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
-import { CrPdfUpload } from '@components/common/CrPdfUpload/CrPdfUpload.tsx';
 import { usePdfUpload } from '@/hooks/usePdfUpload';
 import "./styles.css"
 import { DasTable } from '@features/Das/components/DasTable.tsx';

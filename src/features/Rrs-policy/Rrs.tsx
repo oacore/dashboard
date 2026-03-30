@@ -1,9 +1,8 @@
-import {CrHeader, CrFeatureLayout, CrCardsWrapper, CrShowMore, CrStatsCard} from '@oacore/core-ui';
+import {CrHeader, CrFeatureLayout, CrCardsWrapper, CrShowMore, CrStatsCard, CrPdfUpload} from '@oacore/core-ui';
 import { TextData } from '@features/Rrs-policy/texts';
 import { useRrsData } from '@features/Rrs-policy/hooks/useRrsData.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { RrsTable } from '@features/Rrs-policy/components/RrsTable.tsx';
-import { CrPdfUpload } from '@components/common/CrPdfUpload/CrPdfUpload.tsx';
 import { usePdfUpload } from '@/hooks/usePdfUpload';
 import "./styles.css"
 import { useDownloadRrsCsv } from '@features/Rrs-policy/hooks/useDownloadRrsCsv';
