@@ -12,8 +12,8 @@ importers:
         specifier: ^5.5.1
         version: 5.6.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@oacore/core-ui':
-        specifier: ^2.0.14
-        version: 2.0.14(@ant-design/icons@5.6.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react@19.2.14)(antd@6.3.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: ^2.0.16
+        version: 2.0.16(@ant-design/icons@5.6.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react@19.2.14)(antd@6.3.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@octokit/rest':
         specifier: ^22.0.1
         version: 22.0.1
@@ -489,8 +489,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@oacore/core-ui@2.0.14':
-    resolution: {integrity: sha512-/bTpbiZgI/q3Rsrrv6GDvQUlAeIWh3J1LA8P+d8gq5Pe10IDO4x1DkRVa2RI/S+vwSG0Hf/3krHGIkDkIW7NJA==, tarball: https://npm.pkg.github.com/download/@oacore/core-ui/2.0.14/57a4f86bfd58ce96b2e10121e5bf3c436a6e2762}
+  '@oacore/core-ui@2.0.16':
+    resolution: {integrity: sha512-xCGze/6KK1/dAAIucv9uzWcW26O+NBhEaVTj1ake1bNiLXixnNb09FTPGrk2OFn+sKfpDrbLxLYkdsVKvzSjaQ==, tarball: https://npm.pkg.github.com/download/@oacore/core-ui/2.0.16/ec55c296ec574fb2541de8fc1739236f9edf080e}
     engines: {node: '>=24.14.0', pnpm: '>=10'}
     peerDependencies:
       '@ant-design/icons': ^5.6.1
@@ -2635,12 +2635,13 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@oacore/core-ui@2.0.14(@ant-design/icons@5.6.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react@19.2.14)(antd@6.3.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@oacore/core-ui@2.0.16(@ant-design/icons@5.6.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react@19.2.14)(antd@6.3.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@ant-design/icons': 5.6.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       antd: 6.3.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       classnames: 2.5.1
       dayjs: 1.11.19
+      js-cookie: 3.0.5
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
       react-markdown: 10.1.0(@types/react@19.2.14)(react@19.2.4)
