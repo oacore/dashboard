@@ -11,6 +11,7 @@ export { ResearchSoftwarePage } from './ResearchSoftware';
 export { DoiPage } from './Doi';
 export { OrcidPage } from './Orcid';
 export { UsrnPage } from './Usrn';
+export { FAIRCertificationPage } from './FAIRCertification';
 export { PluginsPage } from './Plugins';
 export { PluginsDiscoveryPage } from './PluginsDiscovery';
 export { PluginsRecommenderPage } from './PluginsRecommender';

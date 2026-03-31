@@ -25,6 +25,7 @@ import syncIcon from '@/assets/icons/sync.svg';
 import metadataValidatorIcon from '@/assets/icons/metadata-validator.svg';
 import deduplicationIcon from '@/assets/icons/deduplication.svg';
 import fileDocumentIcon from '@/assets/icons/file-document.svg';
+import fair from '@/assets/icons/fair.svg';
 import calendarCheckIcon from '@/assets/icons/calendar-check.svg';
 import sdgIcon from '@/assets/icons/sdg.svg';
 import dasIcon from '@/assets/icons/das.svg';
@@ -66,6 +67,7 @@ const iconMap: Record<string, string> = {
     'metadata-validator': metadataValidatorIcon,
     'deduplication': deduplicationIcon,
     'file-document': fileDocumentIcon,
+    'fair': fair,
     'calendar-check': calendarCheckIcon,
     'sdg': sdgIcon,
     'das': dasIcon,
