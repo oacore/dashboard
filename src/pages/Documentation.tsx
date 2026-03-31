@@ -1,6 +1,7 @@
 import { useDocumentTitle } from '@hooks/useDocumentTitle';
 import { useState, useEffect, useRef } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore';
+import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import retrieveContent from '@/utils/retrieveContent';
 import { setAssetsUrl } from '@/utils/contentUtils';
 import { DocumentationFeature } from '@features/Documentation/Documentation.tsx';
@@ -45,6 +46,7 @@ const getSections = async (
 export const DocumentationPage = () => {
   useDocumentTitle('Documentation');
   const { selectedDataProvider } = useDataProviderStore();
+  const { organisation } = useOrganisation();
   const [stateData, setStateData] = useState<DocumentationContent>({});
   const [dataProviderDocs, setDataProviderDocs] = useState<DocumentationContent | null>(null);
   const hasLoadedRef = useRef(false);
@@ -83,7 +85,7 @@ export const DocumentationPage = () => {
         providersHeader: providersHeader as { header: { title: string; caption: string } },
         ...dataProviderDocs,
       }}
-      membershipPlan={(selectedDataProvider as { membershipPlan?: string })?.membershipPlan || null}
+      membershipPlan={organisation?.billingPlan?.billingType?.trim() || null}
       {...stateData}
     />
   );

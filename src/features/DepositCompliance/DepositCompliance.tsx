@@ -219,7 +219,7 @@ export const DepositComplianceFeature = () => {
         showMore={
           <CrShowMore
             text={TextData.description}
-            maxLetters={320}
+            maxLetters={365}
           />
         }
       />

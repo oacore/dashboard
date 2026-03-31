@@ -1,10 +1,9 @@
 import { Alert, Button, Card, Form, Spin } from 'antd';
-import { CrInput } from '@oacore/core-ui';
+import { CrInput, CookiesView } from '@oacore/core-ui';
 import { useAuthStore } from '@/store/authStore.ts';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import "./styles.css"
 import { LoadingOutlined } from '@ant-design/icons';
-import {CookiesView} from '@components/common/cookies/Cookies.tsx';
 
 export const LoginFeature = () => {
   const { login, isLoading, error, clearError } = useAuthStore();

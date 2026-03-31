@@ -48,7 +48,6 @@ import { useTutorialStore } from '@features/DashboardGuide/store/tutorialStore.t
 import './styles.css';
 import { NotificationGuide } from '@features/NotificationGuide/NotificationGuide.tsx';
 import { useNotificationGuide } from '@features/NotificationGuide/hooks/useNotificationGuide';
-import { NotificationPopover } from '@components/common/NotificationPopover/NotificationPopover';
 import { useNotification } from '@hooks/useNotification';
 import { useOaiMapping } from '@features/Settings/RepositorySettings/hooks/useOaiMapping';
 import { useSets, type SetItem } from '@features/Settings/RepositorySettings/hooks/useSets';
@@ -56,7 +55,7 @@ import { usePluginConfig } from '@features/Plugins/hooks/usePluginConfig';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 import { FeedbackButton } from '@components/common/FeedbackButton/FeedbackButton';
 import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus';
-import {DataProviderLogo} from '@oacore/core-ui';
+import {DataProviderLogo, NotificationPopover} from '@oacore/core-ui';
 
 const { Header, Sider, Content } = Layout;
 const { Text } = Typography;

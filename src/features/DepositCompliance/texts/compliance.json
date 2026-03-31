@@ -1,7 +1,7 @@
 {
-    "title": "Open Access compliance",
+    "title": "REF 2029",
     "regionWarning": "This section is not specific to your country",
-    "description": "We are now working on tools to provide OA compliance checking according to other policies. If you are interested in us helping\nyou to check compliance against a specific policy, please [contact us](https://core.ac.uk/about#contact).",
+    "description": "This tab is currently shows compliance with REF2029. You can find CORE Recommendation for REF2029 [here](https://core.ac.uk/ref). We are now working on tools to provide OA compliance checking according to other policies. If you are interested in us helping you to check compliance against a specific policy, please [contact us](https://core.ac.uk/about#contact). While the audit mechanisms haven’t been specified yet, we are currently reviewing the technical specifications in order to provide as much support as possible for the next REF iteration. The current guidance is to continue to follow the REF2024 audit specifications unless otherwise stated.",
     "compliance": {
         "total": {
             "title": "Total outputs",
