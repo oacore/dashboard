@@ -1,6 +1,12 @@
-import { CrPaper, Markdown } from '@oacore/core-ui';
+import {CrMessage, CrPaper, Markdown} from '@oacore/core-ui';
 import { toAbsoluteAssetUrl } from '@/utils/contentUtils';
+import success from '@/assets/icons/successFilledTick.svg';
+import { FairCertificationFeesTable } from './FairCertificationFeesTable';
+import { FairCertificationMembersFeesTable } from './FairCertificationMembersFeesTable';
+import { parseFairPricingTable } from './fairPricingUtils';
 import './styles.css';
+
+export type { FairPricingTable, FairPricingPrice, FairPricingHeader, FairPricingSubRow, FairPricingPriceType } from './fairPricingTypes';
 
 export type FairCertificationHowItWorks = {
   title: string;
@@ -31,6 +37,8 @@ export type FairCertificationData = {
   applicationProcess: { applicationProcess: FairCertificationApplicationProcess };
 
   certificates: { certificates: FairCertificationCertificate[] };
+  table?: unknown;
+  tableMembers?: unknown;
 };
 
 export type FairFeatureProps = {
@@ -41,6 +49,13 @@ export const FairFeature = ({ data }: FairFeatureProps) => {
   const howItWorks = data.howItWorks.howItWorks;
   const applicationProcess = data.applicationProcess.applicationProcess;
   const certificates = data.certificates.certificates;
+  const bundle = data.table && typeof data.table === 'object' ? (data.table as Record<string, unknown>) : undefined;
+
+  const feesTable =
+    parseFairPricingTable(data.table) ?? parseFairPricingTable(bundle?.table);
+
+  const membersTable =
+    parseFairPricingTable(data.tableMembers) ?? parseFairPricingTable(bundle?.tableMembers);
 
   const howItWorksImageUrl = toAbsoluteAssetUrl(howItWorks.image);
 
@@ -48,43 +63,65 @@ export const FairFeature = ({ data }: FairFeatureProps) => {
     <CrPaper>
       <div className="fair-certification">
         <section className="fair-certification-intro" aria-labelledby="fair-how-title">
-          <div className="fair-certification-intro-inner">
-            <div  className="fair-certification-intro-badge-wrapper">
-              <img
-                src={howItWorksImageUrl}
-                className="fair-certification-intro-badge"
-                alt=""
-              />
+          <div>
+            <div  className="fair-certification-intro-inner">
+              <div  className="fair-certification-intro-badge-wrapper">
+                <img
+                  src={howItWorksImageUrl}
+                  className="fair-certification-intro-badge"
+                  alt=""
+                />
+              </div>
+              <h2
+                id="fair-how-title"
+                className="fair-certification-intro-title certification-section-title fair-certification-section-title"
+              >
+                FAIR Repository Certification
+              </h2>
+              {/*TODO TEMP*/}
+              <div className="header-label">Demo</div>
+              <Markdown className="fair-certification-markdown fair-certification-intro-text">
+                {howItWorks.description}
+              </Markdown>
+              <p className="fair-certification-intro-cta">
+                <a
+                  className="fair-certification-intro-read-more"
+                  href={"https://core.ac.uk/services/fair-certification"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Read more about CORE FAIR Certification on our website.
+                </a>
+                <a
+                  className="fair-certification-intro-register"
+                  href={"https://docs.google.com/forms/d/e/1FAIpQLScVAzXyEoPNBno9qorv2pQU9QmUalagtcoRn9Tze4V5TQZ1Pw/viewform?usp=dialog"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Register your interest
+                </a>
+                {/*TODO render based on view*/}
+                <CrMessage
+                  variant="success"
+                  className="success-certification-intro-text"
+                >
+                  <img src={success} alt=""/>
+                  Your request has been submitted. We will contact you as soon as possible to arrange the payment. After this you will get access to the FAIR certification report.
+                </CrMessage>
+              </p>
             </div>
-            <h2
-              id="fair-how-title"
-              className="fair-certification-intro-title certification-section-title fair-certification-section-title"
-            >
-              FAIR Repository Certification
-            </h2>
-            {/*TODO TEMP*/}
-            <div className="header-label">Demo</div>
-            <Markdown className="fair-certification-markdown fair-certification-intro-text">
-              {howItWorks.description}
-            </Markdown>
-            <p className="fair-certification-intro-cta">
-              <a
-                className="fair-certification-intro-read-more"
-                href={"https://core.ac.uk/services/fair-certification"}
-                target="_blank"
-                rel="noopener noreferrer"
+          {/*  TODO enable based on condition */}
+            {(feesTable || membersTable) && (
+              <section
+                className="fair-certification-pricing"
+                aria-label="FAIR Certification fees and member pricing"
               >
-                Read more about CORE FAIR Certification on our website.
-              </a>
-              <a
-                className="fair-certification-intro-register"
-                href={"https://docs.google.com/forms/d/e/1FAIpQLScVAzXyEoPNBno9qorv2pQU9QmUalagtcoRn9Tze4V5TQZ1Pw/viewform?usp=dialog"}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Register your interest
-              </a>
-            </p>
+                <div className="fair-certification-pricing-tables">
+                  {feesTable ? <FairCertificationFeesTable config={feesTable} /> : null}
+                  {membersTable ? <FairCertificationMembersFeesTable config={membersTable} /> : null}
+                </div>
+              </section>
+            )}
           </div>
         </section>
         <section

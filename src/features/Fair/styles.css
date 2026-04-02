@@ -8,7 +8,7 @@
   box-sizing: border-box;
   width: 100%;
   margin: 0 0 40px;
-  padding: 40px 24px 48px;
+  padding: 40px 100px 48px;
   background: #f5f5f5;
   border-radius: 2px;
 }
@@ -203,7 +203,8 @@
   color: #212121;
   font-size: 24px;
   font-weight: 500;
-  line-height: 130%; /* 31.2px */
+  line-height: 130%;
+  /* 31.2px */
   letter-spacing: 0.036px;
 }
 
@@ -214,7 +215,8 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 150% */
+  line-height: 24px;
+  /* 150% */
   letter-spacing: 0.026px;
 }
 
@@ -274,6 +276,13 @@
   letter-spacing: 0.026px;
 }
 
+/*success view*/
+.success-certification-intro-text {
+  gap: 14px;
+  color: var(--color-text-secondary) !important;
+  background: #ECF6DF;
+}
+
 @media (max-width: 1280px) {
   .certificate-item-wrapper {
     grid-template-columns: repeat(2, 1fr);
@@ -284,4 +293,182 @@
   .certificate-item-wrapper {
     grid-template-columns: 1fr;
   }
+  .fair-certification-intro {
+    padding: 20px 16px;
+  }
+}
+
+/* FAIR Certification pricing tables */
+.fair-certification-pricing {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.fair-certification-pricing-tables {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 40px;
+}
+
+@media (max-width: 767px) {
+  .fair-certification-pricing-tables {
+    gap: 28px;
+  }
+}
+
+/*
+ * Scroll: only horizontal on narrow viewports. With overflow-x: auto, overflow-y must not be
+ * `visible` (it computes to auto and adds a vertical scrollbar). Use hidden — height still grows with content.
+ */
+.fair-certification-pricing-table-responsive {
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .fair-certification-pricing-table-responsive {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .fair-certification-pricing-table-responsive > .fair-certification-pricing-table.ant-table-wrapper {
+    width: max-content;
+    min-width: 100%;
+  }
+}
+
+.fair-certification-pricing-table.ant-table-wrapper {
+  width: 100%;
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table {
+  width: 100%;
+  color: #212121;
+  font-size: 15px;
+  line-height: 1.35;
+  background: #fff;
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-container {
+  border-radius: 0;
+}
+
+@media (min-width: 768px) {
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-table.ant-table-wrapper .ant-table {
+    table-layout: fixed;
+  }
+}
+
+@media (max-width: 767px) {
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-table.ant-table-wrapper .ant-table {
+    table-layout: auto;
+  }
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-thead > tr > th,
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody > tr > td {
+  border-color: #d0d0d0;
+  padding: 12px 14px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-thead > tr > th {
+  background: #fff;
+  font-weight: 700;
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody > tr > td {
+  font-variant-numeric: tabular-nums;
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody > tr.ant-table-row:hover > td {
+  background: #fff;
+}
+
+@media (max-width: 767px) {
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-table.ant-table-wrapper .ant-table-thead > tr > th,
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody > tr > td {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .fair-certification-pricing-table-responsive .fair-certification-table-title-row {
+    font-size: 14px;
+  }
+
+  .fair-certification-pricing-table-responsive .fair-certification-band-caption {
+    font-size: 12px;
+  }
+
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-header-md {
+    font-size: 12px;
+  }
+}
+
+.fair-certification-table-title-row {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.fair-certification-pricing-th-empty {
+  display: block;
+  min-height: 1em;
+}
+
+.fair-certification-pricing-header-md {
+  display: block;
+  margin: 0;
+  text-align: center;
+}
+
+.fair-certification-pricing-header-md p {
+  margin: 0;
+}
+
+.fair-certification-pricing-header-md a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.fair-certification-band-title {
+  display: block;
+}
+
+.fair-certification-band-caption {
+  display: block;
+  margin-top: 4px;
+  font-weight: 400;
+  font-size: 13px;
+  color: #424242;
+}
+
+.fair-certification-price-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.fair-certification-price-discounted {
+  color: #a65e17;
+  font-weight: 600;
+}
+
+.fair-certification-price-struck {
+  color: #212121;
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+.fair-certification-pricing-td--sustaining {
+  vertical-align: middle;
+}
+
+.fair-certification-price-free {
+  color: #a65e17;
+  font-weight: 700;
 }
