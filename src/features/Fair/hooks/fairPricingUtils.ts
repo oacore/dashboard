@@ -2,7 +2,7 @@ import type {
   FairPricingPrice,
   FairPricingPriceType,
   FairPricingTable,
-} from './fairPricingTypes';
+} from '../types/fairPricingTypes.ts';
 
 /** CMS may send the table object directly or under `table` / `tableMembers`. */
 export const parseFairPricingTable = (value: unknown): FairPricingTable | undefined => {

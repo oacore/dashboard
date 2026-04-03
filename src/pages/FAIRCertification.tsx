@@ -2,6 +2,7 @@ import { useDocumentTitle } from '@hooks/useDocumentTitle.ts';
 import { useState, useEffect, useRef } from 'react';
 import retrieveContent from '@/utils/retrieveContent';
 import { FairFeature, type FairCertificationData } from '@features/Fair/Fair.tsx';
+// import {ApprovedFairView} from '@features/Fair/components/ApprovedFairView.tsx';
 
 const loadFairCertification = async (ref?: string): Promise<FairCertificationData> => {
   return (await retrieveContent('fair-certification', {
@@ -30,6 +31,10 @@ export function FAIRCertificationPage() {
   if (!stateData) {
     return null;
   }
+  // TODO RENDER VIEW BASED ON STATUS
 
-  return <FairFeature data={stateData} />;
+  return (
+    // true ? <ApprovedFairView/> : <FairFeature data={stateData} />
+    <FairFeature data={stateData} />
+  );
 }

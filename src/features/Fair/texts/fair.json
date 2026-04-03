@@ -1,0 +1,10 @@
+{
+  "approvedView": {
+    "title": "FAIR certification: Not certified",
+    "certificationDescription": "*Your repository is not certified yet. In the report below you can review the estimation to what extent your repository correspond to the FAIR principles.*",
+    "lastReportUpdateLine": "**Date of the last report update:** 26.05.2025",
+    "submissionsLine": "**Number of submissions:** 0",
+    "aboutButtonLabel": "About CORE FAIR Certification",
+    "downloadReportButtonLabel": "Download report"
+  }
+}

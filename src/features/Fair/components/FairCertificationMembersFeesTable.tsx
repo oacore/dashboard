@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Markdown } from '@oacore/core-ui';
-import type { FairPricingHeader, FairPricingTable } from './fairPricingTypes';
-import { findPrice, formatGbp } from './fairPricingUtils';
+import type { FairPricingHeader, FairPricingTable } from '../types/fairPricingTypes.ts';
+import { findPrice, formatGbp } from '../hooks/fairPricingUtils.ts';
 
 export type FairCertificationMembersFeesTableProps = {
   config: FairPricingTable;

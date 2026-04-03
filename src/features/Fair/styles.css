@@ -472,3 +472,38 @@
   color: #a65e17;
   font-weight: 700;
 }
+/*header cer*/
+.fair-button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 48px;
+}
+
+.fair-certification-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+}
+
+.fair-certification-header-inner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.fair-certification-title {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  margin: 0;
+}
+
+.fair-certification-description {
+  margin: 10px 0 26px 0;
+  color: #666;
+}
