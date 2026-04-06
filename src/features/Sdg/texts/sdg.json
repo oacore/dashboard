@@ -6,7 +6,8 @@
             "title": "Show as %"
         },
         "table": {
-            "title": "Number of articles with SDG"
+            "title": "Number of articles with SDG",
+            "placeholder": "No papers with SDG labels found in your repository."
         }
     },
     "table": {

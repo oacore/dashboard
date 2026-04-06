@@ -4,6 +4,7 @@ export interface ToggleData {
 
 export interface ChartTable {
     title: string;
+    placeholder: string;
 }
 
 export interface ChartData {
