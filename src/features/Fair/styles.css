@@ -9,7 +9,7 @@
   width: 100%;
   margin: 0 0 40px;
   padding: 40px 100px 48px;
-  background: #f5f5f5;
+  background: var(--color-bg-layout);
   border-radius: 2px;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .fair-certification-intro-read-more {
-  color: #a65e17;
+  color: var(--color-primary);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
@@ -66,7 +66,7 @@
 }
 
 .fair-certification-intro-read-more:hover {
-  color: #8a4d12;
+  color: var(--color-primary-dark);
 }
 
 .fair-certification-intro-register {
@@ -76,8 +76,8 @@
   min-height: 44px;
   padding: 8px 16px;
   border-radius: 2px;
-  background: #a65e17;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-text-white);
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;
@@ -87,8 +87,8 @@
 }
 
 .fair-certification-intro-register:hover {
-  background: #8a4d12;
-  color: #fff;
+  background: var(--color-primary-dark);
+  color: var(--color-text-white);
 }
 
 .fair-certification-intro-text p {
@@ -110,9 +110,9 @@
   margin-bottom: 16px;
   width: max-content;
   border-radius: 2px;
-  background: #8bc34a;
+  background: var(--success);
   padding: 3px 7px;
-  color: #fff;
+  color: var(--color-text-white);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -121,7 +121,7 @@
 }
 
 .fair-certification-markdown {
-  color: #212121;
+  color: var(--color-text-secondary);;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
@@ -167,8 +167,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #a65e17;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-text-white);
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
@@ -180,7 +180,7 @@
   width: 2px;
   min-height: 24px;
   margin-top: 8px;
-  background: #e0e0e0;
+  background: var(--gray-300);
 }
 
 .fair-certification-step:last-child .fair-certification-step-track-line {
@@ -200,7 +200,7 @@
 .fair-certification-feature-title {
   margin: 0 0 16px;
   font-style: normal;
-  color: #212121;
+  color: var(--color-text-secondary);;
   font-size: 24px;
   font-weight: 500;
   line-height: 130%;
@@ -211,7 +211,7 @@
 
 .fair-certification-step-markdown p {
   margin: 0 0 10px;
-  color: #212121;
+  color: var(--color-text-secondary);;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -225,7 +225,7 @@
 }
 
 .certification-section-title {
-  color: #212121;
+  color: var(--color-text-secondary);
   text-align: center;
   font-size: 32px;
   font-style: normal;
@@ -247,7 +247,7 @@
   align-items: center;
   gap: 16px;
   border-radius: 6px;
-  background: #f5f5f5;
+  background: var(--color-bg-layout);
 }
 
 .cert-image {
@@ -256,7 +256,7 @@
 }
 
 .certification-title {
-  color: #212121;
+  color: var(--color-text-secondary);
   text-align: center;
   font-size: 24px;
   font-style: normal;
@@ -267,7 +267,7 @@
 }
 
 .certification-markdown {
-  color: #000;
+  color: var(--color-dark);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -344,10 +344,10 @@
 
 .fair-certification-pricing-table.ant-table-wrapper .ant-table {
   width: 100%;
-  color: #212121;
+  color: var(--color-text-secondary);
   font-size: 15px;
   line-height: 1.35;
-  background: #fff;
+  background: var(--color-text-white);
 }
 
 .fair-certification-pricing-table.ant-table-wrapper .ant-table-container {
@@ -368,14 +368,14 @@
 
 .fair-certification-pricing-table.ant-table-wrapper .ant-table-thead > tr > th,
 .fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody > tr > td {
-  border-color: #d0d0d0;
+  border-color: #B9B9B9;
   padding: 12px 14px;
   text-align: center;
   vertical-align: middle;
 }
 
 .fair-certification-pricing-table.ant-table-wrapper .ant-table-thead > tr > th {
-  background: #fff;
+  background: var(--color-text-white);
   font-weight: 700;
 }
 
@@ -384,7 +384,7 @@
 }
 
 .fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody > tr.ant-table-row:hover > td {
-  background: #fff;
+  background: var(--color-text-white);
 }
 
 @media (max-width: 767px) {
@@ -454,12 +454,12 @@
 }
 
 .fair-certification-price-discounted {
-  color: #a65e17;
+  color: var(--color-primary);
   font-weight: 600;
 }
 
 .fair-certification-price-struck {
-  color: #212121;
+  color: var(--color-text-secondary);
   text-decoration: line-through;
   font-weight: 400;
 }
@@ -469,7 +469,7 @@
 }
 
 .fair-certification-price-free {
-  color: #a65e17;
+  color: var(--color-primary);
   font-weight: 700;
 }
 /*header cer*/
@@ -507,3 +507,112 @@
   margin: 10px 0 26px 0;
   color: #666;
 }
+
+/* Approved view — FAIR principles accordion (Ant Design Collapse) */
+.fair-principles-accordion-section {
+  box-sizing: border-box;
+  margin-top: 40px;
+  padding: 32px 0;
+  border-top: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.fair-principles-collapse {
+  background: transparent;
+}
+
+.fair-principles-collapse .ant-collapse-item {
+  margin: 0 0 32px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px !important;
+  background: var(--color-text-white);
+  overflow: hidden;
+}
+
+.fair-principles-collapse .ant-collapse-item:last-child {
+  margin-bottom: 0;
+}
+
+.fair-principles-collapse .ant-collapse-item .ant-collapse-header {
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.fair-principles-collapse .ant-collapse-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.fair-principles-collapse .ant-collapse-expand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline-end: 0;
+}
+
+.fair-principles-collapse-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 12px;
+  text-align: left;
+}
+
+.fair-principles-collapse-label .fair-principles-collapse-title {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: 0.036px;
+}
+
+.fair-principles-collapse-label .fair-principles-collapse-desc {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  font-style: normal;
+  line-height: 130%; /* 18.2px */
+  letter-spacing: 0.042px;
+}
+
+
+.fair-principles-collapse .ant-collapse-content-box {
+  padding: 24px;
+}
+
+/**/
+.fair-principles-collapse-expand-icon {
+  height: 59px;
+  border-radius: 4px;
+  background: var(--color-bg-layout);
+  transition: transform 0.2s ease;
+  display: flex;
+  width: 62px;
+  padding: 3px 0;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.fair-principles-collapse-chevron {
+  font-size: 16px;
+  color: var(--color-primary);
+}
+
+.fair-principles-operational-form {
+  width: 100%;
+  max-width: 720px;
+}
+
+.fair-principles-accordion-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+}
+

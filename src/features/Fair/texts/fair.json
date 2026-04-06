@@ -6,5 +6,46 @@
     "submissionsLine": "**Number of submissions:** 0",
     "aboutButtonLabel": "About CORE FAIR Certification",
     "downloadReportButtonLabel": "Download report"
+  },
+  "principlesAccordion": {
+    "sectionAriaLabel": "FAIR principles and certification questions",
+    "saveButtonLabel": "Save",
+    "submitButtonLabel": "Submit",
+    "findable": {
+      "title": "Findable",
+      "description": "The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers. Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process.",
+      "expandedDetail": "Metadata and data should be easy to find for both humans and computers. Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process."
+    },
+    "accessible": {
+      "title": "Accessible",
+      "description": "Once the user finds the required data, she/he/they need to know how they can be accessed, possibly including authentication and authorisation.",
+      "expandedDetail": "Once the user finds the required data, she/he/they need to know how they can be accessed, possibly including authentication and authorisation."
+    },
+    "interoperable": {
+      "title": "Interoperable",
+      "description": "The data usually need to be integrated with other data. In addition, the data need to interoperate with applications or workflows for analysis, storage, and processing.",
+      "expandedDetail": "The data usually need to be integrated with other data. In addition, the data need to interoperate with applications or workflows for analysis, storage, and processing."
+    },
+    "reusable": {
+      "title": "Reusable",
+      "description": "The ultimate goal of FAIR is to optimise the reuse of data. To achieve this, metadata and data should be well-described so that they can be replicated and/or combined in different settings.",
+      "expandedDetail": "The ultimate goal of FAIR is to optimise the reuse of data. To achieve this, metadata and data should be well-described so that they can be replicated and/or combined in different settings."
+    },
+    "fitForFunders": {
+      "title": "Fit for funders",
+      "description": "The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers. Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process.",
+      "expandedDetail": "The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers. Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process."
+    },
+    "fitForFuture": {
+      "title": "Fit for future",
+      "description": "The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers. Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process.",
+      "expandedDetail": "The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers. Machine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process."
+    },
+    "operational": {
+      "title": "Operational / Environmental considerations",
+      "description": "We have run an automatic check of your repository. To get certification please answer following questions:",
+      "questionRepositoryPolicy": "Describe your repository’s data retention and access policy.",
+      "questionEnvironmental": "Describe any environmental or operational considerations relevant to your repository."
+    }
   }
 }
