@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import type { TooltipContentProps } from 'recharts'
+import { TextData } from '@features/Sdg/texts';
 import "../styles.css"
 
 import { formatNumber } from '@utils/helpers.ts';
@@ -90,7 +91,13 @@ const ReChartBarChart = ({
     );
   };
 
-  return (
+  return data?.length === 0 && !sdgYearDataLoading ? (
+    <div className="chart-placeholder">
+      <span className="chart-text">
+        {TextData.chart.table.placeholder}
+      </span>
+    </div>
+  ) : (
     <div className="chart-wrapper">
       <div className="inner-chart-wrapper">
         <div style={{ width: '100%', height: 400 }}>

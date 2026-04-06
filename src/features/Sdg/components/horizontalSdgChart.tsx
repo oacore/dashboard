@@ -10,6 +10,7 @@ import {
 import type { LabelProps } from 'recharts';
 import "../styles.css";
 import { formatNumber } from '@utils/helpers.ts';
+import {TextData} from '@features/Sdg/texts';
 
 interface SdgType {
   id: string;
@@ -56,6 +57,7 @@ interface HorizontalChartProps {
   toggle: boolean;
   sdgTypes?: SdgTypeBase[];
   checkBillingType?: boolean;
+  renderView?: boolean;
 }
 
 const CustomYAxisTick = ({ x, y, data, index, checkBillingType }: CustomYAxisTickProps) => {
@@ -148,6 +150,7 @@ const HorizontalChart = ({
   updatedSdgTypes,
   toggle,
   checkBillingType,
+                           renderView,
 }: HorizontalChartProps) => {
   const filteredData = data.filter((item) => item.id !== 'all' && item.iconH);
 
@@ -177,7 +180,14 @@ const HorizontalChart = ({
     );
   };
 
-  return (
+
+  return renderView ? (
+    <div className="chart-placeholder">
+      <span className="chart-text">
+        {TextData.chart.table.placeholder}
+      </span>
+    </div>
+  ) : (
     <ResponsiveContainer width="100%" height={sortedData.length * 50}>
       <BarChart
         layout="vertical"
@@ -207,10 +217,7 @@ const HorizontalChart = ({
           tickLine={false}
         />
         <Bar dataKey="outputCount" fill="#8884d8">
-          <LabelList
-            dataKey="outputCount"
-            content={renderLabel}
-          />
+          <LabelList dataKey="outputCount" content={renderLabel} />
           {sortedData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
