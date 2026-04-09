@@ -275,14 +275,17 @@ export function DashboardLayout() {
         dataProviderId?: number
     ) => {
         if (!user?.id || userID !== user.id) return;
-
+        // TODO TEST
         try {
             if (notificationId === 'all') {
                 await markNotificationAsRead('all');
             } else {
                 await markNotificationAsRead(notificationId);
                 if (dataProviderId) {
-                    navigate(buildPath('indexing'));
+                    const notification = notifications.find((n) => n.id === notificationId);
+                    const subPath =
+                        notification?.type === 'duplicates' ? 'deduplication' : 'indexing';
+                    navigate(buildPath(subPath, dataProviderId));
                 }
             }
         } catch (err) {
@@ -426,7 +429,7 @@ export function DashboardLayout() {
                                         loading={loadingSets}
                                         notFoundContent={
                                             loadingSets ? (
-                                                <Spin  indicator={<LoadingOutlined spin />} size="small" />
+                                                <Spin indicator={<LoadingOutlined spin />} size="small" />
                                             ) : (
                                                 'No sets found'
                                             )
@@ -446,6 +449,7 @@ export function DashboardLayout() {
                         handleNotificationClick={handleNotificationClick}
                         userID={user?.id}
                         hasUnreadNotifications={unreadCount > 0}
+                        selectedDataProvider={selectedDataProvider?.id}
                     >
                         <Badge className="count" count={unreadCount}>
                             <BellOutlined className="bell-icon" />
