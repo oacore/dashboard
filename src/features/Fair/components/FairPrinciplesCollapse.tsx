@@ -32,7 +32,6 @@ export const FairPrinciplesCollapse = ({
   const [openAnswersForm] = Form.useForm();
 
   const recommendationHeading = principlesAccordion.recommendationHeading ?? 'Recommendation';
-  const openQuestionBadge = principlesAccordion.openQuestionBadge ?? 'Open question';
 
   const handleSave = () => {
     onSave?.();
@@ -57,14 +56,13 @@ export const FairPrinciplesCollapse = ({
         ),
         children: (
           <FairPrincipleSectionContent
-            openQuestionBadge={openQuestionBadge}
             recommendationHeading={recommendationHeading}
             section={section}
           />
         ),
       };
     });
-  }, [openQuestionBadge, principlesAccordion, recommendationHeading]);
+  }, [ principlesAccordion, recommendationHeading]);
 
   return (
     <section

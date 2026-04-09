@@ -6,13 +6,11 @@ import '../styles.css';
 export type FairPrincipleSectionContentProps = {
   section: FairPrincipleSection;
   recommendationHeading: string;
-  openQuestionBadge: string;
 };
 
 export const FairPrincipleSectionContent = ({
   section,
   recommendationHeading,
-  openQuestionBadge,
 }: FairPrincipleSectionContentProps) => {
   if (!section.items?.length) {
     return null;
@@ -24,7 +22,6 @@ export const FairPrincipleSectionContent = ({
         <FairPrincipleQuestionBlock
           item={item}
           key={item.id}
-          openQuestionBadge={openQuestionBadge}
           recommendationHeading={recommendationHeading}
         />
       ))}

@@ -558,6 +558,10 @@
   margin-bottom: 0;
 }
 
+.fair-principles-collapsible-root .ant-collapse-borderless >.ant-collapse-item:last-child {
+  border: 1px solid var(--color-border);
+}
+
 .fair-principles-collapse .ant-collapse-item .ant-collapse-header {
   align-items: flex-start;
   padding: 24px;
@@ -641,25 +645,14 @@
 .fair-principles__panel-body {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 24px;
 }
 
 .fair-principles__question {
-  padding: 8px 0 24px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.fair-principles__question:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-.fair-principles__question-code {
-  margin: 0 0 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-text-tertiary, #888);
-  letter-spacing: 0.02em;
+  border-radius: 10px;
+  border: 1px solid var(--gray-300);
+  background: var(--color-bg-container);
+  padding: 24px;
 }
 
 .fair-principles__status-note {
@@ -692,10 +685,15 @@
   line-height: 1.1;
 }
 
-.fair-principles__open-block {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px dashed var(--color-border);
+/*.fair-principles__open-block {*/
+/*  margin-top: 16px;*/
+/*  padding-top: 16px;*/
+/*  border-top: 1px dashed var(--color-border);*/
+/*}*/
+
+.fair-principles__open-field textarea {
+  height: 108px;
+  margin-top: 24px;
 }
 
 .fair-principles__open-badge {
@@ -822,4 +820,43 @@
   line-height: 130%;
   /* 31.2px */
   letter-spacing: 0.036px;
+}
+
+.required-link {
+  background: #F5F5F5;
+  min-width: 80px;
+  text-align: center;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 2px;
+  font-size: 16px;
+  text-transform: capitalize;
+  align-content: center;
+  width: max-content;
+  color: #9E9E9E;
+}
+
+.support-status__row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: stretch;
+  margin: 15px 0 0 0;
+}
+
+.support-status__question-wrap {
+  background: #F5F5F5;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%; /* 20.8px */
+  letter-spacing: 0.01px;
+}
+
+.file-icon {
+  font-size: 20px;
 }

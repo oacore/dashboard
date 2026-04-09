@@ -1,4 +1,4 @@
-import {InfoOutlined} from '@ant-design/icons';
+import {InfoOutlined, FileTextOutlined} from '@ant-design/icons';
 import {Markdown} from '@oacore/core-ui';
 import {Form, Input} from 'antd';
 
@@ -11,13 +11,11 @@ import '../styles.css';
 export type FairPrincipleQuestionBlockProps = {
   item: FairQuestionItem;
   recommendationHeading: string;
-  openQuestionBadge: string;
 };
 
 export const FairPrincipleQuestionBlock = ({
   item,
   recommendationHeading,
-  openQuestionBadge,
 }: FairPrincipleQuestionBlockProps) => {
   const statusClass = getFairQuestionStatusClassName(item.statusLabel);
   const displayStatus = item.statusLabel ?? '—';
@@ -30,10 +28,12 @@ export const FairPrincipleQuestionBlock = ({
           <p className="fair-principles__question-code">{item.code}</p>
           <h4 className="support-status__question">{item.question}</h4>
         </div>
+        <span className="required-link">
+          <FileTextOutlined  className="file-icon"/>
+        </span>
         <span className={`support-status__status ${statusClass}`}>{displayStatus}</span>
       </div>
-
-      <div className="support-status__row">
+      {item.description &&   <div className="support-status__row">
         <div className="support-status__description">
           <Markdown>{item.description}</Markdown>
           {item.statusNote ? (
@@ -44,9 +44,22 @@ export const FairPrincipleQuestionBlock = ({
         </div>
         <span aria-hidden className="support-status__status support-status__status--hidden" />
       </div>
+      }
 
       {/*TODO ADD BAR CHART IF HAVE*/}
 
+
+      {isOpenQuestion ? (
+        <div className="fair-principles__open-block">
+          <Form.Item className="fair-principles__open-field" name={item.id}>
+            <Input.TextArea
+              aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
+              placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
+              rows={4}
+            />
+          </Form.Item>
+        </div>
+      ) : null}
 
       {item.recommendation ? (
         <div className="support-status__recommendation">
@@ -57,19 +70,6 @@ export const FairPrincipleQuestionBlock = ({
               <Markdown>{item.recommendation}</Markdown>
             </div>
           </div>
-        </div>
-      ) : null}
-
-      {isOpenQuestion ? (
-        <div className="fair-principles__open-block">
-          <span className="fair-principles__open-badge">{openQuestionBadge}</span>
-          <Form.Item className="fair-principles__open-field" name={item.id}>
-            <Input.TextArea
-              aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
-              placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
-              rows={4}
-            />
-          </Form.Item>
         </div>
       ) : null}
     </div>

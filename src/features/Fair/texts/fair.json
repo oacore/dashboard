@@ -46,7 +46,13 @@
           "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "question": "How many metadata records are there in your repository?",
-          "description": "**Indexed content**\n\nThe number of records CORE is able to index from your digital repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way.",
+          "statusLabel": "Open question"
+        },
+        {
+          "id": "",
+          "code": "",
+          "question": "Indexed content",
+          "description": "The number of records CORE is able to index from your digital repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way.",
           "statusLabel": "Yes"
         }
       ]
@@ -108,7 +114,7 @@
           "code": "R(3.2)",
           "question": "Do your metadata use COAR vocabularies?",
           "description": "COAR (Confederation of Open Access Repositories) vocabularies are structured sets of terms organized to provide a common framework for the sharing and integration of data across different systems. They comprise three types: Access rights, resource types and version types.",
-          "recommendation": "A metadata profile such as RIOXX can provide an easy way to share and use COAR vocabularies in your metadata.\n\n**Access rights:** describe the access status of a resource, such as “embargoed access” or “restricted access”.\n\n**Resource type:** describe the type of resource, such as “patent”, “bibliography” or “conference presentation”.\n\n**Version type:** distinguish the various states of an academic article, including the version of record (VOR), the Author’s Original (AO) and the Author’s Accepted Manuscript (AM).",
+          "recommendation": "A metadata profile such as RIOXX can provide an easy way to share and use COAR vocabularies in your metadata.\n\nAccess rights: describe the access status of a resource, such as “embargoed access” or “restricted access”.\n\nResource type: describe the type of resource, such as “patent”, “bibliography” or “conference presentation”.\n\nVersion type: distinguish the various states of an academic article, including the version of record (VOR), the Author’s Original (AO) and the Author’s Accepted Manuscript (AM).",
           "statusLabel": "Yes"
         },
         {
@@ -117,8 +123,6 @@
           "question": "Does your repository support persistent management of records?",
           "description": "A repository with persistent management ensures that metadata and content are not lost, that links remain valid and that researchers can reliably cite and access resources over time.",
           "recommendation": "It is recommended that the repository implements a recognized system for persistent identifiers like DOI or ROR. Clear policies should be in place for record versioning, updates and withdrawal, ensuring transparency and trustworthiness. Documentation of these policies should be openly available to users.",
-          "openQuestion": true,
-          "answerPlaceholder": "Write your answer here …",
           "statusLabel": "Open question"
         },
         {
@@ -127,7 +131,7 @@
           "question": "Is your repository configured for the OAI resolver and does it work?",
           "description": "An OAI (Open Archives Initiative) identifier is a unique identifier of a metadata record. CORE can resolve any OAI identifier directly to your repository page.",
           "statusNote": "Error — We are not able to resolve OAI identifiers from your repository to the repository landing pages.",
-          "recommendation": "To register your OAI mapping, navigate to the **Settings** tab in the dashboard for your repository. To route directly to the repository, it is necessary to provide mapping in the CORE Repository page between the OAI prefix of a repository and the currently used URL for the repository metadata record display page or splash page. The redirection will change instantly. More information about OAI resolver and its configuration can be found in the CORE Data Provider’s Guide: Repository configuration, OAI identifiers.\n\n**Membership documentation:** Get your OAI identifiers resolved to your repository — see the OAI Identifier documentation page.",
+          "recommendation": "To register your OAI mapping, navigate to the **Settings** tab in the dashboard for your repository. To route directly to the repository, it is necessary to provide mapping in the CORE Repository page between the OAI prefix of a repository and the currently used URL for the repository metadata record display page or splash page. The redirection will change instantly. More information about OAI resolver and its configuration can be found in the \n- [CORE Data Provider’s Guide: Repository configuration, OAI identifiers](https://core.ac.uk/documentation/data-providers-guide#oai-identifier).\n- [Membership documentation: Get your OAI identifiers resolved to your repository](https://core.ac.uk/documentation/membership-documentation#OAI-identifiers) \n-  [OAI Identifier documentation page](https://core.ac.uk/documentation/oai-resolver).",
           "statusLabel": "No"
         },
         {
@@ -165,7 +169,7 @@
           "code": "R(4.1)",
           "question": "Do you provide data availability statements?",
           "description": "A data availability statement, also sometimes called a ‘data access statement’, is a short, mandatory section in a paper that tells the reader where the research data associated with a paper is available and under what conditions the data can be accessed.",
-          "recommendation": "Here are some recommendations on how to increase the number of DAS in your repository:\n\n- Include links where applicable to the data set. For example, the paper may state “The data that support the findings of this study are openly available in [repository name] at https://doi.org/[doi]”.\n- Provide a dedicated metadata field for DAS, not just full text in the description.\n- Provide researchers with approved, compliant DAS text for all scenarios.\n\nCORE provides several tools under the DAS identification tab: monitoring statistics about DAS in your repository, and a Data Availability Statement checker.",
+          "recommendation": "Here are some recommendations on how to increase the number of DAS in your repository:\n\n- Include links where applicable to the data set. For example, the paper may state “The data that support the findings of this study are openly available in [repository name] at https://doi.org/[doi]”.\n- Provide a dedicated metadata field for DAS, not just full text in the description.\n- Provide researchers with approved, compliant DAS text for all scenarios.\n- CORE provides several tools under the [DAS identification tab]():\n\n monitoring statistics about DAS in your repository, and a Data Availability Statement checker.",
           "statusLabel": "Yes"
         },
         {
@@ -190,13 +194,13 @@
     },
     "fitForFunders": {
       "title": "Fit for funders",
-      "description": "Questions in this section help demonstrate that research outputs can be identified and traced by funding bodies, with clear provenance and funding metadata.",
+      "description": "APPLIES ONLY TO UK REPOS. Only a recommendation for everybody else. The repository records and exposes details about the organizations or agencies that financially supported the research.",
       "items": [
         {
           "id": "r51",
           "code": "R(5.1)",
           "question": "Is your research identifiable by funding bodies?",
-          "description": "**Applies only to UK repositories.** Only a recommendation for everybody else. The repository records and exposes details about the organizations or agencies that financially supported the research.",
+          "description": "Applies only to UK repositories. Only a recommendation for everybody else. The repository records and exposes details about the organizations or agencies that financially supported the research.",
           "recommendation": "This typically includes the funder name, grant number or project ID and ideally a persistent identifier for the funder — a ROR ID or Crossref Funder Registry ID.",
           "statusLabel": "Yes"
         },
@@ -271,7 +275,7 @@
           "code": "R(7.1)",
           "question": "How do you manage deposits? Is there someone to check them?",
           "description": "Deposit management refers to the process the repository uses to handle new submissions of research outputs.",
-          "recommendation": "Define a clear deposit workflow: self-deposit, mediated deposit or curated. Assign repository staff (curators or managers) to review submissions for metadata quality, copyright, licensing and compliance with institutional and funder policies. Provide support for depositors: templates, checklists, FAQs.\n\n- **Self-deposited** — by researchers, authors or administrative staff.\n- **Mediated** — by librarians or repository managers on behalf of authors.\n- **Curated** — before publication to ensure metadata quality, copyright compliance and adherence to repository policies.",
+          "recommendation": "Define a clear deposit workflow: self-deposit, mediated deposit or curated. Assign repository staff (curators or managers) to review submissions for metadata quality, copyright, licensing and compliance with institutional and funder policies. Provide support for depositors: templates, checklists, FAQs.\n\n- Self-deposited — by researchers, authors or administrative staff.\n- Mediated — by librarians or repository managers on behalf of authors.\n- Curated — before publication to ensure metadata quality, copyright compliance and adherence to repository policies.",
           "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "statusLabel": "Open question"
@@ -300,7 +304,7 @@
           "id": "r74",
           "code": "R(7.4)",
           "question": "How do you manage the preservation of content in your repository?",
-          "description": "Preservation of content in a repository refers to the set of policies, workflows and technical measures that ensure digital objects remain **available** (can be found and opened), **authentic** (guaranteed to be original) and **usable** (can be realistically reused).",
+          "description": "Preservation of content in a repository refers to the set of policies, workflows and technical measures that ensure digital objects remain\n- available (can be found and opened),\n- authentic (guaranteed to be original)\n- usable (can be realistically reused).",
           "recommendation": "- Define and publish a preservation policy that outlines the repository’s commitment to long-term access and specifies responsibilities.\n- Implement redundant storage and backup strategies: multiple servers, offsite copies, cloud storage.\n- Use fixity checks (checksums, hashes) to regularly verify file integrity and detect corruption.\n- Prefer open and widely used file formats (PDF, TXT, CSV) for better long-term sustainability.\n- Record and expose technical metadata (file format, size, checksum) to support digital preservation workflows.",
           "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
@@ -310,7 +314,7 @@
           "id": "r75",
           "code": "R(7.5)",
           "question": "How do you encourage researchers to get their ORCID?",
-          "description": "Encouraging researchers to obtain an ORCID ensures that their work is uniquely identifiable and correctly attributed, regardless of name variations, institutional changes or publication platforms.",
+          "description": "Encouraging researchers to obtain an ORCID (Open Researcher and Contributor ID) ensures that their work is uniquely identifiable and correctly attributed, regardless of name variations, institutional changes or publication platforms. ORCID adoption strengthens the quality of repository metadata, improves interoperability with publishers and funders and helps researchers gain recognition for their contributions.",
           "recommendation": "- Promote ORCID awareness through training sessions, repository guides and onboarding materials.\n- Provide step-by-step instructions and links for registering an ORCID ID.\n- Enable ORCID authentication and login in the repository so researchers can connect their profile during deposit.\n- Encourage depositors to include their ORCID in the metadata of every submission.\n- Where possible set ORCID as a mandatory or strongly recommended field in deposit workflows.\n- Integrate with the ORCID API to push publications and datasets from the repository directly to a researcher’s ORCID profile.",
           "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
@@ -320,8 +324,8 @@
           "id": "r76",
           "code": "R(7.6)",
           "question": "What are you doing to promote FAIR principles?",
-          "description": "The repository actively implements policies, technologies and community practices to make research outputs more discoverable, usable and sustainable.",
-          "recommendation": "- **Clear policies** — Publish policies that explicitly reference FAIR principles.\n- **Metadata standards** — Require rich, standardized metadata (DataCite, Dublin Core, OpenAIRE Guidelines).\n- **Persistent identifiers** — Support DOIs, ORCIDs, RORs and project IDs.\n- **Infrastructure** — Provide OAI-PMH, ResourceSync and APIs.\n- **Licensing and reuse** — Encourage open licenses (CC-BY, CC0).\n- **Data linking** — Promote Data Availability Statements and links to datasets and source code.\n- **Quality control** — Review deposits for metadata completeness.\n- **Awareness and training** — Workshops and guidance for researchers.\n- **Community engagement** — Participate in FAIR-related initiatives (GO FAIR, COAR).",
+          "description": "The repository actively implements policies, technologies and community practices to make research outputs more discoverable, usable and sustainable. ",
+          "recommendation": "- Clear policies — Publish policies that explicitly reference FAIR principles.\n- Metadata standards — Require rich, standardized metadata (DataCite, Dublin Core, OpenAIRE Guidelines).\n- Persistent identifiers — Support DOIs, ORCIDs, RORs and project IDs.\n- Infrastructure — Provide OAI-PMH, ResourceSync and APIs.\n- Licensing and reuse — Encourage open licenses (CC-BY, CC0).\n- Data linking — Promote Data Availability Statements and links to datasets and source code.\n- Quality control — Review deposits for metadata completeness.\n- Awareness and training — Workshops and guidance for researchers.\n- Community engagement — Participate in FAIR-related initiatives (GO FAIR, COAR).",
           "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "statusLabel": "Open question"
@@ -330,7 +334,7 @@
           "id": "r77",
           "code": "R(7.7)",
           "question": "What are you doing to promote research reproducibility?",
-          "description": "Promoting research reproducibility means ensuring that other researchers can verify, replicate and build upon the results deposited in the repository, including linking publications with underlying datasets, methods and documentation.",
+          "description": "Promoting research reproducibility means ensuring that other researchers can verify, replicate and build upon the results deposited in the repository. This goes beyond simply storing outputs: it requires linking publications with their underlying datasets, methods and documentation, as well as providing transparent metadata and persistent identifiers.",
           "recommendation": "- Require or encourage Data Availability Statements linking publications to underlying datasets.\n- Enable persistent identifiers (DOIs for publications and datasets, ORCID for authors, ROR for institutions).\n- Support versioning so users can access previous iterations of datasets or papers.\n- Provide metadata fields for methods and protocols.\n- Encourage open licenses so that others can reuse data and code legally.\n- Facilitate interoperability using standard metadata schemas.\n- Promote best practices through guidance, training and templates.\n- Integrate with external registries where relevant.\n- Provide transparency in curation.",
           "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
@@ -340,7 +344,7 @@
           "id": "r78",
           "code": "R(7.8)",
           "question": "How do you support Open Science at your institution?",
-          "description": "Implementing policies, infrastructure and cultural practices that make research outputs more transparent, accessible and reusable — including open access to publications, sharing research data, supporting reproducibility and enabling collaboration.",
+          "description": "Implementing policies, infrastructure and cultural practices that make research outputs more transparent, accessible and reusable. This includes promoting open access to publications, sharing research data, supporting reproducibility and enabling collaboration across disciplines and communities.",
           "recommendation": "- Adopt an institutional Open Science policy aligned with national and European guidelines (EOSC, Plan S).\n- Provide infrastructure such as institutional repositories, data archives and integration with ORCID, DOI and ROR identifiers.\n- Promote FAIR data practices by training researchers in data management, metadata standards and reproducibility.\n- Support Open Access publishing through funding or agreements with publishers or institutional repositories (Green/Gold OA).\n- Encourage Data and Code Availability Statements.\n- Offer training on open research practices, licensing and copyright.\n- Recognize and reward Open Science practices in research evaluation where appropriate.\n- Collaborate with external infrastructures (OpenAIRE, EOSC, COAR).\n- Provide long-term preservation services.\n- Engage the community through workshops and awareness campaigns.",
           "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
