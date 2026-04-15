@@ -23,7 +23,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@oacore/core-ui": "^2.0.18",
+    "@oacore/core-ui": "^2.0.19",
     "@ant-design/icons": "^5.5.1",
     "@octokit/rest": "^22.0.1",
     "antd": "^6.3.1",
