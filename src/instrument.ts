@@ -13,7 +13,7 @@ if (sentryDsn) {
   Sentry.init({
     dsn: sentryDsn,
     environment: import.meta.env.MODE,
-    sendDefaultPii: true,
+    sendDefaultPii: false,
     integrations: [
       Sentry.reactRouterV7BrowserTracingIntegration({
         useEffect,

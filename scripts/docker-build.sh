@@ -15,6 +15,7 @@ exec docker build \
   --build-arg NODE_ENV="${NODE_ENV:-production}" \
   --build-arg BUILD_TARGET="${BUILD_TARGET:-azure}" \
   --build-arg SENTRY_DSN="$SENTRY_DSN" \
+  --build-arg SENTRY_AUTH_TOKEN="$SENTRY_AUTH_TOKEN" \
   --build-arg NPM_TOKEN="$NPM_TOKEN" \
   --build-arg GA_TRACKING_CODE="$GA_TRACKING_CODE" \
   "$@"
