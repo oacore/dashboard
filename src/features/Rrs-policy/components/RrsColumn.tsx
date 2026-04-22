@@ -5,7 +5,8 @@ import externalLink from '@/assets/icons/externalLink.svg';
 import { TextData } from '@features/Rrs-policy/texts';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { updateRrsStatus } from '@features/Rrs-policy/hooks/useRrsData';
-import {CrStatusCard} from '@oacore/core-ui';
+import { CrStatusCard } from '@oacore/core-ui';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface RrsColumnProps {
     record: RrsData;
@@ -41,6 +42,10 @@ const RrsColumn: React.FC<RrsColumnProps> = React.memo(({ record, onStatusUpdate
             setPopoverOpen(false);
         } catch (error) {
             console.error('Error updating RRS status:', error);
+            captureHandledError(error, {
+                tags: { feature: 'rrs', action: 'update_status' },
+                extra: { articleId, dataProviderId: selectedDataProvider.id },
+            });
             message.error('Failed to update status');
         } finally {
             setLoadingStatus(false);

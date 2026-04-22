@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { postRequestFetcher } from '@/config/swr';
 import { useChangePasswordStore } from '../store/changePasswordStore';
+import { captureHandledError } from '@/utils/captureHandledError';
 import axios from 'axios';
 
 interface ChangePasswordData {
@@ -60,6 +61,12 @@ export const useChangePassword = () => {
             message.success(successMsg);
             return { message: successMsg, type: 'success' };
         } catch (error: unknown) {
+            const httpStatus = axios.isAxiosError(error) ? error.response?.status : undefined;
+            captureHandledError(error, {
+                tags: { feature: 'auth', action: 'change_password' },
+                extra: { isResetFlow, httpStatus },
+            });
+
             let errorMessage = isResetFlow
                 ? 'Password reset error. Please request reset password again!'
                 : 'Failed to change password. Please try again.';

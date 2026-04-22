@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface RorSuggestion {
   id: string;
@@ -71,6 +72,9 @@ export const useRorSuggestions = ({
         }
       } catch (error) {
         console.error('Error fetching ROR suggestions:', error);
+        captureHandledError(error, {
+          tags: { feature: 'settings', action: 'ror_suggestions_fetch' },
+        });
         setSuggestions([]);
       }
     };
