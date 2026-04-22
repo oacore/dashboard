@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { http } from '@/config/axios';
 import type { ValidationResult } from '../types';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface ValidatorState {
   validationResult: ValidationResult;
@@ -47,6 +48,10 @@ export const useValidatorStore = create<ValidatorState & ValidatorActions>()((se
         error: null
       });
     } catch (error) {
+      captureHandledError(error, {
+        tags: { feature: 'validator', action: 'riox_validation' },
+        extra: { id },
+      });
       const errorMessage = error instanceof Error ? error.message : 'Validation failed';
       set({
         isValidating: false,

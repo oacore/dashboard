@@ -1,6 +1,8 @@
+import './instrument';
 import '@oacore/core-ui/styles';
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import * as Sentry from '@sentry/react';
 import { ConfigProvider } from 'antd'
 import type { ThemeConfig } from 'antd'
 import './styles/index.css'
@@ -29,7 +31,23 @@ const mergedTheme = {
   },
 } as ThemeConfig;
 
-createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error('Root element #root not found');
+}
+
+const hasSentry = Boolean(import.meta.env.VITE_SENTRY_DSN);
+
+createRoot(
+  rootElement,
+  hasSentry
+    ? {
+        onUncaughtError: Sentry.reactErrorHandler(),
+        onCaughtError: Sentry.reactErrorHandler(),
+        onRecoverableError: Sentry.reactErrorHandler(),
+      }
+    : undefined,
+).render(
   <StrictMode>
     <ConfigProvider theme={mergedTheme}>
       <App />

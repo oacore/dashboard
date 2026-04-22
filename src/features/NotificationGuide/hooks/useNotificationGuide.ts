@@ -5,6 +5,7 @@ import { useNotificationGuideStore } from '../store/notificationGuideStore';
 import { useNotifications } from '@features/Settings/NotificationsSettings/hooks/useNotifications';
 import notificationText from '@features/Settings/texts';
 import { useDashboardRoute } from '@hooks/useDashboardRoute';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 export const useNotificationGuide = (isLoading: boolean, isError: boolean) => {
   const navigate = useNavigate();
@@ -108,6 +109,10 @@ export const useNotificationGuide = (isLoading: boolean, isError: boolean) => {
       navigate(buildPath('notifications'));
     } catch (error) {
       console.error('Error enabling notifications:', error);
+      captureHandledError(error, {
+        tags: { feature: 'notification_guide', action: 'enable_notifications' },
+        extra: { organisationId },
+      });
     }
   }, [
     organisationId,

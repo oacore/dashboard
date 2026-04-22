@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import { createSWRKey, fetcher, swrDefaultConfig } from '@config/swr.ts';
 import { http } from '@config/axios.ts';
 import { useState } from 'react';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 export interface ArticleAdditionalData {
     id: string;
@@ -112,6 +113,10 @@ export const useArticleData = (id: string | null) => {
             }
         } catch (error) {
             console.error('Error changing article visibility:', error);
+            captureHandledError(error, {
+                tags: { feature: 'article', action: 'change_visibility' },
+                extra: { articleId: article.id },
+            });
             throw new Error(error instanceof Error ? error.message : 'Failed to change visibility');
         } finally {
             setLoading(false);

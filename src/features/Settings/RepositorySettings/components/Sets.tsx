@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { CrPaper, Markdown } from '@oacore/core-ui';
 import notificationText from '@features/Settings/texts';
 import { useSets, type SetItem } from '../hooks/useSets';
+import { captureHandledError } from '@/utils/captureHandledError';
 import '../styles.css';
 
 const MAX_DISPLAY_LENGTH = 110;
@@ -76,6 +77,10 @@ export const Sets: React.FC<{ className?: string }> = ({ className }) => {
       setInputValue('');
     } catch (error) {
       console.error('Error enabling set:', error);
+      captureHandledError(error, {
+        tags: { feature: 'settings', action: 'sets_enable' },
+        extra: { dataProviderId },
+      });
     } finally {
       setIsAdding(false);
     }
@@ -88,6 +93,10 @@ export const Sets: React.FC<{ className?: string }> = ({ className }) => {
         await deleteSet(id);
       } catch (error) {
         console.error('Error deleting set:', error);
+        captureHandledError(error, {
+          tags: { feature: 'settings', action: 'sets_delete' },
+          extra: { id, dataProviderId },
+        });
       } finally {
         setDeletingId(null);
       }
@@ -130,6 +139,10 @@ export const Sets: React.FC<{ className?: string }> = ({ className }) => {
         }));
       } catch (error) {
         console.error('Error updating set display name:', error);
+        captureHandledError(error, {
+          tags: { feature: 'settings', action: 'sets_update_display' },
+          extra: { id, dataProviderId },
+        });
       }
     },
     [dataProviderId, setNameDisplay, enableSet]

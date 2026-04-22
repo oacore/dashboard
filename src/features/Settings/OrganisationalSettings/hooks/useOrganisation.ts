@@ -9,6 +9,7 @@ import {
   type InviteItem,
   type OrganisationData,
 } from '../store/organisationStore';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 export interface ApiUserData {
   person?: string;
@@ -204,6 +205,12 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
         }
       }
 
+      const httpStatus = axios.isAxiosError(error) ? error.response?.status : undefined;
+      captureHandledError(error, {
+        tags: { feature: 'organisation', action: 'invite_user' },
+        extra: { organisationId, httpStatus },
+      });
+
       message.error(errorMessage);
       setError(errorMessage);
       return { message: errorMessage, type };
@@ -249,6 +256,10 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
       message.success('Invite deleted successfully');
     } catch (error) {
       console.error('Error deleting invite:', error);
+      captureHandledError(error, {
+        tags: { feature: 'organisation', action: 'delete_invite' },
+        extra: { organisationId },
+      });
       const errorMessage = 'Failed to delete invite';
       message.error(errorMessage);
       setError(errorMessage);
@@ -284,6 +295,10 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
       return { message: successMessage, type: 'success' };
     } catch (error) {
       console.error('Error updating organisation:', error);
+      captureHandledError(error, {
+        tags: { feature: 'organisation', action: 'update_organisation' },
+        extra: { organisationId },
+      });
       const errorMessage = 'Something went wrong. Please try again later!';
       message.error(errorMessage);
       setError(errorMessage);

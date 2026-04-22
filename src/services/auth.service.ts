@@ -2,6 +2,7 @@ import axios from 'axios';
 import { http } from '@/config/axios';
 import { getCurrentUser } from '../hooks/useUser';
 import type { User } from '@/store/authStore.ts';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface LoginCredentials {
     email: string;
@@ -54,6 +55,11 @@ export const authService = {
                 return { user: userData };
             }
 
+            const httpStatus = axios.isAxiosError(error) ? error.response?.status : undefined;
+            captureHandledError(error, {
+                tags: { feature: 'auth', action: 'service_login' },
+                extra: { httpStatus },
+            });
             throw error;
         }
     },
@@ -69,7 +75,10 @@ export const authService = {
     async checkAuthAndGetUser(): Promise<User | null> {
         try {
             return await getCurrentUser();
-        } catch {
+        } catch (error) {
+            captureHandledError(error, {
+                tags: { feature: 'auth', action: 'check_auth_get_user' },
+            });
             return null;
         }
     },

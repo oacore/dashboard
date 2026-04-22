@@ -1,4 +1,7 @@
+import { wrapCreateBrowserRouterV7 } from '@sentry/react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+
+const createAppRouter = wrapCreateBrowserRouterV7(createBrowserRouter);
 import { DashboardLayout } from '@components/Layout/DashboardLayout';
 import { ProtectedRoute } from '@/guards/ProtectedRoute.tsx';
 import { RestrictedRoute} from '@/guards/MetadataRestrictedRoute.tsx';
@@ -34,7 +37,7 @@ import { BadgesPage } from '@/pages/Badges';
 import { OrganisationalPage } from '@/pages/Organisational';
 import { RepositorySettingsPage } from '@/pages/RepositorySettings';
 import { NotificationsPage } from '@/pages/Notifications';
-export const router = createBrowserRouter([
+export const router = createAppRouter([
     {
         path: '/login',
         element: <LoginPage />,
