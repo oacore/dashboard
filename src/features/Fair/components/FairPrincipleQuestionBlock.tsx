@@ -4,6 +4,10 @@ import {Form, Input} from 'antd';
 
 import type {FairQuestionItem} from '@features/Fair/types/fairPrinciples.types';
 import {getFairQuestionStatusClassName} from '@features/Fair/utils/getFairQuestionStatusClassName';
+import {
+  resolveFairQuestionStatusLabel,
+  type FairRepositoryStatusParams,
+} from '@features/Fair/utils/resolveFairQuestionStatus';
 
 import '../../Usrn/style.css';
 import '../styles.css';
@@ -11,14 +15,23 @@ import '../styles.css';
 export type FairPrincipleQuestionBlockProps = {
   item: FairQuestionItem;
   recommendationHeading: string;
+  openQuestionLabel: string;
+  repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
 export const FairPrincipleQuestionBlock = ({
   item,
   recommendationHeading,
+  openQuestionLabel,
+  repositoryStatus,
 }: FairPrincipleQuestionBlockProps) => {
-  const statusClass = getFairQuestionStatusClassName(item.statusLabel);
-  const displayStatus = item.statusLabel ?? '—';
+  const displayStatus =
+    resolveFairQuestionStatusLabel({
+      item,
+      openQuestionLabel,
+      repositoryStatus,
+    }) ?? '—';
+  const statusClass = getFairQuestionStatusClassName(displayStatus);
   const isOpenQuestion = Boolean(item.openQuestion);
 
   return (

@@ -9,6 +9,7 @@ import {
   type FairPrincipleSection,
   type FairPrincipleSectionKey,
 } from '@features/Fair/types/fairPrinciples.types';
+import type { FairRepositoryStatusParams } from '@features/Fair/utils/resolveFairQuestionStatus';
 import {Button, Form, Typography} from 'antd';
 import {useMemo} from 'react';
 
@@ -19,6 +20,8 @@ export type FairPrinciplesCollapseProps = {
   onSubmit?: () => void;
   /** Collapsible presentation: `default` (full FAIR styling) or `compact` (tighter panels). */
   collapsibleVariant?: 'default' | 'compact';
+  /** When set, principle rows with a USRN mapping show Yes/No from the same APIs as USRN. */
+  repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
 const {Title, Paragraph} = Typography;
@@ -27,6 +30,7 @@ export const FairPrinciplesCollapse = ({
   onSave,
   onSubmit,
   collapsibleVariant = 'default',
+  repositoryStatus,
 }: FairPrinciplesCollapseProps) => {
   const {principlesAccordion} = fairTexts;
   const [openAnswersForm] = Form.useForm();
@@ -40,6 +44,8 @@ export const FairPrinciplesCollapse = ({
   const handleSubmit = () => {
     onSubmit?.();
   };
+
+  const openQuestionLabel = principlesAccordion.openQuestionBadge ?? 'Open question';
 
   const collapsibleSections: FairPrinciplesCollapsibleSection[] = useMemo(() => {
     return FAIR_PRINCIPLE_SECTION_KEYS.map((key: FairPrincipleSectionKey) => {
@@ -58,11 +64,13 @@ export const FairPrinciplesCollapse = ({
           <FairPrincipleSectionContent
             recommendationHeading={recommendationHeading}
             section={section}
+            openQuestionLabel={openQuestionLabel}
+            repositoryStatus={repositoryStatus}
           />
         ),
       };
     });
-  }, [ principlesAccordion, recommendationHeading]);
+  }, [principlesAccordion, recommendationHeading, openQuestionLabel, repositoryStatus]);
 
   return (
     <section

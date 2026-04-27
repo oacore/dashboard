@@ -42,6 +42,7 @@ export const getCardStatusConfig = ({
 
   const hasValue = (n: number | null): SupportStatusVariant => (n ? 'yes' : 'no');
 
+  // TODO check for 1.3
   switch (cardId) {
     case 'oaiPmh':
       return { ...empty, status: 'yes' };
@@ -54,6 +55,7 @@ export const getCardStatusConfig = ({
         countValue,
       };
     }
+    // TODO check for 2.1
     case 'accessFullTexts': {
       const countCovered = toNumber(internalStatistics?.fullTextCount);
       const countTotal = toNumber(internalStatistics?.metadataCount);
@@ -93,6 +95,7 @@ export const getCardStatusConfig = ({
     }
     case 'IRUS':
       return { ...empty, status: irus ? 'yes' : 'no' };
+    // TODO check for 3.5
     case 'DOI': {
       const countCovered = toNumber(internalStatistics?.doiCount);
       const countTotal = toNumber(statistics?.countMetadata);
@@ -103,6 +106,7 @@ export const getCardStatusConfig = ({
         countValue: null,
       };
     }
+    // TODO check for 3.6 if we have ror id 
     case 'ROR':
       return { ...empty, status: rorId ? 'yes' : 'no' };
     default:
