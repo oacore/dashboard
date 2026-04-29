@@ -1,11 +1,12 @@
 import {InfoOutlined, FileTextOutlined} from '@ant-design/icons';
-import {Markdown} from '@oacore/core-ui';
+import {Markdown, PercentBar} from '@oacore/core-ui';
 import {Form, Input} from 'antd';
+import {formatNumber} from '@utils/helpers.ts';
 
 import type {FairQuestionItem} from '@features/Fair/types/fairPrinciples.types';
 import {getFairQuestionStatusClassName} from '@features/Fair/utils/getFairQuestionStatusClassName';
 import {
-  resolveFairQuestionStatusLabel,
+  resolveFairQuestionDisplay,
   type FairRepositoryStatusParams,
 } from '@features/Fair/utils/resolveFairQuestionStatus';
 
@@ -25,14 +26,32 @@ export const FairPrincipleQuestionBlock = ({
   openQuestionLabel,
   repositoryStatus,
 }: FairPrincipleQuestionBlockProps) => {
-  const displayStatus =
-    resolveFairQuestionStatusLabel({
-      item,
-      openQuestionLabel,
-      repositoryStatus,
-    }) ?? '—';
+  const { statusLabel, cardConfig } = resolveFairQuestionDisplay({
+    item,
+    openQuestionLabel,
+    repositoryStatus,
+  });
+  const displayStatus = statusLabel ?? '—';
   const statusClass = getFairQuestionStatusClassName(displayStatus);
   const isOpenQuestion = Boolean(item.openQuestion);
+
+  const countCovered = cardConfig?.countCovered ?? null;
+  const countTotal = cardConfig?.countTotal ?? null;
+  const countValue = cardConfig?.countValue ?? null;
+  const percentLabelText = item.percentLabel;
+  const counterLabelText = item.counterLabel;
+
+  const showPercentBar =
+    countCovered != null &&
+    countTotal != null &&
+    countCovered > 0 &&
+    countTotal > 0 &&
+    Boolean(percentLabelText);
+
+  const counterRows = cardConfig?.counterRows;
+  const showCounterRows = Boolean(counterRows?.length);
+  const showCountValue =
+    !showCounterRows && countValue != null && Boolean(counterLabelText);
 
   return (
     <div className="support-status fair-principles__question">
@@ -46,21 +65,47 @@ export const FairPrincipleQuestionBlock = ({
         </span>
         <span className={`support-status__status ${statusClass}`}>{displayStatus}</span>
       </div>
-      {item.description &&   <div className="support-status__row">
-        <div className="support-status__description">
-          <Markdown>{item.description}</Markdown>
-          {item.statusNote ? (
-            <p className="fair-principles__status-note" role="status">
-              {item.statusNote}
-            </p>
-          ) : null}
+      {item.description ? (
+        <div className="support-status__row">
+          <div className="support-status__description">
+            <Markdown>{item.description}</Markdown>
+            {item.statusNote ? (
+              <p className="fair-principles__status-note" role="status">
+                {item.statusNote}
+              </p>
+            ) : null}
+          </div>
+          <span aria-hidden className="support-status__status support-status__status--hidden" />
         </div>
-        <span aria-hidden className="support-status__status support-status__status--hidden" />
-      </div>
-      }
+      ) : null}
 
-      {/*TODO ADD BAR CHART IF HAVE*/}
+      {showCounterRows && counterRows
+        ? counterRows.map((row, index) => (
+            <div
+              key={`${row.label}-${index}`}
+              className="support-status__counter"
+            >
+              <span className="support-status__counter-label">{row.label}</span>
+              <span className="support-status__counter-value">
+                {formatNumber(row.value)}
+              </span>
+            </div>
+          ))
+        : null}
+      {showCountValue ? (
+        <div className="support-status__counter">
+          <span className="support-status__counter-label">{counterLabelText}</span>
+          <span className="support-status__counter-value">{formatNumber(countValue)}</span>
+        </div>
+      ) : null}
 
+      {showPercentBar && percentLabelText ? (
+        <PercentBar
+          percentLabel={percentLabelText}
+          countCovered={countCovered}
+          countTotal={countTotal}
+        />
+      ) : null}
 
       {isOpenQuestion ? (
         <div className="fair-principles__open-block">

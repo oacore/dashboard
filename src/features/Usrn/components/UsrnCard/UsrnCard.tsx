@@ -2,6 +2,8 @@ import React from 'react';
 import { FileTextFilled, InfoOutlined } from '@ant-design/icons';
 import { Markdown, PercentBar } from '@oacore/core-ui';
 import { formatNumber } from '@utils/helpers.ts';
+import type { DasData } from '@features/Das/types/data.types';
+import type { OrcidStats } from '@features/Orcid/types/data.types';
 import type { SupportStatusVariant, UsrnData } from '@features/Usrn/types/data.types';
 import { getCardStatusConfig } from '@features/Usrn/utils/getCardStatusConfig';
 import '../../style.css';
@@ -40,6 +42,8 @@ type UsrnCardConfigParams = {
   usrn: UsrnData | null;
   irus: unknown;
   rorId: string | null;
+  orcidStats?: OrcidStats | null;
+  dasData?: DasData[] | null;
 };
 
 interface UsrnCardProps {
@@ -55,6 +59,8 @@ export const UsrnCard: React.FC<UsrnCardProps> = ({ item, configParams }) => {
     usrn,
     irus,
     rorId,
+    orcidStats,
+    dasData,
   } = configParams;
 
   const displayCtaText = (item.linkText && item.linkText.length > 0)
@@ -101,6 +107,8 @@ export const UsrnCard: React.FC<UsrnCardProps> = ({ item, configParams }) => {
               usrn: usrn ?? null,
               irus,
               rorId,
+              orcidStats: orcidStats ?? null,
+              dasData: dasData ?? null,
             });
 
             const statusVariant: SupportStatusVariant = config.status || '';
@@ -151,16 +159,32 @@ export const UsrnCard: React.FC<UsrnCardProps> = ({ item, configParams }) => {
                   />
                 </div>
 
-                {config.countValue != null && subItem.counterLabel && (
-                  <div className="support-status__counter">
+                {config.counterRows?.map((row, index) => (
+                  <div
+                    key={`${row.label}-${index}`}
+                    className="support-status__counter"
+                  >
                     <span className="support-status__counter-label">
-                      {subItem.counterLabel}
+                      {row.label}
                     </span>
                     <span className="support-status__counter-value">
-                      {formatNumber(config.countValue)}
+                      {formatNumber(row.value)}
                     </span>
                   </div>
-                )}
+                ))}
+
+                {!config.counterRows?.length &&
+                  config.countValue != null &&
+                  subItem.counterLabel && (
+                    <div className="support-status__counter">
+                      <span className="support-status__counter-label">
+                        {subItem.counterLabel}
+                      </span>
+                      <span className="support-status__counter-value">
+                        {formatNumber(config.countValue)}
+                      </span>
+                    </div>
+                  )}
 
                 {showPercentBar && subItem.percentLabel && (
                   <PercentBar

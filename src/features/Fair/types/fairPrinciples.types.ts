@@ -7,13 +7,17 @@ export type FairQuestionItem = {
   id: string;
   code: string;
   question: string;
-  description: string;
+  description?: string;
   recommendation?: string;
   openQuestion?: boolean;
   answerPlaceholder?: string;
   statusLabel?: string;
   statusNote?: string;
   metrics?: FairMetricLine[];
+  /** Shown above `PercentBar` when counts are available (same role as USRN sub-items). */
+  percentLabel?: string;
+  /** Label for `countValue` (e.g. indexed metadata total). */
+  counterLabel?: string;
 };
 
 export type FairPrincipleSection = {

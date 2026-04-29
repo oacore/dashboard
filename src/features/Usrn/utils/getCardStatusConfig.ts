@@ -1,10 +1,19 @@
+import type { DasData } from '@features/Das/types/data.types';
+import type { OrcidStats } from '@features/Orcid/types/data.types';
 import type { SupportStatusVariant, UsrnData } from '@features/Usrn/types/data.types';
+
+export type CardCounterRow = {
+  label: string;
+  value: number;
+};
 
 type CardStatusConfig = {
   status: SupportStatusVariant;
   countCovered: number | null;
   countTotal: number | null;
   countValue: number | null;
+  /** Multiple labelled counts (e.g. ORCID in repository vs in CORE). */
+  counterRows?: CardCounterRow[];
 };
 
 const toNumber = (value: unknown): number | null => {
@@ -22,7 +31,15 @@ type GetCardStatusConfigParams = {
   usrn: UsrnData | null;
   irus: unknown;
   rorId: string | null;
+  /** From `GET /internal/data-providers/:id/orcid/stats` (`useOrcidStats`). */
+  orcidStats?: OrcidStats | null;
+  /** From `GET .../data-access` (`useDasData`). Used for `webAccessibility` (DAS). */
+  dasData?: DasData[] | null;
 };
+
+const ORCID_COUNTER_REPOSITORY_LABEL =
+  'Papers with at least one ORCID in your repository:';
+const ORCID_COUNTER_CORE_LABEL = 'Papers with at least one ORCID in CORE:';
 
 export const getCardStatusConfig = ({
   cardId,
@@ -32,6 +49,8 @@ export const getCardStatusConfig = ({
   usrn,
   irus,
   rorId,
+  orcidStats,
+  dasData,
 }: GetCardStatusConfigParams): CardStatusConfig => {
   const empty: CardStatusConfig = {
     status: 'no',
@@ -78,11 +97,56 @@ export const getCardStatusConfig = ({
     }
     case 'embargoedDocuments':
     case 'sourceCode':
-    case 'webAccessibility':
-    case 'supportSignpostingFAIR':
-    case 'metadataCOAR':
-    case 'ORCID':
       return empty;
+    case 'webAccessibility': {
+      const list = dasData ?? [];
+      const countValue = list.length;
+      return {
+        ...empty,
+        status: hasValue(countValue),
+        countCovered: null,
+        countTotal: null,
+        countValue,
+      };
+    }
+    case 'ORCID': {
+      const basic = toNumber(orcidStats?.basic);
+      const fromOther = toNumber(orcidStats?.fromOtherRepositories);
+      const basicNum = basic ?? 0;
+      const fromOtherNum = fromOther ?? 0;
+      const totalInCore = basicNum + fromOtherNum;
+
+      return {
+        status: hasValue(basic),
+        countCovered: null,
+        countTotal: null,
+        countValue: basic,
+        counterRows: [
+          { label: ORCID_COUNTER_REPOSITORY_LABEL, value: basicNum },
+          { label: ORCID_COUNTER_CORE_LABEL, value: totalInCore },
+        ],
+      };
+    }
+    case 'supportSignpostingFAIR': {
+      const countCovered = toNumber(usrn?.supportSignposting);
+      const countTotal = toNumber(statistics?.countMetadata);
+      return {
+        status: hasValue(countCovered),
+        countCovered,
+        countTotal,
+        countValue: null,
+      };
+    }
+    case 'metadataCOAR': {
+      const countCovered = toNumber(usrn?.vocabulariesCOAR);
+      const countTotal = toNumber(statistics?.countMetadata);
+      return {
+        status: hasValue(countCovered),
+        countCovered,
+        countTotal,
+        countValue: null,
+      };
+    }
     case 'licensing': {
       const countCovered = toNumber(usrn?.license);
       const countTotal = toNumber(statistics?.countMetadata);
@@ -106,7 +170,6 @@ export const getCardStatusConfig = ({
         countValue: null,
       };
     }
-    // TODO check for 3.6 if we have ror id 
     case 'ROR':
       return { ...empty, status: rorId ? 'yes' : 'no' };
     default:
