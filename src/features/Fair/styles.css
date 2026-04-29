@@ -8,8 +8,8 @@
   box-sizing: border-box;
   width: 100%;
   margin: 0 0 40px;
-  padding: 40px 24px 48px;
-  background: #f5f5f5;
+  padding: 40px 100px 48px;
+  background: var(--color-bg-layout);
   border-radius: 2px;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .fair-certification-intro-read-more {
-  color: #a65e17;
+  color: var(--color-primary);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
@@ -66,7 +66,7 @@
 }
 
 .fair-certification-intro-read-more:hover {
-  color: #8a4d12;
+  color: var(--color-primary-dark);
 }
 
 .fair-certification-intro-register {
@@ -76,8 +76,8 @@
   min-height: 44px;
   padding: 8px 16px;
   border-radius: 2px;
-  background: #a65e17;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-text-white);
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;
@@ -87,8 +87,8 @@
 }
 
 .fair-certification-intro-register:hover {
-  background: #8a4d12;
-  color: #fff;
+  background: var(--color-primary-dark);
+  color: var(--color-text-white);
 }
 
 .fair-certification-intro-text p {
@@ -110,9 +110,9 @@
   margin-bottom: 16px;
   width: max-content;
   border-radius: 2px;
-  background: #8bc34a;
+  background: var(--success);
   padding: 3px 7px;
-  color: #fff;
+  color: var(--color-text-white);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -121,7 +121,7 @@
 }
 
 .fair-certification-markdown {
-  color: #212121;
+  color: var(--color-text-secondary);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
@@ -167,8 +167,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #a65e17;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-text-white);
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
@@ -180,7 +180,7 @@
   width: 2px;
   min-height: 24px;
   margin-top: 8px;
-  background: #e0e0e0;
+  background: var(--gray-300);
 }
 
 .fair-certification-step:last-child .fair-certification-step-track-line {
@@ -200,21 +200,23 @@
 .fair-certification-feature-title {
   margin: 0 0 16px;
   font-style: normal;
-  color: #212121;
+  color: var(--color-text-secondary);
   font-size: 24px;
   font-weight: 500;
-  line-height: 130%; /* 31.2px */
+  line-height: 130%;
+  /* 31.2px */
   letter-spacing: 0.036px;
 }
 
 
 .fair-certification-step-markdown p {
   margin: 0 0 10px;
-  color: #212121;
+  color: var(--color-text-secondary);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 150% */
+  line-height: 24px;
+  /* 150% */
   letter-spacing: 0.026px;
 }
 
@@ -223,7 +225,7 @@
 }
 
 .certification-section-title {
-  color: #212121;
+  color: var(--color-text-secondary);
   text-align: center;
   font-size: 32px;
   font-style: normal;
@@ -245,7 +247,7 @@
   align-items: center;
   gap: 16px;
   border-radius: 6px;
-  background: #f5f5f5;
+  background: var(--color-bg-layout);
 }
 
 .cert-image {
@@ -254,7 +256,7 @@
 }
 
 .certification-title {
-  color: #212121;
+  color: var(--color-text-secondary);
   text-align: center;
   font-size: 24px;
   font-style: normal;
@@ -265,13 +267,20 @@
 }
 
 .certification-markdown {
-  color: #000;
+  color: var(--color-dark);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 140%;
   /* 22.4px */
   letter-spacing: 0.026px;
+}
+
+/*success view*/
+.success-certification-intro-text {
+  gap: 14px;
+  color: var(--color-text-secondary) !important;
+  background: #ECF6DF;
 }
 
 @media (max-width: 1280px) {
@@ -284,4 +293,570 @@
   .certificate-item-wrapper {
     grid-template-columns: 1fr;
   }
+
+  .fair-certification-intro {
+    padding: 20px 16px;
+  }
+}
+
+/* FAIR Certification pricing tables */
+.fair-certification-pricing {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.fair-certification-pricing-tables {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 40px;
+}
+
+@media (max-width: 767px) {
+  .fair-certification-pricing-tables {
+    gap: 28px;
+  }
+}
+
+/*
+ * Scroll: only horizontal on narrow viewports. With overflow-x: auto, overflow-y must not be
+ * `visible` (it computes to auto and adds a vertical scrollbar). Use hidden — height still grows with content.
+ */
+.fair-certification-pricing-table-responsive {
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .fair-certification-pricing-table-responsive {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .fair-certification-pricing-table-responsive>.fair-certification-pricing-table.ant-table-wrapper {
+    width: max-content;
+    min-width: 100%;
+  }
+}
+
+.fair-certification-pricing-table.ant-table-wrapper {
+  width: 100%;
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table {
+  width: 100%;
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.35;
+  background: var(--color-text-white);
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-container {
+  border-radius: 0;
+}
+
+@media (min-width: 768px) {
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-table.ant-table-wrapper .ant-table {
+    table-layout: fixed;
+  }
+}
+
+@media (max-width: 767px) {
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-table.ant-table-wrapper .ant-table {
+    table-layout: auto;
+  }
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-thead>tr>th,
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody>tr>td {
+  border-color: #B9B9B9;
+  padding: 12px 14px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-thead>tr>th {
+  background: var(--color-text-white);
+  font-weight: 700;
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody>tr>td {
+  font-variant-numeric: tabular-nums;
+}
+
+.fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody>tr.ant-table-row:hover>td {
+  background: var(--color-text-white);
+}
+
+@media (max-width: 767px) {
+
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-table.ant-table-wrapper .ant-table-thead>tr>th,
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-table.ant-table-wrapper .ant-table-tbody>tr>td {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .fair-certification-pricing-table-responsive .fair-certification-table-title-row {
+    font-size: 14px;
+  }
+
+  .fair-certification-pricing-table-responsive .fair-certification-band-caption {
+    font-size: 12px;
+  }
+
+  .fair-certification-pricing-table-responsive .fair-certification-pricing-header-md {
+    font-size: 12px;
+  }
+}
+
+.fair-certification-table-title-row {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.fair-certification-pricing-th-empty {
+  display: block;
+  min-height: 1em;
+}
+
+.fair-certification-pricing-header-md {
+  display: block;
+  margin: 0;
+  text-align: center;
+}
+
+.fair-certification-pricing-header-md p {
+  margin: 0;
+}
+
+.fair-certification-pricing-header-md a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.fair-certification-band-title {
+  display: block;
+}
+
+.fair-certification-band-caption {
+  display: block;
+  margin-top: 4px;
+  font-weight: 400;
+  font-size: 13px;
+  color: #424242;
+}
+
+.fair-certification-price-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.fair-certification-price-discounted {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.fair-certification-price-struck {
+  color: var(--color-text-secondary);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+.fair-certification-pricing-td--sustaining {
+  vertical-align: middle;
+}
+
+.fair-certification-price-free {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/*header cer*/
+.fair-button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 48px;
+}
+
+.fair-certification-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+}
+
+.fair-certification-header-inner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.fair-certification-title {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  margin: 0;
+}
+
+.fair-certification-description {
+  margin: 10px 0 26px 0;
+  color: #666;
+}
+
+/* Approved view — FAIR principles accordion (Ant Design Collapse) */
+.fair-principles-accordion-section {
+  box-sizing: border-box;
+  margin-top: 40px;
+  padding: 32px 0;
+  border-top: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.fair-principles-collapse {
+  background: transparent;
+}
+
+/* Variants — `FairPrinciplesCollapsible` (`compact` tightens spacing; `default` uses base rules only) */
+.fair-principles-collapse--variant-compact .ant-collapse-item {
+  margin-bottom: 16px;
+}
+
+.fair-principles-collapse--variant-compact .ant-collapse-item .ant-collapse-header {
+  padding: 16px 18px;
+}
+
+.fair-principles-collapse--variant-compact .ant-collapse-content-box {
+  padding: 16px 18px;
+}
+
+.fair-principles-collapse--variant-compact .fair-principles-collapse-expand-icon {
+  height: 48px;
+  width: 52px;
+}
+
+.fair-principles-collapse--variant-compact .fair-principles-collapse-label .fair-principles-collapse-title {
+  font-size: 20px;
+}
+
+.fair-principles-collapse .ant-collapse-item {
+  margin: 0 0 32px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px !important;
+  background: var(--color-text-white);
+  overflow: hidden;
+}
+
+.fair-principles-collapse .ant-collapse-item:last-child {
+  margin-bottom: 0;
+}
+
+.fair-principles-collapsible-root .ant-collapse-borderless >.ant-collapse-item:last-child {
+  border: 1px solid var(--color-border);
+}
+
+.fair-principles-collapse .ant-collapse-item .ant-collapse-header {
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.fair-principles-collapse .ant-collapse-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.fair-principles-collapse .ant-collapse-expand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline-end: 0;
+}
+
+.fair-principles-collapse-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 12px;
+  text-align: left;
+}
+
+.fair-principles-collapse-label .fair-principles-collapse-title {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: 0.036px;
+}
+
+.fair-principles-collapse-label .fair-principles-collapse-desc {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  font-style: normal;
+  line-height: 130%;
+  /* 18.2px */
+  letter-spacing: 0.042px;
+}
+
+
+.fair-principles-collapse .ant-collapse-content-box {
+  padding: 24px;
+}
+
+/**/
+.fair-principles-collapse-expand-icon {
+  height: 59px;
+  border-radius: 4px;
+  background: var(--color-bg-layout);
+  transition: transform 0.2s ease;
+  display: flex;
+  width: 62px;
+  padding: 3px 0;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.fair-principles-collapse-chevron {
+  font-size: 16px;
+  color: var(--color-primary);
+}
+
+.fair-principles-operational-form {
+  width: 100%;
+  max-width: 720px;
+}
+
+.fair-principles-open-form {
+  width: 100%;
+}
+
+.fair-principles__panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.fair-principles__question {
+  border-radius: 10px;
+  border: 1px solid var(--gray-300);
+  background: var(--color-bg-container);
+  padding: 24px;
+}
+
+.fair-principles__status-note {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: var(--danger-light-background);
+  color: var(--danger);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fair-principles__metrics {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fair-principles__metric-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.fair-principles__metric-row .support-status__counter-value {
+  margin: 4px 0 12px;
+  font-size: 36px;
+  line-height: 1.1;
+}
+
+/*.fair-principles__open-block {*/
+/*  margin-top: 16px;*/
+/*  padding-top: 16px;*/
+/*  border-top: 1px dashed var(--color-border);*/
+/*}*/
+
+.fair-principles__open-field textarea {
+  height: 108px;
+  margin-top: 24px;
+}
+
+.fair-principles__open-badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: var(--color-bg-layout);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.fair-principles__open-field {
+  margin-bottom: 0;
+}
+
+.fair-principles-accordion-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+/* Approved view — submission progress (Ant Design Steps vertical, Frame 1196) */
+.fair-submission-progress {
+  box-sizing: border-box;
+  padding-top: 32px;
+}
+
+.fair-submission-progress__title {
+  margin: 0 0 48px 0;
+  color: var(--color-text-secondary);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: 0.036px;
+  text-align: left;
+  font-size: 32px;
+}
+
+/* Custom step icons (grey check circles + ellipsis) */
+.fair-submission-progress__icon-check {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-text-disabled);
+  color: var(--color-text-white);
+}
+
+.fair-submission-progress__check-icon {
+  font-size: 14px;
+}
+
+.fair-submission-progress__icon-ellipsis {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.fair-submission-progress__ellipsis-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gray-600);
+}
+
+.fair-submission-progress__step-title {
+  color: var(--color-text-secondary);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 130%;
+  /* 31.2px */
+  letter-spacing: 0.036px;
+}
+
+.fair-submission-progress__step-title--muted {
+  padding-top: 2px;
+  font-weight: 400;
+  color: #666;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 130%;
+  letter-spacing: 0.026px;
+}
+
+/* Ant Design Steps — vertical layout to match design */
+.fair-submission-progress-steps.ant-steps-vertical .ant-steps-item-finish .ant-steps-item-rail {
+  border-inline-start-color: var(--color-border);
+  height: 20px;
+}
+
+.fair-submission-progress-steps .ant-steps-item-custom .ant-steps-item-icon {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  font-size: inherit;
+  line-height: 40px;
+}
+
+.fair-submission-progress-steps.ant-steps-vertical .ant-steps-item-finish .ant-steps-item-title {
+  padding-inline-end: 0;
+}
+
+.fair-submission-progress-steps .ant-steps-item-finish .ant-steps-item-title {
+  margin-top: 0;
+}
+
+.fair-submission-progress-steps .ant-steps-item-title {
+  color: var(--color-text-secondary);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%;
+  /* 31.2px */
+  letter-spacing: 0.036px;
+}
+
+.required-link {
+  background: #F5F5F5;
+  min-width: 80px;
+  text-align: center;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 2px;
+  font-size: 16px;
+  text-transform: capitalize;
+  align-content: center;
+  width: max-content;
+  color: #9E9E9E;
+}
+
+.support-status__row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: stretch;
+  margin: 15px 0 0 0;
+}
+
+.support-status__question-wrap {
+  background: #F5F5F5;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%; /* 20.8px */
+  letter-spacing: 0.01px;
+}
+
+.file-icon {
+  font-size: 20px;
 }
