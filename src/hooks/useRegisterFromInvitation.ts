@@ -1,6 +1,7 @@
 import useSWRMutation from 'swr/mutation';
 import axios from 'axios';
 import { authService } from '@/services/auth.service';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 const REGISTER_INVITATION_KEY = 'auth/register-invitation';
 
@@ -33,6 +34,11 @@ export const useRegisterFromInvitation = () => {
             await trigger(data);
             return { success: true };
         } catch (err) {
+            const httpStatus = axios.isAxiosError(err) ? err.response?.status : undefined;
+            captureHandledError(err, {
+                tags: { feature: 'auth', action: 'register_from_invitation' },
+                extra: { httpStatus },
+            });
             let errorMessage = 'Registration error. Please try again!';
             if (axios.isAxiosError(err) && err.response?.status) {
                 errorMessage =

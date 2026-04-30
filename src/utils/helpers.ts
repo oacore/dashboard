@@ -1,3 +1,5 @@
+import { captureHandledError } from '@/utils/captureHandledError';
+
 export const range = (length: number, start = 0, step = 1): number[] =>
   Array.from(Array(length), (_, i) => start + i * step)
 
@@ -101,6 +103,12 @@ export const formatDate = (
   } catch (error) {
     if (import.meta.env.DEV)
       console.error('Date in invalid format', date, error)
+    captureHandledError(error, {
+      tags: { feature: 'helpers', action: 'format_date' },
+      extra: {
+        dateKind: date === null || date === undefined ? String(date) : typeof date,
+      },
+    });
     return String(date)
   }
   return String(date)

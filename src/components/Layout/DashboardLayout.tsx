@@ -54,6 +54,7 @@ import { useSets, type SetItem } from '@features/Settings/RepositorySettings/hoo
 import { usePluginConfig } from '@features/Plugins/hooks/usePluginConfig';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 import { FeedbackButton } from '@components/common/FeedbackButton/FeedbackButton';
+import { captureHandledError } from '@/utils/captureHandledError';
 import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus';
 import {DataProviderLogo, NotificationPopover} from '@oacore/core-ui';
 
@@ -290,6 +291,10 @@ export function DashboardLayout() {
             }
         } catch (err) {
             console.error('Error handling notification click:', err);
+            captureHandledError(err, {
+                tags: { feature: 'dashboard_layout', action: 'notification_click' },
+                extra: { notificationId, dataProviderId },
+            });
         }
     };
 

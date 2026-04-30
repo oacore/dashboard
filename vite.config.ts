@@ -1,14 +1,31 @@
 /// <reference lib="dom" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
+const sentryOrg = process.env.SENTRY_ORG ?? 'oacore'
+const sentryProject = process.env.SENTRY_PROJECT ?? 'dashboard-pk'
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    ...(sentryAuthToken
+      ? sentryVitePlugin({
+          org: sentryOrg,
+          project: sentryProject,
+          authToken: sentryAuthToken,
+        })
+      : []),
+  ],
+  build: {
+    sourcemap: Boolean(sentryAuthToken),
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { authService } from '../services/auth.service';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 export interface User {
     id: string;
@@ -93,7 +94,10 @@ export const useAuthStore = create<AuthState & AuthActions>()(
             logout: async () => {
                 try {
                     await authService.logout();
-                } catch {
+                } catch (error) {
+                    captureHandledError(error, {
+                        tags: { feature: 'auth', action: 'store_logout' },
+                    });
                     // logout even if API call fails
                 } finally {
                     set({
@@ -155,7 +159,10 @@ export const useAuthStore = create<AuthState & AuthActions>()(
                             hasCheckedAuth: true,
                         });
                     }
-                } catch {
+                } catch (error) {
+                    captureHandledError(error, {
+                        tags: { feature: 'auth', action: 'check_auth' },
+                    });
                     set({
                         user: null,
                         isAuthenticated: false,

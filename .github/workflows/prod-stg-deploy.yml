@@ -141,6 +141,7 @@ jobs:
           docker build \
             --build-arg NODE_ENV=$NODE_ENV \
             --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
+            --build-arg SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} \
             --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             --build-arg API_KEY=${{ secrets.API_KEY }} \

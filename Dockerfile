@@ -4,12 +4,15 @@ ARG NODE_ENV=production
 ARG BUILD_TARGET=azure
 ARG NPM_TOKEN
 ARG SENTRY_DSN=""
+ARG SENTRY_AUTH_TOKEN=""
 ARG GA_TRACKING_CODE=""
 
 # VITE_API_URL, VITE_IDP_URL come from committed .env.development / .env.production
+# SENTRY_AUTH_TOKEN: build-only; enables Vite sourcemaps + Sentry upload (see vite.config.ts)
 ENV NODE_ENV=${NODE_ENV} \
     BUILD_TARGET=${BUILD_TARGET} \
     NPM_TOKEN=${NPM_TOKEN} \
+    SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
     VITE_SENTRY_DSN=${SENTRY_DSN} \
     VITE_GA_TRACKING_CODE=${GA_TRACKING_CODE}
 

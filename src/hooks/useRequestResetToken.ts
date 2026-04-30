@@ -1,6 +1,7 @@
 import useSWRMutation from 'swr/mutation';
 import axios from 'axios';
 import { authService } from '@/services/auth.service';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 const RESET_TOKEN_KEY = 'auth/reset';
 
@@ -27,6 +28,11 @@ export const useRequestResetToken = () => {
                     'We have just sent you an email with the instructions on how to reset your password. Please check your mailbox and follow the reset link.',
             };
         } catch (err) {
+            const httpStatus = axios.isAxiosError(err) ? err.response?.status : undefined;
+            captureHandledError(err, {
+                tags: { feature: 'auth', action: 'request_reset_token' },
+                extra: { httpStatus },
+            });
             let errorMessage = 'Something went wrong. Please try again!';
             if (axios.isAxiosError(err) && err.response?.data?.message) {
                 errorMessage = err.response.data.message;

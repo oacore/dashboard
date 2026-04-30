@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { http } from '@/config/axios';
 import { useDataProviderStore } from '@/store/dataProviderStore';
+import { captureHandledError } from '@/utils/captureHandledError';
 import type { Issue } from '../types';
 
 export interface Pages {
@@ -74,6 +75,10 @@ export const useIssuesPages = (
                 const axiosError = error as { response?: { status?: number } } | undefined;
                 if (axiosError?.response?.status === 404) return [];
 
+                captureHandledError(error, {
+                    tags: { feature: 'indexing', action: 'issues_pages_load' },
+                    extra: { dataProviderId, type },
+                });
                 throw error;
             }
         },
@@ -90,6 +95,7 @@ export const useIssuesPages = (
                 } catch (error: unknown) {
                     const isAbort = error && typeof error === 'object' && 'name' in error && (error as Error).name === 'AbortError';
                     if (isAbort) break;
+                    // Errors from load() are already reported in load's catch before rethrow
                     throw error;
                 }
             }

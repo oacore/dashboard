@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useContentTableStore } from '@features/Content/store/contentStore';
 import { http } from '@/config/axios';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 export const useWorksListData = (
     pageSize = 100,
@@ -178,6 +179,10 @@ export const useWorkVisibility = () => {
                 disabled: newDisabledState,
             });
         } catch (error) {
+            captureHandledError(error, {
+                tags: { feature: 'content', action: 'work_visibility_patch' },
+                extra: { rowId },
+            });
             updateWorkVisibility(row.id.toString(), disabled);
             throw error;
         } finally {
