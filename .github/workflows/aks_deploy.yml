@@ -49,8 +49,10 @@ jobs:
           docker buildx build \
             --platform linux/arm64 \
             --push \
+            --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
+            --build-arg SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} \
+            --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
-            --build-arg GA_CODE=${{ secrets.GA_CODE }} \
             --build-arg API_KEY=${{ secrets.API_KEY }} \
             -t ${{ steps.image.outputs.ref }} .
 
