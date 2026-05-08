@@ -3,7 +3,9 @@
   "private": true,
   "pnpm": {
     "onlyBuiltDependencies": [
-      "@oacore/core-ui"
+      "@oacore/core-ui",
+      "@sentry/cli",
+      "esbuild"
     ]
   },
   "version": "0.0.0",
