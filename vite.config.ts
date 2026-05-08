@@ -17,14 +17,15 @@ export default defineConfig({
     react(),
     ...(sentryAuthToken
       ? sentryVitePlugin({
-          org: sentryOrg,
-          project: sentryProject,
-          authToken: sentryAuthToken,
-        })
+        org: sentryOrg,
+        project: sentryProject,
+        authToken: sentryAuthToken,
+      })
       : []),
   ],
   build: {
-    sourcemap: Boolean(sentryAuthToken),
+    sourcemap: true,
+    emptyOutDir: true,
   },
   resolve: {
     alias: {

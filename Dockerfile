@@ -14,17 +14,21 @@ ENV NODE_ENV=${NODE_ENV} \
     NPM_TOKEN=${NPM_TOKEN} \
     SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
     VITE_SENTRY_DSN=${SENTRY_DSN} \
-    VITE_GA_TRACKING_CODE=${GA_TRACKING_CODE} 
+    VITE_GA_TRACKING_CODE=${GA_TRACKING_CODE} \
+    HUSKY=0
 
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 
+RUN apk add --no-cache libc6-compat
+
 RUN set -eux; \
-    TOKEN="$(printf %s "${NPM_TOKEN}" | tr -d '\r\n')"; \
-    test -n "$TOKEN"; \
-    printf "@oacore:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\n" "$TOKEN" > .npmrc; \
+    TOKEN="$(printf %s "${NPM_TOKEN:-}" | tr -d '\r\n')"; \
+    test -n "$TOKEN" || { echo "error: build-arg NPM_TOKEN is required for @oacore (GitHub Packages)." >&2; exit 1; }; \
+    printf '%s\n' '@oacore:registry=https://npm.pkg.github.com' "//npm.pkg.github.com/:_authToken=${TOKEN}" > .npmrc; \
     corepack enable; \
+    corepack prepare pnpm@9 --activate; \
     pnpm install --frozen-lockfile; \
     rm -f .npmrc
 
