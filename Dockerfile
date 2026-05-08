@@ -14,8 +14,7 @@ ENV NODE_ENV=${NODE_ENV} \
     NPM_TOKEN=${NPM_TOKEN} \
     SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
     VITE_SENTRY_DSN=${SENTRY_DSN} \
-    VITE_GA_TRACKING_CODE=${GA_TRACKING_CODE} \
-    HUSKY=0
+    VITE_GA_TRACKING_CODE=${GA_TRACKING_CODE} 
 
 WORKDIR /app
 
@@ -26,7 +25,7 @@ RUN set -eux; \
     test -n "$TOKEN"; \
     printf "@oacore:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\n" "$TOKEN" > .npmrc; \
     corepack enable; \
-    pnpm install --frozen-lockfile --config.confirmModulesPurge=false; \
+    pnpm install --frozen-lockfile; \
     rm -f .npmrc
 
 COPY . .
