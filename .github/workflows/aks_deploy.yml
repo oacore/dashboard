@@ -12,6 +12,7 @@ env:
   AKS_CLUSTER_NAME: core-frontend-kubernetes-cluster
   NAMESPACE: core-frontend
   DEPLOYMENT_NAME: core-frontend-dashboard
+  SENTRY_DSN: https://d116b39bd427449799cdd1516f6f97a1@sentry.io/2091955
 
 jobs:
   build-and-deploy:
