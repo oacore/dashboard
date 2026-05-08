@@ -25,6 +25,7 @@ public/design
 *.njsproj
 *.sln
 *.sw?
+.sentryclirc
 
 # Environment variables (never commit secrets)
 .env
