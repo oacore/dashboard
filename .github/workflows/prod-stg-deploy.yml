@@ -214,8 +214,7 @@ jobs:
 
   upload-sentry-sourcemaps:
     name: Upload Sentry sourcemaps (prod)
-    needs: [deploy, build-and-push]
-    if: needs.build-and-push.outputs.deploy_env == 'prod'
+    needs: [deploy]
     runs-on: ubuntu-latest
     environment: azure
     permissions:
