@@ -211,3 +211,58 @@ jobs:
             --container-name ${{ steps.target.outputs.APP }} \
             --set configuration.ingress.targetPort=${{ env.PORT }} \
             --set-env-vars REDEPLOY_AT="$REDEPLOY_AT"
+
+  upload-sentry-sourcemaps:
+    name: Upload Sentry sourcemaps (prod)
+    needs: [deploy, build-and-push]
+    if: needs.build-and-push.outputs.deploy_env == 'prod'
+    runs-on: ubuntu-latest
+    environment: azure
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.build-and-push.outputs.ref_to_build }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Configure npm auth for @oacore
+        run: |
+          printf "@oacore:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\n" "${{ secrets.NPM_TOKEN }}" > .npmrc
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Remove npm auth
+        if: always()
+        run: rm -f .npmrc
+
+      - name: Build web app
+        run: pnpm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v3
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: oacore
+          SENTRY_PROJECT: dashboard-pk
+        with:
+          environment: production
+          sourcemaps: ./dist/assets
+          url_prefix: '~/assets'
