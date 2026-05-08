@@ -26,7 +26,7 @@ RUN set -eux; \
     test -n "$TOKEN"; \
     printf "@oacore:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\n" "$TOKEN" > .npmrc; \
     corepack enable; \
-    pnpm install --frozen-lockfile; \
+    pnpm install --frozen-lockfile --config.confirmModulesPurge=false; \
     rm -f .npmrc
 
 COPY . .
