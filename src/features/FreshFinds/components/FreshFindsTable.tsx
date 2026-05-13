@@ -12,11 +12,13 @@ import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks
 import { createColumns, freshFindsCustomSorters } from './FreshFindsColumns.tsx';
 import { useDownloadFreshFindsCsv } from '../hooks/useDownloadFreshFindsCsv';
 import type { FreshFindsRecord } from '../types/data.types';
-import { filterFreshFindsRecords } from '../utils/filterFreshFindsRecords';
-import { buildFreshFindsOutputsUrl } from '../utils/freshFindsDoi';
-import { mapFreshFindsRecordToArticle } from '../utils/mapFreshFindsRecordToArticle';
+import {
+  buildFreshFindsOutputsUrl,
+  filterFreshFindsRecords,
+  formatFreshFindsAuthors,
+  mapFreshFindsRecordToArticle,
+} from '../utils/freshFindsDisplay';
 import { articleTemplateData } from '../texts';
-import { formatFreshFindsAuthors } from '../utils/freshFindsAuthors';
 
 type FreshFindsTableRow = FreshFindsRecord & { __rowKey: string };
 

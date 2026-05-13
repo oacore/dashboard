@@ -3,8 +3,7 @@ import { LinkOutlined } from '@ant-design/icons';
 import type { ReusableTableColumn } from '@components/common/CrTable/types.ts';
 
 import type { FreshFindsRecord } from '../types/data.types';
-import { buildFreshFindsDoiHref } from '../utils/freshFindsDoi';
-import { formatFreshFindsAuthors } from '../utils/freshFindsAuthors';
+import { buildFreshFindsDoiHref, formatFreshFindsAuthors } from '../utils/freshFindsDisplay';
 
 const sortAuthors = (a: FreshFindsRecord, b: FreshFindsRecord): number => {
   const sa = formatFreshFindsAuthors(a.affiliation_info).toLowerCase();

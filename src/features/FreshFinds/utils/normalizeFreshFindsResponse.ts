@@ -1,6 +1,6 @@
 import type { FreshFindsRecord } from '../types/data.types';
 
-export const isFreshFindsDataRow = (item: unknown): item is FreshFindsRecord => {
+function isFreshFindsDataRow(item: unknown): item is FreshFindsRecord {
   if (item == null || typeof item !== 'object' || Array.isArray(item)) {
     return false;
   }
@@ -9,9 +9,8 @@ export const isFreshFindsDataRow = (item: unknown): item is FreshFindsRecord => 
   const hasAuthors =
     Array.isArray(row.affiliation_info) && row.affiliation_info.length > 0;
   return hasDoi || hasAuthors;
-};
+}
 
-/** Flattens nested API payloads into a list of usable table rows. */
 export const normalizeFreshFindsResponse = (raw: unknown): FreshFindsRecord[] => {
   const rows: FreshFindsRecord[] = [];
 
