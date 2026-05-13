@@ -1,7 +1,7 @@
 import { useDownloadDataProviderCsv } from '@/hooks/useDownloadDataProviderCsv';
 
 import { buildFreshFindsInternalUrl } from '../constants/freshFindsProdApi';
-// TODO REMOVE
+
 const FRESH_FINDS_CSV_CONFIG = {
     endpoint: 'fresh-finds',
     filenamePrefix: 'fresh-finds-csv',

@@ -3,7 +3,5 @@ import {FreshFindsFeature} from '@features/FreshFinds/FreshFindsFeature.tsx';
 
 export function FreshFindsPage() {
   useDocumentTitle('Fresh finds');
-    return (
-        <FreshFindsFeature />
-    );
+  return <FreshFindsFeature />;
 }
