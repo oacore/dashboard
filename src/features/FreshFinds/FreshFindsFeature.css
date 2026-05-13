@@ -1,0 +1,62 @@
+.fresh-finds-page {
+    margin-block-start: 1rem;
+}
+
+.fresh-finds-table-header__title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.fresh-finds-table-header__subtitle {
+    margin-block: 0.75rem 1rem;
+    margin-inline: 0;
+    color: var(--cr-color-text-secondary, rgba(0, 0, 0, 0.65));
+}
+
+.fresh-finds__doi-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.fresh-finds__doi-icon {
+    flex-shrink: 0;
+}
+
+.fresh-finds-drawer-wrapper .fresh-finds-drawer__institution {
+    margin: 0 0 0.75rem;
+    font-weight: 600;
+}
+
+.fresh-finds-drawer-affiliations {
+    margin-block-start: 1.5rem;
+    padding-block-start: 1rem;
+    border-block-start: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.fresh-finds-drawer-affiliations__title {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.fresh-finds-drawer__author-list {
+    margin: 0;
+    padding-inline-start: 1.25rem;
+}
+
+.fresh-finds-drawer__author-item {
+    margin-block-end: 0.5rem;
+}
+
+.fresh-finds-drawer__author-name {
+    display: block;
+    font-weight: 600;
+}
+
+.fresh-finds-drawer__author-aff {
+    display: block;
+    margin-block-start: 0.15rem;
+    font-size: 0.9em;
+    color: var(--cr-color-text-secondary, rgba(0, 0, 0, 0.65));
+}

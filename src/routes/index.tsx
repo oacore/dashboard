@@ -23,6 +23,7 @@ import {
     RightsRetentionStrategyPage,
     ResearchSoftwarePage,
     DoiPage,
+    FreshFindsPage,
     UsrnPage,
     PluginsPage,
     PluginsDiscoveryPage,
@@ -91,6 +92,10 @@ export const router = createAppRouter([
             {
                 path: 'deduplication',
                 element: <DeduplicationPage />,
+            },
+            {
+                path: 'fresh-finds',
+                element: <FreshFindsPage />,
             },
             {
                 path: 'content',

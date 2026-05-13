@@ -123,6 +123,12 @@ export const menuItems = [
     ],
   },
   {
+    test: /\/fresh-finds/,
+    path: 'fresh-finds',
+    icon: 'fair',
+    label: 'Fresh Finds',
+  },
+  {
     test: /\/fair-certification/,
     path: 'fair-certification',
     icon: 'fair',
