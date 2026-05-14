@@ -9,6 +9,7 @@ spec:
       namespace: gateway-system
   hostnames:
     - dashboard.preferans.uk
+    - dashboard-aks.core.ac.uk 
   rules:
     - matches:
         - path:
