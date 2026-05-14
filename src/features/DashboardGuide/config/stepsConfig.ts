@@ -1,9 +1,9 @@
-import texts from '../texts';
+import firstStep from '@/assets/icons/stepFirst.svg';
+import secondStep from '@/assets/icons/stepTwo.svg';
+import thirdStep from '@/assets/icons/stepThree.svg';
+import forthStep from '@/assets/icons/stepFour.svg';
 
-const firstStep = '/src/assets/icons/stepFirst.svg';
-const secondStep = '/src/assets/icons/stepTwo.svg';
-const thirdStep = '/src/assets/icons/stepThree.svg';
-const forthStep = '/src/assets/icons/stepFour.svg';
+import texts from '../texts';
 
 export interface StepConfig {
     title: string;
