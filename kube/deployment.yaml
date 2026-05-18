@@ -30,7 +30,7 @@ spec:
             - name: NODE_ENV
               value: production
             - name: GA_TRACKING_CODE
-              value: ${{secrets.GA_TRACKING_CODE}}
+              value: ${secrets.GA_TRACKING_CODE}
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
