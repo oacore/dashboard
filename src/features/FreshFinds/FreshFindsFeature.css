@@ -1,0 +1,39 @@
+.fresh-finds-page {
+    margin-block-start: 1rem;
+}
+
+.fresh-finds-table-header__title {
+    margin: 0;
+    font-size: 1.25rem;
+    text-align: left;
+}
+
+.fresh-finds-table-header__subtitle {
+    margin-block: 0.75rem 1rem;
+    margin-inline: 0;
+    color:  rgba(0, 0, 0, 0.65);
+}
+
+.fresh-finds-column.fresh-finds-column--authors,
+.fresh-finds-column.fresh-finds-column--authors.ant-table-cell {
+    min-width: 22rem;
+}
+
+.fresh-finds__doi-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #b75400;
+    text-decoration: none;
+}
+
+.fresh-finds__doi-link:hover,
+.fresh-finds__doi-link:focus-visible {
+    color: #9a4600;
+    text-decoration: underline;
+}
+
+.fresh-finds__doi-icon {
+    flex-shrink: 0;
+    color: inherit;
+}
