@@ -8,6 +8,8 @@ import { useDataProviderStatistics } from '@/hooks/useDataProviderStatistics';
 import { useUsrnData } from './hooks/useUsrnData';
 import { useDoiStatistics } from '@features/Doi/hooks/useDoiStatistics';
 import { useIrusStats } from '@/hooks/useIrusStats';
+import { useOrcidStats } from '@features/Orcid/hooks/useOrcidData.ts';
+import { useDasData } from '@features/Das/hooks/useDasData';
 import { formatReportDate } from './utils/formatReportDate';
 import './style.css';
 import { CrHeader, CrPaper, CrFeatureLayout, CrShowMore } from '@oacore/core-ui';
@@ -35,6 +37,8 @@ export const UsrnViewPage = () => {
 
   const { error: statisticsError } = useDataProviderStatistics(selectedDataProvider?.id ?? null, selectedSetSpec);
   const { error: doiError } = useDoiStatistics(selectedDataProvider?.id ?? null, selectedSetSpec);
+  const { stats: orcidStats } = useOrcidStats(selectedDataProvider?.id ?? 0);
+  const { data: dasData } = useDasData(selectedDataProvider?.id ?? 0);
 
   const failedSections: string[] = [];
   if (usrnError) failedSections.push(ERROR_SECTION_LABELS.usrn);
@@ -76,6 +80,8 @@ export const UsrnViewPage = () => {
     usrn: usrnData ?? null,
     irus,
     rorId,
+    orcidStats,
+    dasData,
   };
 
   const handleDownloadPDF = () => {
