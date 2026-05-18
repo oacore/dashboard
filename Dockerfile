@@ -29,7 +29,7 @@ RUN set -eux; \
     printf '%s\n' '@oacore:registry=https://npm.pkg.github.com' "//npm.pkg.github.com/:_authToken=${TOKEN}" > .npmrc; \
     corepack enable; \
     corepack prepare pnpm@9 --activate; \
-    pnpm install --frozen-lockfile; \
+    NODE_ENV=development pnpm install --frozen-lockfile; \
     rm -f .npmrc
 
 COPY . .
