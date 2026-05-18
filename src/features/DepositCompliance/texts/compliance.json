@@ -40,7 +40,7 @@
     "chart": {
         "title": "Deposit time lag",
         "body": "The chart displays outputs' distribution according to deposit time lag.\n\n- **Time lag** is the difference between deposit and publication date\n  in the repository.\n- **Publication date** is taken from [Crossref](https://www.crossref.org).\n  When this is not available, the repository's one used.\n- **Deposit date** is calculated using specific techniques.\n  On EPrints repositories it is extracted from the *Date Deposited* field,\n  while on DSpace the *dc.date.available* field is used.",
-        "warning": "Check our  [guidelines](https://core.ac.uk/ref-audit) and enable the\n    required support and then notify us once ready, so that we can initiate\n    collecting this information from your repository."
+        "warning": "Check our  [guidelines](https://core.ac.uk/ref) and enable the\n    required support and then notify us once ready, so that we can initiate\n    collecting this information from your repository."
     },
     "noData": {
         "body": "No deposit time lag data available for the selected time period."
