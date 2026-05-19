@@ -29,9 +29,10 @@ spec:
           env:
             - name: NODE_ENV
               value: production
-            - name: GA_TRACKING_CODE
-              value: ${secrets.GA_TRACKING_CODE}
           imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: core-frontend-dashboard-secrets
           ports:
             - name: http
               containerPort: 8080
