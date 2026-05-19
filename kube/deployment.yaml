@@ -6,7 +6,7 @@ metadata:
   labels:
     app: core-frontend-dashboard
 spec:
-  replicas: 1
+  replicas: 3
   revisionHistoryLimit: 5
   strategy:
     type: RollingUpdate

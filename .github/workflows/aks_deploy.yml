@@ -72,9 +72,10 @@ jobs:
         run: |
           kubectl create secret generic core-frontend-dashboard-secrets \
             --namespace core-frontend \
-            --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
-            --build-arg SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} \
-            --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
+            --from-literal=SENTRY_DSN="${{ env.SENTRY_DSN }}" \
+            --from-literal=SENTRY_AUTH_TOKEN="${{ secrets.SENTRY_AUTH_TOKEN }}" \
+            --from-literal=GA_TRACKING_CODE="${{ secrets.GA_TRACKING_CODE }}" \
+            --from-literal=API_KEY="${{ secrets.API_KEY }}" \
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Apply Service and HTTPRoute
