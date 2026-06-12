@@ -21,10 +21,20 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    outputs:
+      release: ${{ steps.image.outputs.release }}
+      sha: ${{ github.sha }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set image reference
+        id: image
+        run: |
+          TAG=$(echo ${{ github.sha }} | cut -c1-7)
+          echo "ref=${{ env.ACR_NAME }}.azurecr.io/aks-${{ env.IMAGE_NAME }}:$TAG" >> $GITHUB_OUTPUT
+          echo "release=$TAG" >> $GITHUB_OUTPUT
 
       - name: Azure Login
         uses: azure/login@v2
@@ -32,12 +42,6 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Set image reference
-        id: image
-        run: |
-          TAG=$(echo ${{ github.sha }} | cut -c1-7)
-          echo "ref=${{ env.ACR_NAME }}.azurecr.io/aks-${{ env.IMAGE_NAME }}:$TAG" >> $GITHUB_OUTPUT
 
       - name: Docker ACR Login
         run: az acr login --name ${{ env.ACR_NAME }}
@@ -50,11 +54,12 @@ jobs:
           docker buildx build \
             --platform linux/arm64 \
             --push \
-            --build-arg SENTRY_DSN=${{env.SENTRY_DSN}} \
+            --build-arg SENTRY_DSN=${{ env.SENTRY_DSN }} \
             --build-arg SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} \
-            --build-arg GA_TRACKING_CODE=${{secrets.GA_TRACKING_CODE}} \
+            --build-arg GA_TRACKING_CODE=${{ secrets.GA_TRACKING_CODE }} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             --build-arg API_KEY=${{ secrets.API_KEY }} \
+            --build-arg SENTRY_RELEASE=${{ steps.image.outputs.release }} \
             -t ${{ steps.image.outputs.ref }} .
 
       - name: Get AKS credentials
@@ -66,12 +71,9 @@ jobs:
             --overwrite-existing
 
       - name: Sync secrets to AKS
-        env:
-          API_KEY: ${{ secrets.API_KEY }}
-          GA_TRACKING_CODE: ${{ secrets.GA_TRACKING_CODE }}
         run: |
           kubectl create secret generic core-frontend-dashboard-secrets \
-            --namespace core-frontend \
+            --namespace ${{ env.NAMESPACE }} \
             --from-literal=SENTRY_DSN="${{ env.SENTRY_DSN }}" \
             --from-literal=SENTRY_AUTH_TOKEN="${{ secrets.SENTRY_AUTH_TOKEN }}" \
             --from-literal=GA_TRACKING_CODE="${{ secrets.GA_TRACKING_CODE }}" \
@@ -93,3 +95,60 @@ jobs:
           kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }} \
             --namespace ${{ env.NAMESPACE }} \
             --timeout=300s
+
+  upload-sentry-sourcemaps:
+    name: Upload Sentry sourcemaps (prod)
+    needs: [build-and-deploy]
+    runs-on: ubuntu-latest
+    environment: azure   
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.build-and-deploy.outputs.sha }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Configure npm auth for @oacore
+        run: |
+          printf "@oacore:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\n" "${{ secrets.NPM_TOKEN }}" > .npmrc
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Remove npm auth
+        if: always()
+        run: rm -f .npmrc
+
+      - name: Build web app
+        run: pnpm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+          SENTRY_DSN: ${{ env.SENTRY_DSN }}
+          SENTRY_RELEASE: ${{ needs.build-and-deploy.outputs.release }}
+          GA_TRACKING_CODE: ${{ secrets.GA_TRACKING_CODE }}
+          API_KEY: ${{ secrets.API_KEY }}
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v3
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: oacore
+          SENTRY_PROJECT: dashboard-pk
+        with:
+          environment: production
+          release: ${{ needs.build-and-deploy.outputs.release }}
+          sourcemaps: ./dist/assets
+          url_prefix: '~/assets'
