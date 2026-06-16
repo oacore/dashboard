@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: core-frontend-dashboard
+  namespace: core-frontend-stage
+spec:
+  parentRefs:
+    - name: public-gateway
+      namespace: gateway-system
+  hostnames:
+    - dashboard-staging.core.ac.uk
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: core-frontend-dashboard
+          port: 80

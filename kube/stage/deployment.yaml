@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-frontend-dashboard
+  namespace: core-frontend-stage
+  labels:
+    app: core-frontend-dashboard
+spec:
+  replicas: 3
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: core-frontend-dashboard
+  template:
+    metadata:
+      labels:
+        app: core-frontend-dashboard
+    spec:
+      nodeSelector:
+        agentpool: userpool
+      containers:
+        - name: core-frontend-dashboard
+          image: ${IMAGE}
+          env:
+            - name: NODE_ENV
+              value: production
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: core-frontend-dashboard-secrets
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
