@@ -1,6 +1,7 @@
 FROM node:24-alpine AS builder
 
 ARG NODE_ENV=production
+ARG APP_ENV=production
 ARG BUILD_TARGET=azure
 ARG NPM_TOKEN
 ARG SENTRY_DSN=""
@@ -10,6 +11,7 @@ ARG GA_TRACKING_CODE=""
 # VITE_API_URL, VITE_IDP_URL come from committed .env.development / .env.production
 # SENTRY_AUTH_TOKEN: build-only; enables Vite sourcemaps + Sentry upload (see vite.config.ts)
 ENV NODE_ENV=${NODE_ENV} \
+    APP_ENV=${APP_ENV} \
     BUILD_TARGET=${BUILD_TARGET} \
     NPM_TOKEN=${NPM_TOKEN} \
     SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
@@ -34,7 +36,12 @@ RUN set -eux; \
 
 COPY . .
 
-RUN if [ "$NODE_ENV" = "production" ]; then pnpm run build; else pnpm run build:dev; fi
+RUN case "$APP_ENV" in \
+      staging) pnpm run build:staging ;; \
+      development) pnpm run build:dev ;; \
+      production) pnpm run build ;; \
+      *) pnpm run build ;; \
+    esac
 
 FROM nginx:1.27-alpine AS runtime
 

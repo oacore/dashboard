@@ -12,6 +12,8 @@ env:
   AKS_CLUSTER_NAME: core-frontend-kubernetes-cluster
   NAMESPACE: core-frontend
   DEPLOYMENT_NAME: core-frontend-dashboard
+  APP_ENV: production
+  KUBE_DIR: kube/prod
   SENTRY_DSN: https://d116b39bd427449799cdd1516f6f97a1@sentry.io/2091955
 
 jobs:
@@ -54,6 +56,7 @@ jobs:
           docker buildx build \
             --platform linux/arm64 \
             --push \
+            --build-arg APP_ENV=${{ env.APP_ENV }} \
             --build-arg SENTRY_DSN=${{ env.SENTRY_DSN }} \
             --build-arg SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} \
             --build-arg GA_TRACKING_CODE=${{ secrets.GA_TRACKING_CODE }} \
@@ -82,13 +85,13 @@ jobs:
 
       - name: Apply Service and HTTPRoute
         run: |
-          kubectl apply -f kube/prod/service.yaml
-          kubectl apply -f kube/prod/httproute.yaml
+          kubectl apply -f ${{ env.KUBE_DIR }}/service.yaml
+          kubectl apply -f ${{ env.KUBE_DIR }}/httproute.yaml
 
       - name: Deploy to AKS
         run: |
           export IMAGE="${{ steps.image.outputs.ref }}"
-          envsubst < kube/prod/deployment.yaml | kubectl apply -f -
+          envsubst < ${{ env.KUBE_DIR }}/deployment.yaml | kubectl apply -f -
 
       - name: Wait for rollout
         run: |
@@ -133,7 +136,7 @@ jobs:
         run: rm -f .npmrc
 
       - name: Build web app
-        run: pnpm run build
+        run: pnpm run build:${{ env.APP_ENV }}
         env:
           NODE_OPTIONS: --max-old-space-size=4096
           SENTRY_DSN: ${{ env.SENTRY_DSN }}
