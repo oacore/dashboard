@@ -1,9 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { http } from '@/config/axios';
 import { captureHandledError } from '@/utils/captureHandledError';
+import { useArticlesData } from '@/hooks/useArticlesData';
 
 export interface Issue {
     id: string;
+    originalId?: string;
     output?: {
         id: string;
         [key: string]: unknown;
@@ -33,61 +35,109 @@ interface IssueWithArticles {
     [key: string]: unknown;
 }
 
+const getIssueArticleId = (issue: Issue): string | null => {
+    if (issue.output?.id) return issue.output.id;
+    if (issue.originalId) return issue.originalId;
+    if (issue.outputUrl) {
+        const [, id] = issue.outputUrl.match(/\/([^/?#]+)(?:[?#].*)?$/) ?? [];
+        if (id) return id;
+    }
+
+    const [, idWithoutPagePrefix] = issue.id.match(/^\d+-(.+)$/) ?? [];
+    return idWithoutPagePrefix || issue.id || null;
+};
+
 export const useIssues = ({ pages }: UseIssuesParams) => {
     const [issues, setIssues] = useState<Issue[]>([]);
     const [issueWithArticles, setIssueWithArticles] = useState<IssueWithArticles | null>(null);
     const [activeArticle, setActiveArticle] = useState<Issue['output'] | null>(null);
     const [loading, setLoading] = useState(false);
+    const articleIds = useMemo(
+        () => issues
+            .filter(({ output }) => output == null)
+            .map(getIssueArticleId)
+            .filter((id): id is string => Boolean(id)),
+        [issues]
+    );
+    const {
+        data: articlesData,
+        isLoading: articlesLoading,
+    } = useArticlesData(articleIds.length > 0 ? articleIds : null);
+
+    useEffect(() => {
+        if (articlesData.length === 0) return;
+
+        setIssueWithArticles((prev) => {
+            if (!prev) return prev;
+
+            const articlesById = new Map(
+                articlesData.map((article) => [String(article.id), article])
+            );
+            const updatedData = prev.data.map((issue) => {
+                if (issue.output) return issue;
+
+                const articleId = getIssueArticleId(issue);
+                const article = articleId ? articlesById.get(articleId) : null;
+
+                return article ? {...issue, output: article} : issue;
+            });
+
+            return {...prev, data: updatedData};
+        });
+
+        setIssues((prev) => {
+            const articlesById = new Map(
+                articlesData.map((article) => [String(article.id), article])
+            );
+
+            return prev.map((issue) => {
+                if (issue.output) return issue;
+
+                const articleId = getIssueArticleId(issue);
+                const article = articleId ? articlesById.get(articleId) : null;
+
+                return article ? {...issue, output: article} : issue;
+            });
+        });
+    }, [articlesData]);
 
     const loadMore = useCallback(
-      async ({ initial = false }: { initial?: boolean } = {}) => {
-          if (!pages) return;
-          setLoading(true);
+        async ({ initial = false }: { initial?: boolean } = {}) => {
+            if (!pages) return;
+            setLoading(true);
 
-          const data = initial
-            ? await pages.slice(0, 10)
-            : await pages.slice(0, issues.length + 10);
+            const data = initial
+                ? await pages.slice(0, 10)
+                : await pages.slice(0, issues.length + 10);
 
-          await Promise.allSettled(
-            data
-              .filter(({ output }) => output == null)
-              .map((issue) =>
-                issue.outputUrl
-                  ? pages.request(issue.outputUrl).then((response) => {
-                      issue.output = response.data;
-                  })
-                  : Promise.resolve()
-              )
-          );
-
-          setLoading(false);
-          setIssueWithArticles({
-              ...pages,
-              data,
-              size: pages.totalLength ?? data.length,
-              isLastPageLoaded: pages.isLastPageLoaded,
-              totalLength: pages.totalLength,
-          } as IssueWithArticles);
-          setIssues(data);
-      },
-      [issues, pages]
+            setLoading(false);
+            setIssueWithArticles({
+                ...pages,
+                data,
+                size: pages.totalLength ?? data.length,
+                isLastPageLoaded: pages.isLastPageLoaded,
+                totalLength: pages.totalLength,
+            } as IssueWithArticles);
+            setIssues(data);
+        },
+        [issues, pages]
     );
 
     const onSetActiveArticle = useCallback(
-      (id: string) => {
-          const output = issueWithArticles?.data.find(
-            (issue) => issue.id === id
-          )?.output;
+        (id: string) => {
+            const output = issueWithArticles?.data.find(
+                (issue) => issue.id === id
+            )?.output;
 
-          if (output && output.id) {
-              const outputWithUrl = {
-                  ...output,
-                  outputUrl: `https://core.ac.uk/outputs/${output.id}`,
-              };
-              setActiveArticle(outputWithUrl);
-          }
-      },
-      [issueWithArticles]
+            if (output && output.id) {
+                const outputWithUrl = {
+                    ...output,
+                    outputUrl: `https://core.ac.uk/outputs/${output.id}`,
+                };
+                setActiveArticle(outputWithUrl);
+            }
+        },
+        [issueWithArticles]
     );
 
     const changeArticleVisibility = async (article: Issue['output']) => {
@@ -105,9 +155,9 @@ export const useIssues = ({ pages }: UseIssuesParams) => {
             setIssueWithArticles((prev) => {
                 if (!prev) return prev;
                 const updatedData = prev.data.map((issue) =>
-                  issue.output?.id === article.id
-                    ? { ...issue, output: { ...issue.output, disabled: !article?.disabled } }
-                    : issue
+                    issue.output?.id === article.id
+                        ? { ...issue, output: { ...issue.output, disabled: !article?.disabled } }
+                        : issue
                 );
                 return { ...prev, data: updatedData };
             });
@@ -132,7 +182,7 @@ export const useIssues = ({ pages }: UseIssuesParams) => {
 
     return {
         loadMore,
-        loading,
+        loading: loading || articlesLoading,
         data: issueWithArticles,
         done: !pages ? true : pages.isLastPageLoaded ?? true,
         onSetActiveArticle,
