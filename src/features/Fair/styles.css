@@ -485,10 +485,9 @@
 }
 
 .fair-certification-header-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   gap: 50px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
 }
 
 .fair-certification-header-inner-wrapper {
@@ -509,6 +508,332 @@
 .fair-certification-description {
   margin: 10px 0 26px 0;
   color: #666;
+}
+
+/* FAIR certification certificate card */
+.fair-certificate {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 520px;
+}
+
+.fair-certificate__card {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 36px 24px 24px 24px;
+  background: #FAFAFA;
+  box-shadow: 0 2.043px 3.404px 0 rgba(0, 0, 0, 0.14), 0 0.34px 6.128px 0 rgba(0, 0, 0, 0.12), 0 1.021px 1.702px 0 rgba(0, 0, 0, 0.20);
+}
+
+.fair-certificate__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.fair-certificate__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.fair-certificate__title {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fair-certificate__level {
+  margin: 0;
+  font-style: normal;
+  text-transform: uppercase;
+  color: #000;
+  text-align: center;
+  font-size: 6px;
+  font-weight: 700;
+  line-height: 140%; /* 7.512px */
+  letter-spacing: 0.537px;
+  border-bottom: 1px solid var(--color-primary);
+  padding: 4px 0;
+}
+
+.fair-certificate__presented-label {
+  margin: 4px 0 0;
+  color: var(--color-primary);
+  font-size: 7px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.fair-certificate__recipient {
+  margin: 0 0 8px;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  color: #000;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 130%;
+}
+
+.fair-certificate__description {
+  margin: 0 0 12px;
+  width: 200px;
+  letter-spacing: 0.01em;
+  color: #000;
+  text-align: center;
+  font-size: 4px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* 5.05px */
+}
+
+.fair-certificate__footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: end;
+  gap: 8px;
+  width: 100%;
+}
+
+.fair-certificate__signatory {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  text-align: left;
+}
+
+.fair-certificate__footer-name {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: 6px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%; /* 7.512px */
+  letter-spacing: 0.268px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--color-primary);
+}
+
+.fair-certificate__footer-title {
+  font-size: 4px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 5.302px */
+  margin: 0 0 4px;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+
+.fair-certificate__core-logo {
+  display: block;
+  width: 32px;
+  height: auto;
+}
+
+.fair-certificate__seal-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.fair-certificate__seal {
+  display: block;
+  width: 52px;
+  height: auto;
+}
+
+.fair-certificate__info-url {
+  margin: 0;
+  color: #666;
+  text-align: center;
+  font-size: 4px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* 5.05px */
+  margin-top: 10px;
+}
+
+.fair-certificate__dates {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-align: right;
+}
+
+.fair-certificate__issue-date {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  margin: 0;
+  font-size: 6.5px;
+  font-style: normal;
+  line-height: 1.3;
+}
+
+
+.fair-certificate__valid-until {
+  color: #212121;
+  text-align: right;
+  font-size: 3.787px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 5.302px */
+}
+
+/* Corner ornaments */
+.fair-certificate__frame {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.fair-certificate__frame::before,
+.fair-certificate__frame::after {
+  content: '';
+  position: absolute;
+  background: #212121;
+}
+
+.fair-certificate__frame--top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.fair-certificate__frame--top-left::before {
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 1px;
+}
+
+.fair-certificate__frame--top-left::after {
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 14px;
+}
+
+.fair-certificate__frame--top-right {
+  top: 12px;
+  right: 12px;
+}
+
+.fair-certificate__frame--top-right::before {
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 1px;
+}
+
+.fair-certificate__frame--top-right::after {
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 14px;
+}
+
+.fair-certificate__frame--bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+
+.fair-certificate__frame--bottom-left::before {
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  height: 1px;
+}
+
+.fair-certificate__frame--bottom-left::after {
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 14px;
+}
+
+.fair-certificate__frame--bottom-right {
+  bottom: 12px;
+  right: 12px;
+}
+
+.fair-certificate__frame--bottom-right::before {
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  height: 1px;
+}
+
+.fair-certificate__frame--bottom-right::after {
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  height: 14px;
+}
+
+/* Partial border edges */
+.fair-certificate__edge {
+  position: absolute;
+  background: #212121;
+  pointer-events: none;
+}
+
+.fair-certificate__edge--top {
+  top: 12px;
+  left: 42px;
+  right: 42px;
+  height: 1px;
+}
+
+.fair-certificate__edge--bottom {
+  bottom: 12px;
+  left: 42px;
+  right: 42px;
+  height: 1px;
+}
+
+.fair-certificate__edge--left {
+  top: 42px;
+  bottom: 42px;
+  left: 12px;
+  width: 1px;
+}
+
+.fair-certificate__edge--right {
+  top: 42px;
+  bottom: 42px;
+  right: 12px;
+  width: 1px;
+}
+
+@media (max-width: 768px) {
+  .fair-certification-header-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .fair-certificate {
+    align-self: center;
+    max-width: 100%;
+  }
 }
 
 /* Approved view — FAIR principles accordion (Ant Design Collapse) */
