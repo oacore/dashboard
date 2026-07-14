@@ -54,6 +54,12 @@ export const FairCertificateView = ({
         <span className="fair-certificate__edge fair-certificate__edge--left" aria-hidden="true" />
         <span className="fair-certificate__edge fair-certificate__edge--right" aria-hidden="true" />
 
+        <span className="fair-certificate__frame fair-certificate__frame--inner fair-certificate__frame--top-left" aria-hidden="true" />
+        <span className="fair-certificate__frame fair-certificate__frame--inner fair-certificate__frame--top-right" aria-hidden="true" />
+        <span className="fair-certificate__frame fair-certificate__frame--inner fair-certificate__frame--bottom-left" aria-hidden="true" />
+        <span className="fair-certificate__frame fair-certificate__frame--inner fair-certificate__frame--bottom-right" aria-hidden="true" />
+
+
         <div className="fair-certificate__content">
           <header className="fair-certificate__header">
             <h2 className="fair-certificate__title">{data.title}</h2>

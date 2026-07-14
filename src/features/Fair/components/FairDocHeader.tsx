@@ -1,6 +1,7 @@
 import fairTexts from '@features/Fair/texts/fair.json';
 import {Markdown} from '@oacore/core-ui';
 import {Button} from 'antd';
+// import placeholder from '@/assets/img/certificatePlaceholder.svg';
 import { FairCertificateView } from '@features/Fair/components/FairCertificateView.tsx';
 import '../styles.css';
 
@@ -36,6 +37,7 @@ export const FairDocHeader = () => {
                 {approvedView.submissionsLine}
               </Markdown>
             </div>
+            {/*<img  className="fair-certification-placeholder" src={placeholder} alt=""/>*/}
             <FairCertificateView />
           </div>
         </>
