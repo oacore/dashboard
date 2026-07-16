@@ -41,6 +41,7 @@ export type FairCertificationQuestion = {
   question?: string;
   description?: string;
   recommendation?: string;
+  answer?: string;
   result?: FairCertificationQuestionResult;
 };
 

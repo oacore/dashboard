@@ -1,9 +1,12 @@
 import {InfoOutlined, FileTextOutlined} from '@ant-design/icons';
 import {Markdown, PercentBar} from '@oacore/core-ui';
-import {Form, Input} from 'antd';
+import {Form, Input, message} from 'antd';
 import {formatNumber} from '@utils/helpers.ts';
+import type {FocusEvent} from 'react';
 
 import type {FairQuestionItem} from '@features/Fair/types/fairPrinciples.types';
+import { updateFairCertificationAnswer } from '@features/Fair/hooks/useFairCertification';
+import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import '../../Usrn/style.css';
 import '../styles.css';
@@ -22,7 +25,20 @@ export const FairPrincipleQuestionBlock = ({
   recommendationHeading,
   openQuestionLabel,
 }: FairPrincipleQuestionBlockProps) => {
+  const { selectedDataProvider } = useDataProviderStore();
+  const dataProviderId = selectedDataProvider?.id;
   const isOpenQuestion = Boolean(item.openQuestion);
+  const questionId = item.certificationQuestion?.id;
+
+  const handleAnswerBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
+    if (!dataProviderId || !questionId) {
+      return;
+    }
+
+    updateFairCertificationAnswer(dataProviderId, questionId, event.target.value).catch(() => {
+      message.error('Failed to save your answer. Please try again.');
+    });
+  };
 
   const percentLabelText = item.percentLabel;
   const counterLabelText = item.counterLabel;
@@ -82,9 +98,14 @@ export const FairPrincipleQuestionBlock = ({
         />
       {isOpenQuestion ? (
         <div className="fair-principles__open-block">
-          <Form.Item className="fair-principles__open-field" name={item.id}>
+          <Form.Item
+            className="fair-principles__open-field"
+            initialValue={item.certificationQuestion?.answer}
+            name={questionId ?? item.id}
+          >
             <Input.TextArea
               aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
+              onBlur={handleAnswerBlur}
               placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
               rows={4}
             />
