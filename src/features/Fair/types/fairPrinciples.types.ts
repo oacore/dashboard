@@ -1,3 +1,5 @@
+import type { FairCertificationQuestion } from '@features/Fair/types/fairCertification.types';
+
 export type FairMetricLine = {
   label: string;
   value: string;
@@ -6,6 +8,8 @@ export type FairMetricLine = {
 export type FairQuestionItem = {
   id: string;
   code: string;
+  /** Matches API question `number` (e.g. "1.1", "2.4"). */
+  number?: string;
   question: string;
   description?: string;
   recommendation?: string;
@@ -18,6 +22,7 @@ export type FairQuestionItem = {
   percentLabel?: string;
   /** Label for `countValue` (e.g. indexed metadata total). */
   counterLabel?: string;
+  certificationQuestion?: FairCertificationQuestion;
 };
 
 export type FairPrincipleSection = {

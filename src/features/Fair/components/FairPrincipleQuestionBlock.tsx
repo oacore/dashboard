@@ -4,55 +4,32 @@ import {Form, Input} from 'antd';
 import {formatNumber} from '@utils/helpers.ts';
 
 import type {FairQuestionItem} from '@features/Fair/types/fairPrinciples.types';
-import {getFairQuestionStatusClassName} from '@features/Fair/utils/getFairQuestionStatusClassName';
-import {
-  resolveFairQuestionDisplay,
-  type FairRepositoryStatusParams,
-} from '@features/Fair/utils/resolveFairQuestionStatus';
 
 import '../../Usrn/style.css';
 import '../styles.css';
+import { getFairQuestionStatusClassName } from '@features/Fair/utils/getFairQuestionStatusClassName';
+import { resolveFairQuestionStatusLabel } from '@features/Fair/utils/resolveFairQuestionStatusLabel';
 
 export type FairPrincipleQuestionBlockProps = {
   item: FairQuestionItem;
   recommendationHeading: string;
   openQuestionLabel: string;
-  repositoryStatus?: FairRepositoryStatusParams | null;
+  // repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
 export const FairPrincipleQuestionBlock = ({
   item,
   recommendationHeading,
   openQuestionLabel,
-  repositoryStatus,
 }: FairPrincipleQuestionBlockProps) => {
-  const { statusLabel, cardConfig } = resolveFairQuestionDisplay({
-    item,
-    openQuestionLabel,
-    repositoryStatus,
-  });
-  const displayStatus = statusLabel ?? '—';
-  const statusClass = getFairQuestionStatusClassName(displayStatus);
   const isOpenQuestion = Boolean(item.openQuestion);
 
-  const countCovered = cardConfig?.countCovered ?? null;
-  const countTotal = cardConfig?.countTotal ?? null;
-  const countValue = cardConfig?.countValue ?? null;
   const percentLabelText = item.percentLabel;
   const counterLabelText = item.counterLabel;
+  const statusLabel = resolveFairQuestionStatusLabel(item.certificationQuestion, openQuestionLabel);
+  const statusClassName = getFairQuestionStatusClassName(statusLabel);
 
-  const showPercentBar =
-    countCovered != null &&
-    countTotal != null &&
-    countCovered > 0 &&
-    countTotal > 0 &&
-    Boolean(percentLabelText);
-
-  const counterRows = cardConfig?.counterRows;
-  const showCounterRows = Boolean(counterRows?.length);
-  const showCountValue =
-    !showCounterRows && countValue != null && Boolean(counterLabelText);
-
+  // TODO CHANGE TO REAL NUM
   return (
     <div className="support-status fair-principles__question">
       <div className="support-status__row">
@@ -63,7 +40,7 @@ export const FairPrincipleQuestionBlock = ({
         <span className="required-link">
           <FileTextOutlined  className="file-icon"/>
         </span>
-        <span className={`support-status__status ${statusClass}`}>{displayStatus}</span>
+        <span className={`support-status__status ${statusClassName}`}>{statusLabel}</span>
       </div>
       {item.description ? (
         <div className="support-status__row">
@@ -79,34 +56,30 @@ export const FairPrincipleQuestionBlock = ({
         </div>
       ) : null}
 
-      {showCounterRows && counterRows
-        ? counterRows.map((row, index) => (
-            <div
-              key={`${row.label}-${index}`}
-              className="support-status__counter"
-            >
-              <span className="support-status__counter-label">{row.label}</span>
-              <span className="support-status__counter-value">
-                {formatNumber(row.value)}
-              </span>
-            </div>
-          ))
-        : null}
-      {showCountValue ? (
-        <div className="support-status__counter">
-          <span className="support-status__counter-label">{counterLabelText}</span>
-          <span className="support-status__counter-value">{formatNumber(countValue)}</span>
-        </div>
-      ) : null}
+      {/*{showCounterRows && counterRows*/}
+      {/*  ? counterRows.map((row, index) => (*/}
+      {/*      <div*/}
+      {/*        key={`${row.label}-${index}`}*/}
+      {/*        className="support-status__counter"*/}
+      {/*      >*/}
+      {/*        <span className="support-status__counter-label">{row.label}</span>*/}
+      {/*        <span className="support-status__counter-value">*/}
+      {/*          {formatNumber(row.value)}*/}
+      {/*        </span>*/}
+      {/*      </div>*/}
+      {/*    ))*/}
+      {/*  : null}*/}
 
-      {showPercentBar && percentLabelText ? (
+      <div className="support-status__counter">
+        <span className="support-status__counter-label">{counterLabelText}</span>
+        <span className="support-status__counter-value">{formatNumber(32)}</span>
+      </div>
+
         <PercentBar
           percentLabel={percentLabelText}
-          countCovered={countCovered}
-          countTotal={countTotal}
+          countCovered={3}
+          countTotal={3}
         />
-      ) : null}
-
       {isOpenQuestion ? (
         <div className="fair-principles__open-block">
           <Form.Item className="fair-principles__open-field" name={item.id}>

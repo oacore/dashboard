@@ -4,12 +4,14 @@ import {
   FairPrinciplesCollapsible,
   type FairPrinciplesCollapsibleSection,
 } from '@features/Fair/components/FairPrinciplesCollapsible';
+import type { FairCertificationQuestion } from '@features/Fair/types/fairCertification.types';
 import {
   FAIR_PRINCIPLE_SECTION_KEYS,
   type FairPrincipleSection,
   type FairPrincipleSectionKey,
+  type FairQuestionItem,
 } from '@features/Fair/types/fairPrinciples.types';
-import type { FairRepositoryStatusParams } from '@features/Fair/utils/resolveFairQuestionStatus';
+// import type { FairRepositoryStatusParams } from '@features/Fair/utils/resolveFairQuestionStatus';
 import {Button, Form, Typography} from 'antd';
 import {useMemo} from 'react';
 
@@ -20,8 +22,9 @@ export type FairPrinciplesCollapseProps = {
   onSubmit?: () => void;
   /** Collapsible presentation: `default` (full FAIR styling) or `compact` (tighter panels). */
   collapsibleVariant?: 'default' | 'compact';
+  certificationQuestions?: FairCertificationQuestion[];
   /** When set, principle rows with a USRN mapping show Yes/No from the same APIs as USRN. */
-  repositoryStatus?: FairRepositoryStatusParams | null;
+  // repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
 const {Title, Paragraph} = Typography;
@@ -30,7 +33,8 @@ export const FairPrinciplesCollapse = ({
   onSave,
   onSubmit,
   collapsibleVariant = 'default',
-  repositoryStatus,
+  certificationQuestions,
+  // repositoryStatus,
 }: FairPrinciplesCollapseProps) => {
   const {principlesAccordion} = fairTexts;
   const [openAnswersForm] = Form.useForm();
@@ -48,8 +52,28 @@ export const FairPrinciplesCollapse = ({
   const openQuestionLabel = principlesAccordion.openQuestionBadge ?? 'Open question';
 
   const collapsibleSections: FairPrinciplesCollapsibleSection[] = useMemo(() => {
+    const questionsByNumber = certificationQuestions?.length
+      ? new Map(
+          certificationQuestions
+            .filter((question) => question.number)
+            .map((question) => [question.number as string, question]),
+        )
+      : undefined;
+
+    const attachCertificationQuestion = (item: FairQuestionItem): FairQuestionItem => {
+      const certificationQuestion =
+        item.number && questionsByNumber ? questionsByNumber.get(item.number) : undefined;
+
+      return certificationQuestion ? { ...item, certificationQuestion } : item;
+    };
+
     return FAIR_PRINCIPLE_SECTION_KEYS.map((key: FairPrincipleSectionKey) => {
       const section = principlesAccordion[key] as FairPrincipleSection;
+      const enrichedSection: FairPrincipleSection = {
+        ...section,
+        items: section.items.map(attachCertificationQuestion),
+      };
+
       return {
         key,
         label: (
@@ -63,14 +87,14 @@ export const FairPrinciplesCollapse = ({
         children: (
           <FairPrincipleSectionContent
             recommendationHeading={recommendationHeading}
-            section={section}
+            section={enrichedSection}
             openQuestionLabel={openQuestionLabel}
-            repositoryStatus={repositoryStatus}
+            // repositoryStatus={repositoryStatus}
           />
         ),
       };
     });
-  }, [principlesAccordion, recommendationHeading, openQuestionLabel, repositoryStatus]);
+  }, [principlesAccordion, recommendationHeading, openQuestionLabel, certificationQuestions]);
 
   return (
     <section

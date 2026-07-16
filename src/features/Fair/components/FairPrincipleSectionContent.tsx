@@ -1,6 +1,6 @@
 import {FairPrincipleQuestionBlock} from '@features/Fair/components/FairPrincipleQuestionBlock';
 import type {FairPrincipleSection} from '@features/Fair/types/fairPrinciples.types';
-import type { FairRepositoryStatusParams } from '@features/Fair/utils/resolveFairQuestionStatus';
+// import type { FairRepositoryStatusParams } from '@features/Fair/utils/resolveFairQuestionStatus';
 
 import '../styles.css';
 
@@ -8,14 +8,14 @@ export type FairPrincipleSectionContentProps = {
   section: FairPrincipleSection;
   recommendationHeading: string;
   openQuestionLabel: string;
-  repositoryStatus?: FairRepositoryStatusParams | null;
+  // repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
 export const FairPrincipleSectionContent = ({
   section,
   recommendationHeading,
   openQuestionLabel,
-  repositoryStatus,
+  // repositoryStatus,
 }: FairPrincipleSectionContentProps) => {
   if (!section.items?.length) {
     return null;
@@ -29,7 +29,7 @@ export const FairPrincipleSectionContent = ({
           key={item.id ? item.id : `${item.code || 'row'}-${index}`}
           recommendationHeading={recommendationHeading}
           openQuestionLabel={openQuestionLabel}
-          repositoryStatus={repositoryStatus}
+          // repositoryStatus={repositoryStatus}
         />
       ))}
     </div>

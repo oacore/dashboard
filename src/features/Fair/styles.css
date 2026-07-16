@@ -603,7 +603,7 @@
   font-size: 4px;
   font-style: normal;
   font-weight: 400;
-  line-height: 160%; /* 5.05px */
+  line-height: 160%;
 }
 
 .fair-certificate__footer {
@@ -628,7 +628,7 @@
   font-size: 6px;
   font-style: normal;
   font-weight: 700;
-  line-height: 140%; /* 7.512px */
+  line-height: 140%;
   letter-spacing: 0.268px;
   padding: 2px 0;
   border-bottom: 1px solid var(--color-primary);
@@ -638,7 +638,7 @@
   font-size: 4px;
   font-style: normal;
   font-weight: 400;
-  line-height: 140%; /* 5.302px */
+  line-height: 140%;
   margin: 0 0 4px;
   color: var(--color-primary);
   margin-top: 2px;
@@ -670,7 +670,7 @@
   font-size: 4px;
   font-style: normal;
   font-weight: 400;
-  line-height: 160%; /* 5.05px */
+  line-height: 160%;
   margin-top: 10px;
 }
 
@@ -699,7 +699,7 @@
   font-size: 3.787px;
   font-style: normal;
   font-weight: 400;
-  line-height: 140%; /* 5.302px */
+  line-height: 140%;
 }
 
 /* Corner ornaments */
@@ -946,7 +946,7 @@
   margin-bottom: 0;
 }
 
-.fair-principles-collapsible-root .ant-collapse-borderless >.ant-collapse-item:last-child {
+.fair-principles-collapsible-root .ant-collapse-borderless>.ant-collapse-item:last-child {
   border: 1px solid var(--color-border);
 }
 
@@ -1241,7 +1241,7 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: 130%; /* 20.8px */
+  line-height: 130%;
   letter-spacing: 0.01px;
 }
 
