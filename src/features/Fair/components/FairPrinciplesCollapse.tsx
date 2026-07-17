@@ -12,7 +12,7 @@ import {
   type FairQuestionItem,
 } from '@features/Fair/types/fairPrinciples.types';
 // import type { FairRepositoryStatusParams } from '@features/Fair/utils/resolveFairQuestionStatus';
-import {Button, Form, Typography} from 'antd';
+import {Button, Typography} from 'antd';
 import {useMemo} from 'react';
 
 import '../styles.css';
@@ -39,7 +39,6 @@ export const FairPrinciplesCollapse = ({
   // repositoryStatus,
 }: FairPrinciplesCollapseProps) => {
   const {principlesAccordion} = fairTexts;
-  const [openAnswersForm] = Form.useForm();
 
   const recommendationHeading = principlesAccordion.recommendationHeading ?? 'Recommendation';
 
@@ -103,13 +102,11 @@ export const FairPrinciplesCollapse = ({
       aria-label={principlesAccordion.sectionAriaLabel}
       className="fair-principles-accordion-section"
     >
-      <Form className="fair-principles-open-form" form={openAnswersForm} layout="vertical" requiredMark={false}>
-        <FairPrinciplesCollapsible
-          defaultActiveKey={[]}
-          sections={collapsibleSections}
-          variant={collapsibleVariant}
-        />
-      </Form>
+      <FairPrinciplesCollapsible
+        defaultActiveKey={[]}
+        sections={collapsibleSections}
+        variant={collapsibleVariant}
+      />
       <div className="fair-principles-accordion-actions">
         <Button
           aria-label={principlesAccordion.saveButtonLabel}
