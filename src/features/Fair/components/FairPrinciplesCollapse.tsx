@@ -19,7 +19,8 @@ import '../styles.css';
 
 export type FairPrinciplesCollapseProps = {
   onSave?: () => void;
-  onSubmit?: () => void;
+  onSubmit?: () => void | Promise<void>;
+  isSubmitting?: boolean;
   /** Collapsible presentation: `default` (full FAIR styling) or `compact` (tighter panels). */
   collapsibleVariant?: 'default' | 'compact';
   certificationQuestions?: FairCertificationQuestion[];
@@ -32,6 +33,7 @@ const {Title, Paragraph} = Typography;
 export const FairPrinciplesCollapse = ({
   onSave,
   onSubmit,
+  isSubmitting = false,
   collapsibleVariant = 'default',
   certificationQuestions,
   // repositoryStatus,
@@ -46,7 +48,7 @@ export const FairPrinciplesCollapse = ({
   };
 
   const handleSubmit = () => {
-    onSubmit?.();
+    void onSubmit?.();
   };
 
   const openQuestionLabel = principlesAccordion.openQuestionBadge ?? 'Open question';
@@ -120,7 +122,9 @@ export const FairPrinciplesCollapse = ({
         <Button
           aria-label={principlesAccordion.submitButtonLabel}
           className="fair-principles-accordion-btn fair-principles-accordion-btn--primary"
+          disabled={isSubmitting}
           htmlType="button"
+          loading={isSubmitting}
           onClick={handleSubmit}
           type="primary"
         >

@@ -18,6 +18,8 @@
     "sectionAriaLabel": "FAIR principles and certification questions",
     "saveButtonLabel": "Save",
     "submitButtonLabel": "Submit",
+    "submitSuccessMessage": "Your FAIR certification has been submitted successfully.",
+    "submitErrorMessage": "Failed to submit your FAIR certification. Please try again.",
     "recommendationHeading": "Recommendation",
     "openQuestionBadge": "Open question",
     "findable": {

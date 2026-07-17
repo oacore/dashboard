@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { fetcher, putRequest, swrDefaultConfig } from '@/config/swr';
+import { fetcher, postRequestFetcher, putRequest, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import type { FairCertificationApiResponse } from '@features/Fair/types/fairCertification.types';
 
@@ -34,4 +34,11 @@ export const updateFairCertificationAnswer = (
   putRequest(
     `/internal/data-providers/${dataProviderId}/fair-certification/answers/${questionId}`,
     { answer },
+  );
+
+export const submitFairCertification = (dataProviderId: number) =>
+  postRequestFetcher(
+    `/internal/data-providers/${dataProviderId}/fair-certification/submissions`,
+    undefined,
+    true,
   );

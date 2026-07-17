@@ -1,16 +1,48 @@
 import { CrFeatureLayout, CrPaper } from '@oacore/core-ui';
+import fairTexts from '@features/Fair/texts/fair.json';
+import { message } from 'antd';
+import { useCallback, useState } from 'react';
 import '../styles.css';
 
 import { FairDocHeader } from '@features/Fair/components/FairDocHeader.tsx';
 import { FairPrinciplesCollapse } from '@features/Fair/components/FairPrinciplesCollapse.tsx';
 import { FairSubmissionProgress } from '@features/Fair/components/FairSubmissionProgress.tsx';
+import {
+  submitFairCertification,
+  useFairCertification,
+} from '@features/Fair/hooks/useFairCertification';
 import type { FairCertificationQuestion } from '@features/Fair/types/fairCertification.types';
+import { useDataProviderStore } from '@/store/dataProviderStore';
 
 export type ApprovedFairViewProps = {
   certificationQuestions?: FairCertificationQuestion[];
 };
 
 export const ApprovedFairView = ({ certificationQuestions }: ApprovedFairViewProps) => {
+  const { selectedDataProvider } = useDataProviderStore();
+  const dataProviderId = selectedDataProvider?.id;
+  const { mutate } = useFairCertification();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { submitSuccessMessage, submitErrorMessage } = fairTexts.principlesAccordion;
+
+  const handleSubmit = useCallback(async () => {
+    if (!dataProviderId) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await submitFairCertification(dataProviderId);
+      await mutate();
+      message.success(submitSuccessMessage);
+    } catch {
+      message.error(submitErrorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [dataProviderId, mutate, submitErrorMessage, submitSuccessMessage]);
+
   // const { selectedDataProvider, selectedSetSpec, statistics, doiStatistics } = useDataProviderStore();
   // const rorId = selectedDataProvider?.rorData?.rorId ?? null;
   // const { rioxx } = useRioxxStats(selectedDataProvider?.id);
@@ -46,6 +78,8 @@ export const ApprovedFairView = ({ certificationQuestions }: ApprovedFairViewPro
         <FairDocHeader />
         <FairPrinciplesCollapse
           certificationQuestions={certificationQuestions}
+          isSubmitting={isSubmitting}
+          onSubmit={handleSubmit}
           // repositoryStatus={repositoryStatus}
         />
         <FairSubmissionProgress />

@@ -45,6 +45,20 @@ export type FairCertificationQuestion = {
   result?: FairCertificationQuestionResult;
 };
 
+export type FairCertificationSubmissionReviewStatus = 'pending' | string;
+
+export type FairCertificationSubmissionResponse = {
+  id: number;
+  submissionNumber: number;
+  submittedBy: string;
+  submittedAt: string;
+  submissionDate: string;
+  pdfGeneratedAt: string;
+  reportUrl: string;
+  reviewStatus: FairCertificationSubmissionReviewStatus;
+  snapshot: Record<string, unknown>;
+};
+
 export type FairCertificationApiResponse = {
   status?: FairCertificationStatus;
   level?: FairCertificationLevel | null;
