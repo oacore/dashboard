@@ -134,3 +134,4 @@ export const FairPrinciplesCollapse = ({
     </section>
   );
 };
+

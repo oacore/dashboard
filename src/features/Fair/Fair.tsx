@@ -43,9 +43,17 @@ export type FairCertificationData = {
 
 export type FairFeatureProps = {
   data: FairCertificationData;
+  showSuccessMessage?: boolean;
+  registerInterestHref?: string;
+  onRegisterInterest?: () => void;
 };
 
-export const FairFeature = ({ data }: FairFeatureProps) => {
+export const FairFeature = ({
+  data,
+  showSuccessMessage = false,
+  registerInterestHref,
+  onRegisterInterest,
+}: FairFeatureProps) => {
   const howItWorks = data.howItWorks.howItWorks;
   const applicationProcess = data.applicationProcess.applicationProcess;
   const certificates = data.certificates.certificates;
@@ -93,22 +101,33 @@ export const FairFeature = ({ data }: FairFeatureProps) => {
                   >
                     Read more about CORE FAIR Certification on our website.
                   </a>
-                  <a
-                    className="fair-certification-intro-register"
-                    href={"https://docs.google.com/forms/d/e/1FAIpQLScVAzXyEoPNBno9qorv2pQU9QmUalagtcoRn9Tze4V5TQZ1Pw/viewform?usp=dialog"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Register your interest
-                  </a>
-                  {/*TODO render based on view*/}
-                  <CrMessage
-                    variant="success"
-                    className="success-certification-intro-text"
-                  >
-                    <img src={success} alt=""/>
-                    Your request has been submitted. We will contact you as soon as possible to arrange the payment. After this you will get access to the FAIR certification report.
-                  </CrMessage>
+                  {showSuccessMessage ? (
+                    <CrMessage
+                      variant="success"
+                      className="success-certification-intro-text"
+                    >
+                      <img src={success} alt="" />
+                      Your request has been submitted. We will contact you as soon as possible to arrange the payment. After this you will get access to the FAIR certification report.
+                    </CrMessage>
+                  ) : (
+                    <a
+                      className="fair-certification-intro-register"
+                      href={registerInterestHref ?? '#'}
+                      target={registerInterestHref ? '_blank' : undefined}
+                      rel={registerInterestHref ? 'noopener noreferrer' : undefined}
+                      aria-label="Register your interest in FAIR certification"
+                      onClick={
+                        onRegisterInterest
+                          ? (event) => {
+                              event.preventDefault();
+                              onRegisterInterest();
+                            }
+                          : undefined
+                      }
+                    >
+                      Register your interest
+                    </a>
+                  )}
                 </p>
               </div>
               {/*  TODO enable based on condition */}
