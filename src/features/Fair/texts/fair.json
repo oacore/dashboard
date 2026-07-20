@@ -14,6 +14,9 @@
     "lastReportUpdateLine": "**Date of the last report update:**",
     "submissionsLine": "**Number of submissions:** ",
     "aboutButtonLabel": "About CORE FAIR Certification",
+    "downloadPNG": "Download badge in PNG",
+    "downloadPngErrorMessage": "Failed to download the certificate badge. Please try again.",
+    "downloadPdf": "Download certificate in PDF",
     "downloadReportButtonLabel": "Download report"
   },
   "principlesAccordion": {
@@ -366,8 +369,7 @@
   "certificate": {
     "title": "CERTIFICATE",
     "presentedLabel": "PROUDLY PRESENTED TO :",
-    "description":
-    "In recognition of the repository's demonstrated commitment to best practice data stewardship, attested by its compliance with the CORE FAIR Certification requirements at the Bronze level. This certificate signifies that the records managed herein meet the globally recognized standards for Findability, Accessibility, Interoperability, and Reusability (FAIR), ensuring long-term utility and transparency for the Open Access community.",
+    "description": "In recognition of the repository's demonstrated commitment to best practice data stewardship, attested by its compliance with the CORE FAIR Certification requirements at the Bronze level. This certificate signifies that the records managed herein meet the globally recognized standards for Findability, Accessibility, Interoperability, and Reusability (FAIR), ensuring long-term utility and transparency for the Open Access community.",
     "signatoryName": "Petr Knoth",
     "signatoryTitle": "CEO of CORE",
     "infoUrl": "For more information visit https://core.ac.uk/",

@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+
 import coreLogo from '@/assets/img/fairCertificateCoreLogo.svg';
 import certificateSeal from '@/assets/img/fairCertificateSeal.svg';
 import fairTexts from '@features/Fair/texts/fair.json';
@@ -7,16 +9,15 @@ export type FairCertificateViewProps = {
   certificationData?: FairCertificationApiCertificate | null;
 };
 
+export const FairCertificateView = forwardRef<HTMLDivElement, FairCertificateViewProps>(
+  ({ certificationData }, ref) => {
+    const { certificate } = fairTexts;
 
-export const FairCertificateView = ({
-  certificationData,
-}: FairCertificateViewProps) => {
-  const { certificate } = fairTexts;
-
-  return (
-    <div
-      className="fair-certificate"
-    >
+    return (
+      <div
+        ref={ref}
+        className="fair-certificate"
+      >
       <div className="fair-certificate__card">
         <span className="fair-certificate__frame fair-certificate__frame--top-left" aria-hidden="true" />
         <span className="fair-certificate__frame fair-certificate__frame--top-right" aria-hidden="true" />
@@ -81,6 +82,8 @@ export const FairCertificateView = ({
           <p className="fair-certificate__info-url">{certificate.infoUrl}</p>
         </div>
       </div>
-    </div>
-  );
-};
+      </div>
+    );
+  });
+
+FairCertificateView.displayName = 'FairCertificateView';
