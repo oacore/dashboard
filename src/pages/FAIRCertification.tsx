@@ -37,9 +37,12 @@ export function FAIRCertificationPage() {
 
   const dataProviderId = selectedDataProvider?.id;
 
+  const certificationStatus =
+    fairCertification?.certificate?.status ?? fairCertification?.workflowStatus;
+
   const hasApprovedAccess =
     hasRegisteredInterest ||
-    (fairCertification?.status != null && fairCertification.status !== 'not_certified');
+    (certificationStatus != null && certificationStatus !== 'not_certified');
 
   const handleRegisterInterest = useCallback(() => {
     if (dataProviderId) {
@@ -77,11 +80,10 @@ export function FAIRCertificationPage() {
     return null;
   }
 
+  // TODO might need to redo for demo
   if (hasApprovedAccess && !showSuccessMessage) {
-    return <ApprovedFairView certificationQuestions={fairCertification?.questions} />;
+    return <ApprovedFairView certificationQuestions={fairCertification} />;
   }
-
-  console.log(isStartingOrSupportingPlan, "isStartingOrSupportingPlan")
 
   return (
     <FairFeature

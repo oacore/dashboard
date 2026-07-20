@@ -1,15 +1,16 @@
-export type FairCertificationStatus =
-  | 'not_certified'
-  | 'pending'
-  | 'certified'
+export type FairCertificationWorkflowStatus = string;
+
+export type FairCertificationCertificateStatus =
+  | 'valid'
   | 'expired'
+  | 'not_certified'
   | string;
 
 export type FairCertificationLevel =
-  | 'BRONZE'
-  | 'SILVER'
-  | 'GOLD'
-  | 'PLATINUM'
+  | 'bronze'
+  | 'silver'
+  | 'gold'
+  | 'platinum'
   | string;
 
 export type FairCertificationQuestionResultStatus = 'pass' | 'fail' | 'unknown' | string;
@@ -19,7 +20,10 @@ export type FairCertificationQuestionCounts = Record<string, number | undefined>
 export type FairCertificationQuestionMetrics = Record<string, number | undefined>;
 
 export type FairCertificationQuestionResult = {
+  value?: boolean | string | number;
   status?: FairCertificationQuestionResultStatus;
+  source?: string;
+  checkedAt?: string;
   metrics?: FairCertificationQuestionMetrics;
   counts?: FairCertificationQuestionCounts;
   evidence?: Record<string, unknown>;
@@ -28,26 +32,31 @@ export type FairCertificationQuestionResult = {
     value?: number;
     unit?: string;
   };
-  source?: string;
-  checkedAt?: string;
 };
 
 export type FairCertificationQuestion = {
   id: string;
-  number?: string;
-  section?: string;
-  type?: string;
-  required?: boolean;
-  question?: string;
-  description?: string;
-  recommendation?: string;
+  number: string;
+  section: string;
+  type: string;
+  required: boolean;
+  question: string;
+  description: string;
+  recommendation: string;
   answer?: string;
   result?: FairCertificationQuestionResult;
 };
 
+export type FairCertificationRepository = {
+  repositoryId: number | string;
+  repositoryName: string;
+  organisationName: string;
+  countryCode: string;
+};
+
 export type FairCertificationSubmissionReviewStatus = 'pending' | string;
 
-export type FairCertificationSubmissionResponse = {
+export type FairCertificationSubmission = {
   id: number;
   submissionNumber: number;
   submittedBy: string;
@@ -56,17 +65,36 @@ export type FairCertificationSubmissionResponse = {
   pdfGeneratedAt: string;
   reportUrl: string;
   reviewStatus: FairCertificationSubmissionReviewStatus;
-  snapshot: Record<string, unknown>;
+  reviewedBy: string | null;
+  reviewedAt: string | null;
+  reviewNotes: string | null;
+};
+
+export type FairCertificationApiCertificate = {
+  repositoryId: number;
+  repositoryName: string;
+  organisationName: string;
+  countryCode: string;
+  certificateId: string;
+  level: FairCertificationLevel;
+  issueDate: string;
+  validUntil: string;
+  status: FairCertificationCertificateStatus;
+  certificateUrl: string;
+  reportUrl: string;
+  reviewedBy: string;
+  reviewedAt: string;
 };
 
 export type FairCertificationApiResponse = {
-  status?: FairCertificationStatus;
-  level?: FairCertificationLevel | null;
-  repositoryName?: string;
-  issueDate?: string | null;
-  validUntil?: string | null;
-  lastReportUpdate?: string | null;
-  submissionCount?: number | null;
-  questions?: FairCertificationQuestion[];
-  [key: string]: unknown;
+  repositoryId: number;
+  repository: FairCertificationRepository;
+  workflowStatus: FairCertificationWorkflowStatus;
+  certificationLevel: FairCertificationLevel;
+  questionSetVersion: string;
+  lastAssessmentAt: string;
+  numberOfSubmissions: number;
+  questions: FairCertificationQuestion[];
+  submissions: FairCertificationSubmission[];
+  certificate: FairCertificationApiCertificate | null;
 };
