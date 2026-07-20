@@ -1,44 +1,18 @@
 import coreLogo from '@/assets/img/fairCertificateCoreLogo.svg';
 import certificateSeal from '@/assets/img/fairCertificateSeal.svg';
-
-export type FairCertificateData = {
-  title: string;
-  level: string;
-  presentedLabel: string;
-  repositoryName: string;
-  description: string;
-  signatoryName: string;
-  signatoryTitle: string;
-  infoUrl: string;
-  issueDateLabel: string;
-  issueDate: string;
-  validUntilLabel: string;
-  validUntil: string;
-};
+import fairTexts from '@features/Fair/texts/fair.json';
+import type { FairCertificationApiCertificate } from '@features/Fair/types/fairCertification.types';
 
 export type FairCertificateViewProps = {
-  data?: FairCertificateData;
+  certificationData?: FairCertificationApiCertificate | null;
 };
 
-const DUMMY_CERTIFICATE_DATA: FairCertificateData = {
-  title: 'CERTIFICATE',
-  level: 'BRONZE',
-  presentedLabel: 'PROUDLY PRESENTED TO :',
-  repositoryName: 'Open Research Online',
-  description:
-    "In recognition of the repository's demonstrated commitment to best practice data stewardship, attested by its compliance with the CORE FAIR Certification requirements at the Bronze level. This certificate signifies that the records managed herein meet the globally recognized standards for Findability, Accessibility, Interoperability, and Reusability (FAIR), ensuring long-term utility and transparency for the Open Access community.",
-  signatoryName: 'Petr Knoth',
-  signatoryTitle: 'CEO of CORE',
-  infoUrl: 'For more information visit https://core.ac.uk/',
-  issueDateLabel: 'Issue Date:',
-  issueDate: '12/03/2023',
-  validUntilLabel: 'Valid until:',
-  validUntil: '12/03/2024',
-};
 
 export const FairCertificateView = ({
-  data = DUMMY_CERTIFICATE_DATA,
+  certificationData,
 }: FairCertificateViewProps) => {
+  const { certificate } = fairTexts;
+
   return (
     <div
       className="fair-certificate"
@@ -62,19 +36,19 @@ export const FairCertificateView = ({
 
         <div className="fair-certificate__content">
           <header className="fair-certificate__header">
-            <h2 className="fair-certificate__title">{data.title}</h2>
-            <p className="fair-certificate__level">{data.level}</p>
-            <p className="fair-certificate__presented-label">{data.presentedLabel}</p>
+            <h2 className="fair-certificate__title">{certificate.title}</h2>
+            <p className="fair-certificate__level">{certificationData?.level}</p>
+            <p className="fair-certificate__presented-label">{certificate.presentedLabel}</p>
           </header>
 
-          <h3 className="fair-certificate__recipient">{data.repositoryName}</h3>
+          <h3 className="fair-certificate__recipient">{certificationData?.repositoryName}</h3>
 
-          <p className="fair-certificate__description">{data.description}</p>
+          <p className="fair-certificate__description">{certificate.description}</p>
 
           <footer className="fair-certificate__footer">
             <div className="fair-certificate__signatory">
-              <p className="fair-certificate__footer-name">{data.signatoryName}</p>
-              <p className="fair-certificate__footer-title">{data.signatoryTitle}</p>
+              <p className="fair-certificate__footer-name">{certificate.signatoryName}</p>
+              <p className="fair-certificate__footer-title">{certificate.signatoryTitle}</p>
               <img
                 className="fair-certificate__core-logo"
                 src={coreLogo}
@@ -96,15 +70,15 @@ export const FairCertificateView = ({
 
             <div className="fair-certificate__dates">
               <p className="fair-certificate__issue-date">
-                <span className="fair-certificate__footer-name">{data.issueDateLabel}</span>
-                <span className="fair-certificate__footer-title">{data.issueDate}</span>
+                <span className="fair-certificate__footer-name">{certificate.issueDateLabel}</span>
+                <span className="fair-certificate__footer-title">{certificationData?.issueDate}</span>
               </p>
               <p className="fair-certificate__valid-until">
-                {data.validUntilLabel}{data.validUntil}
+                {certificate.validUntilLabel}{certificationData?.validUntil}
               </p>
             </div>
           </footer>
-          <p className="fair-certificate__info-url">{data.infoUrl}</p>
+          <p className="fair-certificate__info-url">{certificate.infoUrl}</p>
         </div>
       </div>
     </div>

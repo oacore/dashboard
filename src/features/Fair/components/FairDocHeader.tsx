@@ -1,7 +1,7 @@
 import fairTexts from '@features/Fair/texts/fair.json';
 import { Markdown } from '@oacore/core-ui';
 import { Button } from 'antd';
-// import placeholder from '@/assets/img/certificatePlaceholder.svg';
+import placeholder from '@/assets/img/certificatePlaceholder.svg';
 import { FairCertificateView } from '@features/Fair/components/FairCertificateView.tsx';
 import type { FairCertificationApiResponse } from '@features/Fair/types/fairCertification.types';
 import { formatIsoDate } from '@/utils/dateUtils';
@@ -50,8 +50,11 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
             {`${approvedView.submissionsLine}${certificationQuestions?.numberOfSubmissions ?? ''}`}
           </Markdown>
         </div>
-        {/*<img  className="fair-certification-placeholder" src={placeholder} alt=""/>*/}
-        <FairCertificateView />
+        {certificationQuestions?.certificate ?
+          <FairCertificateView certificationData={certificationQuestions?.certificate} />
+          :
+          <img  className="fair-certification-placeholder" src={placeholder} alt=""/>
+        }
       </div>
     </>
   );
