@@ -8,8 +8,8 @@ import type {FairQuestionItem} from '@features/Fair/types/fairPrinciples.types';
 import {updateFairCertificationAnswer} from '@features/Fair/hooks/useFairCertification';
 import {useDataProviderStore} from '@/store/dataProviderStore';
 
-import '../../Usrn/style.css';
 import '../styles.css';
+import {formatFairResultName} from '@features/Fair/utils/formatFairResultName';
 import {getFairQuestionStatusClassName} from '@features/Fair/utils/getFairQuestionStatusClassName';
 import {resolveFairQuestionCountValues} from '@features/Fair/utils/resolveFairQuestionCountValues';
 import {resolveFairQuestionMetricValues} from '@features/Fair/utils/resolveFairQuestionMetricValues';
@@ -44,8 +44,6 @@ export const FairPrincipleQuestionBlock = ({
     });
   };
 
-  const percentLabelText = item.percentLabel;
-  const counterLabelText = item.counterLabel;
   const countValues = resolveFairQuestionCountValues(item.certificationQuestion?.result?.counts);
   const metricValues = resolveFairQuestionMetricValues(item.certificationQuestion?.result?.metrics);
   const statusLabel = resolveFairQuestionStatusLabel(item.certificationQuestion, openQuestionLabel);
@@ -77,21 +75,19 @@ export const FairPrincipleQuestionBlock = ({
         </div>
       ) : null}
 
-      {countValues.map((countValue, index) => (
-        <div className="support-status__counter" key={`${item.id}-count-${index}`}>
-          {counterLabelText && index === 0 ? (
-            <span className="support-status__counter-label">{counterLabelText}</span>
-          ) : null}
-          <span className="support-status__counter-value">{formatNumber(countValue)}</span>
+      {countValues.map((count) => (
+        <div className="support-status__counter" key={`${item.id}-count-${count.name}`}>
+          <span className="support-status__counter-label">{formatFairResultName(count.name)}</span>
+          <span className="support-status__counter-value">{formatNumber(count.value)}</span>
         </div>
       ))}
 
-      {metricValues.map((metricValue, index) => (
+      {metricValues.map((metric) => (
         <PercentBar
-          countCovered={metricValue}
+          countCovered={metric.value}
           countTotal={100}
-          key={`${item.id}-metric-${index}`}
-          percentLabel={percentLabelText && index === 0 ? percentLabelText : undefined}
+          key={`${item.id}-metric-${metric.name}`}
+          percentLabel={formatFairResultName(metric.name)}
         />
       ))}
       {isOpenQuestion ? (

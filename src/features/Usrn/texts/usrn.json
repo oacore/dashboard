@@ -31,7 +31,7 @@
         {
           "id": "indexedContent",
           "question": "Indexed content",
-          "description": "The number of records CORE is able to index from your digital repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way. The [Indexing status tab](/data-providers/harvesting) provides a summary of any issue CORE finds while indexing your repository. A common issue is when institutions have more than one repository. CORE identifies some but not all of the repositories, which means the total number it identifies is less than the total in the repositories.",
+          "description": "The number of records CORE is able to index from your digital repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way. The [Indexing status tab](/data-providers/indexing) provides a summary of any issue CORE finds while indexing your repository. A common issue is when institutions have more than one repository. CORE identifies some but not all of the repositories, which means the total number it identifies is less than the total in the repositories.",
           "linkText": "",
           "linkUrl": "",
           "percentLabel": "",
@@ -40,7 +40,7 @@
         {
           "id": "accessFullTexts",
           "question": "Access to full texts of research papers for your content",
-          "description": "The number of full text CORE is able to discover from your digital repository. You can check the [Harvesting tab](/data-providers/harvesting) where we collect issues CORE discovered while indexing your repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way. The [Indexing status tab](/data-providers/harvesting) provides a summary of any issue CORE finds while indexing your repository. CORE requires that full text must be hosted on the same domain or subdomains as the OAI-PMH endpoint, unless we are informed by the institution about other owned domains containing full text.",
+          "description": "The number of full text CORE is able to discover from your digital repository. You can check the [Harvesting tab](/data-providers/indexing) where we collect issues CORE discovered while indexing your repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way. The [Indexing status tab](/data-providers/harvesting) provides a summary of any issue CORE finds while indexing your repository. CORE requires that full text must be hosted on the same domain or subdomains as the OAI-PMH endpoint, unless we are informed by the institution about other owned domains containing full text.",
           "linkText": "",
           "linkUrl": "",
           "percentLabel": "Percentage of documents with access to full text:",

@@ -1,17 +1,26 @@
 import type {FairCertificationQuestionCounts} from '@features/Fair/types/fairCertification.types';
 
+export type FairQuestionResultNamedValue = {
+  name: string;
+  value: number;
+};
+
+const hasCountValue = (value: number | null | undefined): value is number => value != null;
+
 export const resolveFairQuestionCountValues = (
   counts?: FairCertificationQuestionCounts,
-): number[] => {
+): FairQuestionResultNamedValue[] => {
   if (!counts) {
     return [];
   }
 
   if (Array.isArray(counts)) {
     return counts
-      .map((entry) => entry.value)
-      .filter((value): value is number => value != null);
+      .filter((entry): entry is {name: string; value: number} => hasCountValue(entry.value))
+      .map((entry) => ({name: entry.name, value: entry.value}));
   }
 
-  return Object.values(counts).filter((value): value is number => value != null);
+  return Object.entries(counts)
+    .filter((entry): entry is [string, number] => hasCountValue(entry[1]))
+    .map(([name, value]) => ({name, value}));
 };
