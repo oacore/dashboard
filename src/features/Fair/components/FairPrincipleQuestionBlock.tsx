@@ -12,6 +12,7 @@ import '../../Usrn/style.css';
 import '../styles.css';
 import {getFairQuestionStatusClassName} from '@features/Fair/utils/getFairQuestionStatusClassName';
 import {resolveFairQuestionCountValues} from '@features/Fair/utils/resolveFairQuestionCountValues';
+import {resolveFairQuestionMetricValues} from '@features/Fair/utils/resolveFairQuestionMetricValues';
 import {resolveFairQuestionStatusLabel} from '@features/Fair/utils/resolveFairQuestionStatusLabel';
 
 export type FairPrincipleQuestionBlockProps = {
@@ -46,6 +47,7 @@ export const FairPrincipleQuestionBlock = ({
   const percentLabelText = item.percentLabel;
   const counterLabelText = item.counterLabel;
   const countValues = resolveFairQuestionCountValues(item.certificationQuestion?.result?.counts);
+  const metricValues = resolveFairQuestionMetricValues(item.certificationQuestion?.result?.metrics);
   const statusLabel = resolveFairQuestionStatusLabel(item.certificationQuestion, openQuestionLabel);
   const statusClassName = getFairQuestionStatusClassName(statusLabel);
 
@@ -84,7 +86,14 @@ export const FairPrincipleQuestionBlock = ({
         </div>
       ))}
 
-      <PercentBar percentLabel={percentLabelText} countCovered={3} countTotal={3} />
+      {metricValues.map((metricValue, index) => (
+        <PercentBar
+          countCovered={metricValue}
+          countTotal={100}
+          key={`${item.id}-metric-${index}`}
+          percentLabel={percentLabelText && index === 0 ? percentLabelText : undefined}
+        />
+      ))}
       {isOpenQuestion ? (
         <div className="fair-principles__open-block">
           <Input.TextArea

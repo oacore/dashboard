@@ -24,7 +24,15 @@ export type FairCertificationQuestionCounts =
   | Record<string, number | null | undefined>
   | FairCertificationQuestionCountEntry[];
 
-export type FairCertificationQuestionMetrics = Record<string, number | undefined>;
+export type FairCertificationQuestionMetricEntry = {
+  name: string;
+  value: number | null;
+  unit?: string;
+};
+
+export type FairCertificationQuestionMetrics =
+  | Record<string, number | null | undefined>
+  | FairCertificationQuestionMetricEntry[];
 
 export type FairCertificationQuestionResult = {
   value?: boolean | string | number;
