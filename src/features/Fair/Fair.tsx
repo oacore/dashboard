@@ -1,4 +1,4 @@
-import {CrFeatureLayout, CrMessage, CrPaper, Markdown} from '@oacore/core-ui';
+import { CrFeatureLayout, CrMessage, CrPaper, Markdown } from '@oacore/core-ui';
 import { toAbsoluteAssetUrl } from '@/utils/contentUtils';
 import success from '@/assets/icons/successFilledTick.svg';
 import { FairCertificationFeesTable } from './components/FairCertificationFeesTable.tsx';
@@ -80,8 +80,8 @@ export const FairFeature = ({
         <div className="fair-certification">
           <section className="fair-certification-intro" aria-labelledby="fair-how-title">
             <div>
-              <div  className="fair-certification-intro-inner">
-                <div  className="fair-certification-intro-badge-wrapper">
+              <div className="fair-certification-intro-inner">
+                <div className="fair-certification-intro-badge-wrapper">
                   <img
                     src={howItWorksImageUrl}
                     className="fair-certification-intro-badge"
@@ -126,9 +126,9 @@ export const FairFeature = ({
                       onClick={
                         onRegisterInterest
                           ? (event) => {
-                              event.preventDefault();
-                              onRegisterInterest();
-                            }
+                            event.preventDefault();
+                            onRegisterInterest();
+                          }
                           : undefined
                       }
                     >
@@ -169,9 +169,9 @@ export const FairFeature = ({
                   role="listitem"
                 >
                   <div className="fair-certification-step-track" aria-hidden>
-                  <span className="fair-certification-step-num">
-                    {step.step ?? index + 1}
-                  </span>
+                    <span className="fair-certification-step-num">
+                      {step.step ?? index + 1}
+                    </span>
                     <span className="fair-certification-step-track-line" />
                   </div>
                   <div className="fair-certification-step-content">

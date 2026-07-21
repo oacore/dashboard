@@ -98,9 +98,6 @@ export const FairPrinciplesCollapse = ({
   }, [principlesAccordion, recommendationHeading, openQuestionLabel, certificationQuestions]);
 
 
-  const results = certificationQuestions?.map(item => item.result);
-  console.log(results);
-
   return (
     <section
       aria-label={principlesAccordion.sectionAriaLabel}

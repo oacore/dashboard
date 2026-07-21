@@ -20,6 +20,17 @@ const fetchFairCertification = async (
   return response;
 };
 
+// const fetchFairCertification = async (
+//   url: string,
+//   _dataProviderId: number,
+// ): Promise<FairCertificationApiResponse> => {
+//   const response = (await fetcher(url)) as FairCertificationApiResponse;
+//   // TODO: re-enable when refresh endpoint is ready
+//   // await refreshFairCertificationAutomaticChecks(dataProviderId);
+//   return response;
+// };
+
+
 export const useFairCertification = (dataProviderId?: number) => {
   const { selectedDataProvider, isLoaded } = useDataProviderStore();
   const effectiveDataProviderId = dataProviderId ?? selectedDataProvider?.id;

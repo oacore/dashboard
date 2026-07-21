@@ -49,6 +49,13 @@ export type FairCertificationQuestionResult = {
   };
 };
 
+export type FairCertificationQuestionAnswer = {
+  answer?: string;
+  editedAt?: string;
+  editedBy?: string;
+  editedDate?: string;
+};
+
 export type FairCertificationQuestion = {
   id: string;
   number: string;
@@ -58,7 +65,7 @@ export type FairCertificationQuestion = {
   question: string;
   description: string;
   recommendation: string;
-  answer?: string;
+  answer?: FairCertificationQuestionAnswer;
   result?: FairCertificationQuestionResult;
 };
 

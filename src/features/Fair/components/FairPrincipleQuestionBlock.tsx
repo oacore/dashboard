@@ -1,19 +1,19 @@
-import {InfoOutlined, FileTextOutlined} from '@ant-design/icons';
-import {Markdown, PercentBar} from '@oacore/core-ui';
-import {Input, message} from 'antd';
-import {formatNumber} from '@utils/helpers.ts';
-import type {FocusEvent} from 'react';
+import { InfoOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Markdown, PercentBar } from '@oacore/core-ui';
+import { Input, message } from 'antd';
+import { formatNumber } from '@utils/helpers.ts';
+import type { FocusEvent } from 'react';
 
-import type {FairQuestionItem} from '@features/Fair/types/fairPrinciples.types';
-import {updateFairCertificationAnswer} from '@features/Fair/hooks/useFairCertification';
-import {useDataProviderStore} from '@/store/dataProviderStore';
+import type { FairQuestionItem } from '@features/Fair/types/fairPrinciples.types';
+import { updateFairCertificationAnswer } from '@features/Fair/hooks/useFairCertification';
+import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import '../styles.css';
-import {formatFairResultName} from '@features/Fair/utils/formatFairResultName';
-import {getFairQuestionStatusClassName} from '@features/Fair/utils/getFairQuestionStatusClassName';
-import {resolveFairQuestionCountValues} from '@features/Fair/utils/resolveFairQuestionCountValues';
-import {resolveFairQuestionMetricValues} from '@features/Fair/utils/resolveFairQuestionMetricValues';
-import {resolveFairQuestionStatusLabel} from '@features/Fair/utils/resolveFairQuestionStatusLabel';
+import { formatFairResultName } from '@features/Fair/utils/formatFairResultName';
+import { getFairQuestionStatusClassName } from '@features/Fair/utils/getFairQuestionStatusClassName';
+import { resolveFairQuestionCountValues } from '@features/Fair/utils/resolveFairQuestionCountValues';
+import { resolveFairQuestionMetricValues } from '@features/Fair/utils/resolveFairQuestionMetricValues';
+import { resolveFairQuestionStatusLabel } from '@features/Fair/utils/resolveFairQuestionStatusLabel';
 
 export type FairPrincipleQuestionBlockProps = {
   item: FairQuestionItem;
@@ -27,12 +27,10 @@ export const FairPrincipleQuestionBlock = ({
   recommendationHeading,
   openQuestionLabel,
 }: FairPrincipleQuestionBlockProps) => {
-  const {selectedDataProvider} = useDataProviderStore();
+  const { selectedDataProvider } = useDataProviderStore();
   const dataProviderId = selectedDataProvider?.id;
   const isOpenQuestion = Boolean(item.openQuestion);
   const questionId = item.certificationQuestion?.id;
-
-  console.log(item.certificationQuestion?.id, "item.certificationQuestion?.id;")
 
   const handleAnswerBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
     if (!dataProviderId || !questionId) {
@@ -96,7 +94,7 @@ export const FairPrincipleQuestionBlock = ({
             key={questionId ?? item.number ?? item.id}
             aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
             className="fair-principles__open-field"
-            defaultValue={item.certificationQuestion?.answer ?? ''}
+            defaultValue={item.certificationQuestion?.answer?.answer ?? ''}
             disabled={!questionId}
             onBlur={handleAnswerBlur}
             placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
