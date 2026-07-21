@@ -15,7 +15,14 @@ export type FairCertificationLevel =
 
 export type FairCertificationQuestionResultStatus = 'pass' | 'fail' | 'unknown' | string;
 
-export type FairCertificationQuestionCounts = Record<string, number | undefined>;
+export type FairCertificationQuestionCountEntry = {
+  name: string;
+  value: number | null;
+};
+
+export type FairCertificationQuestionCounts =
+  | Record<string, number | null | undefined>
+  | FairCertificationQuestionCountEntry[];
 
 export type FairCertificationQuestionMetrics = Record<string, number | undefined>;
 

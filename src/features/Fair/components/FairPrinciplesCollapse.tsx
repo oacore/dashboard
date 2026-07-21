@@ -1,5 +1,5 @@
 import fairTexts from '@features/Fair/texts/fair.json';
-import {FairPrincipleSectionContent} from '@features/Fair/components/FairPrincipleSectionContent';
+import { FairPrincipleSectionContent } from '@features/Fair/components/FairPrincipleSectionContent';
 import {
   FairPrinciplesCollapsible,
   type FairPrinciplesCollapsibleSection,
@@ -12,8 +12,8 @@ import {
   type FairQuestionItem,
 } from '@features/Fair/types/fairPrinciples.types';
 // import type { FairRepositoryStatusParams } from '@features/Fair/utils/resolveFairQuestionStatus';
-import {Button, Typography} from 'antd';
-import {useMemo} from 'react';
+import { Button, Typography } from 'antd';
+import { useMemo } from 'react';
 
 import '../styles.css';
 
@@ -28,7 +28,7 @@ export type FairPrinciplesCollapseProps = {
   // repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
-const {Title, Paragraph} = Typography;
+const { Title, Paragraph } = Typography;
 
 export const FairPrinciplesCollapse = ({
   onSave,
@@ -38,7 +38,7 @@ export const FairPrinciplesCollapse = ({
   certificationQuestions,
   // repositoryStatus,
 }: FairPrinciplesCollapseProps) => {
-  const {principlesAccordion} = fairTexts;
+  const { principlesAccordion } = fairTexts;
 
   const recommendationHeading = principlesAccordion.recommendationHeading ?? 'Recommendation';
 
@@ -55,10 +55,10 @@ export const FairPrinciplesCollapse = ({
   const collapsibleSections: FairPrinciplesCollapsibleSection[] = useMemo(() => {
     const questionsByNumber = certificationQuestions?.length
       ? new Map(
-          certificationQuestions
-            .filter((question) => question.number)
-            .map((question) => [question.number as string, question]),
-        )
+        certificationQuestions
+          .filter((question) => question.number)
+          .map((question) => [question.number as string, question]),
+      )
       : undefined;
 
     const attachCertificationQuestion = (item: FairQuestionItem): FairQuestionItem => {
@@ -90,12 +90,16 @@ export const FairPrinciplesCollapse = ({
             recommendationHeading={recommendationHeading}
             section={enrichedSection}
             openQuestionLabel={openQuestionLabel}
-            // repositoryStatus={repositoryStatus}
+          // repositoryStatus={repositoryStatus}
           />
         ),
       };
     });
   }, [principlesAccordion, recommendationHeading, openQuestionLabel, certificationQuestions]);
+
+
+  const results = certificationQuestions?.map(item => item.result);
+  console.log(results);
 
   return (
     <section

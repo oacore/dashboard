@@ -21,6 +21,7 @@ export const FairPrincipleSectionContent = ({
     return null;
   }
 
+
   return (
     <div className="fair-principles__panel-body">
       {section.items.map((item, index) => (

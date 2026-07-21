@@ -11,6 +11,7 @@ import {useDataProviderStore} from '@/store/dataProviderStore';
 import '../../Usrn/style.css';
 import '../styles.css';
 import {getFairQuestionStatusClassName} from '@features/Fair/utils/getFairQuestionStatusClassName';
+import {resolveFairQuestionCountValues} from '@features/Fair/utils/resolveFairQuestionCountValues';
 import {resolveFairQuestionStatusLabel} from '@features/Fair/utils/resolveFairQuestionStatusLabel';
 
 export type FairPrincipleQuestionBlockProps = {
@@ -44,10 +45,10 @@ export const FairPrincipleQuestionBlock = ({
 
   const percentLabelText = item.percentLabel;
   const counterLabelText = item.counterLabel;
+  const countValues = resolveFairQuestionCountValues(item.certificationQuestion?.result?.counts);
   const statusLabel = resolveFairQuestionStatusLabel(item.certificationQuestion, openQuestionLabel);
   const statusClassName = getFairQuestionStatusClassName(statusLabel);
 
-  // TODO CHANGE TO REAL NUM
   return (
     <div className="support-status fair-principles__question">
       <div className="support-status__row">
@@ -74,10 +75,14 @@ export const FairPrincipleQuestionBlock = ({
         </div>
       ) : null}
 
-      <div className="support-status__counter">
-        <span className="support-status__counter-label">{counterLabelText}</span>
-        <span className="support-status__counter-value">{formatNumber(32)}</span>
-      </div>
+      {countValues.map((countValue, index) => (
+        <div className="support-status__counter" key={`${item.id}-count-${index}`}>
+          {counterLabelText && index === 0 ? (
+            <span className="support-status__counter-label">{counterLabelText}</span>
+          ) : null}
+          <span className="support-status__counter-value">{formatNumber(countValue)}</span>
+        </div>
+      ))}
 
       <PercentBar percentLabel={percentLabelText} countCovered={3} countTotal={3} />
       {isOpenQuestion ? (
