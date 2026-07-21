@@ -369,11 +369,10 @@
   "certificate": {
     "title": "CERTIFICATE",
     "presentedLabel": "PROUDLY PRESENTED TO :",
-    "description": "In recognition of the repository's demonstrated commitment to best practice data stewardship, attested by its compliance with the CORE FAIR Certification requirements at the Bronze level. This certificate signifies that the records managed herein meet the globally recognized standards for Findability, Accessibility, Interoperability, and Reusability (FAIR), ensuring long-term utility and transparency for the Open Access community.",
-    "signatoryName": "Petr Knoth",
-    "signatoryTitle": "CEO of CORE",
-    "infoUrl": "For more information visit https://core.ac.uk/",
+    "description": "In recognition of the repository's demonstrated commitment to best practice data stewardship, attested by its compliance with the CORE FAIR Certification requirements at the {{ level }} level. This certificate signifies that the records managed herein meet the globally recognized standards for Findability, Accessibility, Interoperability, and Reusability (FAIR), ensuring long-term utility and transparency for the Open Access community.",
+    "signatoryTitle": "Certificate ID",
+    "infoUrl": "For more information visit https://core.ac.uk",
     "issueDateLabel": "Issue Date:",
-    "validUntilLabel": "Issue Date:"
+    "validUntilLabel": "Valid until:"
   }
 }

@@ -3,6 +3,8 @@ import { toAbsoluteAssetUrl } from '@/utils/contentUtils';
 import success from '@/assets/icons/successFilledTick.svg';
 import { FairCertificationFeesTable } from './components/FairCertificationFeesTable.tsx';
 import { FairCertificationMembersFeesTable } from './components/FairCertificationMembersFeesTable.tsx';
+import { FairCertificationLoadingView } from './components/FairCertificationLoadingView.tsx';
+import { useFairCertification } from './hooks/useFairCertification';
 import { parseFairPricingTable } from './hooks/fairPricingUtils.ts';
 import './styles.css';
 
@@ -54,6 +56,7 @@ export const FairFeature = ({
   registerInterestHref,
   onRegisterInterest,
 }: FairFeatureProps) => {
+  const { isLoading } = useFairCertification();
   const howItWorks = data.howItWorks.howItWorks;
   const applicationProcess = data.applicationProcess.applicationProcess;
   const certificates = data.certificates.certificates;
@@ -66,6 +69,10 @@ export const FairFeature = ({
     parseFairPricingTable(data.tableMembers) ?? parseFairPricingTable(bundle?.tableMembers);
 
   const howItWorksImageUrl = toAbsoluteAssetUrl(howItWorks.image);
+
+  if (isLoading) {
+    return <FairCertificationLoadingView />;
+  }
 
   return (
     <CrFeatureLayout>

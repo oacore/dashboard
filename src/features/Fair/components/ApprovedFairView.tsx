@@ -4,6 +4,7 @@ import { message } from 'antd';
 import { useCallback, useState } from 'react';
 import '../styles.css';
 
+import { FairCertificationLoadingView } from '@features/Fair/components/FairCertificationLoadingView.tsx';
 import { FairDocHeader } from '@features/Fair/components/FairDocHeader.tsx';
 import { FairPrinciplesCollapse } from '@features/Fair/components/FairPrinciplesCollapse.tsx';
 import { FairSubmissionProgress } from '@features/Fair/components/FairSubmissionProgress.tsx';
@@ -21,7 +22,7 @@ export type ApprovedFairViewProps = {
 export const ApprovedFairView = ({ certificationQuestions }: ApprovedFairViewProps) => {
   const { selectedDataProvider } = useDataProviderStore();
   const dataProviderId = selectedDataProvider?.id;
-  const { mutate } = useFairCertification();
+  const { mutate, isLoading } = useFairCertification();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { submitSuccessMessage, submitErrorMessage } = fairTexts.principlesAccordion;
 
@@ -43,34 +44,9 @@ export const ApprovedFairView = ({ certificationQuestions }: ApprovedFairViewPro
     }
   }, [dataProviderId, mutate, submitErrorMessage, submitSuccessMessage]);
 
-  // const { selectedDataProvider, selectedSetSpec, statistics, doiStatistics } = useDataProviderStore();
-  // const rorId = selectedDataProvider?.rorData?.rorId ?? null;
-  // const { rioxx } = useRioxxStats(selectedDataProvider?.id);
-  // const { usrnData } = useUsrnData(selectedDataProvider?.id);
-  // const { irus } = useIrusStats(selectedDataProvider?.id);
-  // const { stats: orcidStats } = useOrcidStats(selectedDataProvider?.id ?? 0);
-  // const { data: dasData } = useDasData(selectedDataProvider?.id ?? 0);
-
-  // useDataProviderStatistics(selectedDataProvider?.id ?? null, selectedSetSpec);
-  // useDoiStatistics(selectedDataProvider?.id ?? null, selectedSetSpec);
-
-  // const repositoryStatus: FairRepositoryStatusParams = {
-  //   rioxx: rioxx ?? undefined,
-  //   statistics: statistics ?? undefined,
-  //   internalStatistics:
-  //     statistics != null || doiStatistics != null
-  //       ? {
-  //         fullTextCount: statistics?.countFulltext,
-  //         metadataCount: statistics?.countMetadata,
-  //         doiCount: doiStatistics?.dataProviderDoiCount,
-  //       }
-  //       : undefined,
-  //   usrn: usrnData ?? null,
-  //   irus,
-  //   rorId,
-  //   orcidStats,
-  //   dasData,
-  // };
+  if (isLoading) {
+    return <FairCertificationLoadingView />;
+  }
 
   return (
     <CrFeatureLayout>
@@ -80,7 +56,6 @@ export const ApprovedFairView = ({ certificationQuestions }: ApprovedFairViewPro
           certificationQuestions={certificationQuestions?.questions}
           isSubmitting={isSubmitting}
           onSubmit={handleSubmit}
-          // repositoryStatus={repositoryStatus}
         />
         <FairSubmissionProgress />
       </CrPaper>
