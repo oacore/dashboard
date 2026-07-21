@@ -52,12 +52,12 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
         </Button>
         {/*TODO*/}
         <Button
-          type={certificationQuestions?.certificate  ? 'default' : 'primary'}
+          type={certificationQuestions?.certificate ? 'default' : 'primary'}
           href={certificate?.reportUrl}
         >
           {approvedView.downloadReportButtonLabel}
         </Button>
-        {certificationQuestions?.certificate  &&
+        {certificationQuestions?.certificate &&
           <>
             {/*TODO*/}
             <Button
@@ -103,7 +103,11 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
             certificationData={certificationQuestions?.certificate}
           />
           :
-          <img className="fair-certification-placeholder" src={placeholder} alt="" />
+          <img
+            className="fair-certification-placeholder"
+            src={placeholder}
+            alt=""
+          />
         }
       </div>
     </>

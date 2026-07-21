@@ -478,6 +478,7 @@
 /*header cer*/
 .fair-button-wrapper {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
   gap: 8px;
@@ -487,7 +488,8 @@
 .fair-certification-header-wrapper {
   gap: 50px;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: minmax(0, 1fr) 455px;
+  align-items: start;
 }
 
 .fair-certification-header-inner-wrapper {
@@ -495,6 +497,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  min-width: 0;
 }
 
 .fair-certification-title {
@@ -511,23 +514,92 @@
 }
 
 .fair-certification-placeholder {
-  width: 100%;
+  flex-shrink: 0;
+  width: 455px;
+  height: 255px;
+  object-fit: contain;
 }
 
 /* FAIR certification certificate card */
 .fair-certificate {
   flex-shrink: 0;
-  width: 100%;
-  max-width: 520px;
+  width: 455px;
+  height: 255px;
 }
 
 .fair-certificate__card {
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  height: 100%;
   padding: 36px 24px 24px 24px;
   background: #FAFAFA;
   box-shadow: 0 2.043px 3.404px 0 rgba(0, 0, 0, 0.14), 0 0.34px 6.128px 0 rgba(0, 0, 0, 0.12), 0 1.021px 1.702px 0 rgba(0, 0, 0, 0.20);
+}
+
+@media (max-width: 1200px) {
+  .fair-button-wrapper {
+    justify-content: flex-start;
+  }
+
+  .fair-button-wrapper .ant-btn {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
+    padding: 8px 16px;
+  }
+
+  .fair-certification-header-wrapper {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .fair-certification-header-inner-wrapper {
+    width: 100%;
+  }
+
+  .fair-certification-title {
+    font-size: 24px;
+  }
+
+  .fair-certification-description {
+    margin: 8px 0 16px;
+  }
+
+  .fair-certificate,
+  .fair-certification-placeholder {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 992px) {
+  .fair-button-wrapper .ant-btn {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .fair-button-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 32px;
+  }
+
+  .fair-button-wrapper .ant-btn {
+    flex: none;
+    width: 100%;
+  }
+
+  .fair-certification-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* FAIR certification certificate card */
+  .fair-certificate {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .fair-certificate__content {
@@ -566,7 +638,8 @@
   text-align: center;
   font-size: 6px;
   font-weight: 700;
-  line-height: 140%; /* 7.512px */
+  line-height: 140%;
+  /* 7.512px */
   letter-spacing: 0.537px;
   border-bottom: 1px solid var(--color-primary);
   padding: 4px 0;
@@ -885,18 +958,6 @@
 
 .fair-certificate__frame--inner.fair-certificate__frame--bottom-right::after {
   height: 10px;
-}
-
-@media (max-width: 768px) {
-  .fair-certification-header-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .fair-certificate {
-    align-self: center;
-    max-width: 100%;
-  }
 }
 
 /* Approved view — FAIR principles accordion (Ant Design Collapse) */
