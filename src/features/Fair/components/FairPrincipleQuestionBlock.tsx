@@ -89,18 +89,21 @@ export const FairPrincipleQuestionBlock = ({
         />
       ))}
       {isOpenQuestion ? (
-        <div className="fair-principles__open-block">
-          <Input.TextArea
-            key={questionId ?? item.number ?? item.id}
-            aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
-            className="fair-principles__open-field"
-            defaultValue={item.certificationQuestion?.answer?.answer ?? ''}
-            disabled={!questionId}
-            onBlur={handleAnswerBlur}
-            placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
-            rows={4}
-          />
-        </div>
+        <>
+          <div className="fair-principles__open-block">
+            <Input.TextArea
+              key={questionId ?? item.number ?? item.id}
+              aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
+              className="fair-principles__open-field"
+              defaultValue={item.certificationQuestion?.answer?.answer ?? ''}
+              disabled={!questionId}
+              onBlur={handleAnswerBlur}
+              placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
+              rows={4}
+            />
+          </div>
+          {item.certificationQuestion?.answer?.answer && <div className="fair-principles-input-identifier">Last time edited {item.certificationQuestion?.answer?.editedDate} by {item.certificationQuestion?.answer?.editedBy} </div> }
+        </>
       ) : null}
 
       {item.recommendation ? (

@@ -1342,3 +1342,14 @@
   font-weight: 500;
   line-height: 130%;
 }
+
+.fair-principles-input-identifier {
+  text-align: left;
+  color: #666;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%; /* 18.2px */
+  letter-spacing: 0.042px;
+  margin-top: 8px;
+}
