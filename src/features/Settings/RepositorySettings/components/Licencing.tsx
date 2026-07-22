@@ -5,6 +5,7 @@ import { CrPaper, Markdown } from '@oacore/core-ui';
 import { useLicencing } from '../hooks/useLicencing';
 import notificationText from '@features/Settings/texts';
 import '../styles.css';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 const SUCCESS_MESSAGE_DURATION = 5000;
 
@@ -56,6 +57,9 @@ export const Licencing: React.FC<LicencingProps> = ({ className }) => {
       })
       .catch((error) => {
         console.error('Error updating license:', error);
+        captureHandledError(error, {
+          tags: { feature: 'settings', action: 'update_licence' },
+        });
       });
   };
 

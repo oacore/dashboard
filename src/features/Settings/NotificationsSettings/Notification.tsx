@@ -11,6 +11,7 @@ import { useAuthStore } from '@/store/authStore.ts';
 import { useNotifications } from '@features/Settings/NotificationsSettings/hooks/useNotifications.ts';
 import { useNotificationsStore } from '@features/Settings/NotificationsSettings/store/notificationsStore.ts';
 import type { RadioChangeEvent } from 'antd';
+import { captureHandledError } from '@/utils/captureHandledError';
 import "./styles.css"
 
 type NotificationType = 'harvest-completed' | 'deduplication-completed';
@@ -132,6 +133,10 @@ export const NotificationFeature = () => {
           });
         } catch (error) {
           console.error(`Error updating ${key} notifications:`, error);
+          captureHandledError(error, {
+            tags: { feature: 'notifications_settings', action: 'option_change' },
+            extra: { key, organisationId },
+          });
         }
       };
     },
@@ -173,6 +178,10 @@ export const NotificationFeature = () => {
           }
         } catch (error) {
           console.error(`Error toggling ${key} notifications:`, error);
+          captureHandledError(error, {
+            tags: { feature: 'notifications_settings', action: 'toggle' },
+            extra: { key, organisationId },
+          });
           setNotificationStates(prev => ({
             ...prev,
             [key]: { ...prev[key], switch: !newSwitch },
@@ -224,6 +233,10 @@ export const NotificationFeature = () => {
       await Promise.all(deletePromises);
     } catch (error) {
       console.error('Error deleting notifications:', error);
+      captureHandledError(error, {
+        tags: { feature: 'notifications_settings', action: 'delete_all' },
+        extra: { organisationId },
+      });
     }
   }, [organisationId, isLoading, notificationConfigs, notificationStates, notificationHooks]);
 
@@ -255,6 +268,10 @@ export const NotificationFeature = () => {
       await Promise.all(updatePromises);
     } catch (error) {
       console.error('Error toggling notifications:', error);
+      captureHandledError(error, {
+        tags: { feature: 'notifications_settings', action: 'toggle_all' },
+        extra: { organisationId },
+      });
     }
   }, [organisationId, isLoading, notificationConfigs, notificationStates, notificationHooks]);
 

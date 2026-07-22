@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 .pnpm-store
+.npmrc
 
 node_modules
 dist
@@ -25,6 +26,7 @@ public/design
 *.njsproj
 *.sln
 *.sw?
+.sentryclirc
 
 # Environment variables (never commit secrets)
 .env

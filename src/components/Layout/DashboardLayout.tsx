@@ -54,6 +54,7 @@ import { useSets, type SetItem } from '@features/Settings/RepositorySettings/hoo
 import { usePluginConfig } from '@features/Plugins/hooks/usePluginConfig';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 import { FeedbackButton } from '@components/common/FeedbackButton/FeedbackButton';
+import { captureHandledError } from '@/utils/captureHandledError';
 import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus';
 import {DataProviderLogo, NotificationPopover} from '@oacore/core-ui';
 
@@ -275,18 +276,25 @@ export function DashboardLayout() {
         dataProviderId?: number
     ) => {
         if (!user?.id || userID !== user.id) return;
-
+        // TODO TEST
         try {
             if (notificationId === 'all') {
                 await markNotificationAsRead('all');
             } else {
                 await markNotificationAsRead(notificationId);
                 if (dataProviderId) {
-                    navigate(buildPath('indexing'));
+                    const notification = notifications.find((n) => n.id === notificationId);
+                    const subPath =
+                        notification?.type === 'duplicates' ? 'deduplication' : 'indexing';
+                    navigate(buildPath(subPath, dataProviderId));
                 }
             }
         } catch (err) {
             console.error('Error handling notification click:', err);
+            captureHandledError(err, {
+                tags: { feature: 'dashboard_layout', action: 'notification_click' },
+                extra: { notificationId, dataProviderId },
+            });
         }
     };
 
@@ -426,7 +434,7 @@ export function DashboardLayout() {
                                         loading={loadingSets}
                                         notFoundContent={
                                             loadingSets ? (
-                                                <Spin  indicator={<LoadingOutlined spin />} size="small" />
+                                                <Spin indicator={<LoadingOutlined spin />} size="small" />
                                             ) : (
                                                 'No sets found'
                                             )
@@ -446,6 +454,7 @@ export function DashboardLayout() {
                         handleNotificationClick={handleNotificationClick}
                         userID={user?.id}
                         hasUnreadNotifications={unreadCount > 0}
+                        selectedDataProvider={selectedDataProvider?.id}
                     >
                         <Badge className="count" count={unreadCount}>
                             <BellOutlined className="bell-icon" />

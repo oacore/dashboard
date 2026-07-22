@@ -5,6 +5,7 @@ import { useDepositDatesStore } from '../store/depositDatesStore';
 import { useMemo } from 'react';
 import { http, API } from '@config/axios';
 import axios from 'axios';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 export interface CrossDepositLagData {
   nonCompliantCount: number;
@@ -113,6 +114,9 @@ export const useCrossDepositLag = () => {
           } as CrossDepositLagData;
         } catch (err) {
           console.error('Error fetching cross deposit lag:', err);
+          captureHandledError(err, {
+            tags: { feature: 'deposit_compliance', action: 'cross_deposit_lag_fetch' },
+          });
           throw err;
         }
       }

@@ -8,6 +8,7 @@ import { useSendFeedback } from '@components/common/FeedbackButton/hooks/useSend
 import { TextData } from './texts';
 import './styles.css';
 import successEmail from '@/assets/icons/SuccessEmail.svg';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 const { TextArea } = Input;
 
@@ -79,6 +80,10 @@ export const FeedbackButton: React.FC<FeedbackButtonProps> = ({
             await sendFeedback(feedbackData);
             setIsSubmitted(true);
         } catch (err) {
+            captureHandledError(err, {
+                tags: { feature: 'feedback', action: 'submit' },
+                extra: { feedbackText, userEmail: user?.email, repositoryNumber: dataProvider?.id, page: location.pathname },
+            });
             setError('Failed to submit feedback. Please try again.');
             console.error('Feedback submission error:', err);
         } finally {

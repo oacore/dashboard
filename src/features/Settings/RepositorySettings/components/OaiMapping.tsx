@@ -7,6 +7,7 @@ import { useOaiMapping } from '../hooks/useOaiMapping';
 import notificationText from '@features/Settings/texts';
 import '../styles.css';
 import oaiImg from '@/assets/icons/oailogo.svg';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 const OAI_MAPPING_SECTION_ID = 'oai-mapping-section';
 
@@ -75,6 +76,9 @@ export const OaiMapping: React.FC<OaiMappingProps> = ({ className }) => {
       }
     } catch (error) {
       console.error('Error submitting OAI mapping:', error);
+      captureHandledError(error, {
+        tags: { feature: 'settings', action: 'oai_mapping_submit' },
+      });
       message.error('Failed to update OAI mapping settings');
     } finally {
       setIsSubmitting(false);

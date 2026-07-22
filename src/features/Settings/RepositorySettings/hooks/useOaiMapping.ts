@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import { fetcher, patchRequest, swrDefaultConfig } from '@config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { message } from 'antd';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface OaiMappingData {
   oaiPrefix?: string;
@@ -21,7 +22,18 @@ export const useOaiMapping = () => {
 
   const { data, error, isLoading, mutate } = useSWR<OaiMappingData>(
     key,
-    key ? () => fetcher(key).then(res => res as OaiMappingData).catch(() => ({})) : null,
+    key
+      ? () =>
+          fetcher(key)
+            .then((res) => res as OaiMappingData)
+            .catch((err) => {
+              captureHandledError(err, {
+                tags: { feature: 'settings', action: 'oai_mapping_fetch' },
+                extra: { dataProviderId },
+              });
+              return {};
+            })
+      : null,
     {
       ...swrDefaultConfig,
       onError: () => {
@@ -63,6 +75,10 @@ export const useOaiMapping = () => {
         };
       } catch (error) {
         console.error('Error updating OAI settings:', error);
+        captureHandledError(error, {
+          tags: { feature: 'settings', action: 'oai_mapping_update' },
+          extra: { dataProviderId },
+        });
         // Revalidate to get the correct data on error
         await mutate();
         return {

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { http } from '@/config/axios';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 export interface Issue {
     id: string;
@@ -111,6 +112,10 @@ export const useIssues = ({ pages }: UseIssuesParams) => {
                 return { ...prev, data: updatedData };
             });
         } catch (error) {
+            captureHandledError(error, {
+                tags: { feature: 'indexing', action: 'change_article_visibility' },
+                extra: { articleId: article.id },
+            });
             throw new Error(error instanceof Error ? error.message : 'Failed to change visibility');
         } finally {
             setLoading(false);

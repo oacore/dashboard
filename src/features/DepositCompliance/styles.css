@@ -294,6 +294,28 @@
   color: var(--color-text-disabled);
 }
 
+.chart-placeholder {
+  display: flex;
+  height: 300px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  border: 1px solid #B75400;
+  background: rgba(239, 130, 55, 0.10);
+}
+
+.chart-text {
+  color: #666;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: 0.026px;
+}
+
 .chart-wrapper {
   flex-shrink: 0;
 }

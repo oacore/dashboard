@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { postRequestFetcher } from '@/config/swr'
 import { useDataProviderStore } from '@/store/dataProviderStore'
+import { captureHandledError } from '@/utils/captureHandledError'
 
 export interface PdfUploadResult {
     confidence?: number
@@ -55,6 +56,10 @@ export const usePdfUpload = (endpoint: string): UsePdfUploadReturn => {
 
             setUploadResults(data)
         } catch (err) {
+            captureHandledError(err, {
+                tags: { feature: 'pdf_upload', action: 'upload' },
+                extra: { endpoint, dataProviderId },
+            });
             const errorMessage = 'Upload failed'
             setError(errorMessage)
             console.error('PDF Upload Error:', err)

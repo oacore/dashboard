@@ -46,6 +46,7 @@ export const ContentSider: React.FC<ContentSiderProps> = ({
       onClose?.();
     } catch (error) {
       console.error('Failed to change visibility:', error);
+      // useWorkVisibility → useWorksData.changeVisibility already reports to Sentry before rethrow
       setIsDisabled(isDisabled);
     }
   };

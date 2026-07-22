@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { postRequestFetcher } from '@/config/swr';
 import { useSdgTableStore } from '../store/sdgStore';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface UseGenerateSdgReportReturn {
     generateReport: (dataProviderId: number, emailUser: string) => Promise<void>;
@@ -47,6 +48,10 @@ export const useGenerateSdgReport = (): UseGenerateSdgReportReturn => {
             })
             .catch((err) => {
                 console.error('Error generating SDG report:', err);
+                captureHandledError(err, {
+                    tags: { feature: 'sdg', action: 'generate_report' },
+                    extra: { dataProviderId },
+                });
                 setIsGeneratingReport(false);
                 setReportGenerationError(
                     err instanceof Error ? err.message : 'Error generating SDG report'

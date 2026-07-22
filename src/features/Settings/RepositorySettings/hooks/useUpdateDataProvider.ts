@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import { patchRequest, } from '@config/swr';
 import { message } from 'antd';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface UpdateDataProviderResponse {
   type: 'success' | 'danger';
@@ -85,6 +86,10 @@ export const useUpdateDataProvider = () => {
         };
       } catch (error) {
         console.error('Error updating data provider:', error);
+        captureHandledError(error, {
+          tags: { feature: 'settings', action: 'update_data_provider' },
+          extra: { dataProviderId },
+        });
         return {
           type: 'danger',
           message: 'Something went wrong. Please try again later!',

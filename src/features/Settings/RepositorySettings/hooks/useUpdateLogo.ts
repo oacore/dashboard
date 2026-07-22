@@ -5,6 +5,7 @@ import { message } from 'antd';
 import { useSWRConfig } from 'swr';
 import type { DataProvider } from '@hooks/useDataProviders.ts';
 import { useAuthStore } from '@/store/authStore.ts';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface UpdateLogoBody {
   logoBase64: string | null;
@@ -68,6 +69,10 @@ export const useUpdateLogo = () => {
 
       } catch (error) {
         console.error('Error updating logo:', error);
+        captureHandledError(error, {
+          tags: { feature: 'settings', action: 'update_logo' },
+          extra: { dataProviderId },
+        });
         // Ignore errors for this moment (as per original implementation)
       } finally {
         setIsUpdating(false);

@@ -109,6 +109,7 @@ const ChartToggler = ({
           updatedSdgTypes={updatedSdgTypes}
           sdgTypes={sdgTypes}
           data={updatedSdgTypes}
+          renderView={data?.length === 0}
           toggle={toggle}
           checkBillingType={checkBillingType}
         />

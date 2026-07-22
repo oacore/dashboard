@@ -5,7 +5,8 @@ import { TextData } from '@features/Das/texts';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import type { DasData } from '@features/Das/types/data.types.ts';
 import { updateDasStatus } from '@features/Das/hooks/useDasData.ts';
-import {CrStatusCard} from '@oacore/core-ui';
+import { CrStatusCard } from '@oacore/core-ui';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface DasColumnProps {
     record: DasData;
@@ -41,6 +42,10 @@ const DasColumn: React.FC<DasColumnProps> = React.memo(({ record, onStatusUpdate
             setPopoverOpen(false);
         } catch (error) {
             console.error('Error updating Das status:', error);
+            captureHandledError(error, {
+                tags: { feature: 'das', action: 'update_status' },
+                extra: { articleId, dataProviderId: selectedDataProvider.id },
+            });
             message.error('Failed to update status');
         } finally {
             setLoadingStatus(false);

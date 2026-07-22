@@ -1,6 +1,7 @@
 /* eslint-disable */
 // @typescript-eslint/no-explicit-any
 import type { SWRConfiguration } from 'swr'
+import { captureHandledError } from '@/utils/captureHandledError'
 import { http } from './axios'
 
 export const fetcher = async (url: string, withCredentials: boolean = true) => {
@@ -143,6 +144,10 @@ export const createMutationHelpers = (mutate: any) => ({
       await mutate(key)
       return result
     } catch (error) {
+      captureHandledError(error, {
+        tags: { feature: 'swr', action: 'mutation_create' },
+        extra: { key },
+      })
       // Rollback on error
       await mutate(key)
       throw error
@@ -170,6 +175,10 @@ export const createMutationHelpers = (mutate: any) => ({
       await mutate(key)
       return result
     } catch (error) {
+      captureHandledError(error, {
+        tags: { feature: 'swr', action: 'mutation_update' },
+        extra: { key },
+      })
       // Rollback on error
       await mutate(key)
       throw error
@@ -195,6 +204,10 @@ export const createMutationHelpers = (mutate: any) => ({
       // Revalidate to get the actual server response
       await mutate(key)
     } catch (error) {
+      captureHandledError(error, {
+        tags: { feature: 'swr', action: 'mutation_delete' },
+        extra: { key },
+      })
       // Rollback on error
       await mutate(key)
       throw error

@@ -4,6 +4,7 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useDepositDatesStore } from '../store/depositDatesStore';
 import { useMemo } from 'react';
 import { http } from '@config/axios';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 export interface PublicationDatesValidateData {
   fullCount: number;
@@ -83,6 +84,9 @@ export const usePublicationDatesValidate = () => {
           } as PublicationDatesValidateData;
         } catch (err) {
           console.error('Error fetching publication dates validate:', err);
+          captureHandledError(err, {
+            tags: { feature: 'deposit_compliance', action: 'publication_dates_validate_fetch' },
+          });
           throw err;
         }
       }

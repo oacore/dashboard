@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import { fetcher, createSWRKey, swrDefaultConfig } from '@/config/swr';
 import { http } from '@/config/axios';
 import { useDataProviderStore } from '@/store/dataProviderStore';
+import { captureHandledError } from '@/utils/captureHandledError';
 
 interface NotificationItem {
   id: string;
@@ -58,6 +59,10 @@ export const useNotification = ({ userId, enabled = true }: UseNotificationParam
       await mutate();
     } catch (networkOrAccessError) {
       console.error('Error marking notification as read:', networkOrAccessError);
+      captureHandledError(networkOrAccessError, {
+        tags: { feature: 'notifications', action: 'mark_read' },
+        extra: { userId, notificationId },
+      });
       const errorMessage =
         networkOrAccessError instanceof Error
           ? networkOrAccessError.message
