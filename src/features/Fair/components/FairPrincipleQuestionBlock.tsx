@@ -13,6 +13,7 @@ import { formatFairResultName } from '@features/Fair/utils/formatFairResultName'
 import { getFairQuestionStatusClassName } from '@features/Fair/utils/getFairQuestionStatusClassName';
 import { resolveFairQuestionCountValues } from '@features/Fair/utils/resolveFairQuestionCountValues';
 import { resolveFairQuestionMetricValues } from '@features/Fair/utils/resolveFairQuestionMetricValues';
+import { isFairOpenQuestion } from '@features/Fair/utils/isFairOpenQuestion';
 import { resolveFairQuestionStatusLabel } from '@features/Fair/utils/resolveFairQuestionStatusLabel';
 
 export type FairPrincipleQuestionBlockProps = {
@@ -29,7 +30,7 @@ export const FairPrincipleQuestionBlock = ({
 }: FairPrincipleQuestionBlockProps) => {
   const { selectedDataProvider } = useDataProviderStore();
   const dataProviderId = selectedDataProvider?.id;
-  const isOpenQuestion = Boolean(item.openQuestion);
+  const isOpenQuestion = Boolean(item.number) && isFairOpenQuestion(item.certificationQuestion);
   const questionId = item.certificationQuestion?.id;
 
   const handleAnswerBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
@@ -42,9 +43,16 @@ export const FairPrincipleQuestionBlock = ({
     });
   };
 
-  const countValues = resolveFairQuestionCountValues(item.certificationQuestion?.result?.counts);
-  const metricValues = resolveFairQuestionMetricValues(item.certificationQuestion?.result?.metrics);
-  const statusLabel = resolveFairQuestionStatusLabel(item.certificationQuestion, openQuestionLabel);
+  const showAutomaticResults = !isOpenQuestion && Boolean(item.certificationQuestion);
+  const countValues = showAutomaticResults
+    ? resolveFairQuestionCountValues(item.certificationQuestion?.result?.counts)
+    : [];
+  const metricValues = showAutomaticResults
+    ? resolveFairQuestionMetricValues(item.certificationQuestion?.result?.metrics)
+    : [];
+  const statusLabel = isOpenQuestion
+    ? openQuestionLabel
+    : resolveFairQuestionStatusLabel(item.certificationQuestion);
   const statusClassName = getFairQuestionStatusClassName(statusLabel);
 
   return (

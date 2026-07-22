@@ -2,13 +2,12 @@ import type { FairCertificationQuestion } from '@features/Fair/types/fairCertifi
 
 export const resolveFairQuestionStatusLabel = (
   certificationQuestion?: FairCertificationQuestion,
-  openQuestionLabel = 'Open question',
 ): string => {
-  if (!certificationQuestion || !('result' in certificationQuestion)) {
-    return openQuestionLabel;
+  if (!certificationQuestion?.result) {
+    return '_';
   }
 
-  const status = certificationQuestion.result?.status?.toLowerCase();
+  const status = certificationQuestion.result.status?.toLowerCase();
 
   if (status === 'pass') {
     return 'YES';
@@ -18,9 +17,5 @@ export const resolveFairQuestionStatusLabel = (
     return 'No';
   }
 
-  if (status === 'unknown') {
-    return '_';
-  }
-
-  return openQuestionLabel;
+  return '_';
 };

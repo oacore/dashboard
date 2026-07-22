@@ -49,6 +49,7 @@ const buildSubmissionStepItems = (
       ),
       description: submission.reportUrl ? (
         <a
+          target="_blank"
           className="fair-submission-progress__report-link"
           href={`https://api.core.ac.uk${submission.reportUrl}`}
           rel="noopener noreferrer"

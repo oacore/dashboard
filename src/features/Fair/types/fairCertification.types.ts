@@ -15,6 +15,8 @@ export type FairCertificationLevel =
 
 export type FairCertificationQuestionResultStatus = 'pass' | 'fail' | 'unknown' | string;
 
+export type FairCertificationQuestionType = 'open' | 'automatic' | string;
+
 export type FairCertificationQuestionCountEntry = {
   name: string;
   value: number | null;
@@ -60,7 +62,7 @@ export type FairCertificationQuestion = {
   id: string;
   number: string;
   section: string;
-  type: string;
+  type: FairCertificationQuestionType;
   required: boolean;
   question: string;
   description: string;

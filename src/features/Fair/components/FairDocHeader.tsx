@@ -77,6 +77,7 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
         {/*TODO*/}
         {/*fair-certification/FAIR-2026-4A717572CF12/report*/}
         <Button
+          target="_blank"
           type={certificationQuestions?.certificate ? 'default' : 'primary'}
           href={`https://api.core.ac.uk/internal/data-providers/${selectedDataProvider?.id}${certificate?.reportUrl}`}
         >

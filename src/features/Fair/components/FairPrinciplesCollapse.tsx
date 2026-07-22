@@ -62,8 +62,14 @@ export const FairPrinciplesCollapse = ({
       : undefined;
 
     const attachCertificationQuestion = (item: FairQuestionItem): FairQuestionItem => {
-      const certificationQuestion =
-        item.number && questionsByNumber ? questionsByNumber.get(item.number) : undefined;
+      if (!questionsByNumber) {
+        return item;
+      }
+
+      const questionNumber = item.number ?? item.linkedQuestionNumber;
+      const certificationQuestion = questionNumber
+        ? questionsByNumber.get(questionNumber)
+        : undefined;
 
       return certificationQuestion ? { ...item, certificationQuestion } : item;
     };

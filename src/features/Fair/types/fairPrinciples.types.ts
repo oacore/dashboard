@@ -10,10 +10,11 @@ export type FairQuestionItem = {
   code: string;
   /** Matches API question `number` (e.g. "1.1", "2.4"). */
   number?: string;
+  /** Links a display-only sub-row to an open question's API result (e.g. "1.3", "2.1"). */
+  linkedQuestionNumber?: string;
   question: string;
   description?: string;
   recommendation?: string;
-  openQuestion?: boolean;
   answerPlaceholder?: string;
   statusLabel?: string;
   statusNote?: string;

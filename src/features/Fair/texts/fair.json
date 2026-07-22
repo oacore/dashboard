@@ -51,7 +51,6 @@
         {
           "id": "r13",
           "code": "R(1.3)",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "question": "How many metadata records are there in your repository?",
           "number": "1.3"
@@ -61,7 +60,8 @@
           "code": "",
           "question": "Indexed content",
           "description": "The number of records CORE is able to index from your digital repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way.",
-          "counterLabel": "Number of metadata records:"
+          "counterLabel": "Number of metadata records:",
+          "linkedQuestionNumber": "1.3"
         }
       ]
     },
@@ -72,11 +72,18 @@
         {
           "id": "r21",
           "code": "R(2.1)",
-          "question": "Do you provide access to full texts of research papers for your content?",
+          "answerPlaceholder": "Write your answer here …",
+          "question": "How many full texts are there in your repository?",
+          "number": "2.1"
+        },
+        {
+          "id": "",
+          "code": "",
+          "question": "Indexed full texts",
           "description": "The number of full text CORE is able to discover from your digital repository.",
           "percentLabel": "Percentage of documents with access to full text:",
           "recommendation": "You can check the [Indexing tab](/data-providers/indexing) where we collect issues CORE discovered while indexing your repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way. The [Indexing status tab](/data-providers/indexing) provides a summary of any issue CORE finds while indexing your repository. CORE requires that full text must be hosted on the same domain or subdomains as the OAI-PMH endpoint, unless we are informed by the institution about other owned domains containing full text.\n\nAlso, we highly recommend checking your repository for compliance with the [CORE Data Provider’s Guide](https://core.ac.uk/documentation/data-providers-guide) requirements, where you will find detailed information about how to configure your repository so it can be indexed to the maximum effect to get more accurate results in the CORE dashboard and to enhance visibility and interoperability beyond CORE.",
-          "number": "2.1"
+          "linkedQuestionNumber": "2.1"
         },
         {
           "id": "r22",
@@ -101,7 +108,6 @@
           "question": "Do you support any tool for tracking COUNTER-compliant downloads in your system?",
           "description": "Tools for tracking COUNTER-compliant downloads allow you to demonstrate the value and impact of your institutional repository (IR) by enabling institutional repositories to share and compare usage statistics based on the COUNTER standard.",
           "recommendation": "By using a standard set of statistics, it becomes possible to provide meaningful stats to compare downloads across several repositories.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "2.4"
         }
@@ -133,7 +139,6 @@
           "question": "Does your repository support persistent management of records?",
           "description": "A repository with persistent management ensures that metadata and content are not lost, that links remain valid and that researchers can reliably cite and access resources over time.",
           "recommendation": "It is recommended that the repository implements a recognized system for persistent identifiers like DOI or ROR. Clear policies should be in place for record versioning, updates and withdrawal, ensuring transparency and trustworthiness. Documentation of these policies should be openly available to users.",
-          "openQuestion": true,
           "number": "3.3"
         },
         {
@@ -198,7 +203,6 @@
           "code": "R(4.3)",
           "question": "Do you have an Institutional RRS or do your papers contain an RRS section?",
           "description": "Example from assessment: papers with RRS section — **13.61K**.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "recommendation": "Follow your institutional policy on rights retention and ensure RRS sections are visible where applicable.",
           "number": "4.3"
@@ -253,7 +257,6 @@
           "question": "Do you support ResourceSync?",
           "description": "ResourceSync allows repositories to expose changes to their content and metadata in a structured, machine-readable way. With ResourceSync, external services (such as aggregators, harvesters and preservation systems) can keep their records in sync with the repository by automatically detecting new, updated or deleted items. Unlike OAI-PMH, which focuses on metadata harvesting, ResourceSync provides a more efficient and scalable way to track repository content changes in real time.",
           "recommendation": "- Assess whether your repository platform supports ResourceSync (e.g. DSpace, EPrints, Invenio).\n- Provide a Resource List (all available items) and Change Lists (new, updated or deleted items) to support synchronisation.\n- Ensure ResourceSync feeds include persistent identifiers (DOIs, Handles) and standard metadata formats.\n- Document the repository’s ResourceSync base URL in public documentation for service providers.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "6.1"
         },
@@ -263,7 +266,6 @@
           "question": "Do you support COAR Notify?",
           "description": "COAR Notify is a protocol developed by the Confederation of Open Access Repositories (COAR) to enable interoperable, event-based communication between repositories, publishers and other scholarly services. It is built on the Linked Data Notifications (LDN) standard and allows repositories to send and receive notifications about research objects — for example when a preprint has been deposited or when a peer review has been linked to a record.",
           "recommendation": "- Ensure that your repository can send notifications about deposits, updates or withdrawals, and receive notifications about reviews, endorsements or citations.\n- Align metadata and identifiers used in notifications with persistent identifiers (DOIs, ORCIDs, RORs) to maximize interoperability.\n- Document your repository COAR Notify endpoints and policies for external partners.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "6.2"
         },
@@ -273,7 +275,6 @@
           "question": "Do you support FAIRiCat?",
           "description": "FAIRiCat (FAIR Implementation Profile Catalog) is an international initiative led by GO FAIR that provides a registry of FAIR Implementation Profiles (FIPs). Read more: https://signposting.org/FAIRiCat/",
           "recommendation": "- Prepare a FAIR Implementation Profile (FIP) for your repository, describing identifiers (DOI, ORCID, ROR), metadata schemas (DataCite, Dublin Core), protocols (OAI-PMH, ResourceSync) and vocabularies in use.\n- Submit your FIP to the FAIRiCat registry so it is visible and reusable by the wider community.\n- Regularly update the FIP as your repository adopts new standards or technologies.\n- Reference your published FIP in the repository documentation to demonstrate compliance and transparency.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "6.3"
         }
@@ -289,7 +290,6 @@
           "question": "How do you manage deposits? Is there someone to check them?",
           "description": "Deposit management refers to the process the repository uses to handle new submissions of research outputs.",
           "recommendation": "Define a clear deposit workflow: self-deposit, mediated deposit or curated. Assign repository staff (curators or managers) to review submissions for metadata quality, copyright, licensing and compliance with institutional and funder policies. Provide support for depositors: templates, checklists, FAQs.\n\n- Self-deposited — by researchers, authors or administrative staff.\n- Mediated — by librarians or repository managers on behalf of authors.\n- Curated — before publication to ensure metadata quality, copyright compliance and adherence to repository policies.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "7.1"
         },
@@ -299,7 +299,6 @@
           "question": "Deposits are checked before made available.",
           "description": "Define a clear deposit workflow: self-deposit, mediated deposit or curated. Assign repository staff to review submissions for metadata quality, copyright, licensing and compliance with institutional and funder policies. Provide support for depositors: templates, checklists, FAQs.",
           "recommendation": "Ensure a documented review step exists before content becomes publicly available, with clear accountability.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "7.2"
         },
@@ -309,7 +308,6 @@
           "question": "How do you handle take-down notices?",
           "description": "Handling take-down notices refers to the repository’s process for managing requests to remove or restrict access to deposited content.",
           "recommendation": "- Establish a publicly available take-down policy, outlining when and how content may be removed.\n- Designate a contact point (repository manager or legal office) for receiving and handling take-down requests.\n- Acknowledge requests promptly and investigate validity in consultation with legal or policy experts if needed.\n- If the request is justified, withdraw or restrict access to the item, but preserve the metadata record with a clear note explaining the reason for removal.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "7.3"
         },
@@ -319,7 +317,6 @@
           "question": "How do you manage the preservation of content in your repository?",
           "description": "Preservation of content in a repository refers to the set of policies, workflows and technical measures that ensure digital objects remain\n- available (can be found and opened),\n- authentic (guaranteed to be original)\n- usable (can be realistically reused).",
           "recommendation": "- Define and publish a preservation policy that outlines the repository’s commitment to long-term access and specifies responsibilities.\n- Implement redundant storage and backup strategies: multiple servers, offsite copies, cloud storage.\n- Use fixity checks (checksums, hashes) to regularly verify file integrity and detect corruption.\n- Prefer open and widely used file formats (PDF, TXT, CSV) for better long-term sustainability.\n- Record and expose technical metadata (file format, size, checksum) to support digital preservation workflows.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "7.4"
         },
@@ -329,7 +326,6 @@
           "question": "How do you encourage researchers to get their ORCID?",
           "description": "Encouraging researchers to obtain an ORCID (Open Researcher and Contributor ID) ensures that their work is uniquely identifiable and correctly attributed, regardless of name variations, institutional changes or publication platforms. ORCID adoption strengthens the quality of repository metadata, improves interoperability with publishers and funders and helps researchers gain recognition for their contributions.",
           "recommendation": "- Promote ORCID awareness through training sessions, repository guides and onboarding materials.\n- Provide step-by-step instructions and links for registering an ORCID ID.\n- Enable ORCID authentication and login in the repository so researchers can connect their profile during deposit.\n- Encourage depositors to include their ORCID in the metadata of every submission.\n- Where possible set ORCID as a mandatory or strongly recommended field in deposit workflows.\n- Integrate with the ORCID API to push publications and datasets from the repository directly to a researcher’s ORCID profile.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "7.5"
         },
@@ -339,7 +335,6 @@
           "question": "What are you doing to promote FAIR principles?",
           "description": "The repository actively implements policies, technologies and community practices to make research outputs more discoverable, usable and sustainable. ",
           "recommendation": "- Clear policies — Publish policies that explicitly reference FAIR principles.\n- Metadata standards — Require rich, standardized metadata (DataCite, Dublin Core, OpenAIRE Guidelines).\n- Persistent identifiers — Support DOIs, ORCIDs, RORs and project IDs.\n- Infrastructure — Provide OAI-PMH, ResourceSync and APIs.\n- Licensing and reuse — Encourage open licenses (CC-BY, CC0).\n- Data linking — Promote Data Availability Statements and links to datasets and source code.\n- Quality control — Review deposits for metadata completeness.\n- Awareness and training — Workshops and guidance for researchers.\n- Community engagement — Participate in FAIR-related initiatives (GO FAIR, COAR).",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "7.6"
         },
@@ -349,7 +344,6 @@
           "question": "What are you doing to promote research reproducibility?",
           "description": "Promoting research reproducibility means ensuring that other researchers can verify, replicate and build upon the results deposited in the repository. This goes beyond simply storing outputs: it requires linking publications with their underlying datasets, methods and documentation, as well as providing transparent metadata and persistent identifiers.",
           "recommendation": "- Require or encourage Data Availability Statements linking publications to underlying datasets.\n- Enable persistent identifiers (DOIs for publications and datasets, ORCID for authors, ROR for institutions).\n- Support versioning so users can access previous iterations of datasets or papers.\n- Provide metadata fields for methods and protocols.\n- Encourage open licenses so that others can reuse data and code legally.\n- Facilitate interoperability using standard metadata schemas.\n- Promote best practices through guidance, training and templates.\n- Integrate with external registries where relevant.\n- Provide transparency in curation.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "7.7"
         },
@@ -359,7 +353,6 @@
           "question": "How do you support Open Science at your institution?",
           "description": "Implementing policies, infrastructure and cultural practices that make research outputs more transparent, accessible and reusable. This includes promoting open access to publications, sharing research data, supporting reproducibility and enabling collaboration across disciplines and communities.",
           "recommendation": "- Adopt an institutional Open Science policy aligned with national and European guidelines (EOSC, Plan S).\n- Provide infrastructure such as institutional repositories, data archives and integration with ORCID, DOI and ROR identifiers.\n- Promote FAIR data practices by training researchers in data management, metadata standards and reproducibility.\n- Support Open Access publishing through funding or agreements with publishers or institutional repositories (Green/Gold OA).\n- Encourage Data and Code Availability Statements.\n- Offer training on open research practices, licensing and copyright.\n- Recognize and reward Open Science practices in research evaluation where appropriate.\n- Collaborate with external infrastructures (OpenAIRE, EOSC, COAR).\n- Provide long-term preservation services.\n- Engage the community through workshops and awareness campaigns.",
-          "openQuestion": true,
           "answerPlaceholder": "Write your answer here …",
           "number": "7.8"
         }
