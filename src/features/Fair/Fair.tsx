@@ -3,8 +3,6 @@ import { toAbsoluteAssetUrl } from '@/utils/contentUtils';
 import success from '@/assets/icons/successFilledTick.svg';
 import { FairCertificationFeesTable } from './components/FairCertificationFeesTable.tsx';
 import { FairCertificationMembersFeesTable } from './components/FairCertificationMembersFeesTable.tsx';
-import { FairCertificationLoadingView } from './components/FairCertificationLoadingView.tsx';
-import { useFairCertification } from './hooks/useFairCertification';
 import { parseFairPricingTable } from './hooks/fairPricingUtils.ts';
 import './styles.css';
 
@@ -47,16 +45,15 @@ export type FairFeatureProps = {
   data: FairCertificationData;
   showSuccessMessage?: boolean;
   registerInterestHref?: string;
-  onRegisterInterest?: () => void;
+  // onRegisterInterest?: () => void;
 };
 
 export const FairFeature = ({
   data,
   showSuccessMessage = false,
   registerInterestHref,
-  onRegisterInterest,
+  // onRegisterInterest,
 }: FairFeatureProps) => {
-  const { isLoading } = useFairCertification();
   const howItWorks = data.howItWorks.howItWorks;
   const applicationProcess = data.applicationProcess.applicationProcess;
   const certificates = data.certificates.certificates;
@@ -69,10 +66,6 @@ export const FairFeature = ({
     parseFairPricingTable(data.tableMembers) ?? parseFairPricingTable(bundle?.tableMembers);
 
   const howItWorksImageUrl = toAbsoluteAssetUrl(howItWorks.image);
-
-  if (isLoading) {
-    return <FairCertificationLoadingView />;
-  }
 
   return (
     <CrFeatureLayout>
@@ -119,18 +112,10 @@ export const FairFeature = ({
                   ) : (
                     <a
                       className="fair-certification-intro-register"
-                      href={registerInterestHref ?? '#'}
-                      target={registerInterestHref ? '_blank' : undefined}
-                      rel={registerInterestHref ? 'noopener noreferrer' : undefined}
+                      href={registerInterestHref}
+                      target={`_blank`}
+                      // rel={registerInterestHref ? 'noopener noreferrer' : undefined}
                       aria-label="Register your interest in FAIR certification"
-                      onClick={
-                        onRegisterInterest
-                          ? (event) => {
-                            event.preventDefault();
-                            onRegisterInterest();
-                          }
-                          : undefined
-                      }
                     >
                       Register your interest
                     </a>

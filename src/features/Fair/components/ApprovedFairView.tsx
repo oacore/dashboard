@@ -12,17 +12,12 @@ import {
   submitFairCertification,
   useFairCertification,
 } from '@features/Fair/hooks/useFairCertification';
-import type { FairCertificationApiResponse } from '@features/Fair/types/fairCertification.types';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
-export type ApprovedFairViewProps = {
-  certificationQuestions?: FairCertificationApiResponse | null;
-};
-
-export const ApprovedFairView = ({ certificationQuestions }: ApprovedFairViewProps) => {
+export const ApprovedFairView = () => {
   const { selectedDataProvider } = useDataProviderStore();
   const dataProviderId = selectedDataProvider?.id;
-  const { mutate, isLoading } = useFairCertification();
+  const { fairCertification, mutate, isLoading } = useFairCertification();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { submitSuccessMessage, submitErrorMessage } = fairTexts.principlesAccordion;
 
@@ -51,9 +46,9 @@ export const ApprovedFairView = ({ certificationQuestions }: ApprovedFairViewPro
   return (
     <CrFeatureLayout>
       <CrPaper>
-        <FairDocHeader certificationQuestions={certificationQuestions} />
+        <FairDocHeader certificationQuestions={fairCertification} />
         <FairPrinciplesCollapse
-          certificationQuestions={certificationQuestions?.questions}
+          certificationQuestions={fairCertification?.questions}
           isSubmitting={isSubmitting}
           onSubmit={handleSubmit}
         />

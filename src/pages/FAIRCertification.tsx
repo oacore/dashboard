@@ -1,10 +1,9 @@
 import { useDocumentTitle } from '@hooks/useDocumentTitle.ts';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { FairFeature, type FairCertificationData } from '@features/Fair/Fair.tsx';
 import { ApprovedFairView } from '@features/Fair/components/ApprovedFairView.tsx';
-import { useFairCertification } from '@features/Fair/hooks/useFairCertification';
-import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
-import { useStartingOrSupportingBillingPlanData } from '@features/Orcid/hooks/useStartingOrSupportingBillingPlanData';
+// import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
+// import { useStartingOrSupportingBillingPlanData } from '@features/Orcid/hooks/useStartingOrSupportingBillingPlanData';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import fairCertificationLanding from '@features/Fair/texts/fairCertificationLanding.json';
 
@@ -23,17 +22,16 @@ const canAccessApprovedFairView = (dataProviderId?: number): boolean =>
 
 export function FAIRCertificationPage() {
   useDocumentTitle('FAIR Certification');
-  const { fairCertification } = useFairCertification();
   const { selectedDataProvider } = useDataProviderStore();
-  const { organisation } = useOrganisation();
-  const { isStartingOrSupportingPlan } = useStartingOrSupportingBillingPlanData([], organisation);
+  // const { organisation } = useOrganisation();
+  // const { isStartingOrSupportingPlan } = useStartingOrSupportingBillingPlanData([], organisation);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const dataProviderId = selectedDataProvider?.id;
 
-  const handleRegisterInterest = useCallback(() => {
-    setShowSuccessMessage(true);
-  }, []);
+  // const handleRegisterInterest = useCallback(() => {
+  //   setShowSuccessMessage(true);
+  // }, []);
 
   useEffect(() => {
     if (!showSuccessMessage) {
@@ -48,15 +46,15 @@ export function FAIRCertificationPage() {
   }, [showSuccessMessage]);
 
   if (canAccessApprovedFairView(dataProviderId) && !showSuccessMessage) {
-    return <ApprovedFairView certificationQuestions={fairCertification} />;
+    return <ApprovedFairView />;
   }
 
   return (
     <FairFeature
       data={fairCertificationData}
       showSuccessMessage={showSuccessMessage}
-      registerInterestHref={isStartingOrSupportingPlan ? FAIR_REGISTER_INTEREST_FORM_URL : undefined}
-      onRegisterInterest={isStartingOrSupportingPlan ? undefined : handleRegisterInterest}
+      registerInterestHref={FAIR_REGISTER_INTEREST_FORM_URL}
+      // onRegisterInterest={isStartingOrSupportingPlan ? undefined : handleRegisterInterest}
     />
   );
 }
