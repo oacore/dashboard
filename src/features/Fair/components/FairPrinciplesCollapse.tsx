@@ -31,7 +31,6 @@ export type FairPrinciplesCollapseProps = {
 const { Title, Paragraph } = Typography;
 
 export const FairPrinciplesCollapse = ({
-  onSave,
   onSubmit,
   isSubmitting = false,
   collapsibleVariant = 'default',
@@ -42,15 +41,10 @@ export const FairPrinciplesCollapse = ({
 
   const recommendationHeading = principlesAccordion.recommendationHeading ?? 'Recommendation';
 
-  const handleSave = () => {
-    onSave?.();
-  };
 
   const handleSubmit = () => {
     void onSubmit?.();
   };
-
-  const openQuestionLabel = principlesAccordion.openQuestionBadge ?? 'Open question';
 
   const collapsibleSections: FairPrinciplesCollapsibleSection[] = useMemo(() => {
     const questionsByNumber = certificationQuestions?.length
@@ -93,15 +87,16 @@ export const FairPrinciplesCollapse = ({
         ),
         children: (
           <FairPrincipleSectionContent
+            answerSavedMessage={principlesAccordion.answerSavedMessage}
+            answerSaveErrorMessage={principlesAccordion.answerSaveErrorMessage}
             recommendationHeading={recommendationHeading}
             section={enrichedSection}
-            openQuestionLabel={openQuestionLabel}
-          // repositoryStatus={repositoryStatus}
+            openQuestionLabel={principlesAccordion.openQuestionBadge}
           />
         ),
       };
     });
-  }, [principlesAccordion, recommendationHeading, openQuestionLabel, certificationQuestions]);
+  }, [principlesAccordion, recommendationHeading, certificationQuestions]);
 
 
   return (
@@ -115,14 +110,6 @@ export const FairPrinciplesCollapse = ({
         variant={collapsibleVariant}
       />
       <div className="fair-principles-accordion-actions">
-        <Button
-          aria-label={principlesAccordion.saveButtonLabel}
-          className="fair-principles-accordion-btn fair-principles-accordion-btn--secondary"
-          onClick={handleSave}
-          type="default"
-        >
-          {principlesAccordion.saveButtonLabel}
-        </Button>
         <Button
           aria-label={principlesAccordion.submitButtonLabel}
           className="fair-principles-accordion-btn fair-principles-accordion-btn--primary"

@@ -8,6 +8,8 @@ export type FairPrincipleSectionContentProps = {
   section: FairPrincipleSection;
   recommendationHeading: string;
   openQuestionLabel: string;
+  answerSavedMessage: string;
+  answerSaveErrorMessage: string;
   // repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
@@ -15,6 +17,8 @@ export const FairPrincipleSectionContent = ({
   section,
   recommendationHeading,
   openQuestionLabel,
+  answerSavedMessage,
+  answerSaveErrorMessage,
   // repositoryStatus,
 }: FairPrincipleSectionContentProps) => {
   if (!section.items?.length) {
@@ -26,6 +30,8 @@ export const FairPrincipleSectionContent = ({
     <div className="fair-principles__panel-body">
       {section.items.map((item, index) => (
         <FairPrincipleQuestionBlock
+          answerSavedMessage={answerSavedMessage}
+          answerSaveErrorMessage={answerSaveErrorMessage}
           item={item}
           key={item.id ? item.id : `${item.code || 'row'}-${index}`}
           recommendationHeading={recommendationHeading}

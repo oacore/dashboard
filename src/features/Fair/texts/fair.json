@@ -27,6 +27,8 @@
     "submitErrorMessage": "Failed to submit your FAIR certification. Please try again.",
     "recommendationHeading": "Recommendation",
     "openQuestionBadge": "Open question",
+    "answerSavedMessage": "Your progress has been saved.",
+    "answerSaveErrorMessage": "Failed to save your answer. Please try again.",
     "findable": {
       "title": "Findable",
       "description": "The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers.\n\nMachine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process.",
