@@ -110,15 +110,21 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
           <Markdown className="fair-certification-description">
             {approvedView.certificationDescription}
           </Markdown>
-          <Markdown className="fair-certification-meta-line">
-            {`${approvedView.issued} ${formatIsoDate(certificate?.issueDate)}`}
-          </Markdown>
-          <Markdown className="fair-certification-meta-line">
-            {`${approvedView.valid} ${formatIsoDate(certificate?.validUntil)}`}
-          </Markdown>
-          <Markdown className="fair-certification-meta-line">
-            {`${approvedView.lastReportUpdateLine} ${formatIsoDate(certificate?.reviewedAt)}`}
-          </Markdown>
+          {certificate?.issueDate && (
+            <Markdown className="fair-certification-meta-line">
+              {`${approvedView.issued} ${formatIsoDate(certificate?.issueDate)}`}
+            </Markdown>
+          ) }
+          {certificate?.validUntil && (
+            <Markdown className="fair-certification-meta-line">
+              {`${approvedView.valid} ${formatIsoDate(certificate?.validUntil)}`}
+            </Markdown>
+          )}
+          {certificate?.reviewedAt && (
+            <Markdown className="fair-certification-meta-line">
+              {`${approvedView.lastReportUpdateLine} ${formatIsoDate(certificate?.reviewedAt)}`}
+            </Markdown>
+          )}
           <Markdown className="fair-certification-meta-line">
             {`${approvedView.submissionsLine}${certificationQuestions?.numberOfSubmissions ?? ''}`}
           </Markdown>

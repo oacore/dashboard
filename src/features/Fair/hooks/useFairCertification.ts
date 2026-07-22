@@ -7,21 +7,21 @@ import type {
 } from '@features/Fair/types/fairCertification.types';
 
 // TODO CHECK refresh
-export const refreshFairCertificationAutomaticChecks = (dataProviderId: number) =>
-  postRequestFetcher(
-    `/internal/data-providers/${dataProviderId}/fair-certification/refresh`,
-    undefined,
-    true,
-  );
+// export const refreshFairCertificationAutomaticChecks = (dataProviderId: number) =>
+//   postRequestFetcher(
+//     `/internal/data-providers/${dataProviderId}/fair-certification/refresh`,
+//     undefined,
+//     true,
+//   );
 
-const fetchFairCertification = async (
-  url: string,
-  dataProviderId: number,
-): Promise<FairCertificationApiResponse> => {
-  const response = (await fetcher(url)) as FairCertificationApiResponse;
-  await refreshFairCertificationAutomaticChecks(dataProviderId);
-  return response;
-};
+// const fetchFairCertification = async (
+//   url: string,
+//   dataProviderId: number,
+// ): Promise<FairCertificationApiResponse> => {
+//   const response = (await fetcher(url)) as FairCertificationApiResponse;
+//   await refreshFairCertificationAutomaticChecks(dataProviderId);
+//   return response;
+// };
 
 // const fetchFairCertification = async (
 //   url: string,
@@ -45,11 +45,17 @@ export const useFairCertification = (dataProviderId?: number) => {
 
   const { data, error, isLoading, mutate } = useSWR<FairCertificationApiResponse>(
     key,
-    key && effectiveDataProviderId
-      ? () => fetchFairCertification(key, effectiveDataProviderId)
-      : null,
+    key ? () => fetcher(key).then((res) => res as FairCertificationApiResponse) : null,
     swrDefaultConfig,
   );
+
+  // const { data, error, isLoading, mutate } = useSWR<FairCertificationApiResponse>(
+  //   key,
+  //   key && effectiveDataProviderId
+  //     ? () => fetchFairCertification(key, effectiveDataProviderId)
+  //     : null,
+  //   swrDefaultConfig,
+  // );
 
   return {
     fairCertification: data ?? null,
