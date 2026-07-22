@@ -16,6 +16,7 @@ import {
 } from '@features/Fair/utils/downloadFairCertificatePdf';
 import { formatIsoDate } from '@/utils/dateUtils';
 import '../styles.css';
+import {useDataProviderStore} from '@/store/dataProviderStore.ts';
 
 export type FairDocHeaderProps = {
   certificationQuestions?: FairCertificationApiResponse | null;
@@ -23,6 +24,7 @@ export type FairDocHeaderProps = {
 
 export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) => {
   const { approvedView } = fairTexts;
+  const { selectedDataProvider } = useDataProviderStore();
   const certificate = certificationQuestions?.certificate;
   const certificateRef = useRef<HTMLDivElement>(null);
   const [isDownloadingPng, setIsDownloadingPng] = useState(false);
@@ -73,15 +75,15 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
           {approvedView.aboutButtonLabel}
         </Button>
         {/*TODO*/}
+        {/*fair-certification/FAIR-2026-4A717572CF12/report*/}
         <Button
           type={certificationQuestions?.certificate ? 'default' : 'primary'}
-          href={certificate?.reportUrl}
+          href={`https://api.core.ac.uk/internal/data-providers/${selectedDataProvider?.id}${certificate?.reportUrl}`}
         >
           {approvedView.downloadReportButtonLabel}
         </Button>
         {certificationQuestions?.certificate &&
           <>
-            {/*TODO*/}
             <Button
               type="default"
               aria-label={approvedView.downloadPNG}
@@ -90,7 +92,6 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
             >
               {approvedView.downloadPNG}
             </Button>
-            {/*TODO*/}
             <Button
               type="primary"
               aria-label={approvedView.downloadPdf}
