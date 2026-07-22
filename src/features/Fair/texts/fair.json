@@ -1,10 +1,9 @@
 {
   "submissionProgress": {
     "title": "Progress of the submission",
-    "firstSubmission": "1st submission",
-    "secondSubmission": "2nd submission",
     "unlimitedSubmissions": "Unlimited number of submission",
-    "gettingCertificate": "Getting certificate"
+    "gettingCertificate": "Getting certificate",
+    "viewSubmittedReport": "View submitted report (PDF)"
   },
   "approvedView": {
     "title": "FAIR certification: Not certified",

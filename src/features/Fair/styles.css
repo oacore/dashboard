@@ -1149,11 +1149,9 @@
   line-height: 1.1;
 }
 
-/*.fair-principles__open-block {*/
-/*  margin-top: 16px;*/
-/*  padding-top: 16px;*/
-/*  border-top: 1px dashed var(--color-border);*/
-/*}*/
+.fair-principles__open-block {
+  margin-top: 16px;
+}
 
 .fair-principles__open-field textarea {
   height: 108px;
@@ -1233,6 +1231,22 @@
   background: var(--gray-600);
 }
 
+.fair-submission-progress__step-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fair-submission-progress__step-date {
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  letter-spacing: 0.026px;
+  text-align: left;
+}
+
 .fair-submission-progress__step-title {
   color: var(--color-text-secondary);
   font-style: normal;
@@ -1241,6 +1255,24 @@
   line-height: 130%;
   /* 31.2px */
   letter-spacing: 0.036px;
+}
+
+.fair-submission-progress .ant-steps-item-content {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  letter-spacing: 0.026px;
+  margin-top: 20px !important;
+}
+
+.fair-submission-progress__report-link {
+  color: var(--color-primary, #1890ff);
+  text-align: left;
+}
+
+.fair-submission-progress__report-link:hover {
+  color: var(--color-primary-hover, #40a9ff);
 }
 
 .fair-submission-progress__step-title--muted {
@@ -1256,7 +1288,7 @@
 /* Ant Design Steps — vertical layout to match design */
 .fair-submission-progress-steps.ant-steps-vertical .ant-steps-item-finish .ant-steps-item-rail {
   border-inline-start-color: var(--color-border);
-  height: 20px;
+  margin-left: 2px;
 }
 
 .fair-submission-progress-steps .ant-steps-item-custom .ant-steps-item-icon {
@@ -1284,6 +1316,11 @@
   line-height: 130%;
   /* 31.2px */
   letter-spacing: 0.036px;
+}
+
+.fair-submission-progress-steps .ant-steps-item-description {
+  margin-top: 8px;
+  padding-bottom: 8px;
 }
 
 .required-link {
@@ -1352,4 +1389,12 @@
   line-height: 130%; /* 18.2px */
   letter-spacing: 0.042px;
   margin-top: 8px;
+}
+
+.fair-submission-progress-steps .ant-steps-item-content {
+  text-align: left;
+}
+
+.fair-submission-progress .ant-steps-vertical >.ant-steps-item {
+  padding-bottom: 40px;
 }

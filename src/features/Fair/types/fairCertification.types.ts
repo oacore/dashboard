@@ -76,7 +76,7 @@ export type FairCertificationRepository = {
   countryCode: string;
 };
 
-export type FairCertificationSubmissionReviewStatus = 'pending' | string;
+export type FairCertificationSubmissionReviewStatus = 'pending' | 'approved' | string;
 
 export type FairCertificationSubmission = {
   id: number;
@@ -90,6 +90,10 @@ export type FairCertificationSubmission = {
   reviewedBy: string | null;
   reviewedAt: string | null;
   reviewNotes: string | null;
+};
+
+export type FairCertificationSubmissionsApiResponse = {
+  submissions: FairCertificationSubmission[];
 };
 
 export type FairCertificationApiCertificate = {

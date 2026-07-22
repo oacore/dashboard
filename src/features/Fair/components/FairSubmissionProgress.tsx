@@ -1,19 +1,13 @@
 import { CheckOutlined } from '@ant-design/icons';
+import { useFairCertificationSubmissions } from '@features/Fair/hooks/useFairCertification';
 import fairTexts from '@features/Fair/texts/fair.json';
+import type { FairCertificationSubmission } from '@features/Fair/types/fairCertification.types';
+import { formatFairSubmissionLabel } from '@features/Fair/utils/formatFairSubmissionLabel';
+import { formatDate } from '@/utils/dateUtils';
 import { Steps } from 'antd';
 import type { StepsProps } from 'antd';
-import classNames from 'classnames';
+import { useMemo } from 'react';
 import '../styles.css';
-
-export type FairSubmissionProgressStep = {
-  label: string;
-  /** Middle “unlimited submissions” row: dots icon + muted title. */
-  ellipsis?: boolean;
-};
-
-export type FairSubmissionProgressProps = {
-  steps?: FairSubmissionProgressStep[];
-};
 
 const CheckIcon = () => (
   <span className="fair-submission-progress__icon-check">
@@ -29,43 +23,76 @@ const EllipsisIcon = () => (
   </span>
 );
 
-// TODO: replace with API-driven steps when available.
-const defaultSteps = (
-  copy: typeof fairTexts.submissionProgress,
-): FairSubmissionProgressStep[] => [
-  { label: copy.firstSubmission },
-  { label: copy.secondSubmission },
-  { label: copy.unlimitedSubmissions, ellipsis: true },
-  { label: copy.gettingCertificate },
-];
+type SubmissionProgressCopy = typeof fairTexts.submissionProgress;
 
-const toAntItems = (
-  steps: FairSubmissionProgressStep[],
-): NonNullable<StepsProps['items']> =>
-  steps.map(({ label, ellipsis }) => ({
-    status: 'finish' as const,
-    icon: ellipsis ? <EllipsisIcon /> : <CheckIcon />,
-    title: (
-      <span
-        className={classNames('fair-submission-progress__step-title', {
-          'fair-submission-progress__step-title--muted': ellipsis,
-        })}
-      >
-        {label}
-      </span>
-    ),
-  }));
+const buildSubmissionStepItems = (
+  submissions: FairCertificationSubmission[],
+  copy: SubmissionProgressCopy,
+): NonNullable<StepsProps['items']> => {
+  const sortedSubmissions = [...submissions].sort(
+    (left, right) => left.submissionNumber - right.submissionNumber,
+  );
 
-export const FairSubmissionProgress = ({
-  steps: stepsFromProps,
-}: FairSubmissionProgressProps) => {
+  const submissionItems: NonNullable<StepsProps['items']> = sortedSubmissions.map(
+    (submission) => ({
+      status: 'finish' as const,
+      icon: <CheckIcon />,
+      title: (
+        <div className="fair-submission-progress__step-heading">
+          <span className="fair-submission-progress__step-date">
+            {formatDate(submission.pdfGeneratedAt)}
+          </span>
+          <span className="fair-submission-progress__step-title">
+            {formatFairSubmissionLabel(submission.submissionNumber)}
+          </span>
+        </div>
+      ),
+      description: submission.reportUrl ? (
+        <a
+          className="fair-submission-progress__report-link"
+          href={`https://api.core.ac.uk${submission.reportUrl}`}
+          rel="noopener noreferrer"
+        >
+          {copy.viewSubmittedReport}
+        </a>
+      ) : undefined,
+    }),
+  );
+
+  return [
+    ...submissionItems,
+    {
+      status: 'finish' as const,
+      icon: <EllipsisIcon />,
+      title: (
+        <span className="fair-submission-progress__step-title fair-submission-progress__step-title--muted">
+          {copy.unlimitedSubmissions}
+        </span>
+      ),
+    },
+    {
+      status: 'finish' as const,
+      icon: <CheckIcon />,
+      title: (
+        <span className="fair-submission-progress__step-title">
+          {copy.gettingCertificate}
+        </span>
+      ),
+    },
+  ];
+};
+
+export const FairSubmissionProgress = () => {
   const { submissionProgress } = fairTexts;
-  const items = toAntItems(stepsFromProps ?? defaultSteps(submissionProgress));
+  const { submissions } = useFairCertificationSubmissions();
+
+  const items = useMemo(
+    () => buildSubmissionStepItems(submissions, submissionProgress),
+    [submissions, submissionProgress],
+  );
 
   return (
-    <section
-      className="fair-submission-progress"
-    >
+    <section className="fair-submission-progress">
       <h2 className="fair-submission-progress__title">
         {submissionProgress.title}
       </h2>

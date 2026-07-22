@@ -1,7 +1,10 @@
 import useSWR from 'swr';
 import { fetcher, postRequestFetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
-import type { FairCertificationApiResponse } from '@features/Fair/types/fairCertification.types';
+import type {
+  FairCertificationApiResponse,
+  FairCertificationSubmissionsApiResponse,
+} from '@features/Fair/types/fairCertification.types';
 
 // TODO CHECK refresh
 export const refreshFairCertificationAutomaticChecks = (dataProviderId: number) =>
@@ -72,3 +75,31 @@ export const submitFairCertification = (dataProviderId: number) =>
     undefined,
     true,
   );
+
+export const useFairCertificationSubmissions = (dataProviderId?: number) => {
+  const { selectedDataProvider, isLoaded } = useDataProviderStore();
+  const effectiveDataProviderId = dataProviderId ?? selectedDataProvider?.id;
+
+  const key =
+    isLoaded && effectiveDataProviderId
+      ? `/internal/data-providers/${effectiveDataProviderId}/fair-certification/submissions`
+      : null;
+
+  const { data, error, isLoading, mutate } = useSWR<FairCertificationSubmissionsApiResponse>(
+    key,
+    key
+      ? () =>
+          fetcher(key).then(
+            (response) => response as FairCertificationSubmissionsApiResponse,
+          )
+      : null,
+    swrDefaultConfig,
+  );
+
+  return {
+    submissions: data?.submissions ?? [],
+    error,
+    isLoading: isLoading || !isLoaded,
+    mutate,
+  };
+};
