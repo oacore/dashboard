@@ -34,6 +34,7 @@
     "html-to-image": "^1.11.13",
     "js-cookie": "^3.0.5",
     "js-yaml": "^4.1.1",
+    "jspdf": "^4.2.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-is": "^19.2.4",

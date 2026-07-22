@@ -16,6 +16,7 @@
     "downloadPNG": "Download badge in PNG",
     "downloadPngErrorMessage": "Failed to download the certificate badge. Please try again.",
     "downloadPdf": "Download certificate in PDF",
+    "downloadPdfErrorMessage": "Failed to download the certificate in PDF. Please try again.",
     "downloadReportButtonLabel": "Download report"
   },
   "principlesAccordion": {

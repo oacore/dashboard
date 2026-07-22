@@ -10,6 +10,10 @@ import {
   buildFairCertificatePngFilename,
   downloadFairCertificatePng,
 } from '@features/Fair/utils/downloadFairCertificatePng';
+import {
+  buildFairCertificatePdfFilename,
+  downloadFairCertificatePdf,
+} from '@features/Fair/utils/downloadFairCertificatePdf';
 import { formatIsoDate } from '@/utils/dateUtils';
 import '../styles.css';
 
@@ -22,6 +26,7 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
   const certificate = certificationQuestions?.certificate;
   const certificateRef = useRef<HTMLDivElement>(null);
   const [isDownloadingPng, setIsDownloadingPng] = useState(false);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
   const handleDownloadPng = useCallback(async () => {
     if (!certificateRef.current) {
@@ -39,6 +44,23 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
       setIsDownloadingPng(false);
     }
   }, [approvedView.downloadPngErrorMessage, certificate?.repositoryName]);
+
+  const handleDownloadPdf = useCallback(async () => {
+    if (!certificateRef.current) {
+      return;
+    }
+
+    setIsDownloadingPdf(true);
+
+    try {
+      const filename = buildFairCertificatePdfFilename(certificate?.repositoryName);
+      await downloadFairCertificatePdf(certificateRef.current, filename);
+    } catch {
+      message.error(approvedView.downloadPdfErrorMessage);
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  }, [approvedView.downloadPdfErrorMessage, certificate?.repositoryName]);
 
   return (
     <>
@@ -71,7 +93,9 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
             {/*TODO*/}
             <Button
               type="primary"
-              href={certificate?.certificateUrl}
+              aria-label={approvedView.downloadPdf}
+              loading={isDownloadingPdf}
+              onClick={handleDownloadPdf}
             >
               {approvedView.downloadPdf}
             </Button>
