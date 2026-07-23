@@ -6,8 +6,8 @@
     "viewSubmittedReport": "View submitted report (PDF)"
   },
   "approvedView": {
-    "title": "FAIR certification: Not certified",
-    "certificationDescription": "*Your repository is not certified yet. In the report below you can review the estimation to what extent your repository correspond to the FAIR principles.*",
+    "title": "FAIR certification:",
+    "certificationDescription": "Your repository is not certified yet. In the report below you can review how your repository performs in terms of fair principles, once you’re satisfied with the report and you reply to some more detailed questions, you can submit the report for reviews and start the awarding process.",
     "issued": "**Certificate issued:**",
     "valid": "**Certificate valid until:**",
     "lastReportUpdateLine": "**Date of the last report update:**",
@@ -55,13 +55,14 @@
           "code": "R(1.3)",
           "answerPlaceholder": "Write your answer here …",
           "question": "How many metadata records are there in your repository?",
+          "description": "it is not always easy to extract this information from your repository platform, so some estimation is good to to enable us to compare what we see in the public to your expectations.\n",
           "number": "1.3"
         },
         {
           "id": "",
           "code": "",
           "question": "Indexed content",
-          "description": "The number of records CORE is able to index from your digital repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way.",
+          "description": " The number of records CORE is able to index from your repository. If this number doesn't match your records, it might mean you have issues in exposing your records in an interoperable way, you might want to check the [Indexing Status tab](indexing)",
           "counterLabel": "Number of metadata records:",
           "linkedQuestionNumber": "1.3"
         }
@@ -76,6 +77,7 @@
           "code": "R(2.1)",
           "answerPlaceholder": "Write your answer here …",
           "question": "How many full texts are there in your repository?",
+          "description": "it is not always easy to extract this information from your repository platform, so some estimation is good to to enable us to compare what we see in the public to your expectations.\n",
           "number": "2.1"
         },
         {
@@ -139,7 +141,7 @@
           "id": "r33",
           "code": "R(3.3)",
           "question": "Does your repository support persistent management of records?",
-          "description": "A repository with persistent management ensures that metadata and content are not lost, that links remain valid and that researchers can reliably cite and access resources over time.",
+          "description": "A repository with persistent record management ensures that metadata and content are not lost, that links remain valid and that researchers can reliably cite and access resources over time.",
           "recommendation": "It is recommended that the repository implements a recognized system for persistent identifiers like DOI or ROR. Clear policies should be in place for record versioning, updates and withdrawal, ensuring transparency and trustworthiness. Documentation of these policies should be openly available to users.",
           "number": "3.3"
         },
@@ -148,7 +150,6 @@
           "code": "R(3.4)",
           "question": "Is your repository configured for the OAI resolver and does it work?",
           "description": "An OAI (Open Archives Initiative) identifier is a unique identifier of a metadata record. CORE can resolve any OAI identifier directly to your repository page.",
-          "statusNote": "Error — We are not able to resolve OAI identifiers from your repository to the repository landing pages.",
           "recommendation": "To register your OAI mapping, navigate to the **Settings** tab in the dashboard for your repository. To route directly to the repository, it is necessary to provide mapping in the CORE Repository page between the OAI prefix of a repository and the currently used URL for the repository metadata record display page or splash page. The redirection will change instantly. More information about OAI resolver and its configuration can be found in the \n- [CORE Data Provider’s Guide: Repository configuration, OAI identifiers](https://core.ac.uk/documentation/data-providers-guide#oai-identifier).\n- [Membership documentation: Get your OAI identifiers resolved to your repository](https://core.ac.uk/documentation/membership-documentation#OAI-identifiers) \n-  [OAI Identifier documentation page](https://core.ac.uk/documentation/oai-resolver).",
           "number": "3.4"
         },
@@ -204,7 +205,6 @@
           "id": "r43",
           "code": "R(4.3)",
           "question": "Do you have an Institutional RRS or do your papers contain an RRS section?",
-          "description": "Example from assessment: papers with RRS section — **13.61K**.",
           "answerPlaceholder": "Write your answer here …",
           "recommendation": "Follow your institutional policy on rights retention and ensure RRS sections are visible where applicable.",
           "number": "4.3"
@@ -213,13 +213,13 @@
     },
     "fitForFunders": {
       "title": "Fit for funders",
-      "description": "APPLIES ONLY TO UK REPOS. Only a recommendation for everybody else. The repository records and exposes details about the organizations or agencies that financially supported the research.",
+      "description": "The repository records and exposes details about the organizations or agencies that financially supported the research.",
       "items": [
         {
           "id": "r51",
           "code": "R(5.1)",
           "question": "Is your research identifiable by funding bodies?",
-          "description": "Applies only to UK repositories. Only a recommendation for everybody else. The repository records and exposes details about the organizations or agencies that financially supported the research.",
+          "description": "The repository records and exposes details about the organizations or agencies that financially supported the research.",
           "recommendation": "This typically includes the funder name, grant number or project ID and ideally a persistent identifier for the funder — a ROR ID or Crossref Funder Registry ID.",
           "number": "5.1"
         },

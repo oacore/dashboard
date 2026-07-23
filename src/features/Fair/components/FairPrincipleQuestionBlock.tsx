@@ -18,6 +18,8 @@ import { resolveFairQuestionStatusLabel } from '@features/Fair/utils/resolveFair
 
 export type FairPrincipleQuestionBlockProps = {
   item: FairQuestionItem;
+  /** True when another row in the section links to this question's number via `linkedQuestionNumber`. */
+  hasLinkedResultRow?: boolean;
   recommendationHeading: string;
   openQuestionLabel: string;
   answerSavedMessage: string;
@@ -27,6 +29,7 @@ export type FairPrincipleQuestionBlockProps = {
 
 export const FairPrincipleQuestionBlock = ({
   item,
+  hasLinkedResultRow = false,
   recommendationHeading,
   openQuestionLabel,
   answerSavedMessage,
@@ -62,11 +65,14 @@ export const FairPrincipleQuestionBlock = ({
     }
   };
 
-  const showAutomaticResults = !isOpenQuestion && Boolean(item.certificationQuestion);
-  const countValues = showAutomaticResults
+  const isLinkedResultRow = Boolean(item.linkedQuestionNumber);
+  const showResultCountsAndMetrics =
+    isLinkedResultRow ||
+    (Boolean(item.certificationQuestion) && (!isOpenQuestion || !hasLinkedResultRow));
+  const countValues = showResultCountsAndMetrics
     ? resolveFairQuestionCountValues(item.certificationQuestion?.result?.counts)
     : [];
-  const metricValues = showAutomaticResults
+  const metricValues = showResultCountsAndMetrics
     ? resolveFairQuestionMetricValues(item.certificationQuestion?.result?.metrics)
     : [];
   const statusLabel = isOpenQuestion
@@ -92,11 +98,6 @@ export const FairPrincipleQuestionBlock = ({
           <div className="support-status__row">
             <div className="support-status__description">
               <Markdown>{item.description}</Markdown>
-              {item.statusNote ? (
-                <p className="fair-principles__status-note" role="status">
-                  {item.statusNote}
-                </p>
-              ) : null}
             </div>
             <span aria-hidden className="support-status__status support-status__status--hidden" />
           </div>

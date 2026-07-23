@@ -17,7 +17,6 @@ export type FairQuestionItem = {
   recommendation?: string;
   answerPlaceholder?: string;
   statusLabel?: string;
-  statusNote?: string;
   metrics?: FairMetricLine[];
   /** Shown above `PercentBar` when counts are available (same role as USRN sub-items). */
   percentLabel?: string;
