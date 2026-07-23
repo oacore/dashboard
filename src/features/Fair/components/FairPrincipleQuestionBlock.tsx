@@ -18,8 +18,7 @@ import { resolveFairQuestionStatusLabel } from '@features/Fair/utils/resolveFair
 
 export type FairPrincipleQuestionBlockProps = {
   item: FairQuestionItem;
-  /** True when another row in the section links to this question's number via `linkedQuestionNumber`. */
-  hasLinkedResultRow?: boolean;
+  showResultCounts?: boolean;
   recommendationHeading: string;
   openQuestionLabel: string;
   answerSavedMessage: string;
@@ -29,7 +28,7 @@ export type FairPrincipleQuestionBlockProps = {
 
 export const FairPrincipleQuestionBlock = ({
   item,
-  hasLinkedResultRow = false,
+  showResultCounts = false,
   recommendationHeading,
   openQuestionLabel,
   answerSavedMessage,
@@ -65,14 +64,10 @@ export const FairPrincipleQuestionBlock = ({
     }
   };
 
-  const isLinkedResultRow = Boolean(item.linkedQuestionNumber);
-  const showResultCountsAndMetrics =
-    isLinkedResultRow ||
-    (Boolean(item.certificationQuestion) && (!isOpenQuestion || !hasLinkedResultRow));
-  const countValues = showResultCountsAndMetrics
+  const countValues = showResultCounts
     ? resolveFairQuestionCountValues(item.certificationQuestion?.result?.counts)
     : [];
-  const metricValues = showResultCountsAndMetrics
+  const metricValues = showResultCounts
     ? resolveFairQuestionMetricValues(item.certificationQuestion?.result?.metrics)
     : [];
   const statusLabel = isOpenQuestion
