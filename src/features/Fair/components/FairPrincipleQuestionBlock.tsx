@@ -5,7 +5,7 @@ import { formatNumber } from '@utils/helpers.ts';
 import type { FocusEvent } from 'react';
 
 import type { FairQuestionItem } from '@features/Fair/types/fairPrinciples.types';
-import { updateFairCertificationAnswer } from '@features/Fair/hooks/useFairCertification';
+import { useFairCertification } from '@features/Fair/hooks/useFairCertification';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import '../styles.css';
@@ -36,6 +36,7 @@ export const FairPrincipleQuestionBlock = ({
 }: FairPrincipleQuestionBlockProps) => {
   const [notificationApi, notificationContextHolder] = notification.useNotification();
   const { selectedDataProvider } = useDataProviderStore();
+  const { saveAnswer } = useFairCertification();
   const dataProviderId = selectedDataProvider?.id;
   const isOpenQuestion = Boolean(item.number) && isFairOpenQuestion(item.certificationQuestion);
   const questionId = item.certificationQuestion?.id;
@@ -53,7 +54,7 @@ export const FairPrincipleQuestionBlock = ({
     }
 
     try {
-      await updateFairCertificationAnswer(dataProviderId, questionId, answer);
+      await saveAnswer(questionId, answer);
       notificationApi.success({
         title: answerSavedMessage,
         placement: 'bottomRight',

@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import useSWR from 'swr';
 import { fetcher, postRequestFetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
@@ -49,6 +50,18 @@ export const useFairCertification = (dataProviderId?: number) => {
     swrDefaultConfig,
   );
 
+  const saveAnswer = useCallback(
+    async (questionId: string, answer: string) => {
+      if (!effectiveDataProviderId) {
+        throw new Error('Data provider not found');
+      }
+
+      await updateFairCertificationAnswer(effectiveDataProviderId, questionId, answer);
+      await mutate();
+    },
+    [effectiveDataProviderId, mutate],
+  );
+
   // const { data, error, isLoading, mutate } = useSWR<FairCertificationApiResponse>(
   //   key,
   //   key && effectiveDataProviderId
@@ -62,6 +75,7 @@ export const useFairCertification = (dataProviderId?: number) => {
     error,
     isLoading: isLoading || !isLoaded,
     mutate,
+    saveAnswer,
   };
 };
 
