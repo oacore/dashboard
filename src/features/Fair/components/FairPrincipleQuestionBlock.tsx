@@ -9,8 +9,8 @@ import { useFairCertification } from '@features/Fair/hooks/useFairCertification'
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import '../styles.css';
-import { formatFairResultName } from '@features/Fair/utils/formatFairResultName';
 import { getFairQuestionStatusClassName } from '@features/Fair/utils/getFairQuestionStatusClassName';
+import { mapFairQuestionValuesToLabels } from '@features/Fair/utils/mapFairQuestionValuesToLabels';
 import { resolveFairQuestionCountValues } from '@features/Fair/utils/resolveFairQuestionCountValues';
 import { resolveFairQuestionMetricValues } from '@features/Fair/utils/resolveFairQuestionMetricValues';
 import { isFairOpenQuestion } from '@features/Fair/utils/isFairOpenQuestion';
@@ -66,10 +66,16 @@ export const FairPrincipleQuestionBlock = ({
   };
 
   const countValues = showResultCounts
-    ? resolveFairQuestionCountValues(item.certificationQuestion?.result?.counts)
+    ? mapFairQuestionValuesToLabels(
+      resolveFairQuestionCountValues(item.certificationQuestion?.result?.counts),
+      item.counterLabels ?? [],
+    )
     : [];
   const metricValues = showResultCounts
-    ? resolveFairQuestionMetricValues(item.certificationQuestion?.result?.metrics)
+    ? mapFairQuestionValuesToLabels(
+      resolveFairQuestionMetricValues(item.certificationQuestion?.result?.metrics),
+      item.percentLabels ?? [],
+    )
     : [];
   const statusLabel = isOpenQuestion
     ? openQuestionLabel
@@ -99,19 +105,19 @@ export const FairPrincipleQuestionBlock = ({
           </div>
         ) : null}
 
-        {countValues.map((count) => (
-          <div className="support-status__counter" key={`${item.id}-count-${count.name}`}>
-            <span className="support-status__counter-label">{formatFairResultName(count.name)}</span>
+        {countValues.map((count, index) => (
+          <div className="support-status__counter" key={`${item.id}-count-${index}`}>
+            <span className="support-status__counter-label">{count.label}</span>
             <span className="support-status__counter-value">{formatNumber(count.value)}</span>
           </div>
         ))}
 
-        {metricValues.map((metric) => (
+        {metricValues.map((metric, index) => (
           <PercentBar
             countCovered={metric.value}
             countTotal={100}
-            key={`${item.id}-metric-${metric.name}`}
-            percentLabel={formatFairResultName(metric.name)}
+            key={`${item.id}-metric-${index}`}
+            percentLabel={metric.label}
           />
         ))}
         {isOpenQuestion ? (

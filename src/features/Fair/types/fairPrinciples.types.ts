@@ -18,10 +18,10 @@ export type FairQuestionItem = {
   answerPlaceholder?: string;
   statusLabel?: string;
   metrics?: FairMetricLine[];
-  /** Shown above `PercentBar` when counts are available (same role as USRN sub-items). */
-  percentLabel?: string;
-  /** Label for `countValue` (e.g. indexed metadata total). */
-  counterLabel?: string;
+  /** Labels for API count rows, mapped by index (same order as `result.counts`). */
+  counterLabels?: string[];
+  /** Labels for API metric rows, mapped by index (same order as `result.metrics`). */
+  percentLabels?: string[];
   certificationQuestion?: FairCertificationQuestion;
 };
 
