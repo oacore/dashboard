@@ -38,7 +38,7 @@
           "code": "R(1.1)",
           "question": "Does your repository support OAI-PMH?",
           "description": "The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an application-independent interoperability framework based on metadata harvesting. This provides the basic building block to provide an interoperable digital publications repository.",
-          "recommendation": "OAI-PMH is the most widely used protocol for exchanging information between repositories. It is the standard used by CERN, by arXiv, by Wikipedia, by repository software tools such as DSpace and ePrints, and by CORE. It reduces network traffic because it can do incremental harvesting.\n\nRepository managers can check their OAI-PMH endpoint using the [OAI-PMH Validator tool](https://www.openarchives.org/Register/ValidateSite).",
+          "recommendation": "OAI-PMH is the most widely used protocol for exchanging information between repositories. It is the standard used by CERN, by arXiv, by Wikipedia, by repository software tools such as DSpace and ePrints, and by CORE. It reduces network traffic because it can do incremental harvesting.\n\nRepository managers can check their OAI-PMH endpoint using the [OAI-PMH Validator tool](https://www.openarchives.org/Register/ValidateSite). A valid OAI-PMH endpoint is not enough, the endpoint needs to also be accessible for machines, you can use the OAI-PMH Indexability tool to quickly check your accessibility level",
           "number": "1.1"
         },
         {
@@ -156,10 +156,10 @@
         {
           "id": "r35",
           "code": "R(3.5)",
-          "question": "DOI",
-          "description": "The DOI provides a machine-actionable persistent identifier that enables systems to consistently locate and reliably link research objects across different platforms, thereby guaranteeing Interoperability (I) and enhancing Findability (F).",
-          "percentLabel": "Percentage of metadata with DOI:",
-          "recommendation": "To enrich your metadata with more DOIs, you can go to the [DOI tab](doi). It provides a checklist of the number of content objects in your repository which have a DOI. It also identifies (and counts) the number of DOIs that it finds from articles held in other repositories relating to research in your institution.",
+          "question": "Persistable identifiers",
+          "description": "Does your repository support identifiers for your content that can be made persistent, such as ARKs or DOIs, etc? Persistent identifiers (PIDs) are essential for the long-term discoverability and citability of research. They provide a stable, unique, and permanent link to digital objects, ensuring that even if the underlying storage location changes, the resource remains accessible. ",
+          "percentLabel": "Percentage of metadata with Persistable identifiers:",
+          "recommendation": "Ensure that your repository assigns and exposes persistent identifiers (PIDs) for all content objects, such as DOIs or ARKs. \nTo enrich your metadata with more DOIs, you can go to the [DOI tab](doi). It provides a checklist of the number of content objects in your repository which have a DOI. It also identifies (and counts) the number of DOIs that it finds from articles held in other repositories relating to research in your institution.\n",
           "number": "3.5"
         },
         {
@@ -187,7 +187,7 @@
         {
           "id": "r41",
           "code": "R(4.1)",
-          "question": "Do you provide data availability statements?",
+          "question": "Do you have an institutional policy on data sharing?",
           "description": "A data availability statement, also sometimes called a ‘data access statement’, is a short, mandatory section in a paper that tells the reader where the research data associated with a paper is available and under what conditions the data can be accessed.",
           "counterLabel": "Papers with Data availability statement:",
           "recommendation": "Here are some recommendations on how to increase the number of DAS in your repository:\n\n- Include links where applicable to the data set. For example, the paper may state “The data that support the findings of this study are openly available in [repository name] at https://doi.org/[doi]”.\n- Provide a dedicated metadata field for DAS, not just full text in the description.\n- Provide researchers with approved, compliant DAS text for all scenarios.\n- CORE provides several tools under the [DAS identification tab](das):\n\n monitoring statistics about DAS in your repository, and a Data Availability Statement checker.",
@@ -196,7 +196,7 @@
         {
           "id": "r42",
           "code": "R(4.2)",
-          "question": "Do you provide links to software mentions?",
+          "question": "Do you have an institutional policy on sharing software mentions?",
           "description": "Providing links to source means that the repository includes references to the articles that were used in the research.",
           "recommendation": "We are working on making software mentions a first-class citation object. The most common place to store this information in the metadata is the `dc:relation` field. CORE also supports a machine learning tool to recognise software mentions directly inside the paper; using this feedback loop the repository can track more citations and integrate them in the global scholarly graph.",
           "number": "4.2"
@@ -204,9 +204,10 @@
         {
           "id": "r43",
           "code": "R(4.3)",
-          "question": "Do you have an Institutional RRS or do your papers contain an RRS section?",
+          "question": "Do you have an Institutional RRS ro do your papers contain an RRS section",
+          "description": "Rights Retention Strategy (RRS) enables authors to exercise the authorship rights they have on their manuscripts to deposit a copy of the Author Accepted Manuscript (AAM) in a repository on publication and provide open access to it. RRS is typically implemented by means of authors inserting a rights retention statement in their manuscript.",
           "answerPlaceholder": "Write your answer here …",
-          "recommendation": "Follow your institutional policy on rights retention and ensure RRS sections are visible where applicable.",
+          "recommendation": "CORE provides functionality to automatically identify papers with these Rights Retention Strategy statements, by means of testing if the rights retention statement is present in the paper's full text. You can find more details on [RRS Policy tab.](rights-retention-strategy)\n",
           "number": "4.3"
         }
       ]
