@@ -1,5 +1,4 @@
 import { useMemo, useEffect } from 'react';
-import { useDoiData } from '@/features/Doi/hooks/useDoiData';
 import { useDoiMismatch } from '@/features/Doi/hooks/useDoiMismatch';
 import { useDoiStatistics } from '@/features/Doi/hooks/useDoiStatistics';
 import { useDataProviderStatistics } from '@/hooks/useDataProviderStatistics';
