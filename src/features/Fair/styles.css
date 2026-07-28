@@ -498,6 +498,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 48px;
+  padding: 0 40px;
 }
 
 .fair-certification-header-wrapper {
@@ -505,6 +506,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) 455px;
   align-items: start;
+  padding: 0 40px;
 }
 
 .fair-certification-header-inner-wrapper {
@@ -978,7 +980,7 @@
 /* Approved view — FAIR principles accordion (Ant Design Collapse) */
 .fair-principles-accordion-section {
   box-sizing: border-box;
-  margin-top: 40px;
+  margin: 40px 40px 0 40px;
   padding: 32px 0;
   border-top: 2px solid var(--color-primary);
   border-bottom: 2px solid var(--color-primary);
@@ -1185,7 +1187,7 @@
 /* Approved view — submission progress (Ant Design Steps vertical, Frame 1196) */
 .fair-submission-progress {
   box-sizing: border-box;
-  padding-top: 32px;
+  padding: 32px 40px 0 40px;
 }
 
 .fair-submission-progress__title {
@@ -1207,7 +1209,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--color-text-disabled);
+  background: var(--success);
   color: var(--color-text-white);
 }
 
@@ -1342,7 +1344,7 @@
   grid-template-columns: 1fr auto auto;
   gap: 12px;
   align-items: stretch;
-  margin: 15px 0 0 0;
+  margin: 8px 0 0 0;
 }
 
 .support-status__question-wrap {
@@ -1446,4 +1448,8 @@
 
 .fair-submission-progress .ant-steps-vertical >.ant-steps-item {
   padding-bottom: 40px;
+}
+
+.support-status__description {
+  padding: 8px 0;
 }
