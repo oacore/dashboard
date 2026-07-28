@@ -33,12 +33,7 @@ export const DoiFeature = () => {
         selectedDataProvider?.id ?? null,
         selectedSetSpec
     );
-    // const { data: doiData, isLoading: doiLoading, errorMessage: doiError } = useDoiData(
-    //     selectedDataProvider?.id,
-    //     0,
-    //     100,
-    //     searchTerm
-    // );
+
     const { data: doiMismatch, isLoading: doiLoading, errorMessage: doiError } = useDoiMismatch(
         selectedDataProvider?.id,
         0,
@@ -91,7 +86,8 @@ export const DoiFeature = () => {
                     caption={TABS.otherRepositories?.description}
                     infoText={TABS.otherRepositories?.helper}
                     showInfo={Boolean(TABS.otherRepositories?.helper)}
-                    value={stats.otherRepos}
+                    // value={stats.otherRepos} //CORE-526
+                    value={doiMismatch.length}
                     iconClassName="green"
                     error={statsError}
                 />
