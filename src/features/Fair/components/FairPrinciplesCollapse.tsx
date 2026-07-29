@@ -92,6 +92,8 @@ export const FairPrinciplesCollapse = ({
             recommendationHeading={recommendationHeading}
             section={enrichedSection}
             openQuestionLabel={principlesAccordion.openQuestionBadge}
+            questionStatusErrorTooltip={principlesAccordion.questionStatusErrorTooltip}
+            questionStatusUnknownTooltip={principlesAccordion.questionStatusUnknownTooltip}
           />
         ),
       };

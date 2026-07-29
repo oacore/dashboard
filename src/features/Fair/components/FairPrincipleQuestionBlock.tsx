@@ -1,6 +1,6 @@
-import { InfoOutlined, FileTextOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, InfoOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Markdown, PercentBar } from '@oacore/core-ui';
-import { Input, message, notification } from 'antd';
+import { Input, message, notification, Tooltip } from 'antd';
 import { formatNumber } from '@utils/helpers.ts';
 import type { FocusEvent } from 'react';
 
@@ -14,13 +14,15 @@ import { mapFairQuestionValuesToLabels } from '@features/Fair/utils/mapFairQuest
 import { resolveFairQuestionCountValues } from '@features/Fair/utils/resolveFairQuestionCountValues';
 import { resolveFairQuestionMetricValues } from '@features/Fair/utils/resolveFairQuestionMetricValues';
 import { isFairOpenQuestion } from '@features/Fair/utils/isFairOpenQuestion';
-import { resolveFairQuestionStatusLabel } from '@features/Fair/utils/resolveFairQuestionStatusLabel';
+import { resolveFairQuestionStatus } from '@features/Fair/utils/resolveFairQuestionStatus';
 
 export type FairPrincipleQuestionBlockProps = {
   item: FairQuestionItem;
   showResultCounts?: boolean;
   recommendationHeading: string;
   openQuestionLabel: string;
+  questionStatusErrorTooltip: string;
+  questionStatusUnknownTooltip: string;
   answerSavedMessage: string;
   answerSaveErrorMessage: string;
   // repositoryStatus?: FairRepositoryStatusParams | null;
@@ -31,6 +33,8 @@ export const FairPrincipleQuestionBlock = ({
   showResultCounts = false,
   recommendationHeading,
   openQuestionLabel,
+  questionStatusErrorTooltip,
+  questionStatusUnknownTooltip,
   answerSavedMessage,
   answerSaveErrorMessage,
 }: FairPrincipleQuestionBlockProps) => {
@@ -77,10 +81,56 @@ export const FairPrincipleQuestionBlock = ({
       item.percentLabels ?? [],
     )
     : [];
-  const statusLabel = isOpenQuestion
-    ? openQuestionLabel
-    : resolveFairQuestionStatusLabel(item.certificationQuestion);
-  const statusClassName = getFairQuestionStatusClassName(statusLabel);
+  const renderQuestionStatus = () => {
+    if (isOpenQuestion) {
+      return (
+        <span className="support-status__status support-status__status--neutral">
+          {openQuestionLabel}
+        </span>
+      );
+    }
+
+    const questionStatus = resolveFairQuestionStatus(item.certificationQuestion);
+
+    const statusClassName = getFairQuestionStatusClassName(questionStatus.key);
+
+    if (questionStatus.key === 'error') {
+      return (
+        <Tooltip title={questionStatusErrorTooltip}>
+          <span
+            aria-label={questionStatusErrorTooltip}
+            className={`support-status__status ${statusClassName}`}
+            role="img"
+            tabIndex={0}
+          >
+            <ExclamationCircleOutlined aria-hidden />
+          </span>
+        </Tooltip>
+      );
+    }
+
+    if (questionStatus.key === 'unknown') {
+      return (
+        <Tooltip title={questionStatusUnknownTooltip}>
+          <span
+            aria-label={`${questionStatus.label}. ${questionStatusUnknownTooltip}`}
+            className={`support-status__status ${statusClassName} support-status__status--na`}
+            tabIndex={0}
+          >
+            {questionStatus.label}
+          </span>
+        </Tooltip>
+      );
+    }
+
+    return (
+      <span
+        className={`support-status__status ${statusClassName}${questionStatus.key === 'na' ? ' support-status__status--na' : ''}`}
+      >
+        {questionStatus.label}
+      </span>
+    );
+  };
 
   return (
     <>
@@ -94,7 +144,7 @@ export const FairPrincipleQuestionBlock = ({
           <span className="required-link">
             <FileTextOutlined className="file-icon" />
           </span>
-          <span className={`support-status__status ${statusClassName}`}>{statusLabel}</span>
+          {renderQuestionStatus()}
         </div>
         {item.description ? (
           <div className="support-status__row">

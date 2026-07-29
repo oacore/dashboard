@@ -1,5 +1,5 @@
-import {FairPrincipleQuestionBlock} from '@features/Fair/components/FairPrincipleQuestionBlock';
-import type {FairPrincipleSection} from '@features/Fair/types/fairPrinciples.types';
+import { FairPrincipleQuestionBlock } from '@features/Fair/components/FairPrincipleQuestionBlock';
+import type { FairPrincipleSection } from '@features/Fair/types/fairPrinciples.types';
 import { shouldShowFairQuestionResults } from '@features/Fair/utils/shouldShowFairQuestionResults';
 // import type { FairRepositoryStatusParams } from '@features/Fair/utils/resolveFairQuestionStatus';
 
@@ -9,6 +9,8 @@ export type FairPrincipleSectionContentProps = {
   section: FairPrincipleSection;
   recommendationHeading: string;
   openQuestionLabel: string;
+  questionStatusErrorTooltip: string;
+  questionStatusUnknownTooltip: string;
   answerSavedMessage: string;
   answerSaveErrorMessage: string;
   // repositoryStatus?: FairRepositoryStatusParams | null;
@@ -18,6 +20,8 @@ export const FairPrincipleSectionContent = ({
   section,
   recommendationHeading,
   openQuestionLabel,
+  questionStatusErrorTooltip,
+  questionStatusUnknownTooltip,
   answerSavedMessage,
   answerSaveErrorMessage,
   // repositoryStatus,
@@ -37,7 +41,9 @@ export const FairPrincipleSectionContent = ({
           key={item.id ? item.id : `${item.code || 'row'}-${index}`}
           recommendationHeading={recommendationHeading}
           openQuestionLabel={openQuestionLabel}
-          // repositoryStatus={repositoryStatus}
+          questionStatusErrorTooltip={questionStatusErrorTooltip}
+          questionStatusUnknownTooltip={questionStatusUnknownTooltip}
+        // repositoryStatus={repositoryStatus}
         />
       ))}
     </div>

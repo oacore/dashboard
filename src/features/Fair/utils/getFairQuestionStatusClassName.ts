@@ -1,16 +1,17 @@
-export const getFairQuestionStatusClassName = (statusLabel?: string): string => {
-  if (!statusLabel) {
-    return 'support-status__status--neutral';
-  }
-  const normalized = statusLabel.trim().toLowerCase();
-  if (normalized === 'yes') {
+import type { FairQuestionStatusKey } from '@features/Fair/utils/resolveFairQuestionStatus';
+
+export const getFairQuestionStatusClassName = (statusKey: FairQuestionStatusKey): string => {
+  if (statusKey === 'pass') {
     return 'support-status__status--yes';
   }
-  if (normalized === 'no') {
+
+  if (statusKey === 'fail') {
     return 'support-status__status--no';
   }
-  if (normalized.includes('error')) {
-    return 'support-status__status--no';
+
+  if (statusKey === 'error') {
+    return 'support-status__status--error';
   }
+
   return 'support-status__status--neutral';
 };

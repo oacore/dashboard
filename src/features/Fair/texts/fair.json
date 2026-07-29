@@ -27,6 +27,8 @@
     "submitErrorMessage": "Failed to submit your FAIR certification. Please try again.",
     "recommendationHeading": "Recommendation",
     "openQuestionBadge": "Open question",
+    "questionStatusErrorTooltip": "Currently we're unable to display the results ",
+    "questionStatusUnknownTooltip": "We checked this requirement but couldn't determine a result.\"",
     "answerSavedMessage": "Your progress has been saved.",
     "answerSaveErrorMessage": "Failed to save your answer. Please try again.",
     "findable": {
