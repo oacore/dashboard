@@ -1,6 +1,7 @@
 import { CrFeatureLayout, CrPaper } from '@oacore/core-ui';
 import fairTexts from '@features/Fair/texts/fair.json';
 import { message } from 'antd';
+import axios from 'axios';
 import { useCallback, useState } from 'react';
 import '../styles.css';
 
@@ -19,7 +20,8 @@ export const ApprovedFairView = () => {
   const dataProviderId = selectedDataProvider?.id;
   const { fairCertification, mutate, isLoading } = useFairCertification();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { submitSuccessMessage, submitErrorMessage } = fairTexts.principlesAccordion;
+  const { submitSuccessMessage, submitErrorMessage, submitApiErrorMessage } =
+    fairTexts.principlesAccordion;
 
   const handleSubmit = useCallback(async () => {
     if (!dataProviderId) {
@@ -32,12 +34,21 @@ export const ApprovedFairView = () => {
       await submitFairCertification(dataProviderId);
       await mutate();
       message.success(submitSuccessMessage);
-    } catch {
-      message.error(submitErrorMessage);
+    } catch (error) {
+      const isMissingFieldsError =
+        axios.isAxiosError(error) && error.response?.status === 400;
+
+      message.error(isMissingFieldsError ? submitErrorMessage : submitApiErrorMessage);
     } finally {
       setIsSubmitting(false);
     }
-  }, [dataProviderId, mutate, submitErrorMessage, submitSuccessMessage]);
+  }, [
+    dataProviderId,
+    mutate,
+    submitApiErrorMessage,
+    submitErrorMessage,
+    submitSuccessMessage,
+  ]);
 
   if (isLoading) {
     return <FairCertificationLoadingView />;
