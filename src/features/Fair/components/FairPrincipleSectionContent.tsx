@@ -11,6 +11,8 @@ export type FairPrincipleSectionContentProps = {
   openQuestionLabel: string;
   questionStatusErrorTooltip: string;
   questionStatusUnknownTooltip: string;
+  questionStatusErrorHeading: string;
+  questionStatusErrorMessage: string;
   answerSavedMessage: string;
   answerSaveErrorMessage: string;
   // repositoryStatus?: FairRepositoryStatusParams | null;
@@ -22,6 +24,8 @@ export const FairPrincipleSectionContent = ({
   openQuestionLabel,
   questionStatusErrorTooltip,
   questionStatusUnknownTooltip,
+  questionStatusErrorHeading,
+  questionStatusErrorMessage,
   answerSavedMessage,
   answerSaveErrorMessage,
   // repositoryStatus,
@@ -43,6 +47,8 @@ export const FairPrincipleSectionContent = ({
           openQuestionLabel={openQuestionLabel}
           questionStatusErrorTooltip={questionStatusErrorTooltip}
           questionStatusUnknownTooltip={questionStatusUnknownTooltip}
+          questionStatusErrorHeading={questionStatusErrorHeading}
+          questionStatusErrorMessage={questionStatusErrorMessage}
         // repositoryStatus={repositoryStatus}
         />
       ))}

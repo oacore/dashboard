@@ -1,4 +1,4 @@
-import { ExclamationCircleOutlined, InfoOutlined, FileTextOutlined } from '@ant-design/icons';
+import { ExclamationCircleFilled, InfoOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Markdown, PercentBar } from '@oacore/core-ui';
 import { Input, message, notification, Tooltip } from 'antd';
 import { formatNumber } from '@utils/helpers.ts';
@@ -23,6 +23,8 @@ export type FairPrincipleQuestionBlockProps = {
   openQuestionLabel: string;
   questionStatusErrorTooltip: string;
   questionStatusUnknownTooltip: string;
+  questionStatusErrorHeading: string;
+  questionStatusErrorMessage: string;
   answerSavedMessage: string;
   answerSaveErrorMessage: string;
   // repositoryStatus?: FairRepositoryStatusParams | null;
@@ -35,6 +37,8 @@ export const FairPrincipleQuestionBlock = ({
   openQuestionLabel,
   questionStatusErrorTooltip,
   questionStatusUnknownTooltip,
+  questionStatusErrorHeading,
+  questionStatusErrorMessage,
   answerSavedMessage,
   answerSaveErrorMessage,
 }: FairPrincipleQuestionBlockProps) => {
@@ -81,6 +85,11 @@ export const FairPrincipleQuestionBlock = ({
       item.percentLabels ?? [],
     )
     : [];
+  const questionStatus = isOpenQuestion
+    ? null
+    : resolveFairQuestionStatus(item.certificationQuestion);
+  const hasErrorStatus = questionStatus?.key === 'error';
+
   const renderQuestionStatus = () => {
     if (isOpenQuestion) {
       return (
@@ -90,7 +99,9 @@ export const FairPrincipleQuestionBlock = ({
       );
     }
 
-    const questionStatus = resolveFairQuestionStatus(item.certificationQuestion);
+    if (!questionStatus) {
+      return null;
+    }
 
     const statusClassName = getFairQuestionStatusClassName(questionStatus.key);
 
@@ -103,7 +114,7 @@ export const FairPrincipleQuestionBlock = ({
             role="img"
             tabIndex={0}
           >
-            <ExclamationCircleOutlined aria-hidden />
+            <ExclamationCircleFilled aria-hidden />
           </span>
         </Tooltip>
       );
@@ -155,14 +166,31 @@ export const FairPrincipleQuestionBlock = ({
           </div>
         ) : null}
 
-        {countValues.map((count, index) => (
+        {hasErrorStatus ? (
+          <div className="fair-principles__error-section" role="alert">
+            <ExclamationCircleFilled
+              aria-hidden
+              className="fair-principles__error-section-icon"
+            />
+            <div className="fair-principles__error-section-content">
+              <div className="fair-principles__error-section-title">
+                {questionStatusErrorHeading}
+              </div>
+              <p className="fair-principles__error-section-text">
+                {questionStatusErrorMessage}
+              </p>
+            </div>
+          </div>
+        ) : null}
+
+        {!hasErrorStatus && countValues.map((count, index) => (
           <div className="support-status__counter" key={`${item.id}-count-${index}`}>
             <span className="support-status__counter-label">{count.label}</span>
             <span className="support-status__counter-value">{formatNumber(count.value)}</span>
           </div>
         ))}
 
-        {metricValues.map((metric, index) => (
+        {!hasErrorStatus && metricValues.map((metric, index) => (
           <PercentBar
             countCovered={metric.value}
             countTotal={100}

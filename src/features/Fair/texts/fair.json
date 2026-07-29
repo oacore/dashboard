@@ -29,6 +29,8 @@
     "openQuestionBadge": "Open question",
     "questionStatusErrorTooltip": "Currently we're unable to display the results ",
     "questionStatusUnknownTooltip": "We checked this requirement but couldn't determine a result.\"",
+    "questionStatusErrorHeading": "Error",
+    "questionStatusErrorMessage": "We're unable to display the results due to a temporary issue on our side. Please try again in a few minutes, or send us a quick message using the Feedback button.",
     "answerSavedMessage": "Your progress has been saved.",
     "answerSaveErrorMessage": "Failed to save your answer. Please try again.",
     "findable": {

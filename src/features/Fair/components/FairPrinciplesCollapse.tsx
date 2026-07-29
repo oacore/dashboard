@@ -94,6 +94,8 @@ export const FairPrinciplesCollapse = ({
             openQuestionLabel={principlesAccordion.openQuestionBadge}
             questionStatusErrorTooltip={principlesAccordion.questionStatusErrorTooltip}
             questionStatusUnknownTooltip={principlesAccordion.questionStatusUnknownTooltip}
+            questionStatusErrorHeading={principlesAccordion.questionStatusErrorHeading}
+            questionStatusErrorMessage={principlesAccordion.questionStatusErrorMessage}
           />
         ),
       };
