@@ -89,7 +89,7 @@
     },
     "accessible": {
       "title": "Accessible",
-      "description": "Once the user finds the required data, she/he/they need to know how they can be accessed, possibly including authentication and authorisation.",
+      "description": "Once the data or its metadata is found, users need to know precisely how they can be accessed. This includes clear protocols for retrieval and, where necessary, information on authentication and authorisation requirements. The goal is to ensure the repository supports open, free, and universally implementable communication protocols that allow as many users and systems as possible to retrieve the data.",
       "items": [
         {
           "id": "r21",
@@ -264,7 +264,7 @@
     },
     "fitForFunders": {
       "title": "Fit for funders",
-      "description": "The repository records and exposes details about the organizations or agencies that financially supported the research.",
+      "description": "The repository is designed to meet the requirements of funders by ensuring that metadata includes key information for compliance, monitoring and accountability.",
       "items": [
         {
           "id": "r51",
@@ -320,7 +320,7 @@
     },
     "fitForFuture": {
       "title": "Fit for future",
-      "description": "Standards and protocols in this section help your repository align with emerging infrastructure for discovery, synchronisation and notifications.",
+      "description": "The repository is committed to adopting emerging standards and technologies that ensure long-term sustainability, scalability and interoperability within the global research ecosystem.",
       "items": [
         {
           "id": "r61",
@@ -353,7 +353,7 @@
     },
     "operational": {
       "title": "Operational / Environmental considerations",
-      "description": "We have run an automatic check of your repository. To get certification please answer the following questions:",
+      "description": "The repository operates under clear policies and workflows that ensure trustworthiness, sustainability and alignment with best practices in scholarly communication. Deposits are managed through a defined submission workflow, where researchers can self-deposit their outputs and trained staff check submissions for metadata quality, copyright compliance and adherence to institutional policies.",
       "items": [
         {
           "id": "r71",
