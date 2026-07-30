@@ -1442,6 +1442,7 @@
   font-weight: 500;
   line-height: 130%;
   letter-spacing: 0.01px;
+  gap: 4px;
 }
 
 @media (max-width: 767px) {
@@ -1535,4 +1536,8 @@
 
 .support-status__description {
   padding: 8px 0;
+}
+
+.support-status__question {
+  text-align: left;
 }
