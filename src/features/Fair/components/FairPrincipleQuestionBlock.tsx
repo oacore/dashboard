@@ -1,8 +1,8 @@
 import { ExclamationCircleFilled, InfoOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Markdown, PercentBar } from '@oacore/core-ui';
+import { useCallback, type FocusEvent } from 'react';
 import { Input, message, notification, Tooltip } from 'antd';
 import { formatNumber } from '@utils/helpers.ts';
-import type { FocusEvent } from 'react';
 
 import type { FairQuestionItem } from '@features/Fair/types/fairPrinciples.types';
 import { useFairCertification } from '@features/Fair/hooks/useFairCertification';
@@ -53,14 +53,14 @@ export const FairPrincipleQuestionBlock = ({
   const questionId = item.certificationQuestion?.id;
 
   const isNumericAnswer = Boolean(item.numericAnswer);
+  const savedAnswer = item.certificationQuestion?.answer?.answer ?? '';
 
-  const handleAnswerBlur = async (event: FocusEvent<HTMLTextAreaElement>) => {
+  const handleAnswerBlur = useCallback(async (event: FocusEvent<HTMLTextAreaElement>) => {
     if (!dataProviderId || !questionId) {
       return;
     }
 
     const answer = event.target.value;
-    const savedAnswer = item.certificationQuestion?.answer?.answer ?? '';
 
     if (answer === savedAnswer) {
       return;
@@ -76,7 +76,15 @@ export const FairPrincipleQuestionBlock = ({
     } catch {
       message.error(answerSaveErrorMessage);
     }
-  };
+  }, [
+    answerSavedMessage,
+    answerSaveErrorMessage,
+    dataProviderId,
+    notificationApi,
+    questionId,
+    saveAnswer,
+    savedAnswer,
+  ]);
 
   const countValues = showResultCounts
     ? mapFairQuestionValuesToLabels(
@@ -98,7 +106,7 @@ export const FairPrincipleQuestionBlock = ({
   const renderQuestionStatus = () => {
     if (isOpenQuestion) {
       return (
-        <span className="support-status__status support-status__status--neutral">
+        <span className="support-status__status support-status__status--open">
           {openQuestionLabel}
         </span>
       );
