@@ -89,6 +89,7 @@ export const FairPrinciplesCollapse = ({
           <FairPrincipleSectionContent
             answerSavedMessage={principlesAccordion.answerSavedMessage}
             answerSaveErrorMessage={principlesAccordion.answerSaveErrorMessage}
+            numericAnswerHint={principlesAccordion.numericAnswerHint}
             recommendationHeading={recommendationHeading}
             section={enrichedSection}
             openQuestionLabel={principlesAccordion.openQuestionBadge}

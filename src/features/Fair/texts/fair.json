@@ -34,6 +34,7 @@
     "questionStatusErrorMessage": "We're unable to display the results due to a temporary issue on our side. Please try again in a few minutes, or send us a quick message using the Feedback button.",
     "answerSavedMessage": "Your progress has been saved.",
     "answerSaveErrorMessage": "Failed to save your answer. Please try again.",
+    "numericAnswerHint": "Please enter numbers only.",
     "findable": {
       "title": "Findable",
       "description": "The first step in (re)using data is to find them. Metadata and data should be easy to find for both humans and computers.\n\nMachine-readable metadata are essential for automatic discovery of datasets and services, so this is an essential component of the FAIRification process.",
@@ -67,7 +68,8 @@
         {
           "id": "r13",
           "code": "R(1.3)",
-          "answerPlaceholder": "Write your answer here …",
+          "answerPlaceholder": "Enter the estimated number of metadata records …",
+          "numericAnswer": true,
           "question": "How many metadata records are there in your repository?",
           "description": "it is not always easy to extract this information from your repository platform, so some estimation is good to to enable us to compare what we see in the public to your expectations.\n",
           "number": "1.3"
@@ -94,7 +96,8 @@
         {
           "id": "r21",
           "code": "R(2.1)",
-          "answerPlaceholder": "Write your answer here …",
+          "answerPlaceholder": "Enter the estimated number of full texts …",
+          "numericAnswer": true,
           "question": "How many full texts are there in your repository?",
           "description": "it is not always easy to extract this information from your repository platform, so some estimation is good to to enable us to compare what we see in the public to your expectations.\n",
           "number": "2.1"

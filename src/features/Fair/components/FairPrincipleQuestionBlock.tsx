@@ -15,6 +15,7 @@ import { resolveFairQuestionCountValues } from '@features/Fair/utils/resolveFair
 import { resolveFairQuestionMetricValues } from '@features/Fair/utils/resolveFairQuestionMetricValues';
 import { isFairOpenQuestion } from '@features/Fair/utils/isFairOpenQuestion';
 import { resolveFairQuestionStatus } from '@features/Fair/utils/resolveFairQuestionStatus';
+import { numericAnswerInputProps, sanitizeNumericAnswer } from '@features/Fair/utils/numericAnswerInput';
 
 export type FairPrincipleQuestionBlockProps = {
   item: FairQuestionItem;
@@ -27,6 +28,7 @@ export type FairPrincipleQuestionBlockProps = {
   questionStatusErrorMessage: string;
   answerSavedMessage: string;
   answerSaveErrorMessage: string;
+  numericAnswerHint: string;
   // repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
@@ -41,6 +43,7 @@ export const FairPrincipleQuestionBlock = ({
   questionStatusErrorMessage,
   answerSavedMessage,
   answerSaveErrorMessage,
+  numericAnswerHint,
 }: FairPrincipleQuestionBlockProps) => {
   const [notificationApi, notificationContextHolder] = notification.useNotification();
   const { selectedDataProvider } = useDataProviderStore();
@@ -48,6 +51,8 @@ export const FairPrincipleQuestionBlock = ({
   const dataProviderId = selectedDataProvider?.id;
   const isOpenQuestion = Boolean(item.number) && isFairOpenQuestion(item.certificationQuestion);
   const questionId = item.certificationQuestion?.id;
+
+  const isNumericAnswer = Boolean(item.numericAnswer);
 
   const handleAnswerBlur = async (event: FocusEvent<HTMLTextAreaElement>) => {
     if (!dataProviderId || !questionId) {
@@ -203,14 +208,28 @@ export const FairPrincipleQuestionBlock = ({
             <div className="fair-principles__open-block">
               <Input.TextArea
                 key={questionId ?? item.number ?? item.id}
+                aria-describedby={isNumericAnswer ? `${item.id}-numeric-hint` : undefined}
                 aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
                 className="fair-principles__open-field"
-                defaultValue={item.certificationQuestion?.answer?.answer ?? ''}
+                defaultValue={
+                  isNumericAnswer
+                    ? sanitizeNumericAnswer(item.certificationQuestion?.answer?.answer ?? '')
+                    : item.certificationQuestion?.answer?.answer ?? ''
+                }
                 disabled={!questionId}
                 onBlur={handleAnswerBlur}
                 placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
                 rows={4}
+                {...(isNumericAnswer ? numericAnswerInputProps : {})}
               />
+              {isNumericAnswer ? (
+                <p
+                  className="fair-principles__open-field-hint"
+                  id={`${item.id}-numeric-hint`}
+                >
+                  {numericAnswerHint}
+                </p>
+              ) : null}
             </div>
             {item.certificationQuestion?.answer?.answer && <div className="fair-principles-input-identifier">Last time edited {item.certificationQuestion?.answer?.editedDate} by {item.certificationQuestion?.answer?.editedBy} </div>}
           </>

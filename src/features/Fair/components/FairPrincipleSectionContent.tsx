@@ -15,6 +15,7 @@ export type FairPrincipleSectionContentProps = {
   questionStatusErrorMessage: string;
   answerSavedMessage: string;
   answerSaveErrorMessage: string;
+  numericAnswerHint: string;
   // repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
@@ -28,6 +29,7 @@ export const FairPrincipleSectionContent = ({
   questionStatusErrorMessage,
   answerSavedMessage,
   answerSaveErrorMessage,
+  numericAnswerHint,
   // repositoryStatus,
 }: FairPrincipleSectionContentProps) => {
   if (!section.items?.length) {
@@ -40,6 +42,7 @@ export const FairPrincipleSectionContent = ({
         <FairPrincipleQuestionBlock
           answerSavedMessage={answerSavedMessage}
           answerSaveErrorMessage={answerSaveErrorMessage}
+          numericAnswerHint={numericAnswerHint}
           item={item}
           showResultCounts={shouldShowFairQuestionResults(item, section.items)}
           key={item.id ? item.id : `${item.code || 'row'}-${index}`}

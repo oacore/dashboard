@@ -16,6 +16,8 @@ export type FairQuestionItem = {
   description?: string;
   recommendation?: string;
   answerPlaceholder?: string;
+  /** When true, the open-question answer accepts digits only (e.g. questions 1.3, 2.1). */
+  numericAnswer?: boolean;
   statusLabel?: string;
   metrics?: FairMetricLine[];
   /** Labels for API count rows, mapped by index (same order as `result.counts`). */
