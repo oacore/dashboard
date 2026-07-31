@@ -11,7 +11,7 @@
     "issued": "**Certificate issued:**",
     "valid": "**Certificate valid until:**",
     "lastReportUpdateLine": "**Date of the last report update:**",
-    "submissionsLine": "**Number of submissions:** ",
+    "submissionsLine": "**Draft for submission:** ",
     "aboutButtonLabel": "About CORE FAIR Certification",
     "downloadPNG": "Download badge in PNG",
     "downloadPngErrorMessage": "Failed to download the certificate badge. Please try again.",

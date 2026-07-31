@@ -106,7 +106,10 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
       </div>
       <div className="fair-certification-header-wrapper">
         <div className="fair-certification-header-inner-wrapper">
-          <h1 className="fair-certification-title">{approvedView.title}{(certificate?.level)}</h1>
+          <h1 className="fair-certification-title">
+            {approvedView.title}{' '}
+            {certificate?.level ? certificate.level.toUpperCase() : ' Not certified'}
+          </h1>
           <Markdown className="fair-certification-description">
             {approvedView.certificationDescription}
           </Markdown>
