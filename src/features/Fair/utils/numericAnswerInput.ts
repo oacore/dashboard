@@ -13,7 +13,7 @@ const handleNumericKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
   }
 };
 
-export const numericTextAreaProps = {
+export const numericAnswerInputProps = {
   inputMode: 'numeric' as const,
   onKeyDown: handleNumericKeyDown,
 };

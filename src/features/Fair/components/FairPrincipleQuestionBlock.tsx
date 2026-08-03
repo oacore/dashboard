@@ -17,7 +17,7 @@ import { isFairOpenQuestion } from '@features/Fair/utils/isFairOpenQuestion';
 import { resolveFairQuestionStatus } from '@features/Fair/utils/resolveFairQuestionStatus';
 import {
   normalizeFairAnswer,
-  numericTextAreaProps,
+  numericAnswerInputProps,
 } from '@features/Fair/utils/numericAnswerInput';
 
 export type FairPrincipleQuestionBlockProps = {
@@ -232,7 +232,7 @@ export const FairPrincipleQuestionBlock = ({
                 placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
                 rows={4}
                 value={answerValue}
-                {...(isNumericAnswer ? numericTextAreaProps : {})}
+                {...(isNumericAnswer ? numericAnswerInputProps : {})}
               />
               {isNumericAnswer ? (
                 <p
