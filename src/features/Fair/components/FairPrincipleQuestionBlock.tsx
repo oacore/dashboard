@@ -110,6 +110,9 @@ export const FairPrincipleQuestionBlock = ({
     ? null
     : resolveFairQuestionStatus(item.certificationQuestion);
   const hasErrorStatus = questionStatus?.key === 'error';
+  const shouldShowPercentBar =
+    !item.linkedQuestionNumber ||
+    Boolean(normalizeFairAnswer(item.certificationQuestion?.answer?.answer ?? '', true));
 
   const renderQuestionStatus = () => {
     if (isOpenQuestion) {
@@ -211,7 +214,7 @@ export const FairPrincipleQuestionBlock = ({
           </div>
         ))}
 
-        {!hasErrorStatus && metricValues.map((metric, index) => (
+        {!hasErrorStatus && shouldShowPercentBar && metricValues.map((metric, index) => (
           <PercentBar
             countCovered={metric.value}
             countTotal={100}
