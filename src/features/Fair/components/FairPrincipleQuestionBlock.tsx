@@ -1,6 +1,6 @@
 import { ExclamationCircleFilled, InfoOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Markdown, PercentBar } from '@oacore/core-ui';
-import { useCallback, type FocusEvent } from 'react';
+import { useCallback, useEffect, useState, type ChangeEvent } from 'react';
 import { Input, message, notification, Tooltip } from 'antd';
 import { formatNumber } from '@utils/helpers.ts';
 
@@ -15,7 +15,10 @@ import { resolveFairQuestionCountValues } from '@features/Fair/utils/resolveFair
 import { resolveFairQuestionMetricValues } from '@features/Fair/utils/resolveFairQuestionMetricValues';
 import { isFairOpenQuestion } from '@features/Fair/utils/isFairOpenQuestion';
 import { resolveFairQuestionStatus } from '@features/Fair/utils/resolveFairQuestionStatus';
-import { numericAnswerInputProps, sanitizeNumericAnswer } from '@features/Fair/utils/numericAnswerInput';
+import {
+  normalizeFairAnswer,
+  numericTextAreaProps,
+} from '@features/Fair/utils/numericAnswerInput';
 
 export type FairPrincipleQuestionBlockProps = {
   item: FairQuestionItem;
@@ -53,21 +56,25 @@ export const FairPrincipleQuestionBlock = ({
   const questionId = item.certificationQuestion?.id;
 
   const isNumericAnswer = Boolean(item.numericAnswer);
-  const savedAnswer = item.certificationQuestion?.answer?.answer ?? '';
+  const rawSavedAnswer = item.certificationQuestion?.answer?.answer ?? '';
+  const savedAnswer = normalizeFairAnswer(rawSavedAnswer, isNumericAnswer);
+  const [answerValue, setAnswerValue] = useState(savedAnswer);
 
-  const handleAnswerBlur = useCallback(async (event: FocusEvent<HTMLTextAreaElement>) => {
-    if (!dataProviderId || !questionId) {
-      return;
-    }
+  useEffect(() => {
+    setAnswerValue(savedAnswer);
+  }, [savedAnswer]);
 
-    const answer = event.target.value;
+  const handleAnswerChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    setAnswerValue(normalizeFairAnswer(event.target.value, isNumericAnswer));
+  }, [isNumericAnswer]);
 
-    if (answer === savedAnswer) {
+  const handleAnswerBlur = useCallback(async () => {
+    if (!dataProviderId || !questionId || answerValue === savedAnswer) {
       return;
     }
 
     try {
-      await saveAnswer(questionId, answer);
+      await saveAnswer(questionId, answerValue);
       notificationApi.success({
         title: answerSavedMessage,
         placement: 'bottomRight',
@@ -79,6 +86,7 @@ export const FairPrincipleQuestionBlock = ({
   }, [
     answerSavedMessage,
     answerSaveErrorMessage,
+    answerValue,
     dataProviderId,
     notificationApi,
     questionId,
@@ -215,20 +223,16 @@ export const FairPrincipleQuestionBlock = ({
           <>
             <div className="fair-principles__open-block">
               <Input.TextArea
-                key={questionId ?? item.number ?? item.id}
                 aria-describedby={isNumericAnswer ? `${item.id}-numeric-hint` : undefined}
                 aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
                 className="fair-principles__open-field"
-                defaultValue={
-                  isNumericAnswer
-                    ? sanitizeNumericAnswer(item.certificationQuestion?.answer?.answer ?? '')
-                    : item.certificationQuestion?.answer?.answer ?? ''
-                }
                 disabled={!questionId}
                 onBlur={handleAnswerBlur}
+                onChange={handleAnswerChange}
                 placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
                 rows={4}
-                {...(isNumericAnswer ? numericAnswerInputProps : {})}
+                value={answerValue}
+                {...(isNumericAnswer ? numericTextAreaProps : {})}
               />
               {isNumericAnswer ? (
                 <p

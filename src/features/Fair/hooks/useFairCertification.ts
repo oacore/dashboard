@@ -7,33 +7,10 @@ import type {
   FairCertificationSubmissionsApiResponse,
 } from '@features/Fair/types/fairCertification.types';
 
-// TODO CHECK refresh
-// export const refreshFairCertificationAutomaticChecks = (dataProviderId: number) =>
-//   postRequestFetcher(
-//     `/internal/data-providers/${dataProviderId}/fair-certification/refresh`,
-//     undefined,
-//     true,
-//   );
-
-// const fetchFairCertification = async (
-//   url: string,
-//   dataProviderId: number,
-// ): Promise<FairCertificationApiResponse> => {
-//   const response = (await fetcher(url)) as FairCertificationApiResponse;
-//   await refreshFairCertificationAutomaticChecks(dataProviderId);
-//   return response;
-// };
-
-// const fetchFairCertification = async (
-//   url: string,
-//   _dataProviderId: number,
-// ): Promise<FairCertificationApiResponse> => {
-//   const response = (await fetcher(url)) as FairCertificationApiResponse;
-//   // TODO: re-enable when refresh endpoint is ready
-//   // await refreshFairCertificationAutomaticChecks(dataProviderId);
-//   return response;
-// };
-
+const fetchFairCertification = (url: string) =>
+  fetcher(url, true, { bustCache: true }).then(
+    (response) => response as FairCertificationApiResponse,
+  );
 
 export const useFairCertification = (dataProviderId?: number) => {
   const { selectedDataProvider, isLoaded } = useDataProviderStore();
@@ -46,7 +23,7 @@ export const useFairCertification = (dataProviderId?: number) => {
 
   const { data, error, isLoading, mutate } = useSWR<FairCertificationApiResponse>(
     key,
-    key ? () => fetcher(key).then((res) => res as FairCertificationApiResponse) : null,
+    key ? () => fetchFairCertification(key) : null,
     swrDefaultConfig,
   );
 
@@ -61,14 +38,6 @@ export const useFairCertification = (dataProviderId?: number) => {
     },
     [effectiveDataProviderId, mutate],
   );
-
-  // const { data, error, isLoading, mutate } = useSWR<FairCertificationApiResponse>(
-  //   key,
-  //   key && effectiveDataProviderId
-  //     ? () => fetchFairCertification(key, effectiveDataProviderId)
-  //     : null,
-  //   swrDefaultConfig,
-  // );
 
   return {
     fairCertification: data ?? null,

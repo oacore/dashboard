@@ -1,21 +1,19 @@
-import type { ChangeEvent, KeyboardEvent } from 'react';
+import type { KeyboardEvent } from 'react';
 
 export const sanitizeNumericAnswer = (value: string): string => value.replace(/\D/g, '');
 
-export const numericAnswerInputProps = {
+export const normalizeFairAnswer = (value: string, isNumeric: boolean): string =>
+  isNumeric ? sanitizeNumericAnswer(value) : value;
+
+const handleNumericKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+  const { altKey, ctrlKey, key, metaKey } = event;
+
+  if (!ctrlKey && !metaKey && !altKey && key.length === 1 && !/^\d$/.test(key)) {
+    event.preventDefault();
+  }
+};
+
+export const numericTextAreaProps = {
   inputMode: 'numeric' as const,
-  onKeyDown: (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    const { altKey, ctrlKey, key, metaKey } = event;
-
-    if (!ctrlKey && !metaKey && !altKey && key.length === 1 && !/^\d$/.test(key)) {
-      event.preventDefault();
-    }
-  },
-  onChange: (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const sanitized = sanitizeNumericAnswer(event.target.value);
-
-    if (event.target.value !== sanitized) {
-      event.target.value = sanitized;
-    }
-  },
+  onKeyDown: handleNumericKeyDown,
 };
