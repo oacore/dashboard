@@ -233,9 +233,6 @@
           "number": "4.1",
           "counterLabels": [
             "Papers with Data availability statement:"
-          ],
-          "percentLabels": [
-            "Percentage of papers with Data availability statement:"
           ]
         },
         {
@@ -245,9 +242,8 @@
           "description": "Providing links to source means that the repository includes references to the articles that were used in the research.",
           "recommendation": "We are working on making software mentions a first-class citation object. The most common place to store this information in the metadata is the `dc:relation` field. CORE also supports a machine learning tool to recognise software mentions directly inside the paper; using this feedback loop the repository can track more citations and integrate them in the global scholarly graph.",
           "number": "4.2",
-          "percentLabels": [
-            "Percentage of papers with sw mentions (checked against the relation field if it contains any forge link)",
-            "Percentage of papers with sw mentions in CORE:"
+          "counterLabels": [
+            "Papers with software mentions:"
           ]
         },
         {
