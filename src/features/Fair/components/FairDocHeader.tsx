@@ -6,10 +6,7 @@ import { Button, message } from 'antd';
 import placeholder from '@/assets/img/certificatePlaceholder.svg';
 import { FairCertificateView } from '@features/Fair/components/FairCertificateView.tsx';
 import type { FairCertificationApiResponse } from '@features/Fair/types/fairCertification.types';
-import {
-  buildFairCertificatePngFilename,
-  downloadFairCertificatePng,
-} from '@features/Fair/utils/downloadFairCertificatePng';
+import { downloadFairCertificateBadge } from '@features/Fair/utils/downloadFairCertificateBadge';
 import {
   buildFairCertificatePdfFilename,
   downloadFairCertificatePdf,
@@ -27,25 +24,11 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
   const { selectedDataProvider } = useDataProviderStore();
   const certificate = certificationQuestions?.certificate;
   const certificateRef = useRef<HTMLDivElement>(null);
-  const [isDownloadingPng, setIsDownloadingPng] = useState(false);
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
-  const handleDownloadPng = useCallback(async () => {
-    if (!certificateRef.current) {
-      return;
-    }
-
-    setIsDownloadingPng(true);
-
-    try {
-      const filename = buildFairCertificatePngFilename(certificate?.repositoryName);
-      await downloadFairCertificatePng(certificateRef.current, filename);
-    } catch {
-      message.error(approvedView.downloadPngErrorMessage);
-    } finally {
-      setIsDownloadingPng(false);
-    }
-  }, [approvedView.downloadPngErrorMessage, certificate?.repositoryName]);
+  const handleDownloadBadge = useCallback(() => {
+    downloadFairCertificateBadge(certificate?.level, certificate?.repositoryName);
+  }, [certificate?.level, certificate?.repositoryName]);
 
   const handleDownloadPdf = useCallback(async () => {
     if (!certificateRef.current) {
@@ -87,11 +70,10 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
           <>
             <Button
               type="default"
-              aria-label={approvedView.downloadPNG}
-              loading={isDownloadingPng}
-              onClick={handleDownloadPng}
+              aria-label={approvedView.downloadBadge}
+              onClick={handleDownloadBadge}
             >
-              {approvedView.downloadPNG}
+              {approvedView.downloadBadge}
             </Button>
             <Button
               type="primary"

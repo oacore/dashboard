@@ -1,29 +1,32 @@
-import { toPng } from 'html-to-image';
+import { toCanvas } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 
-import { buildFairCertificatePngFilename } from '@features/Fair/utils/downloadFairCertificatePng';
+import { buildFairCertificateBadgeFilename } from '@features/Fair/utils/downloadFairCertificateBadge';
+
+const EXPORT_SCALE = 4;
+const PDF_WIDTH_MM = 297;
 
 export const buildFairCertificatePdfFilename = (repositoryName?: string | null): string =>
-  buildFairCertificatePngFilename(repositoryName).replace(/\.png$/, '.pdf');
+  buildFairCertificateBadgeFilename(repositoryName).replace(/\.svg$/, '.pdf');
 
 export const downloadFairCertificatePdf = async (
   element: HTMLElement,
   filename: string,
 ): Promise<void> => {
-  const dataUrl = await toPng(element, {
+  const canvas = await toCanvas(element, {
     cacheBust: true,
-    pixelRatio: 2,
+    pixelRatio: EXPORT_SCALE,
+    backgroundColor: '#FAFAFA',
+    style: { margin: '0', justifySelf: 'unset' },
   });
 
-  const width = element.offsetWidth;
-  const height = element.offsetHeight;
-
+  const pageHeightMm = PDF_WIDTH_MM * (canvas.height / canvas.width);
   const pdf = new jsPDF({
-    orientation: width > height ? 'landscape' : 'portrait',
-    unit: 'px',
-    format: [width, height],
+    unit: 'mm',
+    format: [PDF_WIDTH_MM, pageHeightMm],
+    orientation: 'landscape',
   });
 
-  pdf.addImage(dataUrl, 'PNG', 0, 0, width, height);
+  pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, PDF_WIDTH_MM, pageHeightMm);
   pdf.save(filename);
 };

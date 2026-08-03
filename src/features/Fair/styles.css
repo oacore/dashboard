@@ -535,13 +535,15 @@
   width: 455px;
   height: 255px;
   object-fit: contain;
+  justify-self: end;
 }
 
 /* FAIR certification certificate card */
 .fair-certificate {
   flex-shrink: 0;
-  width: 455px;
+  width: 400px;
   height: 255px;
+  justify-self: end;
 }
 
 .fair-certificate__card {
@@ -552,6 +554,7 @@
   padding: 36px 24px 24px 24px;
   background: #FAFAFA;
   box-shadow: 0 2.043px 3.404px 0 rgba(0, 0, 0, 0.14), 0 0.34px 6.128px 0 rgba(0, 0, 0, 0.12), 0 1.021px 1.702px 0 rgba(0, 0, 0, 0.20);
+  overflow: hidden;
 }
 
 @media (max-width: 1200px) {
@@ -683,6 +686,8 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 130%;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 .fair-certificate__description {
@@ -763,6 +768,8 @@
   font-weight: 400;
   line-height: 160%;
   margin-top: 10px;
+  max-width: 100%;
+  word-break: break-all;
 }
 
 .fair-certificate__dates {
