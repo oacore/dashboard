@@ -1269,6 +1269,10 @@
   color: var(--color-text-white);
 }
 
+.fair-submission-progress__icon-check--pending {
+  background: #9E9E9E;
+}
+
 .fair-submission-progress__check-icon {
   font-size: 14px;
 }

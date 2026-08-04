@@ -1,5 +1,8 @@
 import { CheckOutlined } from '@ant-design/icons';
-import { useFairCertificationSubmissions } from '@features/Fair/hooks/useFairCertification';
+import {
+  useFairCertification,
+  useFairCertificationSubmissions,
+} from '@features/Fair/hooks/useFairCertification';
 import fairTexts from '@features/Fair/texts/fair.json';
 import type { FairCertificationSubmission } from '@features/Fair/types/fairCertification.types';
 import { formatFairSubmissionLabel } from '@features/Fair/utils/formatFairSubmissionLabel';
@@ -9,8 +12,16 @@ import type { StepsProps } from 'antd';
 import { useMemo } from 'react';
 import '../styles.css';
 
-const CheckIcon = () => (
-  <span className="fair-submission-progress__icon-check">
+type CheckIconProps = {
+  isCompleted?: boolean;
+};
+
+const CheckIcon = ({ isCompleted = true }: CheckIconProps) => (
+  <span
+    className={`fair-submission-progress__icon-check${
+      isCompleted ? '' : ' fair-submission-progress__icon-check--pending'
+    }`}
+  >
     <CheckOutlined aria-hidden className="fair-submission-progress__check-icon" />
   </span>
 );
@@ -27,13 +38,14 @@ type SubmissionProgressCopy = typeof fairTexts.submissionProgress;
 
 const buildSubmissionStepItems = (
   submissions: FairCertificationSubmission[],
+  hasCertificate: boolean,
   copy: SubmissionProgressCopy,
 ): NonNullable<StepsProps['items']> => {
   const sortedSubmissions = [...submissions].sort(
     (left, right) => left.submissionNumber - right.submissionNumber,
   );
 
-  const submissionItems: NonNullable<StepsProps['items']> = sortedSubmissions.map(
+  const completedSubmissionItems: NonNullable<StepsProps['items']> = sortedSubmissions.map(
     (submission) => ({
       status: 'finish' as const,
       icon: <CheckIcon />,
@@ -60,36 +72,55 @@ const buildSubmissionStepItems = (
     }),
   );
 
+  const nextSubmissionNumber = sortedSubmissions.length + 1;
+
+  const pendingSubmissionItem: NonNullable<StepsProps['items']>[number] = {
+    status: 'wait' as const,
+    icon: <CheckIcon isCompleted={false} />,
+    title: (
+      <span className="fair-submission-progress__step-title">
+        {formatFairSubmissionLabel(nextSubmissionNumber)}
+      </span>
+    ),
+  };
+
+  const unlimitedSubmissionsItem: NonNullable<StepsProps['items']>[number] = {
+    status: 'wait' as const,
+    icon: <EllipsisIcon />,
+    title: (
+      <span className="fair-submission-progress__step-title fair-submission-progress__step-title--muted">
+        {copy.unlimitedSubmissions}
+      </span>
+    ),
+  };
+
+  const gettingCertificateItem: NonNullable<StepsProps['items']>[number] = {
+    status: hasCertificate ? ('finish' as const) : ('wait' as const),
+    icon: <CheckIcon isCompleted={hasCertificate} />,
+    title: (
+      <span className="fair-submission-progress__step-title">
+        {copy.gettingCertificate}
+      </span>
+    ),
+  };
+
   return [
-    ...submissionItems,
-    {
-      status: 'finish' as const,
-      icon: <EllipsisIcon />,
-      title: (
-        <span className="fair-submission-progress__step-title fair-submission-progress__step-title--muted">
-          {copy.unlimitedSubmissions}
-        </span>
-      ),
-    },
-    {
-      status: 'finish' as const,
-      icon: <CheckIcon />,
-      title: (
-        <span className="fair-submission-progress__step-title">
-          {copy.gettingCertificate}
-        </span>
-      ),
-    },
+    ...completedSubmissionItems,
+    pendingSubmissionItem,
+    unlimitedSubmissionsItem,
+    gettingCertificateItem,
   ];
 };
 
 export const FairSubmissionProgress = () => {
   const { submissionProgress } = fairTexts;
   const { submissions } = useFairCertificationSubmissions();
+  const { fairCertification } = useFairCertification();
+  const hasCertificate = Boolean(fairCertification?.certificate);
 
   const items = useMemo(
-    () => buildSubmissionStepItems(submissions, submissionProgress),
-    [submissions, submissionProgress],
+    () => buildSubmissionStepItems(submissions, hasCertificate, submissionProgress),
+    [submissions, hasCertificate, submissionProgress],
   );
 
   return (

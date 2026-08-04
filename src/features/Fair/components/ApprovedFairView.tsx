@@ -63,7 +63,7 @@ export const ApprovedFairView = () => {
           isSubmitting={isSubmitting}
           onSubmit={handleSubmit}
         />
-        {(fairCertification?.submissions?.length ?? 0) > 0 && <FairSubmissionProgress />}
+        <FairSubmissionProgress />
       </CrPaper>
     </CrFeatureLayout>
   );
