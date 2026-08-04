@@ -1,16 +1,13 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback } from 'react';
 
 import fairTexts from '@features/Fair/texts/fair.json';
 import { Markdown } from '@oacore/core-ui';
-import { Button, message } from 'antd';
+import { Button } from 'antd';
 import placeholder from '@/assets/img/certificatePlaceholder.svg';
 import { FairCertificateView } from '@features/Fair/components/FairCertificateView.tsx';
+import { useFairCertificatePdfDownload } from '@features/Fair/hooks/useFairCertificatePdfDownload';
 import type { FairCertificationApiResponse } from '@features/Fair/types/fairCertification.types';
 import { downloadFairCertificateBadge } from '@features/Fair/utils/downloadFairCertificateBadge';
-import {
-  buildFairCertificatePdfFilename,
-  downloadFairCertificatePdf,
-} from '@features/Fair/utils/downloadFairCertificatePdf';
 import { formatIsoDate } from '@/utils/dateUtils';
 import '../styles.css';
 import {useDataProviderStore} from '@/store/dataProviderStore.ts';
@@ -23,29 +20,12 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
   const { approvedView } = fairTexts;
   const { selectedDataProvider } = useDataProviderStore();
   const certificate = certificationQuestions?.certificate;
-  const certificateRef = useRef<HTMLDivElement>(null);
-  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+  const { certificateRef, handleDownloadPdf, isDownloadingPdf } =
+    useFairCertificatePdfDownload(certificate);
 
   const handleDownloadBadge = useCallback(() => {
     downloadFairCertificateBadge(certificate?.level, certificate?.repositoryName);
   }, [certificate?.level, certificate?.repositoryName]);
-
-  const handleDownloadPdf = useCallback(async () => {
-    if (!certificateRef.current) {
-      return;
-    }
-
-    setIsDownloadingPdf(true);
-
-    try {
-      const filename = buildFairCertificatePdfFilename(certificate?.repositoryName);
-      await downloadFairCertificatePdf(certificateRef.current, filename);
-    } catch {
-      message.error(approvedView.downloadPdfErrorMessage);
-    } finally {
-      setIsDownloadingPdf(false);
-    }
-  }, [approvedView.downloadPdfErrorMessage, certificate?.repositoryName]);
 
   return (
     <>
@@ -90,7 +70,7 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
         <div className="fair-certification-header-inner-wrapper">
           <h1 className="fair-certification-title">
             {approvedView.title}{' '}
-            {certificate?.level ? certificate.level.toUpperCase() : ' Not certified'}
+            {certificate?.level ? certificate.level : ' Not certified'}
           </h1>
           <Markdown className="fair-certification-description">
             {approvedView.certificationDescription}

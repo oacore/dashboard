@@ -523,6 +523,7 @@
   font-weight: 500;
   line-height: 130%;
   margin: 0;
+  text-transform: capitalize;
 }
 
 .fair-certification-description {
@@ -1329,12 +1330,30 @@
 }
 
 .fair-submission-progress__report-link {
+  padding: 0;
+  border: none;
+  background: none;
   color: var(--color-primary, #1890ff);
+  font: inherit;
   text-align: left;
+  cursor: pointer;
 }
 
 .fair-submission-progress__report-link:hover {
   color: var(--color-primary-hover, #40a9ff);
+}
+
+.fair-submission-progress__report-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.fair-submission-progress__certificate-export {
+  position: absolute;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
 .fair-submission-progress__step-title--muted {
@@ -1380,7 +1399,7 @@
   letter-spacing: 0.036px;
 }
 
-.fair-submission-progress-steps .ant-steps-item-description {
+.fair-submission-progress-steps .ant-steps-item-section > .ant-steps-item-content {
   margin-top: 8px;
   padding-bottom: 8px;
 }

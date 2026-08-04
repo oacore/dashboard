@@ -1,8 +1,10 @@
 import { CheckOutlined } from '@ant-design/icons';
+import { FairCertificateView } from '@features/Fair/components/FairCertificateView.tsx';
 import {
   useFairCertification,
   useFairCertificationSubmissions,
 } from '@features/Fair/hooks/useFairCertification';
+import { useFairCertificatePdfDownload } from '@features/Fair/hooks/useFairCertificatePdfDownload';
 import fairTexts from '@features/Fair/texts/fair.json';
 import type { FairCertificationSubmission } from '@features/Fair/types/fairCertification.types';
 import { formatFairSubmissionLabel } from '@features/Fair/utils/formatFairSubmissionLabel';
@@ -18,9 +20,8 @@ type CheckIconProps = {
 
 const CheckIcon = ({ isCompleted = true }: CheckIconProps) => (
   <span
-    className={`fair-submission-progress__icon-check${
-      isCompleted ? '' : ' fair-submission-progress__icon-check--pending'
-    }`}
+    className={`fair-submission-progress__icon-check${isCompleted ? '' : ' fair-submission-progress__icon-check--pending'
+      }`}
   >
     <CheckOutlined aria-hidden className="fair-submission-progress__check-icon" />
   </span>
@@ -40,6 +41,8 @@ const buildSubmissionStepItems = (
   submissions: FairCertificationSubmission[],
   hasCertificate: boolean,
   copy: SubmissionProgressCopy,
+  onViewCertificatePdf?: () => void,
+  isDownloadingCertificatePdf = false,
 ): NonNullable<StepsProps['items']> => {
   const sortedSubmissions = [...submissions].sort(
     (left, right) => left.submissionNumber - right.submissionNumber,
@@ -59,7 +62,7 @@ const buildSubmissionStepItems = (
           </span>
         </div>
       ),
-      description: submission.reportUrl ? (
+      content: submission.reportUrl ? (
         <a
           target="_blank"
           className="fair-submission-progress__report-link"
@@ -102,6 +105,17 @@ const buildSubmissionStepItems = (
         {copy.gettingCertificate}
       </span>
     ),
+    content: hasCertificate && onViewCertificatePdf ? (
+      <button
+        type="button"
+        className="fair-submission-progress__report-link"
+        aria-label={copy.viewCertificatePdf}
+        disabled={isDownloadingCertificatePdf}
+        onClick={onViewCertificatePdf}
+      >
+        {copy.viewCertificatePdf}
+      </button>
+    ) : undefined,
   };
 
   return [
@@ -116,11 +130,21 @@ export const FairSubmissionProgress = () => {
   const { submissionProgress } = fairTexts;
   const { submissions } = useFairCertificationSubmissions();
   const { fairCertification } = useFairCertification();
-  const hasCertificate = Boolean(fairCertification?.certificate);
+  const certificate = fairCertification?.certificate;
+  const hasCertificate = Boolean(certificate);
+  const { certificateRef, handleDownloadPdf, isDownloadingPdf } =
+    useFairCertificatePdfDownload(certificate);
 
   const items = useMemo(
-    () => buildSubmissionStepItems(submissions, hasCertificate, submissionProgress),
-    [submissions, hasCertificate, submissionProgress],
+    () =>
+      buildSubmissionStepItems(
+        submissions,
+        hasCertificate,
+        submissionProgress,
+        handleDownloadPdf,
+        isDownloadingPdf,
+      ),
+    [submissions, hasCertificate, submissionProgress, handleDownloadPdf, isDownloadingPdf],
   );
 
   return (
@@ -134,6 +158,14 @@ export const FairSubmissionProgress = () => {
         orientation="vertical"
         responsive={false}
       />
+      {certificate && (
+        <div
+          aria-hidden
+          className="fair-submission-progress__certificate-export"
+        >
+          <FairCertificateView ref={certificateRef} certificationData={certificate} />
+        </div>
+      )}
     </section>
   );
 };

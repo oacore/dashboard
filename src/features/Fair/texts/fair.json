@@ -3,7 +3,8 @@
     "title": "Progress of the submission",
     "unlimitedSubmissions": "Unlimited number of submission",
     "gettingCertificate": "Getting certificate",
-    "viewSubmittedReport": "View submitted report (PDF)"
+    "viewSubmittedReport": "View submitted report (PDF)",
+    "viewCertificatePdf": "View certificate (PDF)"
   },
   "approvedView": {
     "title": "FAIR certification:",
