@@ -91,7 +91,7 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
             </Markdown>
           )}
           <Markdown className="fair-certification-meta-line">
-            {`${approvedView.submissionsLine}${certificationQuestions?.numberOfSubmissions ?? ''}`}
+            {`${approvedView.submissionsLine}${certificationQuestions != null ? certificationQuestions.numberOfSubmissions + 1 : ''}`}
           </Markdown>
         </div>
         {certificationQuestions?.certificate ?
@@ -100,11 +100,13 @@ export const FairDocHeader = ({ certificationQuestions }: FairDocHeaderProps) =>
             certificationData={certificationQuestions?.certificate}
           />
           :
-          <img
-            className="fair-certification-placeholder"
-            src={placeholder}
-            alt=""
-          />
+          <div  className="fair-certification-placeholder">
+            <img
+              className="fair-certification-placeholder-img"
+              src={placeholder}
+              alt=""
+            />
+          </div>
         }
       </div>
     </>

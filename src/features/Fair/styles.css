@@ -532,10 +532,11 @@
 }
 
 .fair-certification-placeholder {
-  flex-shrink: 0;
-  width: 455px;
+  display: flex;
+  width: 400px;
   height: 255px;
   object-fit: contain;
+  justify-content: flex-end;
   justify-self: end;
 }
 
@@ -611,7 +612,7 @@
     width: 100%;
   }
 
-  .fair-certification-placeholder {
+  .fair-certification-placeholder-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -1399,7 +1400,7 @@
   letter-spacing: 0.036px;
 }
 
-.fair-submission-progress-steps .ant-steps-item-section > .ant-steps-item-content {
+.fair-submission-progress-steps .ant-steps-item-section>.ant-steps-item-content {
   margin-top: 8px;
   padding-bottom: 8px;
 }
