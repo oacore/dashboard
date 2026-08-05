@@ -8,7 +8,7 @@
   },
   "approvedView": {
     "title": "FAIR certification:",
-    "certificationDescription": "Your repository is not certified yet. In the report below you can review how your repository performs in terms of fair principles, once you’re satisfied with the report and you reply to some more detailed questions, you can submit the report for reviews and start the awarding process.",
+    "certificationDescription": "Your repository is not certified yet. In the report below you can review how your repository performs in terms of FAIR principles, once you’re satisfied with the report and you reply to some more detailed questions, you can submit the report for reviews and start the awarding process.",
     "issued": "**Certificate issued:**",
     "valid": "**Certificate valid until:**",
     "lastReportUpdateLine": "**Date of the last report update:**",
@@ -44,7 +44,7 @@
           "code": "R(1.1)",
           "question": "Does your repository support OAI-PMH?",
           "description": "The Open Archives Initiative Protocol for Metadata Harvesting (referred to as the OAI-PMH in the remainder of this document) provides an application-independent interoperability framework based on metadata harvesting. This provides the basic building block to provide an interoperable digital publications repository.",
-          "recommendation": "OAI-PMH is the most widely used protocol for exchanging information between repositories. It is the standard used by CERN, by arXiv, by Wikipedia, by repository software tools such as DSpace and ePrints, and by CORE. It reduces network traffic because it can do incremental harvesting.\n\nRepository managers can check their OAI-PMH endpoint using the [OAI-PMH Validator tool](https://www.openarchives.org/Register/ValidateSite). A valid OAI-PMH endpoint is not enough, the endpoint needs to also be accessible for machines, you can use the OAI-PMH Indexability tool to quickly check your accessibility level",
+          "recommendation": "OAI-PMH is the most widely used protocol for exchanging information between repositories. It is the standard used by CERN, by arXiv, by Wikipedia, by repository software tools such as DSpace and ePrints, and by CORE. It reduces network traffic because it can do incremental harvesting.\n\nRepository managers can check their OAI-PMH endpoint using the [OAI-PMH Validator tool](https://www.openarchives.org/Register/ValidateSite). A valid OAI-PMH endpoint is not enough, the endpoint needs to also be accessible for machines, you can use the [OAI-PMH Indexability tool](https://core.ac.uk/blocking-diagnostic) to quickly check your accessibility level",
           "number": "1.1"
         },
         {
