@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react';
 import '../styles.css';
 
 import { FairCertificationLoadingView } from '@features/Fair/components/FairCertificationLoadingView.tsx';
+import { FairCertificationErrorView } from '@features/Fair/components/FairCertificationErrorView.tsx';
 import { FairDocHeader } from '@features/Fair/components/FairDocHeader.tsx';
 import { FairPrinciplesCollapse } from '@features/Fair/components/FairPrinciplesCollapse.tsx';
 import { FairSubmissionProgress } from '@features/Fair/components/FairSubmissionProgress.tsx';
@@ -18,7 +19,7 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 export const ApprovedFairView = () => {
   const { selectedDataProvider } = useDataProviderStore();
   const dataProviderId = selectedDataProvider?.id;
-  const { fairCertification, mutate, isLoading } = useFairCertification();
+  const { fairCertification, mutate, isLoading, error } = useFairCertification();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { submitSuccessMessage, submitErrorMessage, submitApiErrorMessage } =
     fairTexts.principlesAccordion;
@@ -52,6 +53,10 @@ export const ApprovedFairView = () => {
 
   if (isLoading) {
     return <FairCertificationLoadingView />;
+  }
+
+  if (error && !fairCertification) {
+    return <FairCertificationErrorView />;
   }
 
   return (

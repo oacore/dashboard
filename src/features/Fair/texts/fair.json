@@ -17,7 +17,8 @@
     "downloadBadge": "Download badge",
     "downloadPdf": "Download certificate in PDF",
     "downloadPdfErrorMessage": "Failed to download the certificate in PDF. Please try again.",
-    "downloadReportButtonLabel": "Download report"
+    "downloadReportButtonLabel": "Download report",
+    "loadErrorMessage": "Failed to load data. Please try again later."
   },
   "principlesAccordion": {
     "sectionAriaLabel": "FAIR principles and certification questions",
