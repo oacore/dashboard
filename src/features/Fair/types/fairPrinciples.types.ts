@@ -24,6 +24,8 @@ export type FairQuestionItem = {
   counterLabels?: string[];
   /** Labels for API metric rows, mapped by index (same order as `result.metrics`). */
   percentLabels?: string[];
+  /** When true, PercentBar is not rendered for this question. */
+  hidePercentBar?: boolean;
   certificationQuestion?: FairCertificationQuestion;
 };
 

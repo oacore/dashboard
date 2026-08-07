@@ -110,9 +110,13 @@ export const FairPrincipleQuestionBlock = ({
     ? null
     : resolveFairQuestionStatus(item.certificationQuestion);
   const hasErrorStatus = questionStatus?.key === 'error';
+  // todo temp hidePercentBar
+  const hasLinkedQuestionAnswer = Boolean(
+    normalizeFairAnswer(item.certificationQuestion?.answer?.answer ?? '', true),
+  );
   const shouldShowPercentBar =
-    !item.linkedQuestionNumber ||
-    Boolean(normalizeFairAnswer(item.certificationQuestion?.answer?.answer ?? '', true));
+    !item.hidePercentBar &&
+    (!item.linkedQuestionNumber || hasLinkedQuestionAnswer);
 
   const renderQuestionStatus = () => {
     if (isOpenQuestion) {
