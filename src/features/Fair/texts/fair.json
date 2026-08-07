@@ -135,7 +135,7 @@
           "id": "r23",
           "code": "R(2.3)",
           "question": "Do you support machine-readable licensing?",
-          "description": "The percentage of metadata records with licence URLs CORE is able to recognise from the metadata.",
+          "description": "This requirement assesses whether licensing information is provided in a machine-readable format, such as a standardized licence URL that software can automatically recognize and interpret.",
           "percentLabels": [
             "Percent of metadata records with a licence specified:"
           ],
