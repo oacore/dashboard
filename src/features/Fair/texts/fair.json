@@ -283,10 +283,10 @@
           "recommendation": "This provides provenance information and helps users and aggregators know when the record entered the repository. It is also useful for version control, compliance checking and tracking the research lifecycle.The compliance percentage is reported here just for the sake of completeness, it won’t be used in evaluating your certification submission.\n\n- Configure the repository to automatically capture deposit dates during submission.\n- Ensure the deposit date is included in all exposed metadata formats (OAI-PMH, DataCite, Dublin Core).\n- Regularly audit metadata records to check completeness and identify missing dates.",
           "number": "5.2",
           "counterLabels": [
-            "Number of papers with exposed dates of deposit:"
+            "Number of papers with exposed dates of deposit in the current REF period:"
           ],
           "percentLabels": [
-            "Percentage of papers with exposed dates of deposit:"
+            "Percentages of compliant papers in the current REF period"
           ]
         },
         {
