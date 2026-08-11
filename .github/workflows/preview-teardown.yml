@@ -1,0 +1,95 @@
+name: Preview teardown
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch whose preview to remove'
+        required: true
+        type: string
+
+env:
+  PREVIEW_NAMESPACE: core-frontend-preview
+
+jobs:
+  teardown:
+    runs-on: ubuntu-24.04-arm
+    environment: azure
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Compute names
+        id: vars
+        run: |
+          RAW="${{ inputs.branch }}"
+          SLUG=$(echo "$RAW" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed 's/[^a-z0-9]/-/g' \
+            | sed 's/^-*//;s/-*$//' \
+            | cut -c1-40 \
+            | sed 's/-*$//')
+          DNS_NAME="preview-${SLUG}"
+          echo "name=preview-$SLUG" >> $GITHUB_OUTPUT
+          echo "dns_name=$DNS_NAME" >> $GITHUB_OUTPUT
+          echo "host=$DNS_NAME.core.ac.uk" >> $GITHUB_OUTPUT
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group core-frontend \
+            --name core-frontend-kubernetes-cluster \
+            --admin --overwrite-existing
+
+      - name: Delete Kubernetes resources
+        run: |
+          NAME="${{ steps.vars.outputs.name }}"
+          NS="${{ env.PREVIEW_NAMESPACE }}"
+          echo "Deleting all resources for $NAME in namespace $NS"
+          kubectl delete deployment,service,httproute "$NAME" \
+            -n "$NS" --ignore-not-found
+          echo "::notice::Kubernetes resources removed for $NAME"
+
+      - name: Delete Cloudflare DNS record
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          HOST: ${{ steps.vars.outputs.host }}
+        run: |
+          RECORD_ID=$(curl -s -X GET \
+            "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/dns_records?type=A&name=${HOST}" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            | jq -r '.result[0].id // empty')
+
+          if [ -z "$RECORD_ID" ]; then
+            echo "::notice::No DNS record found for $HOST (already deleted?)"
+            exit 0
+          fi
+
+          echo "Deleting DNS record $HOST (id=$RECORD_ID)"
+          RESPONSE=$(curl -s -X DELETE \
+            "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/dns_records/${RECORD_ID}" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}")
+
+          SUCCESS=$(echo "$RESPONSE" | jq -r '.success')
+          if [ "$SUCCESS" != "true" ]; then
+            echo "::error::DNS record deletion failed"
+            echo "$RESPONSE" | jq
+            exit 1
+          fi
+
+          echo "::notice::DNS record removed for $HOST"
+
+      - name: Summary
+        run: |
+          echo "### 🗑️ Preview removed" >> $GITHUB_STEP_SUMMARY
+          echo "Branch: \`${{ inputs.branch }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "Was at: https://${{ steps.vars.outputs.host }}" >> $GITHUB_STEP_SUMMARY

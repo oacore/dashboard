@@ -13,6 +13,7 @@ fi
 # URLs come from committed .env.development / .env.production
 exec docker build \
   --build-arg NODE_ENV="${NODE_ENV:-production}" \
+  --build-arg APP_ENV="${APP_ENV:-${NODE_ENV:-production}}" \
   --build-arg BUILD_TARGET="${BUILD_TARGET:-azure}" \
   --build-arg SENTRY_DSN="$SENTRY_DSN" \
   --build-arg SENTRY_AUTH_TOKEN="$SENTRY_AUTH_TOKEN" \
