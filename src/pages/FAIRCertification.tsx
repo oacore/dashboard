@@ -12,7 +12,7 @@ const FAIR_REGISTER_INTEREST_FORM_URL =
 
 const SUCCESS_MESSAGE_DURATION_MS = 5000;
 // TODO temp show
-const APPROVED_FAIR_VIEW_DATA_PROVIDER_IDS = [1, 86, 88, 21853] as const;
+const APPROVED_FAIR_VIEW_DATA_PROVIDER_IDS = [86, 88] as const;
 
 const fairCertificationData = fairCertificationLanding as FairCertificationData;
 
