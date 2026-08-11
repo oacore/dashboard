@@ -4,10 +4,27 @@ import type { SWRConfiguration } from 'swr'
 import { captureHandledError } from '@/utils/captureHandledError'
 import { http } from './axios'
 
-export const fetcher = async (url: string, withCredentials: boolean = true) => {
-  const response = await http.get(url, { withCredentials })
-  return response.data
+type FetcherOptions = {
+  /** Appends a timestamp query param so browsers do not serve a stale cached GET response. */
+  bustCache?: boolean
+}
 
+const withCacheBust = (url: string): string =>
+  `${url}${url.includes('?') ? '&' : '?'}_=${Date.now()}`
+
+export const fetcher = async (
+  url: string,
+  withCredentials: boolean = true,
+  options?: FetcherOptions,
+) => {
+  const response = await http.get(options?.bustCache ? withCacheBust(url) : url, {
+    withCredentials,
+    headers: {
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
+    },
+  })
+  return response.data
 }
 
 export const postRequestFetcher = async (
