@@ -1,0 +1,204 @@
+{
+  "howItWorks": {
+    "howItWorks": {
+      "title": "Why it's important?",
+      "image": "/images/workCertificate.svg",
+      "description": "Aligning with FAIR is crucial for ensuring that repository content is easily discoverable, accessible, interoperable and reusable within scholarly infrastructures.\nOur FAIR Certification programme consists of a set of objective data-driven automated checks of your platform directly assessing FAIRness.\nOur easy to navigate certification process is fully technology-supported, objective and provides specific guidance and recommendations leading to tangible improvements, ensuring that your platform aligns with best technology and content management practices."
+    }
+  },
+  "applicationProcess": {
+    "applicationProcess": {
+      "title": "How to get your repository FAIR certified?",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Apply for FAIR certification",
+          "description": "Register your interest below or apply for FAIR Certification via your CORE Dashboard account (FAIR certification tab) and arrange payment (free for Sustaining Members)."
+        },
+        {
+          "step": 2,
+          "title": "CORE team assesses the submission",
+          "description": "We will evaluate your repository and inform you if you qualify for the certificate. In case you don't qualify yet, we will offer technical advice on how to satisfy the requirements. You are free to resubmit your application as many times as needed during a 365 days period."
+        },
+        {
+          "step": 3,
+          "title": "Submit the form",
+          "description": "CORE will run automated checks for your repository and produce a report containing results and recommendations against the certification criteria. Review the recommendations, complete the report and submit when ready."
+        },
+        {
+          "step": 4,
+          "title": "Get your FAIR certificate",
+          "description": "Once your repository gets FAIR certification you will get your certificate via email and your organisation will appear in the FAIR certificated repositories list. You can now display your certificate in your repository."
+        }
+      ]
+    }
+  },
+  "certificates": {
+    "certificates": [
+      {
+        "title": "Bronze",
+        "picture": "/images/bronze.svg",
+        "description": "Guarantees a foundational level of compliance. Repository metadata and content is indexable, records are assigned identifiers and metadata have been populated to at least a minimum level."
+      },
+      {
+        "title": "Silver",
+        "picture": "/images/silver.svg",
+        "description": "Demonstrates strong compliance with FAIR. Metadata are exposed using industry-leading application profiles and vocabularies, contain machine-readable licence information and have been sufficiently populated."
+      },
+      {
+        "title": "Gold",
+        "picture": "/images/gold.svg",
+        "description": "Achieves full machine-actionability. Metadata have been richly populated and support linking of research papers and datasets. Repository supports industry-leading protocols and interoperability standards."
+      }
+    ]
+  },
+  "table": {
+    "table": {
+      "title": "FAIR Certification fees",
+      "headers": [
+        {
+          "name": "Data provider size***"
+        },
+        {
+          "name": "[Low-income countries](https://datahelpdesk.worldbank.org/knowledgebase/articles/906519-world-bank-country-and-lending-groups)",
+          "type": "low"
+        },
+        {
+          "name": "[Middle-income countries](https://datahelpdesk.worldbank.org/knowledgebase/articles/906519-world-bank-country-and-lending-groups)",
+          "type": "middle"
+        },
+        {
+          "name": "[High-income countries](https://datahelpdesk.worldbank.org/knowledgebase/articles/906519-world-bank-country-and-lending-groups)",
+          "type": "high"
+        }
+      ],
+      "certification": {
+        "subRows": [
+          {
+            "title": "Band 1",
+            "caption": "up to 5K articles",
+            "prices": [
+              { "type": "low", "original": 1000 },
+              { "type": "middle", "original": 2000 },
+              { "type": "high", "original": 3000 }
+            ]
+          },
+          {
+            "title": "Band 2",
+            "caption": "5K - 10K articles",
+            "prices": [
+              { "type": "low", "original": 1250 },
+              { "type": "middle", "original": 2250 },
+              { "type": "high", "original": 3250 }
+            ]
+          },
+          {
+            "title": "Band 3",
+            "caption": "10K - 20K articles",
+            "prices": [
+              { "type": "low", "original": 1500 },
+              { "type": "middle", "original": 2500 },
+              { "type": "high", "original": 3500 }
+            ]
+          },
+          {
+            "title": "Band 4",
+            "caption": "20K - 40K articles",
+            "prices": [
+              { "type": "low", "original": 1750 },
+              { "type": "middle", "original": 2750 },
+              { "type": "high", "original": 3750 }
+            ]
+          },
+          {
+            "title": "Band 5",
+            "caption": "40K+ articles",
+            "prices": [
+              { "type": "low", "original": 2000 },
+              { "type": "middle", "original": 3000 },
+              { "type": "high", "original": 4000 }
+            ]
+          }
+        ]
+      }
+    },
+    "tableMembers": {
+      "title": "FAIR Certification fees for Supporting and Sustaining members",
+      "headers": [
+        {
+          "name": "Data provider size**"
+        },
+        {
+          "name": "[Low-income countries](https://datahelpdesk.worldbank.org/knowledgebase/articles/906519-world-bank-country-and-lending-groups)",
+          "type": "low"
+        },
+        {
+          "name": "[Middle-income countries](https://datahelpdesk.worldbank.org/knowledgebase/articles/906519-world-bank-country-and-lending-groups)",
+          "type": "middle"
+        },
+        {
+          "name": "[High-income countries](https://datahelpdesk.worldbank.org/knowledgebase/articles/906519-world-bank-country-and-lending-groups)",
+          "type": "high"
+        },
+        {
+          "name": "Sustaining",
+          "type": "sustaining"
+        }
+      ],
+      "certification": {
+        "subRows": [
+          {
+            "title": "Band 1",
+            "caption": "up to 5K articles",
+            "prices": [
+              { "type": "low", "discounted": 500, "original": 1000 },
+              { "type": "middle", "discounted": 1000, "original": 2000 },
+              { "type": "high", "discounted": 1500, "original": 3000 },
+              { "type": "sustaining", "free": true }
+            ]
+          },
+          {
+            "title": "Band 2",
+            "caption": "5K - 10K articles",
+            "prices": [
+              { "type": "low", "discounted": 625, "original": 1250 },
+              { "type": "middle", "discounted": 1125, "original": 2250 },
+              { "type": "high", "discounted": 1625, "original": 3250 },
+              { "type": "sustaining", "free": true }
+            ]
+          },
+          {
+            "title": "Band 3",
+            "caption": "10K - 20K articles",
+            "prices": [
+              { "type": "low", "discounted": 750, "original": 1500 },
+              { "type": "middle", "discounted": 1250, "original": 2500 },
+              { "type": "high", "discounted": 1750, "original": 3500 },
+              { "type": "sustaining", "free": true }
+            ]
+          },
+          {
+            "title": "Band 4",
+            "caption": "20K - 40K articles",
+            "prices": [
+              { "type": "low", "discounted": 875, "original": 1750 },
+              { "type": "middle", "discounted": 1375, "original": 2750 },
+              { "type": "high", "discounted": 1875, "original": 3750 },
+              { "type": "sustaining", "free": true }
+            ]
+          },
+          {
+            "title": "Band 5",
+            "caption": "40K+ articles",
+            "prices": [
+              { "type": "low", "discounted": 1000, "original": 2000 },
+              { "type": "middle", "discounted": 1500, "original": 3000 },
+              { "type": "high", "discounted": 2000, "original": 4000 },
+              { "type": "sustaining", "free": true }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

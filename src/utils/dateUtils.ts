@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const formatDate = (dateString: string): string => {
     if (!dateString) return 'N/A';
 
@@ -9,4 +11,13 @@ export const formatDate = (dateString: string): string => {
         month: 'long',
         year: 'numeric',
     });
+};
+
+export const formatIsoDate = (dateString?: string | null): string => {
+    if (!dateString) return '';
+
+    const parsed = dayjs(dateString);
+    if (!parsed.isValid()) return '';
+
+    return parsed.format('YYYY-MM-DD');
 };
