@@ -14,7 +14,7 @@ interface RioxxAggregationResponse {
 export const useRioxxStats = (dataProviderId?: number) => {
   const { selectedDataProvider, isLoaded } = useDataProviderStore();
   const effectiveDataProviderId = dataProviderId || selectedDataProvider?.id;
-
+  // TODO check for 1.2
   const key = (isLoaded && effectiveDataProviderId)
     ? `/internal/data-providers/${effectiveDataProviderId}/rioxx/aggregation`
     : null;
@@ -37,7 +37,7 @@ export const useRioxxStats = (dataProviderId?: number) => {
     totalCount: data.totalRecords || 0,
     missingTermsBasic: data.missingTermsBasic || [],
     ...Object.fromEntries(
-      Object.entries(data).filter(([key]) => 
+      Object.entries(data).filter(([key]) =>
         !['compliantRecordBasic', 'compliantRecordFull', 'totalRecords', 'missingTermsBasic'].includes(key)
       )
     ),
