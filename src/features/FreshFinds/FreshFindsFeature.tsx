@@ -3,16 +3,12 @@ import { CrFeatureLayout, CrHeader, CrShowMore } from '@oacore/core-ui';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import { FreshFindsTable } from './components/FreshFindsTable.tsx';
-import { useFreshFindsData } from './hooks/useFreshFindsData';
 import { articleTemplateData } from './texts';
 
 import './FreshFindsFeature.css';
 
 export const FreshFindsFeature = () => {
   const { selectedDataProvider } = useDataProviderStore();
-  const { data: records, error, isLoading } = useFreshFindsData(
-    selectedDataProvider?.id ?? null,
-  );
 
   return (
     <CrFeatureLayout>
@@ -25,9 +21,6 @@ export const FreshFindsFeature = () => {
       />
       <main className="page fresh-finds-page">
         <FreshFindsTable
-          records={records}
-          isLoading={isLoading}
-          error={error}
           dataProviderName={selectedDataProvider?.name ?? 'your institution'}
         />
       </main>
