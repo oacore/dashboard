@@ -54,7 +54,7 @@ const buildSubmissionStepItems = (
       title: (
         <div className="fair-submission-progress__step-heading">
           <span className="fair-submission-progress__step-date">
-                {/*TODO replace with this one*/}
+                {/*TODO replace with this pdfGeneratedAt*/}
                 {/*{formatDate(submission.pdfGeneratedAt)}*/}
             {submission.submissionDate}
           </span>

@@ -13,6 +13,7 @@ import { FairSubmissionProgress } from '@features/Fair/components/FairSubmission
 import {
   submitFairCertification,
   useFairCertification,
+  useFairCertificationSubmissions,
 } from '@features/Fair/hooks/useFairCertification';
 import type { FairCertificationQuestion } from '@features/Fair/types/fairCertification.types';
 import { useDataProviderStore } from '@/store/dataProviderStore';
@@ -77,6 +78,7 @@ export const ApprovedFairView = () => {
   const { selectedDataProvider } = useDataProviderStore();
   const dataProviderId = selectedDataProvider?.id;
   const { fairCertification, mutate, isLoading, error } = useFairCertification();
+  const { mutate: mutateSubmissions } = useFairCertificationSubmissions();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [missingQuestionNumbers, setMissingQuestionNumbers] = useState<string[]>([]);
   const { submitSuccessMessage, submitErrorMessage, submitApiErrorMessage } =
@@ -93,7 +95,7 @@ export const ApprovedFairView = () => {
 
     try {
       await submitFairCertification(dataProviderId);
-      await mutate();
+      await Promise.all([mutate(), mutateSubmissions()]);
       message.success(submitSuccessMessage);
     } catch (submitError) {
       const isValidationError =
