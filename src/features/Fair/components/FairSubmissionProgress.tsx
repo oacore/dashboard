@@ -8,7 +8,6 @@ import { useFairCertificatePdfDownload } from '@features/Fair/hooks/useFairCerti
 import fairTexts from '@features/Fair/texts/fair.json';
 import type { FairCertificationSubmission } from '@features/Fair/types/fairCertification.types';
 import { formatFairSubmissionLabel } from '@features/Fair/utils/formatFairSubmissionLabel';
-import { formatDate } from '@/utils/dateUtils';
 import { Steps } from 'antd';
 import type { StepsProps } from 'antd';
 import { useMemo } from 'react';
@@ -55,7 +54,9 @@ const buildSubmissionStepItems = (
       title: (
         <div className="fair-submission-progress__step-heading">
           <span className="fair-submission-progress__step-date">
-            {formatDate(submission.pdfGeneratedAt)}
+                {/*TODO replace with this one*/}
+                {/*{formatDate(submission.pdfGeneratedAt)}*/}
+            {submission.submissionDate}
           </span>
           <span className="fair-submission-progress__step-title">
             {formatFairSubmissionLabel(submission.submissionNumber)}
