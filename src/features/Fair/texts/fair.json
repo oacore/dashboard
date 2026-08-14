@@ -26,6 +26,7 @@
     "submitButtonLabel": "Submit",
     "submitSuccessMessage": "Your FAIR certification has been submitted successfully.",
     "submitErrorMessage": "Missing some required fields. Please check the questions and fill in the required fields before submitting.",
+    "submitRequiredFieldHint": "This field is required.",
     "submitApiErrorMessage": "We can't process your submission currently. Please try again in a few minutes.",
     "recommendationHeading": "Recommendation",
     "openQuestionBadge": "Open question",
