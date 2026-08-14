@@ -19,7 +19,7 @@ export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
     key: 'authors',
     title: 'Author',
     dataIndex: 'authorDisplay',
-    width: '18%',
+    width: '15%',
     align: 'left',
     className: 'fresh-finds-column fresh-finds-column--authors',
     render: (_value: unknown, record: FreshFindsRecord) => {
@@ -34,7 +34,7 @@ export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
     key: 'title',
     title: 'Title',
     dataIndex: 'title',
-    width: '24%',
+    width: '21%',
     align: 'left',
     className: 'fresh-finds-column fresh-finds-column--title',
     render: (value: unknown) => renderCellText(value),
@@ -43,7 +43,7 @@ export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
     key: 'doi',
     title: 'DOI',
     dataIndex: 'doi',
-    width: '16%',
+    width: '14%',
     align: 'left',
     className: 'fresh-finds-column fresh-finds-column--doi',
     render: (value: unknown, record: FreshFindsRecord) => {
@@ -76,8 +76,8 @@ export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
     key: 'type',
     title: 'Type',
     dataIndex: 'documentType',
-    width: '10%',
-    align: 'left',
+    width: 48,
+    align: 'center',
     className: 'fresh-finds-column fresh-finds-column--type',
     render: (_value: unknown, record: FreshFindsRecord) => {
       const documentType = record.documentType?.trim() ?? '';
@@ -94,7 +94,7 @@ export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
     key: 'publicationDate',
     title: 'Publication date',
     dataIndex: 'publicationDate',
-    width: '12%',
+    width: '11%',
     align: 'left',
     className: 'fresh-finds-column fresh-finds-column--publication-date',
     render: (value: unknown) => renderCellText(value),
@@ -103,9 +103,9 @@ export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
     key: 'alreadyInRepository',
     title: 'In repository',
     dataIndex: 'alreadyInRepository',
-    width: '10%',
+    width: '20%',
     align: 'left',
     className: 'fresh-finds-column fresh-finds-column--in-repository',
-    render: (value: unknown) => (value === true ? <div className="status-wrapper"><img src={cloudDone} alt=""/> In my repository</div> : <div className="status-wrapper"><img src={cloud} alt=""/> Added automatically via FreshFinds</div>),
+    render: (value: unknown) => (value === true ? <div className="status-wrapper"><img src={cloudDone} alt="" /> In my repository</div> : <div className="status-wrapper"><img src={cloud} alt="" /> Added automatically via FreshFinds</div>),
   },
 ];

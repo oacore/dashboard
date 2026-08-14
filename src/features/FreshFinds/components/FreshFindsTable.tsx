@@ -10,6 +10,7 @@ import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import { createColumns } from './FreshFindsColumns.tsx';
+import { actions } from './tableActions.tsx';
 import { useDownloadFreshFindsCsv } from '../hooks/useDownloadFreshFindsCsv';
 import { useFreshFindsData } from '../hooks/useFreshFindsData';
 import { useFreshFindsStore } from '../store/freshFindsStore';
@@ -98,7 +99,7 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
           columns={columns}
           loading={isLoading}
           error={error}
-          actions={[]}
+          actions={actions}
           onDownloadCsv={downloadCsv}
           downloadCsvLoading={downloadCsvLoading}
           showLoadMore={!isStartingPlan && hasMore}
