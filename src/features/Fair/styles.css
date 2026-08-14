@@ -1147,6 +1147,43 @@
   padding: 24px;
 }
 
+.fair-principles__question--missing {
+  border-color: var(--danger);
+}
+
+.fair-principles__required-hint {
+  margin: 8px 0 0;
+  color: var(--danger);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.fair-submit-missing-fields {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fair-submit-missing-fields__link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary, #1890ff);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.fair-submit-missing-fields__link:hover {
+  color: var(--color-primary-hover, #40a9ff);
+}
+
+.fair-submit-missing-fields li + li {
+  margin-top: 6px;
+}
+
 .fair-principles__status-note {
   margin: 12px 0 0;
   padding: 10px 12px;
@@ -1248,6 +1285,7 @@
   color: var(--color-text-secondary);
   font-size: 13px;
   line-height: 1.4;
+  font-weight: 700;
 }
 
 .fair-principles-accordion-actions {
