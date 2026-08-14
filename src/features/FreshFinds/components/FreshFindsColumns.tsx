@@ -2,6 +2,11 @@ import { LinkOutlined } from '@ant-design/icons';
 
 import type { ReusableTableColumn } from '@components/common/CrTable/types.ts';
 
+import fullTextIcon from '@/assets/icons/fullText.svg';
+import metadataIcon from '@/assets/icons/metadata.svg';
+import cloud from '@/assets/icons/cloud.svg';
+import cloudDone from '@/assets/icons/cloudDone.svg';
+
 import type { FreshFindsRecord } from '../types/data.types';
 
 const renderCellText = (value: unknown): string => {
@@ -70,17 +75,19 @@ export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
   {
     key: 'type',
     title: 'Type',
-    dataIndex: 'journals',
+    dataIndex: 'documentType',
     width: '10%',
     align: 'left',
     className: 'fresh-finds-column fresh-finds-column--type',
     render: (_value: unknown, record: FreshFindsRecord) => {
-      const types =
-        record.journals?.flatMap(
-          (journal) => journal.identifiers?.map((identifier) => identifier.type) ?? [],
-        ) ?? [];
-      const text = [...new Set(types.filter(Boolean))].join(', ');
-      return renderCellText(text);
+      const documentType = record.documentType?.trim() ?? '';
+      if (documentType === '') {
+        return '-';
+      }
+
+      const icon = documentType.toLowerCase() === 'journal article' ? fullTextIcon : metadataIcon;
+
+      return <img src={icon} alt="type icon" className="fresh-finds__type-icon" />;
     },
   },
   {
@@ -99,6 +106,6 @@ export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
     width: '10%',
     align: 'left',
     className: 'fresh-finds-column fresh-finds-column--in-repository',
-    render: (value: unknown) => (value === true ? 'Yes' : 'No'),
+    render: (value: unknown) => (value === true ? <div className="status-wrapper"><img src={cloudDone} alt=""/> In my repository</div> : <div className="status-wrapper"><img src={cloud} alt=""/> Added automatically via FreshFinds</div>),
   },
 ];
