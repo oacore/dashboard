@@ -1,6 +1,6 @@
 import { ExclamationCircleFilled, InfoOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Markdown, PercentBar } from '@oacore/core-ui';
-import { useCallback, useEffect, useState, type ChangeEvent } from 'react';
+import { useCallback, useEffect, useState, type ChangeEvent, type FocusEvent } from 'react';
 import { Input, message, notification, Tooltip } from 'antd';
 import { formatNumber } from '@utils/helpers.ts';
 
@@ -76,13 +76,20 @@ export const FairPrincipleQuestionBlock = ({
     setAnswerValue(normalizeFairAnswer(event.target.value, isNumericAnswer));
   }, [isNumericAnswer]);
 
-  const handleAnswerBlur = useCallback(async () => {
-    if (!dataProviderId || !questionId || answerValue === savedAnswer) {
+  const handleAnswerBlur = useCallback(async (event: FocusEvent<HTMLTextAreaElement>) => {
+    if (!dataProviderId || !questionId) {
+      return;
+    }
+
+    const nextAnswer = normalizeFairAnswer(event.target.value, isNumericAnswer);
+    setAnswerValue(nextAnswer);
+
+    if (nextAnswer === savedAnswer) {
       return;
     }
 
     try {
-      await saveAnswer(questionId, answerValue);
+      await saveAnswer(questionId, nextAnswer);
       notificationApi.success({
         title: answerSavedMessage,
         placement: 'bottomRight',
@@ -94,8 +101,8 @@ export const FairPrincipleQuestionBlock = ({
   }, [
     answerSavedMessage,
     answerSaveErrorMessage,
-    answerValue,
     dataProviderId,
+    isNumericAnswer,
     notificationApi,
     questionId,
     saveAnswer,
@@ -251,7 +258,7 @@ export const FairPrincipleQuestionBlock = ({
                 }
                 aria-invalid={isMissingRequired}
                 aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
-                aria-required={isMissingRequired}
+                aria-required
                 className="fair-principles__open-field"
                 disabled={!questionId}
                 onBlur={handleAnswerBlur}

@@ -1,7 +1,6 @@
 import { CrFeatureLayout, CrPaper } from '@oacore/core-ui';
 import fairTexts from '@features/Fair/texts/fair.json';
 import { message, notification } from 'antd';
-import axios from 'axios';
 import { useState } from 'react';
 import '../styles.css';
 
@@ -10,29 +9,18 @@ import { FairCertificationErrorView } from '@features/Fair/components/FairCertif
 import { FairDocHeader } from '@features/Fair/components/FairDocHeader.tsx';
 import { FairPrinciplesCollapse } from '@features/Fair/components/FairPrinciplesCollapse.tsx';
 import { FairSubmissionProgress } from '@features/Fair/components/FairSubmissionProgress.tsx';
+import { FairSubmitConfirmationModal } from '@features/Fair/components/FairSubmitConfirmationModal.tsx';
 import {
   submitFairCertification,
   useFairCertification,
   useFairCertificationSubmissions,
+  waitForPendingFairAnswerSaves,
 } from '@features/Fair/hooks/useFairCertification';
 import type { FairCertificationQuestion } from '@features/Fair/types/fairCertification.types';
+import { getMissingFairQuestionNumbers } from '@features/Fair/utils/getMissingFairQuestionNumbers';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 const MISSING_FIELDS_NOTIFICATION_KEY = 'fair-submit-missing-fields';
-
-const getMissingQuestionNumbers = (error: unknown): string[] => {
-  if (!axios.isAxiosError(error)) {
-    return [];
-  }
-
-  const apiMessage = error.response?.data?.message;
-  if (typeof apiMessage !== 'string') {
-    return [];
-  }
-
-  const missingPart = apiMessage.split(/missing:/i)[1] ?? apiMessage;
-  return [...new Set(missingPart.match(/\d+\.\d+/g) ?? [])];
-};
 
 const scrollToQuestion = (questionNumber: string) => {
   document.getElementById(`fair-question-${questionNumber}`)?.scrollIntoView({
@@ -79,50 +67,66 @@ export const ApprovedFairView = () => {
   const dataProviderId = selectedDataProvider?.id;
   const { fairCertification, mutate, isLoading, error } = useFairCertification();
   const { mutate: mutateSubmissions } = useFairCertificationSubmissions();
+  const [isValidating, setIsValidating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [missingQuestionNumbers, setMissingQuestionNumbers] = useState<string[]>([]);
-  const { submitSuccessMessage, submitErrorMessage, submitApiErrorMessage } =
-    fairTexts.principlesAccordion;
+  const { submitErrorMessage, submitApiErrorMessage } = fairTexts.principlesAccordion;
 
-  const handleSubmit = async () => {
+  const handleOpenSubmitModal = async () => {
+    if (!dataProviderId) {
+      return;
+    }
+
+    notification.destroy(MISSING_FIELDS_NOTIFICATION_KEY);
+    setIsValidating(true);
+
+    try {
+      await waitForPendingFairAnswerSaves();
+      const latestCertification = (await mutate()) ?? fairCertification;
+      const questions = latestCertification?.questions;
+      const missingNumbers = getMissingFairQuestionNumbers(questions);
+      setMissingQuestionNumbers(missingNumbers);
+
+      if (missingNumbers.length) {
+        showMissingFieldsNotification(missingNumbers, questions, submitErrorMessage);
+        window.setTimeout(() => scrollToQuestion(missingNumbers[0]), 350);
+        return;
+      }
+
+      setIsSubmitted(false);
+      setIsSubmitModalOpen(true);
+    } finally {
+      setIsValidating(false);
+    }
+  };
+
+  const handleConfirmSubmit = async () => {
     if (!dataProviderId) {
       return;
     }
 
     setIsSubmitting(true);
-    setMissingQuestionNumbers([]);
-    notification.destroy(MISSING_FIELDS_NOTIFICATION_KEY);
 
     try {
       await submitFairCertification(dataProviderId);
       await Promise.all([mutate(), mutateSubmissions()]);
-      message.success(submitSuccessMessage);
-    } catch (submitError) {
-      const isValidationError =
-        axios.isAxiosError(submitError) && submitError.response?.status === 400;
-
-      if (!isValidationError) {
-        message.error(submitApiErrorMessage);
-        return;
-      }
-
-      const missingNumbers = getMissingQuestionNumbers(submitError);
-      setMissingQuestionNumbers(missingNumbers);
-
-      if (!missingNumbers.length) {
-        message.error(submitErrorMessage);
-        return;
-      }
-
-      showMissingFieldsNotification(
-        missingNumbers,
-        fairCertification?.questions,
-        submitErrorMessage,
-      );
-      window.setTimeout(() => scrollToQuestion(missingNumbers[0]), 350);
+      setIsSubmitted(true);
+    } catch {
+      message.error(submitApiErrorMessage);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleCloseSubmitModal = () => {
+    if (isSubmitting) {
+      return;
+    }
+
+    setIsSubmitModalOpen(false);
+    setIsSubmitted(false);
   };
 
   if (isLoading) {
@@ -139,11 +143,18 @@ export const ApprovedFairView = () => {
         <FairDocHeader certificationQuestions={fairCertification} />
         <FairPrinciplesCollapse
           certificationQuestions={fairCertification?.questions}
-          isSubmitting={isSubmitting}
+          isSubmitting={isValidating || isSubmitModalOpen}
           missingQuestionNumbers={missingQuestionNumbers}
-          onSubmit={handleSubmit}
+          onSubmit={handleOpenSubmitModal}
         />
         <FairSubmissionProgress />
+        <FairSubmitConfirmationModal
+          isSubmitted={isSubmitted}
+          isSubmitting={isSubmitting}
+          onClose={handleCloseSubmitModal}
+          onConfirm={handleConfirmSubmit}
+          open={isSubmitModalOpen}
+        />
       </CrPaper>
     </CrFeatureLayout>
   );

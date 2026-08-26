@@ -12,6 +12,10 @@ const fetchFairCertification = (url: string) =>
     (response) => response as FairCertificationApiResponse,
   );
 
+let pendingAnswerSave: Promise<void> = Promise.resolve();
+
+export const waitForPendingFairAnswerSaves = () => pendingAnswerSave;
+
 export const useFairCertification = (dataProviderId?: number) => {
   const { selectedDataProvider, isLoaded } = useDataProviderStore();
   const effectiveDataProviderId = dataProviderId ?? selectedDataProvider?.id;
@@ -33,8 +37,13 @@ export const useFairCertification = (dataProviderId?: number) => {
         throw new Error('Data provider not found');
       }
 
-      await updateFairCertificationAnswer(effectiveDataProviderId, questionId, answer);
-      await mutate();
+      const savePromise = (async () => {
+        await updateFairCertificationAnswer(effectiveDataProviderId, questionId, answer);
+        await mutate();
+      })();
+
+      pendingAnswerSave = Promise.all([pendingAnswerSave, savePromise]).then(() => undefined);
+      await savePromise;
     },
     [effectiveDataProviderId, mutate],
   );
