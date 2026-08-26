@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
-    "@oacore/core-ui": "^2.0.19",
+    "@oacore/core-ui": "^2.0.20",
     "@octokit/rest": "^22.0.1",
     "@sentry/react": "^10.49.0",
     "antd": "^6.3.1",
