@@ -1,6 +1,6 @@
 import { ExclamationCircleFilled, InfoOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Markdown, PercentBar } from '@oacore/core-ui';
-import { useCallback, useEffect, useState, type ChangeEvent } from 'react';
+import { useCallback, useEffect, useState, type ChangeEvent, type FocusEvent } from 'react';
 import { Input, message, notification, Tooltip } from 'antd';
 import { formatNumber } from '@utils/helpers.ts';
 
@@ -32,6 +32,8 @@ export type FairPrincipleQuestionBlockProps = {
   answerSavedMessage: string;
   answerSaveErrorMessage: string;
   numericAnswerHint: string;
+  missingQuestionNumbers?: string[];
+  requiredFieldHint?: string;
   // repositoryStatus?: FairRepositoryStatusParams | null;
 };
 
@@ -47,6 +49,8 @@ export const FairPrincipleQuestionBlock = ({
   answerSavedMessage,
   answerSaveErrorMessage,
   numericAnswerHint,
+  missingQuestionNumbers = [],
+  requiredFieldHint,
 }: FairPrincipleQuestionBlockProps) => {
   const [notificationApi, notificationContextHolder] = notification.useNotification();
   const { selectedDataProvider } = useDataProviderStore();
@@ -54,6 +58,10 @@ export const FairPrincipleQuestionBlock = ({
   const dataProviderId = selectedDataProvider?.id;
   const isOpenQuestion = Boolean(item.number) && isFairOpenQuestion(item.certificationQuestion);
   const questionId = item.certificationQuestion?.id;
+  const questionNumber = item.number ?? item.certificationQuestion?.number;
+  const isMissingRequired = Boolean(
+    isOpenQuestion && questionNumber && missingQuestionNumbers.includes(questionNumber),
+  );
 
   const isNumericAnswer = Boolean(item.numericAnswer);
   const rawSavedAnswer = item.certificationQuestion?.answer?.answer ?? '';
@@ -68,13 +76,20 @@ export const FairPrincipleQuestionBlock = ({
     setAnswerValue(normalizeFairAnswer(event.target.value, isNumericAnswer));
   }, [isNumericAnswer]);
 
-  const handleAnswerBlur = useCallback(async () => {
-    if (!dataProviderId || !questionId || answerValue === savedAnswer) {
+  const handleAnswerBlur = useCallback(async (event: FocusEvent<HTMLTextAreaElement>) => {
+    if (!dataProviderId || !questionId) {
+      return;
+    }
+
+    const nextAnswer = normalizeFairAnswer(event.target.value, isNumericAnswer);
+    setAnswerValue(nextAnswer);
+
+    if (nextAnswer === savedAnswer) {
       return;
     }
 
     try {
-      await saveAnswer(questionId, answerValue);
+      await saveAnswer(questionId, nextAnswer);
       notificationApi.success({
         title: answerSavedMessage,
         placement: 'bottomRight',
@@ -86,8 +101,8 @@ export const FairPrincipleQuestionBlock = ({
   }, [
     answerSavedMessage,
     answerSaveErrorMessage,
-    answerValue,
     dataProviderId,
+    isNumericAnswer,
     notificationApi,
     questionId,
     saveAnswer,
@@ -174,7 +189,10 @@ export const FairPrincipleQuestionBlock = ({
   return (
     <>
       {notificationContextHolder}
-      <div className="support-status fair-principles__question">
+      <div
+        className={`support-status fair-principles__question${isMissingRequired ? ' fair-principles__question--missing' : ''}`}
+        id={questionNumber ? `fair-question-${questionNumber}` : undefined}
+      >
         <div className="support-status__row">
           <div className="support-status__question-wrap">
             <p className="fair-principles__question-code">{item.code}</p>
@@ -230,17 +248,36 @@ export const FairPrincipleQuestionBlock = ({
           <>
             <div className="fair-principles__open-block">
               <Input.TextArea
-                aria-describedby={isNumericAnswer ? `${item.id}-numeric-hint` : undefined}
+                aria-describedby={
+                  [
+                    isNumericAnswer ? `${item.id}-numeric-hint` : undefined,
+                    isMissingRequired ? `${item.id}-required-hint` : undefined,
+                  ]
+                    .filter(Boolean)
+                    .join(' ') || undefined
+                }
+                aria-invalid={isMissingRequired}
                 aria-label={`${item.code} ${item.question}. ${item.answerPlaceholder ?? ''}`}
+                aria-required
                 className="fair-principles__open-field"
                 disabled={!questionId}
                 onBlur={handleAnswerBlur}
                 onChange={handleAnswerChange}
                 placeholder={item.answerPlaceholder ?? 'Write your answer here …'}
                 rows={4}
+                status={isMissingRequired ? 'error' : undefined}
                 value={answerValue}
                 {...(isNumericAnswer ? numericAnswerInputProps : {})}
               />
+              {isMissingRequired && requiredFieldHint ? (
+                <p
+                  className="fair-principles__required-hint"
+                  id={`${item.id}-required-hint`}
+                  role="alert"
+                >
+                  {requiredFieldHint}
+                </p>
+              ) : null}
               {isNumericAnswer ? (
                 <p
                   className="fair-principles__open-field-hint"

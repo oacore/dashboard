@@ -1147,6 +1147,43 @@
   padding: 24px;
 }
 
+.fair-principles__question--missing {
+  border-color: var(--danger);
+}
+
+.fair-principles__required-hint {
+  margin: 8px 0 0;
+  color: var(--danger);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.fair-submit-missing-fields {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fair-submit-missing-fields__link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary, #1890ff);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.fair-submit-missing-fields__link:hover {
+  color: var(--color-primary-hover, #40a9ff);
+}
+
+.fair-submit-missing-fields li+li {
+  margin-top: 6px;
+}
+
 .fair-principles__status-note {
   margin: 12px 0 0;
   padding: 10px 12px;
@@ -1248,6 +1285,7 @@
   color: var(--color-text-secondary);
   font-size: 13px;
   line-height: 1.4;
+  font-weight: 700;
 }
 
 .fair-principles-accordion-actions {
@@ -1256,6 +1294,83 @@
   align-items: center;
   gap: 14px;
   margin-top: 32px;
+}
+
+.fair-submit-modal-root .fair-submit-modal .ant-modal-container {
+  padding: 16px;
+  border-radius: 2px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transform: translate(0, 50%);
+}
+
+.fair-submit-modal-root .fair-submit-modal .ant-modal-body {
+  padding: 0;
+}
+
+.fair-submit-modal__confirm,
+.fair-submit-modal__success {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fair-submit-modal__title {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.87);
+  letter-spacing: 0.01px;
+  margin: 0 0 8px;
+}
+
+.fair-submit-modal__description {
+  margin: 24px 0;
+}
+
+.fair-submit-modal__description p {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.fair-submit-modal__description p:last-child {
+  margin-bottom: 0;
+}
+
+.fair-submit-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.fair-submit-modal__actions .ant-btn {
+  min-width: 80px;
+}
+
+@media (max-width: 768px) {
+  .fair-submit-modal-root .fair-submit-modal.ant-modal {
+    max-width: calc(100vw - 32px);
+  }
+
+  .fair-submit-modal-root .fair-submit-modal .ant-modal-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .fair-submit-modal__description p {
+    font-size: 14px;
+  }
+
+  .fair-submit-modal__actions {
+    flex-direction: column;
+  }
+
+  .fair-submit-modal__actions .ant-btn {
+    width: 100%;
+  }
 }
 
 /* Approved view — submission progress (Ant Design Steps vertical, Frame 1196) */

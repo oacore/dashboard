@@ -1,9 +1,9 @@
 import { CrFeatureLayout, CrMessage, CrPaper, Markdown } from '@oacore/core-ui';
 import { toAbsoluteAssetUrl } from '@/utils/contentUtils';
 import success from '@/assets/icons/successFilledTick.svg';
-import { FairCertificationFeesTable } from './components/FairCertificationFeesTable.tsx';
-import { FairCertificationMembersFeesTable } from './components/FairCertificationMembersFeesTable.tsx';
-import { parseFairPricingTable } from './hooks/fairPricingUtils.ts';
+// import { FairCertificationFeesTable } from './components/FairCertificationFeesTable.tsx';
+// import { FairCertificationMembersFeesTable } from './components/FairCertificationMembersFeesTable.tsx';
+// import { parseFairPricingTable } from './hooks/fairPricingUtils.ts';
 import './styles.css';
 
 export type { FairPricingTable, FairPricingPrice, FairPricingHeader, FairPricingSubRow, FairPricingPriceType } from './types/fairPricingTypes.ts';
@@ -57,13 +57,13 @@ export const FairFeature = ({
   const howItWorks = data.howItWorks.howItWorks;
   const applicationProcess = data.applicationProcess.applicationProcess;
   const certificates = data.certificates.certificates;
-  const bundle = data.table && typeof data.table === 'object' ? (data.table as Record<string, unknown>) : undefined;
+  // const bundle = data.table && typeof data.table === 'object' ? (data.table as Record<string, unknown>) : undefined;
 
-  const feesTable =
-    parseFairPricingTable(data.table) ?? parseFairPricingTable(bundle?.table);
-
-  const membersTable =
-    parseFairPricingTable(data.tableMembers) ?? parseFairPricingTable(bundle?.tableMembers);
+  // const feesTable =
+  //   parseFairPricingTable(data.table) ?? parseFairPricingTable(bundle?.table);
+  //
+  // const membersTable =
+  //   parseFairPricingTable(data.tableMembers) ?? parseFairPricingTable(bundle?.tableMembers);
 
   const howItWorksImageUrl = toAbsoluteAssetUrl(howItWorks.image);
 
@@ -122,18 +122,28 @@ export const FairFeature = ({
                   )}
                 </p>
               </div>
-              {/*  TODO enable based on condition */}
-              {(feesTable || membersTable) && (
-                <section
-                  className="fair-certification-pricing"
-                  aria-label="FAIR Certification fees and member pricing"
-                >
-                  <div className="fair-certification-pricing-tables">
-                    {feesTable ? <FairCertificationFeesTable config={feesTable} /> : null}
-                    {membersTable ? <FairCertificationMembersFeesTable config={membersTable} /> : null}
-                  </div>
-                </section>
-              )}
+              {/*  TODO (show table) enable based on condition */}
+              {/*{(feesTable || membersTable) && (*/}
+              {/*  <section*/}
+              {/*    className="fair-certification-pricing"*/}
+              {/*    aria-label="FAIR Certification fees and member pricing"*/}
+              {/*  >*/}
+              {/*    <div className="fair-certification-pricing-tables">*/}
+              {/*      {feesTable ? <FairCertificationFeesTable config={feesTable} /> : null}*/}
+              {/*      {membersTable ? <FairCertificationMembersFeesTable config={membersTable} /> : null}*/}
+              {/*    </div>*/}
+              {/*  </section>*/}
+              {/*)}              {/*{(feesTable || membersTable) && (*/}
+              {/*  <section*/}
+              {/*    className="fair-certification-pricing"*/}
+              {/*    aria-label="FAIR Certification fees and member pricing"*/}
+              {/*  >*/}
+              {/*    <div className="fair-certification-pricing-tables">*/}
+              {/*      {feesTable ? <FairCertificationFeesTable config={feesTable} /> : null}*/}
+              {/*      {membersTable ? <FairCertificationMembersFeesTable config={membersTable} /> : null}*/}
+              {/*    </div>*/}
+              {/*  </section>*/}
+              {/*)}*/}
             </div>
           </section>
           <section

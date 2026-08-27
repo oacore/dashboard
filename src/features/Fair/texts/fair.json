@@ -26,7 +26,23 @@
     "submitButtonLabel": "Submit",
     "submitSuccessMessage": "Your FAIR certification has been submitted successfully.",
     "submitErrorMessage": "Missing some required fields. Please check the questions and fill in the required fields before submitting.",
+    "submitRequiredFieldHint": "This field is required.",
     "submitApiErrorMessage": "We can't process your submission currently. Please try again in a few minutes.",
+    "submitModal": {
+      "confirm": {
+        "title": "This is submission of your FAIR certification report",
+        "description": "You are about to submit your FAIR report to the CORE team for review. Once submitted, you will no longer be able to edit your answers.\n\nIf you haven’t finished your report yet and need more time, you can return to it later. Don’t worry all your answers have been automatically saved, and you can continue working on your report at any time.",
+        "submitLabel": "Submit",
+        "cancelLabel": "cancel",
+        "ariaLabel": "Submit FAIR certification report"
+      },
+      "success": {
+        "title": "Thank you for your submission!",
+        "description": "We will evaluate your repository and inform you if you qualify for the certificate. In case you don’t qualify yet, we will offer technical advice on how to satisfy the requirements. You are free to resubmit your application as many times as needed during a 365 days period.",
+        "closeLabel": "Close",
+        "ariaLabel": "FAIR certification submitted"
+      }
+    },
     "recommendationHeading": "Recommendation",
     "openQuestionBadge": "Open question",
     "questionStatusErrorTooltip": "Currently we're unable to display the results ",
