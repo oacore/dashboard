@@ -6,6 +6,7 @@ import { PublicationsDatesCard } from './components/PublicationsDatesCard';
 import { NotEnoughDataMessage, NotEnoughDataBasedOnDates } from './components/NotEnoughDataMessage';
 import { useDepositTimeLag } from './hooks/useDepositTimeLag';
 import { useCrossDepositLag } from './hooks/useCrossDepositLag';
+import { useComplianceLevel } from './hooks/useComplianceLevel';
 import { usePublicationDatesValidate } from './hooks/usePublicationDatesValidate';
 import { useDepositDatesStore } from './store/depositDatesStore';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
@@ -42,11 +43,15 @@ export const DepositComplianceFeature = () => {
   const { crossDepositLag, isLoading: isCrossDepositLagLoading, error: crossDepositLagError } = useCrossDepositLag();
   const { publicationDatesValidate, error: publicationDatesError } = usePublicationDatesValidate();
   const { selectedDataProvider } = useDataProviderStore();
+  const { complianceLevel, totalCount, nonCompliantCount } = useComplianceLevel(timeLagData);
+  const compliantCount = totalCount - nonCompliantCount;
+  const compliantPercentage = complianceLevel ?? 0;
+  const nonCompliantPercentage =
+    totalCount > 0 && complianceLevel != null ? 100 - complianceLevel : 0;
 
   const depositDatesCardRef = useRef<HTMLDivElement>(null);
   const crossRepositoryCheckRef = useRef<HTMLDivElement>(null);
 
-  const totalCount = timeLagData.reduce((sum, item) => sum + item.worksCount, 0);
   const { isStartingOrSupportingPlan } = useStartingOrSupportingBillingPlanData(
     timeLagData,
     organisation
@@ -141,13 +146,9 @@ export const DepositComplianceFeature = () => {
             showInfo
             icon={<CheckOutlined className="tick-icon" />}
             iconClassName="green"
-            subValue={totalCount - (crossDepositLag?.nonCompliantCount || 0)}
-            percentageValue={
-              totalCount > 0
-                ? ((totalCount - (crossDepositLag?.nonCompliantCount || 0)) / totalCount) * 100
-                : 0
-            }
-            error={crossDepositLagError}
+            subValue={compliantCount}
+            percentageValue={compliantPercentage}
+            error={error}
           />
           <CrStatsCard
             loading={isRetrieveDepositDatesInProgress}
@@ -155,17 +156,13 @@ export const DepositComplianceFeature = () => {
             caption={TextData.compliance.nonCompliant.subTitle}
             infoText={TextData.compliance.nonCompliant.description}
             showInfo
-            subValue={crossDepositLag?.nonCompliantCount}
-            percentageValue={
-              totalCount > 0
-                ? ((crossDepositLag?.nonCompliantCount || 0) / totalCount) * 100
-                : 0
-            }
+            subValue={nonCompliantCount}
+            percentageValue={nonCompliantPercentage}
             icon={
               <ExclamationCircleOutlined className="cross-icon" />
             }
             iconClassName="red"
-            error={crossDepositLagError}
+            error={error}
           />
           <CrStatsCard
             loading={isRetrieveDepositDatesInProgress}
