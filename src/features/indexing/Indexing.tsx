@@ -43,7 +43,7 @@ export const IndexingFeature = () => {
           }
           title="Last successful updating"
         >
-          {!harvestingError && issuesAggregation.typesCount && issuesAggregation.globalsCount && (
+          {!harvestingError && issuesAggregation.typesCount  >=0 && issuesAggregation.globalsCount  >= 0 && (
             <div className="error-wrapper">
               <p className="errors-info">
                 indexed with
