@@ -4,7 +4,7 @@ import { fetcher, swrDefaultConfig } from '@/config/swr';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 import type { IssuesAggregation } from '../types';
 
-const SKIPPED_ISSUE_TYPES = new Set(['UNSPECIFIED_DOWNLOAD_ERROR']);
+const SKIPPED_ISSUE_TYPES = new Set(['UNSPECIFIED_DOWNLOAD_ERROR', 'EXTERNAL_UNKNOWN']);
 
 export const useIssuesAggregation = (dataProviderId?: number) => {
   const { selectedDataProvider, isLoaded } = useDataProviderStore();
