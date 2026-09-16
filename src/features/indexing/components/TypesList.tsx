@@ -36,11 +36,14 @@ export const TypesList = ({ aggregation, isLoading = false, error = false }: Typ
       .filter(([, count]) => count > 0)
       .map(([type, count]) => {
         const message = texts.messages[type] as IssueMessage | undefined;
+        const rawSeverity = (message?.severity || 'ERROR').toUpperCase();
+        const severity = rawSeverity === 'ERROR' ? 'ERROR' : 'WARNING';
+
         return {
           ...message,
           actualType: type,
           title: message?.title || type,
-          severity: message?.severity || 'ERROR',
+          severity,
           outputsAffectedCount: count,
         } as IssueItem;
       });

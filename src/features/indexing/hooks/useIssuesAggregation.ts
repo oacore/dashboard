@@ -37,7 +37,7 @@ export const useIssuesAggregation = (dataProviderId?: number) => {
       ...data,
       countByType: filteredCountByType,
       typesCount: Object.values(filteredCountByType).filter((count) => count > 0).length,
-      globalsCount: Math.max((data.globalsCount ?? 0) - skippedIssuesCount, 0),
+      total: Math.max((data.total ?? 0) - skippedIssuesCount, 0),
     };
   }, [data]);
 
@@ -57,7 +57,7 @@ export const useIssuesAggregation = (dataProviderId?: number) => {
     error,
     issuesByType,
     typesCount: aggregation?.typesCount ?? 0,
-    globalsCount: aggregation?.globalsCount ?? 0,
+    total: aggregation?.total ?? 0,
     getDownloadUrl,
   };
 };
