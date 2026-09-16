@@ -8,7 +8,7 @@ export interface HarvestingStatus {
 export interface IssuesAggregation {
     countByType?: Record<string, number>;
     typesCount?: number;
-    globalsCount?: number;
+    total?: number;
     [key: string]: unknown;
 }
 
