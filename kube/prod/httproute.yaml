@@ -8,7 +8,6 @@ spec:
     - name: public-gateway
       namespace: gateway-system
   hostnames:
-    - dashboard.preferans.uk
     - dashboard-aks.core.ac.uk 
     - dashboard.core.ac.uk 
   rules:
