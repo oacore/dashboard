@@ -2,7 +2,7 @@ name: AKS Prod
 
 on:
   push:
-    branches: [aks]
+    branches: [main]
   workflow_dispatch:
 
 env:

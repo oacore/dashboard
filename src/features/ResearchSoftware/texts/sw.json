@@ -3,7 +3,7 @@
   "description": "Via the CORE Repository Dashboard, a request to validate the extracted mentions is made available to the repository  and, with the authorisation of the repository manager, routed to the author (e.g. by means of an email notification) who validates this request.",
   "settings": {
     "title": "Settings",
-    "warning": "This functionality uses [COAR Notify](https://coar-notify.net) to enable the automatic enrichment of software mentions in your repository record. It is currently in beta version, if you are interested in enabling it please contact us **theteam@core.ac.uk.**",
+    "warning": "This functionality uses [COAR Notify](https://coar-notify.net) to enable the automatic enrichment of software mentions in your repository record. It is currently in beta version, if you are interested in enabling it please contact us **theteam@core.science.**",
     "configure": {
       "title": "Sending settings:",
       "description": "Authorise CORE to send notification automatically",
@@ -83,7 +83,7 @@
   ],
   "notificationModal": {
     "title": "Automatic notification of software mentions",
-    "description": "This functionality uses [COAR Notify](https://coar-notify.net) to enable the automatic enrichment of software mentions in your repository record. It is currently in beta version, if you are interested in enabling it please contact us at **theteam@core.ac.uk**",
+    "description": "This functionality uses [COAR Notify](https://coar-notify.net) to enable the automatic enrichment of software mentions in your repository record. It is currently in beta version, if you are interested in enabling it please contact us at **theteam@core.science**",
     "action": "Close"
   }
 }

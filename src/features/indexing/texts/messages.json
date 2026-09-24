@@ -289,7 +289,10 @@
     },
     {
         "type": "ATTACHMENT_NOT_DISCOVERED",
-        "severity": "INFO",
+        "matches": [
+            "LINK_REDIRECTED_TO_DISALLOWED_URL"
+        ],
+        "severity": "WARNING",
         "trigger": "No attachment was found, no error was detected, no other issue was set",
         "title": "Link redirected to disallowed URL.",
         "description": "We enforce a policy where we restrict the download of fulltexts to the\nsame domain as the OAI-PMH endpoint.",

@@ -43,7 +43,7 @@ export const IndexingFeature = () => {
           }
           title="Last successful updating"
         >
-          {!harvestingError && issuesAggregation.typesCount && issuesAggregation.globalsCount && (
+          {!harvestingError && issuesAggregation.typesCount  >=0 && issuesAggregation.total  >= 0 && (
             <div className="error-wrapper">
               <p className="errors-info">
                 indexed with
@@ -51,7 +51,7 @@ export const IndexingFeature = () => {
                   {' '}
                   {patchValueFull('{{errorsCount}}', { errorsCount: issuesAggregation.typesCount })}{' '}
                 </span>
-                issue types affecting <span className="numbers-count"> {patchValueFull('{{total}}', { total: issuesAggregation.globalsCount })}{' '} </span>
+                issue types affecting <span className="numbers-count"> {patchValueFull('{{total}}', { total: issuesAggregation.total })}{' '} </span>
                 records
               </p>
             </div>
