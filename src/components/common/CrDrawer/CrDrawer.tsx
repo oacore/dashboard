@@ -49,6 +49,8 @@ interface OrcidDrawerContentProps {
     error?: Error | null;
     isLoading?: boolean;
     removeLiveActions?: boolean;
+    /** When true with removeLiveActions, hides “Open in the Repository” (e.g. no OAI on record). */
+    hideRepositoryButton?: boolean;
     onVisibilityChange?: (article: ArticleAdditionalData) => Promise<void>;
     outputsUrl?: string;
     isChangingVisibility?: boolean;
@@ -66,6 +68,7 @@ export const CrDrawer: React.FC<OrcidDrawerContentProps> = ({
     article,
     error,
     removeLiveActions,
+    hideRepositoryButton = false,
     isLoading,
     onVisibilityChange,
     outputsUrl,
@@ -176,13 +179,15 @@ export const CrDrawer: React.FC<OrcidDrawerContentProps> = ({
                                 >
                                     Open in CORE
                                 </Button>
-                                <Button
-                                    type="default"
-                                    target="_blank"
-                                    href={`https://api.core.ac.uk/oai/${article?.oai}`}
-                                >
-                                    Open in the Repository
-                                </Button>
+                                {!hideRepositoryButton && (
+                                    <Button
+                                        type="default"
+                                        target="_blank"
+                                        href={`https://api.core.ac.uk/oai/${article?.oai}`}
+                                    >
+                                        Open in the Repository
+                                    </Button>
+                                )}
                             </div>
                         ) : (
                             <div className="actions">

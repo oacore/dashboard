@@ -12,6 +12,7 @@ import {
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { menuItems, DISABLED_TABS_WHEN_NO_METADATA } from './menuItems';
+import { canAccessLimitedFeature } from '@config/tempFeatureAccess.ts';
 import { useDashboardRoute } from '@hooks/useDashboardRoute';
 import { DEFAULT_DASHBOARD_PATH } from '@/utils/routes';
 import RepositorySelect from '../common/RepositorySelect/RepositorySelect';
@@ -26,6 +27,7 @@ import metadataValidatorIcon from '@/assets/icons/metadata-validator.svg';
 import deduplicationIcon from '@/assets/icons/deduplication.svg';
 import fileDocumentIcon from '@/assets/icons/file-document.svg';
 import fair from '@/assets/icons/fair.svg';
+import fresh from '@/assets/icons/fresh.svg';
 import calendarCheckIcon from '@/assets/icons/calendar-check.svg';
 import sdgIcon from '@/assets/icons/sdg.svg';
 import dasIcon from '@/assets/icons/das.svg';
@@ -69,6 +71,7 @@ const iconMap: Record<string, string> = {
     'deduplication': deduplicationIcon,
     'file-document': fileDocumentIcon,
     'fair': fair,
+    'fresh': fresh,
     'calendar-check': calendarCheckIcon,
     'sdg': sdgIcon,
     'das': dasIcon,
@@ -88,7 +91,7 @@ export function DashboardLayout() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const navigate = useNavigate();
-    const { buildPath, currentSubPath } = useDashboardRoute();
+    const { buildPath, currentSubPath, dataProviderId } = useDashboardRoute();
     const { user, logout } = useAuthStore();
     const {
         selectedDataProvider,
@@ -212,8 +215,13 @@ export function DashboardLayout() {
         shouldDisableTabs && DISABLED_TABS_WHEN_NO_METADATA.includes(path);
 
     // Convert config to menu items
+    // TODO REMOVE
+    const visibleMenuItems = menuItems.filter(
+        (route) => route.path !== 'fresh-finds' || canAccessLimitedFeature(dataProviderId)
+    );
+
     const navItems = [
-        ...menuItems.map((route) => {
+        ...visibleMenuItems.map((route) => {
             const iconSrc = iconMap[route.icon];
 
             if (route.children) {
