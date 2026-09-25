@@ -125,7 +125,7 @@ export const menuItems = [
   {
     test: /\/fresh-finds/,
     path: 'fresh-finds',
-    icon: 'fair',
+    icon: 'fresh',
     label: 'Fresh Finds',
   },
   {

@@ -10,6 +10,13 @@ export interface FreshFindsJournal {
   identifiers: FreshFindsJournalIdentifier[];
 }
 
+export type FreshFindsRepositoryStatus =
+  | 'added'
+  | 'adding'
+  | 'added_without_fulltext'
+  | 'candidate'
+  | 'fulltext_unavailable';
+
 export interface FreshFindsWorkItem {
   workId: number;
   depositIdentifier: string;
@@ -24,6 +31,7 @@ export interface FreshFindsWorkItem {
   journals: FreshFindsJournal[];
   matchedInstitutionIds: number[];
   alreadyInRepository: boolean;
+  status: FreshFindsRepositoryStatus;
   deposit: unknown | null;
   canDeposit: boolean;
 }

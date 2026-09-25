@@ -64,3 +64,10 @@
     align-items: center;
     gap: 8px;
 }
+
+.fresh-finds__status-icon {
+    display: block;
+    width: 1.5rem;
+    height: auto;
+    flex-shrink: 0;
+}

@@ -27,6 +27,7 @@ import metadataValidatorIcon from '@/assets/icons/metadata-validator.svg';
 import deduplicationIcon from '@/assets/icons/deduplication.svg';
 import fileDocumentIcon from '@/assets/icons/file-document.svg';
 import fair from '@/assets/icons/fair.svg';
+import fresh from '@/assets/icons/fresh.svg';
 import calendarCheckIcon from '@/assets/icons/calendar-check.svg';
 import sdgIcon from '@/assets/icons/sdg.svg';
 import dasIcon from '@/assets/icons/das.svg';
@@ -70,6 +71,7 @@ const iconMap: Record<string, string> = {
     'deduplication': deduplicationIcon,
     'file-document': fileDocumentIcon,
     'fair': fair,
+    'fresh': fresh,
     'calendar-check': calendarCheckIcon,
     'sdg': sdgIcon,
     'das': dasIcon,
