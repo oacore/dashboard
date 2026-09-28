@@ -64,3 +64,9 @@ export interface FreshFindsWorksResponse {
 
 /** Table row type for Fresh Finds works. */
 export type FreshFindsRecord = FreshFindsWorkItem;
+
+export interface FreshFindsDepositPayload {
+  workId: number;
+  confirm: boolean;
+  includeFullText: number;
+}

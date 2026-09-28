@@ -71,3 +71,24 @@
     height: auto;
     flex-shrink: 0;
 }
+
+.fresh-finds__add-to-repository {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #b75400;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+}
+
+.fresh-finds__add-to-repository:hover,
+.fresh-finds__add-to-repository:focus-visible {
+    color: #9a4600;
+    text-decoration: underline;
+}
+
+.fresh-finds__add-to-repository:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}

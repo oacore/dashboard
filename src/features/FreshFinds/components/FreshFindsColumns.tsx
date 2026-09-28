@@ -1,3 +1,4 @@
+import type { KeyboardEvent, MouseEvent } from 'react';
 import { LinkOutlined } from '@ant-design/icons';
 
 import type { ReusableTableColumn } from '@components/common/CrTable/types.ts';
@@ -16,7 +17,17 @@ const renderCellText = (value: unknown): string => {
 
 const IN_REPOSITORY_STATUSES = new Set(['added', 'adding', 'added_without_fulltext']);
 
-const renderRepositoryStatus = (value: unknown) => {
+type CreateColumnsOptions = {
+  onAddToRepository: (workId: number) => void;
+  depositingWorkId: number | null;
+};
+
+const renderRepositoryStatus = (
+  value: unknown,
+  record: FreshFindsRecord,
+  onAddToRepository: (workId: number) => void,
+  depositingWorkId: number | null,
+) => {
   const status = value != null ? String(value).trim() : '';
 
   if (IN_REPOSITORY_STATUSES.has(status)) {
@@ -29,18 +40,42 @@ const renderRepositoryStatus = (value: unknown) => {
   }
 
   if (status === 'candidate') {
+    const isDepositing = depositingWorkId === record.workId;
+
+    const handleAddToRepository = (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      onAddToRepository(record.workId);
+    };
+
+    const handleAddToRepositoryKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.stopPropagation();
+      }
+    };
+
     return (
-      <div className="status-wrapper">
+      <button
+        type="button"
+        className="status-wrapper fresh-finds__add-to-repository"
+        aria-label="add to my repository"
+        aria-busy={isDepositing}
+        disabled={isDepositing}
+        onClick={handleAddToRepository}
+        onKeyDown={handleAddToRepositoryKeyDown}
+      >
         <img src={addInRepoIcon} alt="" aria-hidden className="fresh-finds__status-icon" />
         add to my repository
-      </div>
+      </button>
     );
   }
 
   return '-';
 };
 
-export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
+export const createColumns = ({
+  onAddToRepository,
+  depositingWorkId,
+}: CreateColumnsOptions): ReusableTableColumn<FreshFindsRecord>[] => [
   {
     key: 'authors',
     title: 'Author',
@@ -132,6 +167,7 @@ export const createColumns = (): ReusableTableColumn<FreshFindsRecord>[] => [
     width: '20%',
     align: 'left',
     className: 'fresh-finds-column fresh-finds-column--in-repository',
-    render: (value: unknown) => renderRepositoryStatus(value),
+    render: (value: unknown, record: FreshFindsRecord) =>
+      renderRepositoryStatus(value, record, onAddToRepository, depositingWorkId),
   },
 ];

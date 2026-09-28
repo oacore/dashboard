@@ -11,6 +11,7 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import { createColumns } from './FreshFindsColumns.tsx';
 import { actions } from './tableActions.tsx';
+import { useDepositFreshFind } from '../hooks/useDepositFreshFind';
 import { useDownloadFreshFindsCsv } from '../hooks/useDownloadFreshFindsCsv';
 import { useFreshFindsData } from '../hooks/useFreshFindsData';
 import { useFreshFindsStore } from '../store/freshFindsStore';
@@ -28,6 +29,7 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
   const { selectedDataProvider } = useDataProviderStore();
   const { organisation } = useOrganisation();
   const { downloadCsv, isLoading: downloadCsvLoading } = useDownloadFreshFindsCsv();
+  const { depositWork, depositingWorkId } = useDepositFreshFind();
 
   const {
     data: accumulatedData,
@@ -41,7 +43,10 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
 
   const { isStartingPlan, displayData } = useBillingPlanData(accumulatedData, organisation);
 
-  const columns = useMemo(() => createColumns(), []);
+  const columns = useMemo(
+    () => createColumns({ onAddToRepository: depositWork, depositingWorkId }),
+    [depositWork, depositingWorkId],
+  );
 
   const dataWithUniqueKeys = useMemo(
     () =>

@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import type { FreshFindsWorkItem } from '../types/data.types';
+import type { FreshFindsRepositoryStatus, FreshFindsWorkItem } from '../types/data.types';
 
 interface FreshFindsActions {
   setSearchTerm: (term: string) => void;
   setCurrentPage: (page: number) => void;
   setAllData: (data: FreshFindsWorkItem[]) => void;
   appendData: (data: FreshFindsWorkItem[]) => void;
+  updateWorkStatus: (workId: number, status: FreshFindsRepositoryStatus) => void;
   setTotalLength: (length: number) => void;
   setHasMore: (hasMore: boolean) => void;
   setIsLoadingMore: (loading: boolean) => void;
@@ -55,6 +56,15 @@ export const useFreshFindsStore = create<FreshFindsStore>()(
       appendData: (data: FreshFindsWorkItem[]) => {
         const { allData } = get();
         set({ allData: [...allData, ...data] });
+      },
+
+      updateWorkStatus: (workId: number, status: FreshFindsRepositoryStatus) => {
+        const { allData } = get();
+        set({
+          allData: allData.map((item) =>
+            item.workId === workId ? { ...item, status } : item,
+          ),
+        });
       },
 
       setTotalLength: (length: number) => {
