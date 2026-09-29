@@ -1,73 +1,59 @@
 import { useCallback, useState } from 'react';
 import useSWR from 'swr';
-import { message } from 'antd';
 
 import { fetcher, postRequestFetcher, swrDefaultConfig } from '@/config/swr';
 import { captureHandledError } from '@/utils/captureHandledError';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
-import {
-  FRESH_FINDS_SOURCE_KEYS,
-  type FreshFindsSettingsFormValues,
-  type FreshFindsSettingsResponse,
-  type FreshFindsSettingsSources,
-  type FreshFindsSettingsUpdatePayload,
+import type {
+  FreshFindsSettingsFormValues,
+  FreshFindsSettingsResponse,
+  FreshFindsSettingsUpdatePayload,
 } from '../types/settings.types';
 
 const DEFAULT_MAX_PAPERS = 500;
 
-export const mapFreshFindsSettingsToForm = (
-  settings: FreshFindsSettingsResponse,
-): FreshFindsSettingsFormValues => ({
-  sources: FRESH_FINDS_SOURCE_KEYS.filter((sourceKey) => Boolean(settings.sources?.[sourceKey])),
+const toFormValues = (settings: FreshFindsSettingsResponse): FreshFindsSettingsFormValues => ({
+  sources: settings.sources,
   notifyByEmail: settings.notifyByEmail,
-  fullTextOnly: settings.depositOnlyWithFullText,
+  depositOnlyWithFullText: settings.depositOnlyWithFullText,
   depositFrequency: settings.depositFrequency,
-  autoDeposit: settings.autoDepositEnabled,
-  maxPapersPerDeposit: settings.maximumPapersPerDeposit,
-  username: settings.swordUsername ?? '',
+  autoDepositEnabled: settings.autoDepositEnabled,
+  maximumPapersPerDeposit: settings.maximumPapersPerDeposit,
+  swordUsername: settings.swordUsername ?? '',
   swordPassword: '',
   swordEndpointUrl: settings.swordEndpointUrl ?? '',
   repositoryProfile: settings.repositoryProfile ?? undefined,
 });
 
-export const mapFormToFreshFindsSettingsUpdate = (
+const toUpdatePayload = (
   values: FreshFindsSettingsFormValues,
   current: FreshFindsSettingsResponse | null,
-): FreshFindsSettingsUpdatePayload => {
-  const password = values.swordPassword.trim();
-  const sources = FRESH_FINDS_SOURCE_KEYS.reduce((selectedSources, sourceKey) => {
-    selectedSources[sourceKey] = values.sources.includes(sourceKey);
-    return selectedSources;
-  }, {} as FreshFindsSettingsSources);
-
-  return {
-    integrationMode: current?.integrationMode ?? 'push',
-    enabled: current?.enabled ?? true,
-    repositoryProfile: values.repositoryProfile ?? current?.repositoryProfile ?? null,
-    autoDepositEnabled: values.autoDeposit,
-    swordUsername: values.username.trim(),
-    swordPassword: password,
-    swordEndpointUrl: values.swordEndpointUrl.trim(),
-    swordServiceDocumentUrl: current?.swordServiceDocumentUrl ?? null,
-    exportFormat: current?.exportFormat ?? 'json',
-    sources,
-    notifyByEmail: values.notifyByEmail,
-    depositOnlyWithFullText: values.fullTextOnly,
-    depositFrequency: values.depositFrequency,
-    maximumPapersPerDeposit: values.maxPapersPerDeposit ?? DEFAULT_MAX_PAPERS,
-  };
-};
+): FreshFindsSettingsUpdatePayload => ({
+  integrationMode: current?.integrationMode ?? 'push',
+  enabled: current?.enabled ?? true,
+  repositoryProfile: values.repositoryProfile ?? current?.repositoryProfile ?? null,
+  autoDepositEnabled: values.autoDepositEnabled,
+  swordUsername: values.swordUsername.trim(),
+  swordPassword: values.swordPassword.trim(),
+  swordEndpointUrl: values.swordEndpointUrl.trim(),
+  swordServiceDocumentUrl: current?.swordServiceDocumentUrl ?? null,
+  exportFormat: current?.exportFormat ?? 'json',
+  sources: values.sources,
+  notifyByEmail: values.notifyByEmail,
+  depositOnlyWithFullText: values.depositOnlyWithFullText,
+  depositFrequency: values.depositFrequency,
+  maximumPapersPerDeposit: values.maximumPapersPerDeposit ?? DEFAULT_MAX_PAPERS,
+});
 
 export const useFreshFindsSettings = () => {
   const { selectedDataProvider, isLoaded } = useDataProviderStore();
   const dataProviderId = selectedDataProvider?.id;
+  const [isSaving, setIsSaving] = useState(false);
 
   const key = isLoaded && dataProviderId
     ? `/internal/data-providers/${dataProviderId}/fresh-finds/settings`
     : null;
-
-  const [isSaving, setIsSaving] = useState(false);
 
   const { data, error, isLoading, mutate } = useSWR<FreshFindsSettingsResponse>(
     key,
@@ -85,8 +71,7 @@ export const useFreshFindsSettings = () => {
 
   const saveSettings = useCallback(async (values: FreshFindsSettingsFormValues) => {
     if (!dataProviderId) {
-      message.error('No data provider selected');
-      return false;
+      throw new Error('No data provider selected');
     }
 
     setIsSaving(true);
@@ -94,19 +79,9 @@ export const useFreshFindsSettings = () => {
     try {
       await postRequestFetcher(
         `/internal/data-providers/${dataProviderId}/fresh-finds/settings`,
-        mapFormToFreshFindsSettingsUpdate(values, data ?? null),
+        toUpdatePayload(values, data ?? null),
       );
-
-      try {
-        await mutate();
-      } catch (refreshError) {
-        captureHandledError(refreshError, {
-          tags: { feature: 'fresh-finds', action: 'refresh-settings' },
-          extra: { dataProviderId },
-        });
-      }
-
-      return true;
+      await mutate();
     } catch (err) {
       captureHandledError(err, {
         tags: { feature: 'fresh-finds', action: 'save-settings' },
@@ -119,11 +94,11 @@ export const useFreshFindsSettings = () => {
   }, [data, dataProviderId, mutate]);
 
   return {
-    settings: data ?? null,
+    formValues: data ? toFormValues(data) : null,
+    passwordConfigured: Boolean(data?.swordPasswordConfigured),
     error,
-    isLoading: !isLoaded || Boolean(key && isLoading),
+    isLoading: !isLoaded || isLoading,
     isSaving,
     saveSettings,
-    mutate,
   };
 };

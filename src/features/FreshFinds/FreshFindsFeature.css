@@ -128,10 +128,27 @@
     margin-top: 1.25rem;
 }
 
-.fresh-finds-settings__sources-item,
+.fresh-finds-settings__loading {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
 .fresh-finds-settings__frequency-item,
 .fresh-finds-settings__field {
     margin-bottom: 1rem;
+}
+
+.fresh-finds-settings__sources {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.fresh-finds-settings__source {
+    margin-bottom: 0;
 }
 
 .fresh-finds-settings__hint {
@@ -144,7 +161,6 @@
     margin-bottom: 1rem;
 }
 
-.fresh-finds-settings__sources.ant-checkbox-group,
 .fresh-finds-settings__frequency.ant-radio-group {
     display: flex;
     flex-direction: column;
@@ -152,7 +168,6 @@
     gap: 0.75rem;
 }
 
-.fresh-finds-settings__sources .ant-checkbox-wrapper,
 .fresh-finds-settings__frequency .ant-radio-wrapper {
     margin-inline-start: 0;
 }

@@ -1,13 +1,3 @@
-export const FRESH_FINDS_SOURCE_KEYS = [
-  'coreNetworkRepositories',
-  'institutionalRepositories',
-  'journals',
-  'preprintServers',
-  'crossref',
-] as const;
-
-export type FreshFindsSourceKey = (typeof FRESH_FINDS_SOURCE_KEYS)[number];
-
 export interface FreshFindsSettingsSources {
   coreNetworkRepositories: boolean;
   institutionalRepositories: boolean;
@@ -60,13 +50,13 @@ export interface FreshFindsSettingsUpdatePayload {
 }
 
 export interface FreshFindsSettingsFormValues {
-  sources: string[];
+  sources: FreshFindsSettingsSources;
   notifyByEmail: boolean;
-  fullTextOnly: boolean;
+  depositOnlyWithFullText: boolean;
   depositFrequency: string;
-  autoDeposit: boolean;
-  maxPapersPerDeposit: number | null;
-  username: string;
+  autoDepositEnabled: boolean;
+  maximumPapersPerDeposit: number | null;
+  swordUsername: string;
   swordPassword: string;
   swordEndpointUrl: string;
   repositoryProfile?: string;

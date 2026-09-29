@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useMemo } from 'react';
 import { InfoCircleFilled } from '@ant-design/icons';
 import { Alert, Button, Checkbox, ConfigProvider, Form, Input, InputNumber, Radio, Select, Spin, Switch, message } from 'antd';
 import type { ThemeConfig } from 'antd';
@@ -7,20 +6,26 @@ import { Link } from 'react-router-dom';
 import { customColors } from '@/config/theme';
 import { useDashboardRoute } from '@hooks/useDashboardRoute.ts';
 
-import { mapFreshFindsSettingsToForm, useFreshFindsSettings } from '../hooks/useFreshFindsSettings';
+import { useFreshFindsSettings } from '../hooks/useFreshFindsSettings';
 import { articleTemplateData } from '../texts';
 import type { FreshFindsSettingsFormValues } from '../types/settings.types';
 
-const DEFAULT_MAX_PAPERS = 500;
+const text = articleTemplateData.settings;
 
-const EMPTY_SETTINGS: FreshFindsSettingsFormValues = {
-  sources: [],
+const EMPTY_FORM: FreshFindsSettingsFormValues = {
+  sources: {
+    coreNetworkRepositories: false,
+    institutionalRepositories: false,
+    journals: false,
+    preprintServers: false,
+    crossref: false,
+  },
   notifyByEmail: false,
-  fullTextOnly: false,
+  depositOnlyWithFullText: false,
   depositFrequency: 'monthly',
-  autoDeposit: false,
-  maxPapersPerDeposit: null,
-  username: '',
+  autoDepositEnabled: false,
+  maximumPapersPerDeposit: 500,
+  swordUsername: '',
   swordPassword: '',
   swordEndpointUrl: '',
   repositoryProfile: undefined,
@@ -46,79 +51,58 @@ const settingsTheme: ThemeConfig = {
   },
 };
 
+type SettingsSwitchProps = {
+  name: keyof FreshFindsSettingsFormValues;
+  id: string;
+  label: string;
+};
+
+const SettingsSwitch = ({ name, id, label }: SettingsSwitchProps) => (
+  <div className="fresh-finds-settings__toggle">
+    <Form.Item name={name} valuePropName="checked" noStyle>
+      <Switch id={id} className="fresh-finds-settings__switch" aria-label={label} />
+    </Form.Item>
+    <label htmlFor={id} className="fresh-finds-settings__toggle-label">
+      {label}
+    </label>
+  </div>
+);
+
 export const FreshFindsSettings = () => {
-  const settings = articleTemplateData.settings;
   const [form] = Form.useForm<FreshFindsSettingsFormValues>();
   const { buildPath } = useDashboardRoute();
-  const documentationPath = buildPath('documentation');
-  const { settings: settingsData, error, isLoading, isSaving, saveSettings } = useFreshFindsSettings();
+  const { formValues, passwordConfigured, error, isLoading, isSaving, saveSettings } = useFreshFindsSettings();
 
-  useEffect(() => {
-    if (!settingsData) {
-      return;
-    }
-
-    form.setFieldsValue(mapFreshFindsSettingsToForm(settingsData));
-  }, [form, settingsData]);
-
-  const repositoryProfileOptions = useMemo(() => {
-    const options = settings.repositoryProfiles.map((profile) => ({
-      value: profile.id,
-      label: profile.label,
-    }));
-    const currentProfile = settingsData?.repositoryProfile;
-
-    if (currentProfile && !options.some((option) => option.value === currentProfile)) {
-      return [{ value: currentProfile, label: currentProfile }, ...options];
-    }
-
-    return options;
-  }, [settings.repositoryProfiles, settingsData?.repositoryProfile]);
-
-  const frequencyOptions = useMemo(() => {
-    const currentFrequency = settingsData?.depositFrequency;
-
-    if (currentFrequency && !settings.frequencies.some((frequency) => frequency.id === currentFrequency)) {
-      return [...settings.frequencies, { id: currentFrequency, label: currentFrequency }];
-    }
-
-    return settings.frequencies;
-  }, [settings.frequencies, settingsData?.depositFrequency]);
-
-  const handleSave = useCallback(async (values: FreshFindsSettingsFormValues) => {
-    const nextValues = {
-      ...values,
-      maxPapersPerDeposit: values.maxPapersPerDeposit ?? DEFAULT_MAX_PAPERS,
-    };
-
+  const handleSave = async (values: FreshFindsSettingsFormValues) => {
     try {
-      const saved = await saveSettings(nextValues);
-      if (!saved) {
-        return;
-      }
-
-      form.setFieldsValue({
-        ...nextValues,
-        swordPassword: '',
-      });
-      message.success(settings.saveSuccess);
+      await saveSettings(values);
+      form.setFieldValue('swordPassword', '');
+      message.success(text.saveSuccess);
     } catch {
-      message.error(settings.saveError);
+      message.error(text.saveError);
     }
-  }, [form, saveSettings, settings.saveError, settings.saveSuccess]);
+  };
+
+  if (isLoading && !formValues) {
+    return (
+      <div className="fresh-finds-settings__loading">
+        <Spin />
+      </div>
+    );
+  }
 
   return (
     <ConfigProvider theme={settingsTheme}>
-      <Spin spinning={isLoading}>
       <Form
         form={form}
         className="fresh-finds-settings"
         layout="vertical"
-        initialValues={EMPTY_SETTINGS}
+        key={formValues ? 'loaded' : 'empty'}
+        initialValues={formValues ?? EMPTY_FORM}
         onFinish={handleSave}
         requiredMark={false}
       >
-        <h3 className="fresh-finds-settings__title">{settings.title}</h3>
+        <h3 className="fresh-finds-settings__title">{text.title}</h3>
         {error && (
           <Alert
             className="fresh-finds-settings__error"
@@ -130,99 +114,84 @@ export const FreshFindsSettings = () => {
         <div className="fresh-finds-settings__grid">
           <div className="fresh-finds-settings__column">
             <span id="fresh-finds-sources-label" className="fresh-finds-settings__label">
-              {settings.sourcesLabel}
+              {text.sourcesLabel}
             </span>
-            <Form.Item name="sources" className="fresh-finds-settings__sources-item">
-              <Checkbox.Group
-                className="fresh-finds-settings__sources"
-                aria-labelledby="fresh-finds-sources-label"
-              >
-                {settings.sources.map((source) => (
-                  <Checkbox key={source.id} value={source.id}>
-                    {source.label}
-                  </Checkbox>
-                ))}
-              </Checkbox.Group>
-            </Form.Item>
-
-            <div className="fresh-finds-settings__toggle">
-              <Form.Item name="autoDeposit" valuePropName="checked" noStyle>
-                <Switch
-                  id="fresh-finds-auto-deposit"
-                  className="fresh-finds-settings__switch"
-                  aria-label={settings.autoDeposit}
-                />
-              </Form.Item>
-              <label htmlFor="fresh-finds-auto-deposit" className="fresh-finds-settings__toggle-label">
-                {settings.autoDeposit}
-              </label>
+            <div
+              className="fresh-finds-settings__sources"
+              role="group"
+              aria-labelledby="fresh-finds-sources-label"
+            >
+              {text.sources.map((source) => (
+                <Form.Item
+                  key={source.id}
+                  name={['sources', source.id]}
+                  valuePropName="checked"
+                  className="fresh-finds-settings__source"
+                >
+                  <Checkbox>{source.label}</Checkbox>
+                </Form.Item>
+              ))}
             </div>
 
+            <SettingsSwitch
+              name="autoDepositEnabled"
+              id="fresh-finds-auto-deposit"
+              label={text.autoDeposit}
+            />
+
             <span className="fresh-finds-settings__label fresh-finds-settings__label--section">
-              {settings.swordEndpoint}
+              {text.swordEndpoint}
             </span>
-            <Form.Item name="username" className="fresh-finds-settings__field">
-              <Input placeholder={settings.username} aria-label={settings.username} autoComplete="off" />
+            <Form.Item name="swordUsername" className="fresh-finds-settings__field">
+              <Input placeholder={text.username} aria-label={text.username} autoComplete="off" />
             </Form.Item>
             <Form.Item name="swordPassword" className="fresh-finds-settings__field">
               <Input.Password
-                placeholder={settings.password}
-                aria-label={settings.password}
+                placeholder={text.password}
+                aria-label={text.password}
                 autoComplete="new-password"
               />
             </Form.Item>
-            {settingsData?.swordPasswordConfigured && (
-              <p className="fresh-finds-settings__hint">{settings.passwordConfigured}</p>
+            {passwordConfigured && (
+              <p className="fresh-finds-settings__hint">{text.passwordConfigured}</p>
             )}
             <Form.Item name="swordEndpointUrl" className="fresh-finds-settings__field">
-              <Input placeholder={settings.swordUrl} aria-label={settings.swordUrl} autoComplete="off" />
+              <Input placeholder={text.swordUrl} aria-label={text.swordUrl} autoComplete="off" />
             </Form.Item>
             <Form.Item name="repositoryProfile" className="fresh-finds-settings__field">
               <Select
                 className="fresh-finds-settings__select"
-                placeholder={settings.repositoryProfile}
-                aria-label={settings.repositoryProfile}
-                options={repositoryProfileOptions}
+                placeholder={text.repositoryProfile}
+                aria-label={text.repositoryProfile}
+                options={text.repositoryProfiles.map((profile) => ({
+                  value: profile.id,
+                  label: profile.label,
+                }))}
               />
             </Form.Item>
           </div>
 
           <div className="fresh-finds-settings__column">
-            <div className="fresh-finds-settings__toggle">
-              <Form.Item name="notifyByEmail" valuePropName="checked" noStyle>
-                <Switch
-                  id="fresh-finds-notify-email"
-                  className="fresh-finds-settings__switch"
-                  aria-label={settings.notifyByEmail}
-                />
-              </Form.Item>
-              <label htmlFor="fresh-finds-notify-email" className="fresh-finds-settings__toggle-label">
-                {settings.notifyByEmail}
-              </label>
-            </div>
-
-            <div className="fresh-finds-settings__toggle">
-              <Form.Item name="fullTextOnly" valuePropName="checked" noStyle>
-                <Switch
-                  id="fresh-finds-full-text"
-                  className="fresh-finds-settings__switch"
-                  aria-label={settings.fullTextOnly}
-                />
-              </Form.Item>
-              <label htmlFor="fresh-finds-full-text" className="fresh-finds-settings__toggle-label">
-                {settings.fullTextOnly}
-              </label>
-            </div>
+            <SettingsSwitch
+              name="notifyByEmail"
+              id="fresh-finds-notify-email"
+              label={text.notifyByEmail}
+            />
+            <SettingsSwitch
+              name="depositOnlyWithFullText"
+              id="fresh-finds-full-text"
+              label={text.fullTextOnly}
+            />
 
             <span id="fresh-finds-frequency-label" className="fresh-finds-settings__label">
-              {settings.depositFrequencyLabel}
+              {text.depositFrequencyLabel}
             </span>
             <Form.Item name="depositFrequency" className="fresh-finds-settings__frequency-item">
               <Radio.Group
                 className="fresh-finds-settings__frequency"
                 aria-labelledby="fresh-finds-frequency-label"
               >
-                {frequencyOptions.map((frequency) => (
+                {text.frequencies.map((frequency) => (
                   <Radio key={frequency.id} value={frequency.id}>
                     {frequency.label}
                   </Radio>
@@ -232,15 +201,15 @@ export const FreshFindsSettings = () => {
 
             <div className="fresh-finds-settings__max">
               <label htmlFor="fresh-finds-max-papers" className="fresh-finds-settings__toggle-label">
-                {settings.maxPapers}
+                {text.maxPapers}
               </label>
-              <Form.Item name="maxPapersPerDeposit" noStyle>
+              <Form.Item name="maximumPapersPerDeposit" noStyle>
                 <InputNumber
                   id="fresh-finds-max-papers"
                   className="fresh-finds-settings__max-input"
                   min={1}
                   controls={false}
-                  aria-label={settings.maxPapers}
+                  aria-label={text.maxPapers}
                 />
               </Form.Item>
             </div>
@@ -252,14 +221,14 @@ export const FreshFindsSettings = () => {
               icon={<InfoCircleFilled aria-hidden />}
               title={(
                 <span>
-                  {settings.pullNotice}{' '}
+                  {text.pullNotice}{' '}
                   <Link
                     className="fresh-finds-settings__doc-link"
-                    to={documentationPath}
+                    to={buildPath('documentation')}
                     tabIndex={0}
-                    aria-label={settings.pullLink}
+                    aria-label={text.pullLink}
                   >
-                    {settings.pullLink}
+                    {text.pullLink}
                   </Link>
                 </span>
               )}
@@ -268,18 +237,11 @@ export const FreshFindsSettings = () => {
         </div>
 
         <div className="fresh-finds-settings__actions">
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={isSaving}
-            disabled={isLoading}
-            aria-label={settings.save}
-          >
-            {settings.save}
+          <Button type="primary" htmlType="submit" loading={isSaving} aria-label={text.save}>
+            {text.save}
           </Button>
         </div>
       </Form>
-      </Spin>
     </ConfigProvider>
   );
 };
