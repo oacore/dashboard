@@ -1,0 +1,44 @@
+{
+  "title": "Fresh finds",
+  "description": "Organisation's footprint refers to the impact and presence of a organisation within the academic community or their field of study. It encompasses various aspects of their research output, collaborations, influence, and contributions.",
+  "table": {
+    "title": "Papers authored by your institution not in your repository"
+  },
+  "settings": {
+    "title": "Settings",
+    "sourcesLabel": "Sources for finding new papers:",
+    "sources": [
+      { "id": "coreNetworkRepositories", "label": "Repositories from the CORE network" },
+      { "id": "institutionalRepositories", "label": "Institutional repositories" },
+      { "id": "journals", "label": "Journals" },
+      { "id": "preprintServers", "label": "Preprint servers" },
+      { "id": "crossref", "label": "Crossref" }
+    ],
+    "notifyByEmail": "Notify me about new papers by email (not stored in my repository).",
+    "fullTextOnly": "Deposit only papers with full text available.",
+    "depositFrequencyLabel": "Deposit frequency:",
+    "frequencies": [
+      { "id": "daily", "label": "Daily" },
+      { "id": "weekly", "label": "Weekly" },
+      { "id": "monthly", "label": "Monthly" }
+    ],
+    "autoDeposit": "Authorise CORE to deposit new papers to my repository automatically.",
+    "swordEndpoint": "SWORD endpoint:",
+    "username": "Username",
+    "password": "Password",
+    "passwordConfigured": "A password is already saved.",
+    "swordUrl": "SWORD endpoint URL",
+    "repositoryProfile": "Repository profile",
+    "repositoryProfiles": [
+      { "id": "dspace", "label": "DSpace" },
+      { "id": "eprints", "label": "EPrints" },
+      { "id": "invenio", "label": "Invenio" }
+    ],
+    "maxPapers": "Maximum amount of new papers per deposit:",
+    "pullNotice": "For Pull mechanism -",
+    "pullLink": "Link to Documentation",
+    "save": "Save",
+    "saveSuccess": "Settings were updated successfully!",
+    "saveError": "Failed to update Fresh Finds settings."
+  }
+}

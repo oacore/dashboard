@@ -1,0 +1,246 @@
+.fresh-finds-page {
+    margin-block-start: 1rem;
+}
+
+.fresh-finds-table-header__title {
+    margin: 0;
+    font-size: 1.25rem;
+    text-align: left;
+}
+
+.fresh-finds-table-header__subtitle {
+    margin-block: 0.75rem 1rem;
+    margin-inline: 0;
+    color:  rgba(0, 0, 0, 0.65);
+}
+
+.fresh-finds-column.fresh-finds-column--authors,
+.fresh-finds-column.fresh-finds-column--authors.ant-table-cell {
+    min-width: 10rem;
+}
+
+.fresh-finds-column.fresh-finds-column--type,
+.fresh-finds-column.fresh-finds-column--type.ant-table-cell {
+    width: 3rem;
+    min-width: 3rem;
+    max-width: 3rem;
+    padding-inline: 0.25rem;
+    text-align: center;
+}
+
+.fresh-finds__type-icon {
+    display: block;
+    width: 1.75rem;
+    height: auto;
+    margin-inline: auto;
+}
+
+.fresh-finds-column.fresh-finds-column--in-repository,
+.fresh-finds-column.fresh-finds-column--in-repository.ant-table-cell {
+    min-width: 14rem;
+}
+
+.fresh-finds__doi-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #b75400;
+    text-decoration: none;
+}
+
+.fresh-finds__doi-link:hover,
+.fresh-finds__doi-link:focus-visible {
+    color: #9a4600;
+    text-decoration: underline;
+}
+
+.fresh-finds__doi-icon {
+    flex-shrink: 0;
+    color: inherit;
+}
+
+.status-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fresh-finds__status-icon {
+    display: block;
+    width: 1.5rem;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.fresh-finds__add-to-repository {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #b75400;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+}
+
+.fresh-finds__add-to-repository:hover,
+.fresh-finds__add-to-repository:focus-visible {
+    color: #9a4600;
+    text-decoration: underline;
+}
+
+.fresh-finds__add-to-repository:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+.fresh-finds-settings-panel {
+    align-self: stretch;
+    width: 100%;
+    margin-top: 0.75rem;
+    text-align: left;
+}
+
+.fresh-finds-settings-panel[hidden] {
+    display: none;
+}
+
+.fresh-finds-settings__title {
+    margin: 0 0 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.fresh-finds-settings__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 4rem;
+    align-items: start;
+}
+
+.fresh-finds-settings__label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-secondary);
+}
+
+.fresh-finds-settings__label--section {
+    margin-top: 1.25rem;
+}
+
+.fresh-finds-settings__loading {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.fresh-finds-settings__frequency-item,
+.fresh-finds-settings__field {
+    margin-bottom: 1rem;
+}
+
+.fresh-finds-settings__sources {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.fresh-finds-settings__source {
+    margin-bottom: 0;
+}
+
+.fresh-finds-settings__hint {
+    margin: -0.5rem 0 1rem;
+    color: var(--color-text-primary);
+    font-size: 0.875rem;
+}
+
+.fresh-finds-settings__error {
+    margin-bottom: 1rem;
+}
+
+.fresh-finds-settings__frequency.ant-radio-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.fresh-finds-settings__frequency .ant-radio-wrapper {
+    margin-inline-start: 0;
+}
+
+.fresh-finds-settings__toggle {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.fresh-finds-settings__switch {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+}
+
+.fresh-finds-settings__toggle-label {
+    color: var(--color-text-secondary);
+    cursor: pointer;
+}
+
+.fresh-finds-settings__select {
+    width: 100%;
+}
+
+.fresh-finds-settings__max {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.fresh-finds-settings__max-input {
+    width: 5.5rem;
+}
+
+.fresh-finds-settings__max-input .ant-input-number-input {
+    color: var(--color-primary);
+    text-align: center;
+}
+
+.fresh-finds-settings__pull-alert.ant-alert {
+    width: fit-content;
+    max-width: 100%;
+    margin-top: 1.5rem;
+    background: var(--success-light-background);
+    border: none;
+    color: var(--success-dark);
+}
+
+.fresh-finds-settings__pull-alert .ant-alert-icon {
+    color: var(--success-dark);
+}
+
+.fresh-finds-settings__doc-link {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.fresh-finds-settings__doc-link:hover,
+.fresh-finds-settings__doc-link:focus-visible {
+    color: var(--success-dark);
+}
+
+.fresh-finds-settings__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 992px) {
+    .fresh-finds-settings__grid {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 1.5rem;
+    }
+}
