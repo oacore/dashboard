@@ -1,24 +1,20 @@
-import { CrFeatureLayout, CrHeader, CrShowMore } from '@oacore/core-ui';
+import { useState } from 'react';
+import { CrFeatureLayout } from '@oacore/core-ui';
 
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
+import { FreshFindsHeaderArea } from './components/FreshFindsHeaderArea.tsx';
 import { FreshFindsTable } from './components/FreshFindsTable.tsx';
-import { articleTemplateData } from './texts';
 
 import './FreshFindsFeature.css';
 
 export const FreshFindsFeature = () => {
   const { selectedDataProvider } = useDataProviderStore();
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <CrFeatureLayout>
-      <CrHeader
-        identifier="Demo"
-        title={articleTemplateData.title}
-        showMore={
-          <CrShowMore text={articleTemplateData.description} maxLetters={320} />
-        }
-      />
+      <FreshFindsHeaderArea showSettings={showSettings} setShowSettings={setShowSettings} />
       <main className="page fresh-finds-page">
         <FreshFindsTable
           dataProviderName={selectedDataProvider?.name ?? 'your institution'}
