@@ -88,7 +88,7 @@
           "answerPlaceholder": "Enter the estimated number of metadata records …",
           "numericAnswer": true,
           "question": "How many metadata records are there in your repository?",
-          "description": "it is not always easy to extract this information from your repository platform, so some estimation is good to to enable us to compare what we see in the public to your expectations.\n",
+          "description": "It is not always easy to extract this information from your repository platform, so some estimation is good to to enable us to compare what we see in the public to your expectations. We compare your number with the number of records CORE is able to index from your repository. If this number doesn't match your records it might mean you have issues in exposing your records in an interoperable way.",
           "number": "1.3"
         },
         {
@@ -163,7 +163,7 @@
           "id": "r24",
           "code": "R(2.4)",
           "question": "Do you support any tool for tracking COUNTER-compliant downloads in your system?",
-          "description": "Tools for tracking COUNTER-compliant downloads allow you to demonstrate the value and impact of your institutional repository (IR) by enabling institutional repositories to share and compare usage statistics based on the COUNTER standard.",
+          "description": "Tools for tracking COUNTER-compliant downloads allow you to demonstrate the value and impact of your institutional repository (IR) by enabling IRs to share and compare standardized usage statistics. While usage metrics do not directly satisfy the Accessibility requirement of the FAIR principles, tracking them provides a data-driven evidence to support and drive institutional commitment to FAIR open access.",
           "recommendation": "By using a standard set of statistics, it becomes possible to provide meaningful stats to compare downloads across several repositories.",
           "answerPlaceholder": "Write your answer here …",
           "number": "2.4"
@@ -177,7 +177,7 @@
         {
           "id": "r31",
           "code": "R(3.1)",
-          "question": "Do you support FAIR Signposting?",
+          "question": "Do you support FAIR Signposting to signpost fulltext and other related resources from article landing pages?",
           "description": "FAIR Signposting is a technical approach designed to enhance the discoverability and interoperability of scholarly resources on the web. It involves using standardized HTTP link relations to expose key information about web resources, particularly in the context of scholarly communication. This approach aligns with the broader FAIR principles, which aim for data to be Findable, Accessible, Interoperable and Reusable.",
           "recommendation": "FAIR signposting can be done by adding information to HTTP headers. Specifically, the HTTP header can contain an element to describe the type of content resource, for example, “author”, or “collection”. Find more information in [CORE Data Provider’s Guide.](https://core.ac.uk/documentation/data-providers-guide#fair-signposting)",
           "number": "3.1"
@@ -294,29 +294,29 @@
         {
           "id": "r52",
           "code": "R(5.2)",
-          "question": "Do you expose metadata about dates of deposit?",
-          "description": "Exposing metadata about dates of deposit means that the repository clearly records and makes available the date an item was first deposited into the system.",
-          "recommendation": "This provides provenance information and helps users and aggregators know when the record entered the repository. It is also useful for version control, compliance checking and tracking the research lifecycle.The compliance percentage is reported here just for the sake of completeness, it won’t be used in evaluating your certification submission.\n\n- Configure the repository to automatically capture deposit dates during submission.\n- Ensure the deposit date is included in all exposed metadata formats (OAI-PMH, DataCite, Dublin Core).\n- Regularly audit metadata records to check completeness and identify missing dates.",
-          "number": "5.2",
-          "counterLabels": [
-            "Number of papers with exposed dates of deposit in the current REF period:"
-          ],
-          "percentLabels": [
-            "Percentages of compliant papers in the current REF period"
-          ]
-        },
-        {
-          "id": "r53",
-          "code": "R(5.3)",
           "question": "Do you provide information about funding bodies for the research outputs?",
-          "description": "The repository records and exposes details about the organizations or agencies that financially supported the research.",
+          "description": "The repository records and exposes details about the organizations or agencies that financially supported the research. This is a data-driven question, we are currently working on an automated calculation to include in the report directly. In the current iteration, we will process this once the application is submitted.",
           "recommendation": "This typically includes the funder name, grant number or project ID and ideally a persistent identifier for the funder — a ROR ID or Crossref Funder Registry ID.",
-          "number": "5.3",
+          "number": "5.2",
           "counterLabels": [
             "Papers with exposed funding information:"
           ],
           "percentLabels": [
             "Percentage of papers with exposed funding information:"
+          ]
+        },
+        {
+          "id": "r53",
+          "code": "R(5.3)",
+          "question": "Do you expose metadata about dates of deposit?",
+          "description": "Exposing metadata about dates of deposit means that the repository clearly records and makes available the date an item was first deposited into the system.",
+          "recommendation": "This provides provenance information and helps users and aggregators know when the record entered the repository. It is also useful for version control, compliance checking and tracking the research lifecycle.The compliance percentage is reported here just for the sake of completeness, it won’t be used in evaluating your certification submission.\n\n- Configure the repository to automatically capture deposit dates during submission.\n- Ensure the deposit date is included in all exposed metadata formats (OAI-PMH, DataCite, Dublin Core).\n- Regularly audit metadata records to check completeness and identify missing dates.",
+          "number": "5.3",
+          "counterLabels": [
+            "Number of papers with exposed dates of deposit in the current REF period:"
+          ],
+          "percentLabels": [
+            "Percentages of compliant papers in the current REF period"
           ]
         },
         {
@@ -343,7 +343,7 @@
           "id": "r61",
           "code": "R(6.1)",
           "question": "Do you support ResourceSync?",
-          "description": "ResourceSync allows repositories to expose changes to their content and metadata in a structured, machine-readable way. With ResourceSync, external services (such as aggregators, harvesters and preservation systems) can keep their records in sync with the repository by automatically detecting new, updated or deleted items. Unlike OAI-PMH, which focuses on metadata harvesting, ResourceSync provides a more efficient and scalable way to track repository content changes in real time.",
+          "description": "ResourceSync allows repositories to expose changes to their content and metadata in a structured, machine-readable way. With ResourceSync, external services (such as aggregators, harvesters and preservation systems) can keep their records in sync with the repository by automatically detecting new, updated or deleted items. Unlike OAI-PMH, which focuses on metadata harvesting, ResourceSync provides a more efficient and scalable way to track repository content changes in real time. We recognize that the platforms and tools currently utilized by institutions may not support this; however, our objective is to evaluate the institution's readiness and understanding of these technologies.",
           "recommendation": "- Assess whether your repository platform supports ResourceSync (e.g. DSpace, EPrints, Invenio).\n- Provide a Resource List (all available items) and Change Lists (new, updated or deleted items) to support synchronisation.\n- Ensure ResourceSync feeds include persistent identifiers (DOIs, Handles) and standard metadata formats.\n- Document the repository’s ResourceSync base URL in public documentation for service providers.",
           "answerPlaceholder": "Write your answer here …",
           "number": "6.1"
@@ -352,7 +352,7 @@
           "id": "r62",
           "code": "R(6.2)",
           "question": "Do you support COAR Notify?",
-          "description": "COAR Notify is a protocol developed by the Confederation of Open Access Repositories (COAR) to enable interoperable, event-based communication between repositories, publishers and other scholarly services. It is built on the Linked Data Notifications (LDN) standard and allows repositories to send and receive notifications about research objects — for example when a preprint has been deposited or when a peer review has been linked to a record.",
+          "description": "COAR Notify is a protocol developed by the Confederation of Open Access Repositories (COAR) to enable interoperable, event-based communication between repositories, publishers and other scholarly services. It is built on the Linked Data Notifications (LDN) standard and allows repositories to send and receive notifications about research objects — for example when a preprint has been deposited or when a peer review has been linked to one of its records. We recognize that the platforms and tools currently utilized by institutions may not support this; however, our objective is to evaluate the institution's readiness and understanding of these technologies.\n",
           "recommendation": "- Ensure that your repository can send notifications about deposits, updates or withdrawals, and receive notifications about reviews, endorsements or citations.\n- Align metadata and identifiers used in notifications with persistent identifiers (DOIs, ORCIDs, RORs) to maximize interoperability.\n- Document your repository COAR Notify endpoints and policies for external partners.",
           "answerPlaceholder": "Write your answer here …",
           "number": "6.2"
@@ -361,7 +361,7 @@
           "id": "r63",
           "code": "R(6.3)",
           "question": "Do you support FAIRiCat?",
-          "description": "FAIRiCat (FAIR Implementation Profile Catalog) is an international initiative led by GO FAIR that provides a registry of FAIR Implementation Profiles (FIPs). Read more: https://signposting.org/FAIRiCat/",
+          "description": "FAIRiCat (FAIR Implementation Profile Catalog) is an international initiative led by GO FAIR that provides a registry of FAIR Implementation Profiles (FIPs). Read more: [https://signposting.org/FAIRiCat/.](https://signposting.org/FAIRiCat/) We recognize that the platforms and tools currently utilized by institutions may not support this; however, our objective is to evaluate the institution's readiness and understanding of these technologies.",
           "recommendation": "- Prepare a FAIR Implementation Profile (FIP) for your repository, describing identifiers (DOI, ORCID, ROR), metadata schemas (DataCite, Dublin Core), protocols (OAI-PMH, ResourceSync) and vocabularies in use.\n- Submit your FIP to the FAIRiCat registry so it is visible and reusable by the wider community.\n- Regularly update the FIP as your repository adopts new standards or technologies.\n- Reference your published FIP in the repository documentation to demonstrate compliance and transparency.",
           "answerPlaceholder": "Write your answer here …",
           "number": "6.3"
@@ -413,7 +413,7 @@
           "code": "R(7.5)",
           "question": "How do you encourage researchers to get their ORCID?",
           "description": "Encouraging researchers to obtain an ORCID (Open Researcher and Contributor ID) ensures that their work is uniquely identifiable and correctly attributed, regardless of name variations, institutional changes or publication platforms. ORCID adoption strengthens the quality of repository metadata, improves interoperability with publishers and funders and helps researchers gain recognition for their contributions.",
-          "recommendation": "- Promote ORCID awareness through training sessions, repository guides and onboarding materials.\n- Provide step-by-step instructions and links for registering an ORCID ID.\n- Enable ORCID authentication and login in the repository so researchers can connect their profile during deposit.\n- Encourage depositors to include their ORCID in the metadata of every submission.\n- Where possible set ORCID as a mandatory or strongly recommended field in deposit workflows.\n- Integrate with the ORCID API to push publications and datasets from the repository directly to a researcher’s ORCID profile.",
+          "recommendation": "Depending on your institution's setup, this might be a wider effort rather than solely the repository's duty; however, we believe the repository has an important role to play in making sure any campaign is successful. \n- Promote ORCID awareness through training sessions, repository guides and onboarding materials.\n- Provide step-by-step instructions and links for registering an ORCID ID.\n- Enable ORCID authentication and login in the repository so researchers can connect their profile during deposit.\n- Encourage depositors to include their ORCID in the metadata of every submission.\n- Where possible set ORCID as a mandatory or strongly recommended field in deposit workflows.\n- Integrate with the ORCID API to push publications and datasets from the repository directly to a researcher’s ORCID profile.",
           "answerPlaceholder": "Write your answer here …",
           "number": "7.5"
         },
@@ -422,7 +422,7 @@
           "code": "R(7.6)",
           "question": "What are you doing to promote FAIR principles?",
           "description": "The repository actively implements policies, technologies and community practices to make research outputs more discoverable, usable and sustainable. ",
-          "recommendation": "- Clear policies — Publish policies that explicitly reference FAIR principles.\n- Metadata standards — Require rich, standardized metadata (DataCite, Dublin Core, OpenAIRE Guidelines).\n- Persistent identifiers — Support DOIs, ORCIDs, RORs and project IDs.\n- Infrastructure — Provide OAI-PMH, ResourceSync and APIs.\n- Licensing and reuse — Encourage open licenses (CC-BY, CC0).\n- Data linking — Promote Data Availability Statements and links to datasets and source code.\n- Quality control — Review deposits for metadata completeness.\n- Awareness and training — Workshops and guidance for researchers.\n- Community engagement — Participate in FAIR-related initiatives (GO FAIR, COAR).",
+          "recommendation": "This should be a wider effort rather than solely the repository's duty; however, we believe the repository has an important role to play. \n- Clear policies — Publish policies that explicitly reference FAIR principles.\n- Metadata standards — Require rich, standardized metadata (DataCite, Dublin Core, OpenAIRE Guidelines).\n- Persistent identifiers — Support DOIs, ORCIDs, RORs and project IDs.\n- Infrastructure — Provide OAI-PMH, ResourceSync and APIs.\n- Licensing and reuse — Encourage open licenses (CC-BY, CC0).\n- Data linking — Promote Data Availability Statements and links to datasets and source code.\n- Quality control — Review deposits for metadata completeness.\n- Awareness and training — Workshops and guidance for researchers.\n- Community engagement — Participate in FAIR-related initiatives (GO FAIR, COAR).",
           "answerPlaceholder": "Write your answer here …",
           "number": "7.6"
         },
@@ -431,7 +431,7 @@
           "code": "R(7.7)",
           "question": "What are you doing to promote research reproducibility?",
           "description": "Promoting research reproducibility means ensuring that other researchers can verify, replicate and build upon the results deposited in the repository. This goes beyond simply storing outputs: it requires linking publications with their underlying datasets, methods and documentation, as well as providing transparent metadata and persistent identifiers.",
-          "recommendation": "- Require or encourage Data Availability Statements linking publications to underlying datasets.\n- Enable persistent identifiers (DOIs for publications/datasets, ORCID for authors, ROR for institutions) to ensure reliable attribution and referencing.\n- Support versioning so users can access previous iterations of datasets or papers.\n- Provide metadata fields for methods and protocols, ensuring research processes are documented.\n- Encourage open licenses (CC-BY, MIT, GPL) so that others can reuse data and code legally.\n- Facilitate interoperability by using standard metadata schemas (DataCite, OpenAIRE Guidelines) so outputs can be linked across systems.\n- Promote best practices through guidance, training, FAQs and templates for researchers on how to deposit reproducible outputs.\n- Integrate with external registries (Protocols.io for methods, OpenAIRE for projects) to enhance traceability.\n- Provide transparency in curation - ensure deposits are checked for completeness and proper linking of data, code and publications.",
+          "recommendation": "Depending on your institution's setup, this might be a wider effort rather than solely the repository's duty; however, we believe the repository has an important role to play in making sure research is reproducible. \n- Require or encourage Data Availability Statements linking publications to underlying datasets.\n- Enable persistent identifiers (DOIs for publications/datasets, ORCID for authors, ROR for institutions) to ensure reliable attribution and referencing.\n- Support versioning so users can access previous iterations of datasets or papers.\n- Provide metadata fields for methods and protocols, ensuring research processes are documented.\n- Encourage open licenses (CC-BY, MIT, GPL) so that others can reuse data and code legally.\n- Facilitate interoperability by using standard metadata schemas (DataCite, OpenAIRE Guidelines) so outputs can be linked across systems.\n- Promote best practices through guidance, training, FAQs and templates for researchers on how to deposit reproducible outputs.\n- Integrate with external registries (Protocols.io for methods, OpenAIRE for projects) to enhance traceability.\n- Provide transparency in curation - ensure deposits are checked for completeness and proper linking of data, code and publications.",
           "answerPlaceholder": "Write your answer here …",
           "number": "7.7"
         },
@@ -440,7 +440,7 @@
           "code": "R(7.8)",
           "question": "How do you support Open Science at your institution?",
           "description": "Implementing policies, infrastructure and cultural practices that make research outputs more transparent, accessible and reusable. This includes promoting open access to publications, sharing research data, supporting reproducibility and enabling collaboration across disciplines and communities.",
-          "recommendation": "- Adopt an institutional Open Science policy aligned with national and European guidelines (EOSC, Plan S).\n- Provide infrastructure such as institutional repositories, data archives and integration with ORCID, DOI and ROR identifiers.\n- Promote FAIR data practices by training researchers in data management, metadata standards and reproducibility.\n- Support Open Access publishing through funding, agreements with publishers or institutional repositories (Green/Gold OA).\n- Encourage Data and Code Availability Statements in research outputs.\n- Offer training and guidance on open research practices, licensing (Creative Commons, Open Source) and copyright.\n- Recognize and reward Open Science practices in research evaluation, hiring and promotion.\n- Collaborate with external infrastructures (OpenAIRE, EOSC, COAR) to increase global visibility and interoperability.\n- Provide long-term preservation services to ensure open research remains accessible and trustworthy over time.\n- Engage the community by organizing workshops, awareness campaigns and incentives for adopting Open Science practices.",
+          "recommendation": "This should be a wider effort rather than solely the repository's duty; however, we believe the repository has an important role to play. \n- Adopt an institutional Open Science policy aligned with national and European guidelines (EOSC, Plan S).\n- Provide infrastructure such as institutional repositories, data archives and integration with ORCID, DOI and ROR identifiers.\n- Promote FAIR data practices by training researchers in data management, metadata standards and reproducibility.\n- Support Open Access publishing through funding, agreements with publishers or institutional repositories (Green/Gold OA).\n- Encourage Data and Code Availability Statements in research outputs.\n- Offer training and guidance on open research practices, licensing (Creative Commons, Open Source) and copyright.\n- Recognize and reward Open Science practices in research evaluation, hiring and promotion.\n- Collaborate with external infrastructures (OpenAIRE, EOSC, COAR) to increase global visibility and interoperability.\n- Provide long-term preservation services to ensure open research remains accessible and trustworthy over time.\n- Engage the community by organizing workshops, awareness campaigns and incentives for adopting Open Science practices.",
           "answerPlaceholder": "Write your answer here …",
           "number": "7.8"
         }
