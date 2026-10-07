@@ -1,14 +1,13 @@
-import { InfoCircleFilled } from '@ant-design/icons';
 import { Alert, Button, Checkbox, ConfigProvider, Form, Input, InputNumber, Radio, Select, Spin, Switch, message } from 'antd';
 import type { ThemeConfig } from 'antd';
-import { Link } from 'react-router-dom';
 
 import { customColors } from '@/config/theme';
-import { useDashboardRoute } from '@hooks/useDashboardRoute.ts';
 
 import { useFreshFindsSettings } from '../hooks/useFreshFindsSettings';
 import { articleTemplateData } from '../texts';
 import type { FreshFindsSettingsFormValues } from '../types/settings.types';
+import {Markdown} from '@oacore/core-ui';
+import '../FreshFindsFeature.css';
 
 const text = articleTemplateData.settings;
 
@@ -70,7 +69,6 @@ const SettingsSwitch = ({ name, id, label }: SettingsSwitchProps) => (
 
 export const FreshFindsSettings = () => {
   const [form] = Form.useForm<FreshFindsSettingsFormValues>();
-  const { buildPath } = useDashboardRoute();
   const { formValues, passwordConfigured, error, isLoading, isSaving, saveSettings } = useFreshFindsSettings();
 
   const handleSave = async (values: FreshFindsSettingsFormValues) => {
@@ -183,7 +181,7 @@ export const FreshFindsSettings = () => {
               label={text.fullTextOnly}
             />
 
-            <span id="fresh-finds-frequency-label" className="fresh-finds-settings__label">
+            <span id="fresh-finds-frequency-label" className="fresh-finds-settings__label secondary">
               {text.depositFrequencyLabel}
             </span>
             <Form.Item name="depositFrequency" className="fresh-finds-settings__frequency-item">
@@ -213,29 +211,20 @@ export const FreshFindsSettings = () => {
                 />
               </Form.Item>
             </div>
-
-            <Alert
+            <div
               className="fresh-finds-settings__pull-alert"
-              type="success"
-              showIcon
-              icon={<InfoCircleFilled aria-hidden />}
-              title={(
+            >
                 <span>
                   {text.pullNotice}{' '}
-                  <Link
+                  <Markdown
                     className="fresh-finds-settings__doc-link"
-                    to={buildPath('documentation')}
-                    tabIndex={0}
-                    aria-label={text.pullLink}
                   >
                     {text.pullLink}
-                  </Link>
+                  </Markdown>
                 </span>
-              )}
-            />
+            </div>
           </div>
         </div>
-
         <div className="fresh-finds-settings__actions">
           <Button type="primary" htmlType="submit" loading={isSaving} aria-label={text.save}>
             {text.save}

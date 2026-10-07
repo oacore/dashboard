@@ -124,6 +124,10 @@
     color: var(--color-text-secondary);
 }
 
+.secondary {
+    margin-top: 36px;
+}
+
 .fresh-finds-settings__label--section {
     margin-top: 1.25rem;
 }
@@ -209,17 +213,12 @@
     text-align: center;
 }
 
-.fresh-finds-settings__pull-alert.ant-alert {
-    width: fit-content;
-    max-width: 100%;
-    margin-top: 1.5rem;
-    background: var(--success-light-background);
-    border: none;
-    color: var(--success-dark);
+.fresh-finds-settings__pull-alert{
+   margin-top: 36px;
 }
 
-.fresh-finds-settings__pull-alert .ant-alert-icon {
-    color: var(--success-dark);
+.fresh-finds-settings__pull-alert {
+    color: var(--color-text-secondary);
 }
 
 .fresh-finds-settings__doc-link {

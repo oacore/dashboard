@@ -35,8 +35,8 @@
       { "id": "invenio", "label": "Invenio" }
     ],
     "maxPapers": "Maximum amount of new papers per deposit:",
-    "pullNotice": "For Pull mechanism -",
-    "pullLink": "Link to Documentation",
+    "pullNotice": "More detailed information about setting up different type of depositing (pull/push) to your repository you can find in the ",
+    "pullLink": "[Documentation]()",
     "save": "Save",
     "saveSuccess": "Settings were updated successfully!",
     "saveError": "Failed to update Fresh Finds settings."
