@@ -9,6 +9,7 @@ export { DasPage } from './Das';
 export { RightsRetentionStrategyPage } from './RightsRetentionStrategy';
 export { ResearchSoftwarePage } from './ResearchSoftware';
 export { DoiPage } from './Doi';
+export { FreshFindsPage } from './FreshFinds.tsx';
 export { OrcidPage } from './Orcid';
 export { UsrnPage } from './Usrn';
 export { FAIRCertificationPage } from './FAIRCertification';

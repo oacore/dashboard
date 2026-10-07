@@ -5,20 +5,15 @@ import { ApprovedFairView } from '@features/Fair/components/ApprovedFairView.tsx
 // import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 // import { useStartingOrSupportingBillingPlanData } from '@features/Orcid/hooks/useStartingOrSupportingBillingPlanData';
 import { useDataProviderStore } from '@/store/dataProviderStore';
+import { canAccessLimitedFeature } from '@config/tempFeatureAccess.ts';
 import fairCertificationLanding from '@features/Fair/texts/fairCertificationLanding.json';
 
 const FAIR_REGISTER_INTEREST_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScVAzXyEoPNBno9qorv2pQU9QmUalagtcoRn9Tze4V5TQZ1Pw/viewform?usp=dialog';
 
 const SUCCESS_MESSAGE_DURATION_MS = 5000;
-// TODO temp show
-const APPROVED_FAIR_VIEW_DATA_PROVIDER_IDS = [42, 86, 88] as const;
 
 const fairCertificationData = fairCertificationLanding as FairCertificationData;
-
-const canAccessApprovedFairView = (dataProviderId?: number): boolean =>
-  dataProviderId != null &&
-  (APPROVED_FAIR_VIEW_DATA_PROVIDER_IDS as readonly number[]).includes(dataProviderId);
 
 export function FAIRCertificationPage() {
   useDocumentTitle('FAIR Certification');
@@ -45,7 +40,7 @@ export function FAIRCertificationPage() {
     return () => clearTimeout(timer);
   }, [showSuccessMessage]);
 
-  if (canAccessApprovedFairView(dataProviderId) && !showSuccessMessage) {
+  if (canAccessLimitedFeature(dataProviderId) && !showSuccessMessage) {
     return <ApprovedFairView />;
   }
 
