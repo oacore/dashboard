@@ -1,10 +1,15 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import type { FreshFindsRepositoryStatus, FreshFindsWorkItem } from '../types/data.types';
+import type {
+  FreshFindsDepositFilter,
+  FreshFindsRepositoryStatus,
+  FreshFindsWorkItem,
+} from '../types/data.types';
 
 interface FreshFindsActions {
   setSearchTerm: (term: string) => void;
+  setDepositFilter: (filters: FreshFindsDepositFilter[]) => void;
   setCurrentPage: (page: number) => void;
   setAllData: (data: FreshFindsWorkItem[]) => void;
   appendData: (data: FreshFindsWorkItem[]) => void;
@@ -13,16 +18,22 @@ interface FreshFindsActions {
   setHasMore: (hasMore: boolean) => void;
   setIsLoadingMore: (loading: boolean) => void;
   resetDataState: () => void;
-  updateLastParams: (searchTerm: string, dataProviderId: number) => void;
+  updateLastParams: (
+    searchTerm: string,
+    dataProviderId: number,
+    depositFilter: FreshFindsDepositFilter[],
+  ) => void;
 }
 
 export interface FreshFindsStoreState {
   searchTerm: string;
+  depositFilter: FreshFindsDepositFilter[];
   currentPage: number;
   allData: FreshFindsWorkItem[];
   totalLength: number;
   hasMore: boolean;
   lastSearchTerm: string;
+  lastDepositFilter: FreshFindsDepositFilter[];
   lastDataProviderId: number;
   isLoadingMore: boolean;
 }
@@ -33,16 +44,22 @@ export const useFreshFindsStore = create<FreshFindsStore>()(
   devtools(
     (set, get) => ({
       searchTerm: '',
+      depositFilter: [],
       currentPage: 1,
       allData: [],
       totalLength: 0,
       hasMore: false,
       lastSearchTerm: '',
+      lastDepositFilter: [],
       lastDataProviderId: 0,
       isLoadingMore: false,
 
       setSearchTerm: (term: string) => {
         set({ searchTerm: term, currentPage: 1 });
+      },
+
+      setDepositFilter: (filters: FreshFindsDepositFilter[]) => {
+        set({ depositFilter: filters, currentPage: 1 });
       },
 
       setCurrentPage: (page: number) => {
@@ -89,9 +106,14 @@ export const useFreshFindsStore = create<FreshFindsStore>()(
         });
       },
 
-      updateLastParams: (searchTerm: string, dataProviderId: number) => {
+      updateLastParams: (
+        searchTerm: string,
+        dataProviderId: number,
+        depositFilter: FreshFindsDepositFilter[],
+      ) => {
         set({
           lastSearchTerm: searchTerm,
+          lastDepositFilter: depositFilter,
           lastDataProviderId: dataProviderId,
         });
       },

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react';
 import useSWR from 'swr';
 
-import { createSWRKey, fetcher, swrDefaultConfig } from '@/config/swr';
+import { fetcher, swrDefaultConfig } from '@/config/swr';
 import { captureHandledError } from '@/utils/captureHandledError';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import { useFreshFindsStore } from '../store/freshFindsStore';
-import type { FreshFindsWorksResponse } from '../types/data.types';
+import type { FreshFindsDepositFilter, FreshFindsWorksResponse } from '../types/data.types';
 
 const buildFreshFindsWorksUrl = (
   dataProviderId: number,
@@ -14,25 +14,27 @@ const buildFreshFindsWorksUrl = (
   pageSize: number,
   searchTerm: string,
   setSpec?: string | null,
+  depositFilters: FreshFindsDepositFilter[] = [],
 ): string => {
-  const params: Record<string, string> = {
-    page: String(page),
-    pageSize: String(pageSize),
-  };
+  const params = new URLSearchParams();
+
+  depositFilters.forEach((filter) => {
+    params.append('depositFilter[]', filter);
+  });
 
   const trimmedSearch = searchTerm.trim();
   if (trimmedSearch !== '') {
-    params.search = trimmedSearch;
+    params.append('search', trimmedSearch);
   }
+
+  params.set('page', String(page));
+  params.set('pageSize', String(pageSize));
 
   if (setSpec) {
-    params.set = setSpec;
+    params.set('set', setSpec);
   }
 
-  return createSWRKey(
-    `/internal/data-providers/${dataProviderId}/fresh-finds/works`,
-    params,
-  );
+  return `/internal/data-providers/${dataProviderId}/fresh-finds/works?${params.toString()}`;
 };
 
 export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
@@ -41,11 +43,13 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
 
   const {
     searchTerm,
+    depositFilter,
     currentPage,
     allData,
     totalLength,
     hasMore,
     lastSearchTerm,
+    lastDepositFilter,
     lastDataProviderId,
     isLoadingMore,
     setCurrentPage,
@@ -68,10 +72,11 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
 
   if (
     searchTerm !== lastSearchTerm ||
+    depositFilter.join(',') !== lastDepositFilter.join(',') ||
     effectiveDataProviderId !== lastDataProviderId
   ) {
     resetDataState();
-    updateLastParams(searchTerm, effectiveDataProviderId);
+    updateLastParams(searchTerm, effectiveDataProviderId, depositFilter);
   }
 
   const key =
@@ -82,6 +87,7 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
           pageSize,
           searchTerm,
           selectedSetSpec,
+          depositFilter,
         )
       : null;
 
@@ -112,6 +118,7 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
             page: currentPage,
             pageSize,
             searchTerm,
+            depositFilter,
           },
         });
       },

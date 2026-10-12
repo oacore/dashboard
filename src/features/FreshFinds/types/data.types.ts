@@ -17,6 +17,12 @@ export type FreshFindsRepositoryStatus =
   | 'candidate'
   | 'fulltext_unavailable';
 
+export type FreshFindsDepositFilter =
+  | 'automatic'
+  | 'manual'
+  | 'available'
+  | 'in_repository';
+
 export interface FreshFindsWorkItem {
   workId: number;
   depositIdentifier: string;

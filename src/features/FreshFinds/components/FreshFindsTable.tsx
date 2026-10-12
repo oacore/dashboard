@@ -10,6 +10,7 @@ import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import { createColumns } from './FreshFindsColumns.tsx';
+import { FreshFindsDepositFilter } from './FreshFindsDepositFilter.tsx';
 import { actions } from './tableActions.tsx';
 import { useDepositFreshFind } from '../hooks/useDepositFreshFind';
 import { useDownloadFreshFindsCsv } from '../hooks/useDownloadFreshFindsCsv';
@@ -115,6 +116,7 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
           bordered={false}
           showFooter={!isStartingPlan}
           totalLength={totalLength}
+          beforeSearch={!isStartingPlan ? <FreshFindsDepositFilter /> : undefined}
           searchable={!isStartingPlan}
           searchPlaceholder="Title, author, or DOI…"
           onSearch={setSearchTerm}
