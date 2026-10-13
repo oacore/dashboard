@@ -24,13 +24,14 @@ const toFormValues = (settings: FreshFindsSettingsResponse): FreshFindsSettingsF
   swordPassword: '',
   swordEndpointUrl: settings.swordEndpointUrl ?? '',
   repositoryProfile: settings.repositoryProfile ?? undefined,
+  integrationMode: settings.integrationMode || undefined,
 });
 
 const toUpdatePayload = (
   values: FreshFindsSettingsFormValues,
   current: FreshFindsSettingsResponse | null,
 ): FreshFindsSettingsUpdatePayload => ({
-  integrationMode: current?.integrationMode ?? 'push',
+  integrationMode: values.integrationMode ?? current?.integrationMode ?? 'push',
   enabled: current?.enabled ?? true,
   repositoryProfile: values.repositoryProfile ?? current?.repositoryProfile ?? null,
   autoDepositEnabled: values.autoDepositEnabled,

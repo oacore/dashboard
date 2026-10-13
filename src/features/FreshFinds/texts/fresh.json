@@ -23,6 +23,12 @@
       { "id": "monthly", "label": "Monthly" }
     ],
     "autoDeposit": "Authorise CORE to deposit new papers to my repository automatically.",
+    "depositMechanism": "Chose your depositing mechanism",
+    "depositType": "Type of depositing",
+    "depositTypes": [
+      { "id": "pull", "label": "Pull Mechanism" },
+      { "id": "push", "label": "Push Mechanism" }
+    ],
     "swordEndpoint": "SWORD endpoint:",
     "username": "Username",
     "password": "Password",
@@ -31,8 +37,7 @@
     "repositoryProfile": "Repository profile",
     "repositoryProfiles": [
       { "id": "dspace", "label": "DSpace" },
-      { "id": "eprints", "label": "EPrints" },
-      { "id": "invenio", "label": "Invenio" }
+      { "id": "eprints", "label": "Eprints" }
     ],
     "maxPapers": "Maximum amount of new papers per deposit:",
     "pullNotice": "More detailed information about setting up different type of depositing (pull/push) to your repository you can find in the ",

@@ -28,6 +28,7 @@ const EMPTY_FORM: FreshFindsSettingsFormValues = {
   swordPassword: '',
   swordEndpointUrl: '',
   repositoryProfile: undefined,
+  integrationMode: undefined,
 };
 
 const settingsTheme: ThemeConfig = {
@@ -54,17 +55,41 @@ type SettingsSwitchProps = {
   name: keyof FreshFindsSettingsFormValues;
   id: string;
   label: string;
+  disabled?: boolean;
 };
 
-const SettingsSwitch = ({ name, id, label }: SettingsSwitchProps) => (
-  <div className="fresh-finds-settings__toggle">
+const SettingsSwitch = ({ name, id, label, disabled = false }: SettingsSwitchProps) => (
+  <div
+    className={`fresh-finds-settings__toggle${disabled ? ' fresh-finds-settings__toggle--disabled' : ''}`}
+    aria-disabled={disabled}
+  >
     <Form.Item name={name} valuePropName="checked" noStyle>
-      <Switch id={id} className="fresh-finds-settings__switch" aria-label={label} />
+      <Switch id={id} className="fresh-finds-settings__switch" aria-label={label} disabled={disabled} />
     </Form.Item>
     <label htmlFor={id} className="fresh-finds-settings__toggle-label">
       {label}
     </label>
   </div>
+);
+
+type SettingsSelectProps = {
+  name: keyof FreshFindsSettingsFormValues;
+  placeholder: string;
+  options: { id: string; label: string }[];
+};
+
+const SettingsSelect = ({ name, placeholder, options }: SettingsSelectProps) => (
+  <Form.Item name={name} className="fresh-finds-settings__field">
+    <Select
+      className="fresh-finds-settings__select"
+      placeholder={placeholder}
+      aria-label={placeholder}
+      options={options.map((option) => ({
+        value: option.id,
+        label: option.label,
+      }))}
+    />
+  </Form.Item>
 );
 
 export const FreshFindsSettings = () => {
@@ -136,52 +161,10 @@ export const FreshFindsSettings = () => {
               id="fresh-finds-auto-deposit"
               label={text.autoDeposit}
             />
-
-            <span className="fresh-finds-settings__label fresh-finds-settings__label--section">
-              {text.swordEndpoint}
-            </span>
-            <Form.Item name="swordUsername" className="fresh-finds-settings__field">
-              <Input placeholder={text.username} aria-label={text.username} autoComplete="off" />
-            </Form.Item>
-            <Form.Item name="swordPassword" className="fresh-finds-settings__field">
-              <Input.Password
-                placeholder={text.password}
-                aria-label={text.password}
-                autoComplete="new-password"
-              />
-            </Form.Item>
-            {passwordConfigured && (
-              <p className="fresh-finds-settings__hint">{text.passwordConfigured}</p>
-            )}
-            <Form.Item name="swordEndpointUrl" className="fresh-finds-settings__field">
-              <Input placeholder={text.swordUrl} aria-label={text.swordUrl} autoComplete="off" />
-            </Form.Item>
-            <Form.Item name="repositoryProfile" className="fresh-finds-settings__field">
-              <Select
-                className="fresh-finds-settings__select"
-                placeholder={text.repositoryProfile}
-                aria-label={text.repositoryProfile}
-                options={text.repositoryProfiles.map((profile) => ({
-                  value: profile.id,
-                  label: profile.label,
-                }))}
-              />
-            </Form.Item>
           </div>
 
           <div className="fresh-finds-settings__column">
-            <SettingsSwitch
-              name="notifyByEmail"
-              id="fresh-finds-notify-email"
-              label={text.notifyByEmail}
-            />
-            <SettingsSwitch
-              name="depositOnlyWithFullText"
-              id="fresh-finds-full-text"
-              label={text.fullTextOnly}
-            />
-
-            <span id="fresh-finds-frequency-label" className="fresh-finds-settings__label secondary">
+            <span id="fresh-finds-frequency-label" className="fresh-finds-settings__label">
               {text.depositFrequencyLabel}
             </span>
             <Form.Item name="depositFrequency" className="fresh-finds-settings__frequency-item">
@@ -211,6 +194,57 @@ export const FreshFindsSettings = () => {
                 />
               </Form.Item>
             </div>
+          </div>
+
+          <div className="fresh-finds-settings__column">
+            <span className="fresh-finds-settings__label">
+              {text.depositMechanism}
+            </span>
+            <SettingsSelect
+              name="repositoryProfile"
+              placeholder={text.repositoryProfile}
+              options={text.repositoryProfiles}
+            />
+            <SettingsSelect
+              name="integrationMode"
+              placeholder={text.depositType}
+              options={text.depositTypes}
+            />
+
+            {/* TODO: re-enable when email notifications are available */}
+            <SettingsSwitch
+              name="notifyByEmail"
+              id="fresh-finds-notify-email"
+              label={text.notifyByEmail}
+              disabled
+            />
+            <SettingsSwitch
+              name="depositOnlyWithFullText"
+              id="fresh-finds-full-text"
+              label={text.fullTextOnly}
+            />
+          </div>
+
+          <div className="fresh-finds-settings__column">
+            <span className="fresh-finds-settings__label">
+              {text.swordEndpoint}
+            </span>
+            <Form.Item name="swordUsername" className="fresh-finds-settings__field">
+              <Input placeholder={text.username} aria-label={text.username} autoComplete="off" />
+            </Form.Item>
+            <Form.Item name="swordPassword" className="fresh-finds-settings__field">
+              <Input.Password
+                placeholder={text.password}
+                aria-label={text.password}
+                autoComplete="new-password"
+              />
+            </Form.Item>
+            {passwordConfigured && (
+              <p className="fresh-finds-settings__hint">{text.passwordConfigured}</p>
+            )}
+            <Form.Item name="swordEndpointUrl" className="fresh-finds-settings__field">
+              <Input placeholder={text.swordUrl} aria-label={text.swordUrl} autoComplete="off" />
+            </Form.Item>
             <div
               className="fresh-finds-settings__pull-alert"
             >

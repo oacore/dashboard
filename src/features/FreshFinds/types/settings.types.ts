@@ -60,4 +60,5 @@ export interface FreshFindsSettingsFormValues {
   swordPassword: string;
   swordEndpointUrl: string;
   repositoryProfile?: string;
+  integrationMode?: string;
 }

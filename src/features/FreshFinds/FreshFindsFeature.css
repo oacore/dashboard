@@ -148,6 +148,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     column-gap: 4rem;
+    row-gap: 1.75rem;
     align-items: start;
 }
 
@@ -155,14 +156,6 @@
     display: block;
     margin-bottom: 0.75rem;
     color: var(--color-text-secondary);
-}
-
-.secondary {
-    margin-top: 36px;
-}
-
-.fresh-finds-settings__label--section {
-    margin-top: 1.25rem;
 }
 
 .fresh-finds-settings__loading {
@@ -216,6 +209,19 @@
     margin-bottom: 1rem;
 }
 
+.fresh-finds-settings__column > .fresh-finds-settings__toggle:last-child {
+    margin-bottom: 0;
+}
+
+.fresh-finds-settings__toggle--disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.fresh-finds-settings__toggle--disabled .fresh-finds-settings__toggle-label {
+    cursor: not-allowed;
+}
+
 .fresh-finds-settings__switch {
     flex-shrink: 0;
     margin-top: 0.15rem;
@@ -246,22 +252,22 @@
     text-align: center;
 }
 
-.fresh-finds-settings__pull-alert{
-   margin-top: 36px;
-}
-
 .fresh-finds-settings__pull-alert {
+    margin-top: 0.75rem;
     color: var(--color-text-secondary);
 }
 
-.fresh-finds-settings__doc-link {
-    color: inherit;
+.fresh-finds-settings__doc-link,
+.fresh-finds-settings__doc-link a {
+    color: var(--color-primary);
     text-decoration: underline;
 }
 
 .fresh-finds-settings__doc-link:hover,
-.fresh-finds-settings__doc-link:focus-visible {
-    color: var(--success-dark);
+.fresh-finds-settings__doc-link:focus-visible,
+.fresh-finds-settings__doc-link a:hover,
+.fresh-finds-settings__doc-link a:focus-visible {
+    color: var(--color-primary-hover);
 }
 
 .fresh-finds-settings__actions {
