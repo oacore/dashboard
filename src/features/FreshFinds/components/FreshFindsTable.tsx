@@ -11,7 +11,6 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import { createColumns } from './FreshFindsColumns.tsx';
 import { FreshFindsDepositFilter } from './FreshFindsDepositFilter.tsx';
-import { actions } from './tableActions.tsx';
 import { useDepositFreshFind } from '../hooks/useDepositFreshFind';
 import { useDownloadFreshFindsCsv } from '../hooks/useDownloadFreshFindsCsv';
 import { useFreshFindsData } from '../hooks/useFreshFindsData';
@@ -94,8 +93,7 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
           {articleTemplateData.table.title}
         </h2>
         <p className="fresh-finds-table-header__subtitle">
-          Papers we discovered elsewhere authored by <strong>{dataProviderName}</strong> you might
-          consider adding to your repository.
+          We have fount <strong>{totalLength}</strong> papers authored by  <strong>{dataProviderName}</strong> you might consider adding to your repository
         </p>
       </div>
       <div id="freshFindsTable">
@@ -105,7 +103,8 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
           columns={columns}
           loading={isLoading}
           error={error}
-          actions={actions}
+          // TODO: enable row actions from ./tableActions
+          actions={[]}
           onDownloadCsv={downloadCsv}
           downloadCsvLoading={downloadCsvLoading}
           showLoadMore={!isStartingPlan && hasMore}
