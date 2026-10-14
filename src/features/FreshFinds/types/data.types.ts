@@ -15,7 +15,14 @@ export type FreshFindsRepositoryStatus =
   | 'adding'
   | 'added_without_fulltext'
   | 'candidate'
-  | 'fulltext_unavailable';
+  | 'fulltext_unavailable'
+  | 'in_repository';
+
+export type FreshFindsDepositOrigin = 'manual' | 'automatic';
+
+export interface FreshFindsDeposit {
+  origin?: FreshFindsDepositOrigin | null;
+}
 
 export type FreshFindsDepositFilter =
   | 'automatic'
@@ -38,7 +45,7 @@ export interface FreshFindsWorkItem {
   matchedInstitutionIds: number[];
   alreadyInRepository: boolean;
   status: FreshFindsRepositoryStatus;
-  deposit: unknown | null;
+  deposit: FreshFindsDeposit | null;
   canDeposit: boolean;
 }
 

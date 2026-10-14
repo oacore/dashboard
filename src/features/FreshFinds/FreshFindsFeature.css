@@ -70,7 +70,8 @@
 
 .fresh-finds-column.fresh-finds-column--in-repository,
 .fresh-finds-column.fresh-finds-column--in-repository.ant-table-cell {
-    min-width: 14rem;
+    min-width: 18rem;
+    max-width: none;
 }
 
 .fresh-finds__doi-link {
