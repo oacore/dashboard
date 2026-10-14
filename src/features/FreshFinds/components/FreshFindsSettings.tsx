@@ -95,6 +95,8 @@ const SettingsSelect = ({ name, placeholder, options }: SettingsSelectProps) => 
 export const FreshFindsSettings = () => {
   const [form] = Form.useForm<FreshFindsSettingsFormValues>();
   const { formValues, passwordConfigured, error, isLoading, isSaving, saveSettings } = useFreshFindsSettings();
+  const integrationMode = Form.useWatch('integrationMode', form);
+  const isPullMode = (integrationMode ?? formValues?.integrationMode) === 'pull';
 
   const handleSave = async (values: FreshFindsSettingsFormValues) => {
     try {
@@ -135,6 +137,7 @@ export const FreshFindsSettings = () => {
           />
         )}
         <div className="fresh-finds-settings__grid">
+          {/*left*/}
           <div className="fresh-finds-settings__column">
             <span id="fresh-finds-sources-label" className="fresh-finds-settings__label">
               {text.sourcesLabel}
@@ -163,7 +166,8 @@ export const FreshFindsSettings = () => {
             />
           </div>
 
-          <div className="fresh-finds-settings__column">
+          {/*right*/}
+          <fieldset className="fresh-finds-settings__column" disabled={isPullMode}>
             <span id="fresh-finds-frequency-label" className="fresh-finds-settings__label">
               {text.depositFrequencyLabel}
             </span>
@@ -194,8 +198,9 @@ export const FreshFindsSettings = () => {
                 />
               </Form.Item>
             </div>
-          </div>
+          </fieldset>
 
+          {/*left*/}
           <div className="fresh-finds-settings__column">
             <span className="fresh-finds-settings__label">
               {text.depositMechanism}
@@ -225,7 +230,8 @@ export const FreshFindsSettings = () => {
             />
           </div>
 
-          <div className="fresh-finds-settings__column">
+          {/*right*/}
+          <fieldset className="fresh-finds-settings__column" disabled={isPullMode}>
             <span className="fresh-finds-settings__label">
               {text.swordEndpoint}
             </span>
@@ -257,7 +263,7 @@ export const FreshFindsSettings = () => {
                   </Markdown>
                 </span>
             </div>
-          </div>
+          </fieldset>
         </div>
         <div className="fresh-finds-settings__actions">
           <Button type="primary" htmlType="submit" loading={isSaving} aria-label={text.save}>

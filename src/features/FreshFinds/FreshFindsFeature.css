@@ -153,6 +153,19 @@
     align-items: start;
 }
 
+fieldset.fresh-finds-settings__column {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-inline-size: 0;
+    cursor: not-allowed;
+}
+
+fieldset.fresh-finds-settings__column:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
 .fresh-finds-settings__label {
     display: block;
     margin-bottom: 0.75rem;
