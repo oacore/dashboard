@@ -23,6 +23,7 @@ interface FreshFindsActions {
     dataProviderId: number,
     depositFilter: FreshFindsDepositFilter[],
   ) => void;
+  requestSettingsAttention: () => void;
 }
 
 export interface FreshFindsStoreState {
@@ -36,6 +37,7 @@ export interface FreshFindsStoreState {
   lastDepositFilter: FreshFindsDepositFilter[];
   lastDataProviderId: number;
   isLoadingMore: boolean;
+  settingsAttentionRequestId: number;
 }
 
 type FreshFindsStore = FreshFindsStoreState & FreshFindsActions;
@@ -53,6 +55,7 @@ export const useFreshFindsStore = create<FreshFindsStore>()(
       lastDepositFilter: [],
       lastDataProviderId: 0,
       isLoadingMore: false,
+      settingsAttentionRequestId: 0,
 
       setSearchTerm: (term: string) => {
         set({ searchTerm: term, currentPage: 1 });
@@ -116,6 +119,10 @@ export const useFreshFindsStore = create<FreshFindsStore>()(
           lastDepositFilter: depositFilter,
           lastDataProviderId: dataProviderId,
         });
+      },
+
+      requestSettingsAttention: () => {
+        set({ settingsAttentionRequestId: get().settingsAttentionRequestId + 1 });
       },
     }),
     {

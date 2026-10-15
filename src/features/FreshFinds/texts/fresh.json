@@ -44,6 +44,15 @@
     "pullLink": "[Documentation]()",
     "save": "Save",
     "saveSuccess": "Settings were updated successfully!",
-    "saveError": "Failed to update Fresh Finds settings."
+    "saveError": "Failed to update Fresh Finds settings.",
+    "sourcesRequired": "Select at least one source.",
+    "repositoryProfileRequired": "Select a repository profile.",
+    "depositTypeRequired": "Select a type of depositing.",
+    "depositFrequencyRequired": "Select a deposit frequency.",
+    "maxPapersRequired": "Enter the maximum amount of papers per deposit.",
+    "usernameRequired": "Enter a username.",
+    "passwordRequired": "Enter a password.",
+    "swordUrlRequired": "Enter a SWORD endpoint URL.",
+    "requiredBeforeDeposit": "Complete and save the required settings before adding a paper to your repository."
   }
 }

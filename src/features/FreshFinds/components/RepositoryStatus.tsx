@@ -1,4 +1,5 @@
 import type { KeyboardEvent, MouseEvent } from 'react';
+import { message } from 'antd';
 
 import inRepoIcon from '@/assets/icons/inRepo.svg';
 import addInRepoIcon from '@/assets/icons/addInRepo.svg';
@@ -7,6 +8,9 @@ import addAutoRepoIcon from '@/assets/icons/addedAutomaticallyViaFreshFinds.svg'
 
 import type { FreshFindsRecord } from '../types/data.types';
 import { useFreshFindsSettings } from '../hooks/useFreshFindsSettings';
+import { useFreshFindsStore } from '../store/freshFindsStore';
+import { articleTemplateData } from '../texts';
+import { areFreshFindsSettingsComplete } from '../utils/settingsValidation';
 
 const renderStatusLabel = (label: string, iconSrc?: string) => (
   <div className="status-wrapper">
@@ -30,7 +34,8 @@ export const RepositoryStatus = ({
   onAddToRepository,
   depositingWorkId,
 }: RepositoryStatusProps) => {
-  const { formValues } = useFreshFindsSettings();
+  const { formValues, passwordConfigured, isLoading } = useFreshFindsSettings();
+  const requestSettingsAttention = useFreshFindsStore((state) => state.requestSettingsAttention);
   const integrationMode = formValues?.integrationMode;
   const status = value != null ? String(value).trim() : '';
 
@@ -61,6 +66,16 @@ export const RepositoryStatus = ({
 
     const handleAddToRepository = (event: MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
+
+      if (isLoading || !areFreshFindsSettingsComplete(formValues, passwordConfigured)) {
+        message.warning({
+          content: articleTemplateData.settings.requiredBeforeDeposit,
+          key: 'fresh-finds-settings-required',
+        });
+        requestSettingsAttention();
+        return;
+      }
+
       onAddToRepository(record.workId);
     };
 

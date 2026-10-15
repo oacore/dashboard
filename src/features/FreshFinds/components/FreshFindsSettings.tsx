@@ -1,15 +1,47 @@
+import { useEffect } from 'react';
 import { Alert, Button, Checkbox, ConfigProvider, Form, Input, InputNumber, Radio, Select, Spin, Switch, message } from 'antd';
-import type { ThemeConfig } from 'antd';
+import type { FormItemProps, ThemeConfig } from 'antd';
 
 import { customColors } from '@/config/theme';
 
 import { useFreshFindsSettings } from '../hooks/useFreshFindsSettings';
+import { useFreshFindsStore } from '../store/freshFindsStore';
 import { articleTemplateData } from '../texts';
-import type { FreshFindsSettingsFormValues } from '../types/settings.types';
+import type { FreshFindsSettingsFormValues, FreshFindsSettingsSources } from '../types/settings.types';
+import {
+  getIncompleteSettingsFields,
+  type FreshFindsRequiredField,
+} from '../utils/settingsValidation';
 import {Markdown} from '@oacore/core-ui';
 import '../FreshFindsFeature.css';
 
 const text = articleTemplateData.settings;
+
+type SettingsFormState = FreshFindsSettingsFormValues & {
+  sourcesSelection?: string;
+};
+
+const sourceFieldDependencies = text.sources.map(
+  (source) => ['sources', source.id] as ['sources', keyof FreshFindsSettingsSources],
+);
+
+const pushFieldNames = [
+  'depositFrequency',
+  'maximumPapersPerDeposit',
+  'swordUsername',
+  'swordPassword',
+  'swordEndpointUrl',
+] as const;
+
+const getSettingsLabelClassName = (isRequired: boolean) =>
+  isRequired
+    ? 'fresh-finds-settings__label fresh-finds-settings__label--required'
+    : 'fresh-finds-settings__label';
+
+const getMaxPapersLabelClassName = (isRequired: boolean) =>
+  isRequired
+    ? 'fresh-finds-settings__toggle-label fresh-finds-settings__label--required'
+    : 'fresh-finds-settings__toggle-label';
 
 const EMPTY_FORM: FreshFindsSettingsFormValues = {
   sources: {
@@ -76,14 +108,16 @@ type SettingsSelectProps = {
   name: keyof FreshFindsSettingsFormValues;
   placeholder: string;
   options: { id: string; label: string }[];
+  rules: FormItemProps['rules'];
 };
 
-const SettingsSelect = ({ name, placeholder, options }: SettingsSelectProps) => (
-  <Form.Item name={name} className="fresh-finds-settings__field">
+const SettingsSelect = ({ name, placeholder, options, rules }: SettingsSelectProps) => (
+  <Form.Item name={name} className="fresh-finds-settings__field" rules={rules}>
     <Select
       className="fresh-finds-settings__select"
       placeholder={placeholder}
       aria-label={placeholder}
+      aria-required
       options={options.map((option) => ({
         value: option.id,
         label: option.label,
@@ -93,12 +127,48 @@ const SettingsSelect = ({ name, placeholder, options }: SettingsSelectProps) => 
 );
 
 export const FreshFindsSettings = () => {
-  const [form] = Form.useForm<FreshFindsSettingsFormValues>();
+  const [form] = Form.useForm<SettingsFormState>();
   const { formValues, passwordConfigured, error, isLoading, isSaving, saveSettings } = useFreshFindsSettings();
+  const settingsAttentionRequestId = useFreshFindsStore((state) => state.settingsAttentionRequestId);
   const integrationMode = Form.useWatch('integrationMode', form);
-  const isPullMode = (integrationMode ?? formValues?.integrationMode) === 'pull';
+  const resolvedIntegrationMode = integrationMode ?? formValues?.integrationMode;
+  const isPullMode = resolvedIntegrationMode === 'pull';
+  const isPushMode = resolvedIntegrationMode === 'push';
+  const isFormReady = !(isLoading && !formValues);
 
-  const handleSave = async (values: FreshFindsSettingsFormValues) => {
+  const createFieldRules = (
+    field: FreshFindsRequiredField,
+    messageText: string,
+  ): FormItemProps['rules'] => [
+    {
+      validator: async () => {
+        const values = form.getFieldsValue(true) as FreshFindsSettingsFormValues;
+        const missing = getIncompleteSettingsFields(values, passwordConfigured);
+
+        if (missing.includes(field)) {
+          throw new Error(messageText);
+        }
+      },
+    },
+  ];
+
+  useEffect(() => {
+    if (!isFormReady || isPushMode) {
+      return;
+    }
+
+    form.setFields(pushFieldNames.map((name) => ({ name, errors: [] })));
+  }, [form, isFormReady, isPushMode]);
+
+  useEffect(() => {
+    if (!isFormReady || settingsAttentionRequestId === 0) {
+      return;
+    }
+
+    void form.validateFields().catch(() => undefined);
+  }, [form, isFormReady, settingsAttentionRequestId]);
+
+  const handleSave = async (values: SettingsFormState) => {
     try {
       await saveSettings(values);
       form.setFieldValue('swordPassword', '');
@@ -123,9 +193,10 @@ export const FreshFindsSettings = () => {
         className="fresh-finds-settings"
         layout="vertical"
         key={formValues ? 'loaded' : 'empty'}
-        initialValues={formValues ?? EMPTY_FORM}
+        initialValues={{ ...(formValues ?? EMPTY_FORM), sourcesSelection: '' }}
         onFinish={handleSave}
         requiredMark={false}
+        scrollToFirstError={{ behavior: 'smooth', block: 'center' }}
       >
         <h3 className="fresh-finds-settings__title">{text.title}</h3>
         {error && (
@@ -139,7 +210,10 @@ export const FreshFindsSettings = () => {
         <div className="fresh-finds-settings__grid">
           {/*left*/}
           <div className="fresh-finds-settings__column">
-            <span id="fresh-finds-sources-label" className="fresh-finds-settings__label">
+            <span
+              id="fresh-finds-sources-label"
+              className={getSettingsLabelClassName(true)}
+            >
               {text.sourcesLabel}
             </span>
             <div
@@ -158,6 +232,14 @@ export const FreshFindsSettings = () => {
                 </Form.Item>
               ))}
             </div>
+            <Form.Item
+              className="fresh-finds-settings__sources-error"
+              name="sourcesSelection"
+              dependencies={sourceFieldDependencies}
+              rules={createFieldRules('sources', text.sourcesRequired)}
+            >
+              <Input className="fresh-finds-settings__hidden-input" tabIndex={-1} aria-hidden />
+            </Form.Item>
 
             <SettingsSwitch
               name="autoDepositEnabled"
@@ -168,10 +250,17 @@ export const FreshFindsSettings = () => {
 
           {/*right*/}
           <fieldset className="fresh-finds-settings__column" disabled={isPullMode}>
-            <span id="fresh-finds-frequency-label" className="fresh-finds-settings__label">
+            <span
+              id="fresh-finds-frequency-label"
+              className={getSettingsLabelClassName(isPushMode)}
+            >
               {text.depositFrequencyLabel}
             </span>
-            <Form.Item name="depositFrequency" className="fresh-finds-settings__frequency-item">
+            <Form.Item
+              name="depositFrequency"
+              className="fresh-finds-settings__frequency-item"
+              rules={createFieldRules('depositFrequency', text.depositFrequencyRequired)}
+            >
               <Radio.Group
                 className="fresh-finds-settings__frequency"
                 aria-labelledby="fresh-finds-frequency-label"
@@ -185,16 +274,24 @@ export const FreshFindsSettings = () => {
             </Form.Item>
 
             <div className="fresh-finds-settings__max">
-              <label htmlFor="fresh-finds-max-papers" className="fresh-finds-settings__toggle-label">
+              <label
+                htmlFor="fresh-finds-max-papers"
+                className={getMaxPapersLabelClassName(isPushMode)}
+              >
                 {text.maxPapers}
               </label>
-              <Form.Item name="maximumPapersPerDeposit" noStyle>
+              <Form.Item
+                name="maximumPapersPerDeposit"
+                className="fresh-finds-settings__max-field"
+                rules={createFieldRules('maximumPapersPerDeposit', text.maxPapersRequired)}
+              >
                 <InputNumber
                   id="fresh-finds-max-papers"
                   className="fresh-finds-settings__max-input"
                   min={1}
                   controls={false}
                   aria-label={text.maxPapers}
+                  aria-required={isPushMode}
                 />
               </Form.Item>
             </div>
@@ -209,11 +306,13 @@ export const FreshFindsSettings = () => {
               name="repositoryProfile"
               placeholder={text.repositoryProfile}
               options={text.repositoryProfiles}
+              rules={createFieldRules('repositoryProfile', text.repositoryProfileRequired)}
             />
             <SettingsSelect
               name="integrationMode"
               placeholder={text.depositType}
               options={text.depositTypes}
+              rules={createFieldRules('integrationMode', text.depositTypeRequired)}
             />
 
             {/* TODO: re-enable when email notifications are available */}
@@ -232,24 +331,47 @@ export const FreshFindsSettings = () => {
 
           {/*right*/}
           <fieldset className="fresh-finds-settings__column" disabled={isPullMode}>
-            <span className="fresh-finds-settings__label">
+            <span className={getSettingsLabelClassName(isPushMode)}>
               {text.swordEndpoint}
             </span>
-            <Form.Item name="swordUsername" className="fresh-finds-settings__field">
-              <Input placeholder={text.username} aria-label={text.username} autoComplete="off" />
+            <Form.Item
+              name="swordUsername"
+              className="fresh-finds-settings__field"
+              rules={createFieldRules('swordUsername', text.usernameRequired)}
+            >
+              <Input
+                placeholder={text.username}
+                aria-label={text.username}
+                aria-required={isPushMode}
+                autoComplete="off"
+              />
             </Form.Item>
-            <Form.Item name="swordPassword" className="fresh-finds-settings__field">
+            <Form.Item
+              name="swordPassword"
+              className="fresh-finds-settings__field"
+              rules={createFieldRules('swordPassword', text.passwordRequired)}
+            >
               <Input.Password
                 placeholder={text.password}
                 aria-label={text.password}
+                aria-required={isPushMode && !passwordConfigured}
                 autoComplete="new-password"
               />
             </Form.Item>
             {passwordConfigured && (
               <p className="fresh-finds-settings__hint">{text.passwordConfigured}</p>
             )}
-            <Form.Item name="swordEndpointUrl" className="fresh-finds-settings__field">
-              <Input placeholder={text.swordUrl} aria-label={text.swordUrl} autoComplete="off" />
+            <Form.Item
+              name="swordEndpointUrl"
+              className="fresh-finds-settings__field"
+              rules={createFieldRules('swordEndpointUrl', text.swordUrlRequired)}
+            >
+              <Input
+                placeholder={text.swordUrl}
+                aria-label={text.swordUrl}
+                aria-required={isPushMode}
+                autoComplete="off"
+              />
             </Form.Item>
             <div
               className="fresh-finds-settings__pull-alert"

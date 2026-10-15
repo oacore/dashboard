@@ -132,6 +132,11 @@
     width: 100%;
     margin-top: 0.75rem;
     text-align: left;
+    scroll-margin-top: 4.5rem;
+}
+
+.fresh-finds-settings-panel:focus {
+    outline: none;
 }
 
 .fresh-finds-settings-panel[hidden] {
@@ -170,6 +175,15 @@ fieldset.fresh-finds-settings__column:disabled {
     color: var(--color-text-secondary);
 }
 
+.fresh-finds-settings__label--required::before {
+    display: inline-block;
+    margin-inline-end: 0.25rem;
+    color: #ff4d4f;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: '*';
+}
+
 .fresh-finds-settings__loading {
     display: flex;
     justify-content: center;
@@ -186,7 +200,15 @@ fieldset.fresh-finds-settings__column:disabled {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.fresh-finds-settings__sources-error {
     margin-bottom: 1.5rem;
+}
+
+.fresh-finds-settings__sources-error .ant-form-item-control-input {
+    display: none;
 }
 
 .fresh-finds-settings__source {
@@ -250,9 +272,13 @@ fieldset.fresh-finds-settings__column:disabled {
 
 .fresh-finds-settings__max {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
     margin-top: 0.5rem;
+}
+
+.fresh-finds-settings__max-field {
+    margin-bottom: 0;
 }
 
 .fresh-finds-settings__max-input {
