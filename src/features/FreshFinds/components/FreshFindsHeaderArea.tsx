@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 import { CrHeader, CrShowMore } from '@oacore/core-ui';
 
 import { FreshFindsSettings } from './FreshFindsSettings';
 import { useFreshFindsStore } from '../store/freshFindsStore';
 import { articleTemplateData } from '../texts';
 
-export const FRESH_FINDS_SETTINGS_PANEL_ID = 'fresh-finds-settings-panel';
+const SETTINGS_PANEL_ID = 'fresh-finds-settings-panel';
 
 type FreshFindsHeaderAreaProps = {
   showSettings: boolean;
@@ -14,7 +14,6 @@ type FreshFindsHeaderAreaProps = {
 
 export const FreshFindsHeaderArea = ({ showSettings, setShowSettings }: FreshFindsHeaderAreaProps) => {
   const settingsAttentionRequestId = useFreshFindsStore((state) => state.settingsAttentionRequestId);
-  const shouldScrollToSettingsRef = useRef(false);
 
   const handleToggleSettings = useCallback(() => {
     setShowSettings((previous) => !previous);
@@ -25,20 +24,22 @@ export const FreshFindsHeaderArea = ({ showSettings, setShowSettings }: FreshFin
       return;
     }
 
-    shouldScrollToSettingsRef.current = true;
     setShowSettings(true);
+    let innerFrame = 0;
+    const frame = requestAnimationFrame(() => {
+      innerFrame = requestAnimationFrame(() => {
+        document.getElementById(SETTINGS_PANEL_ID)?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      cancelAnimationFrame(innerFrame);
+    };
   }, [settingsAttentionRequestId, setShowSettings]);
-
-  useEffect(() => {
-    if (!showSettings || !shouldScrollToSettingsRef.current) {
-      return;
-    }
-
-    shouldScrollToSettingsRef.current = false;
-    const settingsPanel = document.getElementById(FRESH_FINDS_SETTINGS_PANEL_ID);
-    settingsPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    settingsPanel?.focus({ preventScroll: true });
-  }, [settingsAttentionRequestId, showSettings]);
 
   return (
     <div className="fresh-finds-header">
@@ -50,12 +51,7 @@ export const FreshFindsHeaderArea = ({ showSettings, setShowSettings }: FreshFin
         showSettings={showSettings}
         onSettingsToggle={handleToggleSettings}
       >
-        <div
-          id={FRESH_FINDS_SETTINGS_PANEL_ID}
-          className="fresh-finds-settings-panel"
-          hidden={!showSettings}
-          tabIndex={-1}
-        >
+        <div id={SETTINGS_PANEL_ID} className="fresh-finds-settings-panel" hidden={!showSettings}>
           <FreshFindsSettings />
         </div>
       </CrHeader>
