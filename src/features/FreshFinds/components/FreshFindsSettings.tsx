@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { CheckCircleOutlined } from '@ant-design/icons';
 import { Markdown } from '@oacore/core-ui';
 import { Alert, Button, Checkbox, ConfigProvider, Form, Input, InputNumber, Radio, Select, Spin, Switch, message } from 'antd';
 import type { FormItemProps, ThemeConfig } from 'antd';
@@ -106,6 +107,8 @@ const SettingsSelect = ({ name, placeholder, options, rules }: SettingsSelectPro
 export const FreshFindsSettings = () => {
   const [form] = Form.useForm<FreshFindsSettingsFormValues>();
   const [showSourcesError, setShowSourcesError] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const ignoreNextChangeRef = useRef(false);
   const { formValues, passwordConfigured, error, isLoading, isSaving, saveSettings } = useFreshFindsSettings();
   const settingsAttentionRequestId = useFreshFindsStore((state) => state.settingsAttentionRequestId);
   const integrationMode = Form.useWatch('integrationMode', form);
@@ -138,6 +141,18 @@ export const FreshFindsSettings = () => {
   ];
 
   useEffect(() => {
+    if (!isSaved) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIsSaved(false);
+    }, 3000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [isSaved]);
+
+  useEffect(() => {
     if (isLoading || settingsAttentionRequestId === 0) {
       return;
     }
@@ -154,11 +169,23 @@ export const FreshFindsSettings = () => {
 
     try {
       await saveSettings(values);
+      ignoreNextChangeRef.current = true;
       form.setFieldValue('swordPassword', '');
+      setIsSaved(true);
       message.success(text.saveSuccess);
     } catch {
+      setIsSaved(false);
       message.error(text.saveError);
     }
+  };
+
+  const handleValuesChange = () => {
+    if (ignoreNextChangeRef.current) {
+      ignoreNextChangeRef.current = false;
+      return;
+    }
+
+    setIsSaved(false);
   };
 
   if (isLoading && !formValues) {
@@ -179,6 +206,7 @@ export const FreshFindsSettings = () => {
         initialValues={formValues ?? EMPTY_FORM}
         onFinish={handleSave}
         onFinishFailed={() => setShowSourcesError(true)}
+        onValuesChange={handleValuesChange}
         requiredMark={false}
         scrollToFirstError={{ behavior: 'smooth', block: 'center' }}
       >
@@ -374,6 +402,12 @@ export const FreshFindsSettings = () => {
           </fieldset>
         </div>
         <div className="fresh-finds-settings__actions">
+          {isSaved && (
+            <span className="fresh-finds-settings__saved" role="status">
+              <CheckCircleOutlined className="fresh-finds-settings__saved-icon" aria-hidden />
+              {text.saveSuccess}
+            </span>
+          )}
           <Button type="primary" htmlType="submit" loading={isSaving} aria-label={text.save}>
             {text.save}
           </Button>

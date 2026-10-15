@@ -5,12 +5,10 @@ import { postRequestFetcher } from '@/config/swr';
 import { captureHandledError } from '@/utils/captureHandledError';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
-import { useFreshFindsStore } from '../store/freshFindsStore';
 import type { FreshFindsDepositPayload } from '../types/data.types';
 
-export const useDepositFreshFind = () => {
+export const useDepositFreshFind = (onDeposited?: () => Promise<unknown> | void) => {
   const { selectedDataProvider } = useDataProviderStore();
-  const updateWorkStatus = useFreshFindsStore((state) => state.updateWorkStatus);
   const [depositingWorkId, setDepositingWorkId] = useState<number | null>(null);
   const depositingWorkIdRef = useRef<number | null>(null);
 
@@ -41,7 +39,7 @@ export const useDepositFreshFind = () => {
           `/internal/fresh-finds/deposit/${dataProviderId}`,
           payload,
         );
-        updateWorkStatus(workId, 'adding');
+        await onDeposited?.();
         message.success('Added to your repository');
       } catch (error) {
         captureHandledError(error, {
@@ -54,7 +52,7 @@ export const useDepositFreshFind = () => {
         setDepositingWorkId(null);
       }
     },
-    [selectedDataProvider?.id, updateWorkStatus],
+    [onDeposited, selectedDataProvider?.id],
   );
 
   return {

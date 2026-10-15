@@ -29,7 +29,6 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
   const { selectedDataProvider } = useDataProviderStore();
   const { organisation } = useOrganisation();
   const { downloadCsv, isLoading: downloadCsvLoading } = useDownloadFreshFindsCsv();
-  const { depositWork, depositingWorkId } = useDepositFreshFind();
 
   const {
     data: accumulatedData,
@@ -37,9 +36,11 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
     isLoading,
     isLoadingMore,
     loadMore,
+    mutate,
     totalLength,
     hasMore,
   } = useFreshFindsData(10, selectedDataProvider?.id || 0);
+  const { depositWork, depositingWorkId } = useDepositFreshFind(() => mutate());
 
   const { isStartingPlan, displayData } = useBillingPlanData(accumulatedData, organisation);
 

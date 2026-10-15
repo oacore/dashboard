@@ -306,8 +306,22 @@ fieldset.fresh-finds-settings__column:disabled {
 
 .fresh-finds-settings__actions {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
+    gap: 1rem;
     margin-top: 1.5rem;
+}
+
+.fresh-finds-settings__saved {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-success);
+    font-size: 0.875rem;
+}
+
+.fresh-finds-settings__saved-icon {
+    color: var(--color-success);
 }
 
 @media (max-width: 992px) {
