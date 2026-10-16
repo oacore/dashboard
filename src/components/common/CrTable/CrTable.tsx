@@ -22,6 +22,7 @@ export const CrTable = <T = unknown>({
     searchPlaceholder = 'Any identifier, title, author...',
     onSearch,
     searchValue = '',
+    beforeSearch,
     // Sorting props
     sortable = false,
     defaultSortField,
@@ -185,6 +186,7 @@ export const CrTable = <T = unknown>({
 
     return (
         <div className={classNames('reusable-table', className)}>
+            {beforeSearch}
             {searchable && (
                 <CrSearchBar
                     placeholder={searchPlaceholder}

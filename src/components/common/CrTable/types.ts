@@ -71,6 +71,7 @@ export interface ReusableTableProps<T = unknown> {
     searchPlaceholder?: string;
     onSearch?: (searchTerm: string) => void;
     searchValue?: string;
+    beforeSearch?: React.ReactNode;
 
     // Sorting props
     sortable?: boolean;
