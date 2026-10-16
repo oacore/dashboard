@@ -74,7 +74,7 @@ export const createColumns = ({
             aria-label={`Open DOI ${doi} in a new tab`}
           >
             <LinkOutlined className="fresh-finds__doi-icon" aria-hidden />
-            {doi}
+            <span className="fresh-finds__doi-text">{doi}</span>
           </a>
         );
       },
@@ -110,7 +110,7 @@ export const createColumns = ({
       key: 'status',
       title: 'Add to repository',
       dataIndex: 'status',
-      width: '20%',
+      width: '22rem',
       align: 'left',
       className: 'fresh-finds-column fresh-finds-column--in-repository',
       render: (value: unknown, record: FreshFindsRecord) => (

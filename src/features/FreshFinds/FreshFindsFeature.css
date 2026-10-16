@@ -69,8 +69,11 @@
 }
 
 .fresh-finds-column.fresh-finds-column--in-repository,
-.fresh-finds-column.fresh-finds-column--in-repository.ant-table-cell {
-    min-width: 18rem;
+.fresh-finds-column.fresh-finds-column--in-repository.ant-table-cell,
+#freshFindsTable .reusable-table .ant-table-thead > tr > th:nth-last-child(2),
+#freshFindsTable .reusable-table .ant-table-tbody > tr > td:nth-last-child(2) {
+    width: 22rem;
+    min-width: 22rem;
     max-width: none;
 }
 
@@ -78,8 +81,19 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
     color: #b75400;
     text-decoration: none;
+    vertical-align: bottom;
+}
+
+.fresh-finds__doi-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .fresh-finds__doi-link:hover,
