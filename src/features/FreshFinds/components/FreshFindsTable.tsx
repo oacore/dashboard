@@ -12,7 +12,7 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 import { createColumns } from './FreshFindsColumns.tsx';
 import { FreshFindsDepositFilter } from './FreshFindsDepositFilter.tsx';
 import { useDepositFreshFind } from '../hooks/useDepositFreshFind';
-import { useDownloadFreshFindsCsv } from '../hooks/useDownloadFreshFindsCsv';
+import { useDownloadFreshFinds } from '../hooks/useDownloadFreshFindsCsv';
 import { useFreshFindsData } from '../hooks/useFreshFindsData';
 import { useFreshFindsStore } from '../store/freshFindsStore';
 import type { FreshFindsRecord } from '../types/data.types';
@@ -28,7 +28,38 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
   const { searchTerm, setSearchTerm } = useFreshFindsStore();
   const { selectedDataProvider } = useDataProviderStore();
   const { organisation } = useOrganisation();
-  const { downloadCsv, isLoading: downloadCsvLoading } = useDownloadFreshFindsCsv();
+  const { csv, json, bibtex, research } = useDownloadFreshFinds();
+
+  const extraDownloads = useMemo(
+    () => [
+      {
+        key: 'json',
+        label: 'Download JSON',
+        onClick: json.download,
+        loading: json.isLoading,
+      },
+      {
+        key: 'bibtex',
+        label: 'Download BibTeX',
+        onClick: bibtex.download,
+        loading: bibtex.isLoading,
+      },
+      {
+        key: 'research',
+        label: 'Download Research',
+        onClick: research.download,
+        loading: research.isLoading,
+      },
+    ],
+    [
+      json.download,
+      json.isLoading,
+      bibtex.download,
+      bibtex.isLoading,
+      research.download,
+      research.isLoading,
+    ],
+  );
 
   const {
     data: accumulatedData,
@@ -106,8 +137,9 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
           error={error}
           // TODO: enable row actions from ./tableActions
           actions={[]}
-          onDownloadCsv={downloadCsv}
-          downloadCsvLoading={downloadCsvLoading}
+          onDownloadCsv={csv.download}
+          downloadCsvLoading={csv.isLoading}
+          extraDownloads={extraDownloads}
           showLoadMore={!isStartingPlan && hasMore}
           onLoadMore={loadMore}
           loadMoreText="Show more"

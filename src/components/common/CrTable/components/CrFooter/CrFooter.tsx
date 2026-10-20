@@ -1,5 +1,7 @@
 import { Button, Typography, Row, Col } from 'antd';
 
+import type { TableDownloadAction } from '@components/common/CrTable/types.ts';
+
 const { Text } = Typography;
 
 export interface CrFooterProps {
@@ -22,6 +24,7 @@ export interface CrFooterProps {
     onLoadMore?: () => void;
     loadMoreLoading?: boolean;
     downloadCsvLoading?: boolean;
+    extraDownloads?: TableDownloadAction[];
 }
 
 export const CrFooter = ({
@@ -37,24 +40,42 @@ export const CrFooter = ({
     onLoadMore,
     loadMoreLoading = false,
     downloadCsvLoading = false,
+    extraDownloads = [],
 }: CrFooterProps) => {
     if (!showFooter && !showLoadMore) return null;
+
+    const hasDownloads = Boolean(onDownloadCsv) || extraDownloads.length > 0;
 
     return (
         <Row className="footer-container">
             {showFooter && (
                 <div className="footer-wrapper">
-                    {onDownloadCsv && (
-                        <Col className="footer-download-col">
-                            <Button
-                                type="primary"
-                                onClick={onDownloadCsv}
-                                loading={downloadCsvLoading}
-                                className="footer-download-btn"
-                            >
-                                Download CSV
-                            </Button>
-                        </Col>
+                    {hasDownloads && (
+                        <div className="footer-download-actions">
+                            {onDownloadCsv && (
+                                <Button
+                                    type="primary"
+                                    onClick={onDownloadCsv}
+                                    loading={downloadCsvLoading}
+                                    className="footer-download-btn"
+                                    aria-label="Download CSV"
+                                >
+                                    Download CSV
+                                </Button>
+                            )}
+                            {extraDownloads.map((download) => (
+                                <Button
+                                    key={download.key}
+                                    type="primary"
+                                    onClick={download.onClick}
+                                    loading={download.loading}
+                                    className="footer-download-btn"
+                                    aria-label={download.label}
+                                >
+                                    {download.label}
+                                </Button>
+                            ))}
+                        </div>
                     )}
                     <div className="inner-footer-wrapper">
                         <Col className="footer-text-col">

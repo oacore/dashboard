@@ -8,30 +8,44 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 import { useFreshFindsStore } from '../store/freshFindsStore';
 import type { FreshFindsDepositFilter, FreshFindsWorksResponse } from '../types/data.types';
 
-const buildFreshFindsWorksUrl = (
+export type FreshFindsWorksQuery = {
+  searchTerm?: string;
+  setSpec?: string | null;
+  depositFilters?: FreshFindsDepositFilter[];
+  page?: number;
+  pageSize?: number;
+  accept?: string;
+};
+
+export const buildFreshFindsWorksUrl = (
   dataProviderId: number,
-  page: number,
-  pageSize: number,
-  searchTerm: string,
-  setSpec?: string | null,
-  depositFilters: FreshFindsDepositFilter[] = [],
+  query: FreshFindsWorksQuery = {},
 ): string => {
   const params = new URLSearchParams();
 
-  depositFilters.forEach((filter) => {
+  (query.depositFilters ?? []).forEach((filter) => {
     params.append('depositFilter[]', filter);
   });
 
-  const trimmedSearch = searchTerm.trim();
+  const trimmedSearch = query.searchTerm?.trim() ?? '';
   if (trimmedSearch !== '') {
     params.append('search', trimmedSearch);
   }
 
-  params.set('page', String(page));
-  params.set('pageSize', String(pageSize));
+  if (query.page != null) {
+    params.set('page', String(query.page));
+  }
 
-  if (setSpec) {
-    params.set('set', setSpec);
+  if (query.pageSize != null) {
+    params.set('pageSize', String(query.pageSize));
+  }
+
+  if (query.setSpec) {
+    params.set('set', query.setSpec);
+  }
+
+  if (query.accept) {
+    params.set('accept', query.accept);
   }
 
   return `/internal/data-providers/${dataProviderId}/fresh-finds/works?${params.toString()}`;
@@ -81,14 +95,13 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
 
   const key =
     isLoaded && effectiveDataProviderId
-      ? buildFreshFindsWorksUrl(
-          effectiveDataProviderId,
-          currentPage,
-          pageSize,
+      ? buildFreshFindsWorksUrl(effectiveDataProviderId, {
           searchTerm,
-          selectedSetSpec,
-          depositFilter,
-        )
+          setSpec: selectedSetSpec,
+          depositFilters: depositFilter,
+          page: currentPage,
+          pageSize,
+        })
       : null;
 
   const { error, isLoading, mutate } = useSWR<FreshFindsWorksResponse>(

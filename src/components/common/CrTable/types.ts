@@ -59,6 +59,13 @@ export interface RowClickConfig<T = unknown> {
     placement?: 'left' | 'right';
 }
 
+export interface TableDownloadAction {
+    key: string;
+    label: string;
+    onClick: () => void;
+    loading?: boolean;
+}
+
 export interface ReusableTableProps<T = unknown> {
     // Data props
     data: T[];
@@ -110,6 +117,7 @@ export interface ReusableTableProps<T = unknown> {
     footerText?: (start: number, end: number, total: number) => string;
     onDownloadCsv?: () => void;
     downloadCsvLoading?: boolean;
+    extraDownloads?: TableDownloadAction[];
 
     // Table props
     size?: 'small' | 'middle' | 'large';
