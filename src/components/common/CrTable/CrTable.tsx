@@ -22,6 +22,7 @@ export const CrTable = <T = unknown>({
     searchPlaceholder = 'Any identifier, title, author...',
     onSearch,
     searchValue = '',
+    beforeSearch,
     // Sorting props
     sortable = false,
     defaultSortField,
@@ -45,6 +46,7 @@ export const CrTable = <T = unknown>({
         `Showing ${start} - ${end} records of ${totalLength} records`,
     onDownloadCsv,
     downloadCsvLoading = false,
+    extraDownloads,
     // Table props
     size = 'middle',
     bordered = false,
@@ -129,8 +131,9 @@ export const CrTable = <T = unknown>({
         sortField,
         sortOrder,
         showSortIcon,
+        showActions: actions.length > 0,
         getActionMenuItems,
-    }), [columns, sortable, sortField, sortOrder, showSortIcon, getActionMenuItems]);
+    }), [columns, sortable, sortField, sortOrder, showSortIcon, actions.length, getActionMenuItems]);
 
     const expandableConfig = useMemo(() => CrExpandableRowConfig({
         drawer,
@@ -185,6 +188,7 @@ export const CrTable = <T = unknown>({
 
     return (
         <div className={classNames('reusable-table', className)}>
+            {beforeSearch}
             {searchable && (
                 <CrSearchBar
                     placeholder={searchPlaceholder}
@@ -253,6 +257,7 @@ export const CrTable = <T = unknown>({
                 onLoadMore={onLoadMore}
                 loadMoreLoading={loadMoreLoading}
                 downloadCsvLoading={downloadCsvLoading}
+                extraDownloads={extraDownloads}
             />
         </div>
     );
