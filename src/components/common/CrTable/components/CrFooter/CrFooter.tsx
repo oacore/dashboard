@@ -66,7 +66,7 @@ export const CrFooter = ({
                             {extraDownloads.map((download) => (
                                 <Button
                                     key={download.key}
-                                    type="primary"
+                                    type="default"
                                     onClick={download.onClick}
                                     loading={download.loading}
                                     className="footer-download-btn"

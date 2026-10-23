@@ -26,7 +26,6 @@ export const createColumns = ({
       key: 'authors',
       title: 'Author',
       dataIndex: 'authorDisplay',
-      width: '15%',
       align: 'left',
       className: 'fresh-finds-column fresh-finds-column--authors',
       render: (_value: unknown, record: FreshFindsRecord) => {
@@ -41,7 +40,6 @@ export const createColumns = ({
       key: 'title',
       title: 'Title',
       dataIndex: 'title',
-      width: '21%',
       align: 'left',
       className: 'fresh-finds-column fresh-finds-column--title',
       render: (value: unknown) => renderCellText(value),
@@ -50,7 +48,6 @@ export const createColumns = ({
       key: 'doi',
       title: 'DOI',
       dataIndex: 'doi',
-      width: '14%',
       align: 'left',
       className: 'fresh-finds-column fresh-finds-column--doi',
       render: (value: unknown, record: FreshFindsRecord) => {
@@ -83,7 +80,7 @@ export const createColumns = ({
       key: 'type',
       title: 'Type',
       dataIndex: 'documentType',
-      width: 48,
+      width: '4.5rem',
       align: 'center',
       className: 'fresh-finds-column fresh-finds-column--type',
       render: (_value: unknown, record: FreshFindsRecord) => {
@@ -101,7 +98,7 @@ export const createColumns = ({
       key: 'publicationDate',
       title: 'Publication date',
       dataIndex: 'publicationDate',
-      width: '11%',
+      width: '12rem',
       align: 'left',
       className: 'fresh-finds-column fresh-finds-column--publication-date',
       render: (value: unknown) => renderCellText(value),

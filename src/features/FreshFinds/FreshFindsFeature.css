@@ -47,18 +47,57 @@
     border-radius: 2px;
 }
 
+#freshFindsTable .reusable-table .ant-table-container,
+#freshFindsTable .reusable-table .ant-table-content,
+#freshFindsTable .reusable-table .ant-table-body,
+#freshFindsTable .reusable-table .ant-table-header {
+    overflow-x: hidden;
+}
+
+#freshFindsTable .reusable-table .ant-table-content > table,
+#freshFindsTable .reusable-table .ant-table-body > table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+#freshFindsTable .reusable-table col.ant-table-expand-icon-col {
+    width: 0 !important;
+}
+
+#freshFindsTable .reusable-table .ant-table-row-expand-icon-cell {
+    display: table-cell;
+    width: 0;
+    max-width: 0;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    font-size: 0;
+    overflow: hidden;
+}
+
 .fresh-finds-column.fresh-finds-column--authors,
-.fresh-finds-column.fresh-finds-column--authors.ant-table-cell {
-    min-width: 10rem;
+.fresh-finds-column.fresh-finds-column--authors.ant-table-cell,
+.fresh-finds-column.fresh-finds-column--title,
+.fresh-finds-column.fresh-finds-column--title.ant-table-cell,
+.fresh-finds-column.fresh-finds-column--doi,
+.fresh-finds-column.fresh-finds-column--doi.ant-table-cell {
+    width: auto;
+    min-width: 0;
+    max-width: none;
 }
 
 .fresh-finds-column.fresh-finds-column--type,
 .fresh-finds-column.fresh-finds-column--type.ant-table-cell {
-    width: 3rem;
-    min-width: 3rem;
-    max-width: 3rem;
+    width: 4.5rem;
+    max-width: 4.5rem;
     padding-inline: 0.25rem;
     text-align: center;
+}
+
+.fresh-finds-column.fresh-finds-column--publication-date,
+.fresh-finds-column.fresh-finds-column--publication-date.ant-table-cell {
+    width: 12rem;
+    max-width: 12rem;
 }
 
 .fresh-finds__type-icon {
@@ -68,13 +107,10 @@
     margin-inline: auto;
 }
 
-.fresh-finds-column.fresh-finds-column--in-repository,
-.fresh-finds-column.fresh-finds-column--in-repository.ant-table-cell,
-#freshFindsTable .reusable-table .ant-table-thead > tr > th:nth-last-child(2),
-#freshFindsTable .reusable-table .ant-table-tbody > tr > td:nth-last-child(2) {
-    width: 22rem;
-    min-width: 22rem;
-    max-width: none;
+#freshFindsTable .reusable-table .fresh-finds-column--in-repository.ant-table-cell {
+    width: 22rem !important;
+    min-width: 22rem !important;
+    max-width: 22rem !important;
 }
 
 .fresh-finds__doi-link {

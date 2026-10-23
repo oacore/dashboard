@@ -131,8 +131,9 @@ export const CrTable = <T = unknown>({
         sortField,
         sortOrder,
         showSortIcon,
+        showActions: actions.length > 0,
         getActionMenuItems,
-    }), [columns, sortable, sortField, sortOrder, showSortIcon, getActionMenuItems]);
+    }), [columns, sortable, sortField, sortOrder, showSortIcon, actions.length, getActionMenuItems]);
 
     const expandableConfig = useMemo(() => CrExpandableRowConfig({
         drawer,

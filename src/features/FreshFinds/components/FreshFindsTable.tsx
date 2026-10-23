@@ -4,7 +4,6 @@ import { AccessPlaceholder, CrPaper } from '@oacore/core-ui';
 import { CrDrawer } from '@components/common/CrDrawer/CrDrawer.tsx';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';
 import type { DrawerConfig } from '@components/common/CrTable/types.ts';
-import { getScrollConfig } from '@hooks/useScrollView.ts';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore';
@@ -153,7 +152,7 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
           searchPlaceholder="Title, author, or DOI…"
           onSearch={setSearchTerm}
           searchValue={searchTerm}
-          scroll={getScrollConfig()}
+          tableProps={{ tableLayout: 'fixed' }}
           drawer={drawerConfig}
         />
         {isStartingPlan && (

@@ -11,6 +11,7 @@ interface BuildTableColumnsProps<T> {
     sortField?: string;
     sortOrder: 'asc' | 'desc' | null;
     showSortIcon: boolean;
+    showActions: boolean;
     getActionMenuItems: (record: T) => MenuProps['items'];
 }
 
@@ -20,6 +21,7 @@ export const CrTableColumns = <T = unknown>({
     sortField,
     sortOrder,
     showSortIcon,
+    showActions,
     getActionMenuItems,
 }: BuildTableColumnsProps<T>): ColumnsType<T> => {
     const cols: ColumnsType<T> = columns.map(col => {
@@ -31,6 +33,7 @@ export const CrTableColumns = <T = unknown>({
             dataIndex: col.dataIndex || col.key,
             width: col.width,
             align: col.align,
+            className: col.className,
             // Custom sorter that prevents the default three-state cycle
             sorter: col.sorter !== undefined ? col.sorter : isSortable ? {
                 multiple: 0,
@@ -64,6 +67,10 @@ export const CrTableColumns = <T = unknown>({
             render: col.render,
         };
     });
+
+    if (!showActions) {
+        return cols;
+    }
 
     cols.push({
         key: 'actions',
