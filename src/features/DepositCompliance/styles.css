@@ -454,6 +454,36 @@
   align-items: center;
 }
 
+.compliance-stats-card-with-download.card-container .ant-card-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: space-between;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.compliance-stats-card-with-download.card-container .ant-card-body > :first-child {
+  grid-column: 1 / -1;
+}
+
+.compliance-stats-card-with-download .sub-value {
+  grid-column: 1;
+  grid-row: 2;
+  margin-top: 0;
+  line-height: 32px;
+}
+
+.compliance-stats-card-with-download .card-footer-wrapper {
+  grid-column: 2;
+  grid-row: 2;
+  justify-content: flex-end;
+}
+
+.compliance-csv-download-button.ant-btn {
+  height: 32px;
+  padding-inline: 8px;
+}
+
 .tick-icon {
   font-size: 18px;
   color: var(--success-dark);
