@@ -14,6 +14,7 @@ import { getScrollConfig } from '@hooks/useScrollView.ts';
 import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { AccessPlaceholder } from '@oacore/core-ui';
 import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
+import { OrcidProcessingNotice } from '@features/Orcid/components/OrcidProcessingNotice.tsx';
 
 export const BasicOrcidTable: React.FC = () => {
 
@@ -34,9 +35,10 @@ export const BasicOrcidTable: React.FC = () => {
         isLoading: dataLoading,
         isLoadingMore: loadMoreLoading,
         loadMore,
+        isProcessing,
     } = useBasicOrcidData(50, searchTerm, selectedDataProvider?.id || 0);
 
-    const { stats } = useOrcidStats(selectedDataProvider?.id || 0);
+    const { stats, isProcessing: isStatsProcessing } = useOrcidStats(selectedDataProvider?.id || 0);
 
     const { isStartingPlan, displayData } = useBillingPlanData(accumulatedData, organisation);
 
@@ -77,22 +79,24 @@ export const BasicOrcidTable: React.FC = () => {
             <CrTable<OrcidData>
                 data={displayData}
                 columns={columns}
-                totalLength={stats?.basic || 0}
-                loading={dataLoading}
-                error={dataError}
+                totalLength={isStatsProcessing ? undefined : (stats?.basic || 0)}
+                loading={dataLoading && !isProcessing}
+                emptyContent={isProcessing ? <OrcidProcessingNotice /> : undefined}
+                error={isProcessing ? null : dataError}
                 actions={actions}
-                searchable={!isStartingPlan}
+                searchable={!isStartingPlan && !isProcessing}
+                className={isProcessing ? 'orcid-processing-table' : undefined}
                 searchPlaceholder="Search by title, OAI, authors, or PIDs..."
                 onSearch={setSearchTerm}
                 searchValue={searchTerm}
                 drawer={drawerConfig}
                 onDownloadCsv={downloadCsv}
                 downloadCsvLoading={isDownloadingCsv}
-                showLoadMore={!isStartingPlan}
+                showLoadMore={!isStartingPlan && !isProcessing && !isStatsProcessing}
                 onLoadMore={loadMore}
                 loadMoreText="Show more"
                 loadMoreLoading={loadMoreLoading}
-                showFooter={!isStartingPlan}
+                showFooter={!isStartingPlan && !isProcessing}
                 size="middle"
                 bordered={false}
                 rowKey={(record) => `${record.coreId}-${record.oai}`}
