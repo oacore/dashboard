@@ -44,7 +44,7 @@ export const FreshFindsHeaderArea = ({ showSettings, setShowSettings }: FreshFin
   return (
     <div className="fresh-finds-header">
       <CrHeader
-        identifier="Demo"
+        identifier="BETA"
         title={articleTemplateData.title}
         showMore={<CrShowMore text={articleTemplateData.description} maxLetters={320} />}
         showSettingsIcon
