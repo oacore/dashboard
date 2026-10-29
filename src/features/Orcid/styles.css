@@ -1,3 +1,52 @@
+.orcid-processing-message {
+    margin: 32px 0 0 0;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+}
+
+.loading-indicator {
+    margin-right: 8px;
+}
+
+.orcid-processing-table .ant-table-placeholder > td {
+    padding: 0;
+}
+
+.orcid-processing-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 220px;
+    padding: 40px 24px;
+}
+
+.orcid-processing-notice .ant-spin.orcid-processing-notice-spin {
+    position: static;
+    top: auto;
+    left: auto;
+    inset: auto;
+    transform: none;
+    display: inline-flex;
+    flex: 0 0 auto;
+    width: auto;
+}
+
+.reusable-table .orcid-processing-notice .ant-spin .ant-spin-dot {
+    width: auto;
+    display: inline-block;
+}
+
+.orcid-processing-notice-text {
+    margin: 0;
+    color: var(--color-text-disabled);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
 .overflow-text {
     white-space: nowrap;
     overflow: hidden;

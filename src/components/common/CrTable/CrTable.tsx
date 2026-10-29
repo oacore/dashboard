@@ -16,6 +16,8 @@ export const CrTable = <T = unknown>({
     data = [],
     columns = [],
     loading = false,
+    loadingText = 'This may take a while, longer for larger repositories...',
+    emptyContent,
     error = null,
     // Search props
     searchable = false,
@@ -140,12 +142,14 @@ export const CrTable = <T = unknown>({
         setSelectedRecord,
     }), [drawer, expandedRowKey, rowKey]);
 
+    const rows = Array.isArray(data) ? data : [];
+
     const paginationInfo = useMemo(() => ({
         startRecord: 1,
-        endRecord: data.length,
-        totalRecords: totalLength || data.length,
-        hasReachedTotal: totalLength ? data.length >= totalLength : false,
-    }), [data.length, totalLength]);
+        endRecord: rows.length,
+        totalRecords: totalLength || rows.length,
+        hasReachedTotal: totalLength ? rows.length >= totalLength : false,
+    }), [rows.length, totalLength]);
 
     const hasRowClick = useMemo(() =>
         sidebar?.enabled || drawer?.enabled, [sidebar, drawer]);
@@ -155,20 +159,21 @@ export const CrTable = <T = unknown>({
     const shouldUseCustomOnRow = !!customOnRow && !hasRowClick;
 
     const emptyText = useMemo(() => {
+        if (emptyContent) return emptyContent;
         if (error) return 'Sorry, we couldn\'t download the page at the moment. Please try again in a few minutes.';
-        if (data.length === 0 && !loading) return 'There are no data available.';
+        if (rows.length === 0 && !loading) return 'There are no data available.';
         return 'No data';
-    }, [loading, error, data.length]);
+    }, [emptyContent, loading, error, rows.length]);
 
     // Custom loading indicator with spinner and text
     const loadingIndicator = useMemo(() => (
-        <div className="table-loading-indicator">
+        <div className="table-loading-indicator" role="status" aria-live="polite">
             <Spin  indicator={<LoadingOutlined spin />} size="medium" />
             <div className="table-loading-text">
-                This may take a while, longer for larger repositories...
+                {loadingText}
             </div>
         </div>
-    ), []);
+    ), [loadingText]);
 
     const sidebarTitle = useMemo(() => {
         if (!sidebar?.title) return undefined;
@@ -198,7 +203,7 @@ export const CrTable = <T = unknown>({
             <Table<T>
                 {...tableProps}
                 rootClassName="reusable-table"
-                dataSource={loading ? [] : data}
+                dataSource={loading ? [] : rows}
                 columns={tableColumns}
                 loading={loading ? { indicator: loadingIndicator } : false}
                 size={size}

@@ -7,6 +7,8 @@ import { useOrcidStats } from '@features/Orcid/hooks/useOrcidData.ts';
 import { TextData } from './texts/index.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { useOrcidTableStore } from '@features/Orcid/store/orcidStore.ts';
+import {LoadingOutlined} from '@ant-design/icons';
+import {Spin} from 'antd';
 
 
 export const OrcideFeature = () => {
@@ -19,7 +21,14 @@ export const OrcideFeature = () => {
     resetOnPageEnter();
   }, [resetOnPageEnter]);
 
-  const { stats, error, isLoading } = useOrcidStats(selectedDataProvider?.id || 0);
+  const { stats, error, isLoading, isProcessing } = useOrcidStats(selectedDataProvider?.id || 0);
+
+  const processingNotice = isProcessing ? (
+    <p className="orcid-processing-message" role="status" aria-live="polite">
+      <Spin className="loading-indicator" indicator={<LoadingOutlined spin />} size="large" />
+      {TextData.processingMessage}
+    </p>
+  ) : false;
 
   const tabs = [
     {
@@ -67,6 +76,7 @@ export const OrcideFeature = () => {
           count={stats.basic}
           loading={isLoading}
           error={error}
+          tempDisabled={processingNotice}
           actionText={TextData.statsCards.withOrcid.action}
           infoText={TextData.statsCards.withOrcid.tooltip}
           onActionClick={() => handleStatsCardClick('basic')}
@@ -78,6 +88,7 @@ export const OrcideFeature = () => {
           count={stats.fromOtherRepositories}
           loading={isLoading}
           error={error}
+          tempDisabled={processingNotice}
           actionText={TextData.statsCards.otherOrcid.action}
           infoText={TextData.statsCards.otherOrcid.tooltip}
           onActionClick={() => handleStatsCardClick('other')}
