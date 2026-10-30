@@ -61,7 +61,6 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     currentPage,
     allData,
     totalLength,
-    freshlyFoundTotal,
     hasMore,
     lastSearchTerm,
     lastDepositFilter,
@@ -71,7 +70,6 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     setAllData,
     appendData,
     setTotalLength,
-    setFreshlyFoundTotal,
     setHasMore,
     setIsLoadingMore,
     resetDataState,
@@ -83,18 +81,14 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     if (prevSetSpecRef.current !== selectedSetSpec) {
       prevSetSpecRef.current = selectedSetSpec;
       resetDataState();
-      setFreshlyFoundTotal(0);
     }
-  }, [selectedSetSpec, resetDataState, setFreshlyFoundTotal]);
+  }, [selectedSetSpec, resetDataState]);
 
   if (
     searchTerm !== lastSearchTerm ||
     depositFilter.join(',') !== lastDepositFilter.join(',') ||
     effectiveDataProviderId !== lastDataProviderId
   ) {
-    if (effectiveDataProviderId !== lastDataProviderId) {
-      setFreshlyFoundTotal(0);
-    }
     resetDataState();
     updateLastParams(searchTerm, effectiveDataProviderId, depositFilter);
   }
@@ -120,9 +114,12 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
         })
       : null;
 
+  const fetchWorks = (url: string) =>
+    fetcher(url).then((res) => res as FreshFindsWorksResponse);
+
   const { error, isLoading, mutate: mutateWorks } = useSWR<FreshFindsWorksResponse>(
     key,
-    () => fetcher(key!).then((res) => res as FreshFindsWorksResponse),
+    fetchWorks,
     {
       ...swrDefaultConfig,
       onSuccess: (response) => {
@@ -154,20 +151,15 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     },
   );
 
-  const { mutate: mutateFreshlyFoundTotal } = useSWR<FreshFindsWorksResponse>(
+  const { data: freshlyFoundWorks, mutate: mutateFreshlyFoundTotal } = useSWR<FreshFindsWorksResponse>(
     freshlyFoundKey,
-    () => fetcher(freshlyFoundKey!).then((res) => res as FreshFindsWorksResponse),
+    fetchWorks,
     {
       ...swrDefaultConfig,
-      onSuccess: (response) => {
-        setFreshlyFoundTotal(response?.pagination?.totalItems ?? 0);
-      },
       onError: (err) => {
         captureHandledError(err, {
           tags: { feature: 'fresh-finds', action: 'fetch-freshly-found-total' },
-          extra: {
-            dataProviderId: effectiveDataProviderId,
-          },
+          extra: { dataProviderId: effectiveDataProviderId },
         });
       },
     },
@@ -202,7 +194,7 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     mutate,
     loadMore,
     totalLength,
-    freshlyFoundTotal,
+    freshlyFoundTotal: freshlyFoundWorks?.pagination?.totalItems ?? 0,
     hasMore: finalData.length < totalLength && hasMore && !error,
     isInitialLoad,
   };

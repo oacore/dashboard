@@ -15,7 +15,6 @@ interface FreshFindsActions {
   appendData: (data: FreshFindsWorkItem[]) => void;
   updateWorkStatus: (workId: number, status: FreshFindsRepositoryStatus) => void;
   setTotalLength: (length: number) => void;
-  setFreshlyFoundTotal: (length: number) => void;
   setHasMore: (hasMore: boolean) => void;
   setIsLoadingMore: (loading: boolean) => void;
   resetDataState: () => void;
@@ -33,7 +32,6 @@ export interface FreshFindsStoreState {
   currentPage: number;
   allData: FreshFindsWorkItem[];
   totalLength: number;
-  freshlyFoundTotal: number;
   hasMore: boolean;
   lastSearchTerm: string;
   lastDepositFilter: FreshFindsDepositFilter[];
@@ -52,7 +50,6 @@ export const useFreshFindsStore = create<FreshFindsStore>()(
       currentPage: 1,
       allData: [],
       totalLength: 0,
-      freshlyFoundTotal: 0,
       hasMore: false,
       lastSearchTerm: '',
       lastDepositFilter: ['available'],
@@ -92,10 +89,6 @@ export const useFreshFindsStore = create<FreshFindsStore>()(
 
       setTotalLength: (length: number) => {
         set({ totalLength: length });
-      },
-
-      setFreshlyFoundTotal: (length: number) => {
-        set({ freshlyFoundTotal: length });
       },
 
       setHasMore: (hasMore: boolean) => {
