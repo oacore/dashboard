@@ -341,65 +341,63 @@ export const FreshFindsSettings = () => {
           </div>
 
           {/*right*/}
-          <fieldset className="fresh-finds-settings__column" disabled={isPullMode}>
-            <span className={withRequiredClass('fresh-finds-settings__label', isPushMode)}>
-              {text.swordEndpoint}
-            </span>
-            <Form.Item
-              name="swordUsername"
-              className="fresh-finds-settings__field"
-              dependencies={['integrationMode']}
-              rules={pushFieldRules(text.usernameRequired)}
-            >
-              <Input
-                placeholder={text.username}
-                aria-label={text.username}
-                aria-required={isPushMode}
-                autoComplete="off"
-              />
-            </Form.Item>
-            <Form.Item
-              name="swordPassword"
-              className="fresh-finds-settings__field"
-              dependencies={['integrationMode']}
-              rules={pushFieldRules(text.passwordRequired, true)}
-            >
-              <Input.Password
-                placeholder={text.password}
-                aria-label={text.password}
-                aria-required={isPushMode && !passwordConfigured}
-                autoComplete="new-password"
-              />
-            </Form.Item>
-            {passwordConfigured && (
-              <p className="fresh-finds-settings__hint">{text.passwordConfigured}</p>
-            )}
-            <Form.Item
-              name="swordEndpointUrl"
-              className="fresh-finds-settings__field"
-              dependencies={['integrationMode']}
-              rules={pushFieldRules(text.swordUrlRequired)}
-            >
-              <Input
-                placeholder={text.swordUrl}
-                aria-label={text.swordUrl}
-                aria-required={isPushMode}
-                autoComplete="off"
-              />
-            </Form.Item>
-            <div
-              className="fresh-finds-settings__pull-alert"
-            >
-                <span>
-                  {text.pullNotice}{' '}
-                  <Markdown
-                    className="fresh-finds-settings__doc-link"
-                  >
-                    {text.pullLink}
-                  </Markdown>
-                </span>
+          <div className="fresh-finds-settings__column">
+            <fieldset className="fresh-finds-settings__column" disabled={isPullMode}>
+              <span className={withRequiredClass('fresh-finds-settings__label', isPushMode)}>
+                {text.swordEndpoint}
+              </span>
+              <Form.Item
+                name="swordUsername"
+                className="fresh-finds-settings__field"
+                dependencies={['integrationMode']}
+                rules={pushFieldRules(text.usernameRequired)}
+              >
+                <Input
+                  placeholder={text.username}
+                  aria-label={text.username}
+                  aria-required={isPushMode}
+                  autoComplete="off"
+                />
+              </Form.Item>
+              <Form.Item
+                name="swordPassword"
+                className="fresh-finds-settings__field"
+                dependencies={['integrationMode']}
+                rules={pushFieldRules(text.passwordRequired, true)}
+              >
+                <Input.Password
+                  placeholder={text.password}
+                  aria-label={text.password}
+                  aria-required={isPushMode && !passwordConfigured}
+                  autoComplete="new-password"
+                />
+              </Form.Item>
+              {passwordConfigured && (
+                <p className="fresh-finds-settings__hint">{text.passwordConfigured}</p>
+              )}
+              <Form.Item
+                name="swordEndpointUrl"
+                className="fresh-finds-settings__field"
+                dependencies={['integrationMode']}
+                rules={pushFieldRules(text.swordUrlRequired)}
+              >
+                <Input
+                  placeholder={text.swordUrl}
+                  aria-label={text.swordUrl}
+                  aria-required={isPushMode}
+                  autoComplete="off"
+                />
+              </Form.Item>
+            </fieldset>
+            <div className="fresh-finds-settings__pull-alert">
+              <span>
+                {text.pullNotice}{' '}
+                <Markdown className="fresh-finds-settings__doc-link">
+                  {text.pullLink}
+                </Markdown>
+              </span>
             </div>
-          </fieldset>
+          </div>
         </div>
         <div className="fresh-finds-settings__actions">
           {isSaved && (
