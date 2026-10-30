@@ -5,9 +5,9 @@ import { useFreshFindsSettings } from '../hooks/useFreshFindsSettings';
 import type { FreshFindsDepositFilter as DepositFilterValue } from '../types/data.types';
 
 const DEPOSIT_FILTER_OPTIONS: { value: DepositFilterValue; label: string; pushOnly?: boolean }[] = [
+  { value: 'available', label: 'Freshly found papers' },
   { value: 'automatic', label: 'Added automatically via FreshFinds', pushOnly: true },
   { value: 'manual', label: 'Added manually via FreshFinds', pushOnly: true },
-  { value: 'available', label: 'Add to my repository' },
   { value: 'in_repository', label: 'In my repository' },
 ];
 

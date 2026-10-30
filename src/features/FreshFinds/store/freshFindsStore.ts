@@ -46,13 +46,13 @@ export const useFreshFindsStore = create<FreshFindsStore>()(
   devtools(
     (set, get) => ({
       searchTerm: '',
-      depositFilter: [],
+      depositFilter: ['available'],
       currentPage: 1,
       allData: [],
       totalLength: 0,
       hasMore: false,
       lastSearchTerm: '',
-      lastDepositFilter: [],
+      lastDepositFilter: ['available'],
       lastDataProviderId: 0,
       isLoadingMore: false,
       settingsAttentionRequestId: 0,
