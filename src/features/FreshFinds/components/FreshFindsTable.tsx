@@ -68,6 +68,7 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
     loadMore,
     mutate,
     totalLength,
+    freshlyFoundTotal,
     hasMore,
   } = useFreshFindsData(10, selectedDataProvider?.id || 0);
   const { depositWork, depositingWorkId } = useDepositFreshFind(() => mutate());
@@ -124,7 +125,7 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
           {articleTemplateData.table.title}
         </h2>
         <p className="fresh-finds-table-header__subtitle">
-          We have fount <strong>{totalLength}</strong> papers authored by  <strong>{dataProviderName}</strong> you might consider adding to your repository
+          We have fount <strong>{freshlyFoundTotal}</strong> papers authored by  <strong>{dataProviderName}</strong> you might consider adding to your repository
         </p>
       </div>
       <div id="freshFindsTable">

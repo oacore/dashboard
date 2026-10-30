@@ -61,6 +61,7 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     currentPage,
     allData,
     totalLength,
+    freshlyFoundTotal,
     hasMore,
     lastSearchTerm,
     lastDepositFilter,
@@ -70,6 +71,7 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     setAllData,
     appendData,
     setTotalLength,
+    setFreshlyFoundTotal,
     setHasMore,
     setIsLoadingMore,
     resetDataState,
@@ -81,14 +83,18 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     if (prevSetSpecRef.current !== selectedSetSpec) {
       prevSetSpecRef.current = selectedSetSpec;
       resetDataState();
+      setFreshlyFoundTotal(0);
     }
-  }, [selectedSetSpec, resetDataState]);
+  }, [selectedSetSpec, resetDataState, setFreshlyFoundTotal]);
 
   if (
     searchTerm !== lastSearchTerm ||
     depositFilter.join(',') !== lastDepositFilter.join(',') ||
     effectiveDataProviderId !== lastDataProviderId
   ) {
+    if (effectiveDataProviderId !== lastDataProviderId) {
+      setFreshlyFoundTotal(0);
+    }
     resetDataState();
     updateLastParams(searchTerm, effectiveDataProviderId, depositFilter);
   }
@@ -104,7 +110,17 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
         })
       : null;
 
-  const { error, isLoading, mutate } = useSWR<FreshFindsWorksResponse>(
+  const freshlyFoundKey =
+    isLoaded && effectiveDataProviderId
+      ? buildFreshFindsWorksUrl(effectiveDataProviderId, {
+          setSpec: selectedSetSpec,
+          depositFilters: ['available'],
+          page: 1,
+          pageSize: 1,
+        })
+      : null;
+
+  const { error, isLoading, mutate: mutateWorks } = useSWR<FreshFindsWorksResponse>(
     key,
     () => fetcher(key!).then((res) => res as FreshFindsWorksResponse),
     {
@@ -138,6 +154,29 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     },
   );
 
+  const { mutate: mutateFreshlyFoundTotal } = useSWR<FreshFindsWorksResponse>(
+    freshlyFoundKey,
+    () => fetcher(freshlyFoundKey!).then((res) => res as FreshFindsWorksResponse),
+    {
+      ...swrDefaultConfig,
+      onSuccess: (response) => {
+        setFreshlyFoundTotal(response?.pagination?.totalItems ?? 0);
+      },
+      onError: (err) => {
+        captureHandledError(err, {
+          tags: { feature: 'fresh-finds', action: 'fetch-freshly-found-total' },
+          extra: {
+            dataProviderId: effectiveDataProviderId,
+          },
+        });
+      },
+    },
+  );
+
+  const mutate = useCallback(() => {
+    return Promise.all([mutateWorks(), mutateFreshlyFoundTotal()]);
+  }, [mutateWorks, mutateFreshlyFoundTotal]);
+
   const loadMore = useCallback(() => {
     if (!hasMore || isLoadingMore) {
       return;
@@ -163,6 +202,7 @@ export const useFreshFindsData = (pageSize = 10, dataProviderId = 0) => {
     mutate,
     loadMore,
     totalLength,
+    freshlyFoundTotal,
     hasMore: finalData.length < totalLength && hasMore && !error,
     isInitialLoad,
   };
