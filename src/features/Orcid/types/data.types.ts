@@ -16,3 +16,10 @@ export interface OrcidStats {
     basic: number;
     fromOtherRepositories: number;
 }
+
+/** Returned by ORCID endpoints while the repository result is still being built. */
+export interface OrcidProcessingResponse {
+    endpoint: string;
+    repositoryId: number;
+    status: 'processing';
+}
