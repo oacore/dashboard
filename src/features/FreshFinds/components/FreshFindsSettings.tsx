@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, InfoCircleFilled } from '@ant-design/icons';
 import { Markdown } from '@oacore/core-ui';
 import { Alert, Button, Checkbox, ConfigProvider, Form, Input, InputNumber, Radio, Select, Spin, Switch, message } from 'antd';
 import type { FormItemProps, ThemeConfig } from 'antd';
@@ -398,6 +398,10 @@ export const FreshFindsSettings = () => {
               </span>
             </div>
           </div>
+        </div>
+        <div className="fresh-finds-settings__info" role="note">
+          <InfoCircleFilled className="fresh-finds-settings__info-icon" aria-hidden />
+          <span>{text.warning}</span>
         </div>
         <div className="fresh-finds-settings__actions">
           {isSaved && (

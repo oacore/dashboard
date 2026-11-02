@@ -11,7 +11,7 @@
 .fresh-finds-table-header__subtitle {
     margin-block: 0.75rem 1rem;
     margin-inline: 0;
-    color:  rgba(0, 0, 0, 0.65);
+    color: rgba(0, 0, 0, 0.65);
 }
 
 .fresh-finds-deposit-filter {
@@ -54,8 +54,8 @@
     overflow-x: hidden;
 }
 
-#freshFindsTable .reusable-table .ant-table-content > table,
-#freshFindsTable .reusable-table .ant-table-body > table {
+#freshFindsTable .reusable-table .ant-table-content>table,
+#freshFindsTable .reusable-table .ant-table-body>table {
     width: 100%;
     table-layout: fixed;
 }
@@ -289,7 +289,7 @@ fieldset.fresh-finds-settings__column:disabled {
     margin-bottom: 1rem;
 }
 
-.fresh-finds-settings__column > .fresh-finds-settings__toggle:last-child {
+.fresh-finds-settings__column>.fresh-finds-settings__toggle:last-child {
     margin-bottom: 0;
 }
 
@@ -360,6 +360,30 @@ fieldset.fresh-finds-settings__column:disabled {
     justify-content: flex-end;
     gap: 1rem;
     margin-top: 1.5rem;
+}
+
+.fresh-finds-settings__info {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    background: var(--warning-faded);
+    border: 1px solid var(--warning-dark);
+    border-radius: 2px;
+}
+
+.fresh-finds-settings__info-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--warning-dark);
+    font-size: 20px;
 }
 
 .fresh-finds-settings__saved {

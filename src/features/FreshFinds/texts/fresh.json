@@ -5,6 +5,7 @@
     "title": "Papers authored by your institution not in your repository"
   },
   "settings": {
+    "warning": "This functionality is currently in BETA. Different repository platforms might have different level of support for it please contact us if you have any issues or questions.",
     "title": "Settings",
     "sourcesLabel": "Sources for finding new papers:",
     "sources": [
