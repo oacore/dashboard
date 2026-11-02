@@ -2,6 +2,13 @@
     margin-block-start: 1rem;
 }
 
+.fresh-finds-plan-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 16rem;
+}
+
 .fresh-finds-table-header__title {
     margin: 0;
     font-size: 1.25rem;

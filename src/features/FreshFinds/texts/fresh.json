@@ -2,7 +2,8 @@
   "title": "Fresh finds",
   "description": "Organisation's footprint refers to the impact and presence of a organisation within the academic community or their field of study. It encompasses various aspects of their research output, collaborations, influence, and contributions.",
   "table": {
-    "title": "Papers authored by your institution not in your repository"
+    "title": "Papers authored by your institution not in your repository",
+    "restrictedDescription": "To see the list of freshly found papers become our Sustaining member."
   },
   "settings": {
     "warning": "This functionality is currently in BETA. Different repository platforms might have different level of support for it please contact us if you have any issues or questions.",

@@ -1,16 +1,17 @@
 import { useMemo } from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
 import { AccessPlaceholder, CrPaper } from '@oacore/core-ui';
+import { Spin } from 'antd';
 
 import { CrDrawer } from '@components/common/CrDrawer/CrDrawer.tsx';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';
 import type { DrawerConfig } from '@components/common/CrTable/types.ts';
-import { useBillingPlanData } from '@features/Orcid/hooks/useBillingPlanData.ts';
-import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore';
 
 import { createColumns } from './FreshFindsColumns.tsx';
 import { FreshFindsDepositFilter } from './FreshFindsDepositFilter.tsx';
 import { useDepositFreshFind } from '../hooks/useDepositFreshFind';
+import { useIsSustainingPlan } from '../hooks/useIsSustainingPlan';
 import { useDownloadFreshFinds } from '../hooks/useDownloadFreshFindsCsv';
 import { useFreshFindsData } from '../hooks/useFreshFindsData';
 import { useFreshFindsStore } from '../store/freshFindsStore';
@@ -23,10 +24,9 @@ type FreshFindsTableProps = {
   dataProviderName: string;
 };
 
-export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
+const FreshFindsTableContent = ({ dataProviderName }: FreshFindsTableProps) => {
   const { searchTerm, setSearchTerm } = useFreshFindsStore();
   const { selectedDataProvider } = useDataProviderStore();
-  const { organisation } = useOrganisation();
   const { csv, json, bibtex, research } = useDownloadFreshFinds();
 
   const extraDownloads = useMemo(
@@ -73,8 +73,6 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
   } = useFreshFindsData(10, selectedDataProvider?.id || 0);
   const { depositWork, depositingWorkId } = useDepositFreshFind(() => mutate());
 
-  const { isStartingPlan, displayData } = useBillingPlanData(accumulatedData, organisation);
-
   const columns = useMemo(
     () => createColumns({ onAddToRepository: depositWork, depositingWorkId }),
     [depositWork, depositingWorkId],
@@ -82,11 +80,11 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
 
   const dataWithUniqueKeys = useMemo(
     () =>
-      displayData.map((record) => ({
+      accumulatedData.map((record) => ({
         ...record,
         __rowKey: String(record.workId),
       })),
-    [displayData],
+    [accumulatedData],
   );
 
   const drawerConfig: DrawerConfig<FreshFindsTableRow> = useMemo(
@@ -140,29 +138,53 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
           onDownloadCsv={csv.download}
           downloadCsvLoading={csv.isLoading}
           extraDownloads={extraDownloads}
-          showLoadMore={!isStartingPlan && hasMore}
+          showLoadMore={hasMore}
           onLoadMore={loadMore}
           loadMoreText="Show more"
           loadMoreLoading={isLoadingMore}
           size="middle"
           bordered={false}
-          showFooter={!isStartingPlan}
+          showFooter
           totalLength={totalLength}
-          beforeSearch={!isStartingPlan ? <FreshFindsDepositFilter /> : undefined}
-          searchable={!isStartingPlan}
+          beforeSearch={<FreshFindsDepositFilter />}
+          searchable
           searchPlaceholder="Title, author, or DOI…"
           onSearch={setSearchTerm}
           searchValue={searchTerm}
           tableProps={{ tableLayout: 'fixed' }}
           drawer={drawerConfig}
         />
-        {isStartingPlan && (
-          <AccessPlaceholder
-            customWidth
-            description="To see and download the full list of fresh finds, become our Supporting or Sustaining member."
-          />
-        )}
       </div>
     </CrPaper>
   );
+};
+
+export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
+  const { isSustainingPlan, isLoadingOrganisation } = useIsSustainingPlan();
+
+  if (isLoadingOrganisation && !isSustainingPlan) {
+    return (
+      <CrPaper>
+        <div
+          className="fresh-finds-plan-loading"
+          role="status"
+          aria-live="polite"
+          aria-busy="true"
+          aria-label="Loading Fresh Finds"
+        >
+          <Spin indicator={<LoadingOutlined spin />} size="large" />
+        </div>
+      </CrPaper>
+    );
+  }
+
+  if (!isSustainingPlan) {
+    return (
+      <CrPaper>
+        <AccessPlaceholder description={articleTemplateData.table.restrictedDescription} />
+      </CrPaper>
+    );
+  }
+
+  return <FreshFindsTableContent dataProviderName={dataProviderName} />;
 };

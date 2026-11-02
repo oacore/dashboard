@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { CrHeader, CrShowMore } from '@oacore/core-ui';
 
 import { FreshFindsSettings } from './FreshFindsSettings';
+import { useIsSustainingPlan } from '../hooks/useIsSustainingPlan';
 import { useFreshFindsStore } from '../store/freshFindsStore';
 import { articleTemplateData } from '../texts';
 
@@ -13,13 +14,24 @@ type FreshFindsHeaderAreaProps = {
 };
 
 export const FreshFindsHeaderArea = ({ showSettings, setShowSettings }: FreshFindsHeaderAreaProps) => {
+  const { isSustainingPlan } = useIsSustainingPlan();
   const settingsAttentionRequestId = useFreshFindsStore((state) => state.settingsAttentionRequestId);
+  const canOpenSettings = isSustainingPlan;
 
   const handleToggleSettings = useCallback(() => {
+    if (!canOpenSettings) {
+      return;
+    }
+
     setShowSettings((previous) => !previous);
-  }, [setShowSettings]);
+  }, [canOpenSettings, setShowSettings]);
 
   useEffect(() => {
+    if (!canOpenSettings) {
+      setShowSettings(false);
+      return;
+    }
+
     if (settingsAttentionRequestId === 0) {
       return;
     }
@@ -39,7 +51,7 @@ export const FreshFindsHeaderArea = ({ showSettings, setShowSettings }: FreshFin
       cancelAnimationFrame(frame);
       cancelAnimationFrame(innerFrame);
     };
-  }, [settingsAttentionRequestId, setShowSettings]);
+  }, [canOpenSettings, settingsAttentionRequestId, setShowSettings]);
 
   return (
     <div className="fresh-finds-header">
@@ -47,13 +59,15 @@ export const FreshFindsHeaderArea = ({ showSettings, setShowSettings }: FreshFin
         identifier="BETA"
         title={articleTemplateData.title}
         showMore={<CrShowMore text={articleTemplateData.description} maxLetters={320} />}
-        showSettingsIcon
-        showSettings={showSettings}
-        onSettingsToggle={handleToggleSettings}
+        showSettingsIcon={canOpenSettings}
+        showSettings={canOpenSettings && showSettings}
+        onSettingsToggle={canOpenSettings ? handleToggleSettings : undefined}
       >
-        <div id={SETTINGS_PANEL_ID} className="fresh-finds-settings-panel" hidden={!showSettings}>
-          <FreshFindsSettings />
-        </div>
+        {canOpenSettings && (
+          <div id={SETTINGS_PANEL_ID} className="fresh-finds-settings-panel" hidden={!showSettings}>
+            <FreshFindsSettings />
+          </div>
+        )}
       </CrHeader>
     </div>
   );
