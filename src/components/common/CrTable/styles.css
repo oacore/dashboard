@@ -11,17 +11,11 @@
     cursor: pointer;
 }
 
-/* Allow actions column (always last) to stay narrow - overrides global max-width for compact columns */
-.reusable-table .cr-table-actions-column,
-.reusable-table .ant-table-thead>tr>th:last-child,
-.reusable-table .ant-table-tbody>tr>td:last-child {
-    max-width: 4rem;
-}
-
-.reusable-table .ant-table-thead>tr>th:last-child,
-.reusable-table .ant-table-tbody>tr>td:last-child {
+/* Keep the actions column narrow when a table actually has row actions */
+.reusable-table .cr-table-actions-column {
     width: 56px !important;
     min-width: 56px !important;
+    max-width: 4rem;
 }
 
 .reusable-table {
@@ -56,6 +50,13 @@
     gap: 12px;
 }
 
+.footer-download-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
 .inner-footer-wrapper {
     display: flex;
     justify-content: center;
@@ -84,6 +85,10 @@
 
     .footer-text-short {
         display: inline;
+    }
+
+    .footer-download-actions {
+        width: 100%;
     }
 
     .footer-download-btn {
