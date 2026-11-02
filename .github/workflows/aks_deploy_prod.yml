@@ -34,9 +34,10 @@ jobs:
       - name: Set image reference
         id: image
         run: |
-          TAG=$(echo ${{ github.sha }} | cut -c1-7)
+          SHA=$(echo ${{ github.sha }} | cut -c1-7)
+          TAG="$SHA-${{ github.run_id }}"
           echo "ref=${{ env.ACR_NAME }}.azurecr.io/aks-${{ env.IMAGE_NAME }}:$TAG" >> $GITHUB_OUTPUT
-          echo "release=$TAG" >> $GITHUB_OUTPUT
+          echo "release=$SHA" >> $GITHUB_OUTPUT
 
       - name: Azure Login
         uses: azure/login@v2

@@ -71,6 +71,8 @@ export interface ReusableTableProps<T = unknown> {
     data: T[];
     columns: ReusableTableColumn<T>[];
     loading?: boolean;
+    loadingText?: string;
+    emptyContent?: React.ReactNode;
     error?: unknown;
 
     // Search props

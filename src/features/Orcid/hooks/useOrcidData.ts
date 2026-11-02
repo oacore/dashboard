@@ -1,8 +1,31 @@
-import useSWR from 'swr';
+import useSWR, { type SWRConfiguration } from 'swr';
 import { fetcher, swrDefaultConfig } from '@/config/swr';
-import type { OrcidData, OrcidStats } from '@features/Orcid/types/data.types';
+import type { OrcidData, OrcidProcessingResponse, OrcidStats } from '@features/Orcid/types/data.types';
 import { useState, useCallback } from 'react';
 import { useDataProviderStore } from '@/store/dataProviderStore';
+import {
+    EMPTY_ORCID_STATS,
+    isOrcidProcessingResponse,
+    isOrcidStats,
+} from '@features/Orcid/utils/orcidResponse';
+
+type OrcidListResponse = OrcidData[] | OrcidProcessingResponse;
+
+const useOrcidSWR = <T,>(
+  key: string | null,
+  fetcherFn: () => Promise<T>,
+  config?: SWRConfiguration<T>,
+) => {
+  const result = useSWR<T>(key, fetcherFn, {
+    ...swrDefaultConfig,
+    ...config,
+  });
+
+  return {
+    ...result,
+    isProcessing: isOrcidProcessingResponse(result.data),
+  };
+};
 
 const usePaginatedOrcidData = (
   endpoint: string,
@@ -42,13 +65,21 @@ const usePaginatedOrcidData = (
     return `${baseUrl}?${params.toString()}`;
   };
 
-  const { error, isLoading, mutate } = useSWR<OrcidData[]>(
-    buildUrl(from),
-    () => fetcher(buildUrl(from)!).then(res => res as OrcidData[]),
+  const { error, isLoading, isProcessing, mutate } = useOrcidSWR<OrcidListResponse>(
+    effectiveDataProviderId ? buildUrl(from) : null,
+    () => fetcher(buildUrl(from)!).then(res => res as OrcidListResponse),
     {
-      ...swrDefaultConfig,
       onSuccess: (data) => {
-        if (!data || data.length === 0) return;
+        if (isOrcidProcessingResponse(data) || !Array.isArray(data)) {
+          if (from === 0) setAllData([]);
+          setIsLoadingMore(false);
+          return;
+        }
+
+        if (data.length === 0) {
+          setIsLoadingMore(false);
+          return;
+        }
 
         setAllData(prev => {
           if (from === 0) return data;
@@ -64,8 +95,8 @@ const usePaginatedOrcidData = (
   );
 
   // Get stats
-  const { stats } = useOrcidStats(effectiveDataProviderId);
-  const totalLength = stats?.[statsKey] || 0;
+  const { stats, isProcessing: isStatsProcessing } = useOrcidStats(effectiveDataProviderId);
+  const totalLength = isStatsProcessing ? 0 : (stats?.[statsKey] || 0);
 
   // Load more function
   const loadMore = useCallback(() => {
@@ -74,7 +105,8 @@ const usePaginatedOrcidData = (
     setFrom(allData.length);
   }, [allData.length, totalLength, isLoadingMore]);
 
-  const finalData = error ? [] : allData;
+  const safeData = Array.isArray(allData) ? allData : [];
+  const finalData = error || isProcessing ? [] : safeData;
 
   // Determine if this is initial load (no data yet and loading)
   const isInitialLoad = from === 0 && allData.length === 0;
@@ -87,7 +119,8 @@ const usePaginatedOrcidData = (
     mutate,
     loadMore,
     totalLength,
-    hasMore: finalData.length < totalLength && !error,
+    hasMore: !isProcessing && !isStatsProcessing && finalData.length < totalLength && !error,
+    isProcessing,
     isInitialLoad,
   };
 };
@@ -101,22 +134,22 @@ export const useOtherOrcidData = (pageSize = 50, searchTerm = '', dataProviderId
   return usePaginatedOrcidData('orcid/other-repos', 'fromOtherRepositories', pageSize, searchTerm, dataProviderId);
 };
 
-// Hook for fetching Orcid stats (unchanged)
+// Hook for fetching Orcid stats
 export const useOrcidStats = (dataProviderId: number) => {
   const { isLoaded } = useDataProviderStore();
 
   const key = (isLoaded && dataProviderId) ? `/internal/data-providers/${dataProviderId}/orcid/stats` : null;
 
-  const { data, error, isLoading, mutate } = useSWR<OrcidStats>(
+  const { data, error, isLoading, isProcessing, mutate } = useOrcidSWR<OrcidStats | OrcidProcessingResponse>(
     key,
-    () => fetcher(key!).then(res => res as OrcidStats),
-    swrDefaultConfig,
+    () => fetcher(key!).then(res => res as OrcidStats | OrcidProcessingResponse),
   );
 
   return {
-    stats: data || { basic: 0, fromOtherRepositories: 0 },
+    stats: isOrcidStats(data) ? data : EMPTY_ORCID_STATS,
     error,
     isLoading: isLoading || !isLoaded,
+    isProcessing,
     mutate,
   };
 };
