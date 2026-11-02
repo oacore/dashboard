@@ -8,10 +8,11 @@ export const useBillingPlanData = <T,>(
     const isStartingPlan = organisation?.billingPlan?.billingType === 'starting';
 
     const displayData = useMemo(() => {
+        const rows = Array.isArray(accumulatedData) ? accumulatedData : [];
         if (isStartingPlan) {
-            return accumulatedData.slice(0, 5);
+            return rows.slice(0, 5);
         }
-        return accumulatedData;
+        return rows;
     }, [accumulatedData, isStartingPlan]);
 
     return {

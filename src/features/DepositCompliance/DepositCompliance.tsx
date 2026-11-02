@@ -1,4 +1,4 @@
-import {CrFeatureLayout, CrHeader, CrPaper, AccessPlaceholder, CrShowMore, CrStatsCard} from '@oacore/core-ui';
+import { CrFeatureLayout, CrHeader, CrPaper, AccessPlaceholder, CrShowMore, CrStatsCard } from '@oacore/core-ui';
 import { TextData } from '@features/DepositCompliance/texts';
 import { DepositTimeLagCard } from './components/DepositTimeLagCard';
 import { CrossRepositoryCheckCard } from './components/CrossRepositoryCheckCard';
@@ -13,8 +13,8 @@ import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks
 import './styles.css';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { RegionAlert } from '@features/DepositCompliance/components';
-import {Button, Spin} from 'antd';
-import {ExclamationCircleOutlined, CheckOutlined, PlusCircleOutlined, LoadingOutlined} from '@ant-design/icons';
+import { Button, Spin } from 'antd';
+import { ExclamationCircleOutlined, CheckOutlined, PlusCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useEffect, useRef } from 'react';
 import { scrollToSection } from '@utils/helpers';
 import { PublicReleaseDatesTable } from './components/PublicReleaseDatesTable';
@@ -22,13 +22,21 @@ import { useStartingOrSupportingBillingPlanData } from '@features/Orcid/hooks/us
 import { usePublicReleaseDatesStore } from '@features/DepositCompliance/store/publicReleaseDatesStore.ts';
 import { useDownloadPublicReleaseDatesCsv } from '@features/DepositCompliance/hooks/useDownloadPublicReleaseDatesCsv';
 import { useDownloadCrossDepositLagCsv } from '@features/DepositCompliance/hooks/useDownloadCrossDepositLagCsv';
-import {CrDateRangePicker} from '@components/common/CrDatePicker/CrDatePicker.tsx';
+import { CrDateRangePicker } from '@components/common/CrDatePicker/CrDatePicker.tsx';
 
 export const DepositComplianceFeature = () => {
   const { organisation } = useOrganisation();
   const { resetOnPageEnter } = usePublicReleaseDatesStore();
   const { downloadCsv, isLoading: isDownloadingPublicReleaseCsv } =
     useDownloadPublicReleaseDatesCsv();
+  const {
+    downloadCsv: downloadCompliantCsv,
+    isLoading: isDownloadingCompliantCsv,
+  } = useDownloadPublicReleaseDatesCsv('compliant');
+  const {
+    downloadCsv: downloadNonCompliantCsv,
+    isLoading: isDownloadingNonCompliantCsv,
+  } = useDownloadPublicReleaseDatesCsv('non-compliant');
   const {
     downloadCsv: downloadCrossDepositLagCsv,
     isLoading: isDownloadingCrossDepositLagCsv,
@@ -74,7 +82,7 @@ export const DepositComplianceFeature = () => {
       dateRange.startDate !== defaultStartDate ||
       dateRange.endDate !== defaultEndDate;
 
-    if(isLoading) {
+    if (isLoading) {
       return (
         <div className="data-spinner-wrapper-center">
           <Spin indicator={<LoadingOutlined spin />} size="large" />
@@ -146,9 +154,21 @@ export const DepositComplianceFeature = () => {
             showInfo
             icon={<CheckOutlined className="tick-icon" />}
             iconClassName="green"
+            className="compliance-stats-card-with-download"
             subValue={compliantCount}
             percentageValue={compliantPercentage}
             error={error}
+            button={
+              <Button
+                onClick={downloadCompliantCsv}
+                loading={isDownloadingCompliantCsv}
+                type="text"
+                aria-label="Download compliant outputs as CSV"
+                className="compliance-csv-download-button"
+              >
+                {TextData.compliance.total.buttons.download}
+              </Button>
+            }
           />
           <CrStatsCard
             loading={isRetrieveDepositDatesInProgress}
@@ -156,6 +176,7 @@ export const DepositComplianceFeature = () => {
             caption={TextData.compliance.nonCompliant.subTitle}
             infoText={TextData.compliance.nonCompliant.description}
             showInfo
+            className="compliance-stats-card-with-download"
             subValue={nonCompliantCount}
             percentageValue={nonCompliantPercentage}
             icon={
@@ -163,6 +184,17 @@ export const DepositComplianceFeature = () => {
             }
             iconClassName="red"
             error={error}
+            button={
+              <Button
+                onClick={downloadNonCompliantCsv}
+                loading={isDownloadingNonCompliantCsv}
+                type="text"
+                aria-label="Download non-compliant outputs as CSV"
+                className="compliance-csv-download-button"
+              >
+                {TextData.compliance.total.buttons.download}
+              </Button>
+            }
           />
           <CrStatsCard
             loading={isRetrieveDepositDatesInProgress}
