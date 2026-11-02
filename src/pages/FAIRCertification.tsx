@@ -5,7 +5,7 @@ import { ApprovedFairView } from '@features/Fair/components/ApprovedFairView.tsx
 // import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 // import { useStartingOrSupportingBillingPlanData } from '@features/Orcid/hooks/useStartingOrSupportingBillingPlanData';
 import { useDataProviderStore } from '@/store/dataProviderStore';
-import { canAccessLimitedFeature } from '@config/tempFeatureAccess.ts';
+import { canAccessFairFeature } from '@config/tempFeatureAccess.ts';
 import fairCertificationLanding from '@features/Fair/texts/fairCertificationLanding.json';
 
 const FAIR_REGISTER_INTEREST_FORM_URL =
@@ -40,7 +40,7 @@ export function FAIRCertificationPage() {
     return () => clearTimeout(timer);
   }, [showSuccessMessage]);
 
-  if (canAccessLimitedFeature(dataProviderId) && !showSuccessMessage) {
+  if (canAccessFairFeature(dataProviderId) && !showSuccessMessage) {
     return <ApprovedFairView />;
   }
 
