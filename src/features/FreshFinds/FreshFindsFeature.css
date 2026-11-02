@@ -9,6 +9,24 @@
     min-height: 16rem;
 }
 
+.fresh-finds-upgrade {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fresh-finds-upgrade .access-placeholder-wrapper {
+    padding-bottom: 0;
+}
+
+.fresh-finds-upgrade .access-placeholder-wrapper .access-placeholder-upgrade-btn {
+    display: none;
+}
+
+.fresh-finds-upgrade__button {
+    margin-bottom: 44px;
+}
+
 .fresh-finds-table-header__title {
     margin: 0;
     font-size: 1.25rem;

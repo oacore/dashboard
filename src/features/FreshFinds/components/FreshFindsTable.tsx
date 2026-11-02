@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import { AccessPlaceholder, CrPaper } from '@oacore/core-ui';
-import { Spin } from 'antd';
+import { Button, Spin } from 'antd';
 
 import { CrDrawer } from '@components/common/CrDrawer/CrDrawer.tsx';
 import { CrTable } from '@components/common/CrTable/CrTable.tsx';
@@ -181,7 +181,16 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
   if (!isSustainingPlan) {
     return (
       <CrPaper>
-        <AccessPlaceholder description={articleTemplateData.table.restrictedDescription} />
+        <div className="fresh-finds-upgrade">
+          <AccessPlaceholder description={articleTemplateData.table.restrictedDescription} />
+          <Button
+            className="fresh-finds-upgrade__button access-placeholder-upgrade-btn"
+            type="primary"
+            href={articleTemplateData.table.upgradeUrl}
+          >
+            Upgrade
+          </Button>
+        </div>
       </CrPaper>
     );
   }
