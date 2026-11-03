@@ -52,6 +52,7 @@ import { useNotification } from '@hooks/useNotification';
 import { useSets, type SetItem } from '@features/Settings/RepositorySettings/hooks/useSets';
 import { FeedbackButton } from '@components/common/FeedbackButton/FeedbackButton';
 import { captureHandledError } from '@/utils/captureHandledError';
+import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus';
 import {DataProviderLogo, NotificationPopover} from '@oacore/core-ui';
 
 const { Header, Sider, Content } = Layout;
@@ -94,7 +95,19 @@ export function DashboardLayout() {
         statistics,
     } = useDataProviderStore();
 
-    const shouldDisableTabs = statistics != null && statistics.countMetadata == null;
+    const {
+        harvestingStatus,
+        harvestingError,
+    } = useHarvestingStatus(
+        false,
+        selectedDataProvider?.id ?? undefined
+    );
+
+    const hasHarvestingData = harvestingStatus != null && !harvestingError;
+    const hasStatisticsData = statistics != null;
+    const shouldDisableTabs =
+        (hasHarvestingData && harvestingStatus?.lastHarvestingDate == null) ||
+        (hasStatisticsData && statistics.countMetadata == null);
 
     useCurrentUser();
 
