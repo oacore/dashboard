@@ -56,12 +56,20 @@ interface OrcidDrawerContentProps {
     isChangingVisibility?: boolean;
 }
 
-// Helper function for safe property access
-const getPropertyValue = <T extends Record<string, unknown>>(
-    obj: T,
-    key: string
-): string | undefined => {
-    return key in obj ? String(obj[key]) : undefined;
+const getPropertyValue = (value: unknown, key: string): string | undefined => {
+    if (typeof value === 'string' || typeof value === 'number') {
+        return String(value);
+    }
+    if (value == null || typeof value !== 'object') {
+        return undefined;
+    }
+
+    const record = value as Record<string, unknown>;
+    if (!(key in record) || record[key] == null) {
+        return undefined;
+    }
+
+    return String(record[key]);
 };
 
 export const CrDrawer: React.FC<OrcidDrawerContentProps> = ({

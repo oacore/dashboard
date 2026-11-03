@@ -8,7 +8,7 @@ export const AccessCards = () => {
   const {
     apiUsersData,
     datasetUsersData,
-  } = useOrganisation();
+  } = useOrganisation({ withAccess: true });
   const [showFullApiList, setShowFullApiList] = useState(false);
   const [showFullDatasetList, setShowFullDatasetList] = useState(false);
 

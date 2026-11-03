@@ -17,8 +17,6 @@ import { useDashboardRoute } from '@hooks/useDashboardRoute';
 import { DEFAULT_DASHBOARD_PATH } from '@/utils/routes';
 import RepositorySelect from '../common/RepositorySelect/RepositorySelect';
 import { useDataProviderStore } from '@/store/dataProviderStore';
-import { useDataProviderStatistics } from '@hooks/useDataProviderStatistics';
-import { useDoiStatistics } from '@features/Doi/hooks/useDoiStatistics.ts';
 
 // Import all icons
 import viewDashboardIcon from '@/assets/icons/view-dashboard.svg';
@@ -51,10 +49,7 @@ import './styles.css';
 import { NotificationGuide } from '@features/NotificationGuide/NotificationGuide.tsx';
 import { useNotificationGuide } from '@features/NotificationGuide/hooks/useNotificationGuide';
 import { useNotification } from '@hooks/useNotification';
-import { useOaiMapping } from '@features/Settings/RepositorySettings/hooks/useOaiMapping';
 import { useSets, type SetItem } from '@features/Settings/RepositorySettings/hooks/useSets';
-import { usePluginConfig } from '@features/Plugins/hooks/usePluginConfig';
-import { useOrganisation } from '@features/Settings/OrganisationalSettings/hooks/useOrganisation';
 import { FeedbackButton } from '@components/common/FeedbackButton/FeedbackButton';
 import { captureHandledError } from '@/utils/captureHandledError';
 import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus';
@@ -97,13 +92,8 @@ export function DashboardLayout() {
         selectedDataProvider,
         setSelectedDataProvider,
         setSelectedSetSpec,
-        selectedSetSpec,
+        statistics,
     } = useDataProviderStore();
-
-    const { statistics, error: statisticsError } = useDataProviderStatistics(
-        selectedDataProvider?.id ?? null,
-        selectedSetSpec
-    );
 
     const {
         harvestingStatus,
@@ -114,28 +104,20 @@ export function DashboardLayout() {
     );
 
     const hasHarvestingData = harvestingStatus != null && !harvestingError;
-    const hasStatisticsData = statistics != null && !statisticsError;
+    const hasStatisticsData = statistics != null;
     const shouldDisableTabs =
         (hasHarvestingData && harvestingStatus?.lastHarvestingDate == null) ||
-        (hasStatisticsData && statistics?.countMetadata == null);
+        (hasStatisticsData && statistics.countMetadata == null);
 
     useCurrentUser();
 
     const { dataProviders: storeDataProviders, isLoading, isError } = useDashboardDataProviderSync(user?.id || null);
 
-    // Fetch organisation data after data providers are loaded
-    useOrganisation({ enabled: !isLoading && !isError });
-
-    // Fetch OAI mapping data after data providers are loaded
-    useOaiMapping();
-
-    // Fetch plugin config (Discovery/Recommender keys) for the selected data provider
-    usePluginConfig();
-
+    const showHeaderSets = selectedDataProvider?.id === 140;
     const {
         enabledList,
         loadingSets,
-    } = useSets();
+    } = useSets({ enabled: showHeaderSets });
 
     const [headerSelectedSet, setHeaderSelectedSet] = useState<SetItem | null>(null);
 
@@ -180,13 +162,6 @@ export function DashboardLayout() {
         userId: user?.id || null,
         enabled: !isLoading && !isError,
     });
-
-    // Fetch statistics for the selected data provider
-    useDataProviderStatistics(
-        selectedDataProvider?.id || null,
-        selectedSetSpec
-    );
-    useDoiStatistics(selectedDataProvider?.id || null, selectedSetSpec);
 
     const {
         token: { colorBgContainer },

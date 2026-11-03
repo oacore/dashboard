@@ -33,8 +33,8 @@ export const RestrictedRoute = ({ children }: MetadataRestrictedRouteProps) => {
         error: statisticsError,
         isLoading: statisticsIsLoading,
     } = useDataProviderStatistics(
-        effectiveDataProviderId ?? null,
-        selectedSetSpec
+      effectiveDataProviderId ?? null,
+      selectedSetSpec
     );
 
     const {
@@ -46,33 +46,33 @@ export const RestrictedRoute = ({ children }: MetadataRestrictedRouteProps) => {
     const hasHarvestingData = harvestingStatus != null && !harvestingError;
     const hasStatisticsData = statistics != null && !statisticsError;
     const shouldDisableTabs =
-        (hasHarvestingData && harvestingStatus?.lastHarvestingDate == null) ||
-        (hasStatisticsData && statistics?.countMetadata == null);
+      (hasHarvestingData && harvestingStatus?.lastHarvestingDate == null) ||
+      (hasStatisticsData && statistics?.countMetadata == null);
 
     const baseSubPath = currentSubPath?.split('/')[0] ?? '';
     const isDataReady = !statisticsIsLoading && !harvestingIsLoading;
     const isCurrentPathDisabled =
-        isDataReady &&
-        shouldDisableTabs &&
-        DISABLED_TABS_WHEN_NO_METADATA.includes(baseSubPath);
+      isDataReady &&
+      shouldDisableTabs &&
+      DISABLED_TABS_WHEN_NO_METADATA.includes(baseSubPath);
 
     if (isDataProvidersLoading || !isDataReady) {
         return (
-            <div
-                className="metadata-restricted-loading"
-                aria-label="Loading dashboard"
-            >
-                <Spin indicator={<LoadingOutlined spin />} size="large" />
-            </div>
+          <div
+            className="metadata-restricted-loading"
+            aria-label="Loading dashboard"
+          >
+              <Spin indicator={<LoadingOutlined spin />} size="large" />
+          </div>
         );
     }
 
     if (isCurrentPathDisabled) {
         return (
-            <Navigate
-                to={buildPath(DEFAULT_DASHBOARD_PATH)}
-                replace
-            />
+          <Navigate
+            to={buildPath(DEFAULT_DASHBOARD_PATH)}
+            replace
+          />
         );
     }
 
