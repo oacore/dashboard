@@ -9,6 +9,8 @@ export interface UseDownloadDataProviderCsvConfig {
     filenamePrefix: string;
     mutationKey: string;
     pathBuilder?: (dataProviderId: number) => string;
+    accept?: string;
+    fileExtension?: string;
 }
 
 const createDownloadCsvFetcher = (config: UseDownloadDataProviderCsvConfig) =>
@@ -16,9 +18,11 @@ const createDownloadCsvFetcher = (config: UseDownloadDataProviderCsvConfig) =>
         _key: string,
         { arg }: { arg: { dataProviderId: number } }
     ) => {
+        const accept = config.accept ?? 'text/csv';
+        const fileExtension = config.fileExtension ?? 'csv';
         const path = config.pathBuilder
             ? config.pathBuilder(arg.dataProviderId)
-            : `/internal/data-providers/${arg.dataProviderId}/${config.endpoint}?accept=text/csv`;
+            : `/internal/data-providers/${arg.dataProviderId}/${config.endpoint}?accept=${accept}`;
         const response = await http.get<Blob>(path, {
             responseType: 'blob',
             withCredentials: true,
@@ -26,7 +30,7 @@ const createDownloadCsvFetcher = (config: UseDownloadDataProviderCsvConfig) =>
 
         const blob = response.data;
         const blobUrl = URL.createObjectURL(blob);
-        const filename = `${config.filenamePrefix}-${new Date().toISOString().split('T')[0]}.csv`;
+        const filename = `${config.filenamePrefix}-${new Date().toISOString().split('T')[0]}.${fileExtension}`;
         downloadFile(blobUrl, filename);
         URL.revokeObjectURL(blobUrl);
     };
