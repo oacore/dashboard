@@ -12,7 +12,7 @@ export function OrganisationalFeature() {
     isLoadingOrganisation,
     isLoadingApiUsers,
     isLoadingDatasetUsers,
-  } = useOrganisation();
+  } = useOrganisation({ withAccess: true });
 
   const isLoading = isLoadingUser || isLoadingOrganisation || isLoadingApiUsers || isLoadingDatasetUsers;
 

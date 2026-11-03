@@ -25,7 +25,11 @@ export interface DatasetUserData {
   [key: string]: unknown;
 }
 
-export const useOrganisation = (options?: { enabled?: boolean }) => {
+export const useOrganisation = (options?: {
+  enabled?: boolean;
+  withInvites?: boolean;
+  withAccess?: boolean;
+}) => {
   const { user } = useAuthStore();
   const {
     organisation,
@@ -57,6 +61,8 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
   const DATASET_USERS_KEY = '/internal/settings/access_dataset';
 
   const enabled = options?.enabled !== false;
+  const withInvites = options?.withInvites === true;
+  const withAccess = options?.withAccess === true;
 
   // Fetch organisation data
   const {
@@ -91,7 +97,7 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
     isLoading: isLoadingInvites,
     mutate: mutateInvites,
   } = useSWR<InviteItem[]>(
-    INVITES_KEY,
+    withInvites ? INVITES_KEY : null,
     INVITES_KEY ? () => fetcher(INVITES_KEY).then((res) => {
       // Handle both array response and { data: [...] } response
       if (Array.isArray(res)) {
@@ -123,7 +129,7 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
     isLoading: isLoadingApiUsers,
     mutate: mutateApiUsers,
   } = useSWR<ApiUserData[]>(
-    API_USERS_KEY,
+    withAccess ? API_USERS_KEY : null,
     () => fetcher(API_USERS_KEY).then((res) => {
       // Handle both array response and { data: [...] } response
       if (Array.isArray(res)) {
@@ -150,7 +156,7 @@ export const useOrganisation = (options?: { enabled?: boolean }) => {
     isLoading: isLoadingDatasetUsers,
     mutate: mutateDatasetUsers,
   } = useSWR<DatasetUserData[]>(
-    DATASET_USERS_KEY,
+    withAccess ? DATASET_USERS_KEY : null,
     () => fetcher(DATASET_USERS_KEY).then((res) => {
       // Handle both array response and { data: [...] } response
       if (Array.isArray(res)) {

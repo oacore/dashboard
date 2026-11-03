@@ -25,14 +25,15 @@ const ENABLED_SETS_SWR_KEY = (dataProviderId: number) =>
 const AVAILABLE_SETS_SWR_KEY = (dataProviderId: number) =>
   `/internal/data-providers/${dataProviderId}/set/available`;
 
-export const useSets = () => {
+export const useSets = (options?: { enabled?: boolean }) => {
   const { selectedDataProvider, isLoaded } = useDataProviderStore();
   const dataProviderId = selectedDataProvider?.id;
+  const enabled = options?.enabled !== false;
 
   const [shouldFetchAvailable, setShouldFetchAvailable] = useState(false);
 
   const enabledKey =
-    isLoaded && dataProviderId ? ENABLED_SETS_SWR_KEY(dataProviderId) : null;
+    enabled && isLoaded && dataProviderId ? ENABLED_SETS_SWR_KEY(dataProviderId) : null;
   const availableKey =
     isLoaded && dataProviderId && shouldFetchAvailable
       ? AVAILABLE_SETS_SWR_KEY(dataProviderId)

@@ -3,10 +3,9 @@ import { Navigate } from 'react-router-dom';
 import { Spin } from 'antd';
 import { useDashboardRoute } from '@hooks/useDashboardRoute.ts';
 import { useDashboardDataProviderSync } from '@hooks/useDashboardDataProviderSync.ts';
-import { useDataProviderStatistics } from '@hooks/useDataProviderStatistics.ts';
-import { useHarvestingStatus } from '@features/indexing/hooks/useHarvestingStatus.ts';
 import { useAuthStore } from '@/store/authStore.ts';
 import { useCurrentUser } from '@hooks/useUser.ts';
+import { useDataProviderStore } from '@/store/dataProviderStore.ts';
 import { DISABLED_TABS_WHEN_NO_METADATA } from '@components/Layout/menuItems.ts';
 import { DEFAULT_DASHBOARD_PATH } from '@utils/routes.ts';
 import '@/guards/styles.css';
@@ -22,41 +21,16 @@ export const RestrictedRoute = ({ children }: MetadataRestrictedRouteProps) => {
 
     useCurrentUser();
 
-    const {
-        isLoading: isDataProvidersLoading,
-        effectiveDataProviderId,
-        selectedSetSpec,
-    } = useDashboardDataProviderSync(user?.id ?? null);
-
-    const {
-        statistics,
-        error: statisticsError,
-        isLoading: statisticsIsLoading,
-    } = useDataProviderStatistics(
-        effectiveDataProviderId ?? null,
-        selectedSetSpec
-    );
-
-    const {
-        harvestingStatus,
-        harvestingError,
-        isLoading: harvestingIsLoading,
-    } = useHarvestingStatus(false, effectiveDataProviderId ?? undefined);
-
-    const hasHarvestingData = harvestingStatus != null && !harvestingError;
-    const hasStatisticsData = statistics != null && !statisticsError;
-    const shouldDisableTabs =
-        (hasHarvestingData && harvestingStatus?.lastHarvestingDate == null) ||
-        (hasStatisticsData && statistics?.countMetadata == null);
+    const { isLoading: isDataProvidersLoading } = useDashboardDataProviderSync(user?.id ?? null);
+    const { statistics } = useDataProviderStore();
 
     const baseSubPath = currentSubPath?.split('/')[0] ?? '';
-    const isDataReady = !statisticsIsLoading && !harvestingIsLoading;
+    const shouldDisableTabs = statistics != null && statistics.countMetadata == null;
     const isCurrentPathDisabled =
-        isDataReady &&
         shouldDisableTabs &&
         DISABLED_TABS_WHEN_NO_METADATA.includes(baseSubPath);
 
-    if (isDataProvidersLoading || !isDataReady) {
+    if (isDataProvidersLoading) {
         return (
             <div
                 className="metadata-restricted-loading"
