@@ -40,7 +40,8 @@
     "repositoryProfile": "Repository profile",
     "repositoryProfiles": [
       { "id": "dspace", "label": "DSpace" },
-      { "id": "eprints", "label": "Eprints" }
+      { "id": "eprints", "label": "Eprints" },
+      { "id": "dspace_rioxx", "label": "DSpace Rioxx" }
     ],
     "maxPapers": "Maximum amount of new papers per deposit:",
     "pullNotice": "More detailed information about setting up different type of depositing (pull/push) to your repository you can find in the ",
