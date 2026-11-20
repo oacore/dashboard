@@ -1,5 +1,5 @@
 import { useMemo, useEffect } from 'react';
-import { useDoiData } from '@/features/Doi/hooks/useDoiData';
+import { useDoiMismatch } from '@/features/Doi/hooks/useDoiMismatch';
 import { useDoiStatistics } from '@/features/Doi/hooks/useDoiStatistics';
 import { useDataProviderStatistics } from '@/hooks/useDataProviderStatistics';
 import { DoiTable } from '@features/Doi/components/DoiTable';
@@ -33,7 +33,8 @@ export const DoiFeature = () => {
         selectedDataProvider?.id ?? null,
         selectedSetSpec
     );
-    const { data: doiData, isLoading: doiLoading, errorMessage: doiError } = useDoiData(
+
+    const { data: doiMismatch, isLoading: doiLoading, errorMessage: doiError } = useDoiMismatch(
         selectedDataProvider?.id,
         0,
         100,
@@ -85,13 +86,14 @@ export const DoiFeature = () => {
                     caption={TABS.otherRepositories?.description}
                     infoText={TABS.otherRepositories?.helper}
                     showInfo={Boolean(TABS.otherRepositories?.helper)}
-                    value={stats.otherRepos}
+                    // value={stats.otherRepos} //CORE-526
+                    value={doiMismatch.length}
                     iconClassName="green"
                     error={statsError}
                 />
             </div>
             <DoiTable
-                doiData={doiData}
+                doiData={doiMismatch}
                 onSearch={setSearchTerm}
                 searchValue={searchTerm}
                 isLoading={doiLoading}
