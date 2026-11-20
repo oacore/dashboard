@@ -26,7 +26,7 @@ export const OrganisationCard = () => {
     inviteUser,
     deleteInvite,
     updateOrganization,
-  } = useOrganisation();
+  } = useOrganisation({ withInvites: true });
 
   const { selectedDataProvider } = useDataProviderStore();
 

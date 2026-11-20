@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Markdown } from '@oacore/core-ui';
 import { processTemplate } from '@utils/helpers.ts';
 import { useDataProviderStore } from '@/store/dataProviderStore.ts';
+import { usePluginConfig } from '../hooks/usePluginConfig';
 import { texts } from '../texts';
 import '../styles.css';
 
@@ -22,6 +23,7 @@ export const PluginDetailCard: React.FC<PluginDetailCardProps> = ({
   ...restProps
 }) => {
   const { plugins } = useDataProviderStore();
+  usePluginConfig();
   const pluginKey = plugins[type]?.key;
   const textConfig = texts[type];
   const detailDescription = processTemplate(

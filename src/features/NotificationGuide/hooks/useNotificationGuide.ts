@@ -11,7 +11,7 @@ export const useNotificationGuide = (isLoading: boolean, isError: boolean) => {
   const navigate = useNavigate();
   const { buildPath } = useDashboardRoute();
   const { user } = useAuthStore();
-  const { openModal, closeModal, shouldAutoOpen } = useNotificationGuideStore();
+  const { openModal, closeModal, shouldAutoOpen, isModalOpen } = useNotificationGuideStore();
 
   const organisationId = user?.organisationId;
   const userId = user?.id || '';
@@ -21,14 +21,14 @@ export const useNotificationGuide = (isLoading: boolean, isError: boolean) => {
     userId,
     organisationId,
     type: 'harvest-completed',
-    enabled: !!userId && organisationId !== undefined,
+    enabled: isModalOpen && !!userId && organisationId !== undefined,
   });
 
   const deduplicationHook = useNotifications({
     userId,
     organisationId,
     type: 'deduplication-completed',
-    enabled: !!userId && organisationId !== undefined,
+    enabled: isModalOpen && !!userId && organisationId !== undefined,
   });
 
   const notificationConfigs = useMemo(
