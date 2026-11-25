@@ -88,7 +88,6 @@ export const FairFeature = ({
                   FAIR Repository Certification
                 </h2>
                 {/*TODO TEMP*/}
-                <div className="header-label">Demo</div>
                 <Markdown className="fair-certification-markdown fair-certification-intro-text">
                   {howItWorks.description}
                 </Markdown>
