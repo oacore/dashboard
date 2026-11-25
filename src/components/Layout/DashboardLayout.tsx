@@ -12,7 +12,7 @@ import {
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { menuItems, DISABLED_TABS_WHEN_NO_METADATA } from './menuItems';
-import { canAccessFreshFeature } from '@config/tempFeatureAccess.ts';
+import { useCanViewFreshFinds } from '@features/FreshFinds/hooks/useCanViewFreshFinds.ts';
 import { useDashboardRoute } from '@hooks/useDashboardRoute';
 import { DEFAULT_DASHBOARD_PATH } from '@/utils/routes';
 import RepositorySelect from '../common/RepositorySelect/RepositorySelect';
@@ -86,7 +86,7 @@ export function DashboardLayout() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const navigate = useNavigate();
-    const { buildPath, currentSubPath, dataProviderId } = useDashboardRoute();
+    const { buildPath, currentSubPath } = useDashboardRoute();
     const { user, logout } = useAuthStore();
     const {
         selectedDataProvider,
@@ -189,10 +189,12 @@ export function DashboardLayout() {
     const isTabDisabled = (path: string) =>
         shouldDisableTabs && DISABLED_TABS_WHEN_NO_METADATA.includes(path);
 
+    const { canViewFreshFinds } = useCanViewFreshFinds();
+
     // Convert config to menu items
     // TODO REMOVE
     const visibleMenuItems = menuItems.filter(
-        (route) => route.path !== 'fresh-finds' || canAccessFreshFeature(dataProviderId)
+        (route) => route.path !== 'fresh-finds' || canViewFreshFinds
     );
 
     const navItems = [

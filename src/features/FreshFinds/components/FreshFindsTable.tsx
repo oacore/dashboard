@@ -11,7 +11,7 @@ import { useDataProviderStore } from '@/store/dataProviderStore';
 import { createColumns } from './FreshFindsColumns.tsx';
 import { FreshFindsDepositFilter } from './FreshFindsDepositFilter.tsx';
 import { useDepositFreshFind } from '../hooks/useDepositFreshFind';
-import { useIsSustainingPlan } from '../hooks/useIsSustainingPlan';
+import { useCanViewFreshFinds } from '../hooks/useCanViewFreshFinds';
 import { useDownloadFreshFinds } from '../hooks/useDownloadFreshFindsCsv';
 import { useFreshFindsData } from '../hooks/useFreshFindsData';
 import { useFreshFindsStore } from '../store/freshFindsStore';
@@ -160,9 +160,9 @@ const FreshFindsTableContent = ({ dataProviderName }: FreshFindsTableProps) => {
 };
 
 export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
-  const { isSustainingPlan, isLoadingOrganisation } = useIsSustainingPlan();
+  const { canViewFreshFinds, isResolvingAccess } = useCanViewFreshFinds();
 
-  if (isLoadingOrganisation && !isSustainingPlan) {
+  if (isResolvingAccess) {
     return (
       <CrPaper>
         <div
@@ -178,7 +178,7 @@ export const FreshFindsTable = ({ dataProviderName }: FreshFindsTableProps) => {
     );
   }
 
-  if (!isSustainingPlan) {
+  if (!canViewFreshFinds) {
     return (
       <CrPaper>
         <div className="fresh-finds-upgrade">

@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { CrHeader, CrShowMore } from '@oacore/core-ui';
 
 import { FreshFindsSettings } from './FreshFindsSettings';
-import { useIsSustainingPlan } from '../hooks/useIsSustainingPlan';
+import { useCanViewFreshFinds } from '../hooks/useCanViewFreshFinds';
 import { useFreshFindsStore } from '../store/freshFindsStore';
 import { articleTemplateData } from '../texts';
 
@@ -14,9 +14,9 @@ type FreshFindsHeaderAreaProps = {
 };
 
 export const FreshFindsHeaderArea = ({ showSettings, setShowSettings }: FreshFindsHeaderAreaProps) => {
-  const { isSustainingPlan } = useIsSustainingPlan();
+  const { canViewFreshFinds } = useCanViewFreshFinds();
   const settingsAttentionRequestId = useFreshFindsStore((state) => state.settingsAttentionRequestId);
-  const canOpenSettings = isSustainingPlan;
+  const canOpenSettings = canViewFreshFinds;
 
   const handleToggleSettings = useCallback(() => {
     if (!canOpenSettings) {

@@ -10,5 +10,14 @@ const hasLimitedAccess = (
 export const canAccessFreshFeature = (dataProviderId?: number | null): boolean =>
   hasLimitedAccess(dataProviderId, LIMITED_FEATURE_FRESH_DATA_PROVIDER_IDS);
 
+export const isSustainingBillingType = (billingType?: string | null): boolean =>
+  billingType?.trim().toLowerCase() === 'sustaining';
+
+export const canViewFreshFinds = (
+  dataProviderId?: number | null,
+  billingType?: string | null,
+): boolean =>
+  canAccessFreshFeature(dataProviderId) || isSustainingBillingType(billingType);
+
 export const canAccessFairFeature = (dataProviderId?: number | null): boolean =>
   hasLimitedAccess(dataProviderId, LIMITED_FEATURE_FAIR_DATA_PROVIDER_IDS);
